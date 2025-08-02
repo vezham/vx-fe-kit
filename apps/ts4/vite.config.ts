@@ -1,20 +1,20 @@
 /// <reference types='vitest' />
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
+import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite'
 
 export default defineConfig(async () => {
-  const tailwindcss = (await import('@tailwindcss/vite')).default;
+  const tailwindcss = (await import('@tailwindcss/vite')).default
 
   return {
     root: __dirname,
     cacheDir: '../../node_modules/.vite/apps/ts4',
     server: {
       port: 4200,
-      host: 'localhost',
+      host: 'localhost'
     },
     preview: {
       port: 4300,
-      host: 'localhost',
+      host: 'localhost'
     },
     plugins: [react(), tailwindcss()],
     // Uncomment this if you are using workers.
@@ -26,8 +26,8 @@ export default defineConfig(async () => {
       emptyOutDir: true,
       reportCompressedSize: true,
       commonjsOptions: {
-        transformMixedEsModules: true,
-      },
+        transformMixedEsModules: true
+      }
     },
     test: {
       watch: false,
@@ -37,8 +37,8 @@ export default defineConfig(async () => {
       reporters: ['default'],
       coverage: {
         reportsDirectory: './test-output/vitest/coverage',
-        provider: 'v8' as const,
-      },
-    },
-  };
-});
+        provider: 'v8' as const
+      }
+    }
+  }
+})
