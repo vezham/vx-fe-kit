@@ -101,6 +101,7 @@ build
 coverage
 tmp
 /out-tsc
+tsconfig.tsbuildinfo
 
 **/.git
 **/.svn

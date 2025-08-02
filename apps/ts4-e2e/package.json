@@ -1,10 +1,10 @@
 {
-  "name": "@v1xfe-kit/ts4-e2e",
+  "name": "@vx-fe-kit/ts4-e2e",
   "version": "0.0.1",
   "private": true,
   "nx": {
     "implicitDependencies": [
-      "@v1xfe-kit/ts4"
+      "@vx-fe-kit/ts4"
     ]
   }
 }
