@@ -32,7 +32,12 @@
     "@vx/cli:format-hard": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": ["prettier . --write", "eslint"],
+        "commands": [
+          "sort-package-json \"package.json\" \"**/**/__mocks__/package.json\"  \"packages/**/package.json\" \"packages/**/**/package.json\"",
+          "prettier . --write",
+          "eslint",
+          "stylelint \"**/*.{css,module.css}\" --allow-empty-input"
+        ],
         "parallel": false
       }
     },
