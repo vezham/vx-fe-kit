@@ -6,7 +6,7 @@
       "command": "nx graph"
     },
     "nx:migrate": {
-      "command": "pnpm install --no-frozen-lockfile && nx migrate --run-migrations"
+      "command": "pnpm install --no-frozen-lockfile && nx migrate --run-migrations --ifExists"
     },
     "nx:migrate-check": {
       "command": "nx migrate latest"
