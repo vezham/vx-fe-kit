@@ -9,7 +9,7 @@
 </p>
 <hr>
 
-# vx-fe-kit
+# @vx/fe-kit
 
 ### Getting Started
 

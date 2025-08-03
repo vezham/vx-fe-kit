@@ -15,7 +15,7 @@ module.exports = {
         'fix',
         'refactor',
         'mocks',
-        'stories',
+        // 'stories',
         'test',
         'docs',
         'i18n',

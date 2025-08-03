@@ -7,7 +7,7 @@
     "url": "https://github.com/vezham/vx-fe-kit"
   },
   "license": "MIT",
-  "author": "vxOSS <oss-developers@vezham.com>",
+  "author": "Vx FE Devs <fe-developers@vezham.com>",
   "scripts": {
     "@vx/ws:format": "pnpm nx run @vx/fe-kit:@vx/cli:format",
     "postinstall": "husky && pnpm @vx/ws:format",

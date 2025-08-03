@@ -15,8 +15,8 @@ const config = {
   importOrder: [
     '<THIRD_PARTY_MODULES>',
     '^@vezham/(.*)$',
-    '^@vxoss/(.*)$',
-    '^@vx/(.*)$',
+    '^@vx-oss/(.*)$',
+    '^@vx-pro/(.*)$',
     '^@/(.*)$',
     '^[./]'
   ],

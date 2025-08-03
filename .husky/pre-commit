@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 
-echo \”[vx/Husky] wjdlz/NOTE: pre-commit\”
+echo \”[vx/Husky] @vx/INFO: pre-commit\”
 pnpm lint-staged -c .lintstagedrc.js

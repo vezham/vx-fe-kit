@@ -1,11 +1,11 @@
-# wjdlz/NOTE: Add files here to ignore them from prettier formatting
+# @vx/INFO: Add files here to ignore them from @vx/ws handling
 
 # .changeset
 # /.changelog
 
 .vezham
 
-#  --- END of vx-fe config ---
+#  --- END of @vx/fe-kit-config ---
 # See https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
 
 # tools
