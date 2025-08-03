@@ -29,7 +29,7 @@ env:
   BRANCH: ${{ github.ref_name }} # inputs.GIT_BRANCH
   NX_NO_CLOUD: true
   VX_NAME: '@vx/fe-kit'
-  DX_KIT_NAME:
+  VX_SKIP: '@vx/fe-kit'
 
 jobs:
   build:
@@ -75,7 +75,7 @@ jobs:
       - name: fork | typecheck
         shell: bash
         run: |
-          pnpm nx run-many -t typecheck --exclude=${{ env.DX_KIT_NAME }}
+          pnpm nx run-many -t typecheck
 
       - name: action | nx/AI fix
         if: always()
@@ -141,7 +141,7 @@ jobs:
       - name: fork | test - vitest
         shell: bash
         run: |
-          pnpm nx run-many -t test --passWithNoTests
+          pnpm nx run-many -t test --passWithNoTests --exclude=${{ env.VX_SKIP }}
 
       - name: action | nx/AI fix
         if: always()

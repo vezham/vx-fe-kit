@@ -31,7 +31,7 @@ env:
   BRANCH: ${{ github.ref_name }} # inputs.GIT_BRANCH
   NX_NO_CLOUD: true
   VX_NAME: '@vx/fe-kit'
-  DX_KIT_NAME:
+  VX_SKIP:
 
 jobs:
   release:
