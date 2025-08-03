@@ -9,26 +9,8 @@
   "license": "MIT",
   "author": "vxOSS <oss-developers@vezham.com>",
   "scripts": {
-    "@vx/ci/build": "nx run-many -t build",
-    "@vx/ci/format:check": "pnpm format:check",
-    "fix": "pnpm fix:lint:eslint && pnpm fix:lint:stylelint",
-    "fix:lint:eslint": "eslint --cache --cache-strategy metadata --fix",
-    "fix:lint:stylelint": "stylelint \"**/*.{css,module.css}\" --allow-empty-input --cache --cache-strategy metadata --fix",
-    "format": "bash v/bin/cli-format.sh",
-    "format:check": "prettier . --check --cache && pnpm format:pkg-check",
-    "format:lint:eslint": "eslint --cache --cache-strategy metadata",
-    "format:lint:eslint-hard": "eslint",
-    "format:lint:stylelint": "stylelint \"**/*.{css,module.css}\" --allow-empty-input --cache --cache-strategy metadata",
-    "format:pkg": "sort-package-json \"package.json\" \"**/**/__mocks__/package.json\"  \"packages/**/package.json\" \"packages/**/**/package.json\" --quiet",
-    "format:pkg-check": "sort-package-json \"package.json\" \"**/**/__mocks__/package.json\"  \"packages/**/package.json\" \"packages/**/**/package.json\"",
-    "format:prettier": "prettier . --write --log-level silent --cache --cache-strategy metadata",
-    "format:prettier-hard": "prettier . --write",
-    "postinstall": "husky && pnpm format",
-    "nx:graph": "nx graph",
-    "nx:migrate:chk": "nx migrate latest",
-    "nx:migrate:run": "pnpm install --no-frozen-lockfile && nx migrate --run-migrations",
-    "prepare": "husky",
-    "tw:migrate": "npx @tailwindcss/upgrade"
+    "postinstall": "husky && pnpm nx run @vx-cli/format",
+    "prepare": "husky"
   },
   "dependencies": {
     "react": "19.0.0",
