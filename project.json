@@ -1,5 +1,5 @@
 {
-  "name": "@vx-fe-kit",
+  "name": "@vx/fe-kit",
   "$schema": "node_modules/nx/schemas/project-schema.json",
   "targets": {
     "nx:graph": {
@@ -8,19 +8,16 @@
     "nx:migrate": {
       "command": "pnpm install --no-frozen-lockfile && nx migrate --run-migrations"
     },
-    "nx:migrate:check": {
+    "nx:migrate-check": {
       "command": "nx migrate latest"
     },
     "tw:migrate": {
       "command": "npx @tailwindcss/upgrade"
     },
-    "@vx-ci/build": {
+    "@vx/ci:build": {
       "command": "nx run-many -t build"
     },
-    "@vx-ci/format:check": {
-      "command": "nx run @vx-cli/format:check"
-    },
-    "@vx-cli/format": {
+    "@vx/cli:format": {
       "executor": "nx:run-commands",
       "options": {
         "commands": [
@@ -32,14 +29,14 @@
         "parallel": false
       }
     },
-    "@vx-cli/format:hard": {
+    "@vx/cli:format-hard": {
       "executor": "nx:run-commands",
       "options": {
         "commands": ["prettier . --write", "eslint"],
         "parallel": false
       }
     },
-    "@vx-cli/format:check": {
+    "@vx/cli:format-check": {
       "executor": "nx:run-commands",
       "options": {
         "commands": [
@@ -49,7 +46,7 @@
         "parallel": false
       }
     },
-    "@vx-cli/fix": {
+    "@vx/cli:fix": {
       "executor": "nx:run-commands",
       "options": {
         "commands": [

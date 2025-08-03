@@ -5,7 +5,7 @@ import NxWelcome from './nx-welcome'
 export function App() {
   return (
     <div>
-      <NxWelcome title="@vx-fe-kit/ts4" />
+      <NxWelcome title="ts4" />
 
       {/* START: routes */}
       {/* These routes and navigation have been generated for you */}

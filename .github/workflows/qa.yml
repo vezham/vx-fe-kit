@@ -28,6 +28,7 @@ env:
   REPO: ${{ github.repository }} # inputs.GIT_REPO
   BRANCH: ${{ github.ref_name }} # inputs.GIT_BRANCH
   NX_NO_CLOUD: true
+  VX_NAME: '@vx/fe-kit'
   DX_KIT_NAME:
 
 jobs:
@@ -118,7 +119,7 @@ jobs:
       - name: fork | format - prettier
         shell: bash
         run: |
-          pnpm @vx/ci/format:check
+          pnpm nx run ${{ env.VX_NAME }}:@vx/cli:format-check
 
       - name: action | nx/AI fix
         if: always()

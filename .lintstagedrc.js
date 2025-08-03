@@ -38,6 +38,6 @@ module.exports = {
   //   '**/*.{css,module.css}': [formatCommand, stylelintCommand],
   //   '!*.{js,jsx,ts,tsx,css,module.css,package.json}': [formatCommand]
   '*': async files => {
-    return ['pnpm nx run @vx-cli/format'] // wjdlz/TODO: need to add lint fix as well
+    return ['pnpm @vx/ws:format'] // wjdlz/TODO: need to add lint fix as well
   }
 }

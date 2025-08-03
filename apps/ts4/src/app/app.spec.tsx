@@ -20,7 +20,7 @@ describe('App', () => {
       </BrowserRouter>
     )
     expect(
-      getAllByText(new RegExp('Welcome @vx-fe-kit/ts4', 'gi')).length > 0
+      getAllByText(new RegExp('Welcome ts4', 'gi')).length > 0
     ).toBeTruthy()
   })
 })

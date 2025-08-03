@@ -1,5 +1,5 @@
 {
-  "name": "@vx-fe-kit/source",
+  "name": "@vx/fe-kit",
   "version": "0.0.0",
   "private": true,
   "repository": {
@@ -9,7 +9,8 @@
   "license": "MIT",
   "author": "vxOSS <oss-developers@vezham.com>",
   "scripts": {
-    "postinstall": "husky && pnpm nx run @vx-cli/format",
+    "@vx/ws:format": "pnpm nx run @vx/fe-kit:@vx/cli:format",
+    "postinstall": "husky && pnpm @vx/ws:format",
     "prepare": "husky"
   },
   "dependencies": {

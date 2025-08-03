@@ -30,6 +30,7 @@ env:
   REPO: ${{ github.repository }} # inputs.GIT_REPO
   BRANCH: ${{ github.ref_name }} # inputs.GIT_BRANCH
   NX_NO_CLOUD: true
+  VX_NAME: '@vx/fe-kit'
   DX_KIT_NAME:
 
 jobs:
@@ -54,7 +55,7 @@ jobs:
         continue-on-error: false
         shell: bash
         run: |
-          pnpm @vx/ci/build || {
+          pnpm nx run ${{ env.VX_NAME }}:@vx/ci:build || {
             echo "build failed with exit code $?"
             exit 1
           }
