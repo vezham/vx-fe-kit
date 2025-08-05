@@ -2,20 +2,19 @@
   "name": "@vx/fe-kit",
   "$schema": "node_modules/nx/schemas/project-schema.json",
   "targets": {
-    "nx:graph": {
-      "command": "nx graph"
-    },
-    "nx:migrate": {
-      "command": "pnpm install --no-frozen-lockfile && nx migrate --run-migrations --ifExists"
-    },
-    "nx:migrate-check": {
-      "command": "nx migrate latest"
-    },
-    "tw:migrate": {
-      "command": "npx @tailwindcss/upgrade"
-    },
-    "@vx/ci:build": {
-      "command": "nx run-many -t build"
+    "@vx/ws-clean": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "nx reset --only-cache",
+          "rimraf ./**/**/__mocks__/dist",
+          "rimraf ./dist",
+          "rimraf ./**/**/__mocks__/node_modules",
+          "rimraf ./packages/**/**/node_modules",
+          "rimraf ./node_modules"
+        ],
+        "parallel": false
+      }
     },
     "@vx/cli:format": {
       "executor": "nx:run-commands",
@@ -29,6 +28,74 @@
         "parallel": false
       }
     },
+    "@vx/cli:fix": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "eslint --cache --cache-strategy metadata --fix",
+          "stylelint \"**/*.{css,module.css}\" --allow-empty-input --cache --cache-strategy metadata --fix"
+        ],
+        "parallel": false
+      }
+    },
+    "nx:graph": {
+      "command": "nx graph"
+    },
+    "nx:migrate": {
+      "command": "pnpm install --no-frozen-lockfile && nx migrate --run-migrations --ifExists"
+    },
+    "nx:migrate-check": {
+      "command": "nx migrate latest"
+    },
+    "tw:migrate": {
+      "command": "npx @tailwindcss/upgrade"
+    },
+
+    "clean-hard": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "nx reset --only-cache",
+          "rimraf ./**/**/__mocks__/dist",
+          "rimraf ./dist",
+          "rimraf ./**/**/__mocks__/node_modules",
+          "rimraf ./packages/**/**/node_modules",
+          "rimraf ./node_modules",
+          "rm ./pnpm-lock.yaml",
+          "rm ./**/**/__mocks__/pnpm-lock.yaml"
+        ],
+        "parallel": false
+      }
+    },
+    "clean:nx": {
+      "command": "nx reset --only-cache"
+    },
+    "clean:nx-reset": {
+      "command": "nx reset"
+    },
+    "clean:nx-hard": {
+      "command": "rimraf ./.nx"
+    },
+    "test-hard": {
+      "command": "vitest"
+    },
+    "test:clean": {
+      "command": "vitest --clearScreen",
+      "//TODO": "&& pnpm clean"
+    },
+    "test:changedsince": {
+      "command": "vitest --changed --coverage"
+    },
+    "test:coverage": {
+      "command": "vitest --coverage"
+    },
+    "test:unit": {
+      "command": "vitest --reporter=json --outputFile=dist/.unit-test-results.json"
+    },
+    "test:unit-nc": {
+      "command": "vitest --reporter=json --outputFile=dist/.unit-test-results.json --no-cache"
+    },
+
     "@vx/cli:format-hard": {
       "executor": "nx:run-commands",
       "options": {
@@ -51,15 +118,11 @@
         "parallel": false
       }
     },
-    "@vx/cli:fix": {
-      "executor": "nx:run-commands",
-      "options": {
-        "commands": [
-          "eslint --cache --cache-strategy metadata --fix",
-          "stylelint \"**/*.{css,module.css}\" --allow-empty-input --cache --cache-strategy metadata --fix"
-        ],
-        "parallel": false
-      }
+    "@vx/ws:install": {
+      "command": "pnpm install --no-frozen-lockfile"
+    },
+    "@vx/ci:build": {
+      "command": "nx run-many -t build"
     }
   }
 }
