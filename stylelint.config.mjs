@@ -15,7 +15,10 @@ export default {
     'unit-allowed-list': ['rem', 'hsl', 'hsla', 'deg', '%', 'ms'],
     'color-no-hex': true,
     'color-no-invalid-hex': true,
-    'at-rule-no-unknown': [true, { ignoreAtRules: ['/^tailwind/'] }],
+    'at-rule-no-unknown': [
+      true,
+      { ignoreAtRules: ['/^tailwind/', 'plugin', 'source', 'custom-variant'] }
+    ],
     'hue-degree-notation': 'number',
     'color-function-notation': ['legacy'],
     'no-descending-specificity': null,

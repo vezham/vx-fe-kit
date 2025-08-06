@@ -14,11 +14,15 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@v0xoss/react": "^0.0.9",
+    "framer-motion": "^12.23.12",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "react-router-dom": "6.29.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.14.5",
+    "@babel/preset-react": "^7.14.5",
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
     "@eslint/js": "^9.8.0",

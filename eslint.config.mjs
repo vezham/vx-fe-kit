@@ -2,7 +2,6 @@ import nx from '@nx/eslint-plugin'
 import tanstackQuery from '@tanstack/eslint-plugin-query'
 // import react from 'eslint-plugin-react'
 // import reactHooks from 'eslint-plugin-react-hooks'
-
 const ignores = [
   '**/dist',
   '**/node_modules',
@@ -60,7 +59,6 @@ export default [
     // Override or add rules here
     rules: {}
   },
-
   // --- wjdlz/NOTE(v): skipped for internal tools
   {
     files: ['v/scripts/**/*.tsx', 'v/scripts/**/*.ts'],
@@ -73,7 +71,7 @@ export default [
     rules: {
       '@typescript-eslint/no-explicit-any': 'off'
     }
-  }
+  },
   // --- wjdlz/TODO: review based on WS
   // {
   //   files: ['**/**/vite.config.ts'],
@@ -82,7 +80,6 @@ export default [
   //     'no-unused-vars': 'off'
   //   }
   // },
-
   // --- * ---
   // @components-store / @hooks-store
   // {
@@ -130,4 +127,7 @@ export default [
   //   }
   // }
   // wjdlz/TODO: set workspace config
+  {
+    ignores: ['**/vite.config.*.timestamp*', '**/vitest.config.*.timestamp*']
+  }
 ]
