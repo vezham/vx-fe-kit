@@ -14,7 +14,16 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@heroui/react": "^2.8.2",
     "@tailwindcss/postcss": "^4.1.11",
+    "@vezham/react": "^0.3.3",
+    "@vezham/react-utils": "^0.3.3",
+    "@vezham/shared-types": "^0.3.3",
+    "@vezham/start": "^0.3.3",
+    "@vezham/templates": "^0.3.3",
+    "@vezham/theme": "^0.3.3",
+    "@vezham/use-logger": "^0.3.3",
+    "@vezham/v-atoms": "^0.3.3",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "react-router-dom": "6.29.0"
@@ -23,6 +32,7 @@
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
     "@eslint/js": "^9.8.0",
+    "@iconify/react": "4.1.1",
     "@nx/devkit": "21.3.11",
     "@nx/eslint": "21.3.11",
     "@nx/eslint-plugin": "21.3.11",
