@@ -1,0 +1,10 @@
+{
+  "name": "books-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/books-e2e/src",
+  "tags": [],
+  "implicitDependencies": ["books"],
+  "// targets": "to see all targets run: nx show project books-e2e --web",
+  "targets": {}
+}
