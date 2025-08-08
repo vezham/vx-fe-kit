@@ -1,0 +1,7 @@
+@import 'tailwindcss';
+
+@plugin './plugin.ts';
+
+@source '../../../node_modules/@v0xoss/theme/dist/**/*.{js,ts,jsx,tsx}';
+
+@custom-variant dark (&:is(.dark *));
