@@ -61,13 +61,13 @@ export default [
   },
   // --- wjdlz/NOTE(v): skipped for internal tools
   {
-    files: ['v/scripts/**/*.tsx', 'v/scripts/**/*.ts'],
+    files: ['vx/scripts/**/*.tsx', 'vx/scripts/**/*.ts'],
     rules: {
       '@typescript-eslint/no-unused-vars': 'off'
     }
   },
   {
-    files: ['v/scripts/helpers.ts'],
+    files: ['vx/scripts/helpers.ts'],
     rules: {
       '@typescript-eslint/no-explicit-any': 'off'
     }
