@@ -5,11 +5,19 @@ export const getNavbarContainerClasses = ({
   isDarkMode = false
 }) => {
   return cn(
-    'fixed bottom-0 z-50 flex w-full',
-    'px-4 pt-4 pb-8', // 16px top, 32px bottom, 32px sides
-    'sm:hidden',
+    'fixed bottom-0 z-50 flex w-full sm:hidden',
+    'px-8 pt-4 pb-8', // padding
     bgColorClass,
     isDarkMode ? 'dark' : ''
+  )
+}
+
+export const getNavbarMenuContainerClasses = ({ isDarkMode = false }) => {
+  return cn(
+    'flex inline-flex items-center rounded-full p-2 shadow-xl',
+    isDarkMode
+      ? 'bg-white/5 dark:backdrop-blur-md'
+      : 'bg-white backdrop-blur-md'
   )
 }
 
@@ -20,7 +28,6 @@ export const getNavbarButtonClasses = ({
 }) => {
   return cn(
     'flex flex-col items-center px-3 text-xs font-medium transition-colors duration-200 focus:outline-none',
-
     isSelected
       ? isDarkMode
         ? 'font-bold text-blue-400'
@@ -47,6 +54,15 @@ export const getNavbarIconClasses = ({
   )
 }
 
+export const getSearchButtonClasses = ({ isDarkMode = false }) => {
+  return cn(
+    'ml-4 flex h-13 w-13 items-center justify-center rounded-full shadow-xl',
+    isDarkMode
+      ? 'bg-white/5 text-gray-300 dark:backdrop-blur-md'
+      : 'bg-white text-gray-500 backdrop-blur-md'
+  )
+}
+
 export const getDrawerHeaderClasses = ({ isDarkMode = false }) => {
   return cn(
     'text-center font-semibold',
@@ -56,7 +72,8 @@ export const getDrawerHeaderClasses = ({ isDarkMode = false }) => {
 
 export const getDrawerContentClasses = ({ isDarkMode = false }) => {
   return cn(
-    'relative flex flex-col rounded-t-2xl',
+    'relative flex flex-col rounded-t-2xl py-5',
+    // "!bottom-[89px]", // offset so it stops above the bottom navbar
     isDarkMode
       ? [
           'bg-black/5 backdrop-blur-lg dark:bg-black/5',
@@ -90,25 +107,10 @@ export const getDrawerButtonClasses = ({
   )
 }
 
-export const getNavbarMenuContainerClasses = ({
-  isDarkMode = false,
-  hasMoreAction = false,
-  itemCount = 0
-}) => {
-  return cn(
-    'flex items-center rounded-full p-2 shadow-xl',
-    'inline-flex', // Make container width fit content
-    isDarkMode
-      ? 'bg-white/5 dark:backdrop-blur-md'
-      : 'bg-white backdrop-blur-md'
-  )
+export const getDrawerGridClasses = () => {
+  return cn('grid gap-10 px-2', 'grid-cols-4')
 }
 
-export const getSearchButtonClasses = ({ isDarkMode = false }) => {
-  return cn(
-    'ml-4 flex h-13 w-13 items-center justify-center rounded-full shadow-xl',
-    isDarkMode
-      ? 'bg-white/5 text-gray-300 dark:backdrop-blur-md'
-      : 'bg-white text-gray-500 backdrop-blur-md'
-  )
+export const getDrawerGridItemInnerClasses = (buttonTextColor: string) => {
+  return cn('flex flex-col items-center gap-2', buttonTextColor)
 }

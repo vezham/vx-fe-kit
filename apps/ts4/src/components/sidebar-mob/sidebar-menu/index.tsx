@@ -1,17 +1,12 @@
-import {
-  Drawer,
-  DrawerBody,
-  DrawerContent,
-  DrawerHeader,
-  useDisclosure
-} from '@heroui/react'
+import { Drawer, DrawerBody, DrawerContent, useDisclosure } from '@heroui/react'
 import { Icon } from '@iconify/react'
 import React, { useEffect, useMemo, useState } from 'react'
 import { BottomNavbarProps } from './types'
 import {
   getDrawerButtonClasses,
   getDrawerContentClasses,
-  getDrawerHeaderClasses,
+  getDrawerGridClasses,
+  getDrawerGridItemInnerClasses,
   getNavbarButtonClasses,
   getNavbarContainerClasses,
   getNavbarIconClasses,
@@ -19,6 +14,7 @@ import {
   getSearchButtonClasses
 } from './variant'
 
+/* ---------------- Drawer for More Items ---------------- */
 const BottomDrawerMenu: React.FC<any> = ({
   items,
   selectedKey,
@@ -34,42 +30,33 @@ const BottomDrawerMenu: React.FC<any> = ({
       placement="bottom"
       onOpenChange={open => !open && onClose()}>
       <DrawerContent className={getDrawerContentClasses({ isDarkMode })}>
-        <>
-          <DrawerHeader className={getDrawerHeaderClasses({ isDarkMode })}>
-            Menu Options
-          </DrawerHeader>
-          <DrawerBody className="max-h-[45vh] overflow-y-auto">
-            <div className="flex flex-col items-start gap-5 px-2">
-              {items.map(item => (
-                <button
-                  key={item.key}
-                  onClick={() => {
-                    onSelect(item.key)
-                    onClose()
-                  }}
-                  className={getDrawerButtonClasses({
-                    isSelected: selectedKey === item.key,
-                    isDarkMode
-                  })}>
-                  <div className="flex items-center gap-3">
-                    {item.icon && (
-                      <Icon
-                        icon={item.icon}
-                        className={`h-5 w-5 ${buttonTextColor}`}
-                      />
-                    )}
-                    <span className={`${buttonTextColor}`}>{item.title}</span>
-                  </div>
-                </button>
-              ))}
-            </div>
-          </DrawerBody>
-        </>
+        <DrawerBody className="max-h-[45vh] overflow-y-auto">
+          <div className={getDrawerGridClasses()}>
+            {items.map(item => (
+              <button
+                key={item.key}
+                onClick={() => {
+                  onSelect(item.key)
+                  onClose()
+                }}
+                className={getDrawerButtonClasses({
+                  isSelected: selectedKey === item.key,
+                  isDarkMode
+                })}>
+                <div className={getDrawerGridItemInnerClasses(buttonTextColor)}>
+                  {item.icon && <Icon icon={item.icon} className="h-6 w-6" />}
+                  <span className="text-center">{item.title}</span>
+                </div>
+              </button>
+            ))}
+          </div>
+        </DrawerBody>
       </DrawerContent>
     </Drawer>
   )
 }
 
+/* ---------------- Bottom Navbar ---------------- */
 const BottomNavbar: React.FC<BottomNavbarProps> = ({
   items,
   selectedKey,
@@ -88,35 +75,16 @@ const BottomNavbar: React.FC<BottomNavbarProps> = ({
   useEffect(() => {
     const handleResize = () => {
       const screenWidth = window.innerWidth
-      let baseVisibleCount
+      let visibleCount = 5
 
-      if (items.length > 5) {
-        baseVisibleCount = 4
-        if (screenWidth >= 650) {
-          baseVisibleCount = items.length
-        } else {
-          if (screenWidth < 500)
-            baseVisibleCount = Math.max(baseVisibleCount - 1, 1)
-          if (screenWidth < 400)
-            baseVisibleCount = Math.max(baseVisibleCount - 1, 1)
-          if (screenWidth < 300)
-            baseVisibleCount = Math.max(baseVisibleCount - 1, 1)
-          if (screenWidth < 230) baseVisibleCount = 1
-        }
-      } else {
-        if (screenWidth < 300) {
-          const estimatedWidth = items.length * 60
-          if (estimatedWidth > screenWidth) {
-            baseVisibleCount = Math.max(items.length - 1, 1)
-          } else {
-            baseVisibleCount = items.length
-          }
-        } else {
-          baseVisibleCount = items.length
-        }
+      if (screenWidth < 650) {
+        if (screenWidth < 550) visibleCount = Math.min(items.length, 4)
+        if (screenWidth < 500) visibleCount = Math.min(items.length, 3)
+        if (screenWidth < 400) visibleCount = Math.min(items.length, 2)
+        if (screenWidth < 300) visibleCount = Math.min(items.length, 1)
+        if (screenWidth < 250) visibleCount = 0
       }
-
-      setMainVisibleCount(baseVisibleCount)
+      setMainVisibleCount(visibleCount)
     }
 
     window.addEventListener('resize', handleResize)
@@ -143,15 +111,8 @@ const BottomNavbar: React.FC<BottomNavbarProps> = ({
   return (
     <>
       <div
-        className={`${getNavbarContainerClasses({ bgColorClass, isDarkMode })} ${
-          mainItems.length > 1 ? 'justify-center' : 'justify-between'
-        }`}>
-        <div
-          className={getNavbarMenuContainerClasses({
-            isDarkMode,
-            hasMoreAction,
-            itemCount: mainItems.length
-          })}>
+        className={`${getNavbarContainerClasses({ bgColorClass, isDarkMode })} justify-between`}>
+        <div className={getNavbarMenuContainerClasses({ isDarkMode })}>
           {mainItems.map(item => (
             <button
               key={item.key}
@@ -189,12 +150,9 @@ const BottomNavbar: React.FC<BottomNavbarProps> = ({
           )}
         </div>
 
-        {/* Search Button */}
         {hasMoreAction && (
           <button
-            className={`${getSearchButtonClasses({ isDarkMode })} ${
-              mainItems.length < 4 ? 'ml-4' : 'ml-1'
-            }`}
+            className={getSearchButtonClasses({ isDarkMode })}
             onClick={() => console.log('Search clicked')}>
             <Icon icon="lucide:search" className="m-auto h-6 w-6" />
           </button>

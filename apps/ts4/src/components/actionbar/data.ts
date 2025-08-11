@@ -13,8 +13,8 @@ export const viewActions: ActionButtonProps[] = [
 ]
 
 export const otherActions: ActionButtonProps[] = [
-  { icon: 'lucide:scissors', label: 'Cut' },
-  { icon: 'lucide:copy', label: 'Copy' },
-  { icon: 'lucide:clipboard', label: 'Paste' },
-  { icon: 'lucide:trash-2', label: 'Delete', color: 'danger' }
+  { icon: 'lucide:scissors', label: 'Cut', shortcut: '⌘X' },
+  { icon: 'lucide:copy', label: 'Copy', shortcut: '⌘C' },
+  { icon: 'lucide:clipboard', label: 'Paste', shortcut: '⌘V' },
+  { icon: 'lucide:trash-2', label: 'Delete', color: 'danger', shortcut: '⌘⌫' }
 ]
