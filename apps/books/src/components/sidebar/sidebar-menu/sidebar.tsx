@@ -1,6 +1,5 @@
 'use client'
 
-import { Icon } from '@iconify/react'
 import {
   Accordion,
   AccordionItem,
@@ -13,7 +12,8 @@ import {
   type ListboxProps,
   type ListboxSectionProps,
   type Selection
-} from '@vezham/react'
+} from '@heroui/react'
+import { Icon } from '@iconify/react'
 import React from 'react'
 import { SidebarItem, SidebarItemType } from './types'
 import {

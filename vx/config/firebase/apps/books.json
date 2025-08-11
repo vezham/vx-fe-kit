@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/apps/ts4",
+    "public": "dist/apps/books",
     "rewrites": [
       {
         "source": "**",

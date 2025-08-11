@@ -1,0 +1,20 @@
+{
+  "name": "@vx-app/books-mock",
+  "version": "0.0.0",
+  "scripts": {
+    "serve": "node src/main.js"
+  },
+  "dependencies": {
+    "clone": "^2.1.2",
+    "json-server": "^0.16.0",
+    "pluralize": "^8.0.0"
+  },
+  "devDependencies": {
+    "dotenv": "^16.4.1"
+  },
+  "packageManager": "pnpm@9.6.0",
+  "engines": {
+    "node": ">=20.x",
+    "pnpm": ">=9.x"
+  }
+}

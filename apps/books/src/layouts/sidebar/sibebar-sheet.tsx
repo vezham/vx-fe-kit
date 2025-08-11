@@ -1,6 +1,6 @@
 'use client'
 
-import { Selection } from '@vezham/react'
+import { Selection } from '@heroui/react'
 import React from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 import SidebarFooter from '../../components/sidebar/sidebar-footer'

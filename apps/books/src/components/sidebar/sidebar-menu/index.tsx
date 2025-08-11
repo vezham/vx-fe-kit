@@ -1,5 +1,5 @@
+import { Input, ScrollShadow } from '@heroui/react'
 import { Icon } from '@iconify/react'
-import { Input, ScrollShadow } from '@vezham/react'
 import React, { useCallback, useEffect, useState } from 'react'
 import Sidebar from './sidebar'
 import { SidebarItem, SidebarMenuProps } from './types'

@@ -1,4 +1,3 @@
-import { Icon } from '@iconify/react'
 import {
   Avatar,
   Button,
@@ -9,7 +8,8 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger
-} from '@vezham/react'
+} from '@heroui/react'
+import { Icon } from '@iconify/react'
 import React from 'react'
 
 import { SidebarHeaderProps } from './types'
@@ -111,7 +111,7 @@ const SidebarHeader: React.FC<SidebarHeaderExtendedProps> = ({
         <Popover
           showArrow
           placement="bottom"
-          isOpen={isPopoverOpen}
+          open={isPopoverOpen}
           onOpenChange={setPopoverOpen}>
           <PopoverTrigger>
             <div className={sidebarHeaderVariants.expandedSlackButton()}>

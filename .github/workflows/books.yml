@@ -1,4 +1,4 @@
-# @vx/INFO: @vx/ci - trigger - 1.0.0
+# @vx/INFO: @vx/ci
 name: books | bnd
 
 on:
@@ -11,9 +11,8 @@ on:
       - 'vx/config/firebase/apps/books.json'
       - 'vx/config/vercel/__mocks__/mock.json'
       - 'packages/**'
-      # - 'apps/books/**' # @vx/TODO: sync changes
-      # - 'apps/books-e2e/**'
-      - 'apps/ts4/**'
+      - 'apps/books/**'
+      - 'apps/books-e2e/**'
 
 jobs:
   run_if:
