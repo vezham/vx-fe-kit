@@ -22,7 +22,7 @@ export default defineConfig(async () => {
     //  plugins: [ nxViteTsPaths() ],
     // },
     build: {
-      outDir: './dist',
+      outDir: '../../dist/apps/ts4',
       emptyOutDir: true,
       reportCompressedSize: true,
       commonjsOptions: {
