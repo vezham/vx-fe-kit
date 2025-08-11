@@ -1,4 +1,4 @@
-# @vx/INFO: @vx/ci
+# @vx/INFO: @vx/ci - trigger - 1.0.0
 name: books | bnd
 
 on:
