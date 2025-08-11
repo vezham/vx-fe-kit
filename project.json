@@ -23,7 +23,7 @@
         "commands": [
           "sort-package-json \"package.json\" \"**/**/__mocks__/package.json\"  \"packages/**/package.json\" \"packages/**/**/package.json\" --quiet",
           "prettier . --write --log-level silent --cache --cache-strategy metadata",
-          "eslint --cache --cache-strategy metadata",
+          "eslint --cache --cache-strategy metadata --max-warnings=40",
           "stylelint \"**/*.{css,module.css}\" --allow-empty-input --cache --cache-strategy metadata"
         ],
         "parallel": false
