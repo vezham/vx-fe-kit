@@ -3,7 +3,6 @@ import { ActionButtonProps } from './types'
 export const searchAction: ActionButtonProps = {
   icon: 'lucide:search',
   label: 'Search'
-  // onClick: () => alert("Search clicked!"),
 }
 
 export const viewActions: ActionButtonProps[] = [

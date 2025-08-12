@@ -46,7 +46,7 @@ export const getButtonVariantClasses = ({
 
 export const getBaseContainerClasses = (isDarkMode = false) =>
   cn(
-    'overflow-hidden rounded-full shadow-sm', // keep shape + clip hover
+    'overflow-hidden rounded-full shadow-sm',
     isDarkMode
       ? 'bg-white/10 text-white hover:bg-white/40'
       : 'bg-white text-black'

@@ -1,417 +1,412 @@
-'use client'
+// import React from 'react'
+// import { Button, Listbox, ListboxItem, Tooltip } from '@heroui/react'
+// import { Icon } from '@iconify/react'
+// import { SidebarItem, SidebarItemType } from './types'
 
-import {
-  Accordion,
-  AccordionItem,
-  Button,
-  cn,
-  Listbox,
-  ListboxItem,
-  ListboxSection,
-  Tooltip,
-  type ListboxProps,
-  type ListboxSectionProps,
-  type Selection
-} from '@heroui/react'
+// export interface SidebarProps {
+//   items: SidebarItem[]
+//   selectedKey?: string
+//   onSelect?: (key: string) => void
+//   expandedKeys?: Set<string>
+//   onExpandedChange?: (keys: Set<string>) => void
+//   isCompact?: boolean
+//   hideEndContent?: boolean
+//   iconClassName?: string
+// }
+
+// const Sidebar: React.FC<SidebarProps> = ({
+//   items,
+//   selectedKey,
+//   onSelect,
+//   expandedKeys = new Set([]),
+//   onExpandedChange,
+//   isCompact = false,
+//   hideEndContent = false,
+//   iconClassName = 'text-default-500'
+// }) => {
+//   const handleSelect = (key: string) => {
+//     if (onSelect) onSelect(key)
+//   }
+
+//   const toggleExpand = (key: string) => {
+//     const newKeys = new Set(expandedKeys)
+//     if (newKeys.has(key)) {
+//       newKeys.delete(key)
+//     } else {
+//       newKeys.add(key)
+//     }
+//     if (onExpandedChange) onExpandedChange(newKeys)
+//   }
+
+//   React.useEffect(() => {
+//     if (isCompact && expandedKeys.size > 0) {
+//       if (onExpandedChange) onExpandedChange(new Set([]))
+//     }
+//   }, [isCompact, expandedKeys, onExpandedChange])
+
+//   const renderSingleItem = (item: SidebarItem) => {
+//     const iconEl = (
+//       <Icon
+//         icon={item.icon || ''}
+//         width={24}
+//         className={`${iconClassName} ${
+//           selectedKey === item.key ? 'text-white' : ''
+//         }`}
+//       />
+//     )
+
+//     if (isCompact) {
+//       return (
+//         <div
+//           key={item.key}
+//           onClick={() => handleSelect(item.key)}
+//           className={`hover:bg-default/20 flex cursor-pointer justify-center rounded-md p-2 ${
+//             selectedKey === item.key ? 'bg-default/20 text-white' : ''
+//           }`}>
+//           <Tooltip content={item.title} placement="right">
+//             {iconEl}
+//           </Tooltip>
+//         </div>
+//       )
+//     }
+
+//     return (
+//       <ListboxItem
+//         key={item.key}
+//         href={item.href}
+//         title={item.title}
+//         textValue={item.title}
+//         className={`data-[hover=true]:bg-default/20 data-[hover=true]:text-white ${
+//           selectedKey === item.key ? 'bg-default/20 text-white' : ''
+//         }`}
+//         onClick={() => handleSelect(item.key)}
+//         startContent={iconEl}
+//         endContent={hideEndContent ? null : item.endContent}>
+//         {item.title}
+//       </ListboxItem>
+//     )
+//   }
+
+//   const renderNestedItem = (item: SidebarItem) => {
+//     const isExpanded = expandedKeys.has(item.key)
+
+//     if (isCompact) {
+//       return (
+//         <div key={item.key} className="flex flex-col gap-0.5">
+//           {renderSingleItem(item)}
+//           {isExpanded && item.items?.map(sub => renderSingleItem(sub))}
+//         </div>
+//       )
+//     }
+
+//     return (
+//       <div key={item.key} className="flex flex-col">
+//         <div
+//           className={`flex cursor-pointer items-center justify-between rounded-md px-3 py-2 ${
+//             selectedKey === item.key
+//               ? 'bg-default/20'
+//               : 'hover:bg-default/50 text-white'
+//           }`}
+//           onClick={() => {
+//             toggleExpand(item.key)
+//             handleSelect(item.key)
+//           }}>
+//           <div className="flex items-center gap-2">
+//             <Icon
+//               icon={item.icon || ''}
+//               width={24}
+//               className={`${iconClassName} ${
+//                 selectedKey === item.key ? 'text-default' : ''
+//               }`}
+//             />
+//             <span className="text-small font-medium">{item.title}</span>
+//           </div>
+//           <Button
+//             isIconOnly
+//             size="sm"
+//             variant="light"
+//             className="h-8 w-8 min-w-8"
+//             onPress={e => {
+//               e.stopPropagation()
+//               toggleExpand(item.key)
+//             }}>
+//             <Icon
+//               icon={isExpanded ? 'lucide:chevron-up' : 'lucide:chevron-down'}
+//               width={14}
+//             />
+//           </Button>
+//         </div>
+//         {isExpanded && (
+//           <div className="border-default-200 mt-1 ml-4 border-l pl-4">
+//             <Listbox
+//               aria-label={`${item.title} submenu`}
+//               selectionMode="single"
+//               selectedKeys={selectedKey ? new Set([selectedKey]) : new Set()}
+//               onSelectionChange={keys => {
+//                 if (keys !== 'all') {
+//                   const key = Array.from(keys)[0]
+//                   if (key) handleSelect(key.toString())
+//                 }
+//               }}
+//               className="gap-0.5">
+//               {item.items?.map(sub => renderSingleItem(sub))}
+//             </Listbox>
+//           </div>
+//         )}
+//       </div>
+//     )
+//   }
+
+//   const reorderedItems = React.useMemo(() => {
+//     const home = items.find(item => item.key === 'home')
+//     const bank = items.find(item => item.key === 'bank')
+//     const books = items.find(item => item.key === 'books')
+//     const otherItems = items.filter(
+//       item => item.key !== 'home' && item.key !== 'bank' && item.key !== 'books'
+//     )
+
+//     const orderedItems = []
+//     if (home) orderedItems.push(home)
+//     if (bank) orderedItems.push(bank)
+//     if (books) orderedItems.push(books)
+
+//     return [...orderedItems, ...otherItems]
+//   }, [items])
+
+//   return (
+//     <div className="flex flex-col gap-1">
+//       {reorderedItems.map(item => {
+//         if (item.type === SidebarItemType.Nest && item.items?.length) {
+//           return renderNestedItem(item)
+//         }
+//         return renderSingleItem(item)
+//       })}
+//     </div>
+//   )
+// }
+
+// export default Sidebar
+
+// above alternate option
+
+import { Button, Listbox, ListboxItem, Tooltip } from '@heroui/react'
 import { Icon } from '@iconify/react'
 import React from 'react'
 import { SidebarItem, SidebarItemType } from './types'
-import {
-  getItemClasses,
-  getListboxItemBaseClass,
-  getListboxItemTitleClass,
-  getSectionClasses
-} from './variant'
+import { sidebarStyles } from './variant' // Import the styles
 
-export type SidebarProps = Omit<ListboxProps<SidebarItem>, 'children'> & {
+export interface SidebarProps {
   items: SidebarItem[]
+  selectedKey?: string
+  onSelect?: (key: string) => void
+  expandedKeys?: Set<string>
+  onExpandedChange?: (keys: Set<string>) => void
   isCompact?: boolean
   hideEndContent?: boolean
   iconClassName?: string
-  sectionClasses?: ListboxSectionProps['classNames']
-  classNames?: ListboxProps['classNames']
-  defaultSelectedKey?: string
-  selectedKey?: string
-  onSelect?: (key: string) => void
-  expandedKeys?: Selection
-  onExpandedChange?: (keys: Selection) => void
-  onNestToggle?: (key: string) => void
-  closeDropdown?: () => void
-  isVertical?: boolean
-  isDarkMode?: boolean
 }
 
-const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
-  (
-    {
-      items,
-      isCompact,
-      selectedKey,
-      defaultSelectedKey,
-      onSelect,
-      hideEndContent,
-      sectionClasses: sectionClassesProp = {},
-      itemClasses: itemClassesProp = {},
-      iconClassName,
-      classNames,
-      className,
-      expandedKeys,
-      onExpandedChange,
-      onNestToggle,
-      closeDropdown,
-      isVertical = true,
-      isDarkMode,
-      ...props
-    },
-    ref
-  ) => {
-    const [selected, setSelected] = React.useState<React.Key>(
-      selectedKey ?? defaultSelectedKey ?? ''
+const Sidebar: React.FC<SidebarProps> = ({
+  items,
+  selectedKey,
+  onSelect,
+  expandedKeys = new Set([]),
+  onExpandedChange,
+  isCompact = false,
+  hideEndContent = false,
+  iconClassName = sidebarStyles.icon.base
+}) => {
+  const handleSelect = (key: string) => {
+    if (onSelect) onSelect(key)
+  }
+
+  const toggleExpand = (key: string) => {
+    const newKeys = new Set(expandedKeys)
+    if (newKeys.has(key)) {
+      newKeys.delete(key)
+    } else {
+      newKeys.add(key)
+    }
+    if (onExpandedChange) onExpandedChange(newKeys)
+  }
+
+  React.useEffect(() => {
+    if (isCompact && expandedKeys.size > 0) {
+      if (onExpandedChange) onExpandedChange(new Set([]))
+    }
+  }, [isCompact, expandedKeys, onExpandedChange])
+
+  const renderSingleItem = (item: SidebarItem) => {
+    const iconEl = (
+      <Icon
+        icon={item.icon || ''}
+        width={24}
+        className={`${iconClassName} ${
+          selectedKey === item.key ? sidebarStyles.icon.selected : ''
+        }`}
+      />
     )
 
-    React.useEffect(() => {
-      if (selectedKey !== undefined) setSelected(selectedKey)
-    }, [selectedKey])
-
-    const [internalExpandedKeys, setInternalExpandedKeys] =
-      React.useState<Selection>(expandedKeys || new Set([]))
-
-    const actualExpandedKeys = expandedKeys || internalExpandedKeys
-    const actualOnExpandedChange = onExpandedChange || setInternalExpandedKeys
-
-    const sectionClasses = getSectionClasses({
-      isCompact,
-      isVertical,
-      sectionClassesProp
-    })
-
-    const itemClasses = getItemClasses({
-      isCompact,
-      itemClassesProp
-    })
-
-    const renderNestItem = React.useCallback(
-      (item: SidebarItem) => {
-        const isNestType =
-          item.items &&
-          item.items.length > 0 &&
-          item.type === SidebarItemType.Nest
-
-        if (isNestType) {
-          // Remove href to prevent navigation on nest parent
-          delete item.href
-        }
-
-        return (
-          <ListboxItem
-            {...item}
-            key={item.key}
-            classNames={{
-              base: cn(
-                {
-                  'h-auto p-0': !isCompact && isNestType
-                },
-                {
-                  'inline-block w-11': isCompact && isNestType
-                }
-              )
-            }}
-            onPress={() => {
-              if (isNestType && onNestToggle) {
-                onNestToggle(item.key)
-                return // don't select nest parent as item
-              }
-              if (onSelect) onSelect(item.key)
-              setSelected(item.key)
-            }}
-            endContent={
-              isCompact || isNestType || hideEndContent
-                ? null
-                : (item.endContent ?? null)
-            }
-            startContent={
-              isCompact || isNestType ? null : item.icon ? (
-                <Icon
-                  className={cn(
-                    iconClassName || 'text-current',
-                    'group-data-[selected=true]:text-current'
-                  )}
-                  icon={item.icon}
-                  width={24}
-                />
-              ) : (
-                (item.startContent ?? null)
-              )
-            }
-            title={isCompact || isNestType ? null : item.title}>
-            {isCompact ? (
-              <Tooltip content={item.title} placement="right">
-                <div className="flex w-full items-center justify-center">
-                  {item.icon ? (
-                    <Icon
-                      className={cn(
-                        iconClassName || 'text-current',
-                        'group-data-[selected=true]:text-current'
-                      )}
-                      icon={item.icon}
-                      width={24}
-                    />
-                  ) : (
-                    (item.startContent ?? null)
-                  )}
-                </div>
-              </Tooltip>
-            ) : null}
-
-            {!isCompact && isNestType ? (
-              <Accordion
-                className="p-0"
-                selectedKeys={actualExpandedKeys}
-                onSelectionChange={actualOnExpandedChange}
-                selectionMode="multiple"
-                disableAnimation
-                keepContentMounted={false}>
-                <AccordionItem
-                  key={item.key}
-                  aria-label={item.title}
-                  classNames={{
-                    heading: 'pr-3',
-                    trigger: 'p-0',
-                    content: 'py-0 pl-4'
-                  }}
-                  title={
-                    <div className="flex h-11 w-full items-center justify-between">
-                      <div className="flex items-center gap-2 px-2 py-1.5">
-                        {item.icon && (
-                          <Icon
-                            className={cn(
-                              isDarkMode ? 'text-white' : 'text-black',
-                              iconClassName,
-                              'group-data-[selected=true]:text-current'
-                            )}
-                            icon={item.icon}
-                            width={24}
-                          />
-                        )}
-                        <span
-                          className={cn(
-                            'text-small font-medium',
-                            isDarkMode ? 'text-white' : 'text-black',
-                            'group-data-[selected=true]:text-current'
-                          )}>
-                          {item.title}
-                        </span>
-                      </div>
-
-                      {actualExpandedKeys.has(item.key) && (
-                        <Button
-                          isIconOnly
-                          size="sm"
-                          variant="light"
-                          className="mr-1"
-                          onPress={() => {
-                            const newSet = new Set(actualExpandedKeys)
-                            newSet.delete(item.key)
-                            actualOnExpandedChange(newSet)
-                          }}>
-                          <Icon icon="lucide:chevron-up" width={14} />
-                        </Button>
-                      )}
-                    </div>
-                  }>
-                  {item.items && item.items.length > 0 ? (
-                    <Listbox
-                      className="mt-0.5"
-                      classNames={{
-                        list: cn('border-default-200 border-l pl-4')
-                      }}
-                      items={item.items}
-                      variant="flat"
-                      selectedKeys={[selected] as unknown as Selection}
-                      selectionMode="single"
-                      onSelectionChange={keys => {
-                        const key = Array.from(keys)[0]
-                        setSelected(key as React.Key)
-                        onSelect?.(key as string)
-                      }}>
-                      {item.items.map(renderItem)}
-                    </Listbox>
-                  ) : (
-                    renderItem(item)
-                  )}
-                </AccordionItem>
-              </Accordion>
-            ) : null}
-          </ListboxItem>
-        )
-      },
-      [
-        isCompact,
-        hideEndContent,
-        iconClassName,
-        selected,
-        actualExpandedKeys,
-        actualOnExpandedChange,
-        onSelect,
-        onNestToggle,
-        isDarkMode
-      ]
-    )
-
-    const renderItem = React.useCallback(
-      (item: SidebarItem) => {
-        const isNestType =
-          item.items &&
-          item.items.length > 0 &&
-          item.type === SidebarItemType.Nest
-
-        // Skip nest behavior for home item
-        if (isNestType && item.key === 'home') {
-          return (
-            <ListboxItem
-              {...item}
-              key={item.key}
-              endContent={
-                isCompact || hideEndContent ? null : (item.endContent ?? null)
-              }
-              startContent={
-                isCompact ? null : item.icon ? (
-                  <Icon
-                    className={cn(
-                      iconClassName || 'text-current',
-                      'group-data-[selected=true]:text-current'
-                    )}
-                    icon={item.icon}
-                    width={24}
-                  />
-                ) : (
-                  (item.startContent ?? null)
-                )
-              }
-              textValue={item.title}
-              title={isCompact ? null : item.title}>
-              {isCompact ? (
-                <Tooltip content={item.title} placement="right">
-                  <div className="flex w-full items-center justify-center">
-                    {item.icon ? (
-                      <Icon
-                        className={cn(
-                          iconClassName || 'text-current',
-                          'group-data-[selected=true]:text-current'
-                        )}
-                        icon={item.icon}
-                        width={24}
-                      />
-                    ) : (
-                      (item.startContent ?? null)
-                    )}
-                  </div>
-                </Tooltip>
-              ) : null}
-            </ListboxItem>
-          )
-        }
-
-        if (isNestType) {
-          return renderNestItem(item)
-        }
-
-        return (
-          <ListboxItem
-            {...item}
-            key={item.key}
-            endContent={
-              isCompact || hideEndContent ? null : (item.endContent ?? null)
-            }
-            startContent={
-              isCompact ? null : item.icon ? (
-                <Icon
-                  className={cn(
-                    iconClassName || 'text-current',
-                    'group-data-[selected=true]:text-current'
-                  )}
-                  icon={item.icon}
-                  width={24}
-                />
-              ) : (
-                (item.startContent ?? null)
-              )
-            }
-            textValue={item.title}
-            title={isCompact ? null : item.title}>
-            {isCompact ? (
-              <Tooltip content={item.title} placement="right">
-                <div className="flex w-full items-center justify-center">
-                  {item.icon ? (
-                    <Icon
-                      className={cn(
-                        iconClassName || 'text-current',
-                        'group-data-[selected=true]:text-current'
-                      )}
-                      icon={item.icon}
-                      width={24}
-                    />
-                  ) : (
-                    (item.startContent ?? null)
-                  )}
-                </div>
-              </Tooltip>
-            ) : null}
-          </ListboxItem>
-        )
-      },
-      [isCompact, hideEndContent, iconClassName, renderNestItem]
-    )
+    if (isCompact) {
+      return (
+        <div
+          key={item.key}
+          onClick={() => handleSelect(item.key)}
+          className={`${sidebarStyles.compactItem.base} ${
+            selectedKey === item.key ? sidebarStyles.compactItem.selected : ''
+          }`}>
+          <Tooltip content={item.title} placement="right">
+            {iconEl}
+          </Tooltip>
+        </div>
+      )
+    }
 
     return (
-      <Listbox
-        key={isCompact ? 'compact' : isVertical ? 'vertical' : 'grid'}
-        ref={ref}
-        hideSelectedIcon
-        as="nav"
-        className={cn('list-none', className)}
-        classNames={{
-          ...classNames,
-          list: cn('items-center', classNames?.list)
-        }}
-        color="default"
-        itemClasses={{
-          ...itemClasses,
-          base: getListboxItemBaseClass({ isCompact, isVertical, itemClasses }),
-          title: getListboxItemTitleClass({ iconClassName, itemClasses })
-        }}
-        items={items}
-        selectedKeys={[selected] as unknown as Selection}
-        selectionMode="single"
-        variant="flat"
-        onSelectionChange={keys => {
-          const key = Array.from(keys)[0]
-          setSelected(key as React.Key)
-          onSelect?.(key as string)
-        }}
-        {...props}>
-        {item => {
-          return item.items &&
-            item.items.length > 0 &&
-            item.type === SidebarItemType.Nest ? (
-            renderNestItem(item)
-          ) : item.items && item.items.length > 0 ? (
-            <ListboxSection
-              key={item.key}
-              classNames={sectionClasses}
-              showDivider={isCompact}
-              title={item.title}>
-              {item.items.map(renderItem)}
-            </ListboxSection>
-          ) : (
-            renderItem(item)
-          )
-        }}
-      </Listbox>
+      <ListboxItem
+        key={item.key}
+        href={item.href}
+        title={item.title}
+        textValue={item.title}
+        className={`${sidebarStyles.listboxItem.base} ${
+          selectedKey === item.key ? sidebarStyles.listboxItem.selected : ''
+        }`}
+        onClick={() => handleSelect(item.key)}
+        startContent={iconEl}
+        endContent={hideEndContent ? null : item.endContent}>
+        {item.title}
+      </ListboxItem>
     )
   }
-)
 
-Sidebar.displayName = 'Sidebar'
+  const renderNestedItem = (item: SidebarItem) => {
+    const isExpanded = expandedKeys.has(item.key)
+    const headerClasses = `${sidebarStyles.nestedItem.header.base} ${
+      selectedKey === item.key
+        ? sidebarStyles.nestedItem.header.selected
+        : sidebarStyles.nestedItem.header.unselected
+    }`
+
+    if (isCompact) {
+      return (
+        <div key={item.key} className="flex flex-col gap-0.5">
+          {renderSingleItem(item)}
+          {isExpanded && item.items?.map(sub => renderSingleItem(sub))}
+        </div>
+      )
+    }
+
+    return (
+      <div key={item.key} className={sidebarStyles.nestedItem.container}>
+        <div
+          className={headerClasses}
+          onClick={() => {
+            toggleExpand(item.key)
+            handleSelect(item.key)
+          }}>
+          <div className={sidebarStyles.flexCenterGap2}>
+            <Icon
+              icon={item.icon || ''}
+              width={24}
+              className={`${iconClassName} ${
+                selectedKey === item.key
+                  ? sidebarStyles.icon.nestedSelected
+                  : ''
+              }`}
+            />
+            <span className={sidebarStyles.nestedItem.title}>{item.title}</span>
+          </div>
+          <Button
+            isIconOnly
+            size="sm"
+            variant="light"
+            className={sidebarStyles.button}
+            onPress={e => {
+              e.stopPropagation()
+              toggleExpand(item.key)
+            }}>
+            <Icon
+              icon={isExpanded ? 'lucide:chevron-up' : 'lucide:chevron-down'}
+              width={14}
+            />
+          </Button>
+        </div>
+        {isExpanded && (
+          <div className={sidebarStyles.nestedItem.subheader}>
+            <Listbox
+              aria-label={`${item.title} submenu`}
+              selectionMode="single"
+              selectedKeys={selectedKey ? new Set([selectedKey]) : new Set()}
+              onSelectionChange={keys => {
+                if (keys !== 'all') {
+                  const key = Array.from(keys)[0]
+                  if (key) handleSelect(key.toString())
+                }
+              }}
+              className={sidebarStyles.gapHalf}>
+              {item.items?.map(sub => renderSingleItem(sub))}
+            </Listbox>
+          </div>
+        )}
+      </div>
+    )
+  }
+
+  const sortedItems = React.useMemo(() => {
+    const home = items.find(item => item.key === 'home')
+    const bank = items.find(item => item.key === 'bank')
+    const books = items.find(item => item.key === 'books')
+    const otherItems = items.filter(
+      item => item.key !== 'home' && item.key !== 'bank' && item.key !== 'books'
+    )
+
+    const orderedItems = []
+    if (home) orderedItems.push(home)
+    if (bank) orderedItems.push(bank)
+    if (books) orderedItems.push(books)
+
+    return [...orderedItems, ...otherItems]
+  }, [items])
+
+  return (
+    <div className={sidebarStyles.container}>
+      {isCompact ? (
+        // Compact mode renders items as a single list of divs
+        sortedItems.map(item => {
+          if (item.type === SidebarItemType.Nest && item.items?.length) {
+            return renderNestedItem(item)
+          }
+          return renderSingleItem(item)
+        })
+      ) : (
+        // Expanded mode:
+        // Render single items in one Listbox and nested items in separate divs
+        <>
+          {sortedItems.map(item => {
+            if (item.type === SidebarItemType.Nest && item.items?.length) {
+              return renderNestedItem(item)
+            }
+            return (
+              <Listbox
+                key={item.key} // A Listbox for each non-nested item to maintain order
+                aria-label="Main menu"
+                selectionMode="single"
+                selectedKeys={selectedKey ? new Set([selectedKey]) : new Set()}
+                onSelectionChange={keys => {
+                  if (keys !== 'all') {
+                    const key = Array.from(keys)[0]
+                    if (key) handleSelect(key.toString())
+                  }
+                }}
+                className={sidebarStyles.gapHalf}>
+                {renderSingleItem(item)}
+              </Listbox>
+            )
+          })}
+        </>
+      )}
+    </div>
+  )
+}
 
 export default Sidebar

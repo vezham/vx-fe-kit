@@ -72,16 +72,7 @@ export const getDrawerHeaderClasses = ({ isDarkMode = false }) => {
 
 export const getDrawerCloseButtonClasses = ({ isDarkMode = false }) => {
   return cn(
-    'absolute top-2 left-2 rounded-full p-2 transition-colors',
-    isDarkMode
-      ? 'text-gray-300 hover:bg-white/10 hover:backdrop-blur-lg'
-      : 'text-gray-600 hover:bg-white/40'
-  )
-}
-
-export const getDrawerExpandButtonClasses = ({ isDarkMode = false }) => {
-  return cn(
-    'absolute top-2 right-6 rounded-full p-2 transition-colors',
+    'absolute right-6 rounded-full p-2 transition-colors',
     isDarkMode
       ? 'text-gray-300 hover:bg-white/10 hover:backdrop-blur-lg'
       : 'text-gray-600 hover:bg-white/40'

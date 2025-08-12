@@ -3,7 +3,6 @@ export interface ActionButtonProps {
   label: string
   color?: 'default' | 'primary' | 'danger'
   shortcut?: string
-  // onClick?: () => void;
 }
 
 export interface ActionToolbarProps {

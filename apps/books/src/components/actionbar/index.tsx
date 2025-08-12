@@ -13,77 +13,6 @@ import React from 'react'
 import { ActionButtonProps, ActionToolbarProps } from './types'
 import { getBaseContainerClasses, getButtonVariantClasses } from './variant'
 
-{
-  /* {(screen === "xs") && (
-  <>
-    {showViewActions && viewActions.length > 0 && (
-      <div className={getBaseContainerClasses(isDarkMode)}>
-        <Dropdown
-          className={isDarkMode ? "bg-neutral-900 text-white" : "bg-white text-black"}
-        >
-          <DropdownTrigger>
-            <Button
-              isIconOnly
-              variant="light"
-              aria-label="More view actions"
-              className={getButtonVariantClasses({ color: "default", isDarkMode })}
-            >
-              <Icon icon="lucide:more-horizontal" width={20} />
-            </Button>
-          </DropdownTrigger>
-          <DropdownMenu aria-label="More view actions">
-            {viewActions.map((action, index) => (
-              <DropdownItem
-                key={`view-${index}`}
-                startContent={<Icon icon={action.icon} width={18} />}
-              >
-                {action.label}
-              </DropdownItem>
-            ))}
-          </DropdownMenu>
-        </Dropdown>
-      </div>
-    )}
-
-    {showOtherActions && otherActions.length > 0 && (
-      <div className={getBaseContainerClasses(isDarkMode)}>
-        <Dropdown
-          className={isDarkMode ? "bg-neutral-900 text-white" : "bg-white text-black"}
-        >
-          <DropdownTrigger>
-            <Button
-              isIconOnly
-              variant="light"
-              aria-label="More other actions"
-              className={getButtonVariantClasses({ color: "default", isDarkMode })}
-            >
-              <Icon icon="lucide:more-horizontal" width={20} />
-            </Button>
-          </DropdownTrigger>
-          <DropdownMenu aria-label="More other actions">
-            {otherActions.map((action, index) => (
-              <DropdownItem
-                key={`other-${index}`}
-                shortcut={action.shortcut}
-                startContent={
-                  <Icon
-                    icon={action.icon}
-                    width={18}
-                    className={action.color === "danger" ? "text-red-500" : ""}
-                  />
-                }
-              >
-                {action.label}
-              </DropdownItem>
-            ))}
-          </DropdownMenu>
-        </Dropdown>
-      </div>
-    )}
-  </>
-        )} */
-}
-
 const ActionButton = ({
   icon,
   label,
@@ -136,7 +65,7 @@ export const ActionToolbar = ({
 
   const getVisibleCount = (type: 'view' | 'other') => {
     if (screen === 'lg') return type === 'view' ? viewActions.length : 2
-    if (screen === 'md') return 2
+    if (screen === 'md') return type === 'view' ? viewActions.length : 1
     if (screen === 'sm') return 1
     return 0
   }
@@ -336,4 +265,77 @@ export const ActionToolbar = ({
         )}
     </div>
   )
+}
+
+// for future while buttongroup single action purpose
+
+{
+  /* {(screen === "xs") && (
+  <>
+    {showViewActions && viewActions.length > 0 && (
+      <div className={getBaseContainerClasses(isDarkMode)}>
+        <Dropdown
+          className={isDarkMode ? "bg-neutral-900 text-white" : "bg-white text-black"}
+        >
+          <DropdownTrigger>
+            <Button
+              isIconOnly
+              variant="light"
+              aria-label="More view actions"
+              className={getButtonVariantClasses({ color: "default", isDarkMode })}
+            >
+              <Icon icon="lucide:more-horizontal" width={20} />
+            </Button>
+          </DropdownTrigger>
+          <DropdownMenu aria-label="More view actions">
+            {viewActions.map((action, index) => (
+              <DropdownItem
+                key={`view-${index}`}
+                startContent={<Icon icon={action.icon} width={18} />}
+              >
+                {action.label}
+              </DropdownItem>
+            ))}
+          </DropdownMenu>
+        </Dropdown>
+      </div>
+    )}
+
+    {showOtherActions && otherActions.length > 0 && (
+      <div className={getBaseContainerClasses(isDarkMode)}>
+        <Dropdown
+          className={isDarkMode ? "bg-neutral-900 text-white" : "bg-white text-black"}
+        >
+          <DropdownTrigger>
+            <Button
+              isIconOnly
+              variant="light"
+              aria-label="More other actions"
+              className={getButtonVariantClasses({ color: "default", isDarkMode })}
+            >
+              <Icon icon="lucide:more-horizontal" width={20} />
+            </Button>
+          </DropdownTrigger>
+          <DropdownMenu aria-label="More other actions">
+            {otherActions.map((action, index) => (
+              <DropdownItem
+                key={`other-${index}`}
+                shortcut={action.shortcut}
+                startContent={
+                  <Icon
+                    icon={action.icon}
+                    width={18}
+                    className={action.color === "danger" ? "text-red-500" : ""}
+                  />
+                }
+              >
+                {action.label}
+              </DropdownItem>
+            ))}
+          </DropdownMenu>
+        </Dropdown>
+      </div>
+    )}
+  </>
+        )} */
 }

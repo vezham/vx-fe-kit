@@ -13,7 +13,6 @@ import {
   getDrawerButtonClasses,
   getDrawerCloseButtonClasses,
   getDrawerContentClasses,
-  getDrawerExpandButtonClasses,
   getDrawerGridClasses,
   getDrawerGridItemInnerClasses,
   getDrawerHeaderClasses,
@@ -65,14 +64,6 @@ const BottomDrawerMenu: React.FC<any> = ({
             onClick={onClose}
             className={getDrawerCloseButtonClasses({ isDarkMode })}>
             <Icon icon="lucide:x" className="h-4 w-4" />
-          </button>
-          <button
-            onClick={toggleExpand}
-            className={getDrawerExpandButtonClasses({ isDarkMode })}>
-            <Icon
-              icon={isExpanded ? 'lucide:chevron-down' : 'lucide:chevron-up'}
-              className="h-4 w-4"
-            />
           </button>
         </DrawerHeader>
         <DrawerBody className={getDrawerBodyClasses({ isExpanded })}>

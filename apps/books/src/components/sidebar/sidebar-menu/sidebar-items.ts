@@ -4,7 +4,7 @@ import { SidebarItem, SidebarItemType } from './types'
 export const items: SidebarItem[] = [
   {
     key: 'home',
-    href: '/home',
+    // href: '/home',
     icon: 'lucide:home',
     title: 'Home',
     showInMainContent: true
