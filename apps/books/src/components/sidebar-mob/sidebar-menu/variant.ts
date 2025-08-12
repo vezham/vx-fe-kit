@@ -65,27 +65,49 @@ export const getSearchButtonClasses = ({ isDarkMode = false }) => {
 
 export const getDrawerHeaderClasses = ({ isDarkMode = false }) => {
   return cn(
-    'text-center font-semibold',
+    'relative flex items-center justify-center px-5 py-5 text-center font-semibold',
     isDarkMode ? 'text-gray-200' : 'text-gray-800'
+  )
+}
+
+export const getDrawerCloseButtonClasses = ({ isDarkMode = false }) => {
+  return cn(
+    'absolute top-2 left-2 rounded-full p-2 transition-colors',
+    isDarkMode
+      ? 'text-gray-300 hover:bg-white/10 hover:backdrop-blur-lg'
+      : 'text-gray-600 hover:bg-white/40'
+  )
+}
+
+export const getDrawerExpandButtonClasses = ({ isDarkMode = false }) => {
+  return cn(
+    'absolute top-2 right-6 rounded-full p-2 transition-colors',
+    isDarkMode
+      ? 'text-gray-300 hover:bg-white/10 hover:backdrop-blur-lg'
+      : 'text-gray-600 hover:bg-white/40'
+  )
+}
+
+export const getDrawerBodyClasses = ({ isExpanded = false }) => {
+  return cn(
+    'overflow-y-auto transition-all duration-300 ease-in-out',
+    isExpanded ? 'max-h-[75vh]' : 'max-h-[45vh]'
   )
 }
 
 export const getDrawerContentClasses = ({ isDarkMode = false }) => {
   return cn(
-    'relative flex flex-col rounded-t-2xl py-5',
-    // "!bottom-[89px]", // offset so it stops above the bottom navbar
+    'relative rounded-t-2xl py-2',
     isDarkMode
       ? [
           'bg-black/5 backdrop-blur-lg dark:bg-black/5',
-          "[&_[aria-label='Close']]:bg-transparent",
-          "[&_[aria-label='Close']]:shadow-none",
-          "[&_[aria-label='Close']:hover]:bg-white/10",
-          "[&_[aria-label='Close']:hover]:backdrop-blur-lg"
+          // Hide the default close button
+          "[&_[aria-label='Close']]:hidden"
         ]
       : [
-          'bg-white/50 text-white backdrop-blur-md',
-          "[&_[aria-label='Close']]:shadow-none",
-          "[&_[aria-label='Close']:hover]:bg-white/40"
+          'bg-white/50 backdrop-blur-md',
+          // Hide the default close button
+          "[&_[aria-label='Close']]:hidden"
         ]
   )
 }
@@ -108,7 +130,7 @@ export const getDrawerButtonClasses = ({
 }
 
 export const getDrawerGridClasses = () => {
-  return cn('grid gap-10 px-2', 'grid-cols-4')
+  return cn('grid gap-10 p-2', 'grid-cols-3 sm:grid-cols-4')
 }
 
 export const getDrawerGridItemInnerClasses = (buttonTextColor: string) => {

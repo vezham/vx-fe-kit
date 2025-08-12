@@ -1,7 +1,7 @@
 export const sidebarHeaderVariants = {
   container: (isCompact: boolean) =>
     isCompact
-      ? 'flex items-center justify-between pt-1 w-full mb-5'
+      ? 'flex items-center justify-between pt-2 w-full mb-5'
       : 'flex items-center justify-between px-2 mb-5',
 
   icon: (buttonTextColor?: string, isCompact?: boolean) =>

@@ -153,7 +153,7 @@ export default function SidebarWithSearchInput() {
       {/* Desktop & Tablet Layout */}
       <div className="hidden w-full flex-row sm:flex">
         {/* Sidebar Section */}
-        <div className={`${isCompact ? 'w-20' : 'w-50 lg:w-64'} flex-shrink-0`}>
+        <div className={`${isCompact ? 'w-23' : 'w-75 lg:w-84'} flex-shrink-0`}>
           <div
             className={`flex h-full flex-col p-3 shadow-md ${bgColorClass} ${textColorClass}`}
             dir={isRtl ? 'rtl' : 'ltr'}>

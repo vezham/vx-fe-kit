@@ -1,12 +1,22 @@
-import { Drawer, DrawerBody, DrawerContent, useDisclosure } from '@heroui/react'
+import {
+  Drawer,
+  DrawerBody,
+  DrawerContent,
+  DrawerHeader,
+  useDisclosure
+} from '@heroui/react'
 import { Icon } from '@iconify/react'
 import React, { useEffect, useMemo, useState } from 'react'
 import { BottomNavbarProps } from './types'
 import {
+  getDrawerBodyClasses,
   getDrawerButtonClasses,
+  getDrawerCloseButtonClasses,
   getDrawerContentClasses,
+  getDrawerExpandButtonClasses,
   getDrawerGridClasses,
   getDrawerGridItemInnerClasses,
+  getDrawerHeaderClasses,
   getNavbarButtonClasses,
   getNavbarContainerClasses,
   getNavbarIconClasses,
@@ -24,13 +34,48 @@ const BottomDrawerMenu: React.FC<any> = ({
   isDarkMode,
   buttonTextColor
 }) => {
+  const [isExpanded, setIsExpanded] = React.useState(false)
+
+  const toggleExpand = () => {
+    setIsExpanded(prev => !prev)
+  }
+
+  // Add resize event listener to close drawer on resize
+  React.useEffect(() => {
+    const handleResize = () => {
+      if (isOpen) {
+        onClose()
+      }
+    }
+
+    window.addEventListener('resize', handleResize)
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [isOpen, onClose])
+
   return (
     <Drawer
       isOpen={isOpen}
       placement="bottom"
       onOpenChange={open => !open && onClose()}>
       <DrawerContent className={getDrawerContentClasses({ isDarkMode })}>
-        <DrawerBody className="max-h-[45vh] overflow-y-auto">
+        <DrawerHeader className={getDrawerHeaderClasses({ isDarkMode })}>
+          <button
+            onClick={onClose}
+            className={getDrawerCloseButtonClasses({ isDarkMode })}>
+            <Icon icon="lucide:x" className="h-4 w-4" />
+          </button>
+          <button
+            onClick={toggleExpand}
+            className={getDrawerExpandButtonClasses({ isDarkMode })}>
+            <Icon
+              icon={isExpanded ? 'lucide:chevron-down' : 'lucide:chevron-up'}
+              className="h-4 w-4"
+            />
+          </button>
+        </DrawerHeader>
+        <DrawerBody className={getDrawerBodyClasses({ isExpanded })}>
           <div className={getDrawerGridClasses()}>
             {items.map(item => (
               <button

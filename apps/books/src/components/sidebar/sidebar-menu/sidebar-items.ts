@@ -28,8 +28,7 @@ export const items: SidebarItem[] = [
         key: 'accounts',
         href: '#',
         title: 'Accounts',
-        icon: 'lucide:credit-card',
-        endContent: '>'
+        icon: 'lucide:credit-card'
       },
       {
         key: 'overview',
