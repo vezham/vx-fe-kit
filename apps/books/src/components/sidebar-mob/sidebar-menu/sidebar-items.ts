@@ -11,7 +11,7 @@ export const longMenuItems: SidebarItem[] = [
   {
     key: 'chat',
     href: '/chat',
-    icon: 'lucide:chat',
+    icon: 'lucide:message-square',
     title: 'Chat'
   },
   {
