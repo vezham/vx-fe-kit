@@ -47,11 +47,11 @@ const Header: React.FC<SettingsTabsWithDateProps> = ({
   onDownload,
   // default all to true if not provided
   showLeftHeader = true,
-  showAvatarSection = false,
+  showAvatarSection = true,
   showRefreshButton = true,
   showDateSection = true,
   showDownloadButton = true,
-  showControlSection = true
+  showControlSection = false
 }) => {
   const [dateValue, setDateValue] = React.useState<DateValue | null>(
     parseDate(new Date().toISOString().split('T')[0])

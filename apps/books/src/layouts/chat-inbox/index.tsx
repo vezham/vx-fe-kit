@@ -1,6 +1,12 @@
 import { Icon } from '@iconify/react'
 import React, { useEffect, useState } from 'react'
 
+import { ActionToolbar } from '../../components/actionbar'
+import {
+  otherActions,
+  searchAction,
+  viewActions
+} from '../../components/actionbar/data'
 import MessagingChatHeader from '../../components/chat/chat-header'
 import MessageChatInbox from '../../components/chat/chat-inbox'
 import MessagingChatProfile from '../../components/chat/chat-profile'
@@ -39,6 +45,17 @@ const MessagingChatLayout: React.FC<Props> = ({ isSidebarOpen }) => {
 
   return (
     <div className="relative min-h-screen w-full">
+      <div className="absolute top-2 right-2 z-10 md:top-4">
+        <ActionToolbar
+          showSearch={true}
+          searchAction={searchAction}
+          showViewActions={true}
+          viewActions={viewActions}
+          showOtherActions={true}
+          otherActions={otherActions}
+        />
+      </div>
+
       {/* ----------- BELOW LG: Single Panel View ---------- */}
       {isMobileOrTablet && (
         <div className="grid h-full grid-cols-1 rounded-xl">

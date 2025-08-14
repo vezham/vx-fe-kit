@@ -129,8 +129,7 @@ export default function SidebarWithSearchInput() {
   )
 
   return (
-    <div
-      className={`flex h-screen w-full flex-col ${isDarkMode ? '' : 'bg-gray-100'}`}>
+    <div className={`flex w-full flex-col ${isDarkMode ? '' : 'bg-gray-100'}`}>
       {/* Desktop & Tablet Layout */}
       <div className="hidden w-full flex-row md:flex">
         {/* Sidebar Section */}
@@ -176,14 +175,12 @@ export default function SidebarWithSearchInput() {
         </div>
         {/* Main Content */}
         <div className="h-screen flex-1 overflow-y-auto">
-          {/* <MessagingChatLayout isSidebarOpen={isOpen} /> */}
           <Outlet />
         </div>
       </div>
 
       {/* Mobile Layout */}
-      <div className="flex min-h-screen w-full flex-col md:hidden">
-        {/* Top Navbar */}
+      <div className="flex h-full w-full flex-col md:hidden">
         <div
           className={`flex items-center justify-between p-3 shadow-md ${bgColorClass} ${textColorClass}`}>
           <SidebarMobHeader
@@ -209,7 +206,6 @@ export default function SidebarWithSearchInput() {
 
         {/* Main Content */}
         <div className="flex-1 overflow-auto p-4 pb-20">
-          {/* <MessagingChatLayout isSidebarOpen={isOpen} /> */}
           <Outlet />
         </div>
 

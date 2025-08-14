@@ -23,7 +23,7 @@ export const layoutClasses = {
 
 // Avatar section
 export const avatarSectionClasses = {
-  wrapper: 'flex items-center gap-3 mt-3 px-2 md:px-0 sm:mt-0',
+  wrapper: 'flex items-center gap-3 mt-3 px-2 lg:px-0 lg:mt-0',
   avatar: 'border border-gray-200 w-7 h-7',
   divider: 'h-6',
   addButtonIcon: 'text-gray-600'
