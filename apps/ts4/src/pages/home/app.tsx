@@ -1,8 +1,8 @@
-import Sidebar from '../../layouts/sidebar/sidebar-mob'
+import NX from './nx-welcome'
 const app = () => {
   return (
     <div>
-      <Sidebar />
+      <NX title={''} />
     </div>
   )
 }

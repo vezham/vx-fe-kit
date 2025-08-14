@@ -1,27 +1,19 @@
 import { Selection } from '@heroui/react'
+
 import React from 'react'
+import { Outlet } from 'react-router-dom'
 import { longMenuItems } from '../../components/sidebar-mob/sidebar-menu/sidebar-items'
-import { items } from '../../components/sidebar/sidebar-menu/sidebar-items'
+import { items } from '../../components/sidebar-panel/sidebar-menu/sidebar-items'
 
 import SidebarMobFooter from '../../components/sidebar-mob/sidebar-footer'
 import SidebarMobHeader from '../../components/sidebar-mob/sidebar-header'
 import BottomNavbar from '../../components/sidebar-mob/sidebar-menu'
-import SidebarFooter from '../../components/sidebar/sidebar-footer'
-import SidebarHeader from '../../components/sidebar/sidebar-header'
-import SidebarMenu from '../../components/sidebar/sidebar-menu/sidebar'
-import type { SidebarItem } from '../../components/sidebar/sidebar-menu/types'
-import MessagingChatLayout from '../chat-inbox'
-
-// New imports for ActionToolbar
-import {
-  otherActions,
-  searchAction,
-  viewActions
-} from '../../components/actionbar/data'
-import { ActionToolbar } from '../../components/actionbar/index'
+import SidebarFooter from '../../components/sidebar-panel/sidebar-footer'
+import SidebarHeader from '../../components/sidebar-panel/sidebar-header'
+import SidebarMenu from '../../components/sidebar-panel/sidebar-menu/sidebar'
+import type { SidebarItem } from '../../components/sidebar-panel/sidebar-menu/types'
 
 export default function SidebarWithSearchInput() {
-  const [isOpen, setIsOpen] = React.useState(true)
   const [isCompact, setIsCompact] = React.useState(true)
   const [expandedKeys, setExpandedKeys] = React.useState<Selection>(new Set([]))
   const [isDarkMode, setIsDarkMode] = React.useState(true)
@@ -127,6 +119,7 @@ export default function SidebarWithSearchInput() {
     [
       'home',
       'bank',
+      'chat',
       'books',
       'inventory',
       'reports',
@@ -136,24 +129,12 @@ export default function SidebarWithSearchInput() {
   )
 
   return (
-    <div className={`flex w-full flex-col ${isDarkMode ? '' : 'bg-gray-100'}`}>
-      {/* Action Toolbar - common for both desktop & mobile */}
-      <div className={`absolute top-20 right-3 z-50 sm:top-11 sm:right-5`}>
-        <ActionToolbar
-          isDarkMode={isDarkMode}
-          showSearch={true}
-          searchAction={searchAction}
-          showViewActions={true}
-          viewActions={viewActions}
-          showOtherActions={true}
-          otherActions={otherActions}
-        />
-      </div>
-
+    <div
+      className={`flex h-screen w-full flex-col ${isDarkMode ? '' : 'bg-gray-100'}`}>
       {/* Desktop & Tablet Layout */}
-      <div className="hidden w-full flex-row sm:flex">
+      <div className="hidden w-full flex-row md:flex">
         {/* Sidebar Section */}
-        <div className={`${isCompact ? 'w-23' : 'w-75 lg:w-84'} flex-shrink-0`}>
+        <div className={`${isCompact ? 'w-22' : 'w-60 lg:w-70'} flex-shrink-0`}>
           <div
             className={`flex h-full flex-col p-3 shadow-md ${bgColorClass} ${textColorClass}`}
             dir={isRtl ? 'rtl' : 'ltr'}>
@@ -194,13 +175,14 @@ export default function SidebarWithSearchInput() {
           </div>
         </div>
         {/* Main Content */}
-        <div className="flex-1">
-          <MessagingChatLayout isSidebarOpen={isOpen} />
+        <div className="h-screen flex-1 overflow-y-auto">
+          {/* <MessagingChatLayout isSidebarOpen={isOpen} /> */}
+          <Outlet />
         </div>
       </div>
 
       {/* Mobile Layout */}
-      <div className="flex min-h-screen w-full flex-col sm:hidden">
+      <div className="flex min-h-screen w-full flex-col md:hidden">
         {/* Top Navbar */}
         <div
           className={`flex items-center justify-between p-3 shadow-md ${bgColorClass} ${textColorClass}`}>
@@ -227,7 +209,8 @@ export default function SidebarWithSearchInput() {
 
         {/* Main Content */}
         <div className="flex-1 overflow-auto p-4 pb-20">
-          <MessagingChatLayout isSidebarOpen={isOpen} />
+          {/* <MessagingChatLayout isSidebarOpen={isOpen} /> */}
+          <Outlet />
         </div>
 
         {/* Bottom Tab Navbar */}

@@ -1,18 +1,20 @@
 import { ReactNode } from 'react'
-import { SidebarItem, SidebarItemType } from '../sidebar-menu/types'
+import { SidebarItem, SidebarItemType } from './types'
 
-export const longMenuItems: SidebarItem[] = [
+export const items: SidebarItem[] = [
   {
     key: 'home',
     href: '/',
     icon: 'lucide:home',
-    title: 'Home'
+    title: 'Home',
+    showInMainContent: true
   },
   {
     key: 'chat',
     href: '/chat',
-    icon: 'lucide:chat',
-    title: 'Chat'
+    icon: 'lucide:message-square',
+    title: 'Chat',
+    showInMainContent: true
   },
   {
     key: 'bank',
@@ -26,7 +28,8 @@ export const longMenuItems: SidebarItem[] = [
         key: 'dashboard',
         href: '/dashboard',
         title: 'Dashboard',
-        icon: 'lucide:layout-dashboard'
+        icon: 'lucide:layout-dashboard',
+        showInMainContent: true
       },
       {
         key: 'accounts',
@@ -56,7 +59,8 @@ export const longMenuItems: SidebarItem[] = [
         key: 'reconciliation',
         href: '#',
         title: 'Bank Reconciliation',
-        icon: 'lucide:check-square'
+        icon: 'lucide:check-square',
+        showInMainContent: true
       }
     ]
   },
@@ -65,14 +69,15 @@ export const longMenuItems: SidebarItem[] = [
     type: SidebarItemType.Nest,
     icon: 'lucide:library',
     title: 'Books',
-    href: '/book',
+    // href: '',
 
     items: [
       {
         key: 'sales',
         href: '/sales',
         title: 'Sales',
-        icon: 'lucide:trending-up'
+        icon: 'lucide:trending-up',
+        showInMainContent: true
       },
       {
         key: 'purchase',
@@ -86,27 +91,31 @@ export const longMenuItems: SidebarItem[] = [
     key: 'inventory',
     href: '#',
     icon: 'lucide:package',
-    title: 'Inventory'
+    title: 'Inventory',
+    showInMainContent: true
   },
   {
     key: 'reports',
     href: '#',
     icon: 'lucide:bar-chart-2',
     title: 'Reports',
-    endContent: '+'
+    endContent: '+',
+    showInMainContent: true
   },
   {
     key: 'widgets',
     // href: "/wid",
     icon: 'lucide:layers',
     title: 'Widgets',
-    endContent: 'New' as unknown as ReactNode
+    endContent: 'New' as unknown as ReactNode,
+    showInMainContent: false
   },
   {
     key: 'settings',
     href: '/settings',
     icon: 'lucide:settings',
     title: 'Settings',
-    endContent: '+'
+    endContent: '+',
+    showInMainContent: true
   }
 ]

@@ -5,7 +5,7 @@ export const getNavbarContainerClasses = ({
   isDarkMode = false
 }) => {
   return cn(
-    'fixed bottom-0 z-50 flex w-full sm:hidden',
+    'fixed bottom-0 z-50 flex w-full md:hidden',
     'px-8 pt-4 pb-8', // padding
     bgColorClass,
     isDarkMode ? 'dark' : ''
@@ -79,27 +79,22 @@ export const getDrawerCloseButtonClasses = ({ isDarkMode = false }) => {
   )
 }
 
-export const getDrawerBodyClasses = ({ isExpanded = false }) => {
+export const getDrawerBodyClasses = () => {
   return cn(
-    'overflow-y-auto transition-all duration-300 ease-in-out',
-    isExpanded ? 'max-h-[75vh]' : 'max-h-[45vh]'
+    'max-h-[45vh] overflow-y-auto transition-all duration-300 ease-in-out'
   )
 }
 
 export const getDrawerContentClasses = ({ isDarkMode = false }) => {
   return cn(
     'relative rounded-t-2xl py-2',
+    '!fixed bottom-0 left-0 w-full max-w-full', // force bottom and full width
     isDarkMode
       ? [
           'bg-black/5 backdrop-blur-lg dark:bg-black/5',
-          // Hide the default close button
           "[&_[aria-label='Close']]:hidden"
         ]
-      : [
-          'bg-white/50 backdrop-blur-md',
-          // Hide the default close button
-          "[&_[aria-label='Close']]:hidden"
-        ]
+      : ['bg-white/50 backdrop-blur-md', "[&_[aria-label='Close']]:hidden"]
   )
 }
 
