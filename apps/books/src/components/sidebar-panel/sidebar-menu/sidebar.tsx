@@ -2,25 +2,14 @@ import { Button, Listbox, ListboxItem, Tooltip } from '@heroui/react'
 import { Icon } from '@iconify/react'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { SidebarItem, SidebarItemType } from './types'
+import { SidebarItem, SidebarItemType, SidebarProps } from './types'
 import { sidebarStyles } from './variant'
-
-export interface SidebarProps {
-  items: SidebarItem[]
-  selectedKey?: string
-  onSelect?: (key: string) => void
-  expandedKeys?: Set<string>
-  onExpandedChange?: (keys: Set<string>) => void
-  isCompact?: boolean
-  hideEndContent?: boolean
-  iconClassName?: string
-}
 
 const Sidebar: React.FC<SidebarProps> = ({
   items,
   selectedKey,
   onSelect,
-  expandedKeys = new Set([]),
+  expandedKeys = new Set(),
   onExpandedChange,
   isCompact = false,
   hideEndContent = false,
@@ -30,24 +19,19 @@ const Sidebar: React.FC<SidebarProps> = ({
 
   const handleSelect = (key: string, href?: string) => {
     if (onSelect) onSelect(key)
-    if (href) {
-      navigate(href)
-    }
+    if (href) navigate(href)
   }
 
   const toggleExpand = (key: string) => {
     const newKeys = new Set(expandedKeys)
-    if (newKeys.has(key)) {
-      newKeys.delete(key)
-    } else {
-      newKeys.add(key)
-    }
+    if (newKeys.has(key)) newKeys.delete(key)
+    else newKeys.add(key)
     if (onExpandedChange) onExpandedChange(newKeys)
   }
 
   React.useEffect(() => {
     if (isCompact && expandedKeys.size > 0) {
-      if (onExpandedChange) onExpandedChange(new Set([]))
+      if (onExpandedChange) onExpandedChange(new Set())
     }
   }, [isCompact, expandedKeys, onExpandedChange])
 
@@ -105,7 +89,7 @@ const Sidebar: React.FC<SidebarProps> = ({
       return (
         <div key={item.key} className="flex flex-col gap-0.5">
           {renderSingleItem(item)}
-          {isExpanded && item.items?.map(sub => renderSingleItem(sub))}
+          {isExpanded && (item.items || []).map(sub => renderSingleItem(sub))}
         </div>
       )
     }
@@ -135,7 +119,7 @@ const Sidebar: React.FC<SidebarProps> = ({
             size="sm"
             variant="light"
             className={sidebarStyles.button}
-            onPress={e => {
+            onClick={e => {
               e.stopPropagation()
               toggleExpand(item.key)
             }}>
@@ -154,12 +138,12 @@ const Sidebar: React.FC<SidebarProps> = ({
               onSelectionChange={keys => {
                 if (keys !== 'all') {
                   const key = Array.from(keys)[0]
-                  const subItem = item.items?.find(s => s.key === key)
+                  const subItem = (item.items || []).find(s => s.key === key)
                   if (subItem) handleSelect(subItem.key, subItem.href)
                 }
               }}
               className={sidebarStyles.gapHalf}>
-              {item.items?.map(sub => renderSingleItem(sub))}
+              {(item.items || []).map(sub => renderSingleItem(sub))}
             </Listbox>
           </div>
         )}
@@ -185,20 +169,16 @@ const Sidebar: React.FC<SidebarProps> = ({
 
   return (
     <div className={sidebarStyles.container}>
-      {isCompact ? (
-        sortedItems.map(item => {
-          if (item.type === SidebarItemType.Nest && item.items?.length) {
-            return renderNestedItem(item)
-          }
-          return renderSingleItem(item)
-        })
-      ) : (
-        <>
-          {sortedItems.map(item => {
-            if (item.type === SidebarItemType.Nest && item.items?.length) {
-              return renderNestedItem(item)
-            }
-            return (
+      {isCompact
+        ? sortedItems.map(item =>
+            item.type === SidebarItemType.Nest && item.items?.length
+              ? renderNestedItem(item)
+              : renderSingleItem(item)
+          )
+        : sortedItems.map(item =>
+            item.type === SidebarItemType.Nest && item.items?.length ? (
+              renderNestedItem(item)
+            ) : (
               <Listbox
                 key={item.key}
                 aria-label="Main menu"
@@ -215,9 +195,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                 {renderSingleItem(item)}
               </Listbox>
             )
-          })}
-        </>
-      )}
+          )}
     </div>
   )
 }

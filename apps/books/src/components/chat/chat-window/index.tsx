@@ -89,7 +89,7 @@ const MessagingChatInput = React.forwardRef<
   HTMLInputElement,
   MessagingChatInputProps
 >((props, ref) => {
-  const [message, setMessage] = React.useState('')
+  const [message, setMessage] = React.useState<string>('')
 
   return (
     <Input
@@ -192,10 +192,11 @@ const MessagingChatWindow = React.forwardRef<
         <div className="flex w-full overflow-visible">
           <ScrollShadow className="flex max-h-[calc(100vh-220px)] flex-col gap-6 px-6 py-4 lg:max-h-[calc(100vh-162px)]">
             {messagingChatConversations.map(
-              (messagingChatConversations, idx) => (
+              (messagingChatConversation, idx) => (
                 <MessagingChatMessage
                   key={idx}
-                  {...messagingChatConversations}
+                  {...messagingChatConversation}
+                  time={messagingChatConversation.time as string} // Explicitly cast to string
                 />
               )
             )}

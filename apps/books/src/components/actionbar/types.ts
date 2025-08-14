@@ -9,6 +9,6 @@ export interface ActionToolbarProps {
   searchAction?: ActionButtonProps
   viewActions?: ActionButtonProps[]
   otherActions?: ActionButtonProps[]
-
   className?: string
+  isDarkMode?: boolean
 }

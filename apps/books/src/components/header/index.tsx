@@ -1,3 +1,5 @@
+'use client'
+
 import {
   Avatar,
   AvatarGroup,
@@ -15,17 +17,22 @@ import {
 import { Icon } from '@iconify/react'
 import { DateValue, getLocalTimeZone, parseDate } from '@internationalized/date'
 import { useDateFormatter } from '@react-aria/i18n'
+import type { Key } from 'react'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import ActionBar from '../../layouts/actionbar'
 import { DatePickerProps, SettingsTabsProps } from './types'
 import {
-  avatarSectionClasses,
-  controlSectionClasses,
-  descriptionClassName,
-  layoutClasses,
-  tabsClassNames,
-  titleClassName
+  getAvatarSectionClasses,
+  getControlSectionClasses,
+  getDescriptionClassName,
+  getFirstActionClasses,
+  getFlexGap2,
+  getLayoutClasses,
+  getOrderClasses,
+  getTabsClassNames,
+  getTitleClassName,
+  getTruncateMax150
 } from './variant'
 
 type SettingsTabsWithDateProps = SettingsTabsProps &
@@ -36,6 +43,7 @@ type SettingsTabsWithDateProps = SettingsTabsProps &
     showDateSection?: boolean
     showDownloadButton?: boolean
     showControlSection?: boolean
+    isDarkmode?: boolean
   }
 
 const Header: React.FC<SettingsTabsWithDateProps> = ({
@@ -45,25 +53,45 @@ const Header: React.FC<SettingsTabsWithDateProps> = ({
   avatars,
   onRefresh,
   onDownload,
-  // default all to true if not provided
   showLeftHeader = true,
   showAvatarSection = false,
   showRefreshButton = true,
   showDateSection = true,
   showDownloadButton = true,
-  showControlSection = true
+  showControlSection = true,
+  isDarkmode = false
 }) => {
-  const [dateValue, setDateValue] = React.useState<DateValue | null>(
+  const [dateValue, setDateValue] = useState<DateValue | null>(
     parseDate(new Date().toISOString().split('T')[0])
   )
-  const [periodType, setPeriodType] = React.useState<string>('Monthly')
-  const [showCalendar, setShowCalendar] = React.useState<boolean>(false)
+  const [periodType, setPeriodType] = useState<string>('Monthly')
+  const [showCalendar, setShowCalendar] = useState<boolean>(false)
   const formatter = useDateFormatter({ dateStyle: 'medium' })
   const navigate = useNavigate()
 
-  const handleDateChange = (date: DateValue) => {
+  const [avatarList, setAvatarList] = useState(avatars)
+  const [activeTab, setActiveTab] = useState(tabs[0]?.key || '')
+
+  const layout = getLayoutClasses()
+  const avatar = getAvatarSectionClasses()
+  const control = getControlSectionClasses()
+  const tabsClassNames = getTabsClassNames(isDarkmode)
+  const titleClass = getTitleClassName()
+  const descClass = getDescriptionClassName()
+  const actionClass = getFirstActionClasses(isDarkmode)
+  const truncate150 = getTruncateMax150()
+  const flexGap2 = getFlexGap2()
+  const order = getOrderClasses()
+
+  const handleDateChange = (date: DateValue | null) => {
     setDateValue(date)
-    setPeriodType(`Date: ${formatter.format(date.toDate(getLocalTimeZone()))}`)
+    if (date) {
+      setPeriodType(
+        `Date: ${formatter.format(date.toDate(getLocalTimeZone()))}`
+      )
+    } else {
+      setPeriodType('Select Date') // Handle null case
+    }
     setShowCalendar(false)
   }
 
@@ -76,9 +104,6 @@ const Header: React.FC<SettingsTabsWithDateProps> = ({
     }
   }
 
-  const [avatarList, setAvatarList] = useState(avatars)
-  const [activeTab, setActiveTab] = useState(tabs[0]?.key || '')
-
   const handleAddAvatar = () => {
     const newAvatar = {
       name: `User ${avatarList.length + 1}`,
@@ -87,41 +112,44 @@ const Header: React.FC<SettingsTabsWithDateProps> = ({
     setAvatarList(prev => [...prev, newAvatar])
   }
 
+  // A helper function to safely cast the key to a string before updating the state
+  const handleTabChange = (key: Key) => {
+    setActiveTab(String(key))
+  }
+
   return (
-    <div className={layoutClasses.container}>
+    <div className={layout.container}>
       {/* Header */}
-      <div className={layoutClasses.headContainer}>
-        <div className={layoutClasses.leftSection}>
+      <div className={layout.headContainer}>
+        <div className={layout.leftSection}>
           {showLeftHeader && (
             <Button
               isIconOnly
               radius="full"
-              size="xs"
-              className="p-1"
+              size="sm"
+              className={actionClass}
               onPress={() => navigate(-1)}>
               <Icon icon="lucide:chevron-left" width={15} />
             </Button>
           )}
           <div>
-            <h1 className={titleClassName}>{mainTitle}</h1>
-            <h2 className={`${descriptionClassName} max-w-[150px] truncate`}>
-              {mainDescription}
-            </h2>
+            <h1 className={titleClass}>{mainTitle}</h1>
+            <h2 className={`${descClass} ${truncate150}`}>{mainDescription}</h2>
           </div>
         </div>
-        <div className={layoutClasses.rightSection}>
+        <div className={layout.rightSection}>
           <ActionBar />
         </div>
       </div>
 
       {/* Tabs + Controls */}
-      <div className={layoutClasses.tabsWrapper}>
-        <div className={layoutClasses.tabsScroll}>
+      <div className={layout.tabsWrapper}>
+        <div className={layout.tabsScroll}>
           <Tabs
             size="sm"
             fullWidth
             selectedKey={activeTab}
-            onSelectionChange={setActiveTab}
+            onSelectionChange={handleTabChange}
             classNames={tabsClassNames}>
             {tabs.map(({ key, title }) => (
               <Tab key={key} title={title} />
@@ -131,22 +159,16 @@ const Header: React.FC<SettingsTabsWithDateProps> = ({
 
         {/* Avatar Section */}
         {showAvatarSection && (
-          <div className={avatarSectionClasses.wrapper}>
+          <div className={avatar.wrapper}>
             <AvatarGroup size="sm" total={avatarList.length}>
-              {avatarList.map((avatar, index) => (
-                <Tooltip key={index} content={avatar.name} placement="bottom">
-                  <Avatar
-                    className={avatarSectionClasses.avatar}
-                    src={avatar.src}
-                  />
+              {avatarList.map((av, i) => (
+                <Tooltip key={i} content={av.name} placement="bottom">
+                  <Avatar className={avatar.avatar} src={av.src} />
                 </Tooltip>
               ))}
             </AvatarGroup>
 
-            <Divider
-              className={avatarSectionClasses.divider}
-              orientation="vertical"
-            />
+            <Divider className={avatar.divider} orientation="vertical" />
 
             <Tooltip content="Add new avatar" placement="bottom">
               <Button
@@ -155,10 +177,7 @@ const Header: React.FC<SettingsTabsWithDateProps> = ({
                 size="sm"
                 variant="faded"
                 onClick={handleAddAvatar}>
-                <Icon
-                  className={avatarSectionClasses.addButtonIcon}
-                  icon="lucide:plus"
-                />
+                <Icon className={avatar.addButtonIcon} icon="lucide:plus" />
               </Button>
             </Tooltip>
           </div>
@@ -166,44 +185,41 @@ const Header: React.FC<SettingsTabsWithDateProps> = ({
 
         {/* Control Section */}
         {showControlSection && (
-          <div className={controlSectionClasses.wrapper}>
-            <div className={controlSectionClasses.row}>
-              <div className="flex gap-2">
-                <div className="order-2 lg:order-1">
+          <div className={control.wrapper}>
+            <div className={control.row}>
+              <div className={flexGap2}>
+                <div className={order.refreshOrder}>
                   {showRefreshButton && (
                     <Button
                       size="sm"
                       isIconOnly
-                      className={controlSectionClasses.refreshBtn}
+                      className={`${control.refreshBtnBase} ${actionClass}`}
                       onPress={onRefresh}>
-                      <Icon
-                        icon="lucide:refresh-cw"
-                        className={controlSectionClasses.icon}
-                      />
+                      <Icon icon="lucide:refresh-cw" className={control.icon} />
                     </Button>
                   )}
                 </div>
-                <div className="order-1 lg:order-2">
+                <div className={order.dateOrder}>
                   {showDateSection && (
-                    <Dropdown>
+                    <Dropdown className={`${actionClass}`}>
                       <DropdownTrigger>
                         <Button
                           size="sm"
                           variant="flat"
-                          className={controlSectionClasses.dateBtn}
+                          className={`${control.dateBtnBase} ${actionClass}`}
                           endContent={
                             <Icon
                               icon="lucide:chevron-down"
-                              className={controlSectionClasses.icon}
+                              className={control.icon}
                             />
                           }
                           startContent={
                             <Icon
                               icon="lucide:calendar"
-                              className={controlSectionClasses.icon}
+                              className={control.icon}
                             />
                           }>
-                          <span className={controlSectionClasses.dateText}>
+                          <span className={control.dateText}>
                             {showCalendar
                               ? `Date: ${
                                   dateValue
@@ -237,11 +253,11 @@ const Header: React.FC<SettingsTabsWithDateProps> = ({
                   <Button
                     size="sm"
                     color="primary"
-                    className={controlSectionClasses.downloadBtn}
+                    className={control.downloadBtn}
                     startContent={
                       <Icon
                         icon="lucide:download"
-                        className={controlSectionClasses.downloadIcon}
+                        className={control.downloadIcon}
                       />
                     }
                     onPress={onDownload}>
@@ -251,8 +267,9 @@ const Header: React.FC<SettingsTabsWithDateProps> = ({
               </div>
             </div>
             {showDateSection && showCalendar && (
-              <div className={controlSectionClasses.calendarWrapper}>
+              <div className={control.calendarWrapper}>
                 <DatePicker
+                  className={`${actionClass}`}
                   label="Select Date"
                   value={dateValue}
                   onChange={handleDateChange}
@@ -262,6 +279,8 @@ const Header: React.FC<SettingsTabsWithDateProps> = ({
           </div>
         )}
       </div>
+
+      {/* Tab Content */}
       <div className="mt-4 md:px-5">
         {tabs.find(t => t.key === activeTab)?.content}
       </div>

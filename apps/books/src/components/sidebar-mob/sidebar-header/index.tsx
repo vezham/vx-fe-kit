@@ -126,7 +126,7 @@ const SidebarMobHeader: React.FC<SidebarHeaderExtendedProps> = ({
           <Popover
             showArrow
             placement="bottom"
-            open={isPopoverOpen}
+            isOpen={isPopoverOpen}
             onOpenChange={setPopoverOpen}>
             <PopoverTrigger>
               <Avatar
@@ -143,31 +143,6 @@ const SidebarMobHeader: React.FC<SidebarHeaderExtendedProps> = ({
           </Popover>
         </div>
       )}
-
-      {/* <Button
-        isIconOnly
-        variant="light"
-        size="sm"
-        onPress={toggleVisibility}
-        className={sidebarHeaderVariants.button(buttonTextColor)}
-      >
-        <Icon
-          icon={
-            isCompact
-              ? isRightSidebar
-                ? "lucide:chevron-left"
-                : "lucide:chevron-right"
-              : isRightSidebar
-              ? "lucide:chevron-right"
-              : "lucide:chevron-left"
-          }
-          className={sidebarHeaderVariants.chevronIcon(
-            buttonTextColor,
-            isCompact,
-            isRightSidebar
-          )}
-        />
-      </Button> */}
     </div>
   )
 }

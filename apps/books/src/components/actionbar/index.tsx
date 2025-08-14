@@ -11,13 +11,18 @@ import {
 import { Icon } from '@iconify/react'
 import React from 'react'
 import { ActionButtonProps, ActionToolbarProps } from './types'
-import { getBaseContainerClasses, getButtonVariantClasses } from './variant'
+import {
+  getBaseContainerClasses,
+  getButtonVariantClasses,
+  getDropdownMenuClasses,
+  getDropdownTriggerClasses
+} from './variant'
 
 const ActionButton = ({
   icon,
   label,
   color = 'default',
-  isDarkMode
+  isDarkMode = false
 }: ActionButtonProps & { isDarkMode: boolean }) => (
   <Button
     isIconOnly
@@ -25,9 +30,7 @@ const ActionButton = ({
     aria-label={label}
     className={cn(
       getButtonVariantClasses({ color, isDarkMode }),
-      '!rounded-full', // enforce circle
-      !isDarkMode && color === 'default' && 'text-black',
-      isDarkMode && color === 'default' && 'text-white'
+      '!rounded-full'
     )}>
     <Icon icon={icon} width={20} />
   </Button>
@@ -41,12 +44,12 @@ export const ActionToolbar = ({
   showOtherActions = true,
   otherActions = [],
   className = '',
-  isDarkMode = false
+  isDarkMode = false // The prop is now required, with a fallback default.
 }: ActionToolbarProps & {
   showSearch?: boolean
   showViewActions?: boolean
   showOtherActions?: boolean
-  isDarkMode?: boolean
+  isDarkMode: boolean
 }) => {
   const [screen, setScreen] = React.useState<'lg' | 'md' | 'sm' | 'xs'>('lg')
 
@@ -96,7 +99,7 @@ export const ActionToolbar = ({
                 isIconOnly
                 aria-label={action.label}
                 className={cn(
-                  !isDarkMode ? 'text-black' : 'text-white',
+                  getButtonVariantClasses({ isDarkMode }),
                   '!rounded-full'
                 )}>
                 <Icon icon={action.icon} width={18} />
@@ -104,24 +107,12 @@ export const ActionToolbar = ({
             ))}
 
             {hasMoreView && (
-              <Dropdown
-                className={
-                  isDarkMode
-                    ? 'bg-white/10 text-white shadow-lg'
-                    : 'bg-white text-black'
-                }>
+              <Dropdown className={getDropdownMenuClasses(isDarkMode)}>
                 <DropdownTrigger>
                   <Button
                     isIconOnly
-                    variant="light"
                     aria-label="More view actions"
-                    className={cn(
-                      getButtonVariantClasses({
-                        color: 'default',
-                        isDarkMode
-                      }),
-                      '!rounded-full'
-                    )}>
+                    className={getDropdownTriggerClasses(isDarkMode)}>
                     <Icon icon="lucide:more-horizontal" width={20} />
                   </Button>
                 </DropdownTrigger>
@@ -156,24 +147,13 @@ export const ActionToolbar = ({
             ))}
 
             {hasMoreOther && (
-              <Dropdown
-                className={
-                  isDarkMode
-                    ? 'bg-white/10 text-white shadow-lg'
-                    : 'bg-white text-black'
-                }>
+              <Dropdown className={getDropdownMenuClasses(isDarkMode)}>
                 <DropdownTrigger>
                   <Button
                     isIconOnly
                     variant="light"
                     aria-label="More other actions"
-                    className={cn(
-                      getButtonVariantClasses({
-                        color: 'default',
-                        isDarkMode
-                      }),
-                      '!rounded-full'
-                    )}>
+                    className={getDropdownTriggerClasses(isDarkMode)}>
                     <Icon icon="lucide:more-horizontal" width={20} />
                   </Button>
                 </DropdownTrigger>
@@ -205,137 +185,65 @@ export const ActionToolbar = ({
         ((showViewActions && viewActions.length > 0) ||
           (showOtherActions && otherActions.length > 0)) && (
           <div className={getBaseContainerClasses(isDarkMode)}>
-            <Dropdown
-              className={
-                isDarkMode ? 'bg-neutral-900 text-white' : 'bg-white text-black'
-              }>
+            <Dropdown className={getDropdownMenuClasses(isDarkMode)}>
               <DropdownTrigger>
                 <Button
                   isIconOnly
                   variant="light"
                   aria-label="More options"
-                  className={cn(
-                    getButtonVariantClasses({
-                      color: 'default',
-                      isDarkMode
-                    }),
-                    '!rounded-full'
-                  )}>
+                  className={getDropdownTriggerClasses(isDarkMode)}>
                   <Icon icon="lucide:more-horizontal" width={20} />
                 </Button>
               </DropdownTrigger>
               <DropdownMenu aria-label="All actions">
-                {showViewActions &&
-                  viewActions.map((action, index) => (
-                    <DropdownItem
-                      key={`view-${index}`}
-                      startContent={<Icon icon={action.icon} width={18} />}>
-                      {action.label}
-                    </DropdownItem>
-                  ))}
+                {showViewActions ? (
+                  <>
+                    {viewActions.map((action, index) => (
+                      <DropdownItem
+                        key={`view-${index}`}
+                        startContent={<Icon icon={action.icon} width={18} />}>
+                        {action.label}
+                      </DropdownItem>
+                    ))}
+                  </>
+                ) : null}
 
                 {showViewActions &&
-                  showOtherActions &&
-                  otherActions.length > 0 && (
-                    <DropdownItem key="">
-                      <Divider className="bg-zinc-800" />
-                    </DropdownItem>
-                  )}
+                showOtherActions &&
+                otherActions.length > 0 ? (
+                  <DropdownItem
+                    key=""
+                    className="bg-transparent hover:bg-transparent">
+                    <Divider
+                      className={isDarkMode ? 'bg-zinc-700' : 'bg-neutral-300'}
+                    />
+                  </DropdownItem>
+                ) : null}
 
-                {showOtherActions &&
-                  otherActions.map((action, index) => (
-                    <DropdownItem
-                      key={`other-${index}`}
-                      shortcut={action.shortcut}
-                      startContent={
-                        <Icon
-                          icon={action.icon}
-                          width={18}
-                          className={
-                            action.color === 'danger' ? 'text-red-500' : ''
-                          }
-                        />
-                      }>
-                      {action.label}
-                    </DropdownItem>
-                  ))}
+                {showOtherActions ? (
+                  <>
+                    {otherActions.map((action, index) => (
+                      <DropdownItem
+                        key={`other-${index}`}
+                        shortcut={action.shortcut}
+                        startContent={
+                          <Icon
+                            icon={action.icon}
+                            width={18}
+                            className={
+                              action.color === 'danger' ? 'text-red-500' : ''
+                            }
+                          />
+                        }>
+                        {action.label}
+                      </DropdownItem>
+                    ))}
+                  </>
+                ) : null}
               </DropdownMenu>
             </Dropdown>
           </div>
         )}
     </div>
   )
-}
-
-// for future while buttongroup single action purpose
-
-{
-  /* {(screen === "xs") && (
-  <>
-    {showViewActions && viewActions.length > 0 && (
-      <div className={getBaseContainerClasses(isDarkMode)}>
-        <Dropdown
-          className={isDarkMode ? "bg-neutral-900 text-white" : "bg-white text-black"}
-        >
-          <DropdownTrigger>
-            <Button
-              isIconOnly
-              variant="light"
-              aria-label="More view actions"
-              className={getButtonVariantClasses({ color: "default", isDarkMode })}
-            >
-              <Icon icon="lucide:more-horizontal" width={20} />
-            </Button>
-          </DropdownTrigger>
-          <DropdownMenu aria-label="More view actions">
-            {viewActions.map((action, index) => (
-              <DropdownItem
-                key={`view-${index}`}
-                startContent={<Icon icon={action.icon} width={18} />}
-              >
-                {action.label}
-              </DropdownItem>
-            ))}
-          </DropdownMenu>
-        </Dropdown>
-      </div>
-    )}
-
-    {showOtherActions && otherActions.length > 0 && (
-      <div className={getBaseContainerClasses(isDarkMode)}>
-        <Dropdown
-          className={isDarkMode ? "bg-neutral-900 text-white" : "bg-white text-black"}
-        >
-          <DropdownTrigger>
-            <Button
-              isIconOnly
-              variant="light"
-              aria-label="More other actions"
-              className={getButtonVariantClasses({ color: "default", isDarkMode })}
-            >
-              <Icon icon="lucide:more-horizontal" width={20} />
-            </Button>
-          </DropdownTrigger>
-          <DropdownMenu aria-label="More other actions">
-            {otherActions.map((action, index) => (
-              <DropdownItem
-                key={`other-${index}`}
-                shortcut={action.shortcut}
-                startContent={
-                  <Icon
-                    icon={action.icon}
-                    width={18}
-                    className={action.color === "danger" ? "text-red-500" : ""}
-                  />
-                }
-              >
-                {action.label}
-              </DropdownItem>
-            ))}
-          </DropdownMenu>
-        </Dropdown>
-      </div>
-    )}
-  </>
-        )} */
 }

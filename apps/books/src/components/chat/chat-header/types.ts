@@ -3,4 +3,6 @@ export interface MessagingChatHeaderProps
   page?: number
   onOpen?: () => void
   paginate?: (direction: number) => void
+  showBackButton?: boolean
+  onBack?: () => void
 }

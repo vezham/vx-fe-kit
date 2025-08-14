@@ -1,14 +1,11 @@
 import React from 'react'
+import { useTheme } from '../common/context'
 import Header from '../components/header/index'
 
-const dashboard = () => {
-  const tabsData = [
-    // { key: "profile", title: "Profile", content: React.createElement("div", null, "Profile Content") },
-    // { key: "appearance", title: "Appearance", content: React.createElement("div", null, "Appearance Content") },
-    // { key: "account", title: "Account", content: React.createElement("div", null, "Account Content") },
-    // { key: "billing", title: "Billing", content: React.createElement("div", null, "Billing Content") },
-    // { key: "team", title: "Team", content: React.createElement("div", null, "Team Content") },
+const Dashboard = () => {
+  const { isDarkMode } = useTheme()
 
+  const tabsData = [
     {
       key: 'overview',
       title: 'Overview',
@@ -39,9 +36,10 @@ const dashboard = () => {
         avatars={initialAvatars}
         mainTitle="Dashboard"
         mainDescription="Manage your deployments."
+        isDarkmode={isDarkMode}
       />
     </div>
   )
 }
 
-export default dashboard
+export default Dashboard

@@ -1,11 +1,13 @@
+import { useTheme } from '../common/context'
 import Header from '../components/header/index'
 import AccountSetting from '../pages/settings/account'
 import AppearanceSetting from '../pages/settings/appearance'
 import BillingSetting from '../pages/settings/billing'
 import ProfileSetting from '../pages/settings/profile'
 import TeamSetting from '../pages/settings/team'
+const Settings = () => {
+  const { isDarkMode } = useTheme()
 
-const settings = () => {
   const tabsData = [
     { key: 'profile', title: 'Profile', content: <ProfileSetting /> },
     { key: 'appearance', title: 'Appearance', content: <AppearanceSetting /> },
@@ -26,9 +28,10 @@ const settings = () => {
         avatars={initialAvatars}
         mainTitle="Settings"
         mainDescription="Customize settings, email preferences, and web appearance."
+        isDarkmode={isDarkMode}
       />
     </div>
   )
 }
 
-export default settings
+export default Settings

@@ -1,4 +1,3 @@
-import { ListboxProps, ListboxSectionProps, Selection } from '@heroui/react'
 import { ReactNode } from 'react'
 
 export enum SidebarItemType {
@@ -15,39 +14,41 @@ export type SidebarItem = {
   items?: SidebarItem[]
   type?: SidebarItemType
   isSelected?: boolean
-  showInMainContent?: boolean // ✅ New property
+  showInMainContent?: boolean
+  onClick?: () => void
 }
 
-export type SidebarProps = Omit<ListboxProps<SidebarItem>, 'children'> & {
+export type SidebarProps = {
   items: SidebarItem[]
+  selectedKey?: string
+  onSelect?: (key: string) => void
+  expandedKeys?: Set<string>
+  onExpandedChange?: (keys: Set<string> | undefined) => void
   isCompact?: boolean
   hideEndContent?: boolean
   iconClassName?: string
-  sectionClasses?: ListboxSectionProps['classNames']
-  classNames?: ListboxProps['classNames']
-  defaultSelectedKey?: string
-  selectedKey?: string
-  onSelect?: (key: string) => void
-  expandedKeys?: Selection
-  onExpandedChange?: (keys: Selection) => void
   onNestToggle?: (key: string) => void
-  closeDropdown?: () => void
-  isVertical?: boolean
+  searchValue?: string // add this
+  setSearchValue?: React.Dispatch<React.SetStateAction<string>>
+  iaDarkMode?: boolean
+  buttonTextColor?: string
+  scrollShadowBg?: string
+  textColorClass?: string
 }
 
 export type SidebarMenuProps = {
   items: SidebarItem[]
-  isCompact?: boolean
   selectedKey?: string
   selectedParentMenu?: SidebarItem | null
   onSelect?: (key: string) => void
+  isCompact?: boolean
   searchValue: string
-  setSearchValue: (value: string) => void
+  setSearchValue: React.Dispatch<React.SetStateAction<string>>
   isDarkMode?: boolean
   buttonTextColor?: string
   scrollShadowBg?: string
   textColorClass?: string
-  expandedKeys?: Selection
-  onExpandedChange?: (keys: Selection) => void
+  expandedKeys?: Set<string>
+  onExpandedChange?: (keys: Set<string> | undefined) => void
   onNestToggle?: (key: string) => void
 }

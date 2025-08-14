@@ -111,7 +111,7 @@ const SidebarHeader: React.FC<SidebarHeaderExtendedProps> = ({
         <Popover
           showArrow
           placement="bottom"
-          open={isPopoverOpen}
+          isOpen={isPopoverOpen}
           onOpenChange={setPopoverOpen}>
           <PopoverTrigger>
             <div className={sidebarHeaderVariants.expandedSlackButton()}>

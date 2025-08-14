@@ -1,7 +1,7 @@
 import React from 'react'
+import { useTheme } from '../common/context'
 import Header from '../components/header/index'
-
-const home = () => {
+const Home = () => {
   const tabsData = [
     {
       key: 'home',
@@ -26,16 +26,17 @@ const home = () => {
     { name: 'Jane', src: 'https://i.pravatar.cc/150?u=a042581f4e29026704d' }
   ]
 
+  const { isDarkMode } = useTheme()
+
   return (
-    <div>
-      <Header
-        tabs={tabsData}
-        avatars={initialAvatars}
-        mainTitle="Home"
-        mainDescription="Customize your profile and appearance."
-      />
-    </div>
+    <Header
+      tabs={tabsData}
+      avatars={initialAvatars}
+      mainTitle="Home"
+      mainDescription="Customize your profile and appearance."
+      isDarkmode={isDarkMode}
+    />
   )
 }
 
-export default home
+export default Home

@@ -1,5 +1,4 @@
 // types.ts
-import React from 'react'
 
 export interface TabData {
   key: string

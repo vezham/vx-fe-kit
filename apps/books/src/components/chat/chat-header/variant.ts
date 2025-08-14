@@ -1,7 +1,7 @@
 import { cn } from '@heroui/react'
 
 export const headerBaseClass =
-  'flex w-full items-center justify-between px-2 py-3 sm:px-4'
+  'flex w-full items-center justify-between  sm:px-4 py-3'
 
 export const menuButtonClass = (page?: number) =>
   cn('text-default-500 flex', {
@@ -12,7 +12,7 @@ export const backButtonClass = 'flex text-default-500 lg:hidden'
 
 export const titleWrapperClass = (page?: number) =>
   cn(
-    'text-large text-foreground flex w-full items-center justify-center font-bold lg:justify-start',
+    'text-large flex w-full items-center justify-center font-bold lg:justify-start',
     {
       'sm:justify-start': page === 0
     }

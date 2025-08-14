@@ -1,6 +1,6 @@
 import { Icon } from '@iconify/react'
 import React, { useEffect, useState } from 'react'
-
+import { useTheme } from '../../common/context'
 import { ActionToolbar } from '../../components/actionbar'
 import {
   otherActions,
@@ -18,6 +18,8 @@ type Props = {
 }
 
 const MessagingChatLayout: React.FC<Props> = ({ isSidebarOpen }) => {
+  const { isDarkMode } = useTheme()
+
   const [page, setPage] = useState(0) // 0: Inbox, 1: Window, 2: Profile
   const [showProfileOverlay, setShowProfileOverlay] = useState(false)
   const [width, setWidth] = useState<number>(
@@ -45,7 +47,7 @@ const MessagingChatLayout: React.FC<Props> = ({ isSidebarOpen }) => {
 
   return (
     <div className="relative min-h-screen w-full">
-      <div className="absolute top-2 right-2 z-10 md:top-4">
+      <div className="absolute top-2 right-3 z-10 md:top-1.5 md:right-15 lg:top-5 lg:right-3">
         <ActionToolbar
           showSearch={true}
           searchAction={searchAction}
@@ -53,6 +55,7 @@ const MessagingChatLayout: React.FC<Props> = ({ isSidebarOpen }) => {
           viewActions={viewActions}
           showOtherActions={true}
           otherActions={otherActions}
+          isDarkMode={isDarkMode}
         />
       </div>
 
@@ -101,9 +104,9 @@ const MessagingChatLayout: React.FC<Props> = ({ isSidebarOpen }) => {
 
       {/* ----------- LG & ABOVE: Multi Panel View ---------- */}
       {!isMobileOrTablet && (
-        <div className="border-default-200 grid w-full border lg:grid-cols-2 xl:grid-cols-3">
+        <div className="grid w-full lg:grid-cols-2 xl:grid-cols-3">
           {/* Inbox */}
-          <div className="border-default-200 flex flex-col border-r">
+          <div className="flex flex-col">
             <MessagingChatHeader page={page} paginate={paginate} />
             <MessageChatInbox
               page={page}
@@ -128,7 +131,7 @@ const MessagingChatLayout: React.FC<Props> = ({ isSidebarOpen }) => {
 
           {/* Profile Panel - visible only in XL */}
           {isXL && (
-            <div className="border-default-200 flex flex-col border-l">
+            <div className="flex flex-col">
               <MessagingChatProfile paginate={paginate} />
             </div>
           )}
@@ -138,7 +141,7 @@ const MessagingChatLayout: React.FC<Props> = ({ isSidebarOpen }) => {
       {/* Profile Overlay (for LG only, not XL) */}
       {isLG && showProfileOverlay && (
         <div className="fixed inset-0 z-50 flex justify-end bg-black/30">
-          <div className="border-default-200 relative w-80 border-l bg-black shadow-lg">
+          <div className="relative w-80 bg-black shadow-lg">
             <button
               onClick={closeProfileOverlay}
               className="absolute top-2 left-2 z-10 rounded p-3"

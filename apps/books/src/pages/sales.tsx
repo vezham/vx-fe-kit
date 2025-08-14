@@ -1,7 +1,10 @@
 import React from 'react'
+import { useTheme } from '../common/context'
 import Header from '../components/header/index'
 
-const sales = () => {
+const Sales = () => {
+  const { isDarkMode } = useTheme()
+
   const tabsData = [
     {
       key: 'sales',
@@ -38,9 +41,10 @@ const sales = () => {
         avatars={initialAvatars}
         mainTitle="Sales"
         mainDescription="Track your sales and stocks."
+        isDarkmode={isDarkMode}
       />
     </div>
   )
 }
 
-export default sales
+export default Sales

@@ -1,3 +1,4 @@
+import type { InputProps } from '@heroui/react'
 import type { HTMLAttributes } from 'react'
 
 export interface MessagingChatWindowProps
@@ -20,4 +21,5 @@ export interface MessagingChatMessageProps
   }
 }
 
-export type MessagingChatInputProps = HTMLAttributes<HTMLInputElement>
+// Corrected MessagingChatInputProps type
+export type MessagingChatInputProps = Omit<InputProps, 'defaultValue'>

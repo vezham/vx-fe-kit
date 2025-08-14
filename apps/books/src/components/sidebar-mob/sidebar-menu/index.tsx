@@ -1,3 +1,5 @@
+'use client'
+
 import {
   Drawer,
   DrawerBody,
@@ -26,13 +28,13 @@ import {
 } from './variant'
 
 /* ----------- Helper to Flatten Nested Menu ----------- */
-const flattenMenuItems = (menuItems: any[]) => {
+const flattenMenuItems = (menuItems: any[] = []) => {
   const flatList: any[] = []
 
   menuItems.forEach(item => {
     if (item.type === SidebarItemType.Nest && Array.isArray(item.items)) {
       flatList.push({ ...item, isParent: true })
-      item.items.forEach(child => {
+      item.items.forEach((child: any) => {
         flatList.push({ ...child, parentKey: item.key })
       })
     } else {
@@ -45,7 +47,7 @@ const flattenMenuItems = (menuItems: any[]) => {
 
 /* ---------------- Drawer for More Items ---------------- */
 const BottomDrawerMenu: React.FC<any> = ({
-  items,
+  items = [],
   selectedKey,
   onItemSelect,
   isOpen,
@@ -76,7 +78,7 @@ const BottomDrawerMenu: React.FC<any> = ({
         </DrawerHeader>
         <DrawerBody className={getDrawerBodyClasses()}>
           <div className={getDrawerGridClasses()}>
-            {items.map(item => (
+            {items.map((item: any) => (
               <button
                 key={item.key}
                 onClick={() => {
@@ -102,7 +104,7 @@ const BottomDrawerMenu: React.FC<any> = ({
 
 /* ---------------- Bottom Navbar ---------------- */
 const BottomNavbar: React.FC<BottomNavbarProps> = ({
-  items,
+  items = [],
   selectedKey,
   onSelect,
   isDarkMode = false,
@@ -114,13 +116,12 @@ const BottomNavbar: React.FC<BottomNavbarProps> = ({
   const navigate = useNavigate()
   const location = useLocation()
 
-  if (!Array.isArray(items) || items.length === 0) return null
-
+  // ---------------- Hooks must always be at the top ----------------
   const flatItems = useMemo(() => flattenMenuItems(items), [items])
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [mainVisibleCount, setMainVisibleCount] = useState(flatItems.length)
 
-  // Highlight active route on page load / refresh
+  /* Highlight active route on page load / refresh */
   useEffect(() => {
     const currentItem = flatItems.find(item =>
       location.pathname === '/'
@@ -132,12 +133,12 @@ const BottomNavbar: React.FC<BottomNavbarProps> = ({
     }
   }, [location.pathname, flatItems, onSelect])
 
+  /* Handle responsive visible count */
   useEffect(() => {
     const handleResize = () => {
       const screenWidth = window.innerWidth
       let visibleCount = 5
       if (screenWidth < 767) {
-        if (screenWidth < 767) visibleCount = Math.min(flatItems.length, 5)
         if (screenWidth < 650) visibleCount = Math.min(flatItems.length, 4)
         if (screenWidth < 500) visibleCount = Math.min(flatItems.length, 3)
         if (screenWidth < 425) visibleCount = Math.min(flatItems.length, 2)
@@ -153,6 +154,7 @@ const BottomNavbar: React.FC<BottomNavbarProps> = ({
   }, [flatItems.length])
 
   const showMoreButton = mainVisibleCount < flatItems.length
+
   const mainItems = useMemo(() => {
     const count = showMoreButton ? mainVisibleCount : flatItems.length
     return flatItems.slice(0, count)
@@ -168,6 +170,11 @@ const BottomNavbar: React.FC<BottomNavbarProps> = ({
     if (item.href) {
       navigate(item.href)
     }
+  }
+
+  // ---------------- Early return if empty ----------------
+  if (flatItems.length === 0) {
+    return null
   }
 
   return (

@@ -4,6 +4,7 @@ import { StrictMode } from 'react'
 import * as ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 
+import { ThemeProvider } from '../common/context'
 import App from '../pages/home/app'
 import './global.css'
 
@@ -13,7 +14,9 @@ root.render(
   <StrictMode>
     <BrowserRouter>
       <HeroUIProvider>
-        <App />
+        <ThemeProvider>
+          <App />
+        </ThemeProvider>
       </HeroUIProvider>
     </BrowserRouter>
   </StrictMode>
