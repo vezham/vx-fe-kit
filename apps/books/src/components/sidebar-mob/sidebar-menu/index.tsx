@@ -145,8 +145,8 @@ const BottomNavbar: React.FC<BottomNavbarProps> = ({
       if (screenWidth < 767) {
         if (screenWidth < 700) visibleCount = Math.min(flatItems.length, 6)
         if (screenWidth < 650) visibleCount = Math.min(flatItems.length, 5)
-        if (screenWidth < 500) visibleCount = Math.min(flatItems.length, 4)
-        if (screenWidth < 420) visibleCount = Math.min(flatItems.length, 3)
+        if (screenWidth < 520) visibleCount = Math.min(flatItems.length, 4)
+        if (screenWidth < 430) visibleCount = Math.min(flatItems.length, 3)
         if (screenWidth < 350) visibleCount = Math.min(flatItems.length, 2)
         if (screenWidth < 300) visibleCount = 1
       }
