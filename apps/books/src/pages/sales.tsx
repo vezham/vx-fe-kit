@@ -25,6 +25,36 @@ const Sales = () => {
       key: 'offers',
       title: 'Offers',
       content: React.createElement('div', null, 'Offers Content')
+    },
+    {
+      key: 'sales',
+      title: 'Sales',
+      content: React.createElement('div', null, 'Sales Content')
+    },
+    {
+      key: 'stocks',
+      title: 'Stocks',
+      content: React.createElement('div', null, 'Stocks Content')
+    },
+    {
+      key: 'exchange',
+      title: 'Exchange',
+      content: React.createElement('div', null, 'Exchange Content')
+    },
+    {
+      key: 'offers',
+      title: 'Offers',
+      content: React.createElement('div', null, 'Offers Content')
+    },
+    {
+      key: 'exchange',
+      title: 'Exchange',
+      content: React.createElement('div', null, 'Exchange Content')
+    },
+    {
+      key: 'offers',
+      title: 'Offers',
+      content: React.createElement('div', null, 'Offers Content')
     }
   ]
 

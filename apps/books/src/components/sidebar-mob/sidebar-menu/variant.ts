@@ -42,7 +42,7 @@ export const getNavbarIconClasses = ({
   isDarkMode = false
 }) => {
   return cn(
-    'h-5 w-5',
+    'h-4 w-4',
     isSelected
       ? isDarkMode
         ? 'text-blue-400'
@@ -90,11 +90,8 @@ export const getDrawerContentClasses = ({ isDarkMode = false }) => {
     'relative rounded-t-2xl py-2',
     '!fixed bottom-0 left-0 w-full max-w-full', // force bottom and full width
     isDarkMode
-      ? [
-          'bg-black/5 backdrop-blur-lg dark:bg-black/5',
-          "[&_[aria-label='Close']]:hidden"
-        ]
-      : ['bg-white/50 backdrop-blur-md', "[&_[aria-label='Close']]:hidden"]
+      ? ['bg-black/25 dark:bg-black/5', "[&_[aria-label='Close']]:hidden"]
+      : ['bg-default/15', "[&_[aria-label='Close']]:hidden"]
   )
 }
 

@@ -67,7 +67,11 @@ const BottomDrawerMenu: React.FC<any> = ({
     <Drawer
       isOpen={isOpen}
       placement="bottom"
-      onOpenChange={open => !open && onClose()}>
+      backdrop="blur"
+      onOpenChange={open => !open && onClose()}
+      classNames={{
+        backdrop: 'backdrop-blur-xs' // tweak intensity
+      }}>
       <DrawerContent className={getDrawerContentClasses({ isDarkMode })}>
         <DrawerHeader className={getDrawerHeaderClasses({ isDarkMode })}>
           <button
@@ -137,13 +141,14 @@ const BottomNavbar: React.FC<BottomNavbarProps> = ({
   useEffect(() => {
     const handleResize = () => {
       const screenWidth = window.innerWidth
-      let visibleCount = 5
+      let visibleCount = 7
       if (screenWidth < 767) {
-        if (screenWidth < 650) visibleCount = Math.min(flatItems.length, 4)
-        if (screenWidth < 500) visibleCount = Math.min(flatItems.length, 3)
-        if (screenWidth < 425) visibleCount = Math.min(flatItems.length, 2)
-        if (screenWidth < 350) visibleCount = Math.min(flatItems.length, 1)
-        if (screenWidth < 300) visibleCount = 0
+        if (screenWidth < 700) visibleCount = Math.min(flatItems.length, 6)
+        if (screenWidth < 650) visibleCount = Math.min(flatItems.length, 5)
+        if (screenWidth < 500) visibleCount = Math.min(flatItems.length, 4)
+        if (screenWidth < 420) visibleCount = Math.min(flatItems.length, 3)
+        if (screenWidth < 350) visibleCount = Math.min(flatItems.length, 2)
+        if (screenWidth < 300) visibleCount = 1
       }
       setMainVisibleCount(visibleCount)
     }

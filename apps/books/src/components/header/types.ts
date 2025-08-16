@@ -14,12 +14,15 @@ export interface AvatarData {
 
 export interface SettingsTabsProps {
   tabs: TabData[]
-  avatars: AvatarData[]
   mainTitle: string
   mainDescription: string
+  children: React.ReactNode
+  showLeftHeader?: boolean
+  isDarkmode?: boolean
 }
 
 export interface DatePickerProps {
   onRefresh?: () => void
   onDownload?: () => void
+  isDarkMode?: boolean
 }

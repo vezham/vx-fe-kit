@@ -1,4 +1,6 @@
 import { useTheme } from '../common/context'
+import ControlSection from '../components/header/action'
+import AvatarSection from '../components/header/avatar'
 import Header from '../components/header/index'
 import AccountSetting from '../pages/settings/account'
 import AppearanceSetting from '../pages/settings/appearance'
@@ -25,11 +27,12 @@ const Settings = () => {
     <div>
       <Header
         tabs={tabsData}
-        avatars={initialAvatars}
         mainTitle="Settings"
         mainDescription="Customize settings, email preferences, and web appearance."
-        isDarkmode={isDarkMode}
-      />
+        isDarkmode={isDarkMode}>
+        {<AvatarSection avatars={initialAvatars} />}
+        {<ControlSection />}
+      </Header>
     </div>
   )
 }
