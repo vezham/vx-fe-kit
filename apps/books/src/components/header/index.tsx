@@ -2,9 +2,9 @@
 
 import { Button, ScrollShadow, Tab, Tabs } from '@heroui/react'
 import { Icon } from '@iconify/react'
+import { useRouter } from '@tanstack/react-router'
 import type { Key } from 'react'
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import ActionBar from '../../layouts/actionbar'
 import { SettingsTabsProps } from './types'
 import {
@@ -23,7 +23,9 @@ const Header: React.FC<SettingsTabsProps> = ({
   isDarkmode = false,
   children
 }) => {
-  const navigate = useNavigate()
+  const router = useRouter()
+  const onBack = () => router.history.back()
+
   const [activeTab, setActiveTab] = useState(tabs[0]?.key || '')
 
   const ChildrenCount = React.Children.count(children)
@@ -49,7 +51,7 @@ const Header: React.FC<SettingsTabsProps> = ({
               radius="full"
               size="sm"
               className={actionClass}
-              onPress={() => navigate(-1)}>
+              onPress={() => onBack()}>
               <Icon icon="lucide:chevron-left" width={15} />
             </Button>
           )}

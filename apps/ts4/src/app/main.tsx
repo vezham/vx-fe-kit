@@ -1,20 +1,29 @@
-import { HeroUIProvider } from '@v0xoss/react'
+import { RouterProvider, createRouter } from '@tanstack/react-router'
 
-import { StrictMode } from 'react'
-import * as ReactDOM from 'react-dom/client'
-import { BrowserRouter } from 'react-router-dom'
+import { defineConfig } from '../start'
 
-import App from '../pages/home/app'
+// import { APP_NAME, defineEnv, defineServerEnv } from '@v0x/env'
+
+import { routeTree } from '../routeTree.gen'
 import './global.css'
 
-const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
+// wjdlz/NOTE: Create a new router instance
+const router = createRouter({
+  scrollRestoration: true,
+  routeTree
+  // defaultNotFoundComponent: () => <NotFound app={APP_NAME} />
+})
 
-root.render(
-  <StrictMode>
-    <BrowserRouter>
-      <HeroUIProvider>
-        <App />
-      </HeroUIProvider>
-    </BrowserRouter>
-  </StrictMode>
-)
+// wjdlz/NOTE: Register the router instance for type safety
+declare module '@tanstack/react-router' {
+  interface Register {
+    router: typeof router
+  }
+}
+
+defineConfig({
+  // env: defineEnv,
+  name: '', // APP_NAME,
+  children: <RouterProvider router={router} />
+  // defineServerEnv
+})

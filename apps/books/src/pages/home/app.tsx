@@ -1,18 +1,17 @@
-import { Route, Routes } from 'react-router-dom'
-import Actionbar from '../../layouts/actionbar/index'
-import Chat from '../../layouts/chat-inbox/index'
-import SidebarMob from '../../layouts/sidebar/sidebar-mob'
+// import Actionbar from '../../layouts/actionbar/index'
+// import Chat from '../../layouts/chat-inbox/index'
+// import SidebarMob from '../../layouts/sidebar/sidebar-mob'
 
-import Dash from '../../pages/dashboard'
-import Home from '../../pages/home'
-import Sales from '../../pages/sales'
-import Settings from '../../pages/settings'
-import Widget from '../../pages/widgets'
+// import Dash from '../../pages/dashboard'
+// import Home from '../../pages/home'
+// import Sales from '../../pages/sales'
+// import Settings from '../../pages/settings'
+// import Widget from '../../pages/widgets'
 const app = () => {
   return (
     <div>
-      <Routes>
-        {/* SidebarMob layout routes */}
+      {/* <Routes>
+        // SidebarMob layout routes
         <Route path="/" element={<SidebarMob />}>
           <Route index element={<Home />} />
           <Route path="chat" element={<Chat isSidebarOpen={false} />} />
@@ -22,7 +21,7 @@ const app = () => {
           <Route path="action" element={<Actionbar />} />
           <Route path="settings" element={<Settings />} />
         </Route>
-      </Routes>
+      </Routes> */}
     </div>
   )
 }

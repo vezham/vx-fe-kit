@@ -1,7 +1,7 @@
 import { Button, Listbox, ListboxItem, Tooltip } from '@heroui/react'
 import { Icon } from '@iconify/react'
+import { useNavigate } from '@tanstack/react-router'
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
 import { SidebarItem, SidebarItemType, SidebarProps } from './types'
 import { sidebarStyles } from './variant'
 
@@ -19,7 +19,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 
   const handleSelect = (key: string, href?: string) => {
     if (onSelect) onSelect(key)
-    if (href) navigate(href)
+    if (href) navigate({ to: href })
   }
 
   const toggleExpand = (key: string) => {

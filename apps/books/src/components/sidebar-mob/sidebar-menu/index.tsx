@@ -8,8 +8,8 @@ import {
   useDisclosure
 } from '@heroui/react'
 import { Icon } from '@iconify/react'
+import { useLocation, useNavigate } from '@tanstack/react-router'
 import React, { useEffect, useMemo, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
 import { SidebarItemType } from '../../sidebar-panel/sidebar-menu/types'
 import { BottomNavbarProps } from './types'
 import {
@@ -173,7 +173,7 @@ const BottomNavbar: React.FC<BottomNavbarProps> = ({
   const handleItemSelect = (item: any) => {
     onSelect?.(item.key)
     if (item.href) {
-      navigate(item.href)
+      navigate({ to: item.href })
     }
   }
 

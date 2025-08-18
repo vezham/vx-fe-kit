@@ -1,4 +1,5 @@
 /// <reference types='vitest' />
+import { tanstackRouter } from '@tanstack/router-plugin/vite'
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 
@@ -16,7 +17,11 @@ export default defineConfig(async () => {
       port: 4300,
       host: 'localhost'
     },
-    plugins: [react(), tailwindcss()],
+    plugins: [
+      tanstackRouter({ target: 'react', autoCodeSplitting: true }),
+      react(),
+      tailwindcss()
+    ],
     // Uncomment this if you are using workers.
     // worker: {
     //  plugins: [ nxViteTsPaths() ],

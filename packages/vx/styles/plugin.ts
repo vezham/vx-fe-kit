@@ -1,3 +1,3 @@
-import { heroui } from '@v0xoss/react'
+import { heroui } from '@vx-oss/react'
 
 export default heroui()
