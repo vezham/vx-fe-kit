@@ -1,6 +1,6 @@
-import { Outlet, createRootRoute } from '@tanstack/react-router'
+import { createRootRoute } from '@tanstack/react-router'
 import { lazy } from 'react'
-import SidebarMob from '../layouts/sidebar/sidebar-mob'
+import BookSettings from '../layouts/sidebar/sidebar-mob'
 
 // import { __DEV__ } from '@v0x/env'
 
@@ -17,8 +17,7 @@ export const Route = createRootRoute({
 function RootComponent() {
   return (
     <>
-      <SidebarMob />
-      <Outlet />
+      <BookSettings />
       <TanStackRouterDevtools position="bottom-right" />
       {/* {__DEV__ ? <TanStackRouterDevtools position="bottom-right" /> : null} */}
     </>

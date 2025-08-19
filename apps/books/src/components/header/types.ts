@@ -16,7 +16,8 @@ export interface SettingsTabsProps {
   tabs: TabData[]
   mainTitle: string
   mainDescription: string
-  children: React.ReactNode
+  endContent: React.ReactNode
+  // children: React.ReactNode
   showLeftHeader?: boolean
   isDarkmode?: boolean
 }

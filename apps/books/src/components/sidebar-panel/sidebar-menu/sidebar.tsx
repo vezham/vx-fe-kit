@@ -1,45 +1,166 @@
-import { Button, Listbox, ListboxItem, Tooltip } from '@heroui/react'
+// import {
+//   Input,
+//   Listbox,
+//   ListboxItem,
+//   ScrollShadow,
+//   Tooltip
+// } from '@heroui/react'
+// import { Icon } from '@iconify/react'
+// import { useNavigate } from '@tanstack/react-router'
+// import React from 'react'
+// import { SidebarItem, SidebarProps } from './types'
+// import { sidebarStyles } from './variant'
+
+// const Sidebar: React.FC<SidebarProps> = ({
+//   items,
+//   selectedKey,
+//   onSelect,
+//   isCompact = false,
+//   hideEndContent = false,
+//   iconClassName = sidebarStyles.icon.base
+// }) => {
+//   const navigate = useNavigate()
+//   const [searchValue, setSearchValue] = React.useState('')
+
+//   const handleSelect = (key: string, href?: string) => {
+//     if (onSelect) onSelect(key)
+//     if (href) navigate({ to: href })
+//   }
+
+//   const renderItem = (item: SidebarItem) => {
+//     const iconEl = (
+//       <Icon
+//         icon={item.icon || ''}
+//         width={24}
+//         className={`${iconClassName} ${
+//           selectedKey === item.key ? sidebarStyles.icon.selected : ''
+//         }`}
+//       />
+//     )
+
+//     if (isCompact) {
+//       return (
+//         <div
+//           key={item.key}
+//           onClick={() => handleSelect(item.key, item.href)}
+//           className={`${sidebarStyles.compactItem.base} ${
+//             selectedKey === item.key ? sidebarStyles.compactItem.selected : ''
+//           }`}>
+//           <Tooltip content={item.title} placement="right">
+//             {iconEl}
+//           </Tooltip>
+
+//         </div>
+//       )
+//     }
+
+//     return (
+//       <ListboxItem
+//         key={item.key}
+//         title={item.title}
+//         textValue={item.title}
+//         className={`${sidebarStyles.listboxItem.base} ${
+//           selectedKey === item.key ? sidebarStyles.listboxItem.selected : ''
+//         }`}
+//         onClick={() => handleSelect(item.key, item.href)}
+//         startContent={iconEl}
+//         endContent={hideEndContent ? null : item.endContent}>
+//         {item.title}
+//       </ListboxItem>
+//     )
+//   }
+
+//   // filter items based on search
+//   const filteredItems = React.useMemo(() => {
+//     if (!searchValue.trim()) return items
+//     const query = searchValue.toLowerCase()
+//     return items.filter(item => item.title.toLowerCase().includes(query))
+//   }, [items, searchValue])
+
+//   return (
+//     <div className={sidebarStyles.container}>
+//       {/* Search Box */}
+//       <Input
+//         size="sm"
+//         fullWidth={!isCompact}
+//         aria-label="search"
+//         value={searchValue}
+//         onChange={e => setSearchValue(e.target.value)}
+//         placeholder={isCompact ? '' : 'Search...'}
+//         className="px-3"
+//         classNames={{
+//           input: isCompact ? 'hidden' : 'block',
+//           inputWrapper: isCompact ? 'justify-center flex mx-auto bg-default-200' : ''
+//         }}
+//         startContent={
+//           <Icon
+//             icon="lucide:search"
+//             width={20}
+//             className="mx-auto flex items-center justify-center"
+//           />
+//         }
+//       />
+
+//       <ScrollShadow hideScrollBar orientation="vertical">
+//         {isCompact ? (
+//           <div>{filteredItems.map(renderItem)}</div>
+//         ) : (
+//           <Listbox
+//             aria-label="Main menu"
+//             selectionMode="single"
+//             selectedKeys={selectedKey ? new Set([selectedKey]) : new Set()}
+//             onSelectionChange={keys => {
+//               if (keys !== 'all') {
+//                 const key = Array.from(keys)[0]
+//                 const found = items.find(i => i.key === key)
+//                 if (found) handleSelect(found.key, found.href)
+//               }
+//             }}
+//             className={sidebarStyles.gapHalf}>
+//             {filteredItems.map(renderItem)}
+//           </Listbox>
+//         )}
+//       </ScrollShadow>
+//     </div>
+//   )
+// }
+
+// export default Sidebar
+
+import {
+  Input,
+  Listbox,
+  ListboxItem,
+  ScrollShadow,
+  Tooltip
+} from '@heroui/react'
 import { Icon } from '@iconify/react'
 import { useNavigate } from '@tanstack/react-router'
 import React from 'react'
-import { SidebarItem, SidebarItemType, SidebarProps } from './types'
+import { SidebarItem, SidebarProps } from './types'
 import { sidebarStyles } from './variant'
 
 const Sidebar: React.FC<SidebarProps> = ({
   items,
   selectedKey,
   onSelect,
-  expandedKeys = new Set(),
-  onExpandedChange,
   isCompact = false,
   hideEndContent = false,
   iconClassName = sidebarStyles.icon.base
 }) => {
   const navigate = useNavigate()
+  const [searchValue, setSearchValue] = React.useState('')
 
   const handleSelect = (key: string, href?: string) => {
     if (onSelect) onSelect(key)
-    if (href) navigate({ to: href })
+    if (href) navigate(href)
   }
 
-  const toggleExpand = (key: string) => {
-    const newKeys = new Set(expandedKeys)
-    if (newKeys.has(key)) newKeys.delete(key)
-    else newKeys.add(key)
-    if (onExpandedChange) onExpandedChange(newKeys)
-  }
-
-  React.useEffect(() => {
-    if (isCompact && expandedKeys.size > 0) {
-      if (onExpandedChange) onExpandedChange(new Set())
-    }
-  }, [isCompact, expandedKeys, onExpandedChange])
-
-  const renderSingleItem = (item: SidebarItem) => {
+  const renderItem = (item: SidebarItem) => {
     const iconEl = (
       <Icon
         icon={item.icon || ''}
-        width={18}
+        width={24}
         className={`${iconClassName} ${
           selectedKey === item.key ? sidebarStyles.icon.selected : ''
         }`}
@@ -55,7 +176,12 @@ const Sidebar: React.FC<SidebarProps> = ({
             selectedKey === item.key ? sidebarStyles.compactItem.selected : ''
           }`}>
           <Tooltip content={item.title} placement="right">
-            {iconEl}
+            <div className="flex flex-col items-center gap-1 py-2">
+              {iconEl}
+              <span className="text-tiny w-full truncate text-center">
+                {item.title}
+              </span>
+            </div>
           </Tooltip>
         </div>
       )
@@ -77,125 +203,58 @@ const Sidebar: React.FC<SidebarProps> = ({
     )
   }
 
-  const renderNestedItem = (item: SidebarItem) => {
-    const isExpanded = expandedKeys.has(item.key)
-    const headerClasses = `${sidebarStyles.nestedItem.header.base} ${
-      selectedKey === item.key
-        ? sidebarStyles.nestedItem.header.selected
-        : sidebarStyles.nestedItem.header.unselected
-    }`
-
-    if (isCompact) {
-      return (
-        <div key={item.key} className="flex flex-col gap-0.5">
-          {renderSingleItem(item)}
-          {isExpanded && (item.items || []).map(sub => renderSingleItem(sub))}
-        </div>
-      )
-    }
-
-    return (
-      <div key={item.key} className={sidebarStyles.nestedItem.container}>
-        <div
-          className={headerClasses}
-          onClick={() => {
-            toggleExpand(item.key)
-            handleSelect(item.key, item.href)
-          }}>
-          <div className={sidebarStyles.flexCenterGap2}>
-            <Icon
-              icon={item.icon || ''}
-              width={18}
-              className={`${iconClassName} ${
-                selectedKey === item.key
-                  ? sidebarStyles.icon.nestedSelected
-                  : ''
-              }`}
-            />
-            <span className={sidebarStyles.nestedItem.title}>{item.title}</span>
-          </div>
-          <Button
-            isIconOnly
-            size="sm"
-            variant="light"
-            className={sidebarStyles.button}
-            onClick={e => {
-              e.stopPropagation()
-              toggleExpand(item.key)
-            }}>
-            <Icon
-              icon={isExpanded ? 'lucide:chevron-up' : 'lucide:chevron-down'}
-              width={10}
-            />
-          </Button>
-        </div>
-        {isExpanded && (
-          <div className={sidebarStyles.nestedItem.subheader}>
-            <Listbox
-              aria-label={`${item.title} submenu`}
-              selectionMode="single"
-              selectedKeys={selectedKey ? new Set([selectedKey]) : new Set()}
-              onSelectionChange={keys => {
-                if (keys !== 'all') {
-                  const key = Array.from(keys)[0]
-                  const subItem = (item.items || []).find(s => s.key === key)
-                  if (subItem) handleSelect(subItem.key, subItem.href)
-                }
-              }}
-              className={sidebarStyles.gapHalf}>
-              {(item.items || []).map(sub => renderSingleItem(sub))}
-            </Listbox>
-          </div>
-        )}
-      </div>
-    )
-  }
-
-  const sortedItems = React.useMemo(() => {
-    const home = items.find(item => item.key === 'home')
-    const bank = items.find(item => item.key === 'bank')
-    const books = items.find(item => item.key === 'books')
-    const otherItems = items.filter(
-      item => item.key !== 'home' && item.key !== 'bank' && item.key !== 'books'
-    )
-
-    const orderedItems = []
-    if (home) orderedItems.push(home)
-    if (bank) orderedItems.push(bank)
-    if (books) orderedItems.push(books)
-
-    return [...orderedItems, ...otherItems]
-  }, [items])
+  // filter items based on search
+  const filteredItems = React.useMemo(() => {
+    if (!searchValue.trim()) return items
+    const query = searchValue.toLowerCase()
+    return items.filter(item => item.title.toLowerCase().includes(query))
+  }, [items, searchValue])
 
   return (
-    <div className={sidebarStyles.container}>
-      {isCompact
-        ? sortedItems.map(item =>
-            item.type === SidebarItemType.Nest && item.items?.length
-              ? renderNestedItem(item)
-              : renderSingleItem(item)
-          )
-        : sortedItems.map(item =>
-            item.type === SidebarItemType.Nest && item.items?.length ? (
-              renderNestedItem(item)
-            ) : (
-              <Listbox
-                key={item.key}
-                aria-label="Main menu"
-                selectionMode="single"
-                selectedKeys={selectedKey ? new Set([selectedKey]) : new Set()}
-                onSelectionChange={keys => {
-                  if (keys !== 'all') {
-                    const key = Array.from(keys)[0]
-                    const found = items.find(i => i.key === key)
-                    if (found) handleSelect(found.key, found.href)
-                  }
-                }}
-                className={sidebarStyles.gapHalf}>
-                {renderSingleItem(item)}
-              </Listbox>
-            )
-          )}
+    <div className={`${sidebarStyles.container} flex h-full flex-col`}>
+      {/* Search Box */}
+      <Input
+        size="sm"
+        fullWidth={!isCompact}
+        aria-label="search"
+        value={searchValue}
+        onChange={e => setSearchValue(e.target.value)}
+        placeholder={isCompact ? '' : 'Search...'}
+        className="mb-2 px-1"
+        classNames={{
+          input: isCompact ? 'hidden' : 'block',
+          inputWrapper: isCompact
+            ? 'justify-center flex mx-auto bg-default-200'
+            : ''
+        }}
+        startContent={
+          <Icon
+            icon="lucide:search"
+            width={20}
+            className="mx-auto flex items-center justify-center"
+          />
+        }
+      />
+
+      <ScrollShadow hideScrollBar orientation="vertical" className="">
+        {isCompact ? (
+          <div className="flex flex-col">{filteredItems.map(renderItem)}</div>
+        ) : (
+          <Listbox
+            aria-label="Main menu"
+            selectionMode="single"
+            selectedKeys={selectedKey ? new Set([selectedKey]) : new Set()}
+            onSelectionChange={keys => {
+              if (keys !== 'all') {
+                const key = Array.from(keys)[0]
+                const found = items.find(i => i.key === key)
+                if (found) handleSelect(found.key, found.href)
+              }
+            }}>
+            {filteredItems.map(renderItem)}
+          </Listbox>
+        )}
+      </ScrollShadow>
     </div>
   )
 }

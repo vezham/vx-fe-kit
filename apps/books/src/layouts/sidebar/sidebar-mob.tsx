@@ -98,79 +98,79 @@ export default function SidebarWithSearchInput() {
 
   // Theme-dependent styles
   const textColorClass = isDarkMode ? 'text-white' : 'text-black'
-  const bgColorClass = isDarkMode ? 'bg-neutral-900' : 'bg-gray-200'
+  const bgColorClass = isDarkMode ? 'bg-neutral-900' : 'bg-white'
   const bgSidebarClass = isDarkMode
     ? 'bg-neutral-800 shadow'
-    : 'bg-white shadow-sm'
+    : 'bg-default-100 shadow-sm'
   const scrollShadowBg = isDarkMode ? 'bg-neutral-900' : 'bg-white'
   const buttonTextColor = isDarkMode ? 'text-white' : 'text-black'
 
   const mobileNavItems = items.filter(item =>
-    [
-      'home',
-      'bank',
-      'chat',
-      'books',
-      'inventory',
-      'reports',
-      'widgets',
-      'settings'
-    ].includes(item.key)
+    ['bank', 'books', 'inventory', 'reports', 'widgets', 'settings'].includes(
+      item.key
+    )
   )
 
   return (
-    <div className={`flex w-full flex-col ${bgColorClass} ${textColorClass}`}>
+    <div
+      className={`${bgColorClass} ${textColorClass} flex min-h-screen flex-col`}>
       {/* Desktop & Tablet */}
-      <div className="hidden w-full flex-row md:flex">
-        <div className={`${isCompact ? 'w-22' : 'w-60 lg:w-70'} flex-shrink-0`}>
+      <div className="m-4 hidden h-[calc(100vh-2rem)] overflow-hidden md:flex">
+        <div
+          className={`${bgColorClass} ${textColorClass} flex h-full w-full gap-4 overflow-hidden`}>
           <div
-            className={`flex h-full flex-col p-3 shadow-md ${bgSidebarClass} ${textColorClass}`}
-            dir={isRtl ? 'rtl' : 'ltr'}>
-            <SidebarHeader
-              isCompact={isCompact}
-              isRightSidebar={isRightSidebar}
-              toggleVisibility={toggleVisibility}
-              buttonTextColor={buttonTextColor}
-              onSlackClick={handleSlackClick}
-              isPopoverOpen={isPopoverOpen}
-              setPopoverOpen={setIsPopoverOpen}
-            />
-            <SidebarMenu
-              items={isCompact ? mobileNavItems : filteredItems}
-              selectedKey={selectedKey}
-              searchValue={searchValue}
-              setSearchValue={setSearchValue}
-              isCompact={isCompact}
-              iaDarkMode={isDarkMode}
-              buttonTextColor={buttonTextColor}
-              scrollShadowBg={scrollShadowBg}
-              textColorClass={textColorClass}
-              expandedKeys={expandedKeys}
-              onExpandedChange={keys => setExpandedKeys(keys || new Set())}
-              onNestToggle={toggleDropdown}
-              onSelect={handleItemSelect}
-            />
-            <SidebarFooter
-              isCompact={isCompact}
-              isDarkMode={isDarkMode}
-              isRightSidebar={isRightSidebar}
-              isRtl={isRtl}
-              toggleTheme={toggleTheme}
-              toggleTextDirection={toggleTextDirection}
-              toggleDirection={toggleDirection}
-              buttonTextColor={buttonTextColor}
-            />
+            className={`${isCompact ? 'w-22' : 'w-54 lg:w-65'} h-full flex-shrink-0`}>
+            <div
+              className={`flex h-full flex-col rounded-lg shadow-md ${bgSidebarClass} ${textColorClass}`}
+              dir={isRtl ? 'rtl' : 'ltr'}>
+              <SidebarHeader
+                isCompact={isCompact}
+                isRightSidebar={isRightSidebar}
+                toggleVisibility={toggleVisibility}
+                buttonTextColor={buttonTextColor}
+                onSlackClick={handleSlackClick}
+                isPopoverOpen={isPopoverOpen}
+                setPopoverOpen={setIsPopoverOpen}
+              />
+              <div className="flex-1 overflow-y-auto">
+                <SidebarMenu
+                  items={isCompact ? mobileNavItems : filteredItems}
+                  selectedKey={selectedKey}
+                  searchValue={searchValue}
+                  setSearchValue={setSearchValue}
+                  isCompact={isCompact}
+                  iaDarkMode={isDarkMode}
+                  buttonTextColor={buttonTextColor}
+                  scrollShadowBg={scrollShadowBg}
+                  textColorClass={textColorClass}
+                  expandedKeys={expandedKeys}
+                  onExpandedChange={keys => setExpandedKeys(keys || new Set())}
+                  onNestToggle={toggleDropdown}
+                  onSelect={handleItemSelect}
+                />
+              </div>
+              <SidebarFooter
+                isCompact={isCompact}
+                isDarkMode={isDarkMode}
+                isRightSidebar={isRightSidebar}
+                isRtl={isRtl}
+                toggleTheme={toggleTheme}
+                toggleTextDirection={toggleTextDirection}
+                toggleDirection={toggleDirection}
+                buttonTextColor={buttonTextColor}
+              />
+            </div>
           </div>
-        </div>
-        <div className={`h-screen flex-1 overflow-y-auto`}>
-          <Outlet />
+          <div className="scrollbar-hide h-full flex-1 overflow-y-auto">
+            <Outlet />
+          </div>
         </div>
       </div>
 
       {/* Mobile */}
-      <div className="flex h-full w-full flex-col md:hidden">
+      <div className="relative flex min-h-screen flex-1 flex-col md:hidden">
         <div
-          className={`flex h-full items-center justify-between p-3 shadow-md ${bgSidebarClass} ${textColorClass}`}>
+          className={`fixed top-0 right-0 left-0 z-50 flex p-3 shadow-md ${bgSidebarClass} ${textColorClass}`}>
           <SidebarMobHeader
             isCompact
             isRightSidebar={isRightSidebar}
@@ -192,7 +192,7 @@ export default function SidebarWithSearchInput() {
           />
         </div>
 
-        <div className={`min-h-screen flex-1 overflow-auto p-4`}>
+        <div className="flex-1 overflow-y-auto p-4 pt-20 pb-20">
           <Outlet />
         </div>
 

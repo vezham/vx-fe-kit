@@ -21,7 +21,7 @@ const UserPopoverCard = () => {
   return (
     <Card className={userPopoverCardVariants.card()}>
       <CardHeader className="justify-between">
-        <div className="flex gap-3">
+        <div className="flex">
           <Avatar
             isBordered
             radius="full"

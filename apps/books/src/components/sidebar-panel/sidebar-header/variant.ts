@@ -1,8 +1,8 @@
 export const sidebarHeaderVariants = {
   container: (isCompact: boolean) =>
     isCompact
-      ? 'flex items-center justify-between w-full pt-2 mb-3'
-      : 'flex items-center justify-between px-2 mb-3',
+      ? 'flex items-center justify-between w-full px-2 py-3'
+      : 'flex items-center justify-between px-2 py-3',
 
   icon: (buttonTextColor?: string, isCompact?: boolean) =>
     `${buttonTextColor ?? ''} ${isCompact ? 'w-6' : 'w-6'}`,
@@ -19,12 +19,12 @@ export const sidebarHeaderVariants = {
     }`,
 
   compactSlackButton: () =>
-    'flex items-center gap-1 justify-center p-2 rounded-lg hover:bg-default-100 transition-colors cursor-pointer min-w-[40px] min-h-[40px]',
+    'flex items-center gap-1 justify-center p-2 rounded-lg hover:bg-default/30 transition-colors cursor-pointer min-w-[40px] min-h-[40px]',
 
-  compactChevron: () => 'text-default-600 text-[16px] ',
+  compactChevron: () => 'text-default-600 text-[16px] hover:bg-default/10',
 
   expandedSlackButton: () =>
-    'flex items-center gap-1 px-2 py-1 rounded-full hover:bg-default-100 transition-colors cursor-pointer select-none min-w-[40px] min-h-[40px]',
+    'flex items-center gap-1 px-2 py-1 rounded-lg hover:bg-default/20 transition-colors cursor-pointer select-none min-w-[40px] min-h-[40px]',
 
   expandedChevron: (isOpen: boolean) =>
     `text-default-600 text-[16px] transition-transform duration-200 ${

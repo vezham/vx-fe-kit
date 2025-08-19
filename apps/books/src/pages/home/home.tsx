@@ -1,8 +1,7 @@
 import React from 'react'
-import { useTheme } from '../common/context'
-import ControlSection from '../components/header/action'
-import AvatarSection from '../components/header/avatar'
-import Header from '../components/header/index'
+import { useTheme } from '../../common/context'
+
+import Header from '../../components/header/index'
 
 const Home = () => {
   const tabsData = [
@@ -73,10 +72,7 @@ const Home = () => {
       tabs={tabsData}
       mainTitle="Home"
       mainDescription="Customize your profile and appearance."
-      isDarkmode={isDarkMode}>
-      {<AvatarSection avatars={initialAvatars} />}
-      {<ControlSection />}
-    </Header>
+      isDarkmode={isDarkMode}></Header>
   )
 }
 

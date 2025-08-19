@@ -3,8 +3,8 @@
 export const sidebarFooterVariants = {
   container: (isCompact: boolean) =>
     isCompact
-      ? 'mt-auto pt-10  flex flex-col items-center gap-2 '
-      : 'mt-auto pt-4 flex flex-col gap-2 mb-6',
+      ? 'mt-auto  flex flex-col items-center pb-5 gap-2'
+      : 'mt-auto  flex flex-col gap-2 pb-5 px-2',
 
   buttonGroup: (isCompact: boolean) =>
     isCompact ? '' : 'flex justify-between items-center px-2',
@@ -22,7 +22,7 @@ export const sidebarFooterVariants = {
   directionIcon: (isDarkMode: boolean) =>
     isDarkMode ? 'text-white' : 'text-black',
 
-  avatarContainer: 'flex items-center justify-start gap-5 px-2 mt-3',
+  avatarContainer: 'flex items-center justify-start gap-5 px-2',
 
   userInfoName: (buttonTextColor?: string) =>
     `text-sm font-medium ${buttonTextColor ?? ''}`,

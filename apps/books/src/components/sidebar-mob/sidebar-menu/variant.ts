@@ -75,7 +75,7 @@ export const getDrawerCloseButtonClasses = ({ isDarkMode = false }) => {
     'absolute right-6 rounded-full p-2 transition-colors',
     isDarkMode
       ? 'text-gray-300 hover:bg-white/10 hover:backdrop-blur-lg'
-      : 'text-gray-600 hover:bg-white/40'
+      : 'text-gray-600 hover:bg-black/5'
   )
 }
 
@@ -89,9 +89,12 @@ export const getDrawerContentClasses = ({ isDarkMode = false }) => {
   return cn(
     'relative rounded-t-2xl py-2',
     '!fixed bottom-0 left-0 w-full max-w-full', // force bottom and full width
+    // isDarkMode
+    //   ? ['bg-black/25 dark:bg-black/5', "[&_[aria-label='Close']]:hidden"]
+    //   : ['bg-default/15', "[&_[aria-label='Close']]:hidden"]
     isDarkMode
-      ? ['bg-black/25 dark:bg-black/5', "[&_[aria-label='Close']]:hidden"]
-      : ['bg-default/15', "[&_[aria-label='Close']]:hidden"]
+      ? ['bg-black/80 dark:bg-black/5', "[&_[aria-label='Close']]:hidden"]
+      : ['bg-white', "[&_[aria-label='Close']]:hidden"]
   )
 }
 

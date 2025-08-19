@@ -65,9 +65,6 @@ importers:
       react-dom:
         specifier: 19.0.0
         version: 19.0.0(react@19.0.0)
-      react-router-dom:
-        specifier: 6.29.0
-        version: 6.29.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
     devDependencies:
       '@babel/core':
         specifier: ^7.14.5
@@ -192,6 +189,9 @@ importers:
       '@vitest/ui':
         specifier: ^3.0.0
         version: 3.2.4(vitest@3.2.4)
+      '@vx-oss/shared-icons':
+        specifier: ^0.0.8
+        version: 0.0.8(react@19.0.0)
       autoprefixer:
         specifier: 10.4.13
         version: 10.4.13(postcss@8.4.38)
@@ -3285,10 +3285,6 @@ packages:
     resolution: {integrity: sha512-OR/pwZReWbCIxuHJYB1L4fTwliA+mzVvUJMWwXIRy6Eh5d07spS3FZEKFvOgjMxA1nyv5PLf8eyr5RuuP1GGAA==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
-
-  '@remix-run/router@1.22.0':
-    resolution: {integrity: sha512-MBOl8MeOzpK0HQQQshKB7pABXbmyHizdTpqnrIseTbsv0nAepwC2ENZa1aaBExNQcpLoXmWthhak8SABLzvGPw==}
-    engines: {node: '>=14.0.0'}
 
   '@rolldown/pluginutils@1.0.0-beta.27':
     resolution: {integrity: sha512-+d0F4MKMCbeVUJwG96uQ4SgAznZNSq93I3V+9NHA4OpvqG8mRCpGdKmK8l/dl02h2CCDHwW2FqilnTyDcAnqjA==}
@@ -8599,19 +8595,6 @@ packages:
     peerDependencies:
       react: ^16.14.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc
       react-dom: ^16.14.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc
-
-  react-router-dom@6.29.0:
-    resolution: {integrity: sha512-pkEbJPATRJ2iotK+wUwHfy0xs2T59YPEN8BQxVCPeBZvK7kfPESRc/nyxzdcxR17hXgUPYx2whMwl+eo9cUdnQ==}
-    engines: {node: '>=14.0.0'}
-    peerDependencies:
-      react: '>=16.8'
-      react-dom: '>=16.8'
-
-  react-router@6.29.0:
-    resolution: {integrity: sha512-DXZJoE0q+KyeVw75Ck6GkPxFak63C4fGqZGNijnWgzB/HzSP1ZfTlBj5COaGWwhrMQ/R8bXiq5Ooy4KG+ReyjQ==}
-    engines: {node: '>=14.0.0'}
-    peerDependencies:
-      react: '>=16.8'
 
   react-textarea-autosize@8.5.9:
     resolution: {integrity: sha512-U1DGlIQN5AwgjTyOEnI1oCcMuEr1pv1qOtklB2l4nyMGbHzWrI0eFsYK0zos2YWqAolJyG0IWJaqWmWj5ETh0A==}
@@ -14163,8 +14146,6 @@ snapshots:
       '@react-types/overlays': 3.9.0(react@19.0.0)
       '@react-types/shared': 3.31.0(react@19.0.0)
       react: 19.0.0
-
-  '@remix-run/router@1.22.0': {}
 
   '@rolldown/pluginutils@1.0.0-beta.27': {}
 
@@ -21050,18 +21031,6 @@ snapshots:
     dependencies:
       react: 19.0.0
       react-dom: 19.0.0(react@19.0.0)
-
-  react-router-dom@6.29.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
-    dependencies:
-      '@remix-run/router': 1.22.0
-      react: 19.0.0
-      react-dom: 19.0.0(react@19.0.0)
-      react-router: 6.29.0(react@19.0.0)
-
-  react-router@6.29.0(react@19.0.0):
-    dependencies:
-      '@remix-run/router': 1.22.0
-      react: 19.0.0
 
   react-textarea-autosize@8.5.9(@types/react@19.0.0)(react@19.0.0):
     dependencies:
