@@ -153,7 +153,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 
   const handleSelect = (key: string, href?: string) => {
     if (onSelect) onSelect(key)
-    if (href) navigate(href)
+    if (href) navigate({ to: href })
   }
 
   const renderItem = (item: SidebarItem) => {
