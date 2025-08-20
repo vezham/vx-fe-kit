@@ -1,4 +1,3 @@
-// src/components/CommandMenu/index.tsx
 import { Button, Input, Kbd, Modal, ModalContent } from '@heroui/react'
 import { Icon } from '@iconify/react'
 import React from 'react'
@@ -15,6 +14,7 @@ const CommandMenu: React.FC<CommandMenuProps> = ({
   isOpen,
   onOpenChange,
   items,
+  isDarkMode,
   onSelect
 }) => {
   const [searchValue, setSearchValue] = React.useState('')
@@ -94,6 +94,11 @@ const CommandMenu: React.FC<CommandMenuProps> = ({
     onSelect(key, href)
   }
 
+  const handleClearRecentSearches = () => {
+    setSearchHistory([])
+    localStorage.removeItem('commandMenuSearchHistory')
+  }
+
   // Generate all items using the data functions
   const navigationItems = generateNavigationItems(items)
   const quickActionItems = React.useMemo(
@@ -170,7 +175,7 @@ const CommandMenu: React.FC<CommandMenuProps> = ({
   const renderCommandItem = (item: any) => (
     <div
       key={item.key}
-      className={commandMenuStyles.commandItem.base}
+      className={commandMenuStyles.commandItem.base(isDarkMode)}
       onClick={() => {
         if (item.section === 'recent-searches') {
           setSearchValue(item.title)
@@ -180,11 +185,11 @@ const CommandMenu: React.FC<CommandMenuProps> = ({
           onOpenChange(false)
         }
       }}>
-      <div className={commandMenuStyles.commandItem.iconWrapper}>
+      <div className={commandMenuStyles.commandItem.iconWrapper(isDarkMode)}>
         <Icon
           icon={item.icon}
           width={16}
-          className={commandMenuStyles.commandItem.icon}
+          className={commandMenuStyles.commandItem.icon(isDarkMode)}
         />
       </div>
       <span className={commandMenuStyles.commandItem.title}>{item.title}</span>
@@ -192,7 +197,7 @@ const CommandMenu: React.FC<CommandMenuProps> = ({
         <Icon
           icon="lucide:chevron-right"
           width={16}
-          className={commandMenuStyles.commandItem.chevronIcon}
+          className={commandMenuStyles.commandItem.chevronIcon(isDarkMode)}
         />
       )}
     </div>
@@ -215,9 +220,29 @@ const CommandMenu: React.FC<CommandMenuProps> = ({
         sectionTitle = title
     }
 
+    // return (
+    //   <div key={title} className="mb-4">
+    //     <div className={commandMenuStyles.sectionTitle(isDarkMode)}>{sectionTitle}</div>
+    //     <div className={commandMenuStyles.sectionItems}>
+    //       {items.map(renderCommandItem)}
+    //     </div>
+    //   </div>
+    // )
+
     return (
       <div key={title} className="mb-4">
-        <div className={commandMenuStyles.sectionTitle}>{sectionTitle}</div>
+        <div className="flex items-center justify-between px-3 py-1">
+          <div className={commandMenuStyles.sectionTitle(isDarkMode)}>
+            {sectionTitle}
+          </div>
+          {title === 'recent-searches' && (
+            <button
+              onClick={handleClearRecentSearches}
+              className="text-xs font-medium hover:underline">
+              CLEAR
+            </button>
+          )}
+        </div>
         <div className={commandMenuStyles.sectionItems}>
           {items.map(renderCommandItem)}
         </div>
@@ -230,7 +255,9 @@ const CommandMenu: React.FC<CommandMenuProps> = ({
       isOpen={isOpen}
       onOpenChange={onOpenChange}
       placement="top-center"
-      classNames={commandMenuStyles.modal}>
+      backdrop="blur"
+      hideCloseButton // <-- ✅ hides the default modal close button
+      classNames={commandMenuStyles.modal(isDarkMode)}>
       <ModalContent>
         {() => (
           <div className={commandMenuStyles.modalContent}>
@@ -245,34 +272,38 @@ const CommandMenu: React.FC<CommandMenuProps> = ({
                 startContent={
                   <Icon
                     icon="lucide:search"
-                    className={commandMenuStyles.input.startContent}
+                    className={commandMenuStyles.input.startContent(isDarkMode)}
                     width={18}
                   />
                 }
                 endContent={
-                  <div className="flex items-center">
+                  <div className="flex items-center gap-2">
                     {searchValue && (
                       <Button
                         isIconOnly
-                        size="sm"
                         variant="light"
+                        radius="full"
                         onPress={() => setSearchValue('')}
-                        className={
-                          commandMenuStyles.input.endContentClearButton
-                        }>
+                        className="flex h-6 w-6 min-w-0 items-center justify-center rounded-full border p-0">
                         <Icon
                           icon="lucide:x"
-                          width={14}
-                          className={commandMenuStyles.input.startContent}
+                          width={12} // ✅ smaller icon
+                          height={12}
+                          className={commandMenuStyles.input.startContent(
+                            isDarkMode
+                          )}
                         />
                       </Button>
                     )}
-                    <Kbd className={commandMenuStyles.input.endContentKbd}>
+                    <Kbd
+                      className={commandMenuStyles.input.endContentKbd(
+                        isDarkMode
+                      )}>
                       esc
                     </Kbd>
                   </div>
                 }
-                className={commandMenuStyles.input.base}
+                className={commandMenuStyles.input.base(isDarkMode)}
                 size={commandMenuStyles.input.size as any}
                 variant={commandMenuStyles.input.variant as any}
               />
@@ -283,7 +314,7 @@ const CommandMenu: React.FC<CommandMenuProps> = ({
                   renderSection(section, items as any[])
                 )
               ) : (
-                <div className={commandMenuStyles.noResults}>
+                <div className={commandMenuStyles.noResults(isDarkMode)}>
                   <p className={commandMenuStyles.noResultsTitle}>
                     No results for "{searchValue}"
                   </p>

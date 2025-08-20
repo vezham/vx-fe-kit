@@ -14,7 +14,12 @@ import { Icon } from '@iconify/react/dist/iconify.js'
 import React from 'react'
 import { companyIndustries, companyTypes, states } from './data'
 import { CompanyProps } from './types'
-import { getCardClassName, getInputProps, getSelectProps } from './variant'
+import {
+  getCardClassName,
+  getInputProps,
+  getSelectProps,
+  getTitleClassName
+} from './variant'
 
 const CompanyInformationForm = React.forwardRef<HTMLFormElement, CompanyProps>(
   ({ className, isDarkmode, ...props }, ref) => {
@@ -53,7 +58,7 @@ const CompanyInformationForm = React.forwardRef<HTMLFormElement, CompanyProps>(
                   <Avatar className="h-16 w-16 bg-black" src="assets/SVG.png" />
                 </Badge>
                 <div>
-                  <p className="text-default-600 text-sm font-medium">V Corp</p>
+                  <p className={getTitleClassName(isDarkmode)}>V Corp</p>
                 </div>
               </div>
             </CardBody>

@@ -1,7 +1,8 @@
 export type Integration = {
   name: string
   description: string
-  emoji: string
+  subtitle?: string
+  logo: string
   isConnected: boolean
   lastSync: string
 }

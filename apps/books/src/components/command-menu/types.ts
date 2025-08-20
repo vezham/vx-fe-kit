@@ -26,4 +26,5 @@ export interface CommandMenuProps {
   items: SidebarItem[]
   onSelect: (key: string, href?: string) => void
   selectedKey?: string
+  isDarkMode?: boolean
 }

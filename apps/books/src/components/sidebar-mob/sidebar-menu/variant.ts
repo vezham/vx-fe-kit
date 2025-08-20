@@ -58,8 +58,8 @@ export const getSearchButtonClasses = ({ isDarkMode = false }) => {
   return cn(
     'ml-4 flex h-13 w-13 items-center justify-center rounded-full shadow-xl',
     isDarkMode
-      ? 'bg-white/5 text-gray-300 dark:backdrop-blur-md'
-      : 'bg-white text-gray-500 backdrop-blur-md'
+      ? 'bg-white/5 text-gray-300 hover:bg-white/20 dark:backdrop-blur-md'
+      : 'hover:bg-default/20 bg-white text-gray-500 backdrop-blur-md'
   )
 }
 

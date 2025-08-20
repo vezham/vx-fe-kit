@@ -138,9 +138,14 @@ import {
 import { Icon } from '@iconify/react'
 import { useNavigate } from '@tanstack/react-router'
 import React from 'react'
+import { useTheme } from '../../../common/context'
 import CommandMenu from '../../command-menu/index'
 import { SidebarItem, SidebarProps } from './types'
-import { sidebarStyles } from './variant'
+import {
+  getInputWrapperClass,
+  getSearchIconClass,
+  sidebarStyles
+} from './variant'
 
 const Sidebar: React.FC<SidebarProps> = ({
   items,
@@ -153,6 +158,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   const navigate = useNavigate()
   const [searchValue, setSearchValue] = React.useState('')
   const [isCommandMenuOpen, setIsCommandMenuOpen] = React.useState(false)
+  const { isDarkMode } = useTheme()
 
   const handleSelect = (key: string, href?: string) => {
     if (onSelect) onSelect(key)
@@ -213,21 +219,13 @@ const Sidebar: React.FC<SidebarProps> = ({
     return items.filter(item => item.title.toLowerCase().includes(query))
   }, [items, searchValue])
 
-  // Update search value when command menu closes
   const handleCommandMenuOpenChange = (open: boolean) => {
     setIsCommandMenuOpen(open)
-    if (!open) {
-      // Reset search value when command menu closes
-      setSearchValue('')
-    }
+    if (!open) setSearchValue('')
   }
 
-  // Handle command menu item selection
   const handleCommandMenuSelect = (key: string, href?: string) => {
-    // Handle navigation
     handleSelect(key, href)
-
-    // Close command menu
     setIsCommandMenuOpen(false)
   }
 
@@ -246,26 +244,23 @@ const Sidebar: React.FC<SidebarProps> = ({
           className="mb-2 px-3"
           classNames={{
             input: isCompact ? 'hidden' : 'block',
-            inputWrapper: isCompact
-              ? 'justify-center flex mx-auto bg-default-200 cursor-pointer'
-              : 'cursor-pointer'
+            inputWrapper: getInputWrapperClass({ isDarkMode, isCompact })
           }}
           startContent={
             <Icon
               icon="lucide:search"
               width={20}
-              className="mx-auto flex items-center justify-center"
+              className={getSearchIconClass({ isDarkMode })}
             />
           }
           endContent={
             !isCompact && <Kbd className="hidden sm:inline-block">⌘K</Kbd>
           }
-          // Make the input read-only since we're using it as a trigger
           readOnly
         />
       </div>
 
-      <ScrollShadow hideScrollBar orientation="vertical" className="">
+      <ScrollShadow hideScrollBar orientation="vertical">
         {isCompact ? (
           <div className="flex flex-col">{filteredItems.map(renderItem)}</div>
         ) : (
@@ -292,6 +287,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         items={items}
         onSelect={handleCommandMenuSelect}
         selectedKey={selectedKey}
+        isDarkMode={isDarkMode}
       />
     </div>
   )
