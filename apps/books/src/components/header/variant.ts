@@ -1,11 +1,26 @@
 // Tabs
+// export const getTabsClassNames = (isDarkmode: boolean) => ({
+//   tabList: isDarkmode ? 'bg-neutral-800 text-white' : 'bg-default-100',
+//   cursor: isDarkmode
+//     ? 'bg-default/40 text-default-100 shadow'
+//     : 'bg-white  text-black shadow-small',
+//   panel: 'pt-4'
+// })
+
 export const getTabsClassNames = (isDarkmode: boolean) => ({
-  tabList: isDarkmode ? 'bg-neutral-800 text-white' : 'bg-default-100',
+  tabList: isDarkmode
+    ? 'bg-neutral-800 text-white'
+    : 'bg-default-100 text-black',
+  tab: 'z-0 w-full px-3 py-1 flex group relative justify-center items-center cursor-pointer transition-opacity rounded-small',
+  tabContent: isDarkmode
+    ? 'text-white group-data-[selected=true]:text-white'
+    : 'text-black group-data-[selected=true]:text-black',
   cursor: isDarkmode
-    ? 'bg-default/20 text-white shadow'
-    : 'bg-white  text-black shadow-small',
+    ? 'bg-neutral-900 text-default-100 shadow'
+    : 'bg-white text-black shadow-small',
   panel: 'pt-4'
 })
+
 // Title & description
 export const getTitleClassName = () => ' leading-9  text-3xl font-bold '
 

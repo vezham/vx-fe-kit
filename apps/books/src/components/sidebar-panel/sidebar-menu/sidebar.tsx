@@ -129,6 +129,7 @@
 
 import {
   Input,
+  Kbd,
   Listbox,
   ListboxItem,
   ScrollShadow,
@@ -137,6 +138,7 @@ import {
 import { Icon } from '@iconify/react'
 import { useNavigate } from '@tanstack/react-router'
 import React from 'react'
+import CommandMenu from '../../command-menu/index'
 import { SidebarItem, SidebarProps } from './types'
 import { sidebarStyles } from './variant'
 
@@ -150,6 +152,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 }) => {
   const navigate = useNavigate()
   const [searchValue, setSearchValue] = React.useState('')
+  const [isCommandMenuOpen, setIsCommandMenuOpen] = React.useState(false)
 
   const handleSelect = (key: string, href?: string) => {
     if (onSelect) onSelect(key)
@@ -210,31 +213,57 @@ const Sidebar: React.FC<SidebarProps> = ({
     return items.filter(item => item.title.toLowerCase().includes(query))
   }, [items, searchValue])
 
+  // Update search value when command menu closes
+  const handleCommandMenuOpenChange = (open: boolean) => {
+    setIsCommandMenuOpen(open)
+    if (!open) {
+      // Reset search value when command menu closes
+      setSearchValue('')
+    }
+  }
+
+  // Handle command menu item selection
+  const handleCommandMenuSelect = (key: string, href?: string) => {
+    // Handle navigation
+    handleSelect(key, href)
+
+    // Close command menu
+    setIsCommandMenuOpen(false)
+  }
+
   return (
     <div className={`${sidebarStyles.container} flex h-full flex-col`}>
       {/* Search Box */}
-      <Input
-        size="sm"
-        fullWidth={!isCompact}
-        aria-label="search"
-        value={searchValue}
-        onChange={e => setSearchValue(e.target.value)}
-        placeholder={isCompact ? '' : 'Search...'}
-        className="mb-2 px-1"
-        classNames={{
-          input: isCompact ? 'hidden' : 'block',
-          inputWrapper: isCompact
-            ? 'justify-center flex mx-auto bg-default-200'
-            : ''
-        }}
-        startContent={
-          <Icon
-            icon="lucide:search"
-            width={20}
-            className="mx-auto flex items-center justify-center"
-          />
-        }
-      />
+      <div
+        onClick={() => setIsCommandMenuOpen(true)}
+        className="cursor-pointer">
+        <Input
+          size="sm"
+          fullWidth={!isCompact}
+          aria-label="search"
+          value={searchValue}
+          placeholder={isCompact ? '' : 'Search or Jump to... (⌘K)'}
+          className="mb-2 px-3"
+          classNames={{
+            input: isCompact ? 'hidden' : 'block',
+            inputWrapper: isCompact
+              ? 'justify-center flex mx-auto bg-default-200 cursor-pointer'
+              : 'cursor-pointer'
+          }}
+          startContent={
+            <Icon
+              icon="lucide:search"
+              width={20}
+              className="mx-auto flex items-center justify-center"
+            />
+          }
+          endContent={
+            !isCompact && <Kbd className="hidden sm:inline-block">⌘K</Kbd>
+          }
+          // Make the input read-only since we're using it as a trigger
+          readOnly
+        />
+      </div>
 
       <ScrollShadow hideScrollBar orientation="vertical" className="">
         {isCompact ? (
@@ -255,6 +284,15 @@ const Sidebar: React.FC<SidebarProps> = ({
           </Listbox>
         )}
       </ScrollShadow>
+
+      {/* Command Menu */}
+      <CommandMenu
+        isOpen={isCommandMenuOpen}
+        onOpenChange={handleCommandMenuOpenChange}
+        items={items}
+        onSelect={handleCommandMenuSelect}
+        selectedKey={selectedKey}
+      />
     </div>
   )
 }
