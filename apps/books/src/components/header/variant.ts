@@ -24,15 +24,14 @@ export const getTabsClassNames = (isDarkmode: boolean) => ({
 // Title & description
 export const getTitleClassName = () => ' leading-9  text-3xl font-bold '
 
-export const getDescriptionClassName = () =>
-  'text-small text-default-500 md:mt-1'
+export const getDescriptionClassName = () => 'text-small text-default-500 mt-2'
 
 // Layout
 export const getLayoutClasses = () => ({
   container: '',
   headContainer: 'flex sm:flex-row justify-between items-center',
   leftSection: 'flex items-center gap-3 md:gap-5',
-  tabsWrapper: 'flex justify-between mt-6 gap-3 items-center',
+  tabsWrapper: 'flex justify-between mt-6 gap-3  items-center',
   tabsScroll: 'overflow-x-auto w-full max-w-2xl',
   actionWrapper: ''
 })

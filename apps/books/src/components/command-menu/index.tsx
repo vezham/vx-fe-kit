@@ -260,8 +260,8 @@ const CommandMenu: React.FC<CommandMenuProps> = ({
       classNames={commandMenuStyles.modal(isDarkMode)}>
       <ModalContent>
         {() => (
-          <div className={commandMenuStyles.modalContent}>
-            <div className="relative">
+          <div>
+            <div>
               <Input
                 ref={inputRef}
                 autoFocus
@@ -273,7 +273,7 @@ const CommandMenu: React.FC<CommandMenuProps> = ({
                   <Icon
                     icon="lucide:search"
                     className={commandMenuStyles.input.startContent(isDarkMode)}
-                    width={18}
+                    width={20}
                   />
                 }
                 endContent={

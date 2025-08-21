@@ -79,11 +79,11 @@ const CompanyInformationForm = React.forwardRef<HTMLFormElement, CompanyProps>(
             name="company-type"
             placeholder="C Corporation"
             {...selectProps}>
-            {companyType => (
+            {companyTypes.map(companyType => (
               <SelectItem key={companyType.value}>
                 {companyType.title}
               </SelectItem>
-            )}
+            ))}
           </Select>
 
           <Select
@@ -193,18 +193,10 @@ const CompanyInformationForm = React.forwardRef<HTMLFormElement, CompanyProps>(
           />
 
           <Input
-            className="col-span-12 md:col-span-6"
-            label="EIN"
+            className="col-span-12"
+            label="EIN/CIN"
             name="ein"
             placeholder="Type your company EIN here"
-            {...inputProps}
-          />
-
-          <Input
-            className="col-span-12 md:col-span-6"
-            label="Confirm EIN"
-            name="confirm-ein"
-            placeholder="Confirm your company EIN here"
             {...inputProps}
           />
         </form>

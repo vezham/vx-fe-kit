@@ -4,32 +4,32 @@ export const commandMenuStyles = {
   modal: (isDarkMode?: boolean) => ({
     base: cn(
       'mx-auto max-w-md',
-      isDarkMode ? 'bg-neutral-800 text-white' : 'bg-white text-black'
+      isDarkMode
+        ? 'bg-foreground text-default-400'
+        : 'bg-background text-default-400'
     )
   }),
-  modalContent: 'p-2',
 
   input: {
     base: (isDarkMode?: boolean) =>
       cn(
-        'mb-2',
         isDarkMode
-          ? 'border-neutral-700 placeholder:text-neutral-400'
-          : 'border-default-200 placeholder:text-foreground-500'
+          ? 'placeholder:text-default-400'
+          : 'placeholder:text-default-400'
       ),
 
     size: 'lg',
-    variant: 'bordered',
+    variant: '',
 
     startContent: (isDarkMode?: boolean) =>
       cn(isDarkMode ? 'text-neutral-400' : 'text-default-400'),
 
     endContentKbd: (isDarkMode?: boolean) =>
       cn(
-        'rounded-small shadow-small text-small hidden px-1.5 py-0.5 font-sans sm:inline-block',
+        'rounded-small text-small hidden px-2 py-1 font-medium md:block',
         isDarkMode
-          ? 'bg-neutral-700 text-neutral-300'
-          : 'bg-default-100 text-foreground-600'
+          ? 'bg-default-900 text-neutral-300'
+          : 'bg-default-200 text-default-900'
       ),
 
     endContentClearButton: (isDarkMode?: boolean) =>

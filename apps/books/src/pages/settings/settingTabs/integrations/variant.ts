@@ -12,13 +12,17 @@ export const getButtonClass = (isConnected: boolean, isDarkMode?: boolean) => {
 }
 
 export const getPanelClassName = (isDarkMode?: boolean) =>
-  cn(isDarkMode ? 'bg-neutral-800 text-white' : 'bg-default-100')
+  cn(
+    isDarkMode
+      ? 'bg-neutral-800 text-white'
+      : 'border border-gray-200 bg-transparent shadow-none'
+  )
 
 export const getCardClassName = (isDarkMode?: boolean) =>
   cn(
     isDarkMode
-      ? 'border-default-700 border bg-neutral-800 text-white'
-      : 'bg-default-100'
+      ? 'border-default-700 border bg-neutral-800 text-white shadow-none'
+      : 'border border-gray-200 bg-transparent shadow-none'
   )
 
 export const getStatusColor = (isConnected: boolean) =>

@@ -69,7 +69,6 @@ const Header: React.FC<SettingsTabsProps> = ({
             className="flex overflow-x-auto"
             orientation="horizontal">
             <Tabs
-              size="sm"
               selectedKey={activeTab}
               onSelectionChange={handleTabChange}
               classNames={tabsClassNames}

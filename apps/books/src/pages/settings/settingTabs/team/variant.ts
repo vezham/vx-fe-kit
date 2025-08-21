@@ -4,13 +4,17 @@ import { cn } from '@heroui/react'
 export const cardClasses = (isDarkMode?: boolean) =>
   cn(
     'py-2',
-    isDarkMode ? 'bg-neutral-800 text-white' : 'bg-default-100 text-black'
+    isDarkMode
+      ? 'bg-neutral-800 text-white'
+      : 'border border-gray-200 shadow-none'
   )
 
 export const tableHeaderClasses = (isDarkMode?: boolean) =>
   cn(
     'text-sm font-medium',
-    isDarkMode ? 'text-default-100 bg-transparent' : 'text-gray-700'
+    isDarkMode
+      ? 'text-default-100 bg-transparent'
+      : 'bg-transparent text-gray-700'
   )
 
 export const cardHeaderClasses = 'flex items-center justify-between'
