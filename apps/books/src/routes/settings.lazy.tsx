@@ -1,6 +1,6 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
 
-import Settings from '../pages/settings-new/components/settings-layout-base'
+import Settings from '../layouts/settings/index'
 
 export const Route = createLazyFileRoute('/settings')({
   component: () => <Settings />

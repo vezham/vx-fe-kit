@@ -98,7 +98,7 @@ export default function SidebarWithSearchInput() {
 
   // Theme-dependent styles
   const textColorClass = isDarkMode ? 'text-white' : 'text-black'
-  const bgColorClass = isDarkMode ? 'bg-neutral-900' : 'bg-white'
+  const bgColorClass = isDarkMode ? 'bg-black' : 'bg-white'
   const bgSidebarClass = isDarkMode
     ? 'bg-neutral-800 shadow'
     : 'bg-default-100 shadow-sm'
