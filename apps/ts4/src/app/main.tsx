@@ -1,6 +1,6 @@
 import { RouterProvider, createRouter } from '@tanstack/react-router'
 
-import { defineConfig } from '../start'
+import { defineConfig } from '@vx/start'
 
 // import { APP_NAME, defineEnv, defineServerEnv } from '@vx/env'
 

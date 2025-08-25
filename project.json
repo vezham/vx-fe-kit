@@ -51,7 +51,6 @@
     "tw:migrate": {
       "command": "npx @tailwindcss/upgrade"
     },
-
     "clean-hard": {
       "executor": "nx:run-commands",
       "options": {
@@ -96,7 +95,6 @@
     "test:unit-nc": {
       "command": "vitest --reporter=json --outputFile=dist/.unit-test-results.json --no-cache"
     },
-
     "@vx/cli:format-hard": {
       "executor": "nx:run-commands",
       "options": {
@@ -124,6 +122,14 @@
     },
     "@vx/ci:build": {
       "command": "nx run-many -t build"
+    },
+    "local-registry": {
+      "executor": "@nx/js:verdaccio",
+      "options": {
+        "port": 4873,
+        "config": ".verdaccio/config.yml",
+        "storage": "tmp/local-registry/storage"
+      }
     }
   }
 }
