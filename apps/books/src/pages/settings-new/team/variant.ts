@@ -1,8 +1,8 @@
 export const tableStyles = {
-  wrapper: 'h-full w-full p-6',
+  wrapper: 'h-full w-full p-2',
   topBarContainer: 'mb-[18px] flex items-center justify-between gap-4',
   topBarLeft: 'flex items-center gap-2',
-  topBarLeftInner: 'flex items-center gap-4',
+  topBarLeftInner: 'flex items-center gap-2',
   membersText: 'text-default-700 text-base font-medium',
   chip: 'text-default-500 flex items-center',
   selectedActionsContainer: 'flex items-center gap-2',
@@ -44,8 +44,9 @@ export const tableStyles = {
     actionIcon: 'text-default-400 cursor-pointer',
     actionDropdownButton: 'text-default-400'
   },
-  paginationContainer: 'flex items-center justify-between gap-2 px-2 py-2',
-  paginationButtonContainer: 'flex gap-6'
+  paginationContainer:
+    'flex w-full items-center  justify-between gap-2 px-2 py-4',
+  paginationButtonContainer: 'gap-2 items-center flex '
 }
 
 export const iconSizeClasses = 'h-4.5 w-4.5'
@@ -74,7 +75,7 @@ export const teamSettingStyles = {
     'text-default-foreground absolute top-0 right-0 h-2.5 w-2.5 translate-x-[8px] translate-y-[-2px]',
   sendInviteButton: 'bg-default-foreground text-background',
   tableSectionContainer: 'flex items-start justify-between',
-  tableWrapper: 'w-full max-w-5xl',
+  tableWrapper: 'w-full max-w-5xl ',
   tableCard: 'border-default-200 mt-4 border bg-transparent',
   roleCard: 'border-default-200 w-full max-w-5xl border bg-transparent',
   roleCardBody: 'px-4',

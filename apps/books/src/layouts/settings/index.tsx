@@ -9,10 +9,10 @@ const Index = () => {
     <Settings
       endContent={
         <>
-          <Button size="sm" variant="solid" color="primary">
+          <Button size="sm" variant="solid" color="primary" className="flex-1">
             Save
           </Button>
-          <Button size="sm" variant="solid">
+          <Button size="sm" variant="solid" className="flex-1">
             <PlusFilledIcon /> Invite User
           </Button>
         </>

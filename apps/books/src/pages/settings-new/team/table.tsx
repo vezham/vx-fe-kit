@@ -16,6 +16,7 @@ import {
   PopoverTrigger,
   Radio,
   RadioGroup,
+  ScrollShadow,
   Table,
   TableBody,
   TableCell,
@@ -669,32 +670,33 @@ export const Component = () => {
   const bottomContent = useMemo(() => {
     return (
       <div className={tableStyles.paginationContainer}>
-        <Pagination
-          isCompact
-          showControls
-          showShadow
-          color="primary"
-          page={page}
-          total={pages}
-          onChange={setPage}
-        />
+        <div>
+          <Pagination
+            isCompact
+            showControls
+            showShadow
+            size="sm"
+            color="primary"
+            page={page}
+            total={pages}
+            onChange={setPage}
+          />
+        </div>
         <div className={tableStyles.paginationButtonContainer}>
-          <div className="flex items-center gap-3">
-            <Button
-              isDisabled={page === 1}
-              size="sm"
-              variant="flat"
-              onPress={onPreviousPage}>
-              Previous
-            </Button>
-            <Button
-              isDisabled={page === pages}
-              size="sm"
-              variant="flat"
-              onPress={onNextPage}>
-              Next
-            </Button>
-          </div>
+          <Button
+            isDisabled={page === 1}
+            size="sm"
+            variant="flat"
+            onPress={onPreviousPage}>
+            Previous
+          </Button>
+          <Button
+            isDisabled={page === pages}
+            size="sm"
+            variant="flat"
+            onPress={onNextPage}>
+            Next
+          </Button>
         </div>
       </div>
     )
@@ -710,57 +712,61 @@ export const Component = () => {
   return (
     <div className={tableStyles.wrapper}>
       <div>{topBar}</div>
-      <Table
-        removeWrapper
-        isHeaderSticky
-        aria-label="Example table with custom cells, pagination and sorting"
-        bottomContentPlacement="outside"
-        classNames={tableStyles.table}
-        selectedKeys={filterSelectedKeys}
-        selectionMode="multiple"
-        sortDescriptor={sortDescriptor}
-        topContentPlacement="outside"
-        onSelectionChange={onSelectionChange}
-        onSortChange={setSortDescriptor}
-        bottomContent={bottomContent}>
-        <TableHeader columns={headerColumns}>
-          {column => (
-            <TableColumn
-              key={column.uid}
-              align={column.uid === 'actions' ? 'end' : 'start'}
-              className={cn([
-                column.uid === 'actions' ? tableStyles.tableHeader : ''
-              ])}>
-              {column.uid === 'userInfo' ? (
-                <div
-                  onClick={handleMemberClick}
-                  className={tableStyles.tableHeaderUser}>
-                  {column.name}
-                  {sortDescriptor.column === column.uid &&
-                    (sortDescriptor.direction === 'ascending' ? (
-                      <ChevronUpIcon className={tableStyles.sortIcon} />
-                    ) : (
-                      <ChevronDownIcon className={tableStyles.sortIcon} />
-                    ))}
-                </div>
-              ) : column.info ? (
-                <div className={tableStyles.tableHeaderInfo}>{column.name}</div>
-              ) : (
-                column.name
-              )}
-            </TableColumn>
-          )}
-        </TableHeader>
-        <TableBody emptyContent={'No users found'} items={sortedItems}>
-          {item => (
-            <TableRow key={item.id}>
-              {columnKey => (
-                <TableCell>{renderCell(item, columnKey)}</TableCell>
-              )}
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
+      <ScrollShadow orientation="horizontal">
+        <Table
+          removeWrapper
+          isHeaderSticky
+          aria-label="Example table with custom cells, pagination and sorting"
+          bottomContentPlacement="outside"
+          classNames={tableStyles.table}
+          selectedKeys={filterSelectedKeys}
+          selectionMode="multiple"
+          sortDescriptor={sortDescriptor}
+          topContentPlacement="outside"
+          onSelectionChange={onSelectionChange}
+          onSortChange={setSortDescriptor}>
+          <TableHeader columns={headerColumns}>
+            {column => (
+              <TableColumn
+                key={column.uid}
+                align={column.uid === 'actions' ? 'end' : 'start'}
+                className={cn([
+                  column.uid === 'actions' ? tableStyles.tableHeader : ''
+                ])}>
+                {column.uid === 'userInfo' ? (
+                  <div
+                    onClick={handleMemberClick}
+                    className={tableStyles.tableHeaderUser}>
+                    {column.name}
+                    {sortDescriptor.column === column.uid &&
+                      (sortDescriptor.direction === 'ascending' ? (
+                        <ChevronUpIcon className={tableStyles.sortIcon} />
+                      ) : (
+                        <ChevronDownIcon className={tableStyles.sortIcon} />
+                      ))}
+                  </div>
+                ) : column.info ? (
+                  <div className={tableStyles.tableHeaderInfo}>
+                    {column.name}
+                  </div>
+                ) : (
+                  column.name
+                )}
+              </TableColumn>
+            )}
+          </TableHeader>
+          <TableBody emptyContent={'No users found'} items={sortedItems}>
+            {item => (
+              <TableRow key={item.id}>
+                {columnKey => (
+                  <TableCell>{renderCell(item, columnKey)}</TableCell>
+                )}
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </ScrollShadow>
+      <div>{bottomContent}</div>
     </div>
   )
 }

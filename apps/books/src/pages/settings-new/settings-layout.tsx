@@ -17,12 +17,12 @@ export default function Component({
     {
       key: 'company',
       title: 'Company',
-      component: <CompanySetting className="max-w-2xl" />
+      component: <CompanySetting />
     },
     {
       key: 'account',
       title: 'Account',
-      component: <AccountSetting className="max-w-2xl" />
+      component: <AccountSetting />
     },
     {
       key: 'team',
@@ -45,44 +45,46 @@ export default function Component({
     {
       key: 'integration',
       title: 'Integration',
-      component: <IntegrationSetting className="max-w-2xl" />
+      component: <IntegrationSetting />
     }
   ]
 
   return (
-    <div className="flex h-screen w-full">
-      {/*  Settings Content */}
-
+    <div className="h-screen w-full">
+      {/* Settings Content */}
       <div className="scrollbar-hide w-full flex-1 overflow-y-auto p-4">
-        <div className="flex flex-col justify-between gap-4 sm:flex-row">
-          {/* Left Content */}
-          <div className="flex flex-col">
-            <h1 className="text-default-foreground text-3xl leading-9 font-bold">
-              Settings
-            </h1>
-            <h2 className="text-small text-default-500 mt-2">
-              Customize settings, email preferences, and web appearance.
-            </h2>
+        {/* Responsive wrapper */}
+        <div className="w-full max-w-2xl lg:mx-12">
+          <div className="flex flex-col justify-between gap-4 sm:flex-row">
+            {/* Left Content */}
+            <div className="flex flex-col">
+              <h1 className="text-default-foreground text-3xl leading-9 font-bold">
+                Settings
+              </h1>
+              <h2 className="text-small text-default-500 mt-2">
+                Customize settings, email preferences, and web appearance.
+              </h2>
+            </div>
+
+            {/* Right Buttons */}
+            <div className="flex w-full gap-2 sm:w-auto">{endContent}</div>
           </div>
 
-          {/* Right Buttons */}
-          <div className="flex w-full gap-2 sm:w-auto">{endContent}</div>
+          {/* Tabs */}
+          <Tabs
+            fullWidth
+            classNames={{
+              base: 'mt-6 w-full ',
+              cursor: 'bg-content1 dark:bg-content1',
+              panel: 'w-full p-0 pt-4'
+            }}>
+            {tabItems.map(({ key, title, component }) => (
+              <Tab key={key} title={title}>
+                {component}
+              </Tab>
+            ))}
+          </Tabs>
         </div>
-
-        {/*  Tabs */}
-        <Tabs
-          fullWidth
-          classNames={{
-            base: 'mt-6 w-full max-w-2xl',
-            cursor: 'bg-content1 dark:bg-content1',
-            panel: 'w-full  p-0 pt-4'
-          }}>
-          {tabItems.map(({ key, title, component }) => (
-            <Tab key={key} title={title}>
-              {component}
-            </Tab>
-          ))}
-        </Tabs>
       </div>
     </div>
   )
