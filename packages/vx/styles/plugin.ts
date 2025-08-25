@@ -1,3 +1,3 @@
-import { heroui } from '@vx-oss/react'
+import { vezham } from '@vx-oss/react'
 
-export default heroui()
+export default vezham()

@@ -12,7 +12,7 @@ import ReactDOM from 'react-dom/client'
 // import { defineAxios, defineStore, useLogger } from '@vezham/hooks'
 // import { cn } from '@vezham/react-utils'
 // import { startWorker as defineWorker } from '@vezham/shared-sw'
-import { HeroUIProvider } from '@vx-oss/react'
+import { VezhamProvider } from '@vx-oss/react'
 import { Props } from './types'
 
 // const NAMESPACE = 'Core/System'
@@ -45,7 +45,7 @@ const Provider: FC<Props> = ({
 }) => {
   const classList = `vx-app ${className}` // cn('vx-app', className)
   let template = (
-    <HeroUIProvider>
+    <VezhamProvider>
       {/* <ThemeProvider classTarget={classTarget} vmode={vmode}>
       <OverlayProvider>
         <Toaster />
@@ -56,7 +56,7 @@ const Provider: FC<Props> = ({
       {/* <div id="portal"></div> */}
       {/* </OverlayProvider> */}
       {/* </ThemeProvider> */}
-    </HeroUIProvider>
+    </VezhamProvider>
   )
 
   if (query) {
