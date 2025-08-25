@@ -11,7 +11,8 @@
           "rimraf ./dist",
           "rimraf ./**/**/__mocks__/node_modules",
           "rimraf ./packages/**/**/node_modules",
-          "rimraf ./node_modules"
+          "rimraf ./node_modules",
+          "pnpm install --no-frozen-lockfile"
         ],
         "parallel": false
       }

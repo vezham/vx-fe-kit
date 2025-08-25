@@ -10,6 +10,7 @@ const ignores = [
   '**/vite.config.*.timestamp*',
   '**/vitest.config.*.timestamp*',
   '**/test-output',
+  '**/out-tsc',
   '**/.vezham',
   '**/.nx',
   '**/.lintstagedrc.js',

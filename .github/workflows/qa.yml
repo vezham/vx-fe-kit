@@ -9,7 +9,7 @@ on:
     branches: [timeline]
     paths:
       - '.github/workflows/qa.yml'
-      - '.changeset/**'
+      - 'vx/handbooks/ci.md'
       - 'packages/**'
 
 run-name: "${{ github.event_name == 'schedule' && 'ci(TVA): QA' || github.event_name == 'workflow_dispatch' && 'ci(TVA): Dry Run - QA' || github.event.head_commit.message || github.event.workflow_run.head_commit.message || github.ref_name }} - by @${{ github.event_name == 'schedule' && 'vx' || github.actor || 'vx/ci' }}"
