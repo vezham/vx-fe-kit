@@ -279,377 +279,395 @@ export const Component = () => {
               {users.length}
             </Chip>
           </div>
+          <div>
+            {!isSelectionEmpty && (
+              <div className={tableStyles.selectedActionsContainer}>
+                <Divider
+                  className={tableStyles.divider}
+                  orientation="vertical"
+                />
 
-          {!isSelectionEmpty && (
-            <div className={tableStyles.selectedActionsContainer}>
-              <Divider className={tableStyles.divider} orientation="vertical" />
+                <div className={tableStyles.selectedCountText}>
+                  {selectedKeys === 'all'
+                    ? 'All selected'
+                    : `${selectedKeys.size} Selected`}
+                </div>
 
-              <div className={tableStyles.selectedCountText}>
-                {selectedKeys === 'all'
-                  ? 'All items selected'
-                  : `${selectedKeys.size} Selected`}
+                <Divider
+                  className="block h-5 sm:hidden"
+                  orientation="vertical"
+                />
+
+                <Dropdown>
+                  <DropdownTrigger>
+                    <Button
+                      size="sm"
+                      variant="flat"
+                      className={tableStyles.selectedActions}>
+                      {/* Mobile (sm-) — only the 3-dots icon */}
+                      <span className={tableStyles.selectedActionsMoreButton}>
+                        <Icon
+                          icon="solar:menu-dots-bold"
+                          width={10}
+                          height={10}
+                        />
+                      </span>
+
+                      {/* Desktop (sm+) — label + arrow */}
+                      <span className={tableStyles.selectedActionsButton}>
+                        <span>Selected Actions</span>
+                        <Icon
+                          className={tableStyles.dropdownIcon}
+                          icon="solar:alt-arrow-down-linear"
+                        />
+                      </span>
+                    </Button>
+                  </DropdownTrigger>
+                  <DropdownMenu aria-label="Selected Actions">
+                    <DropdownItem key="send-email">Send email</DropdownItem>
+                    <DropdownItem key="pay-invoices">Pay invoices</DropdownItem>
+                    <DropdownItem key="bulk-edit">Bulk edit</DropdownItem>
+                    <DropdownItem key="end-contract">End contract</DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
               </div>
-
-              <Divider className="block h-5 sm:hidden" orientation="vertical" />
-
-              <Dropdown>
-                <DropdownTrigger>
-                  <Button
-                    className={tableStyles.selectedActionsButton}
-                    endContent={
-                      <Icon
-                        className={tableStyles.dropdownIcon}
-                        icon="solar:alt-arrow-down-linear"
-                      />
-                    }
-                    size="sm"
-                    variant="flat">
-                    Selected Actions
-                  </Button>
-                </DropdownTrigger>
-
-                <DropdownMenu aria-label="Selected Actions">
-                  <DropdownItem key="send-email">Send email</DropdownItem>
-
-                  <DropdownItem key="pay-invoices">Pay invoices</DropdownItem>
-
-                  <DropdownItem key="bulk-edit">Bulk edit</DropdownItem>
-
-                  <DropdownItem key="end-contract">End contract</DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
-            </div>
-          )}
-        </div>
-
-        <div className={tableStyles.topBarRight}>
-          <motion.div
-            initial={{ width: 40 }}
-            animate={{ width: isSearchExpanded ? 150 : 40 }}
-            transition={{ ease: 'easeInOut' }}
-            className={tableStyles.searchContainer}>
-            {isSearchExpanded ? (
-              <Input
-                className={tableStyles.searchInput}
-                ref={searchInputRef}
-                endContent={
-                  <button
-                    className="focus:outline-none"
-                    onClick={() => {
-                      if (filterValue) {
-                        setFilterValue('')
-                      } else {
-                        setIsSearchExpanded(false)
-                      }
-                    }}>
-                    {filterValue ? (
-                      <CloseIcon
-                        className={tableStyles.searchCloseIcon}
-                        width={16}
-                      />
-                    ) : (
-                      <CloseIcon
-                        className={tableStyles.searchCloseIcon}
-                        width={16}
-                      />
-                    )}
-                  </button>
-                }
-                placeholder="Search"
-                size="sm"
-                value={filterValue}
-                onValueChange={onSearchChange}
-              />
-            ) : (
-              <button
-                className={tableStyles.searchButton}
-                onClick={toggleSearch}>
-                <SearchIcon className="text-default-600" width={18} />
-              </button>
             )}
-          </motion.div>
-
-          <div className="flex items-center gap-2">
-            <div className={tableStyles.filterSortButtons}>
-              <Popover placement="bottom">
-                <PopoverTrigger>
-                  <Button
-                    className={tableStyles.filterSortButton}
-                    size="sm"
-                    startContent={
-                      <Icon
-                        className={tableStyles.filterSortIcon}
-                        icon="solar:tuning-2-linear"
-                        width={16}
-                      />
-                    }>
-                    {!isSearchExpanded && isSelectionEmpty && 'Filter'}
-                  </Button>
-                </PopoverTrigger>
-
-                <PopoverContent className={tableStyles.popoverContent}>
-                  <div className={tableStyles.filterPopoverContent}>
-                    <RadioGroup
-                      label="Worker Type"
-                      className="sm:pt-10"
-                      value={workerTypeFilter}
-                      onValueChange={setWorkerTypeFilter}>
-                      <Radio value="all">All</Radio>
-                      <Radio value="employee">Employee</Radio>
-
-                      <Radio value="contractor">Contractor</Radio>
-                    </RadioGroup>
-
-                    <RadioGroup
-                      label="Status"
-                      value={statusFilter}
-                      onValueChange={setStatusFilter}>
-                      <Radio value="all">All</Radio>
-                      <Radio value="active">Active</Radio>
-                      <Radio value="inactive">Inactive</Radio>
-                      <Radio value="pending">Pending</Radio>
-
-                      <Radio value="vacation">Vacation</Radio>
-                    </RadioGroup>
-
-                    <RadioGroup
-                      label="Start Date"
-                      value={startDateFilter}
-                      onValueChange={setStartDateFilter}>
-                      <Radio value="all">All</Radio>
-
-                      <Radio value="last7Days">Last 7 days</Radio>
-                      <Radio value="last30Days">Last 30 days</Radio>
-
-                      <Radio value="last60Days">Last 60 days</Radio>
-                    </RadioGroup>
-                  </div>
-                </PopoverContent>
-              </Popover>
-            </div>
-
-            <div className={tableStyles.filterSortButtons}>
-              <Dropdown>
-                <DropdownTrigger>
-                  <Button
-                    className={tableStyles.filterSortButton}
-                    size="sm"
-                    startContent={
-                      <Icon
-                        className={tableStyles.filterSortIcon}
-                        icon="solar:sort-linear"
-                        width={16}
-                      />
-                    }>
-                    {!isSearchExpanded && isSelectionEmpty && 'Sort'}
-                  </Button>
-                </DropdownTrigger>
-
-                <DropdownMenu
-                  aria-label="Sort"
-                  items={headerColumns.filter(
-                    c => !['actions', 'teams'].includes(c.uid)
-                  )}>
-                  {item => (
-                    <DropdownItem
-                      key={item.uid}
-                      onPress={() => {
-                        setSortDescriptor({
-                          column: item.uid,
-                          direction:
-                            sortDescriptor.direction === 'ascending'
-                              ? 'descending'
-                              : 'ascending'
-                        })
-                      }}>
-                      {item.name}
-                    </DropdownItem>
-                  )}
-                </DropdownMenu>
-              </Dropdown>
-            </div>
-
-            <div className={tableStyles.filterSortButtons}>
-              <Dropdown closeOnSelect={false}>
-                <DropdownTrigger>
-                  <Button
-                    className={tableStyles.filterSortButton}
-                    size="sm"
-                    startContent={
-                      <Icon
-                        className={tableStyles.filterSortIcon}
-                        icon="solar:sort-horizontal-linear"
-                        width={16}
-                      />
-                    }>
-                    {!isSearchExpanded && isSelectionEmpty && 'Columns'}
-                  </Button>
-                </DropdownTrigger>
-
-                <DropdownMenu
-                  disallowEmptySelection
-                  aria-label="Columns"
-                  items={columns.filter(c => !['actions'].includes(c.uid))}
-                  selectedKeys={visibleColumns}
-                  selectionMode="multiple"
-                  onSelectionChange={setVisibleColumns}>
-                  {item => (
-                    <DropdownItem key={item.uid}>{item.name}</DropdownItem>
-                  )}
-                </DropdownMenu>
-              </Dropdown>
-            </div>
-
-            <div className={tableStyles.mobileActions}>
-              <Dropdown>
-                <DropdownTrigger>
-                  <Button
-                    isIconOnly
-                    size="sm"
-                    variant="flat"
-                    className={tableStyles.mobileActionsButton}>
-                    <Icon icon="solar:menu-dots-bold" width={18} height={18} />
-                  </Button>
-                </DropdownTrigger>
-
-                <DropdownMenu aria-label="More actions" closeOnSelect={false}>
-                  <DropdownItem key="filter" className="p-0">
-                    <Popover placement="bottom">
-                      <PopoverTrigger>
-                        <Button
-                          variant="light"
-                          size="sm"
-                          fullWidth
-                          startContent={
-                            <Icon icon="solar:tuning-2-linear" width={16} />
-                          }
-                          className={tableStyles.mobileFilterButton}>
-                          Filter
-                        </Button>
-                      </PopoverTrigger>
-
-                      <PopoverContent className={tableStyles.popoverContent}>
-                        <div className={tableStyles.filterPopoverContent}>
-                          <RadioGroup
-                            className="pt-10"
-                            label="Worker Type"
-                            value={workerTypeFilter}
-                            onValueChange={setWorkerTypeFilter}>
-                            <Radio value="all">All</Radio>
-                            <Radio value="employee">Employee</Radio>
-
-                            <Radio value="contractor">Contractor</Radio>
-                          </RadioGroup>
-
-                          <RadioGroup
-                            label="Status"
-                            value={statusFilter}
-                            onValueChange={setStatusFilter}>
-                            <Radio value="all">All</Radio>
-                            <Radio value="active">Active</Radio>
-
-                            <Radio value="inactive">Inactive</Radio>
-
-                            <Radio value="pending">Pending</Radio>
-
-                            <Radio value="vacation">Vacation</Radio>
-                          </RadioGroup>
-
-                          <RadioGroup
-                            label="Start Date"
-                            value={startDateFilter}
-                            onValueChange={setStartDateFilter}>
-                            <Radio value="all">All</Radio>
-                            <Radio value="last7Days">Last 7 days</Radio>
-
-                            <Radio value="last30Days">Last 30 days</Radio>
-
-                            <Radio value="last60Days">Last 60 days</Radio>
-                          </RadioGroup>
-                        </div>
-                      </PopoverContent>
-                    </Popover>
-                  </DropdownItem>
-
-                  <DropdownItem key="sort" className="p-0">
-                    <Dropdown placement="right">
-                      <DropdownTrigger>
-                        <Button
-                          variant="light"
-                          size="sm"
-                          fullWidth
-                          startContent={
-                            <Icon icon="solar:sort-linear" width={16} />
-                          }
-                          className={tableStyles.mobileFilterButton}>
-                          Sort
-                        </Button>
-                      </DropdownTrigger>
-
-                      <DropdownMenu
-                        aria-label="Sort"
-                        items={headerColumns.filter(
-                          c => !['actions', 'teams'].includes(c.uid)
-                        )}>
-                        {item => (
-                          <DropdownItem
-                            key={item.uid}
-                            onPress={() => {
-                              setSortDescriptor({
-                                column: item.uid,
-                                direction:
-                                  sortDescriptor.direction === 'ascending'
-                                    ? 'descending'
-                                    : 'ascending'
-                              })
-                            }}>
-                            {item.name}
-                          </DropdownItem>
-                        )}
-                      </DropdownMenu>
-                    </Dropdown>
-                  </DropdownItem>
-
-                  <DropdownItem key="columns" className="p-0">
-                    <Dropdown placement="right" closeOnSelect={false}>
-                      <DropdownTrigger>
-                        <Button
-                          variant="light"
-                          size="sm"
-                          fullWidth
-                          startContent={
-                            <Icon
-                              icon="solar:sort-horizontal-linear"
-                              width={16}
-                            />
-                          }
-                          className={tableStyles.mobileFilterButton}>
-                          Columns
-                        </Button>
-                      </DropdownTrigger>
-
-                      <DropdownMenu
-                        disallowEmptySelection
-                        aria-label="Columns"
-                        items={columns.filter(
-                          c => !['actions'].includes(c.uid)
-                        )}
-                        selectedKeys={visibleColumns}
-                        selectionMode="multiple"
-                        onSelectionChange={setVisibleColumns}>
-                        {item => (
-                          <DropdownItem key={item.uid}>
-                            {item.name}
-                          </DropdownItem>
-                        )}
-                      </DropdownMenu>
-                    </Dropdown>
-                  </DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
-            </div>
           </div>
         </div>
+        {isSelectionEmpty && (
+          <div className={tableStyles.topBarRight}>
+            <motion.div
+              initial={{ width: 40 }}
+              animate={{ width: isSearchExpanded ? 150 : 40 }}
+              transition={{ ease: 'easeInOut' }}
+              className={tableStyles.searchContainer}>
+              {isSearchExpanded ? (
+                <Input
+                  className={tableStyles.searchInput}
+                  ref={searchInputRef}
+                  endContent={
+                    <button
+                      className="focus:outline-none"
+                      onClick={() => {
+                        if (filterValue) {
+                          setFilterValue('')
+                        } else {
+                          setIsSearchExpanded(false)
+                        }
+                      }}>
+                      {filterValue ? (
+                        <CloseIcon
+                          className={tableStyles.searchCloseIcon}
+                          width={16}
+                        />
+                      ) : (
+                        <CloseIcon
+                          className={tableStyles.searchCloseIcon}
+                          width={16}
+                        />
+                      )}
+                    </button>
+                  }
+                  placeholder="Search"
+                  size="sm"
+                  value={filterValue}
+                  onValueChange={onSearchChange}
+                />
+              ) : (
+                <button
+                  className={tableStyles.searchButton}
+                  onClick={toggleSearch}>
+                  <SearchIcon className="text-default-600" width={18} />
+                </button>
+              )}
+            </motion.div>
+
+            <div className="flex items-center gap-2">
+              <div className={tableStyles.filterSortButtons}>
+                <Popover placement="bottom">
+                  <PopoverTrigger>
+                    <Button
+                      className={tableStyles.filterSortButton}
+                      size="sm"
+                      startContent={
+                        <Icon
+                          className={tableStyles.filterSortIcon}
+                          icon="solar:tuning-2-linear"
+                          width={16}
+                        />
+                      }>
+                      {!isSearchExpanded && 'Filter'}
+                    </Button>
+                  </PopoverTrigger>
+
+                  <PopoverContent className={tableStyles.popoverContent}>
+                    <div className={tableStyles.filterPopoverContent}>
+                      <RadioGroup
+                        label="Worker Type"
+                        className="sm:pt-10"
+                        value={workerTypeFilter}
+                        onValueChange={setWorkerTypeFilter}>
+                        <Radio value="all">All</Radio>
+                        <Radio value="employee">Employee</Radio>
+
+                        <Radio value="contractor">Contractor</Radio>
+                      </RadioGroup>
+
+                      <RadioGroup
+                        label="Status"
+                        value={statusFilter}
+                        onValueChange={setStatusFilter}>
+                        <Radio value="all">All</Radio>
+                        <Radio value="active">Active</Radio>
+                        <Radio value="inactive">Inactive</Radio>
+                        <Radio value="pending">Pending</Radio>
+
+                        <Radio value="vacation">Vacation</Radio>
+                      </RadioGroup>
+
+                      <RadioGroup
+                        label="Start Date"
+                        value={startDateFilter}
+                        onValueChange={setStartDateFilter}>
+                        <Radio value="all">All</Radio>
+
+                        <Radio value="last7Days">Last 7 days</Radio>
+                        <Radio value="last30Days">Last 30 days</Radio>
+
+                        <Radio value="last60Days">Last 60 days</Radio>
+                      </RadioGroup>
+                    </div>
+                  </PopoverContent>
+                </Popover>
+              </div>
+
+              <div className={tableStyles.filterSortButtons}>
+                <Dropdown>
+                  <DropdownTrigger>
+                    <Button
+                      className={tableStyles.filterSortButton}
+                      size="sm"
+                      startContent={
+                        <Icon
+                          className={tableStyles.filterSortIcon}
+                          icon="solar:sort-linear"
+                          width={16}
+                        />
+                      }>
+                      {!isSearchExpanded && 'Sort'}
+                    </Button>
+                  </DropdownTrigger>
+
+                  <DropdownMenu
+                    aria-label="Sort"
+                    items={headerColumns.filter(
+                      c => !['actions', 'teams'].includes(c.uid)
+                    )}>
+                    {item => (
+                      <DropdownItem
+                        key={item.uid}
+                        onPress={() => {
+                          setSortDescriptor({
+                            column: item.uid,
+                            direction:
+                              sortDescriptor.direction === 'ascending'
+                                ? 'descending'
+                                : 'ascending'
+                          })
+                        }}>
+                        {item.name}
+                      </DropdownItem>
+                    )}
+                  </DropdownMenu>
+                </Dropdown>
+              </div>
+
+              <div className={tableStyles.filterSortButtons}>
+                <Dropdown closeOnSelect={false}>
+                  <DropdownTrigger>
+                    <Button
+                      className={tableStyles.filterSortButton}
+                      size="sm"
+                      startContent={
+                        <Icon
+                          className={tableStyles.filterSortIcon}
+                          icon="solar:sort-horizontal-linear"
+                          width={16}
+                        />
+                      }>
+                      {!isSearchExpanded && 'Columns'}
+                    </Button>
+                  </DropdownTrigger>
+
+                  <DropdownMenu
+                    disallowEmptySelection
+                    aria-label="Columns"
+                    items={columns.filter(c => !['actions'].includes(c.uid))}
+                    selectedKeys={visibleColumns}
+                    selectionMode="multiple"
+                    onSelectionChange={setVisibleColumns}>
+                    {item => (
+                      <DropdownItem key={item.uid}>{item.name}</DropdownItem>
+                    )}
+                  </DropdownMenu>
+                </Dropdown>
+              </div>
+
+              <div className={tableStyles.mobileActions}>
+                <Dropdown>
+                  <DropdownTrigger>
+                    <Button
+                      isIconOnly
+                      size="sm"
+                      variant="flat"
+                      className={tableStyles.mobileActionsButton}>
+                      <Icon
+                        icon="solar:menu-dots-bold"
+                        width={18}
+                        height={18}
+                      />
+                    </Button>
+                  </DropdownTrigger>
+
+                  <DropdownMenu aria-label="More actions" closeOnSelect={false}>
+                    <DropdownItem key="filter" className="p-0">
+                      <Popover placement="bottom">
+                        <PopoverTrigger>
+                          <Button
+                            variant="light"
+                            size="sm"
+                            fullWidth
+                            startContent={
+                              <Icon icon="solar:tuning-2-linear" width={16} />
+                            }
+                            className={tableStyles.mobileFilterButton}>
+                            Filter
+                          </Button>
+                        </PopoverTrigger>
+
+                        <PopoverContent className={tableStyles.popoverContent}>
+                          <div className={tableStyles.filterPopoverContent}>
+                            <RadioGroup
+                              className="pt-10"
+                              label="Worker Type"
+                              value={workerTypeFilter}
+                              onValueChange={setWorkerTypeFilter}>
+                              <Radio value="all">All</Radio>
+                              <Radio value="employee">Employee</Radio>
+
+                              <Radio value="contractor">Contractor</Radio>
+                            </RadioGroup>
+
+                            <RadioGroup
+                              label="Status"
+                              value={statusFilter}
+                              onValueChange={setStatusFilter}>
+                              <Radio value="all">All</Radio>
+                              <Radio value="active">Active</Radio>
+
+                              <Radio value="inactive">Inactive</Radio>
+
+                              <Radio value="pending">Pending</Radio>
+
+                              <Radio value="vacation">Vacation</Radio>
+                            </RadioGroup>
+
+                            <RadioGroup
+                              label="Start Date"
+                              value={startDateFilter}
+                              onValueChange={setStartDateFilter}>
+                              <Radio value="all">All</Radio>
+                              <Radio value="last7Days">Last 7 days</Radio>
+
+                              <Radio value="last30Days">Last 30 days</Radio>
+
+                              <Radio value="last60Days">Last 60 days</Radio>
+                            </RadioGroup>
+                          </div>
+                        </PopoverContent>
+                      </Popover>
+                    </DropdownItem>
+
+                    <DropdownItem key="sort" className="p-0">
+                      <Dropdown placement="right">
+                        <DropdownTrigger>
+                          <Button
+                            variant="light"
+                            size="sm"
+                            fullWidth
+                            startContent={
+                              <Icon icon="solar:sort-linear" width={16} />
+                            }
+                            className={tableStyles.mobileFilterButton}>
+                            Sort
+                          </Button>
+                        </DropdownTrigger>
+
+                        <DropdownMenu
+                          aria-label="Sort"
+                          items={headerColumns.filter(
+                            c => !['actions', 'teams'].includes(c.uid)
+                          )}>
+                          {item => (
+                            <DropdownItem
+                              key={item.uid}
+                              onPress={() => {
+                                setSortDescriptor({
+                                  column: item.uid,
+                                  direction:
+                                    sortDescriptor.direction === 'ascending'
+                                      ? 'descending'
+                                      : 'ascending'
+                                })
+                              }}>
+                              {item.name}
+                            </DropdownItem>
+                          )}
+                        </DropdownMenu>
+                      </Dropdown>
+                    </DropdownItem>
+
+                    <DropdownItem key="columns" className="p-0">
+                      <Dropdown placement="right" closeOnSelect={false}>
+                        <DropdownTrigger>
+                          <Button
+                            variant="light"
+                            size="sm"
+                            fullWidth
+                            startContent={
+                              <Icon
+                                icon="solar:sort-horizontal-linear"
+                                width={16}
+                              />
+                            }
+                            className={tableStyles.mobileFilterButton}>
+                            Columns
+                          </Button>
+                        </DropdownTrigger>
+
+                        <DropdownMenu
+                          disallowEmptySelection
+                          aria-label="Columns"
+                          items={columns.filter(
+                            c => !['actions'].includes(c.uid)
+                          )}
+                          selectedKeys={visibleColumns}
+                          selectionMode="multiple"
+                          onSelectionChange={setVisibleColumns}>
+                          {item => (
+                            <DropdownItem key={item.uid}>
+                              {item.name}
+                            </DropdownItem>
+                          )}
+                        </DropdownMenu>
+                      </Dropdown>
+                    </DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     )
   }, [

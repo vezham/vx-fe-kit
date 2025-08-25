@@ -1,14 +1,16 @@
 export const tableStyles = {
-  wrapper: 'h-full w-full p-2',
+  wrapper: 'h-full w-full sm:p-2',
   topBarContainer: 'mb-[18px] flex items-center justify-between gap-4',
-  topBarLeft: 'flex items-center gap-2',
+  topBarLeft: 'flex sm:items-center flex-row justify-between  gap-4 sm:gap-2',
   topBarLeftInner: 'flex items-center gap-2',
   membersText: 'text-default-700 text-base font-medium',
   chip: 'text-default-500 flex items-center',
   selectedActionsContainer: 'flex items-center gap-2',
   divider: 'hidden h-5 sm:flex',
   selectedCountText: 'text-default-800 text-sm whitespace-nowrap',
-  selectedActionsButton: 'bg-default-100 text-default-800',
+  selectedActions: 'min-w-[30px] min-h-[30px]',
+  selectedActionsButton: 'bg-default-100 text-default-800 hidden sm:flex',
+  selectedActionsMoreButton: 'bg-default-100 text-default-800 sm:hidden ',
   dropdownIcon: 'text-default-400',
   topBarRight: 'flex items-center',
   searchContainer: 'flex items-center',
@@ -52,8 +54,10 @@ export const tableStyles = {
 export const iconSizeClasses = 'h-4.5 w-4.5'
 
 export const teamSettingStyles = {
-  wrapper: 'p-2',
-  titleContainer: 'flex items-start justify-between',
+  wrapper: 'relative p-2 w-full',
+  titleContainer: 'flex justify-between w-full',
+  titleTab: 'w-full max-w-2xl lg:max-w-4xl xl:max-w-5xl  xl:mx-12',
+  endContent: 'absolute  right-0 top-0',
   titleText: 'text-default-700 text-base font-medium',
   descriptionText: 'text-default-400 mt-1 text-sm font-normal',
   modalHeader: 'flex flex-col gap-1',
@@ -74,10 +78,11 @@ export const teamSettingStyles = {
   learnMoreIcon:
     'text-default-foreground absolute top-0 right-0 h-2.5 w-2.5 translate-x-[8px] translate-y-[-2px]',
   sendInviteButton: 'bg-default-foreground text-background',
-  tableSectionContainer: 'flex items-start justify-between',
-  tableWrapper: 'w-full max-w-5xl ',
-  tableCard: 'border-default-200 mt-4 border bg-transparent',
-  roleCard: 'border-default-200 w-full max-w-5xl border bg-transparent',
+  tableSectionContainer: 'flex items-start justify-between p-0',
+  tableWrapper: 'w-full max-w-5xl  xl:mx-12',
+  tableCard: 'sm:border-default-200 mt-4 sm:border bg-transparent',
+  roleCard:
+    'border-default-200 w-full max-w-5xl  xl:mx-12 border bg-transparent',
   roleCardBody: 'px-4',
   roleCardHeader: 'pb-3',
   roleCardTitle: 'text-default-700 text-base font-medium',

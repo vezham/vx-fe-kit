@@ -40,19 +40,21 @@ const TeamSetting = React.forwardRef<HTMLDivElement, TeamSettingCardProps>(
     const { isOpen, onOpen, onClose } = useDisclosure()
 
     return (
-      <div
-        {...rest}
-        ref={ref}
-        className={cn(teamSettingStyles.wrapper, className)}>
-        {/* Title */}
-        <div className={teamSettingStyles.titleContainer}>
-          <div>
-            <p className={teamSettingStyles.titleText}>Team</p>
-            <p className={teamSettingStyles.descriptionText}>
-              Manage and invite Team Members.
-            </p>
+      <>
+        <div
+          {...rest}
+          ref={ref}
+          className={cn(teamSettingStyles.wrapper, className)}>
+          {/* Title */}
+          <div className={teamSettingStyles.titleContainer}>
+            <div className={teamSettingStyles.titleTab}>
+              <p className={teamSettingStyles.titleText}>Team</p>
+              <p className={teamSettingStyles.descriptionText}>
+                Manage and invite Team Members.
+              </p>
+            </div>
           </div>
-          <div>
+          <div className={teamSettingStyles.endContent}>
             {endContent && endContent(onOpen)}
             <Modal isOpen={isOpen} onClose={onClose}>
               <ModalContent>
@@ -210,7 +212,7 @@ const TeamSetting = React.forwardRef<HTMLDivElement, TeamSettingCardProps>(
             </div>
           </CardBody>
         </Card>
-      </div>
+      </>
     )
   }
 )
