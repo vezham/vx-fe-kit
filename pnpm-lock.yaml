@@ -7,9 +7,6 @@ settings:
 importers:
   .:
     dependencies:
-      '@vx-oss/react':
-        specifier: ^0.1.6
-        version: 0.1.6(@types/react@19.0.0)(framer-motion@12.23.12(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(tailwindcss@4.1.11)
       framer-motion:
         specifier: ^12.23.12
         version: 12.23.12(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -125,6 +122,9 @@ importers:
       '@vitest/ui':
         specifier: ^3.0.0
         version: 3.2.4(vitest@3.2.4)
+      '@vx-oss/react':
+        specifier: ^0.1.6
+        version: 0.1.6(@types/react@19.0.0)(framer-motion@12.23.12(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(tailwindcss@4.1.11)
       autoprefixer:
         specifier: 10.4.13
         version: 10.4.13(postcss@8.5.6)
