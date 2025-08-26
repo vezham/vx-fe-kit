@@ -235,7 +235,7 @@ importers:
         specifier: ^3.0.0
         version: 3.2.4(@types/node@20.19.9)(@vitest/ui@3.2.4)(jiti@2.4.2)(jsdom@22.1.0)(lightningcss@1.30.1)(terser@5.43.1)(tsx@4.20.5)(yaml@2.8.1)
 
-  apps/ts4:
+  apps_internals/playground:
     devDependencies:
       '@vx/start':
         specifier: workspace:*
@@ -244,7 +244,7 @@ importers:
         specifier: workspace:*
         version: link:../../packages/vx/system-utils
 
-  apps/ts4-e2e: {}
+  apps_internals/playground-e2e: {}
 
   packages/vx/start:
     devDependencies:

@@ -1,6 +1,6 @@
 /// <reference types='vitest' />
 import { tanstackRouter } from '@tanstack/router-plugin/vite'
-import react from '@vitejs/plugin-react'
+import react from '@vitejs/plugin-react-swc'
 import { defineConfig } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
 
@@ -11,7 +11,7 @@ export default defineConfig(async () => {
   return {
     envPrefix: ['V_'],
     root: __dirname,
-    cacheDir: '../../node_modules/.vite/apps/ts4',
+    cacheDir: '../../node_modules/.vite/apps_internals/playground',
     server: {
       port: 4200,
       host: 'localhost'
@@ -39,6 +39,7 @@ export default defineConfig(async () => {
       }
     },
     test: {
+      name: 'playground',
       watch: false,
       globals: true,
       environment: 'jsdom',

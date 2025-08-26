@@ -7,8 +7,6 @@ const ignores = [
   '**/dist',
   '**/node_modules',
   '**/coverage',
-  '**/vite.config.*.timestamp*',
-  '**/vitest.config.*.timestamp*',
   '**/test-output',
   '**/out-tsc',
   '**/.vezham',
@@ -24,6 +22,13 @@ export default [
   ...tanstackQuery.configs['flat/recommended'],
   {
     ignores
+  },
+  {
+    ignores: [
+      '**/vite.config.*.timestamp*',
+      '**/vitest.config.*.timestamp*',
+      '**/test-output'
+    ]
   },
   {
     files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
@@ -73,7 +78,7 @@ export default [
     rules: {
       '@typescript-eslint/no-explicit-any': 'off'
     }
-  },
+  }
   // --- wjdlz/TODO: review based on WS
   // {
   //   files: ['**/**/vite.config.ts'],
@@ -129,7 +134,4 @@ export default [
   //   }
   // }
   // wjdlz/TODO: set workspace config
-  {
-    ignores: ['**/vite.config.*.timestamp*', '**/vitest.config.*.timestamp*']
-  }
 ]

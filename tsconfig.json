@@ -6,16 +6,16 @@
   "files": [],
   "references": [
     {
-      "path": "./apps/ts4-e2e"
-    },
-    {
-      "path": "./apps/ts4"
-    },
-    {
       "path": "./packages/vx/start"
     },
     {
       "path": "./packages/vx/system-utils"
+    },
+    {
+      "path": "./apps_internals/playground-e2e"
+    },
+    {
+      "path": "./apps_internals/playground"
     }
   ]
 }
