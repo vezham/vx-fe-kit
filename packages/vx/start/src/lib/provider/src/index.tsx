@@ -4,18 +4,19 @@ import { FC, StrictMode, lazy } from 'react'
 import ReactDOM from 'react-dom/client'
 // import { Toaster } from 'sonner'
 
-// import { APP_NAME, __DEV__, initWorker } from '@vezham/contracts'
-// import { initAxios, initStore, useLogger } from '@vezham/hooks'
-// import { cn } from '@vezham/system-utils'
+// import { initWorker } from '@vezham/contracts'
 // import { Lockscreen, NoInternetConnection } from '@vezham/templates'
 // import { ThemeProvider } from '@vezham/theme'
-// import { defineAxios, defineStore, useLogger } from '@vezham/hooks'
-// import { cn } from '@vezham/react-utils'
+// import { defineAxios, defineStore } from '@vezham/hooks'
 // import { startWorker as defineWorker } from '@vezham/shared-sw'
-import { VezhamProvider } from '@vx-oss/react'
+// import { cn } from '@vezham/system-utils'
+
+import { useLogger } from '@vezham/use-logger'
+import { VezhamProvider, cn } from '@vx-oss/react'
+import { APP_NAME, __DEV__ } from '@vx/system-utils'
 import { Props } from './types'
 
-// const NAMESPACE = 'Core/System'
+const NAMESPACE = '@vx/start'
 
 const MINUTE = 1000 * 60
 
@@ -43,7 +44,7 @@ const Provider: FC<Props> = ({
   strict = true,
   query = true
 }) => {
-  const classList = `vx-app ${className}` // cn('vx-app', className)
+  const classList = cn('vx-app', className)
   let template = (
     <VezhamProvider>
       {/* <ThemeProvider classTarget={classTarget} vmode={vmode}>
@@ -63,7 +64,7 @@ const Provider: FC<Props> = ({
     template = (
       <QueryClientProvider client={queryClient}>
         <ReactQueryDevtools />
-        {/* {__DEV__ ? <ReactQueryDevtools /> : null} */}
+        {__DEV__ ? <ReactQueryDevtools /> : null}
         {template}
       </QueryClientProvider>
     )
@@ -75,8 +76,8 @@ const Provider: FC<Props> = ({
   return template
 }
 
-const preConfig = ({ name, version, store = true }: Props) => {
-  // APP_NAME
+// @vx/NOTE: defineLogger is handled by @vx/system-utils
+const preConfig = ({ name = APP_NAME, version, store = true }: Props) => {
   if (store) {
     // defineStore({ pretext: name, version })
   }
@@ -91,8 +92,7 @@ const config = ({ worker = true, axios = true, ...props }: Props) => {
   }
 }
 
-const defineConfig = ({ name, ...props }: Props) => {
-  // APP_NAME
+const defineConfig = ({ name = APP_NAME, ...props }: Props) => {
   const el = document.getElementById('root') as HTMLElement
   if (el && !el.getAttribute('vx-app-mounted')) {
     preConfig(props)
@@ -103,7 +103,7 @@ const defineConfig = ({ name, ...props }: Props) => {
 
     config(props)
   } else {
-    // useLogger.log(NAMESPACE, '[provider] | root el is missing')
+    useLogger.log(NAMESPACE, '[provider] | root el is missing')
   }
 }
 

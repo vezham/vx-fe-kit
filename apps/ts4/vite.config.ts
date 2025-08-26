@@ -6,8 +6,10 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 
 export default defineConfig(async () => {
   const tailwindcss = (await import('@tailwindcss/vite')).default
+  // const { env } = process
 
   return {
+    envPrefix: ['V_'],
     root: __dirname,
     cacheDir: '../../node_modules/.vite/apps/ts4',
     server: {

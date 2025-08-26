@@ -113,6 +113,9 @@ importers:
       '@types/yargs':
         specifier: ^17.0.33
         version: 17.0.33
+      '@vezham/use-logger':
+        specifier: ^0.3.3
+        version: 0.3.3
       '@vitejs/plugin-react':
         specifier: ^4.2.0
         version: 4.7.0(vite@6.3.5(@types/node@20.19.9)(jiti@2.4.2)(lightningcss@1.30.1)(terser@5.43.1)(tsx@4.20.5)(yaml@2.8.0))
@@ -236,10 +239,19 @@ importers:
       '@vx/start':
         specifier: workspace:*
         version: link:../../packages/vx/start
+      '@vx/system-utils':
+        specifier: workspace:*
+        version: link:../../packages/vx/system-utils
 
   apps/ts4-e2e: {}
 
-  packages/vx/start: {}
+  packages/vx/start:
+    devDependencies:
+      '@vx/system-utils':
+        specifier: workspace:*
+        version: link:../system-utils
+
+  packages/vx/system-utils: {}
 
 packages:
   '@adobe/css-tools@4.4.3':
@@ -4980,6 +4992,12 @@ packages:
         integrity: sha512-mQoe1yUlYR4ujR65xVNAr4and102UNvAjlx6+IYyVPa7h3CZ0w5e8sRjlbYIXXL/qDI4RPVzfJVpquiwPkUCGg==
       }
     engines: { node: '>=18' }
+
+  '@vezham/use-logger@0.3.3':
+    resolution:
+      {
+        integrity: sha512-b0f7GVXDxfUU1FPHb4XWEIT6NNU00TLueuQcAKq46JjiZfFw0NdHX3h/ZO20AR0iKsCkhRyjtqw6+QkGBj2lMg==
+      }
 
   '@vitejs/plugin-react-swc@3.11.0':
     resolution:
@@ -18200,6 +18218,8 @@ snapshots:
       '@verdaccio/core': 8.0.0-next-8.19
       lodash: 4.17.21
       minimatch: 7.4.6
+
+  '@vezham/use-logger@0.3.3': {}
 
   '@vitejs/plugin-react-swc@3.11.0(@swc/helpers@0.5.17)(vite@6.3.5(@types/node@20.19.9)(jiti@2.4.2)(lightningcss@1.30.1)(terser@5.43.1)(tsx@4.20.5)(yaml@2.8.0))':
     dependencies:

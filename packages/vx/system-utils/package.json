@@ -1,5 +1,5 @@
 {
-  "name": "@vx/start",
+  "name": "@vx/system-utils",
   "version": "0.0.1",
   "exports": {
     ".": {
@@ -10,8 +10,5 @@
     "./package.json": "./package.json"
   },
   "main": "./src/index.ts",
-  "types": "./src/index.ts",
-  "devDependencies": {
-    "@vx/system-utils": "workspace:*"
-  }
+  "types": "./src/index.ts"
 }
