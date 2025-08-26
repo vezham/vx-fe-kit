@@ -1,5 +1,5 @@
 export const notificationVariants = {
-  card: 'bg-transparent shadow-none  xl:mx-12',
+  card: 'bg-transparent shadow-none ',
   cardBody: 'space-y-6',
   sectionTitle: 'text-default-700 text-base font-medium',
   sectionSubtitle: 'text-default-400 mt-1 text-sm font-normal',

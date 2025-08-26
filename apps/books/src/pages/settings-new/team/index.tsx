@@ -38,7 +38,7 @@ const colors = {
 const TeamSetting = React.forwardRef<HTMLDivElement, TeamSettingCardProps>(
   ({ className, endContent, ...rest }, ref) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
-
+    const [isAddMoreOpen, setIsAddMoreOpen] = React.useState(false)
     return (
       <>
         <div
@@ -53,109 +53,166 @@ const TeamSetting = React.forwardRef<HTMLDivElement, TeamSettingCardProps>(
                 Manage and invite Team Members.
               </p>
             </div>
-          </div>
-          <div className={teamSettingStyles.endContent}>
-            {endContent && endContent(onOpen)}
-            <Modal isOpen={isOpen} onClose={onClose}>
-              <ModalContent>
-                {onClose => (
-                  <>
-                    <ModalHeader
-                      className={teamSettingStyles.modalHeader}></ModalHeader>
-                    <ModalBody>
-                      <div className={teamSettingStyles.modalBodyTopContainer}>
-                        <p className={teamSettingStyles.modalBodyTitleText}>
-                          Invite new members by email address
-                        </p>
-                        <Button
-                          className={teamSettingStyles.inviteButton}
-                          endContent={
-                            <Icon
-                              className={teamSettingStyles.inviteButtonIcon}
-                              icon="solar:link-linear"
-                            />
-                          }
-                          radius="md"
-                          size="sm">
-                          Invite Link
-                        </Button>
-                      </div>
-                      <Divider />
-
-                      <div>
-                        {/* Email Address */}
+            <div className={teamSettingStyles.endContent}>
+              {endContent && endContent(onOpen)}
+              <Modal isOpen={isOpen} onClose={onClose}>
+                <ModalContent>
+                  {onClose => (
+                    <>
+                      <ModalHeader
+                        className={teamSettingStyles.modalHeader}></ModalHeader>
+                      <ModalBody>
                         <div
-                          className={teamSettingStyles.emailAndRoleContainer}>
-                          <div className={teamSettingStyles.inputGroup}>
-                            <p className={teamSettingStyles.inputLabelText}>
-                              Email Address
-                            </p>
-                            <Input
-                              className={teamSettingStyles.inputField}
-                              classNames={{
-                                inputWrapper: teamSettingStyles.inputWrapper
-                              }}
-                              placeholder="e.g kate.moore@acme.com"
-                            />
-                          </div>
-                          <div className={teamSettingStyles.inputGroup}>
-                            <p className={teamSettingStyles.inputLabelText}>
-                              Role
-                            </p>
-                            <Select
-                              className={teamSettingStyles.inputField}
-                              classNames={{
-                                trigger: teamSettingStyles.inputWrapper
-                              }}
-                              defaultSelectedKeys={['member']}>
-                              {roleOptions.map(roleOption => (
-                                <SelectItem key={roleOption.value}>
-                                  {roleOption.label}
-                                </SelectItem>
-                              ))}
-                            </Select>
-                          </div>
-                        </div>
-                        <Button
-                          className={teamSettingStyles.addMoreButton}
-                          endContent={
-                            <Icon
-                              className={teamSettingStyles.addMoreButtonIcon}
-                              icon="solar:add-circle-linear"
-                            />
-                          }
-                          radius="md"
-                          size="sm">
-                          Add more
-                        </Button>
-                      </div>
-
-                      <Divider />
-                      <div>
-                        <div className={teamSettingStyles.modalFooter}>
-                          <p className={teamSettingStyles.learnMoreText}>
-                            Learn more about{' '}
-                            <span className={teamSettingStyles.learnMoreLink}>
-                              Team Members
-                            </span>
-                            <Icon
-                              className={teamSettingStyles.learnMoreIcon}
-                              icon="material-symbols-light:arrow-outward-rounded"
-                            />
+                          className={teamSettingStyles.modalBodyTopContainer}>
+                          <p className={teamSettingStyles.modalBodyTitleText}>
+                            Invite new members by email address
                           </p>
                           <Button
-                            className={teamSettingStyles.sendInviteButton}
+                            className={teamSettingStyles.inviteButton}
+                            endContent={
+                              <Icon
+                                className={teamSettingStyles.inviteButtonIcon}
+                                icon="solar:link-linear"
+                              />
+                            }
                             radius="md"
                             size="sm">
-                            Send Invite
+                            Invite Link
                           </Button>
                         </div>
-                      </div>
-                    </ModalBody>
-                  </>
-                )}
-              </ModalContent>
-            </Modal>
+                        <Divider />
+
+                        <div>
+                          {/* Email Address */}
+                          <div
+                            className={teamSettingStyles.emailAndRoleContainer}>
+                            <div className={teamSettingStyles.inputGroup}>
+                              <p className={teamSettingStyles.inputLabelText}>
+                                Email Address
+                              </p>
+                              <Input
+                                className={teamSettingStyles.inputField}
+                                classNames={{
+                                  inputWrapper: teamSettingStyles.inputWrapper
+                                }}
+                                placeholder="e.g kate.moore@acme.com"
+                              />
+                            </div>
+                            <div className={teamSettingStyles.inputGroup}>
+                              <p className={teamSettingStyles.inputLabelText}>
+                                Role
+                              </p>
+                              <Select
+                                className={teamSettingStyles.inputField}
+                                classNames={{
+                                  trigger: teamSettingStyles.inputWrapper
+                                }}
+                                defaultSelectedKeys={['member']}>
+                                {roleOptions.map(roleOption => (
+                                  <SelectItem key={roleOption.value}>
+                                    {roleOption.label}
+                                  </SelectItem>
+                                ))}
+                              </Select>
+                            </div>
+                          </div>
+                          <Button
+                            className={teamSettingStyles.addMoreButton}
+                            onPress={() => setIsAddMoreOpen(true)}
+                            endContent={
+                              <Icon
+                                className={teamSettingStyles.addMoreButtonIcon}
+                                icon="solar:add-circle-linear"
+                              />
+                            }
+                            radius="md"
+                            size="sm">
+                            Add more
+                          </Button>
+                        </div>
+
+                        <Divider />
+                        <div>
+                          <div className={teamSettingStyles.modalFooter}>
+                            <p className={teamSettingStyles.learnMoreText}>
+                              Learn more about{' '}
+                              <span className={teamSettingStyles.learnMoreLink}>
+                                Team Members
+                              </span>
+                              <Icon
+                                className={teamSettingStyles.learnMoreIcon}
+                                icon="material-symbols-light:arrow-outward-rounded"
+                              />
+                            </p>
+                            <Button
+                              className={teamSettingStyles.sendInviteButton}
+                              radius="md"
+                              size="sm">
+                              Send Invite
+                            </Button>
+                          </div>
+                        </div>
+                      </ModalBody>
+                    </>
+                  )}
+                </ModalContent>
+              </Modal>
+              <Modal
+                isOpen={isAddMoreOpen}
+                onClose={() => setIsAddMoreOpen(false)}>
+                <ModalContent>
+                  {onClose => (
+                    <>
+                      <ModalHeader>Add More Members</ModalHeader>
+                      <ModalBody>
+                        <div>
+                          {/* Email Address */}
+                          <div
+                            className={teamSettingStyles.emailAndRoleContainer}>
+                            <div className={teamSettingStyles.inputGroup}>
+                              <p className={teamSettingStyles.inputLabelText}>
+                                Email Address
+                              </p>
+                              <Input
+                                className={teamSettingStyles.inputField}
+                                classNames={{
+                                  inputWrapper: teamSettingStyles.inputWrapper
+                                }}
+                                placeholder="e.g kate.moore@acme.com"
+                              />
+                            </div>
+                            <div className={teamSettingStyles.inputGroup}>
+                              <p className={teamSettingStyles.inputLabelText}>
+                                Role
+                              </p>
+                              <Select
+                                className={teamSettingStyles.inputField}
+                                classNames={{
+                                  trigger: teamSettingStyles.inputWrapper
+                                }}
+                                defaultSelectedKeys={['member']}>
+                                {roleOptions.map(roleOption => (
+                                  <SelectItem key={roleOption.value}>
+                                    {roleOption.label}
+                                  </SelectItem>
+                                ))}
+                              </Select>
+                            </div>
+                          </div>
+                        </div>
+                        <Divider />
+                        <Button
+                          className={teamSettingStyles.doneButton}
+                          size="sm"
+                          onPress={() => setIsAddMoreOpen(false)}>
+                          Add
+                        </Button>
+                      </ModalBody>
+                    </>
+                  )}
+                </ModalContent>
+              </Modal>
+            </div>
           </div>
         </div>
         <div className={teamSettingStyles.tableSectionContainer}>

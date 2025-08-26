@@ -54,37 +54,38 @@ export default function Component({
       {/* Settings Content */}
       <div className="scrollbar-hide w-full flex-1 overflow-y-auto p-4">
         {/* Responsive wrapper */}
+        <div className="w-full max-w-2xl xl:mx-12 xl:max-w-5xl">
+          <div className="flex flex-col justify-between gap-4 sm:flex-row">
+            {/* Left Content */}
+            <div className="flex flex-col">
+              <h1 className="text-default-foreground text-3xl leading-9 font-bold">
+                Settings
+              </h1>
+              <h2 className="text-small text-default-500 mt-2">
+                Customize settings, email preferences, and web appearance.
+              </h2>
+            </div>
 
-        <div className="flex flex-col justify-between gap-4 sm:flex-row xl:ml-12">
-          {/* Left Content */}
-          <div className="flex flex-col">
-            <h1 className="text-default-foreground text-3xl leading-9 font-bold">
-              Settings
-            </h1>
-            <h2 className="text-small text-default-500 mt-2">
-              Customize settings, email preferences, and web appearance.
-            </h2>
+            {/* Right Buttons */}
+            <div className="flex w-full gap-2 sm:w-auto">{endContent}</div>
           </div>
 
-          {/* Right Buttons */}
-          <div className="flex w-full gap-2 sm:w-auto">{endContent}</div>
+          {/* Tabs */}
+
+          <Tabs
+            fullWidth
+            classNames={{
+              base: 'mt-6 w-full max-w-2xl',
+              cursor: 'bg-content1 dark:bg-content1',
+              panel: 'w-full p-0 pt-4 '
+            }}>
+            {tabItems.map(({ key, title, component }) => (
+              <Tab key={key} title={title}>
+                {component}
+              </Tab>
+            ))}
+          </Tabs>
         </div>
-
-        {/* Tabs */}
-
-        <Tabs
-          fullWidth
-          classNames={{
-            base: 'mt-6 w-full max-w-2xl xl:ml-12',
-            cursor: 'bg-content1 dark:bg-content1',
-            panel: 'w-full p-0 pt-4 '
-          }}>
-          {tabItems.map(({ key, title, component }) => (
-            <Tab key={key} title={title}>
-              {component}
-            </Tab>
-          ))}
-        </Tabs>
       </div>
     </div>
   )

@@ -272,13 +272,15 @@ export const Component = () => {
     return (
       <div className={tableStyles.topBarContainer}>
         <div className={tableStyles.topBarLeft}>
-          <div className={tableStyles.topBarLeftInner}>
-            <p className={tableStyles.membersText}>Members</p>
+          {!isSearchExpanded && (
+            <div className={tableStyles.topBarLeftInner}>
+              <p className={tableStyles.membersText}>Members</p>
 
-            <Chip className={tableStyles.chip} size="sm" variant="flat">
-              {users.length}
-            </Chip>
-          </div>
+              <Chip className={tableStyles.chip} size="sm" variant="flat">
+                {users.length}
+              </Chip>
+            </div>
+          )}
           <div>
             {!isSelectionEmpty && (
               <div className={tableStyles.selectedActionsContainer}>
@@ -589,7 +591,7 @@ export const Component = () => {
                     </DropdownItem>
 
                     <DropdownItem key="sort" className="p-0">
-                      <Dropdown placement="right">
+                      <Dropdown placement="bottom">
                         <DropdownTrigger>
                           <Button
                             variant="light"
@@ -628,7 +630,7 @@ export const Component = () => {
                     </DropdownItem>
 
                     <DropdownItem key="columns" className="p-0">
-                      <Dropdown placement="right" closeOnSelect={false}>
+                      <Dropdown placement="bottom" closeOnSelect={false}>
                         <DropdownTrigger>
                           <Button
                             variant="light"

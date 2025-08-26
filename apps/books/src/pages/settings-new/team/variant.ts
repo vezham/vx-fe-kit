@@ -46,43 +46,43 @@ export const tableStyles = {
     actionIcon: 'text-default-400 cursor-pointer',
     actionDropdownButton: 'text-default-400'
   },
-  paginationContainer:
-    'flex w-full items-center  justify-between gap-2 px-2 py-4',
-  paginationButtonContainer: 'gap-2 items-center flex '
+  paginationContainer: 'flex w-full items-center  justify-between gap-2  py-4',
+  paginationButtonContainer: 'gap-2 items-center flex min-w-[200px]'
 }
 
 export const iconSizeClasses = 'h-4.5 w-4.5'
 
 export const teamSettingStyles = {
-  wrapper: 'relative p-2 w-full',
+  wrapper: ' p-2 w-full',
   titleContainer: 'flex justify-between w-full',
-  titleTab: 'w-full max-w-2xl lg:max-w-4xl xl:max-w-5xl  xl:mx-12',
-  endContent: 'absolute  right-0 top-0',
+  titleTab: 'w-full ',
+  endContent: '',
   titleText: 'text-default-700 text-base font-medium',
   descriptionText: 'text-default-400 mt-1 text-sm font-normal',
   modalHeader: 'flex flex-col gap-1',
-  modalBodyTopContainer: 'flex items-start justify-between',
+  modalBodyTopContainer: 'flex items-center justify-between',
   modalBodyTitleText: 'text-default-700 mt-1.5 text-sm font-medium',
   inviteButton: 'bg-default-foreground text-background',
   inviteButtonIcon: 'h-3 w-3',
-  emailAndRoleContainer: 'flex items-center justify-between gap-3',
-  inputGroup: 'flex-1',
+  emailAndRoleContainer:
+    'flex sm:flex-row flex-col w-full  items-center sm:justify-between gap-3',
+  inputGroup: 'w-full',
   inputLabelText: 'text-default-500 text-sm font-normal',
   inputField: 'mt-2',
   inputWrapper: 'bg-default-200',
-  addMoreButton: 'bg-default-200 text-default-700 mt-3',
+  addMoreButton: 'bg-default-200 w-full sm:w-auto text-default-700 mt-3 ',
   addMoreButtonIcon: 'h-[18px] w-[18px]',
-  modalFooter: 'flex items-end justify-between py-2',
+  doneButton: 'bg-default-foreground text-background',
+  modalFooter: 'flex items-center justify-between py-2',
   learnMoreText: 'text-default-500 relative mb-2 text-xs',
   learnMoreLink: 'text-default-foreground',
   learnMoreIcon:
     'text-default-foreground absolute top-0 right-0 h-2.5 w-2.5 translate-x-[8px] translate-y-[-2px]',
   sendInviteButton: 'bg-default-foreground text-background',
   tableSectionContainer: 'flex items-start justify-between p-0',
-  tableWrapper: 'w-full max-w-5xl  xl:mx-12',
+  tableWrapper: 'w-full',
   tableCard: 'sm:border-default-200 mt-4 sm:border bg-transparent',
-  roleCard:
-    'border-default-200 w-full max-w-5xl  xl:mx-12 border bg-transparent',
+  roleCard: 'border-default-200 w-full border bg-transparent',
   roleCardBody: 'px-4',
   roleCardHeader: 'pb-3',
   roleCardTitle: 'text-default-700 text-base font-medium',
