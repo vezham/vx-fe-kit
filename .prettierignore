@@ -114,7 +114,7 @@ logs
 
 # -lock's
 *-lock.json
-# *-lock.yaml
+*-lock.yaml
 *.lock
 **/__mocks__/*-lock.yaml
-# **/routeTree.gen.ts
+**/routeTree.gen.ts
