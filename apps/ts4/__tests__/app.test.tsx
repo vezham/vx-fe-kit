@@ -1,6 +1,14 @@
 import { render } from '@testing-library/react'
+import { describe, expect, it } from 'vitest'
 
-import App from './'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import Page from '../src/pages/home'
+
+const App = () => (
+  <QueryClientProvider client={new QueryClient()}>
+    <Page />
+  </QueryClientProvider>
+)
 
 describe('App', () => {
   it('should render successfully', () => {

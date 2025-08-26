@@ -3,6 +3,9 @@
   "include": [],
   "references": [
     {
+      "path": "../../packages/vx/start"
+    },
+    {
       "path": "./tsconfig.app.json"
     },
     {

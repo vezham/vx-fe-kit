@@ -6,7 +6,7 @@ on:
     - cron: '30 22 * * 2,5' # Wed, Sat at 4am IST
   workflow_dispatch:
   push:
-    branches: [timeline]
+    branches: [timeline, feat/nx-next]
     paths:
       - '.github/workflows/qa.yml'
       - 'vx/handbooks/ci.md'
