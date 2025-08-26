@@ -47,7 +47,7 @@ export const tableStyles = {
     actionDropdownButton: 'text-default-400'
   },
   paginationContainer: 'flex w-full items-center  justify-between gap-2  py-4',
-  paginationButtonContainer: 'gap-2 items-center flex min-w-[200px]'
+  paginationButtonContainer: 'gap-2 items-center flex'
 }
 
 export const iconSizeClasses = 'h-4.5 w-4.5'
@@ -68,7 +68,7 @@ export const teamSettingStyles = {
     'flex sm:flex-row flex-col w-full  items-center sm:justify-between gap-3',
   inputGroup: 'w-full',
   inputLabelText: 'text-default-500 text-sm font-normal',
-  inputField: 'mt-2',
+  inputField: 'my-1',
   inputWrapper: 'bg-default-200',
   addMoreButton: 'bg-default-200 w-full sm:w-auto text-default-700 mt-3 ',
   addMoreButtonIcon: 'h-[18px] w-[18px]',

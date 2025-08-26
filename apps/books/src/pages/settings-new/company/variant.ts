@@ -1,7 +1,7 @@
 import { cn } from '@heroui/react'
 
 export const profileSettingStyles = {
-  container: (className?: string) => cn('p-2', className),
+  container: (className?: string) => cn('w-full max-w-2xl p-2', className),
 
   // Text
   sectionTitle: 'text-default-700 text-base font-medium',

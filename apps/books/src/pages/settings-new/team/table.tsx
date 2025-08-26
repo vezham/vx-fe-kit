@@ -30,6 +30,8 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import {
   ChevronDownIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
   ChevronUpIcon,
   CloseIcon,
   DeleteIcon,
@@ -272,15 +274,14 @@ export const Component = () => {
     return (
       <div className={tableStyles.topBarContainer}>
         <div className={tableStyles.topBarLeft}>
-          {!isSearchExpanded && (
-            <div className={tableStyles.topBarLeftInner}>
-              <p className={tableStyles.membersText}>Members</p>
+          <div className={tableStyles.topBarLeftInner}>
+            <p className={tableStyles.membersText}>Members</p>
 
-              <Chip className={tableStyles.chip} size="sm" variant="flat">
-                {users.length}
-              </Chip>
-            </div>
-          )}
+            <Chip className={tableStyles.chip} size="sm" variant="flat">
+              {users.length}
+            </Chip>
+          </div>
+
           <div>
             {!isSelectionEmpty && (
               <div className={tableStyles.selectedActionsContainer}>
@@ -707,15 +708,30 @@ export const Component = () => {
             isDisabled={page === 1}
             size="sm"
             variant="flat"
-            onPress={onPreviousPage}>
-            Previous
+            onPress={onPreviousPage}
+            className="flex min-w-[5px] items-center gap-1">
+            {/* Mobile only */}
+            <ChevronLeftIcon className="inline sm:hidden" />
+
+            {/* Desktop only */}
+            <span className="flex hidden items-center gap-1 sm:inline">
+              Previous
+            </span>
           </Button>
+
           <Button
             isDisabled={page === pages}
             size="sm"
             variant="flat"
-            onPress={onNextPage}>
-            Next
+            onPress={onNextPage}
+            className="flex min-w-[5px] items-center gap-1">
+            {/* Mobile only */}
+            <ChevronRightIcon className="inline sm:hidden" />
+
+            {/* Desktop only */}
+            <span className="flex hidden items-center gap-1 sm:inline">
+              Next
+            </span>
           </Button>
         </div>
       </div>

@@ -1,5 +1,4 @@
 import { Button, Tab, Tabs } from '@heroui/react'
-
 import { PlusFilledIcon } from '@heroui/shared-icons'
 
 import AccountSetting from './account/index'
@@ -17,21 +16,24 @@ export default function Component({
     {
       key: 'company',
       title: 'Company',
+      icon: <PlusFilledIcon />,
       component: <CompanySetting />
     },
     {
       key: 'account',
       title: 'Account',
+      icon: <PlusFilledIcon />,
       component: <AccountSetting />
     },
     {
       key: 'team',
       title: 'Team',
+      icon: <PlusFilledIcon />,
       component: (
         <TeamSetting
-          endContent={open => (
+          endContent={(open: () => void) => (
             <Button size="sm" variant="solid" onPress={open}>
-              <PlusFilledIcon></PlusFilledIcon> Invite User
+              <PlusFilledIcon /> Invite User
             </Button>
           )}
         />
@@ -40,11 +42,13 @@ export default function Component({
     {
       key: 'notifications',
       title: 'Notifications',
+      icon: <PlusFilledIcon />,
       component: <NotificationSetting className="max-w-2xl" />
     },
     {
       key: 'integration',
       title: 'Integration',
+      icon: <PlusFilledIcon />,
       component: <IntegrationSetting />
     }
   ]
@@ -71,16 +75,22 @@ export default function Component({
           </div>
 
           {/* Tabs */}
-
           <Tabs
             fullWidth
             classNames={{
               base: 'mt-6 w-full max-w-2xl',
               cursor: 'bg-content1 dark:bg-content1',
-              panel: 'w-full p-0 pt-4 '
+              panel: 'w-full p-0 pt-4'
             }}>
-            {tabItems.map(({ key, title, component }) => (
-              <Tab key={key} title={title}>
+            {tabItems.map(({ key, title, icon, component }) => (
+              <Tab
+                key={key}
+                title={
+                  <div className="flex items-center gap-2">
+                    {icon}
+                    <span>{title}</span>
+                  </div>
+                }>
                 {component}
               </Tab>
             ))}

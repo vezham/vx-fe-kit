@@ -38,7 +38,26 @@ const colors = {
 const TeamSetting = React.forwardRef<HTMLDivElement, TeamSettingCardProps>(
   ({ className, endContent, ...rest }, ref) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
-    const [isAddMoreOpen, setIsAddMoreOpen] = React.useState(false)
+
+    // 🔹 members state
+    const [members, setMembers] = React.useState([
+      { email: '', role: 'member' }
+    ])
+
+    const addMember = () => {
+      setMembers([...members, { email: '', role: 'member' }])
+    }
+
+    const updateMember = (
+      index: number,
+      field: 'email' | 'role',
+      value: string
+    ) => {
+      const updated = [...members]
+      updated[index][field] = value
+      setMembers(updated)
+    }
+
     return (
       <>
         <div
@@ -62,6 +81,7 @@ const TeamSetting = React.forwardRef<HTMLDivElement, TeamSettingCardProps>(
                       <ModalHeader
                         className={teamSettingStyles.modalHeader}></ModalHeader>
                       <ModalBody>
+                        {/* Top Section */}
                         <div
                           className={teamSettingStyles.modalBodyTopContainer}>
                           <p className={teamSettingStyles.modalBodyTitleText}>
@@ -82,43 +102,74 @@ const TeamSetting = React.forwardRef<HTMLDivElement, TeamSettingCardProps>(
                         </div>
                         <Divider />
 
+                        {/* Members input list */}
                         <div>
-                          {/* Email Address */}
-                          <div
-                            className={teamSettingStyles.emailAndRoleContainer}>
-                            <div className={teamSettingStyles.inputGroup}>
-                              <p className={teamSettingStyles.inputLabelText}>
-                                Email Address
-                              </p>
-                              <Input
-                                className={teamSettingStyles.inputField}
-                                classNames={{
-                                  inputWrapper: teamSettingStyles.inputWrapper
-                                }}
-                                placeholder="e.g kate.moore@acme.com"
-                              />
-                            </div>
-                            <div className={teamSettingStyles.inputGroup}>
-                              <p className={teamSettingStyles.inputLabelText}>
-                                Role
-                              </p>
-                              <Select
-                                className={teamSettingStyles.inputField}
-                                classNames={{
-                                  trigger: teamSettingStyles.inputWrapper
-                                }}
-                                defaultSelectedKeys={['member']}>
-                                {roleOptions.map(roleOption => (
-                                  <SelectItem key={roleOption.value}>
-                                    {roleOption.label}
-                                  </SelectItem>
-                                ))}
-                              </Select>
-                            </div>
-                          </div>
+                          {members.map((member, index) => {
+                            const labelPlacement =
+                              index === 0 ? 'outside-top' : 'inside'
+                            const selectPlacement =
+                              index === 0 ? 'outside' : 'inside'
+
+                            return (
+                              <div
+                                key={index}
+                                className={
+                                  teamSettingStyles.emailAndRoleContainer
+                                }>
+                                {/* Email */}
+                                <div className={teamSettingStyles.inputGroup}>
+                                  <Input
+                                    size="sm"
+                                    className={teamSettingStyles.inputField}
+                                    classNames={{
+                                      inputWrapper:
+                                        teamSettingStyles.inputWrapper
+                                    }}
+                                    label="Email Address"
+                                    labelPlacement={labelPlacement}
+                                    value={member.email}
+                                    onChange={e =>
+                                      updateMember(
+                                        index,
+                                        'email',
+                                        e.target.value
+                                      )
+                                    }
+                                  />
+                                </div>
+                                {/* Role */}
+                                <div className={teamSettingStyles.inputGroup}>
+                                  <Select
+                                    className={teamSettingStyles.inputField}
+                                    classNames={{
+                                      trigger: teamSettingStyles.inputWrapper
+                                    }}
+                                    size="sm"
+                                    label="Role"
+                                    labelPlacement={selectPlacement}
+                                    selectedKeys={[member.role]}
+                                    onChange={e =>
+                                      updateMember(
+                                        index,
+                                        'role',
+                                        e.target.value
+                                      )
+                                    }>
+                                    {roleOptions.map(roleOption => (
+                                      <SelectItem key={roleOption.value}>
+                                        {roleOption.label}
+                                      </SelectItem>
+                                    ))}
+                                  </Select>
+                                </div>
+                              </div>
+                            )
+                          })}
+
+                          {/* Add More */}
                           <Button
                             className={teamSettingStyles.addMoreButton}
-                            onPress={() => setIsAddMoreOpen(true)}
+                            onPress={addMember}
                             endContent={
                               <Icon
                                 className={teamSettingStyles.addMoreButtonIcon}
@@ -157,78 +208,24 @@ const TeamSetting = React.forwardRef<HTMLDivElement, TeamSettingCardProps>(
                   )}
                 </ModalContent>
               </Modal>
-              <Modal
-                isOpen={isAddMoreOpen}
-                onClose={() => setIsAddMoreOpen(false)}>
-                <ModalContent>
-                  {onClose => (
-                    <>
-                      <ModalHeader>Add More Members</ModalHeader>
-                      <ModalBody>
-                        <div>
-                          {/* Email Address */}
-                          <div
-                            className={teamSettingStyles.emailAndRoleContainer}>
-                            <div className={teamSettingStyles.inputGroup}>
-                              <p className={teamSettingStyles.inputLabelText}>
-                                Email Address
-                              </p>
-                              <Input
-                                className={teamSettingStyles.inputField}
-                                classNames={{
-                                  inputWrapper: teamSettingStyles.inputWrapper
-                                }}
-                                placeholder="e.g kate.moore@acme.com"
-                              />
-                            </div>
-                            <div className={teamSettingStyles.inputGroup}>
-                              <p className={teamSettingStyles.inputLabelText}>
-                                Role
-                              </p>
-                              <Select
-                                className={teamSettingStyles.inputField}
-                                classNames={{
-                                  trigger: teamSettingStyles.inputWrapper
-                                }}
-                                defaultSelectedKeys={['member']}>
-                                {roleOptions.map(roleOption => (
-                                  <SelectItem key={roleOption.value}>
-                                    {roleOption.label}
-                                  </SelectItem>
-                                ))}
-                              </Select>
-                            </div>
-                          </div>
-                        </div>
-                        <Divider />
-                        <Button
-                          className={teamSettingStyles.doneButton}
-                          size="sm"
-                          onPress={() => setIsAddMoreOpen(false)}>
-                          Add
-                        </Button>
-                      </ModalBody>
-                    </>
-                  )}
-                </ModalContent>
-              </Modal>
             </div>
           </div>
         </div>
+
+        {/* Table Section */}
         <div className={teamSettingStyles.tableSectionContainer}>
           <div className={teamSettingStyles.tableWrapper}>
             <Card className={teamSettingStyles.tableCard} shadow="none">
               <CardBody>
-                <div>
-                  {/* <Button onPress={onOpen} color="default" className="w-auto  text-white hover:bg-gray-600" variant="solid" startContent={<Icon icon="solar:user-plus-bold" className={iconSizeClasses} />}> Invite User </Button> */}
-                </div>
                 <TableUI />
               </CardBody>
             </Card>
           </div>
         </div>
+
         <Spacer y={4} />
-        {/* Team management table */}
+
+        {/* Role Permissions */}
         <Card className={teamSettingStyles.roleCard} shadow="none">
           <CardBody className={teamSettingStyles.roleCardBody}>
             <div className={teamSettingStyles.roleCardHeader}>
@@ -273,6 +270,7 @@ const TeamSetting = React.forwardRef<HTMLDivElement, TeamSettingCardProps>(
     )
   }
 )
+
 TeamSetting.displayName = 'TeamSetting'
 
 export default TeamSetting
