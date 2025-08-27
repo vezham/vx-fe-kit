@@ -1,4 +1,5 @@
 import { useLogger } from '@vezham/use-logger'
+
 import Posts from './posts'
 
 const NAMESPACE = 'App'
