@@ -81,7 +81,7 @@ const Provider: FC<Props> = ({
 }
 
 // @vx/NOTE: defineLogger is handled by @vx/system-utils
-const preConfig = ({ name = APP_NAME, version, store = true }: Props) => {
+const preConfig = ({ name, version, store = true }: Props) => {
   if (store) {
     // defineStore({ pretext: name, version })
   }

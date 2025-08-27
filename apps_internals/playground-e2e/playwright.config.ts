@@ -2,14 +2,9 @@ import { workspaceRoot } from '@nx/devkit'
 import { nxE2EPreset } from '@nx/playwright/preset'
 import { defineConfig, devices } from '@playwright/test'
 
-// For CI, you may want to set BASE_URL to the deployed application.
-const baseURL = process.env['BASE_URL'] || 'http://localhost:4300'
-
-/**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
- */
-// require('dotenv').config();
+// wjdlz/TODO: process.env['BASE_URL'] || `http://localhost:${port}` - For CI, you may want to set BASE_URL to the deployed application.
+const port = process.env.PRE_PORT || 8080
+const base_url = `http://localhost:${port}`
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -18,15 +13,15 @@ export default defineConfig({
   ...nxE2EPreset(__filename, { testDir: './src' }),
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
-    baseURL,
+    baseURL: base_url,
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry'
   },
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: 'npx nx run playground:preview',
-    url: 'http://localhost:4300',
-    reuseExistingServer: true,
+    command: 'pnpm exec nx run playground:preview',
+    url: base_url,
+    reuseExistingServer: !process.env.CI,
     cwd: workspaceRoot
   },
   projects: [
@@ -34,35 +29,33 @@ export default defineConfig({
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] }
     },
-
     {
       name: 'firefox',
       use: { ...devices['Desktop Firefox'] }
     },
-
     {
       name: 'webkit',
       use: { ...devices['Desktop Safari'] }
-    }
-
-    // Uncomment for mobile browsers support
-    /* {
-      name: 'Mobile Chrome',
-      use: { ...devices['Pixel 5'] },
     },
-    {
-      name: 'Mobile Safari',
-      use: { ...devices['iPhone 12'] },
-    }, */
 
-    // Uncomment for branded browsers
-    /* {
+    // @vx/NOTE: branded browsers
+    {
       name: 'Microsoft Edge',
-      use: { ...devices['Desktop Edge'], channel: 'msedge' },
+      use: { ...devices['Desktop Edge'], channel: 'msedge' }
     },
     {
       name: 'Google Chrome',
-      use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-    } */
+      use: { ...devices['Desktop Chrome'], channel: 'chrome' }
+    },
+
+    // @vx/NOTE: mobile browsers support
+    {
+      name: 'Mobile Chrome',
+      use: { ...devices['Pixel 5'] }
+    },
+    {
+      name: 'Mobile Safari',
+      use: { ...devices['iPhone 12'] }
+    }
   ]
 })

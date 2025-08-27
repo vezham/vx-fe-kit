@@ -6,19 +6,20 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 
 export default defineConfig(async () => {
   const tailwindcss = (await import('@tailwindcss/vite')).default
-  // const { env } = process
+  const { env } = process
+  const hostname = env.CI ? 'localhost' : env.HOST_NAME || 'localhost'
 
   return {
     envPrefix: ['V_'],
     root: __dirname,
     cacheDir: '../../node_modules/.vite/apps_internals/playground',
     server: {
-      port: 4200,
-      host: 'localhost'
+      port: Number(env.PORT),
+      host: hostname
     },
     preview: {
-      port: 4300,
-      host: 'localhost'
+      port: Number(env.PRE_PORT) || Number(env.PORT),
+      host: hostname
     },
     plugins: [
       tanstackRouter({ target: 'react', autoCodeSplitting: true }),

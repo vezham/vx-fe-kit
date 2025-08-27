@@ -2,7 +2,7 @@ import { useLogger } from '@vezham/use-logger'
 
 import Posts from './posts'
 
-const NAMESPACE = 'App'
+const NAMESPACE = 'App/Home'
 
 const app = () => {
   useLogger.log(NAMESPACE, 'Hello World :)')
@@ -12,7 +12,7 @@ const app = () => {
   useLogger.error(NAMESPACE, 'Hello World :)')
   return (
     <>
-      <h1>Hello World</h1>
+      <div>Welcome to Playground!...</div>
       <Posts />
     </>
   )
