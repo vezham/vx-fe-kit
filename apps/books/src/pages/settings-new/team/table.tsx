@@ -39,12 +39,14 @@ import {
   SearchIcon
 } from '@heroui/shared-icons'
 import { motion } from 'framer-motion'
+import { checkPermit } from '../utils'
 import type { ColumnsKey } from './data'
 import { columns, INITIAL_VISIBLE_COLUMNS, statusColorMap, users } from './data'
 import { Users } from './types'
 import { tableStyles } from './variant'
 
 export const Component = () => {
+  const [tableData, setTableData] = useState<Users[]>(users)
   const [filterValue, setFilterValue] = useState('')
   const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set([]))
   const [visibleColumns, setVisibleColumns] = useState<Selection>(
@@ -58,9 +60,20 @@ export const Component = () => {
     direction: 'ascending'
   })
 
+  const canUpdate = checkPermit('team', 'update')
+  const readOnly = !canUpdate
+
   const [workerTypeFilter, setWorkerTypeFilter] = useState('all')
   const [statusFilter, setStatusFilter] = useState('all')
   const [startDateFilter, setStartDateFilter] = useState('all')
+
+  const handleDelete = (id: number) => {
+    setTableData(prev => prev.filter(u => u.id !== id))
+  }
+
+  const handleEdit = (id: number) => {
+    setTableData(prev => prev.map(u => (u.id === id ? { ...u } : u)))
+  }
 
   const headerColumns = useMemo(() => {
     if (visibleColumns === 'all') return columns
@@ -91,9 +104,8 @@ export const Component = () => {
     },
     [startDateFilter, statusFilter, workerTypeFilter]
   )
-
   const filteredItems = useMemo(() => {
-    let filteredUsers = [...users]
+    let filteredUsers = [...tableData]
 
     if (filterValue) {
       filteredUsers = filteredUsers.filter(user =>
@@ -102,9 +114,8 @@ export const Component = () => {
     }
 
     filteredUsers = filteredUsers.filter(itemFilter)
-
     return filteredUsers
-  }, [filterValue, itemFilter])
+  }, [filterValue, tableData, itemFilter])
 
   const pages = Math.ceil(filteredItems.length / rowsPerPage) || 1
 
@@ -144,91 +155,112 @@ export const Component = () => {
     )
   }, [selectedKeys, filteredItems])
 
-  const renderCell = useCallback((user: Users, columnKey: React.Key) => {
-    const userKey = columnKey as ColumnsKey
-    const cellValue = user[userKey as unknown as keyof Users] as string
+  const renderCell = useCallback(
+    (user: Users, columnKey: React.Key) => {
+      const userKey = columnKey as ColumnsKey
+      const cellValue = user[userKey as unknown as keyof Users] as string
 
-    switch (userKey) {
-      case 'userInfo':
-        return (
-          <User
-            avatarProps={{ radius: 'lg', src: user[userKey]?.avatar }}
-            classNames={{
-              name: tableStyles.cell.userInfoName,
-              description: tableStyles.cell.userInfoDescription
-            }}
-            description={user[userKey].email}
-            name={user[userKey].name}>
-            {user[userKey].email}
-          </User>
-        )
-      case 'lastLogin':
-        return (
-          <div className={tableStyles.cell.lastLoginContainer}>
-            <Icon
-              className={tableStyles.cell.lastLoginIcon}
-              icon="solar:calendar-minimalistic-linear"
-            />
-            <p className={tableStyles.cell.lastLoginText}>
-              {new Intl.DateTimeFormat('en-US', {
-                month: 'long',
-                day: 'numeric',
-                year: 'numeric'
-              }).format(cellValue as unknown as Date)}
-            </p>
-          </div>
-        )
-      case 'role':
-        return (
-          <Button variant="bordered" size="sm">
-            {cellValue}
-          </Button>
-        )
-      case 'status': {
-        const statusValue = user.status
-        const StatusIcon = statusColorMap[statusValue]
+      switch (userKey) {
+        case 'userInfo':
+          return (
+            <User
+              avatarProps={{ radius: 'lg', src: user[userKey]?.avatar }}
+              classNames={{
+                name: tableStyles.cell.userInfoName,
+                description: tableStyles.cell.userInfoDescription
+              }}
+              description={user[userKey].email}
+              name={user[userKey].name}>
+              {user[userKey].email}
+            </User>
+          )
+        case 'lastLogin':
+          return (
+            <div className={tableStyles.cell.lastLoginContainer}>
+              <Icon
+                className={tableStyles.cell.lastLoginIcon}
+                icon="solar:calendar-minimalistic-linear"
+              />
+              <p className={tableStyles.cell.lastLoginText}>
+                {new Intl.DateTimeFormat('en-US', {
+                  month: 'long',
+                  day: 'numeric',
+                  year: 'numeric'
+                }).format(cellValue as unknown as Date)}
+              </p>
+            </div>
+          )
+        case 'role':
+          return (
+            <Button variant="bordered" size="sm">
+              {cellValue}
+            </Button>
+          )
+        case 'status': {
+          const statusValue = user.status
+          const StatusIcon = statusColorMap[statusValue]
 
-        return (
-          <div className={tableStyles.cell.statusContainer}>
-            {StatusIcon}
-            <span className={tableStyles.cell.statusText}>{statusValue}</span>
-          </div>
-        )
+          return (
+            <div className={tableStyles.cell.statusContainer}>
+              {StatusIcon}
+              <span className={tableStyles.cell.statusText}>{statusValue}</span>
+            </div>
+          )
+        }
+        case 'actions':
+          return (
+            <div className={tableStyles.cell.actionsContainer}>
+              <Button
+                className={tableStyles.actionButton}
+                variant="light"
+                isDisabled={readOnly}>
+                <EditIcon
+                  onClick={() => handleEdit(user.id)}
+                  className={tableStyles.cell.actionIcon}
+                  height={18}
+                  width={18}
+                />
+              </Button>
+
+              <Button
+                className={tableStyles.actionButton}
+                variant="light"
+                isDisabled={readOnly}>
+                <DeleteIcon
+                  onClick={() => handleDelete(user.id)}
+                  className={tableStyles.cell.actionIcon}
+                  height={18}
+                  width={18}
+                />
+              </Button>
+              <Dropdown placement="bottom-end">
+                <DropdownTrigger>
+                  <Button
+                    isIconOnly
+                    size="sm"
+                    variant="light"
+                    isDisabled={readOnly}
+                    className={tableStyles.cell.actionDropdownButton}>
+                    <Icon icon="solar:menu-dots-bold" width={18} height={18} />
+                  </Button>
+                </DropdownTrigger>
+                <DropdownMenu aria-label="More actions">
+                  <DropdownItem key="duplicate">Duplicate</DropdownItem>
+                  <DropdownItem key="archive">Archive</DropdownItem>
+                  <DropdownItem key="share">Share</DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
+            </div>
+          )
+        default:
+          return cellValue
       }
-      case 'actions':
-        return (
-          <div className={tableStyles.cell.actionsContainer}>
-            <EditIcon
-              className={tableStyles.cell.actionIcon}
-              height={18}
-              width={18}
-            />
-            <DeleteIcon
-              className={tableStyles.cell.actionIcon}
-              height={18}
-              width={18}
-            />
-            <Dropdown placement="bottom-end">
-              <DropdownTrigger>
-                <Button
-                  isIconOnly
-                  size="sm"
-                  variant="light"
-                  className={tableStyles.cell.actionDropdownButton}>
-                  <Icon icon="solar:menu-dots-bold" width={18} height={18} />
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu aria-label="More actions">
-                <DropdownItem key="duplicate">Duplicate</DropdownItem>
-                <DropdownItem key="archive">Archive</DropdownItem>
-                <DropdownItem key="share">Share</DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-          </div>
-        )
-      default:
-        return cellValue
-    }
+    },
+    [handleEdit, handleDelete]
+  )
+
+  const onSelectionChange = useCallback((keys: Selection) => {
+    setSelectedKeys(keys)
   }, [])
 
   const onNextPage = useCallback(() => {
@@ -246,10 +278,6 @@ export const Component = () => {
   const onSearchChange = useCallback((value?: string) => {
     setFilterValue(value || '')
     setPage(1)
-  }, [])
-
-  const onSelectionChange = useCallback((keys: Selection) => {
-    setSelectedKeys(keys)
   }, [])
 
   const [isSearchExpanded, setIsSearchExpanded] = useState(false)
@@ -306,7 +334,8 @@ export const Component = () => {
                     <Button
                       size="sm"
                       variant="flat"
-                      className={tableStyles.selectedActions}>
+                      className={tableStyles.selectedActions}
+                      isDisabled={readOnly}>
                       {/* Mobile (sm-) — only the 3-dots icon */}
                       <span className={tableStyles.selectedActionsMoreButton}>
                         <Icon
@@ -348,6 +377,7 @@ export const Component = () => {
                 <Input
                   className={tableStyles.searchInput}
                   ref={searchInputRef}
+                  isDisabled={readOnly}
                   endContent={
                     <button
                       className="focus:outline-none"
@@ -378,6 +408,7 @@ export const Component = () => {
                 />
               ) : (
                 <button
+                  disabled={readOnly}
                   className={tableStyles.searchButton}
                   onClick={toggleSearch}>
                   <SearchIcon className="text-default-600" width={18} />
@@ -392,6 +423,7 @@ export const Component = () => {
                     <Button
                       className={tableStyles.filterSortButton}
                       size="sm"
+                      isDisabled={readOnly}
                       startContent={
                         <Icon
                           className={tableStyles.filterSortIcon}
@@ -448,6 +480,7 @@ export const Component = () => {
                 <Dropdown>
                   <DropdownTrigger>
                     <Button
+                      isDisabled={readOnly}
                       className={tableStyles.filterSortButton}
                       size="sm"
                       startContent={
@@ -489,6 +522,7 @@ export const Component = () => {
                 <Dropdown closeOnSelect={false}>
                   <DropdownTrigger>
                     <Button
+                      isDisabled={readOnly}
                       className={tableStyles.filterSortButton}
                       size="sm"
                       startContent={
@@ -521,6 +555,7 @@ export const Component = () => {
                   <DropdownTrigger>
                     <Button
                       isIconOnly
+                      isDisabled={readOnly}
                       size="sm"
                       variant="flat"
                       className={tableStyles.mobileActionsButton}>
@@ -537,6 +572,7 @@ export const Component = () => {
                       <Popover placement="bottom">
                         <PopoverTrigger>
                           <Button
+                            isDisabled={readOnly}
                             variant="light"
                             size="sm"
                             fullWidth
@@ -595,6 +631,7 @@ export const Component = () => {
                       <Dropdown placement="bottom">
                         <DropdownTrigger>
                           <Button
+                            isDisabled={readOnly}
                             variant="light"
                             size="sm"
                             fullWidth
@@ -637,6 +674,7 @@ export const Component = () => {
                             variant="light"
                             size="sm"
                             fullWidth
+                            isDisabled={readOnly}
                             startContent={
                               <Icon
                                 icon="solar:sort-horizontal-linear"
@@ -674,18 +712,18 @@ export const Component = () => {
       </div>
     )
   }, [
-    filterValue,
-    visibleColumns,
     selectedKeys,
-    headerColumns,
-    sortDescriptor,
-    statusFilter,
-    workerTypeFilter,
-    startDateFilter,
-    onSearchChange,
-    setVisibleColumns,
+    readOnly,
     isSearchExpanded,
-    toggleSearch
+    filterValue,
+    onSearchChange,
+    toggleSearch,
+    workerTypeFilter,
+    statusFilter,
+    startDateFilter,
+    headerColumns,
+    visibleColumns,
+    sortDescriptor.direction
   ])
 
   const bottomContent = useMemo(() => {

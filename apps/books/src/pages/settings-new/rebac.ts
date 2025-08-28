@@ -164,16 +164,16 @@ export const ROLES = {
   member: {
     notifications: {
       view: true,
-      create: true,
+      create: false,
       update: true,
-      delete: true,
-      get: true,
-      invite: true
+      delete: false,
+      get: false,
+      invite: false
     },
     integrations: {
       view: true,
       create: false,
-      update: false,
+      update: true,
       delete: false,
       get: false,
       invite: false
@@ -183,18 +183,18 @@ export const ROLES = {
     notifications: {
       view: true,
       create: false,
-      update: false,
+      update: true,
       delete: false,
       get: false,
       invite: false
     },
     integrations: {
       view: true,
-      create: true,
+      create: false,
       update: true,
-      delete: true,
-      get: true,
-      invite: true
+      delete: false,
+      get: false,
+      invite: false
     }
   }
 } as const satisfies RolesWithPermissions

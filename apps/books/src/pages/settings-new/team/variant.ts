@@ -8,6 +8,7 @@ export const tableStyles = {
   selectedActionsContainer: 'flex items-center gap-2',
   divider: 'hidden h-5 sm:flex',
   selectedCountText: 'text-default-800 text-sm whitespace-nowrap',
+  actionButton: 'min-w-[5px] min-h-[5px]',
   selectedActions: 'min-w-[25px] min-h-[25px]',
   selectedActionsButton: 'bg-default-100 text-default-800 hidden sm:flex',
   selectedActionsMoreButton: 'text-default-400 sm:hidden ',
@@ -29,7 +30,7 @@ export const tableStyles = {
   table: {
     td: 'before:bg-transparent'
   },
-  tableHeader: 'flex items-center',
+  tableHeader: 'flex items-center gap-1',
   tableHeaderUser: 'flex w-full cursor-pointer items-center justify-between',
   tableHeaderInfo: 'flex min-w-[108px] items-center justify-between',
   sortIcon: 'text-default-400',
@@ -42,7 +43,7 @@ export const tableStyles = {
     statusContainer:
       'bg-default-100 flex w-fit items-center gap-[2px] rounded-lg px-2 py-1',
     statusText: 'text-default-800 px-1',
-    actionsContainer: 'flex items-center justify-end gap-2',
+    actionsContainer: 'flex items-center justify-end',
     actionIcon: 'text-default-400 cursor-pointer',
     actionDropdownButton: 'text-default-400'
   },

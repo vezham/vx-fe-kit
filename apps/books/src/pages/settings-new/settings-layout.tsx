@@ -113,7 +113,7 @@ import NotificationSetting from './notifications/index'
 import TeamSetting from './team/index'
 
 import { ROLE_TAB_VISIBILITY } from './rebac'
-import { User, hasPermission } from './utils'
+import { User, checkPermit } from './utils'
 
 export default function SettingsLayout({
   user,
@@ -122,6 +122,9 @@ export default function SettingsLayout({
   user: User
   endContent?: React.ReactNode
 }) {
+  const canCreateTeam = checkPermit('team', 'create')
+  const canUpdateTeam = checkPermit('team', 'update')
+
   const tabItems = [
     { key: 'company', title: 'Company', component: <CompanySetting /> },
     { key: 'account', title: 'Account', component: <AccountSetting /> },
@@ -130,13 +133,15 @@ export default function SettingsLayout({
       title: 'Team',
       component: (
         <TeamSetting
-          endContent={(open: () => void) =>
-            hasPermission(user, 'team', 'create') && (
-              <Button size="sm" variant="solid" onPress={open}>
-                <PlusFilledIcon /> Invite User
-              </Button>
+          endContent={(open: () => void) => {
+            return (
+              (canCreateTeam || canUpdateTeam) && (
+                <Button size="sm" variant="solid" onPress={open}>
+                  <PlusFilledIcon /> Invite User
+                </Button>
+              )
             )
-          }
+          }}
         />
       )
     },
