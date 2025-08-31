@@ -1,4 +1,4 @@
-# @vx/INFO: @vx/ci
+# @vx/INFO: @vx/ci - ci trigger test
 name: playground | bnd
 
 on:
