@@ -1,10 +1,10 @@
-# @vx/INFO: @vx/ci - ci trigger test
+# @vx/INFO: @vx/ci
 name: playground | bnd
 
 on:
   workflow_dispatch:
   push:
-    branches: [timeline, feat/*]
+    branches: [timeline, feat/nx-next]
     paths:
       - '.github/workflows/playground.yml'
       - 'vx/handbooks/ci.md'
