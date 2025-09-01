@@ -3,7 +3,7 @@
 import { Button, Card, CardBody, cn, Divider, Switch } from '@heroui/react'
 import * as React from 'react'
 
-import { checkPermit } from '../utils'
+import { usePermit } from '../utils'
 import { generalNotifications, notificationTypes } from './data'
 import { NotificationItem, NotificationSettingCardProps } from './types'
 import { notificationVariants } from './variant'
@@ -12,8 +12,7 @@ const NotificationSetting = React.forwardRef<
   HTMLDivElement,
   NotificationSettingCardProps
 >(({ className, ...props }, ref) => {
-  const canUpdate = checkPermit('notifications', 'update')
-  const readOnly = !canUpdate
+  const { readOnly: canUpdate } = usePermit('notifications', 'update')
 
   const [emailNotifications, setEmailNotifications] = React.useState(true)
   const [pushNotifications, setPushNotifications] = React.useState(false)
@@ -48,7 +47,7 @@ const NotificationSetting = React.forwardRef<
           checked={checked}
           onChange={e => setChecked(e.target.checked)}
           color="default"
-          isDisabled={readOnly}
+          isDisabled={canUpdate}
         />
       </div>
     )
@@ -85,7 +84,7 @@ const NotificationSetting = React.forwardRef<
               color="default"
               className={notificationVariants.saveButton}
               variant="solid"
-              isDisabled={readOnly}>
+              isDisabled={canUpdate}>
               Save Notification Settings
             </Button>
           </div>

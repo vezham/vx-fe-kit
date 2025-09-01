@@ -12,7 +12,6 @@ const AccountSetting = React.forwardRef<
   AccountSettingCardProps
 >(({ className, ...props }, ref) => (
   <div ref={ref} className={cn(styles.container, className)} {...props}>
-    {/* Tax ID + Default Currency */}
     <div className={styles.grid}>
       <div className={styles.gridSection}>
         <p className={styles.inputLabel}>Tax ID / GST / VAT</p>
@@ -30,14 +29,12 @@ const AccountSetting = React.forwardRef<
 
     <Spacer y={4} />
 
-    {/* Financial Information Title */}
     <div>
       <p className={styles.sectionTitle}>Financial Settings / Information</p>
     </div>
 
     <Spacer y={4} />
 
-    {/* Fiscal Year + Invoice Prefix */}
     <div className={styles.grid}>
       <div className={styles.gridSection}>
         <p className={styles.inputLabel}>Fiscal Year Start</p>
@@ -55,7 +52,6 @@ const AccountSetting = React.forwardRef<
 
     <Spacer y={4} />
 
-    {/* Tax Rate + Payment Terms */}
     <div className={styles.grid}>
       <div className={styles.gridSection}>
         <p className={styles.inputLabel}>Default Tax Rate (18%)</p>

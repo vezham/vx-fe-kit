@@ -74,8 +74,6 @@ interface SidebarHeaderExtendedProps extends SidebarHeaderProps {
 
 const SidebarMobHeader: React.FC<SidebarHeaderExtendedProps> = ({
   isCompact,
-  isRightSidebar,
-  toggleVisibility,
   buttonTextColor,
   onSlackClick,
   isPopoverOpen,

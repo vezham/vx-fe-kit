@@ -2,17 +2,17 @@
 import { Button } from '@heroui/react'
 import { PlusFilledIcon } from '@heroui/shared-icons'
 import Settings from '../../pages/settings-new/settings-layout'
-import { checkPermit, currentUser } from '../../pages/settings-new/utils'
+import { currentUser, usePermit } from '../../pages/settings-new/utils'
 
 const Index = () => {
-  const canCreateTeam = checkPermit('team', 'create')
-  const canUpdateTeam = checkPermit('team', 'update')
-  const canCreateCompany = checkPermit('company', 'create')
-  const canUpdateCompany = checkPermit('company', 'update')
-  const canCreateAccount = checkPermit('account', 'create')
-  const canUpdateAccount = checkPermit('account', 'update')
-  const canUpdateNotification = checkPermit('notifications', 'update')
-  const canUpdateIntegration = checkPermit('integrations', 'update')
+  const { value: canCreateTeam } = usePermit('team', 'create')
+  const { value: canUpdateTeam } = usePermit('team', 'update')
+  const { value: canCreateCompany } = usePermit('company', 'create')
+  const { value: canUpdateCompany } = usePermit('company', 'update')
+  const { value: canCreateAccount } = usePermit('account', 'create')
+  const { value: canUpdateAccount } = usePermit('account', 'update')
+  const { value: canUpdateNotification } = usePermit('notifications', 'update')
+  const { value: canUpdateIntegration } = usePermit('integrations', 'update')
 
   return (
     <Settings
@@ -27,7 +27,7 @@ const Index = () => {
             canUpdateNotification ||
             canUpdateIntegration) && (
             <Button
-              size="sm"
+              size="md"
               variant="solid"
               color="primary"
               className="w-full sm:w-auto">
@@ -35,8 +35,12 @@ const Index = () => {
             </Button>
           )}
           {(canCreateTeam || canUpdateTeam) && (
-            <Button size="sm" variant="solid" className="w-full sm:w-auto">
-              <PlusFilledIcon /> Invite User
+            <Button
+              size="md"
+              variant="solid"
+              className="w-full sm:w-auto"
+              startContent={<PlusFilledIcon />}>
+              Invite User
             </Button>
           )}
         </>

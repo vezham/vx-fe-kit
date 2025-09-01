@@ -1,7 +1,7 @@
 'use client'
 
 import { Avatar, Button, Card, CardBody, CardFooter, Chip } from '@heroui/react'
-import { checkPermit } from '../utils'
+import { usePermit } from '../utils'
 import { Integration } from './types'
 import { integrationVariants } from './variant'
 
@@ -13,8 +13,7 @@ const IntegrationCard = ({
   status,
   lastSync
 }: Integration) => {
-  const canUpdate = checkPermit('integrations', 'update')
-  const readOnly = !canUpdate
+  const { readOnly: canUpdate } = usePermit('integrations', 'update')
 
   return (
     <Card className={integrationVariants.card}>
@@ -34,11 +33,11 @@ const IntegrationCard = ({
       </CardBody>
 
       <CardFooter className={integrationVariants.footerWrapper}>
-        <Button size="sm" variant="faded" isDisabled={readOnly}>
+        <Button size="sm" variant="faded" isDisabled={canUpdate}>
           Configure
         </Button>
         <Chip
-          isDisabled={readOnly}
+          isDisabled={canUpdate}
           variant="dot"
           color={status === 'connected' ? 'primary' : 'success'}
           className={integrationVariants.statusChip}>

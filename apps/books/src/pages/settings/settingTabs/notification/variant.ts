@@ -7,7 +7,7 @@ export const getCardClassName = (isDarkmode?: boolean) =>
       : 'border border-gray-200 shadow-none'
   )
 
-export const getSwitchClass = (isDarkMode?: boolean, checked?: boolean) => {
+export const getSwitchClass = (isDarkMode?: boolean) => {
   return cn(
     isDarkMode
       ? '' // dark mode style

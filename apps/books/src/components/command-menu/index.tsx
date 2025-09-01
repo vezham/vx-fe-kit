@@ -134,7 +134,7 @@ const CommandMenu: React.FC<CommandMenuProps> = ({
       ),
       navigation: filteredItems.filter(item => item.section === 'navigation')
     }
-    return Object.entries(grouped).filter(([_, items]) => items.length > 0)
+    return Object.entries(grouped).filter(([items]) => items.length > 0)
   }, [filteredItems])
 
   // Determine what sections to show initially

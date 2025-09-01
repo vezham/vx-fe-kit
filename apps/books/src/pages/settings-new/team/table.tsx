@@ -39,7 +39,7 @@ import {
   SearchIcon
 } from '@heroui/shared-icons'
 import { motion } from 'framer-motion'
-import { checkPermit } from '../utils'
+import { usePermit } from '../utils'
 import type { ColumnsKey } from './data'
 import { columns, INITIAL_VISIBLE_COLUMNS, statusColorMap, users } from './data'
 import { Users } from './types'
@@ -60,8 +60,7 @@ export const Component = () => {
     direction: 'ascending'
   })
 
-  const canUpdate = checkPermit('team', 'update')
-  const readOnly = !canUpdate
+  const { readOnly: canUpdate } = usePermit('team', 'update')
 
   const [workerTypeFilter, setWorkerTypeFilter] = useState('all')
   const [statusFilter, setStatusFilter] = useState('all')
@@ -213,9 +212,9 @@ export const Component = () => {
               <Button
                 className={tableStyles.actionButton}
                 variant="light"
-                isDisabled={readOnly}>
+                onClick={() => handleEdit(user.id)}
+                isDisabled={canUpdate}>
                 <EditIcon
-                  onClick={() => handleEdit(user.id)}
                   className={tableStyles.cell.actionIcon}
                   height={18}
                   width={18}
@@ -225,9 +224,9 @@ export const Component = () => {
               <Button
                 className={tableStyles.actionButton}
                 variant="light"
-                isDisabled={readOnly}>
+                onClick={() => handleDelete(user.id)}
+                isDisabled={canUpdate}>
                 <DeleteIcon
-                  onClick={() => handleDelete(user.id)}
                   className={tableStyles.cell.actionIcon}
                   height={18}
                   width={18}
@@ -239,7 +238,7 @@ export const Component = () => {
                     isIconOnly
                     size="sm"
                     variant="light"
-                    isDisabled={readOnly}
+                    isDisabled={canUpdate}
                     className={tableStyles.cell.actionDropdownButton}>
                     <Icon icon="solar:menu-dots-bold" width={18} height={18} />
                   </Button>
@@ -256,7 +255,7 @@ export const Component = () => {
           return cellValue
       }
     },
-    [handleEdit, handleDelete]
+    [canUpdate]
   )
 
   const onSelectionChange = useCallback((keys: Selection) => {
@@ -335,7 +334,7 @@ export const Component = () => {
                       size="sm"
                       variant="flat"
                       className={tableStyles.selectedActions}
-                      isDisabled={readOnly}>
+                      isDisabled={canUpdate}>
                       {/* Mobile (sm-) — only the 3-dots icon */}
                       <span className={tableStyles.selectedActionsMoreButton}>
                         <Icon
@@ -377,7 +376,7 @@ export const Component = () => {
                 <Input
                   className={tableStyles.searchInput}
                   ref={searchInputRef}
-                  isDisabled={readOnly}
+                  isDisabled={canUpdate}
                   endContent={
                     <button
                       className="focus:outline-none"
@@ -408,7 +407,7 @@ export const Component = () => {
                 />
               ) : (
                 <button
-                  disabled={readOnly}
+                  disabled={canUpdate}
                   className={tableStyles.searchButton}
                   onClick={toggleSearch}>
                   <SearchIcon className="text-default-600" width={18} />
@@ -423,7 +422,7 @@ export const Component = () => {
                     <Button
                       className={tableStyles.filterSortButton}
                       size="sm"
-                      isDisabled={readOnly}
+                      isDisabled={canUpdate}
                       startContent={
                         <Icon
                           className={tableStyles.filterSortIcon}
@@ -480,7 +479,7 @@ export const Component = () => {
                 <Dropdown>
                   <DropdownTrigger>
                     <Button
-                      isDisabled={readOnly}
+                      isDisabled={canUpdate}
                       className={tableStyles.filterSortButton}
                       size="sm"
                       startContent={
@@ -522,7 +521,7 @@ export const Component = () => {
                 <Dropdown closeOnSelect={false}>
                   <DropdownTrigger>
                     <Button
-                      isDisabled={readOnly}
+                      isDisabled={canUpdate}
                       className={tableStyles.filterSortButton}
                       size="sm"
                       startContent={
@@ -555,7 +554,7 @@ export const Component = () => {
                   <DropdownTrigger>
                     <Button
                       isIconOnly
-                      isDisabled={readOnly}
+                      isDisabled={canUpdate}
                       size="sm"
                       variant="flat"
                       className={tableStyles.mobileActionsButton}>
@@ -572,7 +571,7 @@ export const Component = () => {
                       <Popover placement="bottom">
                         <PopoverTrigger>
                           <Button
-                            isDisabled={readOnly}
+                            isDisabled={canUpdate}
                             variant="light"
                             size="sm"
                             fullWidth
@@ -631,7 +630,7 @@ export const Component = () => {
                       <Dropdown placement="bottom">
                         <DropdownTrigger>
                           <Button
-                            isDisabled={readOnly}
+                            isDisabled={canUpdate}
                             variant="light"
                             size="sm"
                             fullWidth
@@ -674,7 +673,7 @@ export const Component = () => {
                             variant="light"
                             size="sm"
                             fullWidth
-                            isDisabled={readOnly}
+                            isDisabled={canUpdate}
                             startContent={
                               <Icon
                                 icon="solar:sort-horizontal-linear"
@@ -713,7 +712,7 @@ export const Component = () => {
     )
   }, [
     selectedKeys,
-    readOnly,
+    canUpdate,
     isSearchExpanded,
     filterValue,
     onSearchChange,

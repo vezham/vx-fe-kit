@@ -14,21 +14,19 @@ import {
 import { Icon } from '@iconify/react'
 import * as React from 'react'
 
-import { checkPermit } from '../utils'
+import { usePermit } from '../utils'
 import { companyIndustries, companyTypes, states } from './data'
-import { ProfileSettingCardProps } from './types'
-import { profileSettingStyles as styles } from './variant'
+import { CompanySettingCardProps } from './types'
+import { companySettingStyles as styles } from './variant'
 
-const ProfileSetting = React.forwardRef<
+const CompanySetting = React.forwardRef<
   HTMLDivElement,
-  ProfileSettingCardProps
+  CompanySettingCardProps
 >(({ className, ...props }, ref) => {
-  const canUpdate = checkPermit('company', 'update')
-  const readOnly = !canUpdate
+  const { readOnly: canUpdate } = usePermit('company', 'update')
 
   return (
     <div ref={ref} className={styles.container(className)} {...props}>
-      {/* Profile */}
       <div>
         <p className={styles.sectionTitle}>Company Information</p>
         <p className={styles.sectionSubtitle}>
@@ -47,7 +45,7 @@ const ProfileSetting = React.forwardRef<
                     radius="full"
                     size="sm"
                     variant="bordered"
-                    isDisabled={readOnly}>
+                    isDisabled={canUpdate}>
                     <Icon
                       className={styles.badgeIcon}
                       icon="solar:pen-linear"
@@ -71,13 +69,12 @@ const ProfileSetting = React.forwardRef<
 
       <Spacer y={4} />
 
-      {/* Company Type + State of Registration */}
       <div className={styles.grid}>
         <div className={styles.gridSection}>
           <p className={styles.inputLabel}>Company Type</p>
           <Select
             defaultSelectedKeys={['c-corporation']}
-            isDisabled={readOnly}
+            isDisabled={canUpdate}
             className={styles.select}>
             {companyTypes.map(companyType => (
               <SelectItem key={companyType.value}>
@@ -90,7 +87,7 @@ const ProfileSetting = React.forwardRef<
           <p className={styles.inputLabel}>Registration State</p>
           <Select
             defaultSelectedKeys={['delaware']}
-            isDisabled={readOnly}
+            isDisabled={canUpdate}
             className={styles.select}>
             {states.map(state => (
               <SelectItem key={state.value}>{state.title}</SelectItem>
@@ -101,14 +98,13 @@ const ProfileSetting = React.forwardRef<
 
       <Spacer y={4} />
 
-      {/* Company Name + Entity Ending */}
       <div className={styles.grid}>
         <div className={styles.gridSection}>
           <p className={styles.inputLabel}>Company Name</p>
           <Input
             className={styles.input}
             placeholder="V"
-            isDisabled={readOnly}
+            isDisabled={canUpdate}
           />
         </div>
         <div className={styles.gridSection}>
@@ -116,20 +112,19 @@ const ProfileSetting = React.forwardRef<
           <Input
             className={styles.input}
             placeholder="Corp"
-            isDisabled={readOnly}
+            isDisabled={canUpdate}
           />
         </div>
       </div>
 
       <Spacer y={4} />
 
-      {/* Industry */}
       <div>
         <p className={styles.inputLabel}>Company Industry</p>
         <Select
           defaultSelectedKeys={['technology']}
           className={styles.fullWidthSelect}
-          isDisabled={readOnly}>
+          isDisabled={canUpdate}>
           {companyIndustries.map(companyIndustry => (
             <SelectItem key={companyIndustry.value}>
               {companyIndustry.title}
@@ -140,14 +135,13 @@ const ProfileSetting = React.forwardRef<
 
       <Spacer y={4} />
 
-      {/* Address */}
       <div className={styles.grid}>
         <div className={styles.gridSection}>
           <p className={styles.inputLabel}>Street Name</p>
           <Input
             className={styles.input}
             placeholder="Geary 2234"
-            isDisabled={readOnly}
+            isDisabled={canUpdate}
           />
         </div>
         <div className={styles.gridSection}>
@@ -155,7 +149,7 @@ const ProfileSetting = React.forwardRef<
           <Input
             className={styles.input}
             placeholder="#166"
-            isDisabled={readOnly}
+            isDisabled={canUpdate}
           />
         </div>
       </div>
@@ -168,7 +162,7 @@ const ProfileSetting = React.forwardRef<
           <Select
             defaultSelectedKeys={['california']}
             className={styles.select}
-            isDisabled={readOnly}>
+            isDisabled={canUpdate}>
             {states.map(state => (
               <SelectItem key={state.value}>{state.title}</SelectItem>
             ))}
@@ -179,7 +173,7 @@ const ProfileSetting = React.forwardRef<
           <Input
             className={styles.input}
             placeholder="San Francisco"
-            isDisabled={readOnly}
+            isDisabled={canUpdate}
           />
         </div>
         <div className={styles.gridSectiontwo}>
@@ -187,7 +181,7 @@ const ProfileSetting = React.forwardRef<
           <Input
             className={styles.input}
             placeholder="9409"
-            isDisabled={readOnly}
+            isDisabled={canUpdate}
           />
         </div>
       </div>
@@ -200,7 +194,7 @@ const ProfileSetting = React.forwardRef<
           <Input
             className={styles.input}
             placeholder="https://v.corp"
-            isDisabled={readOnly}
+            isDisabled={canUpdate}
           />
         </div>
         <div className={styles.gridSection}>
@@ -208,7 +202,7 @@ const ProfileSetting = React.forwardRef<
           <Input
             className={styles.input}
             placeholder="+1 (555) 987-6543"
-            isDisabled={readOnly}
+            isDisabled={canUpdate}
           />
         </div>
       </div>
@@ -220,13 +214,13 @@ const ProfileSetting = React.forwardRef<
         <Input
           className={styles.fullWidthSelect}
           placeholder="Type your company EIN here"
-          isDisabled={readOnly}
+          isDisabled={canUpdate}
         />
       </div>
     </div>
   )
 })
 
-ProfileSetting.displayName = 'ProfileSetting'
+CompanySetting.displayName = 'CompanySetting'
 
-export default ProfileSetting
+export default CompanySetting

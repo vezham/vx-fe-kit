@@ -63,7 +63,6 @@ const SidebarMobFooter: React.FC<SidebarFooterProps> = ({
   isRtl,
   toggleTheme,
   toggleTextDirection,
-  toggleDirection,
   buttonTextColor
 }) => {
   return (

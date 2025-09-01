@@ -28,7 +28,7 @@ import {
 const MessagingChatProfile = React.forwardRef<
   HTMLDivElement,
   MessagingChatProfileProps
->(({ paginate, ...props }, ref) => {
+>(({ ...props }, ref) => {
   return (
     <div ref={ref} {...props}>
       <div className="w-full flex-1 flex-col">

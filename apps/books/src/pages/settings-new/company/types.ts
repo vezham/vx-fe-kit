@@ -1,3 +1,3 @@
-export interface ProfileSettingCardProps {
+export interface CompanySettingCardProps {
   className?: string
 }

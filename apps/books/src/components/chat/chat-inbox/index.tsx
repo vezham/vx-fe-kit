@@ -20,7 +20,7 @@ import * as variants from './variant'
 const MessageChatInbox = React.forwardRef<
   HTMLDivElement,
   MessageChatInboxProps
->(({ page, paginate, chatList, ...props }, ref) => {
+>(({ paginate, chatList, ...props }, ref) => {
   return (
     <div ref={ref} {...props}>
       <div className="w-full overflow-visible pb-10">

@@ -65,7 +65,7 @@ export const longMenuItems: SidebarItem[] = [
     type: SidebarItemType.Nest,
     icon: 'lucide:library',
     title: 'Books',
-    href: '/book',
+    href: '/books',
 
     items: [
       {
@@ -90,7 +90,7 @@ export const longMenuItems: SidebarItem[] = [
   },
   {
     key: 'reports',
-    href: '#',
+    href: '/reports',
     icon: 'lucide:bar-chart-2',
     title: 'Reports',
     endContent: '+'

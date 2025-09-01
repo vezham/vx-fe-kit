@@ -11,8 +11,8 @@ export const items: SidebarItem[] = [
   {
     key: 'books',
     icon: 'lucide:library',
-    title: 'Books'
-    // href: '',
+    title: 'Books',
+    href: '/books'
   },
   {
     key: 'inventory',
@@ -23,7 +23,7 @@ export const items: SidebarItem[] = [
   },
   {
     key: 'reports',
-    // href: '#',
+    href: '/reports',
     icon: 'lucide:bar-chart-2',
     title: 'Reports',
     endContent: '+',

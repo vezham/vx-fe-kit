@@ -39,7 +39,7 @@ const UserPopoverCard = () => {
       </CardHeader>
       <CardBody className="px-3 py-0">
         <p className="text-small text-default-500 pl-px">
-          Full-stack developer, loves building awesome apps 🎉
+          Full-stack developer, loves building awesome apps
         </p>
       </CardBody>
       <CardFooter className="gap-3">
@@ -63,7 +63,6 @@ const SidebarFooter: React.FC<SidebarFooterProps> = ({
   isRtl,
   toggleTheme,
   toggleTextDirection,
-  toggleDirection,
   buttonTextColor
 }) => {
   return (

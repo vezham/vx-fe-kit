@@ -57,14 +57,6 @@ const Home = () => {
     }
   ]
 
-  const initialAvatars = [
-    { name: 'John', src: 'https://i.pravatar.cc/150?u=a042581f4e29026024d' },
-    { name: 'Mark', src: 'https://i.pravatar.cc/150?u=a04258a2462d826712d' },
-    { name: 'Jane', src: 'https://i.pravatar.cc/150?u=a042581f4e29026704d' },
-    { name: 'Mark', src: 'https://i.pravatar.cc/150?u=a04258a2462d826712d' },
-    { name: 'Jane', src: 'https://i.pravatar.cc/150?u=a042581f4e29026704d' }
-  ]
-
   const { isDarkMode } = useTheme()
 
   return (
@@ -72,7 +64,8 @@ const Home = () => {
       tabs={tabsData}
       mainTitle="Home"
       mainDescription="Customize your profile and appearance."
-      isDarkmode={isDarkMode}></Header>
+      isDarkmode={isDarkMode}
+      endContent={undefined}></Header>
   )
 }
 

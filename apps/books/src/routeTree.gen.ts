@@ -13,6 +13,8 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRouteImport } from './routes/__root'
 
 const SettingsLazyRouteImport = createFileRoute('/settings')()
+const ReportsLazyRouteImport = createFileRoute('/reports')()
+const BooksLazyRouteImport = createFileRoute('/books')()
 const IndexLazyRouteImport = createFileRoute('/')()
 
 const SettingsLazyRoute = SettingsLazyRouteImport.update({
@@ -20,6 +22,16 @@ const SettingsLazyRoute = SettingsLazyRouteImport.update({
   path: '/settings',
   getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/settings.lazy').then((d) => d.Route))
+const ReportsLazyRoute = ReportsLazyRouteImport.update({
+  id: '/reports',
+  path: '/reports',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() => import('./routes/reports.lazy').then((d) => d.Route))
+const BooksLazyRoute = BooksLazyRouteImport.update({
+  id: '/books',
+  path: '/books',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() => import('./routes/books.lazy').then((d) => d.Route))
 const IndexLazyRoute = IndexLazyRouteImport.update({
   id: '/',
   path: '/',
@@ -28,27 +40,35 @@ const IndexLazyRoute = IndexLazyRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
+  '/books': typeof BooksLazyRoute
+  '/reports': typeof ReportsLazyRoute
   '/settings': typeof SettingsLazyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
+  '/books': typeof BooksLazyRoute
+  '/reports': typeof ReportsLazyRoute
   '/settings': typeof SettingsLazyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexLazyRoute
+  '/books': typeof BooksLazyRoute
+  '/reports': typeof ReportsLazyRoute
   '/settings': typeof SettingsLazyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/settings'
+  fullPaths: '/' | '/books' | '/reports' | '/settings'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/settings'
-  id: '__root__' | '/' | '/settings'
+  to: '/' | '/books' | '/reports' | '/settings'
+  id: '__root__' | '/' | '/books' | '/reports' | '/settings'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
+  BooksLazyRoute: typeof BooksLazyRoute
+  ReportsLazyRoute: typeof ReportsLazyRoute
   SettingsLazyRoute: typeof SettingsLazyRoute
 }
 
@@ -59,6 +79,20 @@ declare module '@tanstack/react-router' {
       path: '/settings'
       fullPath: '/settings'
       preLoaderRoute: typeof SettingsLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reports': {
+      id: '/reports'
+      path: '/reports'
+      fullPath: '/reports'
+      preLoaderRoute: typeof ReportsLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/books': {
+      id: '/books'
+      path: '/books'
+      fullPath: '/books'
+      preLoaderRoute: typeof BooksLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -73,6 +107,8 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
+  BooksLazyRoute: BooksLazyRoute,
+  ReportsLazyRoute: ReportsLazyRoute,
   SettingsLazyRoute: SettingsLazyRoute,
 }
 export const routeTree = rootRouteImport

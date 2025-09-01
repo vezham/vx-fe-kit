@@ -64,7 +64,6 @@ const TeamSetting = React.forwardRef<HTMLDivElement, TeamSettingCardProps>(
           {...rest}
           ref={ref}
           className={cn(teamSettingStyles.wrapper, className)}>
-          {/* Title */}
           <div className={teamSettingStyles.titleContainer}>
             <div className={teamSettingStyles.titleTab}>
               <p className={teamSettingStyles.titleText}>Team</p>
@@ -76,143 +75,126 @@ const TeamSetting = React.forwardRef<HTMLDivElement, TeamSettingCardProps>(
               {endContent && endContent(onOpen)}
               <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalContent>
-                  {onClose => (
-                    <>
-                      <ModalHeader
-                        className={teamSettingStyles.modalHeader}></ModalHeader>
-                      <ModalBody>
-                        {/* Top Section */}
-                        <div
-                          className={teamSettingStyles.modalBodyTopContainer}>
-                          <p className={teamSettingStyles.modalBodyTitleText}>
-                            Invite new members by email address
+                  <>
+                    <ModalHeader
+                      className={teamSettingStyles.modalHeader}></ModalHeader>
+                    <ModalBody>
+                      <div className={teamSettingStyles.modalBodyTopContainer}>
+                        <p className={teamSettingStyles.modalBodyTitleText}>
+                          Invite new members by email address
+                        </p>
+                        <Button
+                          className={teamSettingStyles.inviteButton}
+                          endContent={
+                            <Icon
+                              className={teamSettingStyles.inviteButtonIcon}
+                              icon="solar:link-linear"
+                            />
+                          }
+                          radius="md"
+                          size="sm">
+                          Invite Link
+                        </Button>
+                      </div>
+                      <Divider />
+
+                      <div>
+                        {members.map((member, index) => {
+                          const labelPlacement =
+                            index === 0 ? 'outside-top' : 'inside'
+                          const selectPlacement =
+                            index === 0 ? 'outside' : 'inside'
+
+                          return (
+                            <div
+                              key={index}
+                              className={
+                                teamSettingStyles.emailAndRoleContainer
+                              }>
+                              <div className={teamSettingStyles.inputGroup}>
+                                <Input
+                                  size="sm"
+                                  className={teamSettingStyles.inputField}
+                                  classNames={{
+                                    inputWrapper: teamSettingStyles.inputWrapper
+                                  }}
+                                  label="Email Address"
+                                  labelPlacement={labelPlacement}
+                                  value={member.email}
+                                  onChange={e =>
+                                    updateMember(index, 'email', e.target.value)
+                                  }
+                                />
+                              </div>
+
+                              <div className={teamSettingStyles.inputGroup}>
+                                <Select
+                                  className={teamSettingStyles.inputField}
+                                  classNames={{
+                                    trigger: teamSettingStyles.inputWrapper
+                                  }}
+                                  size="sm"
+                                  label="Role"
+                                  labelPlacement={selectPlacement}
+                                  selectedKeys={[member.role]}
+                                  onChange={e =>
+                                    updateMember(index, 'role', e.target.value)
+                                  }>
+                                  {roleOptions.map(roleOption => (
+                                    <SelectItem key={roleOption.value}>
+                                      {roleOption.label}
+                                    </SelectItem>
+                                  ))}
+                                </Select>
+                              </div>
+                            </div>
+                          )
+                        })}
+
+                        <Button
+                          className={teamSettingStyles.addMoreButton}
+                          onPress={addMember}
+                          endContent={
+                            <Icon
+                              className={teamSettingStyles.addMoreButtonIcon}
+                              icon="solar:add-circle-linear"
+                            />
+                          }
+                          radius="md"
+                          size="sm">
+                          Add more
+                        </Button>
+                      </div>
+
+                      <Divider />
+                      <div>
+                        <div className={teamSettingStyles.modalFooter}>
+                          <p className={teamSettingStyles.learnMoreText}>
+                            Learn more about{' '}
+                            <span className={teamSettingStyles.learnMoreLink}>
+                              Team Members
+                            </span>
+                            <Icon
+                              className={teamSettingStyles.learnMoreIcon}
+                              icon="material-symbols-light:arrow-outward-rounded"
+                            />
                           </p>
                           <Button
-                            className={teamSettingStyles.inviteButton}
-                            endContent={
-                              <Icon
-                                className={teamSettingStyles.inviteButtonIcon}
-                                icon="solar:link-linear"
-                              />
-                            }
+                            className={teamSettingStyles.sendInviteButton}
                             radius="md"
                             size="sm">
-                            Invite Link
+                            Send Invite
                           </Button>
                         </div>
-                        <Divider />
-
-                        {/* Members input list */}
-                        <div>
-                          {members.map((member, index) => {
-                            const labelPlacement =
-                              index === 0 ? 'outside-top' : 'inside'
-                            const selectPlacement =
-                              index === 0 ? 'outside' : 'inside'
-
-                            return (
-                              <div
-                                key={index}
-                                className={
-                                  teamSettingStyles.emailAndRoleContainer
-                                }>
-                                {/* Email */}
-                                <div className={teamSettingStyles.inputGroup}>
-                                  <Input
-                                    size="sm"
-                                    className={teamSettingStyles.inputField}
-                                    classNames={{
-                                      inputWrapper:
-                                        teamSettingStyles.inputWrapper
-                                    }}
-                                    label="Email Address"
-                                    labelPlacement={labelPlacement}
-                                    value={member.email}
-                                    onChange={e =>
-                                      updateMember(
-                                        index,
-                                        'email',
-                                        e.target.value
-                                      )
-                                    }
-                                  />
-                                </div>
-                                {/* Role */}
-                                <div className={teamSettingStyles.inputGroup}>
-                                  <Select
-                                    className={teamSettingStyles.inputField}
-                                    classNames={{
-                                      trigger: teamSettingStyles.inputWrapper
-                                    }}
-                                    size="sm"
-                                    label="Role"
-                                    labelPlacement={selectPlacement}
-                                    selectedKeys={[member.role]}
-                                    onChange={e =>
-                                      updateMember(
-                                        index,
-                                        'role',
-                                        e.target.value
-                                      )
-                                    }>
-                                    {roleOptions.map(roleOption => (
-                                      <SelectItem key={roleOption.value}>
-                                        {roleOption.label}
-                                      </SelectItem>
-                                    ))}
-                                  </Select>
-                                </div>
-                              </div>
-                            )
-                          })}
-
-                          {/* Add More */}
-                          <Button
-                            className={teamSettingStyles.addMoreButton}
-                            onPress={addMember}
-                            endContent={
-                              <Icon
-                                className={teamSettingStyles.addMoreButtonIcon}
-                                icon="solar:add-circle-linear"
-                              />
-                            }
-                            radius="md"
-                            size="sm">
-                            Add more
-                          </Button>
-                        </div>
-
-                        <Divider />
-                        <div>
-                          <div className={teamSettingStyles.modalFooter}>
-                            <p className={teamSettingStyles.learnMoreText}>
-                              Learn more about{' '}
-                              <span className={teamSettingStyles.learnMoreLink}>
-                                Team Members
-                              </span>
-                              <Icon
-                                className={teamSettingStyles.learnMoreIcon}
-                                icon="material-symbols-light:arrow-outward-rounded"
-                              />
-                            </p>
-                            <Button
-                              className={teamSettingStyles.sendInviteButton}
-                              radius="md"
-                              size="sm">
-                              Send Invite
-                            </Button>
-                          </div>
-                        </div>
-                      </ModalBody>
-                    </>
-                  )}
+                      </div>
+                    </ModalBody>
+                  </>
                 </ModalContent>
               </Modal>
             </div>
           </div>
         </div>
 
-        {/* Table Section */}
         <div className={teamSettingStyles.tableSectionContainer}>
           <div className={teamSettingStyles.tableWrapper}>
             <Card className={teamSettingStyles.tableCard} shadow="none">
@@ -225,7 +207,6 @@ const TeamSetting = React.forwardRef<HTMLDivElement, TeamSettingCardProps>(
 
         <Spacer y={4} />
 
-        {/* Role Permissions */}
         <Card className={teamSettingStyles.roleCard} shadow="none">
           <CardBody className={teamSettingStyles.roleCardBody}>
             <div className={teamSettingStyles.roleCardHeader}>

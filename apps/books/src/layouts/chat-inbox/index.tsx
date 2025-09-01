@@ -17,7 +17,7 @@ type Props = {
   isSidebarOpen: boolean
 }
 
-const MessagingChatLayout: React.FC<Props> = ({ isSidebarOpen }) => {
+const MessagingChatLayout: React.FC<Props> = () => {
   const { isDarkMode } = useTheme()
 
   const [page, setPage] = useState(0) // 0: Inbox, 1: Window, 2: Profile
