@@ -1,28 +1,21 @@
 import { usePosts } from '../../store/usePosts'
 
 const Posts = () => {
-  const { status, data, error, isFetching } = usePosts()
+  const { data, error, isPending, isError } = usePosts()
+
+  if (isPending) return <div>Loading...</div>
+  if (isError) return <span>Error: {error.message}</span>
+  // if (isFetching) return <div>Background Updating...</div>
 
   return (
     <div>
-      {status === 'pending' ? (
-        'Loading...'
-      ) : status === 'error' ? (
-        <span>Error: {error.message}</span>
-      ) : (
-        <>
-          <div>
-            {data.map(post => (
-              <p key={post.id}>
-                <a data-id={post.id} href={`/posts/${post.id}`}>
-                  {post.title}
-                </a>
-              </p>
-            ))}
-          </div>
-          <div>{isFetching ? 'Background Updating...' : ' '}</div>
-        </>
-      )}
+      {data.map(post => (
+        <p key={post.id}>
+          <a data-id={post.id} href={`/posts/${post.id}`}>
+            {post.title}
+          </a>
+        </p>
+      ))}
     </div>
   )
 }
