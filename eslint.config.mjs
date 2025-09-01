@@ -1,5 +1,6 @@
 import nx from '@nx/eslint-plugin'
 import tanstackQuery from '@tanstack/eslint-plugin-query'
+
 // import react from 'eslint-plugin-react'
 // import reactHooks from 'eslint-plugin-react-hooks'
 
@@ -7,9 +8,7 @@ const ignores = [
   '**/dist',
   '**/node_modules',
   '**/coverage',
-  '**/vite.config.*.timestamp*',
-  '**/vitest.config.*.timestamp*',
-  '**/test-output',
+  '**/out-tsc',
   '**/.vezham',
   '**/.nx',
   '**/.lintstagedrc.js',
@@ -23,6 +22,13 @@ export default [
   ...tanstackQuery.configs['flat/recommended'],
   {
     ignores
+  },
+  {
+    ignores: [
+      '**/vite.config.*.timestamp*',
+      '**/vitest.config.*.timestamp*',
+      '**/test-output'
+    ]
   },
   {
     files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
@@ -60,16 +66,15 @@ export default [
     // Override or add rules here
     rules: {}
   },
-
-  // --- wjdlz/NOTE(v): skipped for internal tools
+  // --- wjdlz/NOTE(vx): skipped for internal tools
   {
-    files: ['v/scripts/**/*.tsx', 'v/scripts/**/*.ts'],
+    files: ['vx/scripts/**/*.tsx', 'vx/scripts/**/*.ts'],
     rules: {
       '@typescript-eslint/no-unused-vars': 'off'
     }
   },
   {
-    files: ['v/scripts/helpers.ts'],
+    files: ['vx/scripts/helpers.ts'],
     rules: {
       '@typescript-eslint/no-explicit-any': 'off'
     }
@@ -82,7 +87,6 @@ export default [
   //     'no-unused-vars': 'off'
   //   }
   // },
-
   // --- * ---
   // @components-store / @hooks-store
   // {

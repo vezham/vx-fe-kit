@@ -1,15 +1,21 @@
 {
   "extends": "./tsconfig.base.json",
   "compileOnSave": false,
-  "include": ["vx", "packages/vx"],
+  "include": [],
   "exclude": ["node_modules", "dist", "tmp"],
   "files": [],
   "references": [
     {
-      "path": "./apps/ts4-e2e"
+      "path": "./packages/vx/start"
     },
     {
-      "path": "./apps/ts4"
+      "path": "./packages/vx/system-utils"
+    },
+    {
+      "path": "./apps_internals/playground-e2e"
+    },
+    {
+      "path": "./apps_internals/playground"
     }
   ]
 }

@@ -1,0 +1,28 @@
+{
+  "name": "playground",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps_internals/playground/src",
+  "projectType": "application",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project playground --web",
+  "targets": {
+    "config-local-hostile": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps_internals/playground",
+        "commands": [
+          "sudo pnpm exec hostile set localhost playground.vezham.local && sudo pnpm exec hostile set localhost playground.mock.vezham.local"
+        ],
+        "parallel": false
+      }
+    },
+    "mock": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps_internals/playground/__mocks__",
+        "commands": ["pnpm i --ignore-scripts", "pnpm serve"],
+        "parallel": false
+      }
+    }
+  }
+}

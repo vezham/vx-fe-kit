@@ -2,3 +2,4 @@ packages:
   - 'packages/**/**'
   - '**/**/__mocks__'
   - 'apps/**/**'
+  - 'apps_internals/*'
