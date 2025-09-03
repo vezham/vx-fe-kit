@@ -1,40 +1,28 @@
 /* eslint-disable */
 import { useQuery } from '@tanstack/react-query'
-import { PurchaseStatsApi, purchaseUsersApi } from './action'
-import {
-  RQGetPurchaseStats,
-  RQGetUser,
-  RQListPurchaseStats,
-  RQListUsers
-} from './types'
+import { Api } from './action'
+import { RQGetUsers, RQListUsers, RQStats } from './types'
 
-const CK_PURCHASEUSERS = 'users'
-const CK_PURCHASESTATS = 'purchase'
+export const CK_PURCHASE = ['books', 'purchase']
 
-const usePurchaseUsers = {
+const usePurchase = {
+  stats: (rq: RQStats) =>
+    useQuery({
+      queryKey: [...CK_PURCHASE, 'stats'],
+      queryFn: () => Api.stats(rq)
+    }),
+
   list: (rq: RQListUsers) =>
     useQuery({
-      queryKey: [CK_PURCHASEUSERS, rq],
-      queryFn: () => purchaseUsersApi.list(rq)
+      queryKey: [...CK_PURCHASE, 'list'],
+      queryFn: () => Api.list(rq)
     }),
-  get: (rq: RQGetUser) =>
+
+  get: (rq: RQGetUsers) =>
     useQuery({
-      queryKey: [CK_PURCHASEUSERS, rq.id, rq],
-      queryFn: () => purchaseUsersApi.get(rq)
+      queryKey: [...CK_PURCHASE, 'id', rq.id],
+      queryFn: () => Api.get(rq)
     })
 }
 
-const usePurchaseStats = {
-  list: (rq: RQListPurchaseStats) =>
-    useQuery({
-      queryKey: [CK_PURCHASESTATS, rq],
-      queryFn: () => PurchaseStatsApi.list(rq)
-    }),
-  get: (rq: RQGetPurchaseStats) =>
-    useQuery({
-      queryKey: [CK_PURCHASESTATS, rq.id, rq],
-      queryFn: () => PurchaseStatsApi.get(rq)
-    })
-}
-
-export { usePurchaseStats, usePurchaseUsers }
+export { usePurchase }

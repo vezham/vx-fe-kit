@@ -30,9 +30,9 @@ export const tableStyles = {
   table: {
     td: 'before:bg-transparent'
   },
-  tableHeader: 'flex items-center gap-1',
-  tableHeaderUser: 'flex w-full cursor-pointer items-center justify-between',
-  tableHeaderInfo: 'flex min-w-[108px] items-center justify-between',
+  tableHeader: 'flex items-center ',
+  tableHeaderUser: 'flex w-full  items-center justify-center ',
+  tableHeaderInfo: 'flex  items-center justify-between',
   sortIcon: 'text-default-400',
   cell: {
     userInfoName: 'text-default-foreground',

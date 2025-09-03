@@ -1,17 +1,38 @@
-import { statusOptions } from './data'
-
-export type UserInfo = {
+export type Vendor = {
   avatar: string
   email: string
   name: string
 }
 
-export type Users = {
+export type Purchase = {
+  date: Date
+  dueDate: Date
+  amount: number | string
+  product: string
+  tags: Tags[]
   id: number
-  userInfo: UserInfo
-  role: string
-  status: StatusOptions
-  lastLogin: Date
+  vendor: Vendor
+  orderId: number
+  externalOrderID: string
+  status: Status
 }
 
-export type StatusOptions = (typeof statusOptions)[number]['name']
+export type Status =
+  | 'paid'
+  | 'draft'
+  | 'overdue'
+  | 'sent'
+  | 'onhold'
+  | 'pending'
+  | 'cancelled'
+
+export type Tags =
+  | 'Design'
+  | 'Product'
+  | 'Marketing'
+  | 'Management'
+  | 'Engineering'
+  | 'Sales'
+  | 'Support'
+  | 'Other'
+  | (string & {})

@@ -1,19 +1,35 @@
-export type salesUserInfo = {
+export type Vendor = {
   avatar: string
   email: string
   name: string
 }
 
-export type salesUserProps = {
+export type Sales = {
   id: number
-  userInfo: salesUserInfo
-  role: string
-  status: StatusOptions
-  lastLogin: Date
+  orderId: number
+  externalOrderID: string
+  vendor: Vendor
+  product: string
+  date: Date
+  dueDate: Date
+  amount: number | string
+  tags: Tags[]
+  status: Status
 }
 
+export type Tags =
+  | 'Design'
+  | 'Product'
+  | 'Marketing'
+  | 'Management'
+  | 'Engineering'
+  | 'Sales'
+  | 'Support'
+  | 'Other'
+  | (string & {})
+
 export type salesStats = {
-  type: 'sales'
+  type: string
   id: number
   title: string
   totalInvoiced: number
@@ -22,27 +38,25 @@ export type salesStats = {
   totalInvoices: number
 }
 
-export const statusOptions = [
-  { name: 'Active', uid: 'active' },
-  { name: 'Inactive', uid: 'inactive' },
-  { name: 'Pending', uid: 'pending' },
-  { name: 'Vacation', uid: 'vacation' }
-] as const
+export type Status =
+  | 'paid'
+  | 'draft'
+  | 'overdue'
+  | 'sent'
+  | 'onhold'
+  | 'pending'
+  | 'cancelled'
 
-export type StatusOptions = (typeof statusOptions)[number]['name']
-
-export type RQSalesUsers = object
+export type RQSales = object
 
 // stats
 
-export interface RQGetSalesStats extends RQSalesUsers {
-  id: number
-}
-export type RQListSalesStats = RQSalesUsers
+export type RQStats = RQSales
 
 // users
-export interface RQGetUser extends RQSalesUsers {
+
+export type RQListUsers = RQSales
+
+export interface RQGetUsers extends RQSales {
   id: number
 }
-
-export type RQListUsers = RQSalesUsers

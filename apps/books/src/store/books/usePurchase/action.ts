@@ -1,33 +1,26 @@
-import { purchaseStatData, purchaseUsers } from './data'
+import { purchaseData, purchaseStatData } from './data'
 import {
+  Purchase,
   purchaseStats,
-  purchaseUserProps,
-  RQGetPurchaseStats,
-  RQGetUser,
-  RQListPurchaseStats,
-  RQListUsers
+  RQGetUsers,
+  RQListUsers,
+  RQStats
 } from './types'
 
-const purchaseUsersApi = {
-  list: async (_rq: RQListUsers): Promise<purchaseUserProps[]> => {
-    // mock API call
-    return Promise.resolve(purchaseUsers)
-  },
-  get: async (rq: RQGetUser): Promise<purchaseUserProps> => {
-    const user = purchaseUsers.find(u => u.id === rq.id)
-    if (!user) throw new Error('User not found')
-    return Promise.resolve(user)
-  }
-}
-
-const PurchaseStatsApi = {
-  list: async (_rq: RQListPurchaseStats): Promise<purchaseStats[]> => {
+const Api = {
+  // api
+  stats: async (_rq: RQStats): Promise<purchaseStats[]> => {
     return Promise.resolve(purchaseStatData)
   },
-  get: async (rq: RQGetPurchaseStats): Promise<purchaseStats> => {
-    const stat = purchaseStatData.find(u => u.id === rq.id)
-    if (!stat) throw new Error('Stat not found')
-    return Promise.resolve(stat)
+
+  list: async (_rq: RQListUsers): Promise<Purchase[]> => {
+    return Promise.resolve(purchaseData)
+  },
+
+  get: async (rq: RQGetUsers): Promise<Purchase> => {
+    const people = purchaseData.find(u => u.id === rq.id)
+    if (!people) throw new Error('User not found')
+    return Promise.resolve(people)
   }
 }
-export { PurchaseStatsApi, purchaseUsersApi }
+export { Api }

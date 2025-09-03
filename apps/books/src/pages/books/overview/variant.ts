@@ -7,10 +7,10 @@ export const cardVariants = {
   menuIcon: 'text-small rotate-90 text-gray-400',
   gridWrapper: 'flex justify-between',
   gridLabels: 'grid gap-2',
-  gridValues: 'grid gap-2',
+  gridValues: 'grid gap-2 text-end',
   paid: 'text-success text-base leading-6 font-medium',
   outstanding: 'text-danger text-base leading-6 font-medium',
   normal: 'text-base leading-6 font-medium',
-  footer: 'border-default-200 items-center justify-between border-t',
+  footer: 'border-default-200 items-center justify-between border-t text-end',
   footerLeft: 'flex items-center gap-2'
 }

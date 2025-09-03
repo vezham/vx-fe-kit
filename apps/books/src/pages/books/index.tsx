@@ -60,7 +60,7 @@ export default function BooksLayout({
             <div className="order-1 sm:order-2">{tabsEndContent}</div>
           </div>
 
-          <div className="w-full">
+          <div className="w-full pb-16">
             {tabItems.find(t => t.key === activeTab)?.component}
           </div>
         </div>

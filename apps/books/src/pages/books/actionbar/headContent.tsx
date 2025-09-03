@@ -1,3 +1,5 @@
+'use client'
+
 import {
   Button,
   Dropdown,
@@ -7,7 +9,11 @@ import {
 } from '@heroui/react'
 import { SearchIcon } from '@heroui/shared-icons'
 import { Icon } from '@iconify/react/dist/iconify.js'
+import { useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
+
+import { CK_PURCHASE } from '../../../store/books/usePurchase'
+import { CK_SALES } from '../../../store/books/useSales'
 
 const HeadContent = () => {
   const [windowWidth, setWindowWidth] = useState<number>(
@@ -22,6 +28,15 @@ const HeadContent = () => {
 
   const isXs = windowWidth < 480
   const isSm = windowWidth < 640
+
+  const queryClient = useQueryClient()
+
+  const handleRefresh = () => {
+    // ✅ invalidate all purchase + sales queries (list, stats, get, etc.)
+    queryClient.invalidateQueries({ queryKey: CK_PURCHASE })
+    queryClient.invalidateQueries({ queryKey: CK_SALES })
+    console.log('Refresh triggered for purchase + sales')
+  }
 
   const actions = [
     {
@@ -40,7 +55,8 @@ const HeadContent = () => {
         />
       ),
       label: 'Refresh',
-      alwaysIconOnly: true
+      alwaysIconOnly: true,
+      onClick: handleRefresh
     },
     {
       key: 'invite',
@@ -70,6 +86,7 @@ const HeadContent = () => {
       {visibleActions.map(action => (
         <Button
           key={action.key}
+          onPress={action.onClick}
           size="md"
           variant={action.key === 'download' ? 'bordered' : 'light'}
           className={
@@ -78,7 +95,6 @@ const HeadContent = () => {
               : 'bg-default-100 rounded-medium min-h-[20px] min-w-[20px]'
           }>
           {action.icon}
-
           {!isSm && !action.alwaysIconOnly && (
             <span className="ml-1">{action.label}</span>
           )}
@@ -97,7 +113,10 @@ const HeadContent = () => {
           </DropdownTrigger>
           <DropdownMenu aria-label="More actions">
             {hiddenActions.map(action => (
-              <DropdownItem key={action.key} startContent={action.icon}>
+              <DropdownItem
+                key={action.key}
+                startContent={action.icon}
+                onClick={action.onClick}>
                 {action.label}
               </DropdownItem>
             ))}

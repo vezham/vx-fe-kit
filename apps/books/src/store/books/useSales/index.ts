@@ -1,40 +1,28 @@
 /* eslint-disable */
 import { useQuery } from '@tanstack/react-query'
-import { salesStatsApi, salesUserApi } from './action'
-import {
-  RQGetSalesStats,
-  RQGetUser,
-  RQListSalesStats,
-  RQListUsers
-} from './types'
+import { Api } from './action'
+import { RQGetUsers, RQListUsers, RQStats } from './types'
 
-const CK_SALESUSERS = 'users'
-const CK_SALESSTATS = 'sales'
+export const CK_SALES = ['books', 'sales']
 
-const useSalesUsers = {
+const useSales = {
+  stats: (rq: RQStats) =>
+    useQuery({
+      queryKey: [...CK_SALES, 'stats'],
+      queryFn: () => Api.stats(rq)
+    }),
+
   list: (rq: RQListUsers) =>
     useQuery({
-      queryKey: [CK_SALESUSERS, rq],
-      queryFn: () => salesUserApi.list(rq)
+      queryKey: [...CK_SALES, 'list'],
+      queryFn: () => Api.list(rq)
     }),
-  get: (rq: RQGetUser) =>
+
+  get: (rq: RQGetUsers) =>
     useQuery({
-      queryKey: [CK_SALESUSERS, rq.id, rq],
-      queryFn: () => salesUserApi.get(rq)
+      queryKey: [...CK_SALES, 'id', rq.id],
+      queryFn: () => Api.get(rq)
     })
 }
 
-const useSalesStats = {
-  list: (rq: RQListSalesStats) =>
-    useQuery({
-      queryKey: [CK_SALESSTATS, rq],
-      queryFn: () => salesStatsApi.list(rq)
-    }),
-  get: (rq: RQGetSalesStats) =>
-    useQuery({
-      queryKey: [CK_SALESSTATS, rq.id, rq],
-      queryFn: () => salesStatsApi.get(rq)
-    })
-}
-
-export { useSalesStats, useSalesUsers }
+export { useSales }

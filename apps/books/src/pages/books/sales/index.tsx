@@ -6,7 +6,6 @@ import {
   Card,
   CardBody,
   Chip,
-  cn,
   Divider,
   Drawer,
   DrawerBody,
@@ -25,13 +24,14 @@ import {
   Radio,
   RadioGroup,
   ScrollShadow,
-  Skeleton,
+  Spinner,
   Table,
   TableBody,
   TableCell,
   TableColumn,
   TableHeader,
   TableRow,
+  Tooltip,
   useDisclosure,
   User
 } from '@heroui/react'
@@ -39,36 +39,47 @@ import { Icon } from '@iconify/react'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import {
-  ChevronDownIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
-  ChevronUpIcon,
   CloseIcon,
+  CopyIcon,
   DeleteIcon,
   EditIcon,
-  SearchIcon
+  EyeFilledIcon,
+  SearchIcon,
+  SendFilledIcon
 } from '@heroui/shared-icons'
 import { motion } from 'framer-motion'
 
-import { useSalesUsers } from '../../../store/books/useSales'
-import type { ColumnsKey } from '../../../store/books/useSales/data'
+import { useSales } from '../../../store/books/useSales'
+import type { Columns } from '../../../store/books/useSales/data'
 import {
-  chipColorMap,
-  columns,
+  getColumnProps,
+  getStatusProps,
   INITIAL_VISIBLE_COLUMNS
 } from '../../../store/books/useSales/data'
+import { Sales, Tags } from '../../../store/books/useSales/types'
 import { teamSettingStyles } from '../../settings-new/team/variant'
-import { Users } from './types'
 import { tableStyles } from './variant'
 
 const Component = () => {
   const {
     data: users = [],
-    isLoading,
-    isError,
-    refetch
-  } = useSalesUsers.list({})
-  const [tableData, setTableData] = useState<Users[]>([])
+    isLoading: salesLoading,
+    isError: salesError,
+    refetch: refetchSales
+  } = useSales.list({})
+
+  const [selectedUserId, setSelectedUserId] = useState<number | null>(null)
+
+  const {
+    data: selectedUser,
+    isLoading: selectedLoading,
+    isError: selectedError,
+    refetch: selectedRefetch
+  } = useSales.get({ id: selectedUserId ?? 0 })
+
+  const [tableData, setTableData] = useState<Sales[]>([])
 
   const [filterValue, setFilterValue] = useState('')
   const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set([]))
@@ -90,18 +101,12 @@ const Component = () => {
   }, [users])
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
-  const [selectedUser, setSelectedUser] = useState<Users | null>(null)
 
   // 🟢 handle row click
-  const handleRowClick = (user: Users) => {
-    setSelectedUser(user)
+  const handleRowClick = (user: Sales) => {
+    setSelectedUserId(user.id)
     setSelectedKeys(new Set([user.id]))
     onOpen()
-  }
-
-  const handleDrawerClose = () => {
-    setSelectedUser(null)
-    setSelectedKeys(new Set()) // ✅ clear selection when drawer closes
   }
 
   const [statusFilter, setStatusFilter] = useState('all')
@@ -122,28 +127,23 @@ const Component = () => {
   )
 
   const headerColumns = useMemo(() => {
-    if (visibleColumns === 'all') return columns
+    if (visibleColumns === 'all') return Object.values(getColumnProps)
 
-    return columns.filter(column =>
-      Array.from(visibleColumns).includes(column.uid)
+    return Object.values(getColumnProps).filter(column =>
+      Array.from(visibleColumns).includes(column.id)
     )
   }, [visibleColumns])
 
   const itemFilter = useCallback(
-    (col: Users) => {
+    (col: Sales) => {
       const allStatus = statusFilter === 'all'
-      const allStartDate = startDateFilter === 'all'
 
       const startDateMatch = startDateFilter.match(/(\d+)(?=Days)/)
       const daysAgo = startDateMatch ? +startDateMatch[1] : 0
       const dateLimit = new Date()
       dateLimit.setDate(dateLimit.getDate() - daysAgo)
 
-      const isDateValid = allStartDate || new Date(col.lastLogin) >= dateLimit
-
-      return (
-        (allStatus || statusFilter === col.status.toLowerCase()) && isDateValid
-      )
+      return allStatus || statusFilter === col.status.toLowerCase()
     },
     [startDateFilter, statusFilter]
   )
@@ -152,7 +152,7 @@ const Component = () => {
 
     if (filterValue) {
       filteredUsers = filteredUsers.filter(user =>
-        user.userInfo.name.toLowerCase().includes(filterValue.toLowerCase())
+        user.vendor.name.toLowerCase().includes(filterValue.toLowerCase())
       )
     }
 
@@ -170,13 +170,13 @@ const Component = () => {
   }, [page, filteredItems, rowsPerPage])
 
   const sortedItems = useMemo(() => {
-    return [...items].sort((a: Users, b: Users) => {
-      const col = sortDescriptor.column as keyof Users
+    return [...items].sort((a: Sales, b: Sales) => {
+      const col = sortDescriptor.column as keyof Sales
 
       let first = a[col]
       let second = b[col]
 
-      if (col === 'userInfo') {
+      if (col === 'vendor') {
         first = a[col].name
         second = b[col].name
       }
@@ -199,25 +199,40 @@ const Component = () => {
   }, [selectedKeys, filteredItems])
 
   const renderCell = useCallback(
-    (user: Users, columnKey: React.Key) => {
-      const userKey = columnKey as ColumnsKey
-      const cellValue = user[userKey as unknown as keyof Users] as string
+    (user: Sales, columnKey: React.Key) => {
+      const userKey = columnKey as Columns
+      const cellValue = user[userKey as unknown as keyof Sales] as string
 
       switch (userKey) {
-        case 'userInfo':
+        case 'orderId':
+          return (
+            <p className="text-default-400 flex items-center gap-2">
+              {cellValue}
+              <CopyIcon width={20} />
+            </p>
+          )
+        case 'externalOrderID':
+          return (
+            <p className="text-default-400 flex items-center gap-2">
+              {cellValue} <CopyIcon width={20} />
+            </p>
+          )
+        case 'vendor':
           return (
             <User
-              avatarProps={{ radius: 'lg', src: user[userKey]?.avatar }}
+              avatarProps={{ radius: 'lg', src: user[userKey].avatar }}
               classNames={{
-                name: tableStyles.cell.userInfoName,
-                description: tableStyles.cell.userInfoDescription
+                name: 'text-default-foreground',
+                description: 'text-default-500'
               }}
               description={user[userKey].email}
               name={user[userKey].name}>
               {user[userKey].email}
             </User>
           )
-        case 'lastLogin':
+        case 'product':
+          return <p className="w-full truncate">{cellValue}</p>
+        case 'date':
           return (
             <div className={tableStyles.cell.lastLoginContainer}>
               <Icon
@@ -233,29 +248,76 @@ const Component = () => {
               </p>
             </div>
           )
-        case 'role':
+        case 'duedate':
           return (
-            <Button variant="bordered" size="sm">
-              {cellValue}
-            </Button>
+            <div className={tableStyles.cell.lastLoginContainer}>
+              <Icon
+                className={tableStyles.cell.lastLoginIcon}
+                icon="solar:calendar-minimalistic-linear"
+              />
+              <p className={tableStyles.cell.lastLoginText}>
+                {new Intl.DateTimeFormat('en-US', {
+                  month: 'long',
+                  day: 'numeric',
+                  year: 'numeric'
+                }).format(cellValue as unknown as Date)}
+              </p>
+            </div>
           )
+        case 'amount':
+          return <p className="w-full min-w-[55px]">$ {user.amount}</p>
         case 'status': {
           const statusValue = user.status
+          const key = statusValue.toLowerCase() as keyof typeof getStatusProps
+          const { label, color } = getStatusProps[key] || {}
+
           return (
             <Chip
-              className={chipColorMap[statusValue] || ''}
+              className={`${color} ${label}`} // 👈 merge bg + text
               variant="solid"
               radius="sm"
               startContent={
-                <Icon icon="solar:circle-bold" width={24} height={24} />
+                <Icon icon="solar:circle-linear" width={24} height={24} />
               }>
               {statusValue}
             </Chip>
           )
         }
+        case 'tags':
+          return (
+            <div className="float-start flex gap-1">
+              {user.tags.slice(0, 4).map((tag: Tags, index: number) =>
+                index < 3 ? (
+                  <Chip
+                    key={tag}
+                    className="bg-default-100 text-default-800 rounded-xl px-[6px] capitalize"
+                    size="sm"
+                    variant="flat">
+                    {tag}
+                  </Chip>
+                ) : (
+                  <Chip
+                    key="more"
+                    className="text-default-500"
+                    size="sm"
+                    variant="flat">
+                    +{user.tags.length - 3}
+                  </Chip>
+                )
+              )}
+            </div>
+          )
+
         case 'actions':
           return (
             <div className={tableStyles.cell.actionsContainer}>
+              <Button className={tableStyles.actionButton} variant="light">
+                <EyeFilledIcon
+                  className={tableStyles.cell.actionIcon}
+                  height={18}
+                  width={18}
+                />
+              </Button>
               <Button
                 className={tableStyles.actionButton}
                 variant="light"
@@ -288,9 +350,24 @@ const Component = () => {
                   </Button>
                 </DropdownTrigger>
                 <DropdownMenu aria-label="More actions">
-                  <DropdownItem key="duplicate">Duplicate</DropdownItem>
-                  <DropdownItem key="archive">Archive</DropdownItem>
-                  <DropdownItem key="share">Share</DropdownItem>
+                  <DropdownItem key="send">
+                    <Button
+                      className={tableStyles.actionButton}
+                      variant="light"
+                      startContent={<SendFilledIcon width={20} />}>
+                      Send
+                    </Button>
+                  </DropdownItem>
+                  <DropdownItem key="download">
+                    <Button
+                      size="md"
+                      variant="light"
+                      startContent={
+                        <Icon icon="solar:download-line-duotone" width={20} />
+                      }>
+                      Download
+                    </Button>
+                  </DropdownItem>
                 </DropdownMenu>
               </Dropdown>
             </div>
@@ -306,15 +383,24 @@ const Component = () => {
     setSelectedKeys(keys)
   }, [])
 
-  const onNextPage = useCallback(() => {
+  const [isPageLoading, setIsPageLoading] = useState(false)
+  const sleep = () => new Promise(resolve => setTimeout(resolve, 500))
+
+  const onNextPage = useCallback(async () => {
     if (page < pages) {
-      setPage(page + 1)
+      setIsPageLoading(true)
+      await sleep()
+      setPage(prev => prev + 1)
+      setIsPageLoading(false)
     }
   }, [page, pages])
 
-  const onPreviousPage = useCallback(() => {
+  const onPreviousPage = useCallback(async () => {
     if (page > 1) {
-      setPage(page - 1)
+      setIsPageLoading(true)
+      await sleep()
+      setPage(prev => prev - 1)
+      setIsPageLoading(false)
     }
   }, [page])
 
@@ -530,9 +616,9 @@ const Component = () => {
 
                   <DropdownMenu
                     aria-label="Sort"
-                    items={headerColumns.filter(
-                      c => !['actions', 'teams'].includes(c.uid)
-                    )}>
+                    items={Object.entries(headerColumns)
+                      .map(([uid, col]) => ({ uid, ...col }))
+                      .filter(c => !['actions', 'teams'].includes(c.uid))}>
                     {item => (
                       <DropdownItem
                         key={item.uid}
@@ -545,7 +631,7 @@ const Component = () => {
                                 : 'ascending'
                           })
                         }}>
-                        {item.name}
+                        {item.label}
                       </DropdownItem>
                     )}
                   </DropdownMenu>
@@ -572,13 +658,14 @@ const Component = () => {
                   <DropdownMenu
                     disallowEmptySelection
                     aria-label="Columns"
-                    items={columns.filter(c => !['actions'].includes(c.uid))}
                     selectedKeys={visibleColumns}
                     selectionMode="multiple"
                     onSelectionChange={setVisibleColumns}>
-                    {item => (
-                      <DropdownItem key={item.uid}>{item.name}</DropdownItem>
-                    )}
+                    {Object.entries(getColumnProps)
+                      .filter(([key]) => key !== 'actions')
+                      .map(([key, col]) => (
+                        <DropdownItem key={key}>{col.label}</DropdownItem>
+                      ))}
                   </DropdownMenu>
                 </Dropdown>
               </div>
@@ -671,9 +758,11 @@ const Component = () => {
 
                         <DropdownMenu
                           aria-label="Sort"
-                          items={headerColumns.filter(
-                            c => !['actions', 'teams'].includes(c.uid)
-                          )}>
+                          items={Object.entries(headerColumns)
+                            .map(([uid, col]) => ({ uid, ...col }))
+                            .filter(
+                              c => !['actions', 'teams'].includes(c.uid)
+                            )}>
                           {item => (
                             <DropdownItem
                               key={item.uid}
@@ -686,7 +775,7 @@ const Component = () => {
                                       : 'ascending'
                                 })
                               }}>
-                              {item.name}
+                              {item.label}
                             </DropdownItem>
                           )}
                         </DropdownMenu>
@@ -714,15 +803,15 @@ const Component = () => {
                         <DropdownMenu
                           disallowEmptySelection
                           aria-label="Columns"
-                          items={columns.filter(
-                            c => !['actions'].includes(c.uid)
-                          )}
+                          items={Object.entries(getColumnProps)
+                            .map(([uid, col]) => ({ uid, ...col }))
+                            .filter(c => c.uid !== 'actions')}
                           selectedKeys={visibleColumns}
                           selectionMode="multiple"
                           onSelectionChange={setVisibleColumns}>
                           {item => (
                             <DropdownItem key={item.uid}>
-                              {item.name}
+                              {item.label}
                             </DropdownItem>
                           )}
                         </DropdownMenu>
@@ -750,6 +839,15 @@ const Component = () => {
     sortDescriptor.direction
   ])
 
+  const onPaginationChange = async (newPage: number) => {
+    if (newPage !== page) {
+      setIsPageLoading(true)
+      await sleep()
+      setPage(newPage)
+      setIsPageLoading(false)
+    }
+  }
+
   const bottomContent = useMemo(() => {
     return (
       <div className={tableStyles.paginationContainer}>
@@ -762,7 +860,7 @@ const Component = () => {
             color="primary"
             page={page}
             total={pages}
-            onChange={setPage}
+            onChange={onPaginationChange}
           />
         </div>
         <div className={tableStyles.paginationButtonContainer}>
@@ -802,25 +900,27 @@ const Component = () => {
     )
   }, [page, pages, onPreviousPage, onNextPage])
 
-  const handleMemberClick = useCallback(() => {
-    setSortDescriptor(prev => ({
-      column: 'userInfo',
-      direction: prev.direction === 'ascending' ? 'descending' : 'ascending'
-    }))
-  }, [])
-  if (isError)
+  // const handleMemberClick = useCallback(() => {
+  //   setSortDescriptor(prev => ({
+  //     column: 'userInfo',
+  //     direction: prev.direction === 'ascending' ? 'descending' : 'ascending'
+  //   }))
+  // }, [])
+  if (salesError)
     return (
       <Alert
         variant="faded"
         color="default"
-        title="Error loading SalesStats"
-        className="mt-6">
+        title="Error loading Sales"
+        hideIcon
+        className="mt-6 flex flex-col items-center justify-center">
         <Button
           color="default"
           size="sm"
-          className="mt-2"
+          variant="light"
+          className="mx-auto mt-2"
           onPress={() => {
-            refetch()
+            refetchSales()
           }}>
           Try Again
         </Button>
@@ -833,26 +933,16 @@ const Component = () => {
         <Card className={teamSettingStyles.tableCard} shadow="none">
           <CardBody>
             <div className={tableStyles.wrapper}>
-              {!isLoading && <div>{topBar}</div>}
+              {!salesLoading && <div>{topBar}</div>}
               <ScrollShadow orientation="horizontal">
-                {isLoading ? (
-                  <div className="space-y-3">
-                    {Array.from({ length: 5 }).map((_, idx) => (
-                      <div key={idx} className="flex items-center gap-3">
-                        <Skeleton className="h-10 w-10 rounded-full" />{' '}
-                        <div className="flex-1 space-y-2">
-                          <Skeleton className="h-4 w-3/5 rounded" />{' '}
-                          <Skeleton className="h-3 w-2/5 rounded" />{' '}
-                        </div>
-                        <Skeleton className="h-6 w-20 rounded" />{' '}
-                      </div>
-                    ))}
+                {salesLoading ? (
+                  <div className="flex h-75 items-center justify-center">
+                    <Spinner size="lg" />
                   </div>
                 ) : (
                   <Table
                     removeWrapper
-                    isHeaderSticky
-                    aria-label="Example table with custom cells, pagination and sorting"
+                    aria-label="Users Table"
                     bottomContentPlacement="outside"
                     classNames={tableStyles.table}
                     selectedKeys={filterSelectedKeys}
@@ -863,91 +953,242 @@ const Component = () => {
                     onSortChange={setSortDescriptor}>
                     <TableHeader columns={headerColumns}>
                       {column => (
-                        <TableColumn
-                          key={column.uid}
-                          align={column.uid === 'actions' ? 'end' : 'start'}
-                          className={cn([
-                            column.uid === 'actions'
-                              ? tableStyles.tableHeader
-                              : ''
-                          ])}>
-                          {column.uid === 'userInfo' ? (
-                            <div
-                              onClick={handleMemberClick}
-                              className={tableStyles.tableHeaderUser}>
-                              {column.name}
-                              {sortDescriptor.column === column.uid &&
-                                (sortDescriptor.direction === 'ascending' ? (
-                                  <ChevronUpIcon
-                                    className={tableStyles.sortIcon}
-                                  />
-                                ) : (
-                                  <ChevronDownIcon
-                                    className={tableStyles.sortIcon}
-                                  />
-                                ))}
-                            </div>
-                          ) : column.info ? (
-                            <div className={tableStyles.tableHeaderInfo}>
-                              {column.name}
-                            </div>
-                          ) : (
-                            column.name
-                          )}
+                        <TableColumn key={column.id}>
+                          {column.label}
                         </TableColumn>
                       )}
                     </TableHeader>
                     <TableBody
                       emptyContent={'No users found'}
-                      items={sortedItems}>
-                      {item => (
-                        <TableRow
-                          key={item.id}
-                          onClick={() => handleRowClick(item)}>
-                          {columnKey => (
-                            <TableCell>{renderCell(item, columnKey)}</TableCell>
-                          )}
+                      items={isPageLoading ? [] : sortedItems}>
+                      {isPageLoading ? (
+                        <TableRow>
+                          <TableCell colSpan={headerColumns.length}>
+                            <div className="flex h-75 items-center justify-center">
+                              <Spinner size="lg" color="primary" />
+                            </div>
+                          </TableCell>
                         </TableRow>
+                      ) : (
+                        item => (
+                          <TableRow
+                            key={item.id}
+                            onClick={() => handleRowClick(item)}>
+                            {columnKey => (
+                              <TableCell>
+                                {renderCell(item, columnKey)}
+                              </TableCell>
+                            )}
+                          </TableRow>
+                        )
                       )}
                     </TableBody>
                   </Table>
                 )}
               </ScrollShadow>
-              {!isLoading && <div>{bottomContent}</div>}
+              {!salesLoading && <div>{bottomContent}</div>}
             </div>
           </CardBody>
         </Card>
       </div>
       <Drawer
-        isOpen={isOpen}
-        onOpenChange={() => {
-          if (!isOpen) {
-            handleDrawerClose()
-          }
-
-          onOpenChange()
+        hideCloseButton
+        backdrop="blur"
+        classNames={{
+          base: 'sm:data-[placement=right]:m-2 sm:data-[placement=left]:m-2 rounded-medium'
         }}
-        size="sm">
+        isOpen={isOpen}
+        onOpenChange={open => {
+          if (!open) {
+            setSelectedKeys(new Set([]))
+            setSelectedUserId(null)
+          }
+          onOpenChange()
+        }}>
         <DrawerContent>
           {onClose => (
             <>
-              <DrawerHeader></DrawerHeader>
-              <DrawerBody>
-                {selectedUser ? (
+              {/* Full new drawer header */}
+              <DrawerHeader className="border-default-200/50 bg-content1/50 absolute inset-x-0 top-0 z-50 flex flex-row justify-between gap-2 border-b px-2 py-2 backdrop-blur-lg backdrop-saturate-150">
+                {/* Close button */}
+                <Tooltip content="Close">
+                  <Button
+                    isIconOnly
+                    className="text-default-400"
+                    size="sm"
+                    variant="light"
+                    onPress={onClose}>
+                    <svg
+                      fill="none"
+                      height="20"
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                      width="20"
+                      xmlns="http://www.w3.org/2000/svg">
+                      <path d="m13 17 5-5-5-5M6 17l5-5-5-5" />
+                    </svg>
+                  </Button>
+                </Tooltip>
+
+                {/* Copy Link + Event Page */}
+                <div className="flex w-full justify-start gap-2">
+                  <Button
+                    className="text-small text-default-500 font-medium"
+                    size="sm"
+                    startContent={
+                      <svg
+                        height="16"
+                        viewBox="0 0 16 16"
+                        width="16"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M3.85.75c-.908 0-1.702.328-2.265.933-.558.599-.835 1.41-.835 2.29V7.88c0 .801.23 1.548.697 2.129.472.587 1.15.96 1.951 1.06a.75.75 0 1 0 .185-1.489c-.435-.054-.752-.243-.967-.51-.219-.273-.366-.673-.366-1.19V3.973c0-.568.176-.993.433-1.268.25-.27.632-.455 1.167-.455h4.146c.479 0 .828.146 1.071.359.246.215.43.54.497.979a.75.75 0 0 0 1.483-.23c-.115-.739-.447-1.4-.99-1.877C9.51 1 8.796.75 7.996.75zM7.9 4.828c-.908 0-1.702.326-2.265.93-.558.6-.835 1.41-.835 2.29v3.905c0 .879.275 1.69.833 2.289.563.605 1.357.931 2.267.931h4.144c.91 0 1.705-.326 2.268-.931.558-.599.833-1.41.833-2.289V8.048c0-.879-.275-1.69-.833-2.289-.563-.605-1.357-.931-2.267-.931zm-1.6 3.22c0-.568.176-.992.432-1.266.25-.27.632-.454 1.168-.454h4.145c.54 0 .92.185 1.17.453.255.274.43.698.43 1.267v3.905c0 .569-.175.993-.43 1.267-.25.268-.631.453-1.17.453H7.898c-.54 0-.92-.185-1.17-.453-.255-.274-.43-.698-.43-1.267z"
+                          fill="currentColor"
+                          fillRule="evenodd"
+                        />
+                      </svg>
+                    }
+                    variant="flat">
+                    Copy Link
+                  </Button>
+                  <Button
+                    className="text-small text-default-500 font-medium"
+                    endContent={
+                      <svg
+                        fill="none"
+                        height="16"
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        viewBox="0 0 24 24"
+                        width="16"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7 17 17 7M7 7h10v10" />
+                      </svg>
+                    }
+                    size="sm"
+                    variant="flat">
+                    Event Page
+                  </Button>
+                </div>
+
+                {/* Prev / Next arrows */}
+                <div className="flex items-center gap-1">
+                  <Tooltip content="Previous">
+                    <Button
+                      isIconOnly
+                      className="text-default-500"
+                      size="sm"
+                      variant="flat">
+                      <svg
+                        fill="none"
+                        height="16"
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        viewBox="0 0 24 24"
+                        width="16"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path d="m18 15-6-6-6 6" />
+                      </svg>
+                    </Button>
+                  </Tooltip>
+                  <Tooltip content="Next">
+                    <Button
+                      isIconOnly
+                      className="text-default-500"
+                      size="sm"
+                      variant="flat">
+                      <svg
+                        fill="none"
+                        height="16"
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        viewBox="0 0 24 24"
+                        width="16"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path d="m6 9 6 6 6-6" />
+                      </svg>
+                    </Button>
+                  </Tooltip>
+                </div>
+              </DrawerHeader>
+
+              {/* Body from old drawer (User Details) */}
+              <DrawerBody className="pt-16">
+                {selectedLoading ? (
+                  // Loading
+                  <div className="flex flex-col items-center justify-center py-10">
+                    <Spinner size="lg" />
+                    <p className="text-default-500 mt-2 text-sm">
+                      Loading user...
+                    </p>
+                  </div>
+                ) : selectedError ? (
+                  // Error
+                  <div className="flex flex-col items-center justify-center">
+                    <p className="text-sm">Failed to load user details.</p>
+                    <Button
+                      size="sm"
+                      variant="light"
+                      color="danger"
+                      onPress={() => selectedRefetch()}>
+                      Retry
+                    </Button>
+                  </div>
+                ) : !selectedUser ? (
+                  // Empty
+                  <p className="text-default-400 text-sm">No user selected</p>
+                ) : (
+                  // Success
                   <div className="space-y-4">
-                    <User
-                      avatarProps={{
-                        src:
-                          selectedUser.userInfo.avatar ||
-                          'https://i.pravatar.cc/150?u=a04258',
-                        name: selectedUser.userInfo.name
-                      }}
-                      name={selectedUser.userInfo.name}
-                      description={selectedUser.userInfo.email}
-                    />
+                    <div>
+                      <User
+                        avatarProps={{
+                          src:
+                            selectedUser.vendor.avatar ||
+                            'https://i.pravatar.cc/150?u=a04258',
+                          name: selectedUser.vendor.name
+                        }}
+                        name={selectedUser.vendor.name}
+                        description={selectedUser.vendor.email}
+                      />
+                    </div>
 
                     <div>
-                      <b>Role:</b> {selectedUser.role}
+                      <b>Product:</b> {selectedUser.product}
+                    </div>
+                    <div>
+                      <b>Date:</b>{' '}
+                      {selectedUser?.date
+                        ? new Intl.DateTimeFormat('en-US', {
+                            month: 'long',
+                            day: 'numeric',
+                            year: 'numeric'
+                          }).format(new Date(selectedUser.date))
+                        : '—'}
+                    </div>
+
+                    <div>
+                      <b>Due Date:</b>{' '}
+                      {selectedUser?.dueDate
+                        ? new Intl.DateTimeFormat('en-US', {
+                            month: 'long',
+                            day: 'numeric',
+                            year: 'numeric'
+                          }).format(new Date(selectedUser.dueDate))
+                        : '—'}
+                    </div>
+
+                    <div>
+                      <b>Amount:</b> {selectedUser.amount}
                     </div>
 
                     <div className="flex items-center gap-2">
@@ -955,31 +1196,56 @@ const Component = () => {
                       <Chip
                         radius="sm"
                         color={
-                          selectedUser.status === 'Active'
+                          selectedUser.status === 'paid'
                             ? 'success'
-                            : selectedUser.status === 'Pending'
+                            : selectedUser.status === 'pending'
                               ? 'default'
-                              : selectedUser.status === 'Inactive'
+                              : selectedUser.status === 'overdue'
                                 ? 'danger'
-                                : selectedUser.status === 'Vacation'
-                                  ? 'warning'
-                                  : 'default'
+                                : selectedUser.status === 'onhold'
+                                  ? 'secondary'
+                                  : selectedUser.status === 'sent'
+                                    ? 'primary'
+                                    : selectedUser.status === 'draft'
+                                      ? 'warning'
+                                      : selectedUser.status === 'cancelled'
+                                        ? 'warning'
+                                        : 'warning'
                         }
                         variant="dot">
                         {selectedUser.status}
                       </Chip>
                     </div>
-
-                    <div>
-                      <b>Last Login:</b>{' '}
-                      {new Date(selectedUser.lastLogin).toLocaleDateString()}
+                    <div className="flex gap-2">
+                      <b>Tags:</b>
+                      {selectedUser.tags
+                        .slice(0, 4)
+                        .map((tag: Tags, index: number) =>
+                          index < 3 ? (
+                            <Chip
+                              key={tag}
+                              className="bg-default-100 text-default-800 rounded-md px-[6px] capitalize"
+                              size="sm"
+                              variant="flat">
+                              {tag}
+                            </Chip>
+                          ) : (
+                            <Chip
+                              key="more"
+                              className="text-default-500"
+                              size="sm"
+                              variant="flat">
+                              +{selectedUser.tags.length - 3}
+                            </Chip>
+                          )
+                        )}
                     </div>
                   </div>
-                ) : (
-                  <p>No user selected</p>
                 )}
               </DrawerBody>
-              <DrawerFooter>
+
+              {/* Footer from new drawer */}
+              <DrawerFooter className="flex flex-col gap-1">
                 <Button color="primary" onPress={onClose}>
                   Close
                 </Button>
