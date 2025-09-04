@@ -949,7 +949,7 @@ const Component = () => {
         hideIcon
         className="mt-6 flex flex-col items-center justify-center">
         <Button
-          color="default"
+          color="danger"
           size="sm"
           variant="light"
           className="mx-auto mt-2"

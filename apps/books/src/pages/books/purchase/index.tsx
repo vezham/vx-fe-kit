@@ -948,7 +948,7 @@ const Component = () => {
     return (
       <Alert
         variant="faded"
-        color="danger"
+        color="default"
         title="Error loading Purchase"
         hideIcon
         className="mt-6 flex flex-col items-center">
