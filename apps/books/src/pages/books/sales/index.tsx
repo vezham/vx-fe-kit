@@ -90,7 +90,7 @@ const Component = () => {
   const [page, setPage] = useState(1)
 
   const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
-    column: 'userInfo',
+    column: 'vendor',
     direction: 'ascending'
   })
 
@@ -198,6 +198,18 @@ const Component = () => {
     )
   }, [selectedKeys, filteredItems])
 
+  const copyToClipboard = useCallback((text: string) => {
+    navigator.clipboard
+      .writeText(text)
+      .then(() => {
+        // Could add a toast notification here
+        console.log('Copied to clipboard:', text)
+      })
+      .catch(err => {
+        console.error('Failed to copy:', err)
+      })
+  }, [])
+
   const renderCell = useCallback(
     (user: Sales, columnKey: React.Key) => {
       const userKey = columnKey as Columns
@@ -208,13 +220,36 @@ const Component = () => {
           return (
             <p className="text-default-400 flex items-center gap-2">
               {cellValue}
-              <CopyIcon width={20} />
+              <Button
+                isIconOnly
+                size="sm"
+                variant="light"
+                className={tableStyles.cell.copyButton}
+                onClick={e => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  copyToClipboard(String(cellValue))
+                }}>
+                <CopyIcon width={20} />
+              </Button>
             </p>
           )
         case 'externalOrderID':
           return (
             <p className="text-default-400 flex items-center gap-2">
-              {cellValue} <CopyIcon width={20} />
+              {cellValue}
+              <Button
+                isIconOnly
+                size="sm"
+                variant="light"
+                className={tableStyles.cell.copyButton}
+                onClick={e => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  copyToClipboard(String(cellValue))
+                }}>
+                <CopyIcon width={20} />
+              </Button>
             </p>
           )
         case 'vendor':
@@ -321,7 +356,10 @@ const Component = () => {
               <Button
                 className={tableStyles.actionButton}
                 variant="light"
-                onClick={() => handleEdit(user.id)}>
+                onClick={e => {
+                  e.stopPropagation()
+                  handleEdit(user.id)
+                }}>
                 <EditIcon
                   className={tableStyles.cell.actionIcon}
                   height={18}
@@ -332,7 +370,10 @@ const Component = () => {
               <Button
                 className={tableStyles.actionButton}
                 variant="light"
-                onClick={() => handleDelete(user.id)}>
+                onClick={e => {
+                  e.stopPropagation()
+                  handleDelete(user.id)
+                }}>
                 <DeleteIcon
                   className={tableStyles.cell.actionIcon}
                   height={18}
@@ -345,7 +386,8 @@ const Component = () => {
                     isIconOnly
                     size="sm"
                     variant="light"
-                    className={tableStyles.cell.actionDropdownButton}>
+                    className={tableStyles.cell.actionDropdownButton}
+                    onClick={e => e.stopPropagation()}>
                     <Icon icon="solar:menu-dots-bold" width={18} height={18} />
                   </Button>
                 </DropdownTrigger>
@@ -616,15 +658,15 @@ const Component = () => {
 
                   <DropdownMenu
                     aria-label="Sort"
-                    items={Object.entries(headerColumns)
-                      .map(([uid, col]) => ({ uid, ...col }))
-                      .filter(c => !['actions', 'teams'].includes(c.uid))}>
+                    items={headerColumns.filter(
+                      c => !['actions', 'teams'].includes(c.id)
+                    )}>
                     {item => (
                       <DropdownItem
-                        key={item.uid}
+                        key={item.id}
                         onPress={() => {
                           setSortDescriptor({
-                            column: item.uid,
+                            column: item.id,
                             direction:
                               sortDescriptor.direction === 'ascending'
                                 ? 'descending'
@@ -758,17 +800,15 @@ const Component = () => {
 
                         <DropdownMenu
                           aria-label="Sort"
-                          items={Object.entries(headerColumns)
-                            .map(([uid, col]) => ({ uid, ...col }))
-                            .filter(
-                              c => !['actions', 'teams'].includes(c.uid)
-                            )}>
+                          items={headerColumns.filter(
+                            c => !['actions', 'teams'].includes(c.id)
+                          )}>
                           {item => (
                             <DropdownItem
-                              key={item.uid}
+                              key={item.id}
                               onPress={() => {
                                 setSortDescriptor({
-                                  column: item.uid,
+                                  column: item.id,
                                   direction:
                                     sortDescriptor.direction === 'ascending'
                                       ? 'descending'
@@ -898,14 +938,8 @@ const Component = () => {
         </div>
       </div>
     )
-  }, [page, pages, onPreviousPage, onNextPage])
+  }, [page, pages, onPreviousPage, onNextPage, onPaginationChange])
 
-  // const handleMemberClick = useCallback(() => {
-  //   setSortDescriptor(prev => ({
-  //     column: 'userInfo',
-  //     direction: prev.direction === 'ascending' ? 'descending' : 'ascending'
-  //   }))
-  // }, [])
   if (salesError)
     return (
       <Alert
@@ -953,7 +987,12 @@ const Component = () => {
                     onSortChange={setSortDescriptor}>
                     <TableHeader columns={headerColumns}>
                       {column => (
-                        <TableColumn key={column.id}>
+                        <TableColumn
+                          key={column.id}
+                          // enables sorting except for specific columns
+                          allowsSorting={
+                            column.id !== 'actions' && column.id !== 'tags'
+                          }>
                           {column.label}
                         </TableColumn>
                       )}

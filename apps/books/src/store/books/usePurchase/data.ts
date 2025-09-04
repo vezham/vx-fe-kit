@@ -1,5 +1,4 @@
 // eslint-disable-next-line @nx/enforce-module-boundaries
-import { faker } from '@faker-js/faker'
 import { Purchase, purchaseStats, Status, Tags } from './types'
 
 type StatusProps = {
@@ -194,57 +193,57 @@ export const purchaseStatData: purchaseStats[] = [
   }
 ]
 
-export const generateFakePurchase = (count: number): Purchase[] => {
-  return Array.from({ length: count }).map((_, i) => ({
-    id: i + 1,
-    orderId: faker.number.int({ min: 100, max: 999 }),
-    externalOrderID: `EXT-${faker.string.alphanumeric(3).toUpperCase()}`,
-    vendor: {
-      avatar: faker.image.avatar(),
-      email: faker.internet.email(),
-      name: faker.person.fullName()
-    },
-    product: faker.helpers.arrayElement(products),
-    date: faker.date.recent({ days: 40 }),
-    dueDate: faker.date.soon({ days: 30 }),
-    amount: faker.finance.amount({ min: 0, max: 500, dec: 2 }),
-    tags: faker.helpers.arrayElements(tags, { min: 1, max: 5 }),
-    status: faker.helpers.arrayElement(statuses)
-  }))
-}
-export const purchaseData: Purchase[] = generateFakePurchase(10)
-
-// const generateMockUserData = (count: number): Purchase[] => {
-//   const mockData: Purchase[] = []
-//   for (let i = 0; i < count; i++) {
-//     const selectedName = names[Math.floor(Math.random() * names.length)]
-//     const selectProduct = products[Math.floor(Math.random() * products.length)]
-
-//     const user: Purchase = {
-//       id: i,
-//       orderId: Math.floor(Math.random() * 1000),
-//       externalOrderID: `EXT-${Math.floor(Math.random() * 1000)}`,
-//       vendor: {
-//         avatar: `https://i.pravatar.cc/150?img=${i}`,
-//         email: `${selectedName.toLowerCase().replace(/\s+/g, '.')}@example.com`,
-//         name: selectedName
-//       },
-//       product: selectProduct,
-//       date: new Date(
-//         new Date().getTime() - Math.random() * (24 * 60 * 60 * 1000 * 40)
-//       ),
-//       dueDate: new Date(
-//         new Date().getTime() - Math.random() * (24 * 60 * 60 * 1000 * 40)
-//       ),
-//       amount: (Math.random() * 100).toFixed(2),
-
-//       tags: tags.filter(() => Math.random() > 0.5),
-
-//       status: statuses[Math.floor(Math.random() * statuses.length)]
-//     }
-//     mockData.push(user)
-//   }
-//   return mockData
+// export const generateFakePurchase = (count: number): Purchase[] => {
+//   return Array.from({ length: count }).map((_, i) => ({
+//     id: i + 1,
+//     orderId: faker.number.int({ min: 100, max: 999 }),
+//     externalOrderID: `EXT-${faker.string.alphanumeric(3).toUpperCase()}`,
+//     vendor: {
+//       avatar: faker.image.avatar(),
+//       email: faker.internet.email(),
+//       name: faker.person.fullName()
+//     },
+//     product: faker.helpers.arrayElement(products),
+//     date: faker.date.recent({ days: 40 }),
+//     dueDate: faker.date.soon({ days: 30 }),
+//     amount: faker.finance.amount({ min: 0, max: 500, dec: 2 }),
+//     tags: faker.helpers.arrayElements(tags, { min: 1, max: 5 }),
+//     status: faker.helpers.arrayElement(statuses)
+//   }))
 // }
+// export const purchaseData: Purchase[] = generateFakePurchase(10)
 
-// export const purchaseData: Purchase[] = generateMockUserData(10)
+const generateMockUserData = (count: number): Purchase[] => {
+  const mockData: Purchase[] = []
+  for (let i = 0; i < count; i++) {
+    const selectedName = names[Math.floor(Math.random() * names.length)]
+    const selectProduct = products[Math.floor(Math.random() * products.length)]
+
+    const user: Purchase = {
+      id: i,
+      orderId: Math.floor(Math.random() * 1000),
+      externalOrderID: `EXT-${Math.floor(Math.random() * 1000)}`,
+      vendor: {
+        avatar: `https://i.pravatar.cc/150?img=${i}`,
+        email: `${selectedName.toLowerCase().replace(/\s+/g, '.')}@example.com`,
+        name: selectedName
+      },
+      product: selectProduct,
+      date: new Date(
+        new Date().getTime() - Math.random() * (24 * 60 * 60 * 1000 * 40)
+      ),
+      dueDate: new Date(
+        new Date().getTime() - Math.random() * (24 * 60 * 60 * 1000 * 40)
+      ),
+      amount: (Math.random() * 100).toFixed(2),
+
+      tags: tags.filter(() => Math.random() > 0.5),
+
+      status: statuses[Math.floor(Math.random() * statuses.length)]
+    }
+    mockData.push(user)
+  }
+  return mockData
+}
+
+export const purchaseData: Purchase[] = generateMockUserData(10)

@@ -28,11 +28,15 @@ export const tableStyles = {
   mobileActionsButton: 'text-default-400',
   mobileFilterButton: 'text-default-700 -ml-2 justify-start',
   table: {
-    td: 'before:bg-transparent'
+    td: 'before:bg-transparent',
+    sortIcon: 'ml-1 text-default-400',
+    // sortIconHover: 'opacity-0 group-hover:opacity-100 transition-opacity',
+    headerContent: 'w-full flex justify-between items-center'
   },
-  tableHeader: 'flex items-center gap-1',
-  tableHeaderUser: 'flex w-full cursor-pointer items-center justify-between',
-  tableHeaderInfo: 'flex min-w-[108px] items-center justify-between',
+  // Changed to justify-between
+  tableHeader: 'flex items-center ',
+  tableHeaderUser: 'flex w-full  items-center justify-center ',
+  tableHeaderInfo: 'flex  items-center justify-between',
   sortIcon: 'text-default-400',
   cell: {
     userInfoName: 'text-default-foreground',
@@ -45,7 +49,8 @@ export const tableStyles = {
     statusText: 'text-default-800 px-1',
     actionsContainer: 'flex items-center justify-end',
     actionIcon: 'text-default-400 cursor-pointer',
-    actionDropdownButton: 'text-default-400'
+    actionDropdownButton: 'text-default-400',
+    copyButton: 'cursor-pointer hover:text-primary-500 transition-colors'
   },
   paginationContainer: 'flex w-full items-center  justify-between gap-2  py-4',
   paginationButtonContainer: 'gap-2 items-center flex',

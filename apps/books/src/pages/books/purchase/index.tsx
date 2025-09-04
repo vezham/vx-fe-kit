@@ -96,7 +96,7 @@ const Component = () => {
   }, [users])
 
   const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
-    column: 'userInfo',
+    column: 'vendor',
     direction: 'ascending'
   })
 
@@ -199,6 +199,17 @@ const Component = () => {
     )
   }, [selectedKeys, filteredItems])
 
+  const copyToClipboard = useCallback((text: string) => {
+    navigator.clipboard
+      .writeText(text)
+      .then(() => {
+        console.log('Copied to clipboard:', text)
+      })
+      .catch(err => {
+        console.error('Failed to copy:', err)
+      })
+  }, [])
+
   const renderCell = useCallback(
     (user: Purchase, columnKey: React.Key) => {
       const userKey = columnKey as Columns
@@ -209,13 +220,38 @@ const Component = () => {
           return (
             <p className="text-default-400 flex items-center gap-2">
               {cellValue}
-              <CopyIcon width={20} />
+              <Button
+                isIconOnly
+                size="sm"
+                variant="light"
+                className={tableStyles.cell.copyButton}
+                onClick={e => {
+                  // Change from onPress to onClick for better event handling
+                  e.preventDefault()
+                  e.stopPropagation()
+                  copyToClipboard(String(cellValue))
+                }}>
+                <CopyIcon width={20} />
+              </Button>
             </p>
           )
         case 'externalOrderID':
           return (
             <p className="text-default-400 flex items-center gap-2">
-              {cellValue} <CopyIcon width={20} />
+              {cellValue}
+              <Button
+                isIconOnly
+                size="sm"
+                variant="light"
+                className={tableStyles.cell.copyButton}
+                onClick={e => {
+                  // Change from onPress to onClick for better event handling
+                  e.preventDefault()
+                  e.stopPropagation()
+                  copyToClipboard(String(cellValue))
+                }}>
+                <CopyIcon width={20} />
+              </Button>
             </p>
           )
         case 'vendor':
@@ -323,7 +359,10 @@ const Component = () => {
               <Button
                 className={tableStyles.actionButton}
                 variant="light"
-                onClick={() => handleEdit(user.id)}>
+                onClick={e => {
+                  e.stopPropagation()
+                  handleEdit(user.id)
+                }}>
                 <EditIcon
                   className={tableStyles.cell.actionIcon}
                   height={18}
@@ -334,7 +373,10 @@ const Component = () => {
               <Button
                 className={tableStyles.actionButton}
                 variant="light"
-                onClick={() => handleDelete(user.id)}>
+                onClick={e => {
+                  e.stopPropagation()
+                  handleDelete(user.id)
+                }}>
                 <DeleteIcon
                   className={tableStyles.cell.actionIcon}
                   height={18}
@@ -347,7 +389,8 @@ const Component = () => {
                     isIconOnly
                     size="sm"
                     variant="light"
-                    className={tableStyles.cell.actionDropdownButton}>
+                    className={tableStyles.cell.actionDropdownButton}
+                    onClick={e => e.stopPropagation()}>
                     <Icon icon="solar:menu-dots-bold" width={18} height={18} />
                   </Button>
                 </DropdownTrigger>
@@ -378,14 +421,12 @@ const Component = () => {
           return cellValue
       }
     },
-    [handleEdit, handleDelete]
+    [handleEdit, handleDelete, copyToClipboard]
   )
 
   const onSelectionChange = useCallback((keys: Selection) => {
     setSelectedKeys(keys)
   }, [])
-
-  // ...
 
   const [isPageLoading, setIsPageLoading] = useState(false)
 
@@ -621,15 +662,15 @@ const Component = () => {
 
                   <DropdownMenu
                     aria-label="Sort"
-                    items={Object.entries(headerColumns)
-                      .map(([uid, col]) => ({ uid, ...col }))
-                      .filter(c => !['actions', 'teams'].includes(c.uid))}>
+                    items={headerColumns.filter(
+                      c => !['actions', 'teams'].includes(c.id)
+                    )}>
                     {item => (
                       <DropdownItem
-                        key={item.uid}
+                        key={item.id}
                         onPress={() => {
                           setSortDescriptor({
-                            column: item.uid,
+                            column: item.id,
                             direction:
                               sortDescriptor.direction === 'ascending'
                                 ? 'descending'
@@ -763,17 +804,15 @@ const Component = () => {
 
                         <DropdownMenu
                           aria-label="Sort"
-                          items={Object.entries(headerColumns)
-                            .map(([uid, col]) => ({ uid, ...col }))
-                            .filter(
-                              c => !['actions', 'teams'].includes(c.uid)
-                            )}>
+                          items={headerColumns.filter(
+                            c => !['actions', 'teams'].includes(c.id)
+                          )}>
                           {item => (
                             <DropdownItem
-                              key={item.uid}
+                              key={item.id}
                               onPress={() => {
                                 setSortDescriptor({
-                                  column: item.uid,
+                                  column: item.id,
                                   direction:
                                     sortDescriptor.direction === 'ascending'
                                       ? 'descending'
@@ -841,7 +880,7 @@ const Component = () => {
     startDateFilter,
     headerColumns,
     visibleColumns,
-    sortDescriptor.direction
+    sortDescriptor
   ])
 
   const onPaginationChange = async (newPage: number) => {
@@ -905,13 +944,6 @@ const Component = () => {
     )
   }, [page, pages, onPaginationChange, onPreviousPage, onNextPage])
 
-  // const handleMemberClick = useCallback(() => {
-  //   setSortDescriptor(prev => ({
-  //     column: 'userInfo',
-  //     direction: prev.direction === 'ascending' ? 'descending' : 'ascending'
-  //   }))
-  // }, [])
-
   if (purchaseError)
     return (
       <Alert
@@ -950,7 +982,6 @@ const Component = () => {
                     removeWrapper
                     aria-label="Users Table"
                     bottomContentPlacement="outside"
-                    classNames={tableStyles.table}
                     selectedKeys={filterSelectedKeys}
                     selectionMode="multiple"
                     sortDescriptor={sortDescriptor}
@@ -959,11 +990,17 @@ const Component = () => {
                     onSortChange={setSortDescriptor}>
                     <TableHeader columns={headerColumns}>
                       {column => (
-                        <TableColumn key={column.id}>
+                        <TableColumn
+                          key={column.id}
+                          // enables sorting except for specific columns
+                          allowsSorting={
+                            column.id !== 'actions' && column.id !== 'tags'
+                          }>
                           {column.label}
                         </TableColumn>
                       )}
                     </TableHeader>
+
                     <TableBody
                       emptyContent={'No users found'}
                       items={isPageLoading ? [] : sortedItems}>
@@ -979,6 +1016,7 @@ const Component = () => {
                         item => (
                           <TableRow
                             key={item.id}
+                            className="group"
                             onClick={() => handleRowClick(item)}>
                             {columnKey => (
                               <TableCell>
@@ -1051,7 +1089,7 @@ const Component = () => {
                         width="16"
                         xmlns="http://www.w3.org/2000/svg">
                         <path
-                          d="M3.85.75c-.908 0-1.702.328-2.265.933-.558.599-.835 1.41-.835 2.29V7.88c0 .801.23 1.548.697 2.129.472.587 1.15.96 1.951 1.06a.75.75 0 1 0 .185-1.489c-.435-.054-.752-.243-.967-.51-.219-.273-.366-.673-.366-1.19V3.973c0-.568.176-.993.433-1.268.25-.27.632-.455 1.167-.455h4.146c.479 0 .828.146 1.071.359.246.215.43.54.497.979a.75.75 0 0 0 1.483-.23c-.115-.739-.447-1.4-.99-1.877C9.51 1 8.796.75 7.996.75zM7.9 4.828c-.908 0-1.702.326-2.265.93-.558.6-.835 1.41-.835 2.29v3.905c0 .879.275 1.69.833 2.289.563.605 1.357.931 2.267.931h4.144c.91 0 1.705-.326 2.268-.931.558-.599.833-1.41.833-2.289V8.048c0-.879-.275-1.69-.833-2.289-.563-.605-1.357-.931-2.267-.931zm-1.6 3.22c0-.568.176-.992.432-1.266.25-.27.632-.454 1.168-.454h4.145c.54 0 .92.185 1.17.453.255.274.43.698.43 1.267v3.905c0 .569-.175.993-.43 1.267-.25.268-.631.453-1.17.453H7.898c-.54 0-.92-.185-1.17-.453-.255-.274-.43-.698-.43-1.267z"
+                          d="M3.85.75c-.908 0-1.702.328-2.265.933-.558.599-.835 1.41-.835 2.29V7.88c0 .801.23 1.548.697 2.129.472.587 1.15.96 1.951 1.06a.75.75 0 1 0 .185-1.489c-.435-.054-.752-.243-.967-.51-.219-.273-.366-.673-.366-1.19V3.973c0-.568.176-.993.433-1.268.25-.27.632-.455 1.167-.455h4.146c.479 0 .828.146 1.071.359.246.215.43.54.497.979a.75.75 0 0 0 1.483-.23c-.115-.739-.447-1.4-.99-1.877C9.51 1 8.7f6.75 7.996.75zM7.9 4.828c-.908 0-1.702.326-2.265.93-.558.6-.835 1.41-.835 2.29V3.905c0 .879.275 1.69.833 2.289.563.605 1.357.931 2.267.931h4.144c.91 0 1.705-.326 2.268-.931.558-.599.833-1.41.833-2.289V8.048c0-.879-.275-1.69-.833-2.289-.563-.605-1.357-.931-2.267-.931zm-1.6 3.22c0-.568.176-.992.432-1.266.25-.27.632-.454 1.168-.454h4.145c.54 0 .92.185 1.17.453.255.274.43.698.43 1.267v3.905c0 .569-.175.993-.43 1.267-.25.268-.631.453-1.17.453H7.898c-.54 0-.92-.185-1.17-.453-.255-.274-.43-.698-.43-1.267z"
                           fill="currentColor"
                           fillRule="evenodd"
                         />
