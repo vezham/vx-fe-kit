@@ -284,7 +284,7 @@ export default function Component(props: CardProps) {
   )
 
   return (
-    <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-1">
+    <div className={cv.gridContainer}>
       {isSalesLoading
         ? renderSkeleton()
         : isSalesError
