@@ -1,3 +1,12 @@
+import { cn } from '@heroui/react'
+
+export const copyTextVariants = {
+  default: (className?: string) =>
+    cn('text-default-500 flex items-center gap-2', className),
+  compact: (className?: string) =>
+    cn('text-default-500 flex items-center gap-1', className)
+}
+
 export const tableStyles = {
   wrapper: 'h-full w-full sm:p-2',
   topBarContainer: 'mb-[18px] flex items-center justify-between gap-4',
@@ -22,8 +31,10 @@ export const tableStyles = {
   filterSortButtons: 'hidden sm:block',
   filterSortButton: 'bg-default-100 text-default-800',
   filterSortIcon: 'text-default-400',
-  popoverContent: 'h-50 w-50 overflow-y-auto',
-  filterPopoverContent: 'flex w-full flex-col gap-6 px-2 py-5',
+  popoverContent: '',
+  mobpopoverContent: '',
+  mobfilterPopoverContent: '',
+  filterPopoverContent: 'overflow-y-auto h-55 w-50 p-4 py-5',
   mobileActions: 'sm:hidden',
   mobileActionsButton: 'text-default-400',
   mobileFilterButton: 'text-default-700 -ml-2 justify-start',
@@ -47,10 +58,11 @@ export const tableStyles = {
     statusContainer:
       'bg-default-100 flex w-fit items-center gap-[2px] rounded-lg px-2 py-1',
     statusText: 'text-default-800 px-1',
-    actionsContainer: 'flex items-center justify-end',
+    actionsContainer: 'flex items-center gap-2 justify-end',
     actionIcon: 'text-default-400 cursor-pointer',
     actionDropdownButton: 'text-default-400',
-    copyButton: 'cursor-pointer hover:text-primary-500 transition-colors'
+    actionButton: 'max-w-[20px] max-h-[20px]',
+    copyButton: 'cursor-pointer hover:text-primary-500 h-7 w-7 min-w-7'
   },
   paginationContainer: 'flex w-full items-center  justify-between gap-2  py-4',
   paginationButtonContainer: 'gap-2 items-center flex',

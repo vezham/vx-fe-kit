@@ -6,6 +6,7 @@ import {
   Card,
   CardBody,
   Chip,
+  cn,
   Divider,
   Drawer,
   DrawerBody,
@@ -24,6 +25,7 @@ import {
   Radio,
   RadioGroup,
   ScrollShadow,
+  Spacer,
   Spinner,
   Table,
   TableBody,
@@ -36,13 +38,19 @@ import {
   User
 } from '@heroui/react'
 import { Icon } from '@iconify/react'
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, {
+  memo,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState
+} from 'react'
 
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
   CloseIcon,
-  CopyIcon,
   DeleteIcon,
   EditIcon,
   EyeFilledIcon,
@@ -50,18 +58,19 @@ import {
   SendFilledIcon
 } from '@heroui/shared-icons'
 import { motion } from 'framer-motion'
-
 import { usePurchase } from '../../../store/books/usePurchase'
 import type { Columns } from '../../../store/books/usePurchase/data'
 import {
   getColumnProps,
+  getDateProps,
   getStatusProps,
   INITIAL_VISIBLE_COLUMNS
 } from '../../../store/books/usePurchase/data'
 import { teamSettingStyles } from '../../settings-new/team/variant'
-import { Purchase, Tags } from './types'
-import { tableStyles } from './variant'
+import { CopyTextProps, Purchase, Tags } from './types'
+import { copyTextVariants, tableStyles } from './variant'
 
+import { forwardRef } from 'react'
 const Component = () => {
   const {
     data: users = [],
@@ -72,6 +81,7 @@ const Component = () => {
 
   // selected user id
   const [selectedUserId, setSelectedUserId] = useState<number | null>(null)
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
 
   const {
     data: selectedUser,
@@ -104,9 +114,11 @@ const Component = () => {
 
   const [statusFilter, setStatusFilter] = useState('all')
   const [startDateFilter, setStartDateFilter] = useState('all')
+  const [dueDateFilter, setDueDateFilter] = useState('all')
 
-  // 🟢 handle row click
   const handleRowClick = (user: Purchase) => {
+    const index = sortedItems.findIndex(i => i.id === user.id)
+    setSelectedIndex(index)
     setSelectedUserId(user.id)
     setSelectedKeys(new Set([user.id]))
     onOpen()
@@ -137,24 +149,57 @@ const Component = () => {
 
   const itemFilter = useCallback(
     (col: Purchase) => {
-      const allStatus = statusFilter === 'all'
+      const statusMatch =
+        statusFilter === 'all' ||
+        col.status.toLowerCase() === statusFilter.toLowerCase()
 
-      const startDateMatch = startDateFilter.match(/(\d+)(?=Days)/)
-      const daysAgo = startDateMatch ? +startDateMatch[1] : 0
-      const dateLimit = new Date()
-      dateLimit.setDate(dateLimit.getDate() - daysAgo)
+      const startDateMatch = (() => {
+        if (startDateFilter === 'all') return true
+        const match = startDateFilter.match(/(\d+)(?=Days)/)
+        const daysAgo = match ? +match[1] : 0
+        const limit = new Date()
+        limit.setDate(limit.getDate() - daysAgo)
+        return new Date(col.date) >= limit
+      })()
 
-      return allStatus || statusFilter === col.status.toLowerCase()
+      const dueDateMatch = (() => {
+        if (dueDateFilter === 'all') return true
+        const match = dueDateFilter.match(/(\d+)(?=Days)/)
+        const daysAgo = match ? +match[1] : 0
+        const limit = new Date()
+        limit.setDate(limit.getDate() - daysAgo)
+        return new Date(col.dueDate) >= limit
+      })()
+
+      return statusMatch && startDateMatch && dueDateMatch
     },
-    [startDateFilter, statusFilter]
+    [statusFilter, startDateFilter, dueDateFilter]
   )
+
   const filteredItems = useMemo(() => {
     let filteredUsers = [...tableData]
 
     if (filterValue) {
-      filteredUsers = filteredUsers.filter(user =>
-        user.vendor.name.toLowerCase().includes(filterValue.toLowerCase())
-      )
+      const lowerFilter = filterValue.toLowerCase()
+
+      filteredUsers = filteredUsers.filter(user => {
+        // convert all fields into a string array
+        const values = [
+          user.amount?.toString(),
+          user.product,
+          user.date?.toString(),
+          user.dueDate?.toString(),
+          user.id?.toString(),
+          user.vendor?.name,
+          user.status,
+          user.orderId?.toString(),
+          user.externalOrderID,
+          ...(user.tags?.map(tag => tag.toString()) || [])
+        ]
+
+        // check if ANY value includes filter
+        return values.some(val => val?.toLowerCase().includes(lowerFilter))
+      })
     }
 
     filteredUsers = filteredUsers.filter(itemFilter)
@@ -199,16 +244,80 @@ const Component = () => {
     )
   }, [selectedKeys, filteredItems])
 
-  const copyToClipboard = useCallback((text: string) => {
-    navigator.clipboard
-      .writeText(text)
-      .then(() => {
-        console.log('Copied to clipboard:', text)
-      })
-      .catch(err => {
-        console.error('Failed to copy:', err)
-      })
-  }, [])
+  const CopyText = memo(
+    forwardRef<HTMLDivElement, CopyTextProps>((props, forwardedRef) => {
+      const {
+        className,
+        textClassName,
+        children,
+        copyText = 'Copy',
+        timeout = 1500,
+        variant = 'default',
+        ...rest
+      } = props
+
+      const [copied, setCopied] = React.useState(false)
+      const [copyTimeout, setCopyTimeout] = React.useState<ReturnType<
+        typeof setTimeout
+      > | null>(null)
+
+      const onClearTimeout = () => {
+        if (copyTimeout) clearTimeout(copyTimeout)
+      }
+
+      const handleClick = () => {
+        onClearTimeout()
+        navigator.clipboard.writeText(children).then(
+          () => {
+            setCopied(true)
+            setCopyTimeout(
+              setTimeout(() => {
+                setCopied(false)
+              }, timeout)
+            )
+          },
+          err => {
+            console.error('Failed to copy:', err)
+          }
+        )
+      }
+
+      const content = useMemo(
+        () => (copied ? 'Copied!' : copyText),
+        [copied, copyText]
+      )
+
+      return (
+        <div
+          ref={forwardedRef}
+          {...rest}
+          className={copyTextVariants[variant](className)}>
+          <span className={textClassName}>{children}</span>
+
+          <Tooltip
+            className="text-foreground"
+            content={content}
+            closeDelay={100}>
+            <Button
+              isIconOnly
+              size="sm"
+              variant="light"
+              className="text-foreground h-7 w-7 min-w-7"
+              onPress={handleClick}>
+              {copied ? (
+                <Icon
+                  className="text-success h-[14px] w-[14px]"
+                  icon="solar:check-read-linear"
+                />
+              ) : (
+                <Icon className="h-[14px] w-[14px]" icon="solar:copy-linear" />
+              )}
+            </Button>
+          </Tooltip>
+        </div>
+      )
+    })
+  )
 
   const renderCell = useCallback(
     (user: Purchase, columnKey: React.Key) => {
@@ -217,43 +326,9 @@ const Component = () => {
 
       switch (userKey) {
         case 'orderId':
-          return (
-            <p className="text-default-400 flex items-center gap-2">
-              {cellValue}
-              <Button
-                isIconOnly
-                size="sm"
-                variant="light"
-                className={tableStyles.cell.copyButton}
-                onClick={e => {
-                  // Change from onPress to onClick for better event handling
-                  e.preventDefault()
-                  e.stopPropagation()
-                  copyToClipboard(String(cellValue))
-                }}>
-                <CopyIcon width={20} />
-              </Button>
-            </p>
-          )
+          return <CopyText>{String(cellValue)}</CopyText>
         case 'externalOrderID':
-          return (
-            <p className="text-default-400 flex items-center gap-2">
-              {cellValue}
-              <Button
-                isIconOnly
-                size="sm"
-                variant="light"
-                className={tableStyles.cell.copyButton}
-                onClick={e => {
-                  // Change from onPress to onClick for better event handling
-                  e.preventDefault()
-                  e.stopPropagation()
-                  copyToClipboard(String(cellValue))
-                }}>
-                <CopyIcon width={20} />
-              </Button>
-            </p>
-          )
+          return <CopyText>{String(cellValue)}</CopyText>
         case 'vendor':
           return (
             <User
@@ -348,22 +423,13 @@ const Component = () => {
 
         case 'actions':
           return (
-            <div className={tableStyles.cell.actionsContainer}>
-              <Button className={tableStyles.actionButton} variant="light">
-                <EyeFilledIcon
-                  className={tableStyles.cell.actionIcon}
-                  height={18}
-                  width={18}
-                />
-              </Button>
+            <div className={`${tableStyles.cell.actionsContainer}`}>
               <Button
-                className={tableStyles.actionButton}
+                isIconOnly
+                size="sm"
                 variant="light"
-                onClick={e => {
-                  e.stopPropagation()
-                  handleEdit(user.id)
-                }}>
-                <EditIcon
+                className={tableStyles.actionButton}>
+                <EyeFilledIcon
                   className={tableStyles.cell.actionIcon}
                   height={18}
                   width={18}
@@ -371,47 +437,58 @@ const Component = () => {
               </Button>
 
               <Button
-                className={tableStyles.actionButton}
+                isIconOnly
+                size="sm"
                 variant="light"
-                onClick={e => {
-                  e.stopPropagation()
-                  handleDelete(user.id)
-                }}>
-                <DeleteIcon
+                className={tableStyles.actionButton}
+                onClick={e => handleEdit(user.id)}>
+                <EditIcon
                   className={tableStyles.cell.actionIcon}
                   height={18}
                   width={18}
                 />
               </Button>
+
               <Dropdown placement="bottom-end">
                 <DropdownTrigger>
                   <Button
                     isIconOnly
                     size="sm"
                     variant="light"
-                    className={tableStyles.cell.actionDropdownButton}
-                    onClick={e => e.stopPropagation()}>
+                    className={tableStyles.actionButton}>
                     <Icon icon="solar:menu-dots-bold" width={18} height={18} />
                   </Button>
                 </DropdownTrigger>
                 <DropdownMenu aria-label="More actions">
-                  <DropdownItem key="send">
-                    <Button
-                      className={tableStyles.actionButton}
-                      variant="light"
-                      startContent={<SendFilledIcon width={20} />}>
-                      Send
-                    </Button>
+                  <DropdownItem
+                    key="delete"
+                    className="text-danger"
+                    color="default"
+                    startContent={
+                      <DeleteIcon
+                        className={tableStyles.cell.actionIcon}
+                        height={18}
+                        width={18}
+                      />
+                    }
+                    onClick={() => handleDelete(user.id)}>
+                    Delete
                   </DropdownItem>
-                  <DropdownItem key="download">
-                    <Button
-                      size="md"
-                      variant="light"
-                      startContent={
-                        <Icon icon="solar:download-line-duotone" width={20} />
-                      }>
-                      Download
-                    </Button>
+
+                  <DropdownItem
+                    key="send"
+                    className={tableStyles.actionButton}
+                    startContent={<SendFilledIcon width={20} />}>
+                    Send
+                  </DropdownItem>
+
+                  <DropdownItem
+                    key="download"
+                    variant="light"
+                    startContent={
+                      <Icon icon="solar:download-line-duotone" width={20} />
+                    }>
+                    Download
                   </DropdownItem>
                 </DropdownMenu>
               </Dropdown>
@@ -421,7 +498,7 @@ const Component = () => {
           return cellValue
       }
     },
-    [handleEdit, handleDelete, copyToClipboard]
+    [handleEdit, handleDelete]
   )
 
   const onSelectionChange = useCallback((keys: Selection) => {
@@ -608,35 +685,50 @@ const Component = () => {
 
                   <PopoverContent className={tableStyles.popoverContent}>
                     <div className={tableStyles.filterPopoverContent}>
-                      <RadioGroup label="Worker Type" className="sm:pt-10">
-                        <Radio value="all">All</Radio>
-                        <Radio value="employee">Employee</Radio>
-
-                        <Radio value="contractor">Contractor</Radio>
-                      </RadioGroup>
-
+                      {/* Status filter */}
                       <RadioGroup
                         label="Status"
                         value={statusFilter}
                         onValueChange={setStatusFilter}>
                         <Radio value="all">All</Radio>
-                        <Radio value="active">Active</Radio>
-                        <Radio value="inactive">Inactive</Radio>
-                        <Radio value="pending">Pending</Radio>
-
-                        <Radio value="vacation">Vacation</Radio>
+                        {Object.entries(getStatusProps).map(
+                          ([key, { label }]) => (
+                            <Radio key={key} value={key}>
+                              {label}
+                            </Radio>
+                          )
+                        )}
                       </RadioGroup>
 
+                      <Spacer y={5} />
+
+                      {/* Start Date filter */}
                       <RadioGroup
                         label="Start Date"
                         value={startDateFilter}
                         onValueChange={setStartDateFilter}>
-                        <Radio value="all">All</Radio>
+                        {Object.entries(getDateProps).map(
+                          ([key, { label }]) => (
+                            <Radio key={key} value={key}>
+                              {label}
+                            </Radio>
+                          )
+                        )}
+                      </RadioGroup>
 
-                        <Radio value="last7Days">Last 7 days</Radio>
-                        <Radio value="last30Days">Last 30 days</Radio>
+                      <Spacer y={5} />
 
-                        <Radio value="last60Days">Last 60 days</Radio>
+                      <RadioGroup
+                        label="Due Date"
+                        value={dueDateFilter}
+                        onValueChange={setDueDateFilter}>
+                        {Object.entries(getDateProps).map(
+                          ([key, { label }]) => (
+                            <Radio key={key} value={key}>
+                              {label}
+                            </Radio>
+                          )
+                        )}
                       </RadioGroup>
                     </div>
                   </PopoverContent>
@@ -660,26 +752,43 @@ const Component = () => {
                     </Button>
                   </DropdownTrigger>
 
-                  <DropdownMenu
-                    aria-label="Sort"
-                    items={headerColumns.filter(
-                      c => !['actions', 'teams'].includes(c.id)
-                    )}>
-                    {item => (
-                      <DropdownItem
-                        key={item.id}
-                        onPress={() => {
-                          setSortDescriptor({
-                            column: item.id,
-                            direction:
-                              sortDescriptor.direction === 'ascending'
-                                ? 'descending'
-                                : 'ascending'
-                          })
-                        }}>
-                        {item.label}
-                      </DropdownItem>
-                    )}
+                  <DropdownMenu aria-label="Sort">
+                    {headerColumns
+                      .filter(c => !['actions', 'teams'].includes(c.id))
+                      .map(item => (
+                        <DropdownItem
+                          key={item.id}
+                          className={
+                            sortDescriptor.column === item.id
+                              ? 'bg-default-100 font-medium'
+                              : ''
+                          }
+                          endContent={
+                            sortDescriptor.column === item.id ? (
+                              <Icon
+                                icon={
+                                  sortDescriptor.direction === 'ascending'
+                                    ? 'solar:arrow-up-linear'
+                                    : 'solar:arrow-down-linear'
+                                }
+                                width={14}
+                                height={14}
+                              />
+                            ) : null
+                          }
+                          onPress={() => {
+                            setSortDescriptor({
+                              column: item.id,
+                              direction:
+                                sortDescriptor.column === item.id &&
+                                sortDescriptor.direction === 'ascending'
+                                  ? 'descending'
+                                  : 'ascending'
+                            })
+                          }}>
+                          {item.label}
+                        </DropdownItem>
+                      ))}
                   </DropdownMenu>
                 </Dropdown>
               </div>
@@ -750,37 +859,51 @@ const Component = () => {
 
                         <PopoverContent className={tableStyles.popoverContent}>
                           <div className={tableStyles.filterPopoverContent}>
-                            <RadioGroup className="pt-10" label="Worker Type">
-                              <Radio value="all">All</Radio>
-                              <Radio value="employee">Employee</Radio>
-
-                              <Radio value="contractor">Contractor</Radio>
-                            </RadioGroup>
-
+                            {/* Status filter */}
                             <RadioGroup
                               label="Status"
                               value={statusFilter}
                               onValueChange={setStatusFilter}>
                               <Radio value="all">All</Radio>
-                              <Radio value="active">Active</Radio>
-
-                              <Radio value="inactive">Inactive</Radio>
-
-                              <Radio value="pending">Pending</Radio>
-
-                              <Radio value="vacation">Vacation</Radio>
+                              {Object.entries(getStatusProps).map(
+                                ([key, { label }]) => (
+                                  <Radio key={key} value={key}>
+                                    {label}
+                                  </Radio>
+                                )
+                              )}
                             </RadioGroup>
 
+                            <Spacer y={5} />
+
+                            {/* Start Date filter */}
                             <RadioGroup
                               label="Start Date"
                               value={startDateFilter}
                               onValueChange={setStartDateFilter}>
-                              <Radio value="all">All</Radio>
-                              <Radio value="last7Days">Last 7 days</Radio>
+                              {Object.entries(getDateProps).map(
+                                ([key, { label }]) => (
+                                  <Radio key={key} value={key}>
+                                    {label}
+                                  </Radio>
+                                )
+                              )}
+                            </RadioGroup>
 
-                              <Radio value="last30Days">Last 30 days</Radio>
+                            <Spacer y={5} />
 
-                              <Radio value="last60Days">Last 60 days</Radio>
+                            {/* Due Date filter */}
+                            <RadioGroup
+                              label="Due Date"
+                              value={dueDateFilter}
+                              onValueChange={setDueDateFilter}>
+                              {Object.entries(getDateProps).map(
+                                ([key, { label }]) => (
+                                  <Radio key={key} value={key}>
+                                    {label}
+                                  </Radio>
+                                )
+                              )}
                             </RadioGroup>
                           </div>
                         </PopoverContent>
@@ -802,26 +925,43 @@ const Component = () => {
                           </Button>
                         </DropdownTrigger>
 
-                        <DropdownMenu
-                          aria-label="Sort"
-                          items={headerColumns.filter(
-                            c => !['actions', 'teams'].includes(c.id)
-                          )}>
-                          {item => (
-                            <DropdownItem
-                              key={item.id}
-                              onPress={() => {
-                                setSortDescriptor({
-                                  column: item.id,
-                                  direction:
-                                    sortDescriptor.direction === 'ascending'
-                                      ? 'descending'
-                                      : 'ascending'
-                                })
-                              }}>
-                              {item.label}
-                            </DropdownItem>
-                          )}
+                        <DropdownMenu aria-label="Sort">
+                          {headerColumns
+                            .filter(c => !['actions', 'teams'].includes(c.id))
+                            .map(item => (
+                              <DropdownItem
+                                key={item.id}
+                                className={
+                                  sortDescriptor.column === item.id
+                                    ? 'bg-default-100 font-medium'
+                                    : ''
+                                }
+                                endContent={
+                                  sortDescriptor.column === item.id ? (
+                                    <Icon
+                                      icon={
+                                        sortDescriptor.direction === 'ascending'
+                                          ? 'solar:arrow-up-linear'
+                                          : 'solar:arrow-down-linear'
+                                      }
+                                      width={14}
+                                      height={14}
+                                    />
+                                  ) : null
+                                }
+                                onPress={() => {
+                                  setSortDescriptor({
+                                    column: item.id,
+                                    direction:
+                                      sortDescriptor.column === item.id &&
+                                      sortDescriptor.direction === 'ascending'
+                                        ? 'descending'
+                                        : 'ascending'
+                                  })
+                                }}>
+                                {item.label}
+                              </DropdownItem>
+                            ))}
                         </DropdownMenu>
                       </Dropdown>
                     </DropdownItem>
@@ -878,9 +1018,11 @@ const Component = () => {
     toggleSearch,
     statusFilter,
     startDateFilter,
+    dueDateFilter,
     headerColumns,
     visibleColumns,
-    sortDescriptor
+    sortDescriptor.column,
+    sortDescriptor.direction
   ])
 
   const onPaginationChange = async (newPage: number) => {
@@ -995,8 +1137,61 @@ const Component = () => {
                           // enables sorting except for specific columns
                           allowsSorting={
                             column.id !== 'actions' && column.id !== 'tags'
-                          }>
-                          {column.label}
+                          }
+                          align={column.id === 'actions' ? 'end' : 'start'}
+                          className={cn([
+                            column.id === 'actions'
+                              ? 'flex items-center justify-end px-[20px]'
+                              : ''
+                          ])}>
+                          <div
+                            className="flex cursor-pointer items-center justify-between select-none"
+                            onClick={() => {
+                              if (
+                                column.id === 'actions' ||
+                                column.id === 'tags'
+                              )
+                                return
+
+                              setSortDescriptor({
+                                column: column.id,
+                                direction:
+                                  sortDescriptor.column === column.id &&
+                                  sortDescriptor.direction === 'ascending'
+                                    ? 'descending'
+                                    : 'ascending'
+                              })
+                            }}>
+                            <span>
+                              {column.label}
+
+                              {/* 🔑 Show arrow if this column is sorted
+                                                        {sortDescriptor.column === column.id && (
+                                                          <Icon
+                                                            icon={
+                                                              sortDescriptor.direction === 'ascending'
+                                                                ? 'solar:arrow-up-linear'
+                                                                : 'solar:arrow-down-linear'
+                                                            }
+                                                            width={14}
+                                                            height={14}
+                                                            className="text-default-500"
+                                                          />
+                                                        )} */}
+                            </span>
+
+                            {/* info tooltip if available */}
+                            {column.info && (
+                              <Tooltip content={column.info}>
+                                <Icon
+                                  className="text-default-300"
+                                  height={16}
+                                  icon="solar:info-circle-linear"
+                                  width={16}
+                                />
+                              </Tooltip>
+                            )}
+                          </div>
                         </TableColumn>
                       )}
                     </TableHeader>
@@ -1050,9 +1245,9 @@ const Component = () => {
           onOpenChange()
         }}>
         <DrawerContent>
-          {onClose => (
+          {(onClose: () => void) => (
             <>
-              {/* Full new drawer header */}
+              {/* Drawer Header */}
               <DrawerHeader className="border-default-200/50 bg-content1/50 absolute inset-x-0 top-0 z-50 flex flex-row justify-between gap-2 border-b px-2 py-2 backdrop-blur-lg backdrop-saturate-150">
                 {/* Close button */}
                 <Tooltip content="Close">
@@ -1082,6 +1277,7 @@ const Component = () => {
                   <Button
                     className="text-small text-default-500 font-medium"
                     size="sm"
+                    variant="flat"
                     startContent={
                       <svg
                         height="16"
@@ -1095,11 +1291,19 @@ const Component = () => {
                         />
                       </svg>
                     }
-                    variant="flat">
+                    onPress={() => {
+                      if (selectedUserId) {
+                        navigator.clipboard.writeText(
+                          `${window.location.origin}/user/${selectedUserId}`
+                        )
+                      }
+                    }}>
                     Copy Link
                   </Button>
                   <Button
                     className="text-small text-default-500 font-medium"
+                    size="sm"
+                    variant="flat"
                     endContent={
                       <svg
                         fill="none"
@@ -1113,9 +1317,7 @@ const Component = () => {
                         xmlns="http://www.w3.org/2000/svg">
                         <path d="M7 17 17 7M7 7h10v10" />
                       </svg>
-                    }
-                    size="sm"
-                    variant="flat">
+                    }>
                     Event Page
                   </Button>
                 </div>
@@ -1127,7 +1329,17 @@ const Component = () => {
                       isIconOnly
                       className="text-default-500"
                       size="sm"
-                      variant="flat">
+                      variant="flat"
+                      isDisabled={selectedIndex === 0}
+                      onPress={() => {
+                        if (selectedIndex !== null && selectedIndex > 0) {
+                          const newIndex = selectedIndex - 1
+                          setSelectedIndex(newIndex)
+                          const newUser = sortedItems[newIndex]
+                          setSelectedUserId(newUser.id)
+                          setSelectedKeys(new Set([newUser.id]))
+                        }
+                      }}>
                       <svg
                         fill="none"
                         height="16"
@@ -1142,12 +1354,29 @@ const Component = () => {
                       </svg>
                     </Button>
                   </Tooltip>
+
                   <Tooltip content="Next">
                     <Button
                       isIconOnly
                       className="text-default-500"
                       size="sm"
-                      variant="flat">
+                      variant="flat"
+                      isDisabled={
+                        selectedIndex === null ||
+                        selectedIndex >= sortedItems.length - 1
+                      }
+                      onPress={() => {
+                        if (
+                          selectedIndex !== null &&
+                          selectedIndex < sortedItems.length - 1
+                        ) {
+                          const newIndex = selectedIndex + 1
+                          setSelectedIndex(newIndex)
+                          const newUser = sortedItems[newIndex]
+                          setSelectedUserId(newUser.id)
+                          setSelectedKeys(new Set([newUser.id]))
+                        }
+                      }}>
                       <svg
                         fill="none"
                         height="16"
@@ -1165,10 +1394,9 @@ const Component = () => {
                 </div>
               </DrawerHeader>
 
-              {/* Body from old drawer (User Details) */}
+              {/* Drawer Body */}
               <DrawerBody className="pt-16">
                 {selectedLoading ? (
-                  // Loading
                   <div className="flex flex-col items-center justify-center py-10">
                     <Spinner size="lg" />
                     <p className="text-default-500 mt-2 text-sm">
@@ -1176,7 +1404,6 @@ const Component = () => {
                     </p>
                   </div>
                 ) : selectedError ? (
-                  // Error
                   <div className="flex flex-col items-center justify-center space-y-2">
                     <p className="text-sm">Failed to load user details.</p>
                     <Button
@@ -1188,23 +1415,19 @@ const Component = () => {
                     </Button>
                   </div>
                 ) : !selectedUser ? (
-                  // Empty
                   <p className="text-default-400 text-sm">No user selected</p>
                 ) : (
-                  // Success
                   <div className="space-y-4">
-                    <div>
-                      <User
-                        avatarProps={{
-                          src:
-                            selectedUser.vendor.avatar ||
-                            'https://i.pravatar.cc/150?u=a04258',
-                          name: selectedUser.vendor.name
-                        }}
-                        name={selectedUser.vendor.name}
-                        description={selectedUser.vendor.email}
-                      />
-                    </div>
+                    <User
+                      avatarProps={{
+                        src:
+                          selectedUser.vendor.avatar ||
+                          'https://i.pravatar.cc/150?u=a04258',
+                        name: selectedUser.vendor.name
+                      }}
+                      name={selectedUser.vendor.name}
+                      description={selectedUser.vendor.email}
+                    />
 
                     <div>
                       <b>Product:</b> {selectedUser.product}
@@ -1219,7 +1442,6 @@ const Component = () => {
                           }).format(new Date(selectedUser.date))
                         : '—'}
                     </div>
-
                     <div>
                       <b>Due Date:</b>{' '}
                       {selectedUser?.dueDate
@@ -1230,7 +1452,6 @@ const Component = () => {
                           }).format(new Date(selectedUser.dueDate))
                         : '—'}
                     </div>
-
                     <div>
                       <b>Amount:</b> {selectedUser.amount}
                     </div>
@@ -1260,6 +1481,7 @@ const Component = () => {
                         {selectedUser.status}
                       </Chip>
                     </div>
+
                     <div className="flex gap-2">
                       <b>Tags:</b>
                       {selectedUser.tags
@@ -1288,7 +1510,7 @@ const Component = () => {
                 )}
               </DrawerBody>
 
-              {/* Footer from new drawer */}
+              {/* Drawer Footer */}
               <DrawerFooter className="flex flex-col gap-1">
                 <Button color="primary" onPress={onClose}>
                   Close

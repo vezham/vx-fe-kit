@@ -1,6 +1,5 @@
-// eslint-disable-next-line @nx/enforce-module-boundaries
 import { faker } from '@faker-js/faker'
-import { Sales, salesStats, Status, Tags } from './types'
+import { Dates, Sales, salesStats, Status, Tags } from './types'
 
 type statusProps = {
   label: string
@@ -9,32 +8,51 @@ type statusProps = {
 
 export const getStatusProps: Record<Status, statusProps> = {
   paid: {
-    label: 'text-success',
-    color: 'bg-success-300'
+    label: 'Paid',
+    color: 'bg-success-300 text-success'
   },
   draft: {
-    label: 'text-warning',
-    color: 'bg-warning-300 '
+    label: 'Draft',
+    color: 'bg-warning-300 text-warning'
   },
   overdue: {
-    label: 'text-danger',
-    color: 'bg-danger-300'
+    label: 'Overdue',
+    color: 'bg-danger-300 text-danger'
   },
   sent: {
-    label: 'text-primary',
-    color: 'bg-primary-300'
+    label: 'Sent',
+    color: 'bg-primary-300 text-primary'
   },
   onhold: {
-    label: 'text-secondary',
-    color: 'bg-secondary-300'
+    label: 'on Hold',
+    color: 'bg-secondary-300 text-secondary'
   },
   pending: {
-    label: 'text-foreground',
-    color: 'bg-foreground-300'
+    label: 'Pending',
+    color: 'bg-foreground-300 text-foreground'
   },
   cancelled: {
-    label: 'text-danger',
-    color: 'bg-danger-300'
+    label: 'Cancelled',
+    color: 'bg-danger-300 text-danger'
+  }
+}
+
+type dateProps = {
+  label: string
+}
+
+export const getDateProps: Record<Dates, dateProps> = {
+  all: {
+    label: 'All'
+  },
+  last7Days: {
+    label: 'Last 7days'
+  },
+  last30Days: {
+    label: 'Last 30days'
+  },
+  last60Days: {
+    label: 'Last 60days'
   }
 }
 

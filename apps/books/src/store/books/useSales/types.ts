@@ -47,6 +47,8 @@ export type Status =
   | 'pending'
   | 'cancelled'
 
+export type Dates = 'all' | 'last7Days' | 'last30Days' | 'last60Days'
+
 export type RQSales = object
 
 // stats

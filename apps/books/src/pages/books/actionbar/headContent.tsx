@@ -9,13 +9,20 @@ import {
 } from '@heroui/react'
 import { SearchIcon } from '@heroui/shared-icons'
 import { Icon } from '@iconify/react/dist/iconify.js'
-import { useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
-
-import { CK_PURCHASE } from '../../../store/books/usePurchase'
-import { CK_SALES } from '../../../store/books/useSales'
+import { usePurchaseRefetch } from '../../../store/books/usePurchase'
+import { useSalesRefetch } from '../../../store/books/useSales'
 
 const HeadContent = () => {
+  const { all: refetchSales } = useSalesRefetch()
+
+  const { all: refetchPurchase } = usePurchaseRefetch()
+
+  const refresh = () => {
+    refetchSales()
+    refetchPurchase()
+  }
+
   const [windowWidth, setWindowWidth] = useState<number>(
     typeof window !== 'undefined' ? window.innerWidth : 1200
   )
@@ -28,15 +35,6 @@ const HeadContent = () => {
 
   const isXs = windowWidth < 480
   const isSm = windowWidth < 640
-
-  const queryClient = useQueryClient()
-
-  const handleRefresh = () => {
-    // ✅ invalidate all purchase + sales queries (list, stats, get, etc.)
-    queryClient.invalidateQueries({ queryKey: CK_PURCHASE })
-    queryClient.invalidateQueries({ queryKey: CK_SALES })
-    console.log('Refresh triggered for purchase + sales')
-  }
 
   const actions = [
     {
@@ -56,7 +54,7 @@ const HeadContent = () => {
       ),
       label: 'Refresh',
       alwaysIconOnly: true,
-      onClick: handleRefresh
+      onClick: refresh
     },
     {
       key: 'invite',
@@ -116,7 +114,7 @@ const HeadContent = () => {
               <DropdownItem
                 key={action.key}
                 startContent={action.icon}
-                onClick={action.onClick}>
+                onPress={action.onClick}>
                 {action.label}
               </DropdownItem>
             ))}

@@ -1,9 +1,9 @@
 /* eslint-disable */
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { Api } from './action'
 import { RQGetUsers, RQListUsers, RQStats } from './types'
 
-export const CK_PURCHASE = ['books', 'purchase']
+const CK_PURCHASE = ['books', 'purchase']
 
 const usePurchase = {
   stats: (rq: RQStats) =>
@@ -23,6 +23,19 @@ const usePurchase = {
       queryKey: [...CK_PURCHASE, 'id', rq.id],
       queryFn: () => Api.get(rq)
     })
+}
+
+export function usePurchaseRefetch() {
+  const queryClient = useQueryClient()
+  return {
+    all: () => queryClient.invalidateQueries({ queryKey: CK_PURCHASE }),
+    stats: () =>
+      queryClient.invalidateQueries({ queryKey: [...CK_PURCHASE, 'stats'] }),
+    list: () =>
+      queryClient.invalidateQueries({ queryKey: [...CK_PURCHASE, 'list'] }),
+    get: (id: string | number) =>
+      queryClient.invalidateQueries({ queryKey: [...CK_PURCHASE, 'id', id] })
+  }
 }
 
 export { usePurchase }
