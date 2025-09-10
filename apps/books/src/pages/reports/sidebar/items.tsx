@@ -1,140 +1,124 @@
-// import { type SidebarItem } from './sidebar'
-// import { Icon } from '@iconify/react'
+// layouts/reports/items.tsx
+import { Icon } from '@iconify/react'
+import type { SidebarItem } from './sidebar'
 
-// export const sectionItems: SidebarItem[] = [
-//   {
-//     key: 'overview',
-//     title: 'Overview',
-//     items: [
-//       {
-//         key: 'home',
-//         href: '/',
-//         icon: 'solar:home-2-linear',
-//         title: 'Home'
-//       },
-//       {
-//         key: 'projects',
-//         href: '/projects',
-//         icon: 'solar:widget-2-outline',
-//         title: 'Projects',
-//         endContent: (
-//           <Icon
-//             className="text-default-400"
-//             icon="solar:add-circle-line-duotone"
-//             width={24}
-//           />
-//         )
-//       }
-//     ]
-//   },
-//   {
-//     key: 'chartofaccounts',
-//     title: 'Chart of Accounts',
-//     items: [
-//       {
-//         key: 'cap_table',
-//         href: '/cap_table',
-//         title: 'Cap Table',
-//         icon: 'solar:pie-chart-2-outline',
-//         items: [
-//           {
-//             key: 'shareholders',
-//             href: '/cap_table/shareholders',
-//             title: 'Shareholders'
-//           },
-//           {
-//             key: 'note_holders',
-//             href: '/cap_table/note_holders',
-//             title: 'Note Holders'
-//           },
-//           {
-//             key: 'transactions_log',
-//             href: '/cap_table/transactions_log',
-//             title: 'Transactions Log'
-//           }
-//         ]
-//       },
-//       {
-//         key: 'analytics',
-//         href: '/analytics',
-//         icon: 'solar:chart-outline',
-//         title: 'Analytics'
-//       }
-//     ]
-//   },
-//   {
-//     key: 'profitloss',
-//     title: 'Profit & Loss',
-//     items: [
-//       {
-//         key: 'debits',
-//         href: '/debits',
-//         icon: 'solar:home-2-linear',
-//         title: 'Debits'
-//       },
-//       {
-//         key: 'credits',
-//         href: '/credits',
-//         icon: 'solar:widget-2-outline',
-//         title: 'Credits',
-//         endContent: (
-//           <Icon
-//             className="text-default-400"
-//             icon="solar:add-circle-line-duotone"
-//             width={24}
-//           />
-//         )
-//       }
-//     ]
-//   },
-//   {
-//     key: 'balancesheet',
-//     title: 'Balance Sheet',
-//     items: [
-//       {
-//         key: 'current',
-//         href: '/current',
-//         icon: 'solar:home-2-linear',
-//         title: 'Current'
-//       },
-//       {
-//         key: 'savings',
-//         href: '/savings',
-//         icon: 'solar:widget-2-outline',
-//         title: 'Savings',
-//         endContent: (
-//           <Icon
-//             className="text-default-400"
-//             icon="solar:add-circle-line-duotone"
-//             width={24}
-//           />
-//         )
-//       }
-//     ]
-//   },
-//   {
-//     key: 'cashflow',
-//     title: 'Cash Flow',
-//     items: [
-//       {
-//         key: 'transactions',
-//         href: '/transactions',
-//         icon: 'solar:home-2-linear',
-//         title: 'Transactions'
-//       },
-//       {
-//         key: 'getures',
-//         href: '/getures',
-//         icon: 'solar:widget-2-outline',
-//         title: 'Getures',
-//         endContent: (
-//           <Icon
-//             className="text-default-400"
-//             icon="solar:add-circle-line-duotone"
-//             width={24}
-//           />
-//         )
-//       }
-//     ]
-//   }
-// ]
+export const sectionItems: SidebarItem[] = [
+  {
+    key: 'home',
+    title: 'Home',
+    items: [
+      {
+        key: 'overview',
+        href: '/reports/overview',
+        icon: 'solar:home-2-linear',
+        title: 'Overview'
+      },
+      {
+        key: 'chartofaccounts',
+        href: '/reports/chartofaccounts',
+        icon: 'solar:widget-2-outline',
+        title: 'Chart of Accounts',
+        endContent: (
+          <Icon
+            className="text-default-400"
+            icon="solar:add-circle-line-duotone"
+            width={24}
+          />
+        )
+      }
+    ]
+  },
+  {
+    key: 'journalledger',
+    title: 'Journal Ledgers',
+    items: [
+      {
+        key: 'profit_loss',
+        href: '/reports/profitloss',
+        title: 'Profit & Loss',
+        icon: 'solar:pie-chart-2-outline'
+      },
+      {
+        key: 'balancesheet',
+        href: '/reports/balancesheet',
+        icon: 'solar:chart-outline',
+        title: 'Balance Sheet'
+      }
+    ]
+  },
+  {
+    key: 'statements',
+    title: 'Statements',
+    items: [
+      {
+        key: 'cashflow',
+        href: '/reports/cashflow',
+        icon: 'solar:home-2-linear',
+        title: 'Cash Flow'
+      },
+      {
+        key: 'credits',
+        href: '/reports/credits',
+        icon: 'solar:widget-2-outline',
+        title: 'Credits',
+        endContent: (
+          <Icon
+            className="text-default-400"
+            icon="solar:add-circle-line-duotone"
+            width={24}
+          />
+        )
+      }
+    ]
+  },
+  {
+    key: 'charts',
+    title: 'Charts',
+    items: [
+      {
+        key: 'current',
+        href: '/reports/current',
+        icon: 'solar:home-2-linear',
+        title: 'Current'
+      },
+      {
+        key: 'savings',
+        href: '/reports/savings',
+        icon: 'solar:widget-2-outline',
+        title: 'Savings',
+        endContent: (
+          <Icon
+            className="text-default-400"
+            icon="solar:add-circle-line-duotone"
+            width={24}
+          />
+        )
+      }
+    ]
+  },
+  {
+    key: 'invoices',
+    title: 'Invoices',
+    items: [
+      {
+        key: 'transactions',
+        href: '/reports/transactions',
+        icon: 'solar:home-2-linear',
+        title: 'Transactions'
+      },
+      {
+        key: 'getures',
+        href: '/reports/getures',
+        icon: 'solar:widget-2-outline',
+        title: 'Getures',
+        endContent: (
+          <Icon
+            className="text-default-400"
+            icon="solar:add-circle-line-duotone"
+            width={24}
+          />
+        )
+      }
+    ]
+  }
+]

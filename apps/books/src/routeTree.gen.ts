@@ -11,11 +11,27 @@
 import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ReportsIndexRouteImport } from './routes/reports/index'
+import { Route as BooksIndexRouteImport } from './routes/books/index'
 
 const SettingsLazyRouteImport = createFileRoute('/settings')()
 const ReportsLazyRouteImport = createFileRoute('/reports')()
 const BooksLazyRouteImport = createFileRoute('/books')()
 const IndexLazyRouteImport = createFileRoute('/')()
+const ReportsProfitlossLazyRouteImport = createFileRoute(
+  '/reports/profitloss',
+)()
+const ReportsOverviewLazyRouteImport = createFileRoute('/reports/overview')()
+const ReportsChartofaccountsLazyRouteImport = createFileRoute(
+  '/reports/chartofaccounts',
+)()
+const ReportsCashflowLazyRouteImport = createFileRoute('/reports/cashflow')()
+const ReportsBalancesheetLazyRouteImport = createFileRoute(
+  '/reports/balancesheet',
+)()
+const BooksSalesLazyRouteImport = createFileRoute('/books/sales')()
+const BooksPurchaseLazyRouteImport = createFileRoute('/books/purchase')()
+const BooksOverviewLazyRouteImport = createFileRoute('/books/overview')()
 
 const SettingsLazyRoute = SettingsLazyRouteImport.update({
   id: '/settings',
@@ -37,38 +53,172 @@ const IndexLazyRoute = IndexLazyRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+const ReportsIndexRoute = ReportsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ReportsLazyRoute,
+} as any)
+const BooksIndexRoute = BooksIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => BooksLazyRoute,
+} as any)
+const ReportsProfitlossLazyRoute = ReportsProfitlossLazyRouteImport.update({
+  id: '/profitloss',
+  path: '/profitloss',
+  getParentRoute: () => ReportsLazyRoute,
+} as any).lazy(() =>
+  import('./routes/reports/profitloss.lazy').then((d) => d.Route),
+)
+const ReportsOverviewLazyRoute = ReportsOverviewLazyRouteImport.update({
+  id: '/overview',
+  path: '/overview',
+  getParentRoute: () => ReportsLazyRoute,
+} as any).lazy(() =>
+  import('./routes/reports/overview.lazy').then((d) => d.Route),
+)
+const ReportsChartofaccountsLazyRoute =
+  ReportsChartofaccountsLazyRouteImport.update({
+    id: '/chartofaccounts',
+    path: '/chartofaccounts',
+    getParentRoute: () => ReportsLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/reports/chartofaccounts.lazy').then((d) => d.Route),
+  )
+const ReportsCashflowLazyRoute = ReportsCashflowLazyRouteImport.update({
+  id: '/cashflow',
+  path: '/cashflow',
+  getParentRoute: () => ReportsLazyRoute,
+} as any).lazy(() =>
+  import('./routes/reports/cashflow.lazy').then((d) => d.Route),
+)
+const ReportsBalancesheetLazyRoute = ReportsBalancesheetLazyRouteImport.update({
+  id: '/balancesheet',
+  path: '/balancesheet',
+  getParentRoute: () => ReportsLazyRoute,
+} as any).lazy(() =>
+  import('./routes/reports/balancesheet.lazy').then((d) => d.Route),
+)
+const BooksSalesLazyRoute = BooksSalesLazyRouteImport.update({
+  id: '/sales',
+  path: '/sales',
+  getParentRoute: () => BooksLazyRoute,
+} as any).lazy(() => import('./routes/books/sales.lazy').then((d) => d.Route))
+const BooksPurchaseLazyRoute = BooksPurchaseLazyRouteImport.update({
+  id: '/purchase',
+  path: '/purchase',
+  getParentRoute: () => BooksLazyRoute,
+} as any).lazy(() =>
+  import('./routes/books/purchase.lazy').then((d) => d.Route),
+)
+const BooksOverviewLazyRoute = BooksOverviewLazyRouteImport.update({
+  id: '/overview',
+  path: '/overview',
+  getParentRoute: () => BooksLazyRoute,
+} as any).lazy(() =>
+  import('./routes/books/overview.lazy').then((d) => d.Route),
+)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
-  '/books': typeof BooksLazyRoute
-  '/reports': typeof ReportsLazyRoute
+  '/books': typeof BooksLazyRouteWithChildren
+  '/reports': typeof ReportsLazyRouteWithChildren
   '/settings': typeof SettingsLazyRoute
+  '/books/overview': typeof BooksOverviewLazyRoute
+  '/books/purchase': typeof BooksPurchaseLazyRoute
+  '/books/sales': typeof BooksSalesLazyRoute
+  '/reports/balancesheet': typeof ReportsBalancesheetLazyRoute
+  '/reports/cashflow': typeof ReportsCashflowLazyRoute
+  '/reports/chartofaccounts': typeof ReportsChartofaccountsLazyRoute
+  '/reports/overview': typeof ReportsOverviewLazyRoute
+  '/reports/profitloss': typeof ReportsProfitlossLazyRoute
+  '/books/': typeof BooksIndexRoute
+  '/reports/': typeof ReportsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
-  '/books': typeof BooksLazyRoute
-  '/reports': typeof ReportsLazyRoute
   '/settings': typeof SettingsLazyRoute
+  '/books/overview': typeof BooksOverviewLazyRoute
+  '/books/purchase': typeof BooksPurchaseLazyRoute
+  '/books/sales': typeof BooksSalesLazyRoute
+  '/reports/balancesheet': typeof ReportsBalancesheetLazyRoute
+  '/reports/cashflow': typeof ReportsCashflowLazyRoute
+  '/reports/chartofaccounts': typeof ReportsChartofaccountsLazyRoute
+  '/reports/overview': typeof ReportsOverviewLazyRoute
+  '/reports/profitloss': typeof ReportsProfitlossLazyRoute
+  '/books': typeof BooksIndexRoute
+  '/reports': typeof ReportsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexLazyRoute
-  '/books': typeof BooksLazyRoute
-  '/reports': typeof ReportsLazyRoute
+  '/books': typeof BooksLazyRouteWithChildren
+  '/reports': typeof ReportsLazyRouteWithChildren
   '/settings': typeof SettingsLazyRoute
+  '/books/overview': typeof BooksOverviewLazyRoute
+  '/books/purchase': typeof BooksPurchaseLazyRoute
+  '/books/sales': typeof BooksSalesLazyRoute
+  '/reports/balancesheet': typeof ReportsBalancesheetLazyRoute
+  '/reports/cashflow': typeof ReportsCashflowLazyRoute
+  '/reports/chartofaccounts': typeof ReportsChartofaccountsLazyRoute
+  '/reports/overview': typeof ReportsOverviewLazyRoute
+  '/reports/profitloss': typeof ReportsProfitlossLazyRoute
+  '/books/': typeof BooksIndexRoute
+  '/reports/': typeof ReportsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/books' | '/reports' | '/settings'
+  fullPaths:
+    | '/'
+    | '/books'
+    | '/reports'
+    | '/settings'
+    | '/books/overview'
+    | '/books/purchase'
+    | '/books/sales'
+    | '/reports/balancesheet'
+    | '/reports/cashflow'
+    | '/reports/chartofaccounts'
+    | '/reports/overview'
+    | '/reports/profitloss'
+    | '/books/'
+    | '/reports/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/books' | '/reports' | '/settings'
-  id: '__root__' | '/' | '/books' | '/reports' | '/settings'
+  to:
+    | '/'
+    | '/settings'
+    | '/books/overview'
+    | '/books/purchase'
+    | '/books/sales'
+    | '/reports/balancesheet'
+    | '/reports/cashflow'
+    | '/reports/chartofaccounts'
+    | '/reports/overview'
+    | '/reports/profitloss'
+    | '/books'
+    | '/reports'
+  id:
+    | '__root__'
+    | '/'
+    | '/books'
+    | '/reports'
+    | '/settings'
+    | '/books/overview'
+    | '/books/purchase'
+    | '/books/sales'
+    | '/reports/balancesheet'
+    | '/reports/cashflow'
+    | '/reports/chartofaccounts'
+    | '/reports/overview'
+    | '/reports/profitloss'
+    | '/books/'
+    | '/reports/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
-  BooksLazyRoute: typeof BooksLazyRoute
-  ReportsLazyRoute: typeof ReportsLazyRoute
+  BooksLazyRoute: typeof BooksLazyRouteWithChildren
+  ReportsLazyRoute: typeof ReportsLazyRouteWithChildren
   SettingsLazyRoute: typeof SettingsLazyRoute
 }
 
@@ -102,13 +252,123 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/reports/': {
+      id: '/reports/'
+      path: '/'
+      fullPath: '/reports/'
+      preLoaderRoute: typeof ReportsIndexRouteImport
+      parentRoute: typeof ReportsLazyRoute
+    }
+    '/books/': {
+      id: '/books/'
+      path: '/'
+      fullPath: '/books/'
+      preLoaderRoute: typeof BooksIndexRouteImport
+      parentRoute: typeof BooksLazyRoute
+    }
+    '/reports/profitloss': {
+      id: '/reports/profitloss'
+      path: '/profitloss'
+      fullPath: '/reports/profitloss'
+      preLoaderRoute: typeof ReportsProfitlossLazyRouteImport
+      parentRoute: typeof ReportsLazyRoute
+    }
+    '/reports/overview': {
+      id: '/reports/overview'
+      path: '/overview'
+      fullPath: '/reports/overview'
+      preLoaderRoute: typeof ReportsOverviewLazyRouteImport
+      parentRoute: typeof ReportsLazyRoute
+    }
+    '/reports/chartofaccounts': {
+      id: '/reports/chartofaccounts'
+      path: '/chartofaccounts'
+      fullPath: '/reports/chartofaccounts'
+      preLoaderRoute: typeof ReportsChartofaccountsLazyRouteImport
+      parentRoute: typeof ReportsLazyRoute
+    }
+    '/reports/cashflow': {
+      id: '/reports/cashflow'
+      path: '/cashflow'
+      fullPath: '/reports/cashflow'
+      preLoaderRoute: typeof ReportsCashflowLazyRouteImport
+      parentRoute: typeof ReportsLazyRoute
+    }
+    '/reports/balancesheet': {
+      id: '/reports/balancesheet'
+      path: '/balancesheet'
+      fullPath: '/reports/balancesheet'
+      preLoaderRoute: typeof ReportsBalancesheetLazyRouteImport
+      parentRoute: typeof ReportsLazyRoute
+    }
+    '/books/sales': {
+      id: '/books/sales'
+      path: '/sales'
+      fullPath: '/books/sales'
+      preLoaderRoute: typeof BooksSalesLazyRouteImport
+      parentRoute: typeof BooksLazyRoute
+    }
+    '/books/purchase': {
+      id: '/books/purchase'
+      path: '/purchase'
+      fullPath: '/books/purchase'
+      preLoaderRoute: typeof BooksPurchaseLazyRouteImport
+      parentRoute: typeof BooksLazyRoute
+    }
+    '/books/overview': {
+      id: '/books/overview'
+      path: '/overview'
+      fullPath: '/books/overview'
+      preLoaderRoute: typeof BooksOverviewLazyRouteImport
+      parentRoute: typeof BooksLazyRoute
+    }
   }
 }
 
+interface BooksLazyRouteChildren {
+  BooksOverviewLazyRoute: typeof BooksOverviewLazyRoute
+  BooksPurchaseLazyRoute: typeof BooksPurchaseLazyRoute
+  BooksSalesLazyRoute: typeof BooksSalesLazyRoute
+  BooksIndexRoute: typeof BooksIndexRoute
+}
+
+const BooksLazyRouteChildren: BooksLazyRouteChildren = {
+  BooksOverviewLazyRoute: BooksOverviewLazyRoute,
+  BooksPurchaseLazyRoute: BooksPurchaseLazyRoute,
+  BooksSalesLazyRoute: BooksSalesLazyRoute,
+  BooksIndexRoute: BooksIndexRoute,
+}
+
+const BooksLazyRouteWithChildren = BooksLazyRoute._addFileChildren(
+  BooksLazyRouteChildren,
+)
+
+interface ReportsLazyRouteChildren {
+  ReportsBalancesheetLazyRoute: typeof ReportsBalancesheetLazyRoute
+  ReportsCashflowLazyRoute: typeof ReportsCashflowLazyRoute
+  ReportsChartofaccountsLazyRoute: typeof ReportsChartofaccountsLazyRoute
+  ReportsOverviewLazyRoute: typeof ReportsOverviewLazyRoute
+  ReportsProfitlossLazyRoute: typeof ReportsProfitlossLazyRoute
+  ReportsIndexRoute: typeof ReportsIndexRoute
+}
+
+const ReportsLazyRouteChildren: ReportsLazyRouteChildren = {
+  ReportsBalancesheetLazyRoute: ReportsBalancesheetLazyRoute,
+  ReportsCashflowLazyRoute: ReportsCashflowLazyRoute,
+  ReportsChartofaccountsLazyRoute: ReportsChartofaccountsLazyRoute,
+  ReportsOverviewLazyRoute: ReportsOverviewLazyRoute,
+  ReportsProfitlossLazyRoute: ReportsProfitlossLazyRoute,
+  ReportsIndexRoute: ReportsIndexRoute,
+}
+
+const ReportsLazyRouteWithChildren = ReportsLazyRoute._addFileChildren(
+  ReportsLazyRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
-  BooksLazyRoute: BooksLazyRoute,
-  ReportsLazyRoute: ReportsLazyRoute,
+  BooksLazyRoute: BooksLazyRouteWithChildren,
+  ReportsLazyRoute: ReportsLazyRouteWithChildren,
   SettingsLazyRoute: SettingsLazyRoute,
 }
 export const routeTree = rootRouteImport

@@ -1,173 +1,110 @@
-// 'use client'
+// layouts/reports/ReportsLayout.tsx
+'use client'
 
-// import { Button, cn, ScrollShadow, Spacer } from '@heroui/react'
-// import { Icon } from '@iconify/react'
-// import React from 'react'
+import { cn, ScrollShadow, Spacer } from '@heroui/react'
+import {
+  Outlet,
+  useLocation,
+  useNavigate,
+  useRouteContext
+} from '@tanstack/react-router'
+import React from 'react'
+import { useMediaQuery } from 'usehooks-ts'
 
-// import Sidebar from './sidebar'
-// import { sectionItems } from './items'
+import { sectionItems } from './items'
+import Sidebar from './sidebar'
 
-// export default function Component() {
-//   const navigate = useNavigate()
-//   const location = useLocation()
-//   const isMobile = useMediaQuery('(max-width: 768px)')
-//   const [showSidebar, setShowSidebar] = React.useState(true)
+export default function ReportsLayout() {
+  const navigate = useNavigate()
+  const location = useLocation()
+  const isMobile = useMediaQuery('(max-width: 767px)')
+  const [showSidebar, setShowSidebar] = React.useState(true)
+  const routeContext = useRouteContext({ from: '/reports' })
 
-//   // Find active key from pathname
-//   const getActiveKey = (path: string) => {
-//     if (path === '/') return 'home'
+  // Find active key from current path
+  const getActiveKey = React.useCallback((path: string) => {
+    if (path === '/reports' || path === '/reports/') return 'overview' // choose default
+    for (const section of sectionItems) {
+      if (!section.items) continue
+      for (const item of section.items) {
+        if (item.href === path || `/${item.key}` === path) return item.key
+        if (item.items) {
+          for (const subItem of item.items) {
+            if (subItem.href === path || `/${subItem.key}` === path)
+              return subItem.key
+          }
+        }
+      }
+    }
+    return ''
+  }, [])
 
-//     for (const section of sectionItems) {
-//       for (const item of section.items) {
-//         // Match direct route
+  const activeKey = getActiveKey(location.pathname)
 
-//         // Match nested routes
-//         if (item.items) {
-//           for (const subItem of item.items) {
-//             if (subItem.href === path || `/${subItem.key}` === path) {
-//               return subItem.key
-//             }
-//           }
-//         }
-//       }
-//     }
-//     return ''
-//   }
+  // Map a key back to its href (search nested items)
+  const findHrefByKey = React.useCallback((key: string): string | undefined => {
+    for (const section of sectionItems) {
+      for (const item of section.items ?? []) {
+        if (item.key === key && item.href) return item.href
+        for (const subItem of item.items ?? []) {
+          if (subItem.key === key && subItem.href) return subItem.href
+        }
+      }
+    }
+    return undefined
+  }, [])
 
-//   const activeKey = getActiveKey(location.pathname)
+  const handleSelect = (key: string) => {
+    const href = findHrefByKey(key)
+    if (!href) {
+      console.warn('[ReportsLayout] no href found for key', key)
+      return
+    }
+    if (isMobile) setShowSidebar(false)
+    navigate({ to: href })
+  }
 
-//   const handleItemClick = (href: string) => {
-//     if (isMobile) {
-//       setShowSidebar(false)
-//     }
-//     navigate(href)
-//   }
+  const handleBack = () => setShowSidebar(true)
+  routeContext.handleBack = handleBack
 
-//   const handleBack = () => {
-//     setShowSidebar(true)
-//   }
+  React.useEffect(() => {
+    if (isMobile) {
+      setShowSidebar(location.pathname === '/reports')
+    } else {
+      setShowSidebar(true)
+    }
+  }, [isMobile, location.pathname])
 
-//   React.useEffect(() => {
-//     if (isMobile) {
-//       // Show main content (hide sidebar) if not on the home page
-//       if (location.pathname !== '') {
-//         setShowSidebar(false)
-//       } else {
-//         // Show sidebar on the home page
-//         setShowSidebar(true)
-//       }
-//     } else {
-//       // Always show sidebar on desktop
-//       setShowSidebar(true)
-//     }
-//   }, [isMobile, location.pathname])
+  return (
+    <div className="flex h-screen w-full">
+      {/* Sidebar */}
+      <div
+        className={cn(
+          'border-r-small border-divider flex h-full flex-col transition-all',
+          {
+            hidden: isMobile && !showSidebar,
+            'w-full': isMobile && showSidebar,
+            'w-60': !isMobile
+          }
+        )}>
+        <ScrollShadow className="pr-2">
+          <Sidebar
+            items={sectionItems}
+            defaultSelectedKey={activeKey || ''}
+            selectedKey={activeKey || ''}
+            onSelect={handleSelect}
+          />
+        </ScrollShadow>
+        <Spacer y={2} />
+      </div>
 
-//   return (
-//     <div className="flex h-screen w-full overflow-hidden">
-//       {/* Sidebar Section */}
-//       <div
-//         className={cn(
-//           'border-r-small! border-divider transition-width relative flex h-full w-72 flex-col p-6',
-//           {
-//             hidden: isMobile && !showSidebar,
-//             'w-full': isMobile && showSidebar,
-//             flex: !isMobile
-//           }
-//         )}>
-//         {/* <div className="flex items-center gap-3 px-3">
-//           <div className="bg-foreground flex h-8 w-8 items-center justify-center rounded-full">
-//             <AcmeIcon className="text-background" />
-//           </div>
-//           <span className="text-small font-bold uppercase opacity-100">
-//             Acme
-//           </span>
-//         </div>
-
-//         <Spacer y={8} />
-
-//         <div className="flex items-center gap-3 px-3">
-//           <Avatar
-//             isBordered
-//             className="flex-none"
-//             size="sm"
-//             src="https://i.pravatar.cc/150?u=a04258114e29026708c"
-//           />
-//           <div className="flex max-w-full flex-col">
-//             <p className="text-small text-default-600 truncate font-medium">
-//               John Doe
-//             </p>
-//             <p className="text-tiny text-default-400 truncate">
-//               Product Designer
-//             </p>
-//           </div>
-//         </div> */}
-
-//         <ScrollShadow className="-mr-6 h-full max-h-full py-6 pr-6">
-//           <Sidebar
-//             defaultSelectedKey={activeKey}
-//             items={sectionItems}
-//             onClick={() => handleItemClick}
-//           />
-//         </ScrollShadow>
-
-//         <Spacer y={2} />
-
-//         {/* Footer buttons */}
-//         {/* <div className="mt-auto flex flex-col">
-//           <Tooltip content="Help & Feedback" placement="right">
-//             <Button
-//               fullWidth
-//               className="text-default-500 data-[hover=true]:text-foreground justify-start truncate"
-//               startContent={
-//                 <Icon
-//                   className="text-default-500 flex-none"
-//                   icon="solar:info-circle-line-duotone"
-//                   width={24}
-//                 />
-//               }
-//               variant="light"
-//             >
-//               Help & Information
-//             </Button>
-//           </Tooltip>
-//           <Tooltip content="Log Out" placement="right">
-//             <Button
-//               className="text-default-500 data-[hover=true]:text-foreground justify-start"
-//               startContent={
-//                 <Icon
-//                   className="text-default-500 flex-none rotate-180"
-//                   icon="solar:minus-circle-line-duotone"
-//                   width={24}
-//                 />
-//               }
-//               variant="light"
-//             >
-//               Log Out
-//             </Button>
-//           </Tooltip>
-//         </div> */}
-//       </div>
-
-//       {/* Main Content Section */}
-//       {/* Main Content Section */}
-//       <div
-//         className={cn('w-full flex-1 overflow-y-auto p-4', {
-//           hidden: isMobile && showSidebar, // hide if sidebar is open on mobile
-//           flex: !isMobile || (isMobile && !showSidebar),
-//           'flex-col': isMobile
-//         })}>
-//         <main className="h-screen w-full overflow-visible">
-//           <div className="rounded-medium border-small h-screen w-full p-4">
-//             {isMobile && location.pathname !== '' && (
-//               <Button onPress={handleBack} className="mb-4">
-//                 <Icon icon="solar:arrow-left-line-duotone" width={24} />
-//                 Back
-//               </Button>
-//             )}
-//             <Outlet />
-//           </div>
-//         </main>
-//       </div>
-//     </div>
-//   )
-// }
+      {/* Outlet (right side content) */}
+      <div
+        className={cn('flex-1 overflow-y-auto p-4', {
+          hidden: isMobile && showSidebar
+        })}>
+        <Outlet />
+      </div>
+    </div>
+  )
+}

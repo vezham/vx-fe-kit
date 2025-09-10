@@ -1,11 +1,8 @@
 'use client'
 
 import { Tab, Tabs } from '@heroui/react'
-import React, { useState } from 'react'
-
-import Overview from '../books/overview'
-import Purchase from '../books/purchase'
-import Sales from '../books/sales'
+import { Outlet, useNavigate, useRouterState } from '@tanstack/react-router'
+import React from 'react'
 
 export default function BooksLayout({
   headerEndContent,
@@ -14,13 +11,19 @@ export default function BooksLayout({
   headerEndContent?: React.ReactNode
   tabsEndContent?: React.ReactNode
 }) {
+  const navigate = useNavigate()
+  const { location } = useRouterState()
+
   const tabItems = [
-    { key: 'overview', title: 'Overview', component: <Overview /> },
-    { key: 'sales', title: 'Sales', component: <Sales /> },
-    { key: 'purchase', title: 'Purchase', component: <Purchase /> }
+    { key: 'overview', title: 'Overview', path: '/books/overview' },
+    { key: 'sales', title: 'Sales', path: '/books/sales' },
+    { key: 'purchase', title: 'Purchase', path: '/books/purchase' }
   ]
 
-  const [activeTab, setActiveTab] = useState(tabItems[0].key)
+  // determine active tab based on URL
+  const activeTab =
+    tabItems.find(t => location.pathname.startsWith(t.path))?.key ??
+    tabItems[0].key
 
   return (
     <div className="h-screen w-full">
@@ -41,7 +44,10 @@ export default function BooksLayout({
               <Tabs
                 aria-label="Books Tabs"
                 selectedKey={activeTab}
-                onSelectionChange={key => setActiveTab(String(key))}
+                onSelectionChange={key => {
+                  const tab = tabItems.find(t => t.key === key)
+                  if (tab) navigate({ to: tab.path })
+                }}
                 variant="light"
                 radius="full"
                 classNames={{
@@ -61,7 +67,7 @@ export default function BooksLayout({
           </div>
 
           <div className="w-full pb-16">
-            {tabItems.find(t => t.key === activeTab)?.component}
+            <Outlet />
           </div>
         </div>
       </div>

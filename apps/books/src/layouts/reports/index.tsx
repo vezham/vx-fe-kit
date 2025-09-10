@@ -1,5 +1,11 @@
+import Sidebar from '../../pages/reports/sidebar'
+
 const index = () => {
-  return <div>index</div>
+  return (
+    <div className="">
+      <Sidebar />
+    </div>
+  )
 }
 
 export default index
