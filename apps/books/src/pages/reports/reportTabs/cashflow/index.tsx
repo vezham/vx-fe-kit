@@ -1,231 +1,213 @@
 import {
+  Alert,
   Button,
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
   Dropdown,
   DropdownItem,
   DropdownMenu,
-  DropdownTrigger
+  DropdownTrigger,
+  Spinner
 } from '@heroui/react'
 import { Icon } from '@iconify/react'
 import { motion } from 'framer-motion'
 import React from 'react'
 import Header from '../../../../components/header'
+import {
+  useCashFlowSummary,
+  useFinancingCashFlow,
+  useInvestingCashFlow,
+  useOperatingCashFlow
+} from '../../../../store/reports/useCashflow'
+import {
+  formatCurrency,
+  getPeriodProps
+} from '../../../../store/reports/useCashflow/data'
 import End from '../../actionbar/endContent'
 import Start from '../../actionbar/headContent'
-
-// Define types for cash flow data
-type CashFlowItem = {
-  label: string
-  value: number
-}
-
-type CashFlowSection = {
-  title: string
-  items: CashFlowItem[]
-  total: number
-}
-
-type CashFlowSummary = {
-  beginningCash: number
-  netCashChange: number
-  endingCash: number
-}
-
-type CashFlowData = {
-  operating: CashFlowSection
-  investing: CashFlowSection
-  financing: CashFlowSection
-  summary: CashFlowSummary
-}
-
-// Sample data for different time periods
-const cashFlowData: Record<string, CashFlowData> = {
-  Weekly: {
-    operating: {
-      title: 'Operating Activities',
-      items: [
-        { label: 'Net Income', value: 12500 },
-        { label: 'Depreciation', value: 1200 },
-        { label: 'Accounts Receivable', value: -1000 },
-        { label: 'Accounts Payable', value: 800 }
-      ],
-      total: 13500
-    },
-    investing: {
-      title: 'Investing Activities',
-      items: [
-        { label: 'Equipment Purchase', value: -2000 },
-        { label: 'Asset Sale', value: 500 }
-      ],
-      total: -1500
-    },
-    financing: {
-      title: 'Financing Activities',
-      items: [
-        { label: 'Loan Repayment', value: -800 },
-        { label: 'Owner Distributions', value: -5000 }
-      ],
-      total: -5800
-    },
-    summary: {
-      beginningCash: 15000,
-      netCashChange: 6200,
-      endingCash: 21200
-    }
-  },
-  Monthly: {
-    operating: {
-      title: 'Operating Activities',
-      items: [
-        { label: 'Net Income', value: 97000 },
-        { label: 'Depreciation', value: 5000 },
-        { label: 'Accounts Receivable', value: -4000 },
-        { label: 'Accounts Payable', value: 3000 }
-      ],
-      total: 101000
-    },
-    investing: {
-      title: 'Investing Activities',
-      items: [
-        { label: 'Equipment Purchase', value: -8000 },
-        { label: 'Asset Sale', value: 2000 }
-      ],
-      total: -6000
-    },
-    financing: {
-      title: 'Financing Activities',
-      items: [
-        { label: 'Loan Repayment', value: -3000 },
-        { label: 'Owner Distributions', value: -25000 }
-      ],
-      total: -28000
-    },
-    summary: {
-      beginningCash: 45000,
-      netCashChange: 67000,
-      endingCash: 58000
-    }
-  },
-  Quarterly: {
-    operating: {
-      title: 'Operating Activities',
-      items: [
-        { label: 'Net Income', value: 285000 },
-        { label: 'Depreciation', value: 15000 },
-        { label: 'Accounts Receivable', value: -12000 },
-        { label: 'Accounts Payable', value: 9000 }
-      ],
-      total: 297000
-    },
-    investing: {
-      title: 'Investing Activities',
-      items: [
-        { label: 'Equipment Purchase', value: -24000 },
-        { label: 'Asset Sale', value: 6000 }
-      ],
-      total: -18000
-    },
-    financing: {
-      title: 'Financing Activities',
-      items: [
-        { label: 'Loan Repayment', value: -9000 },
-        { label: 'Owner Distributions', value: -75000 }
-      ],
-      total: -84000
-    },
-    summary: {
-      beginningCash: 120000,
-      netCashChange: 195000,
-      endingCash: 315000
-    }
-  },
-  Yearly: {
-    operating: {
-      title: 'Operating Activities',
-      items: [
-        { label: 'Net Income', value: 1150000 },
-        { label: 'Depreciation', value: 60000 },
-        { label: 'Accounts Receivable', value: -48000 },
-        { label: 'Accounts Payable', value: 36000 }
-      ],
-      total: 1198000
-    },
-    investing: {
-      title: 'Investing Activities',
-      items: [
-        { label: 'Equipment Purchase', value: -96000 },
-        { label: 'Asset Sale', value: 24000 }
-      ],
-      total: -72000
-    },
-    financing: {
-      title: 'Financing Activities',
-      items: [
-        { label: 'Loan Repayment', value: -36000 },
-        { label: 'Owner Distributions', value: -300000 }
-      ],
-      total: -336000
-    },
-    summary: {
-      beginningCash: 250000,
-      netCashChange: 790000,
-      endingCash: 1040000
-    }
-  }
-}
-
-// Format currency
-const formatCurrency = (amount: number): string => {
-  const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0
-  })
-
-  return formatter.format(amount)
-}
+import { usePermit } from '../../utils'
+import { cashFlowPeriod } from './types'
+import { cashFlowVariants } from './variant'
 
 const CashFlowStatement: React.FC = () => {
-  const [selectedPeriod, setSelectedPeriod] = React.useState<string>('Monthly')
-  const data = cashFlowData[selectedPeriod]
+  const [selectedPeriod, setSelectedPeriod] =
+    React.useState<cashFlowPeriod>('monthly')
+
+  const { readOnly: canGet } = usePermit('cashflow', 'get')
+
+  // Queries
+  const operating = useOperatingCashFlow.list({ period: selectedPeriod })
+  const investing = useInvestingCashFlow.list({ period: selectedPeriod })
+  const financing = useFinancingCashFlow.list({ period: selectedPeriod })
+  const summary = useCashFlowSummary.list({ period: selectedPeriod })
+
+  const {
+    container,
+    headerWrapper,
+    title,
+    gridContainer,
+    sectionTitle,
+    itemWrapper,
+    itemRow,
+    itemLabel,
+    itemValue,
+    totalLine,
+    totalRow,
+    totalLabel,
+    totalValue,
+    cardContainer,
+    summaryRow,
+    summaryLabel,
+    summaryValue,
+    netCashChangeValue
+  } = cashFlowVariants()
+
+  const renderCardContent = (
+    title: string,
+    dataQuery: any,
+    totalLabelText: string,
+    footerLabel: string,
+    footerValue?: number,
+    isNetChange = false
+  ) => {
+    // Loading state: entire card
+    if (dataQuery.isLoading) {
+      return (
+        <Card className={cardContainer()}>
+          <CardBody className="flex items-center justify-center">
+            <Spinner size="md" />
+          </CardBody>
+        </Card>
+      )
+    }
+
+    // Error state: entire card
+    if (dataQuery.isError || !dataQuery.data) {
+      return (
+        <Card className={cardContainer()}>
+          <div className="text-center">
+            <Alert
+              variant="faded"
+              color="default"
+              title={`Error loading ${title}`}
+              hideIcon
+              className="flex h-[255px] flex-col items-center justify-center">
+              <Button
+                color="danger"
+                size="sm"
+                variant="light"
+                className="mx-auto mt-2"
+                onPress={dataQuery.refetch}>
+                Try Again
+              </Button>
+            </Alert>
+          </div>
+        </Card>
+      )
+    }
+
+    // Success state: normal card
+    return (
+      <Card className={cardContainer()}>
+        <CardHeader>
+          <h3 className={sectionTitle()}>{title}</h3>
+        </CardHeader>
+        <CardBody>
+          <div className={itemWrapper()}>
+            {dataQuery.data.items.map((item: any, idx: number) => (
+              <div key={idx} className={itemRow()}>
+                <span className={itemLabel()}>{item.label}</span>
+                <span
+                  className={itemValue({
+                    valueState: item.value < 0 ? 'negative' : 'positive'
+                  })}>
+                  {formatCurrency(item.value)}
+                </span>
+              </div>
+            ))}
+            <div className={totalLine()}>
+              <div className={totalRow()}>
+                <span className={totalLabel()}>{totalLabelText}</span>
+                <span
+                  className={totalValue({
+                    valueState:
+                      dataQuery.data.total < 0 ? 'negative' : 'positive'
+                  })}>
+                  {formatCurrency(dataQuery.data.total)}
+                </span>
+              </div>
+            </div>
+          </div>
+        </CardBody>
+        {footerLabel && (
+          <CardFooter>
+            <div className={summaryRow()}>
+              <span className={summaryLabel()}>{footerLabel}</span>
+              <span
+                className={
+                  isNetChange
+                    ? netCashChangeValue({
+                        valueState:
+                          footerValue && footerValue < 0
+                            ? 'negative'
+                            : 'positive'
+                      })
+                    : summaryValue({ valueState: 'positive' })
+                }>
+                {footerValue !== undefined ? formatCurrency(footerValue) : '--'}
+              </span>
+            </div>
+          </CardFooter>
+        )}
+      </Card>
+    )
+  }
 
   return (
     <>
       <div className="pb-4">
         <Header
           startContent={<Start />}
-          mainTitle={'Cash Flow'}
-          mainDescription={'Comprehensive reports and analytics'}
+          mainTitle="Cash Flow"
+          mainDescription="Comprehensive reports and analytics"
           endContent={<End />}
         />
       </div>
+
+      {/* Controls */}
       <div className="mb-4 flex flex-col justify-end gap-2 sm:flex-row">
         <Dropdown>
           <DropdownTrigger>
             <Button
               size="md"
-              className="bg-default-100 hover:bg-default-200 flex min-w-[140px] items-center justify-center gap-2 sm:w-auto"
+              className="bg-default-100 hover:bg-default-200 w-full sm:w-auto"
               startContent={<Icon icon="lucide:calendar" width={20} />}>
-              {selectedPeriod}
+              {getPeriodProps[selectedPeriod]?.label ?? selectedPeriod}
             </Button>
           </DropdownTrigger>
           <DropdownMenu
             aria-label="Date period options"
             selectionMode="single"
-            selectedKeys={[selectedPeriod]}
-            onSelectionChange={keys =>
-              setSelectedPeriod(Array.from(keys)[0] as string)
-            }>
-            <DropdownItem key="Weekly">Weekly</DropdownItem>
-            <DropdownItem key="Monthly">Monthly</DropdownItem>
-            <DropdownItem key="Quarterly">Quarterly</DropdownItem>
-            <DropdownItem key="Yearly">Yearly</DropdownItem>
+            selectedKeys={new Set([selectedPeriod])}
+            onSelectionChange={keys => {
+              const value = Array.from(keys)[0] as cashFlowPeriod
+              setSelectedPeriod(value)
+            }}>
+            {Object.entries(getPeriodProps).map(([key, { label }]) => (
+              <DropdownItem key={key} value={key}>
+                {label}
+              </DropdownItem>
+            ))}
           </DropdownMenu>
         </Dropdown>
+
         <Button
           size="md"
           variant="solid"
           color="primary"
+          isDisabled={canGet}
           className="flex min-w-[160px] items-center justify-center gap-2 sm:w-auto"
           startContent={<Icon icon="solar:download-line-duotone" width={20} />}>
           Export / Download
@@ -233,127 +215,37 @@ const CashFlowStatement: React.FC = () => {
       </div>
 
       <motion.div
-        className="overflow-hidden rounded-lg bg-white shadow-none"
+        className={container()}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}>
-        <div className="flex items-center justify-between border-b p-4">
-          <h2 className="text-xl font-medium text-gray-800">
-            Cash Flow Statement
-          </h2>
+        <div className={headerWrapper()}>
+          <h2 className={title()}>Cash Flow Statement</h2>
         </div>
 
-        <div className="grid grid-cols-1 gap-8 p-6 xl:grid-cols-3">
-          {/* Operating Activities */}
-          <div>
-            <h3 className="mb-4 text-lg font-medium text-gray-800">
-              {data.operating.title}
-            </h3>
-            <div className="space-y-2">
-              {data.operating.items.map((item, index) => (
-                <div key={index} className="flex justify-between">
-                  <span className="text-gray-600">{item.label}</span>
-                  <span
-                    className={`font-medium ${item.value < 0 ? 'text-red-600' : 'text-gray-800'}`}>
-                    {formatCurrency(item.value)}
-                  </span>
-                </div>
-              ))}
-              <div className="mt-4 border-t border-gray-200 pt-2">
-                <div className="flex justify-between">
-                  <span className="font-medium text-gray-800">
-                    Operating Cash Flow
-                  </span>
-                  <span className="font-medium text-gray-800">
-                    {formatCurrency(data.operating.total)}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Investing Activities */}
-          <div>
-            <h3 className="mb-4 text-lg font-medium text-gray-800">
-              {data.investing.title}
-            </h3>
-            <div className="space-y-2">
-              {data.investing.items.map((item, index) => (
-                <div key={index} className="flex justify-between">
-                  <span className="text-gray-600">{item.label}</span>
-                  <span
-                    className={`font-medium ${item.value < 0 ? 'text-red-600' : 'text-gray-800'}`}>
-                    {formatCurrency(item.value)}
-                  </span>
-                </div>
-              ))}
-              <div className="mt-4 border-t border-gray-200 pt-2">
-                <div className="flex justify-between">
-                  <span className="font-medium text-gray-800">
-                    Investing Cash Flow
-                  </span>
-                  <span
-                    className={`font-medium ${data.investing.total < 0 ? 'text-red-600' : 'text-gray-800'}`}>
-                    {formatCurrency(data.investing.total)}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Financing Activities */}
-          <div>
-            <h3 className="mb-4 text-lg font-medium text-gray-800">
-              {data.financing.title}
-            </h3>
-            <div className="space-y-2">
-              {data.financing.items.map((item, index) => (
-                <div key={index} className="flex justify-between">
-                  <span className="text-gray-600">{item.label}</span>
-                  <span
-                    className={`font-medium ${item.value < 0 ? 'text-red-600' : 'text-gray-800'}`}>
-                    {formatCurrency(item.value)}
-                  </span>
-                </div>
-              ))}
-              <div className="mt-4 border-t border-gray-200 pt-2">
-                <div className="flex justify-between">
-                  <span className="font-medium text-gray-800">
-                    Financing Cash Flow
-                  </span>
-                  <span
-                    className={`font-medium ${data.financing.total < 0 ? 'text-red-600' : 'text-gray-800'}`}>
-                    {formatCurrency(data.financing.total)}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Summary Section */}
-        <div className="border-t border-gray-200 p-6">
-          <div className="grid gap-4 xl:grid-cols-3">
-            <div className="flex justify-between">
-              <span className="font-medium text-gray-800">Beginning Cash</span>
-              <span className="font-medium text-gray-800">
-                {formatCurrency(data.summary.beginningCash)}
-              </span>
-            </div>
-            <div className="flex justify-between">
-              <span className="font-medium text-gray-800">Net Cash Change</span>
-              <span
-                className={`font-medium ${data.summary.netCashChange < 0 ? 'text-red-600' : 'text-green-600'}`}>
-                {formatCurrency(data.summary.netCashChange)}
-              </span>
-            </div>
-            <div className="flex justify-between">
-              <span className="font-medium text-gray-800">Ending Cash</span>
-              <span className="font-medium text-gray-800">
-                {formatCurrency(data.summary.endingCash)}
-              </span>
-            </div>
-          </div>
+        <div className={gridContainer()}>
+          {renderCardContent(
+            'Operating Activities',
+            operating,
+            'Operating Cash Flow',
+            'Beginning Cash',
+            summary.data?.beginningCash
+          )}
+          {renderCardContent(
+            'Investing Activities',
+            investing,
+            'Investing Cash Flow',
+            'Net Cash Change',
+            summary.data?.netCashChange,
+            true
+          )}
+          {renderCardContent(
+            'Financing Activities',
+            financing,
+            'Financing Cash Flow',
+            'Ending Cash',
+            summary.data?.endingCash
+          )}
         </div>
       </motion.div>
     </>

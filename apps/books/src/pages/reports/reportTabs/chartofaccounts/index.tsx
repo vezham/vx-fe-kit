@@ -1,21 +1,71 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { Button, Input, Select, SelectItem } from '@heroui/react'
+import {
+  Alert,
+  Button,
+  Input,
+  Select,
+  SelectItem,
+  Spinner
+} from '@heroui/react'
 import { Icon } from '@iconify/react'
 import React from 'react'
 import Header from '../../../../components/header'
+import { useChartofAccounts } from '../../../../store/reports/useChartAccounts'
+import { getTypesProps } from '../../../../store/reports/useChartAccounts/data'
 import End from '../../actionbar/endContent'
 import Start from '../../actionbar/headContent'
-import { initialFolders } from './data'
+import { usePermit } from '../../utils'
 import { FolderItem } from './types'
 import { folderVariants, getFolderVariantProps } from './variant'
 
 const Charts: React.FC = () => {
-  const [folders, setFolders] = React.useState<FolderItem[]>(initialFolders)
   const [searchQuery, setSearchQuery] = React.useState<string>('')
   const [selectedType, setSelectedType] = React.useState<string>('All')
   const [expandedItems, setExpandedItems] = React.useState<Set<string>>(
-    new Set(getAllIds(initialFolders))
+    new Set()
   )
+
+  const { readOnly: canUpdate } = usePermit('chartofaccounts', 'update')
+  const { readOnly: canDelete } = usePermit('chartofaccounts', 'delete')
+
+  const {
+    data: folders = [],
+    isLoading,
+    isError,
+    refetch
+  } = useChartofAccounts.list({
+    type: selectedType
+  })
+
+  // Add the remove hook
+  const { mutate: removeAccount } = useChartofAccounts.remove()
+
+  // expand all IDs when data loads
+  React.useEffect(() => {
+    if (folders.length > 0) {
+      const getAllIds = (items: FolderItem[]): string[] => {
+        let ids: string[] = []
+        items.forEach(item => {
+          ids.push(item.id)
+          if (item.children) ids = ids.concat(getAllIds(item.children))
+        })
+        return ids
+      }
+      setExpandedItems(new Set(getAllIds(folders)))
+    }
+  }, [folders])
+
+  const toggleExpand = (id: string, e: React.MouseEvent) => {
+    e.stopPropagation()
+    setExpandedItems(prev => {
+      const newSet = new Set(prev)
+      if (newSet.has(id)) newSet.delete(id)
+      else newSet.add(id)
+      return newSet
+    })
+  }
+
+  const isExpanded = (id: string) => expandedItems.has(id)
 
   const accountTypes = [
     'All',
@@ -26,45 +76,9 @@ const Charts: React.FC = () => {
     'Expense'
   ]
 
-  function getAllIds(items: FolderItem[]): string[] {
-    let ids: string[] = []
-    items.forEach(item => {
-      ids.push(item.id)
-      if (item.children) ids = ids.concat(getAllIds(item.children))
-    })
-    return ids
-  }
+  const handleTypeChange = (value: string) => setSelectedType(value)
 
-  const handleDelete = (id: string) => {
-    const deleteItem = (items: FolderItem[]): FolderItem[] => {
-      return items
-        .map(item => {
-          if (item.id === id) return null
-          if (item.children) {
-            return { ...item, children: deleteItem(item.children) }
-          }
-          return item
-        })
-        .filter(Boolean) as FolderItem[]
-    }
-    setFolders(deleteItem(folders))
-  }
-
-  const toggleExpand = (id: string, e: React.MouseEvent) => {
-    e.stopPropagation()
-    setExpandedItems(prev => {
-      const newSet = new Set(prev)
-      if (newSet.has(id)) {
-        newSet.delete(id)
-      } else {
-        newSet.add(id)
-      }
-      return newSet
-    })
-  }
-
-  const isExpanded = (id: string) => expandedItems.has(id)
-
+  // Filtering + search applied here
   const filteredFolders = React.useMemo(() => {
     if (!searchQuery.trim() && selectedType === 'All') return folders
 
@@ -73,25 +87,15 @@ const Charts: React.FC = () => {
     const filterItems = (items: FolderItem[]): FolderItem[] => {
       return items
         .map(item => {
-          const codeMatchExact = item.code.toLowerCase() === searchLower
-          const nameMatchExact = item.name.toLowerCase() === searchLower
-          const typeMatchExact = item.type.toLowerCase() === searchLower
-
-          const codeMatchPartial = item.code.toLowerCase().includes(searchLower)
-          const nameMatchPartial = item.name.toLowerCase().includes(searchLower)
-          const typeMatchPartial = item.type.toLowerCase().includes(searchLower)
+          const typeLower = item.type.toLowerCase()
+          const matchesType =
+            selectedType === 'All' || typeLower === selectedType.toLowerCase()
 
           const matchesSearch =
             !searchQuery.trim() ||
-            codeMatchExact ||
-            nameMatchExact ||
-            typeMatchExact ||
-            codeMatchPartial ||
-            nameMatchPartial ||
-            typeMatchPartial
-
-          const matchesType =
-            selectedType === 'All' || item.type === selectedType
+            item.code.toLowerCase().includes(searchLower) ||
+            item.name.toLowerCase().includes(searchLower) ||
+            typeLower.includes(searchLower)
 
           let filteredChildren: FolderItem[] = []
           if (item.children && item.children.length > 0) {
@@ -108,7 +112,6 @@ const Charts: React.FC = () => {
                 filteredChildren.length > 0 ? filteredChildren : item.children
             }
           }
-
           return null
         })
         .filter(Boolean) as FolderItem[]
@@ -117,51 +120,33 @@ const Charts: React.FC = () => {
     return filterItems(folders)
   }, [folders, searchQuery, selectedType])
 
-  const handleTypeChange = (value: string) => {
-    setSelectedType(value)
+  // New function to handle deletion
+  const handleDelete = (id: string) => {
+    removeAccount(id)
   }
 
+  // render logic
   const renderFolderItem = (item: FolderItem, level = 0, isChild = false) => {
     const hasChildren = item.children && item.children.length > 0
     const isItemExpanded = isExpanded(item.id)
 
     const folderProps = getFolderVariantProps(isChild)
 
-    const getBadgeColor = (type: string) => {
-      switch (type.toLowerCase()) {
-        case 'asset':
-          return 'bg-blue-100 text-blue-800'
-        case 'liability':
-          return 'bg-red-100 text-red-800'
-        case 'equity':
-          return 'bg-purple-100 text-purple-800'
-        case 'revenue':
-          return 'bg-green-100 text-green-800'
-        case 'expense':
-          return 'bg-orange-100 text-orange-800'
-        default:
-          return 'bg-gray-100 text-gray-800'
-      }
-    }
+    const typeProps =
+      getTypesProps[item.type.toLowerCase() as keyof typeof getTypesProps]
 
-    const formatCurrency = (amount: number) => {
-      return new Intl.NumberFormat('en-US', {
+    const formatCurrency = (amount: number) =>
+      new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',
         minimumFractionDigits: 0,
         maximumFractionDigits: 0
       }).format(amount)
-    }
 
     const getBalanceColor = (type: string, balance: number) => {
-      if (type.toLowerCase() === 'expense') {
-        return 'text-red-600'
-      } else if (
-        type.toLowerCase() === 'revenue' ||
-        type.toLowerCase() === 'income'
-      ) {
+      if (type.toLowerCase() === 'expense') return 'text-red-600'
+      if (['revenue', 'income'].includes(type.toLowerCase()))
         return 'text-green-600'
-      }
       return ''
     }
 
@@ -187,8 +172,8 @@ const Charts: React.FC = () => {
           </div>
           <div>
             <span
-              className={`rounded-md px-2 py-1 text-xs ${getBadgeColor(item.type)}`}>
-              {item.type}
+              className={`rounded-md px-2 py-1 text-xs ${typeProps?.color ?? ''}`}>
+              {typeProps?.label ?? item.type}
             </span>
           </div>
           <div className={getBalanceColor(item.type, item.balance)}>
@@ -199,6 +184,7 @@ const Charts: React.FC = () => {
               isIconOnly
               size="sm"
               variant="light"
+              isDisabled={canUpdate}
               onPress={() => console.log('Edit', item.id)}>
               <Icon icon="lucide:edit" className="text-default-500" />
             </Button>
@@ -207,6 +193,7 @@ const Charts: React.FC = () => {
               size="sm"
               variant="light"
               color="danger"
+              isDisabled={canDelete}
               onPress={() => handleDelete(item.id)}>
               <Icon icon="lucide:trash-2" className="text-danger" />
             </Button>
@@ -235,23 +222,18 @@ const Charts: React.FC = () => {
         />
       </div>
 
-      {/* Search and filter - fixed section */}
+      {/* Search & Filter */}
       <div className="flex flex-wrap items-center justify-end gap-4 pb-4">
         <div className="flex items-center gap-3">
-          <div>
-            <Input
-              placeholder="Search"
-              value={searchQuery}
-              onValueChange={setSearchQuery}
-              startContent={
-                <Icon
-                  icon="lucide:search"
-                  className="text-default-400 text-lg"
-                />
-              }
-              size="sm"
-            />
-          </div>
+          <Input
+            placeholder="Search"
+            value={searchQuery}
+            onValueChange={setSearchQuery}
+            startContent={
+              <Icon icon="lucide:search" className="text-default-400 text-lg" />
+            }
+            size="sm"
+          />
           <Select
             placeholder="Filter"
             selectedKeys={selectedType ? [selectedType] : []}
@@ -267,7 +249,7 @@ const Charts: React.FC = () => {
         </div>
       </div>
 
-      {/* Scrollable table section (heading + rows) */}
+      {/* Table */}
       <div className="border-divider overflow-x-auto">
         <div className="min-w-[600px]">
           <div className="bg-default-100 grid grid-cols-4 gap-4 rounded-lg px-4 py-3 font-semibold">
@@ -278,7 +260,36 @@ const Charts: React.FC = () => {
           </div>
 
           <div className="divide-divider divide-y">
-            {filteredFolders.length > 0 ? (
+            {isLoading ? (
+              <div className="flex h-100 items-center justify-center">
+                <Spinner
+                  size="lg"
+                  classNames={{ label: 'text-foreground' }}
+                  label="Loading"
+                  variant="gradient"
+                />
+              </div>
+            ) : isError ? (
+              <div className="py-8 text-center text-red-500">
+                <Alert
+                  variant="faded"
+                  color="default"
+                  title="Error loading Accounts"
+                  hideIcon
+                  className="mt-6 flex flex-col items-center justify-center">
+                  <Button
+                    color="danger"
+                    size="sm"
+                    variant="light"
+                    className="mx-auto mt-2"
+                    onPress={() => {
+                      refetch()
+                    }}>
+                    Try Again
+                  </Button>
+                </Alert>
+              </div>
+            ) : filteredFolders.length > 0 ? (
               filteredFolders.map(item => renderFolderItem(item))
             ) : (
               <div className="text-default-500 py-8 text-center">

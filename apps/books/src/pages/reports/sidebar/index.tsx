@@ -98,7 +98,6 @@ export default function ReportsLayout() {
         <Spacer y={2} />
       </div>
 
-      {/* Outlet (right side content) */}
       <div
         className={cn('flex-1 overflow-y-auto p-4', {
           hidden: isMobile && showSidebar

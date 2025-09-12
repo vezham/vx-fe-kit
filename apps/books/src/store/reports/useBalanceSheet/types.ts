@@ -22,3 +22,13 @@ export interface RowVariantProps {
 }
 
 export type BalanceSheetPeriod = 'weekly' | 'monthly' | 'quarterly' | 'yearly'
+
+export type RQBalanceSheet = {
+  period?: BalanceSheetPeriod
+}
+
+export type RQListBalanceSheet = RQBalanceSheet
+
+export interface RQGetBalanceSheet extends RQBalanceSheet {
+  category: string
+}

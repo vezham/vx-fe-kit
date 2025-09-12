@@ -1,4 +1,23 @@
-import { FinancialData } from './types'
+import { FinancialData, ProfitLossPeriod } from './types'
+
+type periodProps = {
+  label: string
+}
+
+export const getPeriodProps: Record<ProfitLossPeriod, periodProps> = {
+  weekly: {
+    label: 'Weekly'
+  },
+  monthly: {
+    label: 'Monthly'
+  },
+  quarterly: {
+    label: 'Quarterly'
+  },
+  yearly: {
+    label: 'Yearly'
+  }
+}
 
 export const weeklyData: FinancialData[] = [
   { category: 'REVENUE', isHeader: true },
@@ -315,15 +334,9 @@ export const yearlyData: FinancialData[] = [
   }
 ]
 
-export const getFinancialData = (period: string): FinancialData[] => {
-  switch (period) {
-    case 'Weekly':
-      return weeklyData
-    case 'Quarterly':
-      return quarterlyData
-    case 'Yearly':
-      return yearlyData
-    default:
-      return monthlyData
-  }
+export const mockDataByPeriod: Record<ProfitLossPeriod, FinancialData[]> = {
+  weekly: weeklyData,
+  monthly: monthlyData,
+  quarterly: quarterlyData,
+  yearly: yearlyData
 }

@@ -127,7 +127,7 @@ export const ROLES = {
     overview: {
       view: true,
       create: false,
-      update: false,
+      update: true,
       delete: false,
       get: false,
       invite: false
@@ -136,14 +136,14 @@ export const ROLES = {
       view: true,
       create: true,
       update: true,
-      delete: true,
+      delete: false,
       get: true,
       invite: true
     },
     profit_loss: {
       view: true,
       create: false,
-      update: false,
+      update: true,
       delete: false,
       get: false,
       invite: false
@@ -151,7 +151,7 @@ export const ROLES = {
     balance_sheet: {
       view: true,
       create: false,
-      update: false,
+      update: true,
       delete: false,
       get: false,
       invite: false
@@ -159,7 +159,7 @@ export const ROLES = {
     cashflow: {
       view: true,
       create: false,
-      update: false,
+      update: true,
       delete: false,
       get: false,
       invite: false
@@ -209,83 +209,85 @@ export const ROLES = {
   member: {
     overview: {
       view: true,
-      create: true,
+      create: false,
       update: true,
-      delete: true,
-      get: true,
-      invite: true
+      delete: false,
+      get: false,
+      invite: false
     },
     chartofaccounts: {
       view: true,
-      create: true,
+      create: false,
       update: true,
-      delete: true,
-      get: true,
-      invite: true
+      delete: false,
+      get: false,
+      invite: false
     },
     profit_loss: {
       view: true,
-      create: true,
+      create: false,
       update: true,
-      delete: true,
-      get: true,
-      invite: true
+      delete: false,
+      get: false,
+      invite: false
     },
     balance_sheet: {
       view: true,
-      create: true,
+      create: false,
       update: true,
-      delete: true,
-      get: true,
-      invite: true
+      delete: false,
+      get: false,
+      invite: false
     },
     cashflow: {
       view: true,
-      create: true,
+      create: false,
+      get: false,
       update: true,
-      delete: true,
-      invite: true
+      delete: false,
+      invite: false
     }
   },
   viewer: {
     overview: {
       view: true,
-      create: true,
-      update: true,
-      delete: true,
-      get: true,
-      invite: true
+      create: false,
+      update: false,
+      delete: false,
+      get: false,
+      invite: false
     },
     chartofaccounts: {
       view: true,
-      create: true,
-      update: true,
-      delete: true,
-      get: true,
-      invite: true
+      create: false,
+      update: false,
+      delete: false,
+      get: false,
+      invite: false
     },
     profit_loss: {
       view: true,
-      create: true,
-      update: true,
-      delete: true,
-      get: true,
-      invite: true
+      create: false,
+      update: false,
+      delete: false,
+      get: false,
+      invite: false
     },
     balance_sheet: {
       view: true,
-      create: true,
-      update: true,
-      delete: true,
-      get: true,
-      invite: true
+      create: false,
+      update: false,
+      delete: false,
+      get: false,
+      invite: false
     },
     cashflow: {
       view: true,
-      create: true,
-      update: true,
-      delete: true,
-      invite: true
+      create: false,
+      update: false,
+      delete: false,
+      invite: false,
+      get: false
     }
   }
 } as const satisfies RolesWithPermissions

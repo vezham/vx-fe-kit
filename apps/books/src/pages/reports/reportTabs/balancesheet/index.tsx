@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import {
+  Alert,
   Button,
   Dropdown,
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
+  Spinner,
   Table,
   TableBody,
   TableCell,
@@ -17,17 +19,31 @@ import React from 'react'
 import Header from '../../../../components/header'
 import End from '../../actionbar/endContent'
 import Start from '../../actionbar/headContent'
-import { getFinancialData } from './data'
-import { FinancialData } from './types'
+
+import { useBalanceSheet } from '../../../../store/reports/useBalanceSheet'
+import { getPeriodProps } from '../../../../store/reports/useBalanceSheet/data'
+
+import { usePermit } from '../../utils'
+
+import { BalanceSheetPeriod, FinancialData } from './types'
 import { getRowVariantProps, rowVariants } from './variant'
 
 const BalanceSheet: React.FC<object> = () => {
-  const [selectedPeriod, setSelectedPeriod] = React.useState('Monthly')
-  const financialData: FinancialData[] = React.useMemo(
-    () => getFinancialData(selectedPeriod),
-    [selectedPeriod]
-  )
+  const [selectedPeriod, setSelectedPeriod] =
+    React.useState<BalanceSheetPeriod>('monthly')
 
+  const {
+    data: bsData = [],
+    isLoading,
+    isError,
+    refetch
+  } = useBalanceSheet.list({
+    period: selectedPeriod
+  })
+
+  const { readOnly: canGet } = usePermit('balance_sheet', 'get')
+
+  // ✅ Helpers for formatting numbers
   const formatCurrency = (value: number) => {
     return `$${value.toLocaleString()}`
   }
@@ -50,6 +66,8 @@ const BalanceSheet: React.FC<object> = () => {
           endContent={<End />}
         />
       </div>
+
+      {/* Period Selector + Export Button */}
       <div className="flex flex-col gap-2 pb-4 sm:flex-row sm:justify-end">
         <Dropdown>
           <DropdownTrigger>
@@ -57,31 +75,37 @@ const BalanceSheet: React.FC<object> = () => {
               size="md"
               className="bg-default-100 hover:bg-default-200 w-full sm:w-auto"
               startContent={<Icon icon="lucide:calendar" width={20} />}>
-              {selectedPeriod}
+              {getPeriodProps[selectedPeriod]?.label ?? selectedPeriod}
             </Button>
           </DropdownTrigger>
           <DropdownMenu
             aria-label="Date period options"
             selectionMode="single"
-            selectedKeys={[selectedPeriod]}
-            onSelectionChange={keys =>
-              setSelectedPeriod(Array.from(keys)[0] as string)
-            }>
-            <DropdownItem key="Weekly">Weekly</DropdownItem>
-            <DropdownItem key="Monthly">Monthly</DropdownItem>
-            <DropdownItem key="Quarterly">Quarterly</DropdownItem>
-            <DropdownItem key="Yearly">Yearly</DropdownItem>
+            selectedKeys={new Set([selectedPeriod])}
+            onSelectionChange={keys => {
+              const value = Array.from(keys)[0] as BalanceSheetPeriod
+              setSelectedPeriod(value)
+            }}>
+            {Object.entries(getPeriodProps).map(([key, { label }]) => (
+              <DropdownItem key={key} value={key}>
+                {label}
+              </DropdownItem>
+            ))}
           </DropdownMenu>
         </Dropdown>
+
         <Button
           size="md"
           variant="solid"
           color="primary"
+          isDisabled={canGet}
           className="flex w-full items-center justify-center gap-2 sm:w-auto"
           startContent={<Icon icon="solar:download-line-duotone" width={20} />}>
           Export / Download
         </Button>
       </div>
+
+      {/* Table Section */}
       <div className="overflow-x-auto rounded-md pb-10 shadow-none">
         <Table
           aria-label="Balance Sheet table"
@@ -97,44 +121,92 @@ const BalanceSheet: React.FC<object> = () => {
             <TableColumn className="text-right">Change</TableColumn>
             <TableColumn className="text-right">% Change</TableColumn>
           </TableHeader>
-          <TableBody>
-            {financialData.map((item, index) => {
-              const rowProps = getRowVariantProps(item)
-              return (
-                <TableRow key={index} className={rowVariants(rowProps).base()}>
-                  <TableCell className={rowVariants(rowProps).accountCell()}>
-                    {item.category}
-                  </TableCell>
-                  <TableCell className={rowVariants(rowProps).valueCell()}>
-                    {item.currentPeriod != null
-                      ? formatCurrency(item.currentPeriod)
-                      : ''}
-                  </TableCell>
-                  <TableCell className="text-right">
-                    {item.previousPeriod != null
-                      ? formatCurrency(item.previousPeriod)
-                      : ''}
-                  </TableCell>
-                  <TableCell
-                    className={rowVariants({
-                      isPositive: item.change! > 0,
-                      isNegative: item.change! < 0
-                    }).changeCell()}>
-                    {item.change != null ? formatChange(item.change) : ''}
-                  </TableCell>
 
-                  <TableCell
-                    className={rowVariants({
-                      isPositive: item.percentChange! > 0,
-                      isNegative: item.percentChange! < 0
-                    }).changeCell()}>
-                    {item.percentChange != null
-                      ? formatPercentChange(item.percentChange)
-                      : ''}
-                  </TableCell>
-                </TableRow>
-              )
-            })}
+          <TableBody>
+            {isLoading ? (
+              <TableRow>
+                <TableCell colSpan={5}>
+                  <div className="grid h-100 items-center justify-center">
+                    <Spinner
+                      size="lg"
+                      classNames={{ label: 'text-foreground' }}
+                      label="Loading"
+                      variant="gradient"
+                    />
+                  </div>
+                </TableCell>
+              </TableRow>
+            ) : isError ? (
+              <TableRow>
+                <TableCell colSpan={5}>
+                  <Alert
+                    variant="faded"
+                    color="default"
+                    title="Error loading Balance Sheet"
+                    hideIcon
+                    className="mt-6 flex flex-col items-center justify-center">
+                    <Button
+                      color="danger"
+                      size="sm"
+                      variant="light"
+                      className="mx-auto mt-2"
+                      onPress={() => {
+                        refetch()
+                      }}>
+                      Try Again
+                    </Button>
+                  </Alert>
+                </TableCell>
+              </TableRow>
+            ) : (
+              bsData.map((item: FinancialData, index: number) => {
+                const rowProps = getRowVariantProps(item)
+                return (
+                  <TableRow
+                    key={index}
+                    className={rowVariants(rowProps).base()}>
+                    {/* Account */}
+                    <TableCell className={rowVariants(rowProps).accountCell()}>
+                      {item.category}
+                    </TableCell>
+
+                    {/* Current Period */}
+                    <TableCell className={rowVariants(rowProps).valueCell()}>
+                      {item.currentPeriod != null
+                        ? formatCurrency(item.currentPeriod)
+                        : ''}
+                    </TableCell>
+
+                    {/* Previous Period */}
+                    <TableCell className="text-right">
+                      {item.previousPeriod != null
+                        ? formatCurrency(item.previousPeriod)
+                        : ''}
+                    </TableCell>
+
+                    {/* Change */}
+                    <TableCell
+                      className={rowVariants({
+                        isPositive: (item.change ?? 0) > 0,
+                        isNegative: (item.change ?? 0) < 0
+                      }).changeCell()}>
+                      {item.change != null ? formatChange(item.change) : ''}
+                    </TableCell>
+
+                    {/* % Change */}
+                    <TableCell
+                      className={rowVariants({
+                        isPositive: (item.percentChange ?? 0) > 0,
+                        isNegative: (item.percentChange ?? 0) < 0
+                      }).changeCell()}>
+                      {item.percentChange != null
+                        ? formatPercentChange(item.percentChange)
+                        : ''}
+                    </TableCell>
+                  </TableRow>
+                )
+              })
+            )}
           </TableBody>
         </Table>
       </div>
