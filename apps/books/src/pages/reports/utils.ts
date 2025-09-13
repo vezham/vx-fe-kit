@@ -5,7 +5,7 @@ export type User = { blockedBy: string[]; roles: Role[]; id: string }
 
 export const currentUser: User = {
   id: '1',
-  roles: ['owner'],
+  roles: ['accountant'],
   blockedBy: []
 }
 

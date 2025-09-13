@@ -1,5 +1,5 @@
-/* eslint-disable @nx/enforce-module-boundaries */
 import { tv } from 'tailwind-variants'
+
 import { FinancialData, RowVariantProps } from './types'
 
 export const rowVariants = tv({

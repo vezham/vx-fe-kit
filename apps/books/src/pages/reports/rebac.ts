@@ -120,7 +120,8 @@ export const ROLES = {
       create: true,
       update: true,
       delete: true,
-      invite: true
+      invite: true,
+      get: true
     }
   },
   accountant: {
