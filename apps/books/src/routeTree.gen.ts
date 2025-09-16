@@ -22,6 +22,7 @@ const ReportsProfitlossLazyRouteImport = createFileRoute(
   '/reports/profitloss',
 )()
 const ReportsOverviewLazyRouteImport = createFileRoute('/reports/overview')()
+const ReportsNexusLazyRouteImport = createFileRoute('/reports/nexus')()
 const ReportsChartofaccountsLazyRouteImport = createFileRoute(
   '/reports/chartofaccounts',
 )()
@@ -77,6 +78,11 @@ const ReportsOverviewLazyRoute = ReportsOverviewLazyRouteImport.update({
 } as any).lazy(() =>
   import('./routes/reports/overview.lazy').then((d) => d.Route),
 )
+const ReportsNexusLazyRoute = ReportsNexusLazyRouteImport.update({
+  id: '/nexus',
+  path: '/nexus',
+  getParentRoute: () => ReportsLazyRoute,
+} as any).lazy(() => import('./routes/reports/nexus.lazy').then((d) => d.Route))
 const ReportsChartofaccountsLazyRoute =
   ReportsChartofaccountsLazyRouteImport.update({
     id: '/chartofaccounts',
@@ -130,6 +136,7 @@ export interface FileRoutesByFullPath {
   '/reports/balancesheet': typeof ReportsBalancesheetLazyRoute
   '/reports/cashflow': typeof ReportsCashflowLazyRoute
   '/reports/chartofaccounts': typeof ReportsChartofaccountsLazyRoute
+  '/reports/nexus': typeof ReportsNexusLazyRoute
   '/reports/overview': typeof ReportsOverviewLazyRoute
   '/reports/profitloss': typeof ReportsProfitlossLazyRoute
   '/books/': typeof BooksIndexRoute
@@ -144,6 +151,7 @@ export interface FileRoutesByTo {
   '/reports/balancesheet': typeof ReportsBalancesheetLazyRoute
   '/reports/cashflow': typeof ReportsCashflowLazyRoute
   '/reports/chartofaccounts': typeof ReportsChartofaccountsLazyRoute
+  '/reports/nexus': typeof ReportsNexusLazyRoute
   '/reports/overview': typeof ReportsOverviewLazyRoute
   '/reports/profitloss': typeof ReportsProfitlossLazyRoute
   '/books': typeof BooksIndexRoute
@@ -161,6 +169,7 @@ export interface FileRoutesById {
   '/reports/balancesheet': typeof ReportsBalancesheetLazyRoute
   '/reports/cashflow': typeof ReportsCashflowLazyRoute
   '/reports/chartofaccounts': typeof ReportsChartofaccountsLazyRoute
+  '/reports/nexus': typeof ReportsNexusLazyRoute
   '/reports/overview': typeof ReportsOverviewLazyRoute
   '/reports/profitloss': typeof ReportsProfitlossLazyRoute
   '/books/': typeof BooksIndexRoute
@@ -179,6 +188,7 @@ export interface FileRouteTypes {
     | '/reports/balancesheet'
     | '/reports/cashflow'
     | '/reports/chartofaccounts'
+    | '/reports/nexus'
     | '/reports/overview'
     | '/reports/profitloss'
     | '/books/'
@@ -193,6 +203,7 @@ export interface FileRouteTypes {
     | '/reports/balancesheet'
     | '/reports/cashflow'
     | '/reports/chartofaccounts'
+    | '/reports/nexus'
     | '/reports/overview'
     | '/reports/profitloss'
     | '/books'
@@ -209,6 +220,7 @@ export interface FileRouteTypes {
     | '/reports/balancesheet'
     | '/reports/cashflow'
     | '/reports/chartofaccounts'
+    | '/reports/nexus'
     | '/reports/overview'
     | '/reports/profitloss'
     | '/books/'
@@ -280,6 +292,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ReportsOverviewLazyRouteImport
       parentRoute: typeof ReportsLazyRoute
     }
+    '/reports/nexus': {
+      id: '/reports/nexus'
+      path: '/nexus'
+      fullPath: '/reports/nexus'
+      preLoaderRoute: typeof ReportsNexusLazyRouteImport
+      parentRoute: typeof ReportsLazyRoute
+    }
     '/reports/chartofaccounts': {
       id: '/reports/chartofaccounts'
       path: '/chartofaccounts'
@@ -347,6 +366,7 @@ interface ReportsLazyRouteChildren {
   ReportsBalancesheetLazyRoute: typeof ReportsBalancesheetLazyRoute
   ReportsCashflowLazyRoute: typeof ReportsCashflowLazyRoute
   ReportsChartofaccountsLazyRoute: typeof ReportsChartofaccountsLazyRoute
+  ReportsNexusLazyRoute: typeof ReportsNexusLazyRoute
   ReportsOverviewLazyRoute: typeof ReportsOverviewLazyRoute
   ReportsProfitlossLazyRoute: typeof ReportsProfitlossLazyRoute
   ReportsIndexRoute: typeof ReportsIndexRoute
@@ -356,6 +376,7 @@ const ReportsLazyRouteChildren: ReportsLazyRouteChildren = {
   ReportsBalancesheetLazyRoute: ReportsBalancesheetLazyRoute,
   ReportsCashflowLazyRoute: ReportsCashflowLazyRoute,
   ReportsChartofaccountsLazyRoute: ReportsChartofaccountsLazyRoute,
+  ReportsNexusLazyRoute: ReportsNexusLazyRoute,
   ReportsOverviewLazyRoute: ReportsOverviewLazyRoute,
   ReportsProfitlossLazyRoute: ReportsProfitlossLazyRoute,
   ReportsIndexRoute: ReportsIndexRoute,

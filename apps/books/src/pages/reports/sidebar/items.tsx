@@ -58,7 +58,7 @@ export const sectionItems: SidebarItem[] = [
       },
       {
         key: 'credits',
-        href: '/reports/credits',
+        href: '/reports/nexus',
         icon: 'solar:widget-2-outline',
         title: 'Credits',
         endContent: (

@@ -1,5 +1,6 @@
 import { RouterProvider, createRouter } from '@tanstack/react-router'
 
+import { FocusModeProvider } from '../pages/reports/reportTabs/nexus_test/context/FocusModeContext'
 import { defineConfig } from '../start'
 
 // import { APP_NAME, defineEnv, defineServerEnv } from '@v0x/env'
@@ -27,7 +28,9 @@ defineConfig({
   name: '', // APP_NAME,
   children: (
     <ThemeProvider>
-      <RouterProvider router={router} />{' '}
+      <FocusModeProvider>
+        <RouterProvider router={router} />{' '}
+      </FocusModeProvider>
     </ThemeProvider>
   )
   // defineServerEnv
