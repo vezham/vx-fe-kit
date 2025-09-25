@@ -129,6 +129,9 @@ importers:
       '@vitest/ui':
         specifier: ^3.0.0
         version: 3.2.4(vitest@3.2.4)
+      '@vx-cli/react':
+        specifier: ^0.1.0
+        version: 0.1.0(nx@21.4.1(@swc-node/register@1.9.2(@swc/core@1.5.29(@swc/helpers@0.5.17))(@swc/types@0.1.24)(typescript@5.8.3))(@swc/core@1.5.29(@swc/helpers@0.5.17)))
       '@vx-oss/react':
         specifier: ^0.1.7
         version: 0.1.7(@types/react@19.0.0)(framer-motion@12.23.12(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(tailwindcss@4.1.11)
@@ -3536,6 +3539,10 @@ packages:
 
   '@vue/shared@3.5.20':
     resolution: {integrity: sha512-SoRGP596KU/ig6TfgkCMbXkr4YJ91n/QSdMuqeP5r3hVIYA3CPHUBCc7Skak0EAKV+5lL4KyIh61VA/pK1CIAA==}
+
+  '@vx-cli/react@0.1.0':
+    resolution: {integrity: sha512-uiqN1qCVUkRFS18jIVJCvq63ganQtYKmXfqT/z/fd2IArm5sJLRf28T3jOGD7klQHlEI2JsB+e9glkm3KV/BeA==}
+    hasBin: true
 
   '@vx-oss/accordion@0.1.7':
     resolution: {integrity: sha512-sKJ+yIH1GnCJuNOJBwLddWquvdXbIEbL++q2e0X8znatFN7J+j5kN1fwDKbwiH/+YOVGOlwMChCKlGZC7JHxvQ==}
@@ -13497,6 +13504,13 @@ snapshots:
       typescript: 5.8.3
 
   '@vue/shared@3.5.20': {}
+
+  '@vx-cli/react@0.1.0(nx@21.4.1(@swc-node/register@1.9.2(@swc/core@1.5.29(@swc/helpers@0.5.17))(@swc/types@0.1.24)(typescript@5.8.3))(@swc/core@1.5.29(@swc/helpers@0.5.17)))':
+    dependencies:
+      '@nx/devkit': 21.4.1(nx@21.4.1(@swc-node/register@1.9.2(@swc/core@1.5.29(@swc/helpers@0.5.17))(@swc/types@0.1.24)(typescript@5.8.3))(@swc/core@1.5.29(@swc/helpers@0.5.17)))
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - nx
 
   '@vx-oss/accordion@0.1.7(@vx-oss/system@0.1.7(@vx-oss/theme@0.1.7(tailwindcss@4.1.11))(framer-motion@12.23.12(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(@vx-oss/theme@0.1.7(tailwindcss@4.1.11))(framer-motion@12.23.12(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
     dependencies:

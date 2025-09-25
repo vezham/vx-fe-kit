@@ -65,7 +65,8 @@
       "options": {
         "targetName": "e2e"
       }
-    }
+    },
+    "@vx-cli/react"
   ],
   "targetDefaults": {
     "test": {
