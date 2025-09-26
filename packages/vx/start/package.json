@@ -1,6 +1,7 @@
 {
   "name": "@vx/start",
   "version": "0.0.1",
+  "private": true,
   "exports": {
     ".": {
       "types": "./src/index.ts",

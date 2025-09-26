@@ -8,7 +8,7 @@ const config = {
   bracketSameLine: true,
   arrowParens: 'avoid',
   plugins: [
-    'prettier-plugin-organize-imports',
+    // 'prettier-plugin-organize-imports',
     '@trivago/prettier-plugin-sort-imports',
     'prettier-plugin-tailwindcss'
   ],

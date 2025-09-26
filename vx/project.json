@@ -1,27 +1,22 @@
 {
-  "name": "@vx/fe-kit",
-  "$schema": "node_modules/nx/schemas/project-schema.json",
+  "name": "@vx",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
   "targets": {
-    "@vx/ws-clean": {
+    "@vx-ws/clean": {
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "nx reset --only-cache",
-          "rimraf ./**/**/__mocks__/dist",
-          "rimraf ./dist",
-          "rimraf ./**/**/__mocks__/node_modules",
-          "rimraf ./packages/**/**/node_modules",
-          "rimraf ./node_modules",
+          "nx run @vx:clean-ca",
           "pnpm install --no-frozen-lockfile"
         ],
         "parallel": false
       }
     },
-    "@vx/cli:format": {
+    "@vx-ws/format": {
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "sort-package-json \"package.json\" \"**/**/__mocks__/package.json\"  \"packages/**/package.json\" \"packages/**/**/package.json\" --quiet",
+          "sort-package-json \"package.json\" \"**/**/package.json\" \"packages/**/**/package.json\" --quiet",
           "prettier . --write --log-level silent --cache --cache-strategy metadata",
           "eslint --cache --cache-strategy metadata",
           "stylelint \"**/*.{css,module.css}\" --allow-empty-input --cache --cache-strategy metadata"
@@ -29,13 +24,14 @@
         "parallel": false
       }
     },
-    "@vx/cli:fix": {
+    "@vx-ws/fix": {
       "executor": "nx:run-commands",
       "options": {
         "commands": [
           "eslint --cache --cache-strategy metadata --fix",
           "stylelint \"**/*.{css,module.css}\" --allow-empty-input --cache --cache-strategy metadata --fix"
         ],
+        "// commands": ["sort-package-json", "prettier"],
         "parallel": false
       }
     },
@@ -51,19 +47,29 @@
     "tw:migrate": {
       "command": "npx @tailwindcss/upgrade"
     },
-    "clean-hard": {
+    "clean-ca": {
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "nx reset --only-cache",
-          "rimraf ./**/**/__mocks__/dist",
-          "rimraf ./dist",
-          "rimraf ./**/**/__mocks__/node_modules",
-          "rimraf ./packages/**/**/node_modules",
-          "rimraf ./node_modules",
-          "rm ./pnpm-lock.yaml",
-          "rm ./**/**/__mocks__/pnpm-lock.yaml"
+          "rm -rf ./packages/**/**/dist",
+          "rm -rf ./**/**/dist",
+          "rm -rf ./dist",
+          "rm -rf ./packages/**/**/out-tsc",
+          "rm -rf ./**/**/out-tsc",
+          "rm -rf ./packages/**/**/test-output",
+          "rm -rf ./**/**/test-output",
+          "rm -rf ./packages/**/**/node_modules",
+          "rm -rf ./**/**/node_modules",
+          "rm -rf ./node_modules"
         ],
+        "// commands": ["nx reset --only-cache"],
+        "parallel": false
+      }
+    },
+    "clean-hard": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["nx run @vx:clean-ca", "rm ./pnpm-lock.yaml"],
         "parallel": false
       }
     },
@@ -74,7 +80,7 @@
       "command": "nx reset"
     },
     "clean:nx-hard": {
-      "command": "rimraf ./.nx"
+      "command": "rm -rf ./.nx"
     },
     "test-hard": {
       "command": "vitest"
@@ -95,11 +101,14 @@
     "test:unit-nc": {
       "command": "vitest --reporter=json --outputFile=dist/.unit-test-results.json --no-cache"
     },
-    "@vx/cli:format-hard": {
+    "@vx-ws/install": {
+      "command": "pnpm install --no-frozen-lockfile"
+    },
+    "@vx-ws/format-hard": {
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "sort-package-json \"package.json\" \"**/**/__mocks__/package.json\"  \"packages/**/package.json\" \"packages/**/**/package.json\"",
+          "sort-package-json \"package.json\" \"**/**/package.json\" \"packages/**/**/package.json\"",
           "prettier . --write",
           "eslint",
           "stylelint \"**/*.{css,module.css}\" --allow-empty-input"
@@ -107,21 +116,36 @@
         "parallel": false
       }
     },
-    "@vx/cli:format-check": {
+    "@vx-ci/format-check": {
       "executor": "nx:run-commands",
       "options": {
         "commands": [
           "prettier . --check --cache",
-          "sort-package-json \"package.json\" \"**/**/__mocks__/package.json\"  \"packages/**/package.json\" \"packages/**/**/package.json\""
+          "sort-package-json \"package.json\" \"**/**/package.json\"  \"packages/**/**/package.json\""
         ],
         "parallel": false
       }
     },
-    "@vx/ws:install": {
-      "command": "pnpm install --no-frozen-lockfile"
-    },
-    "@vx/ci:build": {
+    "@vx-ci/build": {
       "command": "nx run-many -t build"
+    },
+    "@vx-ci/nx:release": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["nx run @vx:@vx-ci/build", "nx release -d"],
+        "parallel": false
+      }
+    },
+    "@vx-ws/release": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          { "command": "nx run @vx:@vx-ci/build", "forwardAllArgs": false },
+          "tsx vx/tools/release.ts"
+        ],
+        "// commands": ["tsx vx/tools/release.ts -d --fr"],
+        "parallel": false
+      }
     },
     "local-registry": {
       "executor": "@nx/js:verdaccio",

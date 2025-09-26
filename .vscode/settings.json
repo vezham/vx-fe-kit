@@ -5,8 +5,8 @@
   "editor.formatOnSave": true,
   "editor.formatOnPaste": true,
   "editor.formatOnType": true,
-  // "editor.folding": true
-  // "editor.foldingStrategy": "indentation"
+  "// editor.folding": true,
+  "// editor.foldingStrategy": "indentation",
   "editor.showFoldingControls": "mouseover",
   "editor.accessibilitySupport": "off",
   "editor.quickSuggestions": {
@@ -38,15 +38,13 @@
     "**-lock.yaml": true,
     "**/coverage": true,
     "**/bower_components": true,
-    // "generated/**": true,
+    "// generated/**": true,
     ".nx/**": true,
     ".git/**": true
   },
-
   "[html][vue]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-
   "css.lint.unknownAtRules": "ignore",
   "css.validate": true,
   "stylelint.validate": ["css"],
@@ -58,7 +56,6 @@
     ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
     ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
   ],
-
   "javascript.updateImportsOnFileMove.enabled": "always",
   "[javascript][javascriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -73,5 +70,6 @@
       "source.fixAll.eslint": "always"
     }
   },
-  "nxConsole.generateAiAgentRules": true
+  "nxConsole.generateAiAgentRules": true,
+  "eslint.validate": ["json"]
 }

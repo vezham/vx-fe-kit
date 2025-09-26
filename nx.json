@@ -71,6 +71,11 @@
   "targetDefaults": {
     "test": {
       "dependsOn": ["^build"]
+    },
+    "@nx/js:tsc": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
     }
   },
   "generators": {
@@ -92,8 +97,65 @@
     }
   },
   "release": {
+    "projects": ["*", "!@vx/fe-kit"],
+    "releaseTagPattern": "{version}",
     "version": {
-      "preVersionCommand": "pnpm dlx nx run-many -t build"
+      "preVersionCommand": "pnpm dlx nx run-many -t build",
+      "conventionalCommits": true
+    },
+    "conventionalCommits": {
+      "types": {
+        "feat": {
+          "semverBump": "minor"
+        },
+        "fix": {
+          "semverBump": "patch"
+        },
+        "refactor": {
+          "semverBump": "patch"
+        },
+        "mocks": {
+          "semverBump": "patch"
+        },
+        "stories": {
+          "semverBump": "patch"
+        },
+        "test": {
+          "semverBump": "patch"
+        },
+        "docs": {
+          "semverBump": "patch"
+        },
+        "i18n": {
+          "semverBump": "patch"
+        },
+        "ci": {
+          "semverBump": "patch"
+        },
+        "chore": {
+          "semverBump": "patch"
+        },
+        "build": {
+          "semverBump": "none"
+        },
+        "release": {
+          "semverBump": "none"
+        },
+        "style": {
+          "semverBump": "patch"
+        },
+        "perf": {
+          "semverBump": "patch"
+        },
+        "revert": {
+          "semverBump": "patch"
+        }
+      }
+    },
+    "changelog": {
+      "workspaceChangelog": {
+        "createRelease": "github"
+      }
     }
   }
 }

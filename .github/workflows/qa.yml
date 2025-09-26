@@ -119,7 +119,7 @@ jobs:
       - name: fork | format - prettier
         shell: bash
         run: |
-          pnpm nx run ${{ env.VX_NAME }}:@vx/cli:format-check
+          pnpm nx run @vx:@vx-ci/format-check
 
       - name: action | nx/AI fix
         if: always()
