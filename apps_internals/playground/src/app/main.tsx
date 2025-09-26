@@ -1,7 +1,7 @@
 import { RouterProvider, createRouter } from '@tanstack/react-router'
 
 import { defineConfig } from '@vx/start'
-// import { Loading, Lockscreen, NotFound } from '@vezham/templates'
+// import { Loading, ErrorPage, NotFound } from '@vezham/templates'
 
 import { routeTree } from '../routeTree.gen'
 import './global.css'
@@ -10,9 +10,9 @@ import './global.css'
 const router = createRouter({
   scrollRestoration: true,
   routeTree
-  // defaultNotFoundComponent: () => <NotFound app={APP_NAME} />,
-  // defaultErrorComponent: () => <Lockscreen />,
-  // defaultPendingComponent: () => <Loading />
+  // defaultPendingComponent: () => <Loading />,
+  // defaultErrorComponent: () => <ErrorPage />,
+  // defaultNotFoundComponent: () => <NotFound app={APP_NAME} />
 })
 
 // @vx/NOTE: Register the router instance for type safety
