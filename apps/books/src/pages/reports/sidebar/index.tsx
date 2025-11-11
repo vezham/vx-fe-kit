@@ -95,7 +95,7 @@ export default function ReportsLayout() {
             onSelect={handleSelect}
           />
         </ScrollShadow>
-        <Spacer y={2} />
+        <Spacer y={8} />
       </div>
 
       <div

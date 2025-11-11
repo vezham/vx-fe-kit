@@ -12,26 +12,38 @@ export const sectionItems: SidebarItem[] = [
         href: '/reports/overview',
         icon: 'solar:home-2-linear',
         title: 'Overview'
-      },
-      {
-        key: 'chartofaccounts',
-        href: '/reports/chartofaccounts',
-        icon: 'solar:widget-2-outline',
-        title: 'Chart of Accounts',
-        endContent: (
-          <Icon
-            className="text-default-400"
-            icon="solar:add-circle-line-duotone"
-            width={24}
-          />
-        )
       }
     ]
   },
   {
-    key: 'journalledger',
-    title: 'Journal Ledgers',
+    key: 'financial-performance',
+    title: 'Financial Performance',
     items: [
+      {
+        key: 'chartofaccounts',
+        href: '/reports/chartofaccounts',
+        icon: 'solar:widget-2-outline',
+        title: 'Chart of Accounts'
+      },
+      {
+        key: 'journal_entries',
+        href: '/reports/journal_entries',
+        title: 'Journal Entries',
+        icon: 'solar:pie-chart-2-outline'
+      },
+      {
+        key: 'general_ledger',
+        href: '/reports/general_ledger',
+        title: 'General Ledger',
+        icon: 'solar:pie-chart-2-outline'
+      },
+      {
+        key: 'trial_balance',
+        href: '/reports/trialbalance',
+        title: 'Trial Balance',
+        icon: 'solar:pie-chart-2-outline'
+      },
+
       {
         key: 'profit_loss',
         href: '/reports/profitloss',
@@ -43,81 +55,218 @@ export const sectionItems: SidebarItem[] = [
         href: '/reports/balancesheet',
         icon: 'solar:chart-outline',
         title: 'Balance Sheet'
-      }
-    ]
-  },
-  {
-    key: 'statements',
-    title: 'Statements',
-    items: [
+      },
       {
-        key: 'cashflow',
+        key: 'cashflow_statement',
         href: '/reports/cashflow',
-        icon: 'solar:home-2-linear',
-        title: 'Cash Flow'
-      },
-      {
-        key: 'credits',
-        href: '/reports/nexus',
-        icon: 'solar:widget-2-outline',
-        title: 'Credits',
-        endContent: (
-          <Icon
-            className="text-default-400"
-            icon="solar:add-circle-line-duotone"
-            width={24}
-          />
-        )
+        icon: 'solar:chart-outline',
+        title: 'CashFlow Statement'
       }
     ]
   },
   {
-    key: 'charts',
-    title: 'Charts',
+    key: 'analytics',
+    title: 'Analytics',
     items: [
       {
-        key: 'current',
-        href: '/reports/current',
+        key: 'sales',
+        href: '/reports/sales',
         icon: 'solar:home-2-linear',
-        title: 'Current'
+        title: 'Sales',
+
+        items: [
+          {
+            key: 'sales_register',
+            href: '/reports/sales/sales_register',
+            title: 'Sales Register',
+            icon: 'solar:home-2-linear',
+            startContent: (
+              <Icon
+                className="text-default-400"
+                icon="solar:add-circle-line-duotone"
+                width={24}
+              />
+            )
+          },
+          {
+            key: 'customer_report',
+            href: '/reports/sales/customer_report',
+            title: 'Customer Report',
+            icon: 'solar:home-2-linear',
+            startContent: (
+              <Icon
+                className="text-default-400"
+                icon="solar:add-circle-line-duotone"
+                width={24}
+              />
+            )
+          },
+          {
+            key: 'salesperson_report',
+            href: '/reports/sales/sales_report',
+            title: 'SalesPerson Report',
+            icon: 'solar:home-2-linear',
+            startContent: (
+              <Icon
+                className="text-default-400"
+                icon="solar:add-circle-line-duotone"
+                width={24}
+              />
+            )
+          },
+          {
+            key: 'itemwise_report',
+            href: '/reports/sales/itemwise_report',
+            title: 'Itemwise Report',
+            icon: 'solar:home-2-linear',
+            startContent: (
+              <Icon
+                className="text-default-400"
+                icon="solar:add-circle-line-duotone"
+                width={24}
+              />
+            )
+          }
+        ]
       },
       {
-        key: 'savings',
-        href: '/reports/savings',
+        key: 'purchase',
+        href: '/reports/purchase',
         icon: 'solar:widget-2-outline',
-        title: 'Savings',
+        title: 'Purchase',
         endContent: (
           <Icon
             className="text-default-400"
             icon="solar:add-circle-line-duotone"
             width={24}
           />
-        )
+        ),
+        items: [
+          {
+            key: 'purchase_reports',
+            href: '/reports/purchase/purchase_reports',
+            title: 'Purchase Reports',
+            icon: 'solar:add-circle-line-duotone',
+            startContent: (
+              <Icon
+                className="text-default-400"
+                icon="solar:add-circle-line-duotone"
+                width={24}
+              />
+            )
+          },
+          {
+            key: 'supplier_reports',
+            href: '/reports/purchase/supplier_reports',
+            title: 'Supplier Reports',
+            icon: 'solar:add-circle-line-duotone',
+            startContent: (
+              <Icon
+                className="text-default-400"
+                icon="solar:add-circle-line-duotone"
+                width={24}
+              />
+            )
+          },
+          {
+            key: 'purchaser_reports',
+            href: '/reports/purchase/purchaser_reports',
+            title: 'Purchaser Reports',
+            icon: 'solar:add-circle-line-duotone',
+            startContent: (
+              <Icon
+                className="text-default-400"
+                icon="solar:add-circle-line-duotone"
+                width={24}
+              />
+            )
+          },
+          {
+            key: 'itemwise_reports',
+            href: '/reports/purchase/itemwise_reports',
+            title: 'Itemwise Reports',
+            icon: 'solar:add-circle-line-duotone',
+            startContent: (
+              <Icon
+                className="text-default-400"
+                icon="solar:add-circle-line-duotone"
+                width={24}
+              />
+            )
+          }
+        ]
+      },
+      {
+        key: 'project',
+        title: 'Project',
+        href: '/reports/project',
+        icon: 'solar:pie-chart-2-outline'
+      },
+      {
+        key: 'inventory',
+        href: '/reports/inventory',
+        icon: 'solar:home-2-linear',
+        title: 'Inventory',
+        items: [
+          {
+            key: 'itemwisereport',
+            href: '/reports/inventory/itemwise',
+            title: 'Itemwise Reports',
+            icon: 'solar:add-circle-line-duotone',
+            startContent: (
+              <Icon
+                className="text-default-400"
+                icon="solar:add-circle-line-duotone"
+                width={24}
+              />
+            )
+          },
+          {
+            key: 'itemspurchase_reports',
+            href: '/reports/inventory/itemspurchase',
+            title: 'ItemsPurchase Reports',
+            icon: 'solar:add-circle-line-duotone',
+            startContent: (
+              <Icon
+                className="text-default-400"
+                icon="solar:add-circle-line-duotone"
+                width={24}
+              />
+            )
+          },
+          {
+            key: 'itemssold_reports',
+            href: '/reports/inventory/itemssold',
+            title: 'ItemsSold Reports',
+            icon: 'solar:add-circle-line-duotone',
+            startContent: (
+              <Icon
+                className="text-default-400"
+                icon="solar:add-circle-line-duotone"
+                width={24}
+              />
+            )
+          }
+        ]
       }
     ]
   },
+
   {
-    key: 'invoices',
-    title: 'Invoices',
+    key: 'taxation',
+    title: 'Taxation',
     items: [
       {
-        key: 'transactions',
-        href: '/reports/transactions',
+        key: 'gst_reports',
+        href: '/reports/gst',
         icon: 'solar:home-2-linear',
-        title: 'Transactions'
+        title: 'GST Reports'
       },
       {
-        key: 'getures',
-        href: '/reports/getures',
+        key: 'vat_reports',
+        href: '/reports/vat',
         icon: 'solar:widget-2-outline',
-        title: 'Getures',
-        endContent: (
-          <Icon
-            className="text-default-400"
-            icon="solar:add-circle-line-duotone"
-            width={24}
-          />
-        )
+        title: 'VAT Reports'
       }
     ]
   }

@@ -18,11 +18,23 @@ const SettingsLazyRouteImport = createFileRoute('/settings')()
 const ReportsLazyRouteImport = createFileRoute('/reports')()
 const BooksLazyRouteImport = createFileRoute('/books')()
 const IndexLazyRouteImport = createFileRoute('/')()
+const ReportsVatLazyRouteImport = createFileRoute('/reports/vat')()
+const ReportsTrialbalanceLazyRouteImport = createFileRoute(
+  '/reports/trialbalance',
+)()
+const ReportsProjectLazyRouteImport = createFileRoute('/reports/project')()
 const ReportsProfitlossLazyRouteImport = createFileRoute(
   '/reports/profitloss',
 )()
 const ReportsOverviewLazyRouteImport = createFileRoute('/reports/overview')()
 const ReportsNexusLazyRouteImport = createFileRoute('/reports/nexus')()
+const ReportsJournal_entriesLazyRouteImport = createFileRoute(
+  '/reports/journal_entries',
+)()
+const ReportsGstLazyRouteImport = createFileRoute('/reports/gst')()
+const ReportsGeneral_ledgerLazyRouteImport = createFileRoute(
+  '/reports/general_ledger',
+)()
 const ReportsChartofaccountsLazyRouteImport = createFileRoute(
   '/reports/chartofaccounts',
 )()
@@ -33,6 +45,39 @@ const ReportsBalancesheetLazyRouteImport = createFileRoute(
 const BooksSalesLazyRouteImport = createFileRoute('/books/sales')()
 const BooksPurchaseLazyRouteImport = createFileRoute('/books/purchase')()
 const BooksOverviewLazyRouteImport = createFileRoute('/books/overview')()
+const ReportsSalesSales_reportLazyRouteImport = createFileRoute(
+  '/reports/sales/sales_report',
+)()
+const ReportsSalesSales_registerLazyRouteImport = createFileRoute(
+  '/reports/sales/sales_register',
+)()
+const ReportsSalesItemwise_reportLazyRouteImport = createFileRoute(
+  '/reports/sales/itemwise_report',
+)()
+const ReportsSalesCustomer_reportLazyRouteImport = createFileRoute(
+  '/reports/sales/customer_report',
+)()
+const ReportsPurchaseSupplier_reportsLazyRouteImport = createFileRoute(
+  '/reports/purchase/supplier_reports',
+)()
+const ReportsPurchasePurchaser_reportsLazyRouteImport = createFileRoute(
+  '/reports/purchase/purchaser_reports',
+)()
+const ReportsPurchasePurchase_reportsLazyRouteImport = createFileRoute(
+  '/reports/purchase/purchase_reports',
+)()
+const ReportsPurchaseItemwise_reportsLazyRouteImport = createFileRoute(
+  '/reports/purchase/itemwise_reports',
+)()
+const ReportsInventoryItemwiseLazyRouteImport = createFileRoute(
+  '/reports/inventory/itemwise',
+)()
+const ReportsInventoryItemssoldLazyRouteImport = createFileRoute(
+  '/reports/inventory/itemssold',
+)()
+const ReportsInventoryItemspurchaseLazyRouteImport = createFileRoute(
+  '/reports/inventory/itemspurchase',
+)()
 
 const SettingsLazyRoute = SettingsLazyRouteImport.update({
   id: '/settings',
@@ -64,6 +109,25 @@ const BooksIndexRoute = BooksIndexRouteImport.update({
   path: '/',
   getParentRoute: () => BooksLazyRoute,
 } as any)
+const ReportsVatLazyRoute = ReportsVatLazyRouteImport.update({
+  id: '/vat',
+  path: '/vat',
+  getParentRoute: () => ReportsLazyRoute,
+} as any).lazy(() => import('./routes/reports/vat.lazy').then((d) => d.Route))
+const ReportsTrialbalanceLazyRoute = ReportsTrialbalanceLazyRouteImport.update({
+  id: '/trialbalance',
+  path: '/trialbalance',
+  getParentRoute: () => ReportsLazyRoute,
+} as any).lazy(() =>
+  import('./routes/reports/trialbalance.lazy').then((d) => d.Route),
+)
+const ReportsProjectLazyRoute = ReportsProjectLazyRouteImport.update({
+  id: '/project',
+  path: '/project',
+  getParentRoute: () => ReportsLazyRoute,
+} as any).lazy(() =>
+  import('./routes/reports/project.lazy').then((d) => d.Route),
+)
 const ReportsProfitlossLazyRoute = ReportsProfitlossLazyRouteImport.update({
   id: '/profitloss',
   path: '/profitloss',
@@ -83,6 +147,27 @@ const ReportsNexusLazyRoute = ReportsNexusLazyRouteImport.update({
   path: '/nexus',
   getParentRoute: () => ReportsLazyRoute,
 } as any).lazy(() => import('./routes/reports/nexus.lazy').then((d) => d.Route))
+const ReportsJournal_entriesLazyRoute =
+  ReportsJournal_entriesLazyRouteImport.update({
+    id: '/journal_entries',
+    path: '/journal_entries',
+    getParentRoute: () => ReportsLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/reports/journal_entries.lazy').then((d) => d.Route),
+  )
+const ReportsGstLazyRoute = ReportsGstLazyRouteImport.update({
+  id: '/gst',
+  path: '/gst',
+  getParentRoute: () => ReportsLazyRoute,
+} as any).lazy(() => import('./routes/reports/gst.lazy').then((d) => d.Route))
+const ReportsGeneral_ledgerLazyRoute =
+  ReportsGeneral_ledgerLazyRouteImport.update({
+    id: '/general_ledger',
+    path: '/general_ledger',
+    getParentRoute: () => ReportsLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/reports/general_ledger.lazy').then((d) => d.Route),
+  )
 const ReportsChartofaccountsLazyRoute =
   ReportsChartofaccountsLazyRouteImport.update({
     id: '/chartofaccounts',
@@ -124,6 +209,104 @@ const BooksOverviewLazyRoute = BooksOverviewLazyRouteImport.update({
 } as any).lazy(() =>
   import('./routes/books/overview.lazy').then((d) => d.Route),
 )
+const ReportsSalesSales_reportLazyRoute =
+  ReportsSalesSales_reportLazyRouteImport.update({
+    id: '/sales/sales_report',
+    path: '/sales/sales_report',
+    getParentRoute: () => ReportsLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/reports/sales/sales_report.lazy').then((d) => d.Route),
+  )
+const ReportsSalesSales_registerLazyRoute =
+  ReportsSalesSales_registerLazyRouteImport.update({
+    id: '/sales/sales_register',
+    path: '/sales/sales_register',
+    getParentRoute: () => ReportsLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/reports/sales/sales_register.lazy').then((d) => d.Route),
+  )
+const ReportsSalesItemwise_reportLazyRoute =
+  ReportsSalesItemwise_reportLazyRouteImport.update({
+    id: '/sales/itemwise_report',
+    path: '/sales/itemwise_report',
+    getParentRoute: () => ReportsLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/reports/sales/itemwise_report.lazy').then((d) => d.Route),
+  )
+const ReportsSalesCustomer_reportLazyRoute =
+  ReportsSalesCustomer_reportLazyRouteImport.update({
+    id: '/sales/customer_report',
+    path: '/sales/customer_report',
+    getParentRoute: () => ReportsLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/reports/sales/customer_report.lazy').then((d) => d.Route),
+  )
+const ReportsPurchaseSupplier_reportsLazyRoute =
+  ReportsPurchaseSupplier_reportsLazyRouteImport.update({
+    id: '/purchase/supplier_reports',
+    path: '/purchase/supplier_reports',
+    getParentRoute: () => ReportsLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/reports/purchase/supplier_reports.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const ReportsPurchasePurchaser_reportsLazyRoute =
+  ReportsPurchasePurchaser_reportsLazyRouteImport.update({
+    id: '/purchase/purchaser_reports',
+    path: '/purchase/purchaser_reports',
+    getParentRoute: () => ReportsLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/reports/purchase/purchaser_reports.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const ReportsPurchasePurchase_reportsLazyRoute =
+  ReportsPurchasePurchase_reportsLazyRouteImport.update({
+    id: '/purchase/purchase_reports',
+    path: '/purchase/purchase_reports',
+    getParentRoute: () => ReportsLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/reports/purchase/purchase_reports.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const ReportsPurchaseItemwise_reportsLazyRoute =
+  ReportsPurchaseItemwise_reportsLazyRouteImport.update({
+    id: '/purchase/itemwise_reports',
+    path: '/purchase/itemwise_reports',
+    getParentRoute: () => ReportsLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/reports/purchase/itemwise_reports.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const ReportsInventoryItemwiseLazyRoute =
+  ReportsInventoryItemwiseLazyRouteImport.update({
+    id: '/inventory/itemwise',
+    path: '/inventory/itemwise',
+    getParentRoute: () => ReportsLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/reports/inventory/itemwise.lazy').then((d) => d.Route),
+  )
+const ReportsInventoryItemssoldLazyRoute =
+  ReportsInventoryItemssoldLazyRouteImport.update({
+    id: '/inventory/itemssold',
+    path: '/inventory/itemssold',
+    getParentRoute: () => ReportsLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/reports/inventory/itemssold.lazy').then((d) => d.Route),
+  )
+const ReportsInventoryItemspurchaseLazyRoute =
+  ReportsInventoryItemspurchaseLazyRouteImport.update({
+    id: '/inventory/itemspurchase',
+    path: '/inventory/itemspurchase',
+    getParentRoute: () => ReportsLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/reports/inventory/itemspurchase.lazy').then(
+      (d) => d.Route,
+    ),
+  )
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
@@ -136,11 +319,28 @@ export interface FileRoutesByFullPath {
   '/reports/balancesheet': typeof ReportsBalancesheetLazyRoute
   '/reports/cashflow': typeof ReportsCashflowLazyRoute
   '/reports/chartofaccounts': typeof ReportsChartofaccountsLazyRoute
+  '/reports/general_ledger': typeof ReportsGeneral_ledgerLazyRoute
+  '/reports/gst': typeof ReportsGstLazyRoute
+  '/reports/journal_entries': typeof ReportsJournal_entriesLazyRoute
   '/reports/nexus': typeof ReportsNexusLazyRoute
   '/reports/overview': typeof ReportsOverviewLazyRoute
   '/reports/profitloss': typeof ReportsProfitlossLazyRoute
+  '/reports/project': typeof ReportsProjectLazyRoute
+  '/reports/trialbalance': typeof ReportsTrialbalanceLazyRoute
+  '/reports/vat': typeof ReportsVatLazyRoute
   '/books/': typeof BooksIndexRoute
   '/reports/': typeof ReportsIndexRoute
+  '/reports/inventory/itemspurchase': typeof ReportsInventoryItemspurchaseLazyRoute
+  '/reports/inventory/itemssold': typeof ReportsInventoryItemssoldLazyRoute
+  '/reports/inventory/itemwise': typeof ReportsInventoryItemwiseLazyRoute
+  '/reports/purchase/itemwise_reports': typeof ReportsPurchaseItemwise_reportsLazyRoute
+  '/reports/purchase/purchase_reports': typeof ReportsPurchasePurchase_reportsLazyRoute
+  '/reports/purchase/purchaser_reports': typeof ReportsPurchasePurchaser_reportsLazyRoute
+  '/reports/purchase/supplier_reports': typeof ReportsPurchaseSupplier_reportsLazyRoute
+  '/reports/sales/customer_report': typeof ReportsSalesCustomer_reportLazyRoute
+  '/reports/sales/itemwise_report': typeof ReportsSalesItemwise_reportLazyRoute
+  '/reports/sales/sales_register': typeof ReportsSalesSales_registerLazyRoute
+  '/reports/sales/sales_report': typeof ReportsSalesSales_reportLazyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
@@ -151,11 +351,28 @@ export interface FileRoutesByTo {
   '/reports/balancesheet': typeof ReportsBalancesheetLazyRoute
   '/reports/cashflow': typeof ReportsCashflowLazyRoute
   '/reports/chartofaccounts': typeof ReportsChartofaccountsLazyRoute
+  '/reports/general_ledger': typeof ReportsGeneral_ledgerLazyRoute
+  '/reports/gst': typeof ReportsGstLazyRoute
+  '/reports/journal_entries': typeof ReportsJournal_entriesLazyRoute
   '/reports/nexus': typeof ReportsNexusLazyRoute
   '/reports/overview': typeof ReportsOverviewLazyRoute
   '/reports/profitloss': typeof ReportsProfitlossLazyRoute
+  '/reports/project': typeof ReportsProjectLazyRoute
+  '/reports/trialbalance': typeof ReportsTrialbalanceLazyRoute
+  '/reports/vat': typeof ReportsVatLazyRoute
   '/books': typeof BooksIndexRoute
   '/reports': typeof ReportsIndexRoute
+  '/reports/inventory/itemspurchase': typeof ReportsInventoryItemspurchaseLazyRoute
+  '/reports/inventory/itemssold': typeof ReportsInventoryItemssoldLazyRoute
+  '/reports/inventory/itemwise': typeof ReportsInventoryItemwiseLazyRoute
+  '/reports/purchase/itemwise_reports': typeof ReportsPurchaseItemwise_reportsLazyRoute
+  '/reports/purchase/purchase_reports': typeof ReportsPurchasePurchase_reportsLazyRoute
+  '/reports/purchase/purchaser_reports': typeof ReportsPurchasePurchaser_reportsLazyRoute
+  '/reports/purchase/supplier_reports': typeof ReportsPurchaseSupplier_reportsLazyRoute
+  '/reports/sales/customer_report': typeof ReportsSalesCustomer_reportLazyRoute
+  '/reports/sales/itemwise_report': typeof ReportsSalesItemwise_reportLazyRoute
+  '/reports/sales/sales_register': typeof ReportsSalesSales_registerLazyRoute
+  '/reports/sales/sales_report': typeof ReportsSalesSales_reportLazyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -169,11 +386,28 @@ export interface FileRoutesById {
   '/reports/balancesheet': typeof ReportsBalancesheetLazyRoute
   '/reports/cashflow': typeof ReportsCashflowLazyRoute
   '/reports/chartofaccounts': typeof ReportsChartofaccountsLazyRoute
+  '/reports/general_ledger': typeof ReportsGeneral_ledgerLazyRoute
+  '/reports/gst': typeof ReportsGstLazyRoute
+  '/reports/journal_entries': typeof ReportsJournal_entriesLazyRoute
   '/reports/nexus': typeof ReportsNexusLazyRoute
   '/reports/overview': typeof ReportsOverviewLazyRoute
   '/reports/profitloss': typeof ReportsProfitlossLazyRoute
+  '/reports/project': typeof ReportsProjectLazyRoute
+  '/reports/trialbalance': typeof ReportsTrialbalanceLazyRoute
+  '/reports/vat': typeof ReportsVatLazyRoute
   '/books/': typeof BooksIndexRoute
   '/reports/': typeof ReportsIndexRoute
+  '/reports/inventory/itemspurchase': typeof ReportsInventoryItemspurchaseLazyRoute
+  '/reports/inventory/itemssold': typeof ReportsInventoryItemssoldLazyRoute
+  '/reports/inventory/itemwise': typeof ReportsInventoryItemwiseLazyRoute
+  '/reports/purchase/itemwise_reports': typeof ReportsPurchaseItemwise_reportsLazyRoute
+  '/reports/purchase/purchase_reports': typeof ReportsPurchasePurchase_reportsLazyRoute
+  '/reports/purchase/purchaser_reports': typeof ReportsPurchasePurchaser_reportsLazyRoute
+  '/reports/purchase/supplier_reports': typeof ReportsPurchaseSupplier_reportsLazyRoute
+  '/reports/sales/customer_report': typeof ReportsSalesCustomer_reportLazyRoute
+  '/reports/sales/itemwise_report': typeof ReportsSalesItemwise_reportLazyRoute
+  '/reports/sales/sales_register': typeof ReportsSalesSales_registerLazyRoute
+  '/reports/sales/sales_report': typeof ReportsSalesSales_reportLazyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -188,11 +422,28 @@ export interface FileRouteTypes {
     | '/reports/balancesheet'
     | '/reports/cashflow'
     | '/reports/chartofaccounts'
+    | '/reports/general_ledger'
+    | '/reports/gst'
+    | '/reports/journal_entries'
     | '/reports/nexus'
     | '/reports/overview'
     | '/reports/profitloss'
+    | '/reports/project'
+    | '/reports/trialbalance'
+    | '/reports/vat'
     | '/books/'
     | '/reports/'
+    | '/reports/inventory/itemspurchase'
+    | '/reports/inventory/itemssold'
+    | '/reports/inventory/itemwise'
+    | '/reports/purchase/itemwise_reports'
+    | '/reports/purchase/purchase_reports'
+    | '/reports/purchase/purchaser_reports'
+    | '/reports/purchase/supplier_reports'
+    | '/reports/sales/customer_report'
+    | '/reports/sales/itemwise_report'
+    | '/reports/sales/sales_register'
+    | '/reports/sales/sales_report'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -203,11 +454,28 @@ export interface FileRouteTypes {
     | '/reports/balancesheet'
     | '/reports/cashflow'
     | '/reports/chartofaccounts'
+    | '/reports/general_ledger'
+    | '/reports/gst'
+    | '/reports/journal_entries'
     | '/reports/nexus'
     | '/reports/overview'
     | '/reports/profitloss'
+    | '/reports/project'
+    | '/reports/trialbalance'
+    | '/reports/vat'
     | '/books'
     | '/reports'
+    | '/reports/inventory/itemspurchase'
+    | '/reports/inventory/itemssold'
+    | '/reports/inventory/itemwise'
+    | '/reports/purchase/itemwise_reports'
+    | '/reports/purchase/purchase_reports'
+    | '/reports/purchase/purchaser_reports'
+    | '/reports/purchase/supplier_reports'
+    | '/reports/sales/customer_report'
+    | '/reports/sales/itemwise_report'
+    | '/reports/sales/sales_register'
+    | '/reports/sales/sales_report'
   id:
     | '__root__'
     | '/'
@@ -220,11 +488,28 @@ export interface FileRouteTypes {
     | '/reports/balancesheet'
     | '/reports/cashflow'
     | '/reports/chartofaccounts'
+    | '/reports/general_ledger'
+    | '/reports/gst'
+    | '/reports/journal_entries'
     | '/reports/nexus'
     | '/reports/overview'
     | '/reports/profitloss'
+    | '/reports/project'
+    | '/reports/trialbalance'
+    | '/reports/vat'
     | '/books/'
     | '/reports/'
+    | '/reports/inventory/itemspurchase'
+    | '/reports/inventory/itemssold'
+    | '/reports/inventory/itemwise'
+    | '/reports/purchase/itemwise_reports'
+    | '/reports/purchase/purchase_reports'
+    | '/reports/purchase/purchaser_reports'
+    | '/reports/purchase/supplier_reports'
+    | '/reports/sales/customer_report'
+    | '/reports/sales/itemwise_report'
+    | '/reports/sales/sales_register'
+    | '/reports/sales/sales_report'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -278,6 +563,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BooksIndexRouteImport
       parentRoute: typeof BooksLazyRoute
     }
+    '/reports/vat': {
+      id: '/reports/vat'
+      path: '/vat'
+      fullPath: '/reports/vat'
+      preLoaderRoute: typeof ReportsVatLazyRouteImport
+      parentRoute: typeof ReportsLazyRoute
+    }
+    '/reports/trialbalance': {
+      id: '/reports/trialbalance'
+      path: '/trialbalance'
+      fullPath: '/reports/trialbalance'
+      preLoaderRoute: typeof ReportsTrialbalanceLazyRouteImport
+      parentRoute: typeof ReportsLazyRoute
+    }
+    '/reports/project': {
+      id: '/reports/project'
+      path: '/project'
+      fullPath: '/reports/project'
+      preLoaderRoute: typeof ReportsProjectLazyRouteImport
+      parentRoute: typeof ReportsLazyRoute
+    }
     '/reports/profitloss': {
       id: '/reports/profitloss'
       path: '/profitloss'
@@ -297,6 +603,27 @@ declare module '@tanstack/react-router' {
       path: '/nexus'
       fullPath: '/reports/nexus'
       preLoaderRoute: typeof ReportsNexusLazyRouteImport
+      parentRoute: typeof ReportsLazyRoute
+    }
+    '/reports/journal_entries': {
+      id: '/reports/journal_entries'
+      path: '/journal_entries'
+      fullPath: '/reports/journal_entries'
+      preLoaderRoute: typeof ReportsJournal_entriesLazyRouteImport
+      parentRoute: typeof ReportsLazyRoute
+    }
+    '/reports/gst': {
+      id: '/reports/gst'
+      path: '/gst'
+      fullPath: '/reports/gst'
+      preLoaderRoute: typeof ReportsGstLazyRouteImport
+      parentRoute: typeof ReportsLazyRoute
+    }
+    '/reports/general_ledger': {
+      id: '/reports/general_ledger'
+      path: '/general_ledger'
+      fullPath: '/reports/general_ledger'
+      preLoaderRoute: typeof ReportsGeneral_ledgerLazyRouteImport
       parentRoute: typeof ReportsLazyRoute
     }
     '/reports/chartofaccounts': {
@@ -341,6 +668,83 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BooksOverviewLazyRouteImport
       parentRoute: typeof BooksLazyRoute
     }
+    '/reports/sales/sales_report': {
+      id: '/reports/sales/sales_report'
+      path: '/sales/sales_report'
+      fullPath: '/reports/sales/sales_report'
+      preLoaderRoute: typeof ReportsSalesSales_reportLazyRouteImport
+      parentRoute: typeof ReportsLazyRoute
+    }
+    '/reports/sales/sales_register': {
+      id: '/reports/sales/sales_register'
+      path: '/sales/sales_register'
+      fullPath: '/reports/sales/sales_register'
+      preLoaderRoute: typeof ReportsSalesSales_registerLazyRouteImport
+      parentRoute: typeof ReportsLazyRoute
+    }
+    '/reports/sales/itemwise_report': {
+      id: '/reports/sales/itemwise_report'
+      path: '/sales/itemwise_report'
+      fullPath: '/reports/sales/itemwise_report'
+      preLoaderRoute: typeof ReportsSalesItemwise_reportLazyRouteImport
+      parentRoute: typeof ReportsLazyRoute
+    }
+    '/reports/sales/customer_report': {
+      id: '/reports/sales/customer_report'
+      path: '/sales/customer_report'
+      fullPath: '/reports/sales/customer_report'
+      preLoaderRoute: typeof ReportsSalesCustomer_reportLazyRouteImport
+      parentRoute: typeof ReportsLazyRoute
+    }
+    '/reports/purchase/supplier_reports': {
+      id: '/reports/purchase/supplier_reports'
+      path: '/purchase/supplier_reports'
+      fullPath: '/reports/purchase/supplier_reports'
+      preLoaderRoute: typeof ReportsPurchaseSupplier_reportsLazyRouteImport
+      parentRoute: typeof ReportsLazyRoute
+    }
+    '/reports/purchase/purchaser_reports': {
+      id: '/reports/purchase/purchaser_reports'
+      path: '/purchase/purchaser_reports'
+      fullPath: '/reports/purchase/purchaser_reports'
+      preLoaderRoute: typeof ReportsPurchasePurchaser_reportsLazyRouteImport
+      parentRoute: typeof ReportsLazyRoute
+    }
+    '/reports/purchase/purchase_reports': {
+      id: '/reports/purchase/purchase_reports'
+      path: '/purchase/purchase_reports'
+      fullPath: '/reports/purchase/purchase_reports'
+      preLoaderRoute: typeof ReportsPurchasePurchase_reportsLazyRouteImport
+      parentRoute: typeof ReportsLazyRoute
+    }
+    '/reports/purchase/itemwise_reports': {
+      id: '/reports/purchase/itemwise_reports'
+      path: '/purchase/itemwise_reports'
+      fullPath: '/reports/purchase/itemwise_reports'
+      preLoaderRoute: typeof ReportsPurchaseItemwise_reportsLazyRouteImport
+      parentRoute: typeof ReportsLazyRoute
+    }
+    '/reports/inventory/itemwise': {
+      id: '/reports/inventory/itemwise'
+      path: '/inventory/itemwise'
+      fullPath: '/reports/inventory/itemwise'
+      preLoaderRoute: typeof ReportsInventoryItemwiseLazyRouteImport
+      parentRoute: typeof ReportsLazyRoute
+    }
+    '/reports/inventory/itemssold': {
+      id: '/reports/inventory/itemssold'
+      path: '/inventory/itemssold'
+      fullPath: '/reports/inventory/itemssold'
+      preLoaderRoute: typeof ReportsInventoryItemssoldLazyRouteImport
+      parentRoute: typeof ReportsLazyRoute
+    }
+    '/reports/inventory/itemspurchase': {
+      id: '/reports/inventory/itemspurchase'
+      path: '/inventory/itemspurchase'
+      fullPath: '/reports/inventory/itemspurchase'
+      preLoaderRoute: typeof ReportsInventoryItemspurchaseLazyRouteImport
+      parentRoute: typeof ReportsLazyRoute
+    }
   }
 }
 
@@ -366,20 +770,59 @@ interface ReportsLazyRouteChildren {
   ReportsBalancesheetLazyRoute: typeof ReportsBalancesheetLazyRoute
   ReportsCashflowLazyRoute: typeof ReportsCashflowLazyRoute
   ReportsChartofaccountsLazyRoute: typeof ReportsChartofaccountsLazyRoute
+  ReportsGeneral_ledgerLazyRoute: typeof ReportsGeneral_ledgerLazyRoute
+  ReportsGstLazyRoute: typeof ReportsGstLazyRoute
+  ReportsJournal_entriesLazyRoute: typeof ReportsJournal_entriesLazyRoute
   ReportsNexusLazyRoute: typeof ReportsNexusLazyRoute
   ReportsOverviewLazyRoute: typeof ReportsOverviewLazyRoute
   ReportsProfitlossLazyRoute: typeof ReportsProfitlossLazyRoute
+  ReportsProjectLazyRoute: typeof ReportsProjectLazyRoute
+  ReportsTrialbalanceLazyRoute: typeof ReportsTrialbalanceLazyRoute
+  ReportsVatLazyRoute: typeof ReportsVatLazyRoute
   ReportsIndexRoute: typeof ReportsIndexRoute
+  ReportsInventoryItemspurchaseLazyRoute: typeof ReportsInventoryItemspurchaseLazyRoute
+  ReportsInventoryItemssoldLazyRoute: typeof ReportsInventoryItemssoldLazyRoute
+  ReportsInventoryItemwiseLazyRoute: typeof ReportsInventoryItemwiseLazyRoute
+  ReportsPurchaseItemwise_reportsLazyRoute: typeof ReportsPurchaseItemwise_reportsLazyRoute
+  ReportsPurchasePurchase_reportsLazyRoute: typeof ReportsPurchasePurchase_reportsLazyRoute
+  ReportsPurchasePurchaser_reportsLazyRoute: typeof ReportsPurchasePurchaser_reportsLazyRoute
+  ReportsPurchaseSupplier_reportsLazyRoute: typeof ReportsPurchaseSupplier_reportsLazyRoute
+  ReportsSalesCustomer_reportLazyRoute: typeof ReportsSalesCustomer_reportLazyRoute
+  ReportsSalesItemwise_reportLazyRoute: typeof ReportsSalesItemwise_reportLazyRoute
+  ReportsSalesSales_registerLazyRoute: typeof ReportsSalesSales_registerLazyRoute
+  ReportsSalesSales_reportLazyRoute: typeof ReportsSalesSales_reportLazyRoute
 }
 
 const ReportsLazyRouteChildren: ReportsLazyRouteChildren = {
   ReportsBalancesheetLazyRoute: ReportsBalancesheetLazyRoute,
   ReportsCashflowLazyRoute: ReportsCashflowLazyRoute,
   ReportsChartofaccountsLazyRoute: ReportsChartofaccountsLazyRoute,
+  ReportsGeneral_ledgerLazyRoute: ReportsGeneral_ledgerLazyRoute,
+  ReportsGstLazyRoute: ReportsGstLazyRoute,
+  ReportsJournal_entriesLazyRoute: ReportsJournal_entriesLazyRoute,
   ReportsNexusLazyRoute: ReportsNexusLazyRoute,
   ReportsOverviewLazyRoute: ReportsOverviewLazyRoute,
   ReportsProfitlossLazyRoute: ReportsProfitlossLazyRoute,
+  ReportsProjectLazyRoute: ReportsProjectLazyRoute,
+  ReportsTrialbalanceLazyRoute: ReportsTrialbalanceLazyRoute,
+  ReportsVatLazyRoute: ReportsVatLazyRoute,
   ReportsIndexRoute: ReportsIndexRoute,
+  ReportsInventoryItemspurchaseLazyRoute:
+    ReportsInventoryItemspurchaseLazyRoute,
+  ReportsInventoryItemssoldLazyRoute: ReportsInventoryItemssoldLazyRoute,
+  ReportsInventoryItemwiseLazyRoute: ReportsInventoryItemwiseLazyRoute,
+  ReportsPurchaseItemwise_reportsLazyRoute:
+    ReportsPurchaseItemwise_reportsLazyRoute,
+  ReportsPurchasePurchase_reportsLazyRoute:
+    ReportsPurchasePurchase_reportsLazyRoute,
+  ReportsPurchasePurchaser_reportsLazyRoute:
+    ReportsPurchasePurchaser_reportsLazyRoute,
+  ReportsPurchaseSupplier_reportsLazyRoute:
+    ReportsPurchaseSupplier_reportsLazyRoute,
+  ReportsSalesCustomer_reportLazyRoute: ReportsSalesCustomer_reportLazyRoute,
+  ReportsSalesItemwise_reportLazyRoute: ReportsSalesItemwise_reportLazyRoute,
+  ReportsSalesSales_registerLazyRoute: ReportsSalesSales_registerLazyRoute,
+  ReportsSalesSales_reportLazyRoute: ReportsSalesSales_reportLazyRoute,
 }
 
 const ReportsLazyRouteWithChildren = ReportsLazyRoute._addFileChildren(
