@@ -72,62 +72,7 @@ export const sectionItems: SidebarItem[] = [
         key: 'sales',
         href: '/reports/sales',
         icon: 'solar:home-2-linear',
-        title: 'Sales',
-
-        items: [
-          {
-            key: 'sales_register',
-            href: '/reports/sales/sales_register',
-            title: 'Sales Register',
-            icon: 'solar:home-2-linear',
-            startContent: (
-              <Icon
-                className="text-default-400"
-                icon="solar:add-circle-line-duotone"
-                width={24}
-              />
-            )
-          },
-          {
-            key: 'customer_report',
-            href: '/reports/sales/customer_report',
-            title: 'Customer Report',
-            icon: 'solar:home-2-linear',
-            startContent: (
-              <Icon
-                className="text-default-400"
-                icon="solar:add-circle-line-duotone"
-                width={24}
-              />
-            )
-          },
-          {
-            key: 'salesperson_report',
-            href: '/reports/sales/sales_report',
-            title: 'SalesPerson Report',
-            icon: 'solar:home-2-linear',
-            startContent: (
-              <Icon
-                className="text-default-400"
-                icon="solar:add-circle-line-duotone"
-                width={24}
-              />
-            )
-          },
-          {
-            key: 'itemwise_report',
-            href: '/reports/sales/itemwise_report',
-            title: 'Itemwise Report',
-            icon: 'solar:home-2-linear',
-            startContent: (
-              <Icon
-                className="text-default-400"
-                icon="solar:add-circle-line-duotone"
-                width={24}
-              />
-            )
-          }
-        ]
+        title: 'Sales'
       },
       {
         key: 'purchase',
@@ -140,61 +85,7 @@ export const sectionItems: SidebarItem[] = [
             icon="solar:add-circle-line-duotone"
             width={24}
           />
-        ),
-        items: [
-          {
-            key: 'purchase_reports',
-            href: '/reports/purchase/purchase_reports',
-            title: 'Purchase Reports',
-            icon: 'solar:add-circle-line-duotone',
-            startContent: (
-              <Icon
-                className="text-default-400"
-                icon="solar:add-circle-line-duotone"
-                width={24}
-              />
-            )
-          },
-          {
-            key: 'supplier_reports',
-            href: '/reports/purchase/supplier_reports',
-            title: 'Supplier Reports',
-            icon: 'solar:add-circle-line-duotone',
-            startContent: (
-              <Icon
-                className="text-default-400"
-                icon="solar:add-circle-line-duotone"
-                width={24}
-              />
-            )
-          },
-          {
-            key: 'purchaser_reports',
-            href: '/reports/purchase/purchaser_reports',
-            title: 'Purchaser Reports',
-            icon: 'solar:add-circle-line-duotone',
-            startContent: (
-              <Icon
-                className="text-default-400"
-                icon="solar:add-circle-line-duotone"
-                width={24}
-              />
-            )
-          },
-          {
-            key: 'itemwise_reports',
-            href: '/reports/purchase/itemwise_reports',
-            title: 'Itemwise Reports',
-            icon: 'solar:add-circle-line-duotone',
-            startContent: (
-              <Icon
-                className="text-default-400"
-                icon="solar:add-circle-line-duotone"
-                width={24}
-              />
-            )
-          }
-        ]
+        )
       },
       {
         key: 'project',
@@ -206,48 +97,7 @@ export const sectionItems: SidebarItem[] = [
         key: 'inventory',
         href: '/reports/inventory',
         icon: 'solar:home-2-linear',
-        title: 'Inventory',
-        items: [
-          {
-            key: 'itemwisereport',
-            href: '/reports/inventory/itemwise',
-            title: 'Itemwise Reports',
-            icon: 'solar:add-circle-line-duotone',
-            startContent: (
-              <Icon
-                className="text-default-400"
-                icon="solar:add-circle-line-duotone"
-                width={24}
-              />
-            )
-          },
-          {
-            key: 'itemspurchase_reports',
-            href: '/reports/inventory/itemspurchase',
-            title: 'ItemsPurchase Reports',
-            icon: 'solar:add-circle-line-duotone',
-            startContent: (
-              <Icon
-                className="text-default-400"
-                icon="solar:add-circle-line-duotone"
-                width={24}
-              />
-            )
-          },
-          {
-            key: 'itemssold_reports',
-            href: '/reports/inventory/itemssold',
-            title: 'ItemsSold Reports',
-            icon: 'solar:add-circle-line-duotone',
-            startContent: (
-              <Icon
-                className="text-default-400"
-                icon="solar:add-circle-line-duotone"
-                width={24}
-              />
-            )
-          }
-        ]
+        title: 'Inventory'
       }
     ]
   },

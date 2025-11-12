@@ -57,6 +57,7 @@ export default function SettingsLayout({
       component: <IntegrationSetting />
     }
   ]
+
   const visibleTabs = tabItems.filter(item =>
     user.roles.some(role => ROLE_TAB_VISIBILITY[role].includes(item.key as any))
   )
