@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { FC, StrictMode, lazy } from 'react'
 import ReactDOM from 'react-dom/client'
 
+import { VezhamProvider, cn } from '@vezham/react/v2'
 // import { Toaster } from 'sonner'
 
 // import { initWorker } from '@vezham/contracts'
@@ -13,8 +14,6 @@ import ReactDOM from 'react-dom/client'
 // import { cn } from '@vezham/system-utils'
 
 import { useLogger } from '@vezham/use-logger'
-
-import { VezhamProvider, cn } from '@vx-oss/react'
 
 import { APP_NAME, __DEV__ } from '@vx/system-utils'
 

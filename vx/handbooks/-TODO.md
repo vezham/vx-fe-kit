@@ -24,7 +24,6 @@ packages/vx/system-utils/src/lib/env/src/index.ts
 ---
 
 v0x
-@vx-oss -> @vezham
 hsl -> oklch
 store/collections -> action-client + LS, extended impl
 route -> IAM, token global store
