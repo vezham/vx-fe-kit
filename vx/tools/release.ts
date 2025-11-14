@@ -8,6 +8,7 @@ const NS = '[vezham] TOOLS/release'
   const options = await yargs
     .version(false) // don't use the default meaning of version in yargs
     .option('version', {
+      alias: 'v',
       description:
         'Explicit version specifier to use, if overriding conventional commits',
       type: 'string',

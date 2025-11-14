@@ -19,7 +19,7 @@ import Posts from './posts'
 
 const NAMESPACE = 'App/Home'
 
-const app = () => {
+export default () => {
   const [value, setValue] = useState('')
   const isInvalid = value.length > 0 && value.length < 3
 
@@ -104,5 +104,3 @@ const app = () => {
     </>
   )
 }
-
-export default app
