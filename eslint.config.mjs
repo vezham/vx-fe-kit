@@ -44,10 +44,6 @@ export default [
       '@nx/enforce-module-boundaries': [
         'error',
         {
-          // ignoredCircularDependencies: [
-          //   // ['v-atoms', '*']
-          //   // ['v-ions', '*']
-          // ],
           enforceBuildableLibDependency: true,
           allow: ['^.*/eslint(\\.base)?\\.config\\.[cm]?[jt]s$'],
           depConstraints: [
@@ -73,21 +69,23 @@ export default [
     ],
     // Override or add rules here
     rules: {}
-  },
-  // --- wjdlz/NOTE(vx): skipped for internal tools
-  {
-    files: ['vx/scripts/**/*.tsx', 'vx/scripts/**/*.ts'],
-    rules: {
-      '@typescript-eslint/no-unused-vars': 'off'
-    }
-  },
-  {
-    files: ['vx/scripts/helpers.ts'],
-    rules: {
-      '@typescript-eslint/no-explicit-any': 'off'
-    }
   }
   // --- wjdlz/TODO: review based on WS
+  // ----------
+  // --- wjdlz/NOTE(vx): skipped for internal tools
+  // {
+  //   files: ['vx/scripts/**/*.tsx', 'vx/scripts/**/*.ts'],
+  //   rules: {
+  //     '@typescript-eslint/no-unused-vars': 'off'
+  //   }
+  // },
+  // {
+  //   files: ['vx/scripts/helpers.ts'],
+  //   rules: {
+  //     '@typescript-eslint/no-explicit-any': 'off'
+  //   }
+  // }
+  // --- * ---
   // {
   //   files: ['**/**/vite.config.ts'],
   //   rules: {
