@@ -98,7 +98,6 @@
   },
   "release": {
     "projects": ["*", "!@vx/fe-kit"],
-    "releaseTagPattern": "{version}",
     "version": {
       "preVersionCommand": "pnpm dlx nx run-many -t build",
       "conventionalCommits": true
@@ -156,6 +155,9 @@
       "workspaceChangelog": {
         "createRelease": "github"
       }
+    },
+    "releaseTag": {
+      "pattern": "{version}"
     }
   }
 }

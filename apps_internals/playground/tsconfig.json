@@ -3,12 +3,6 @@
   "include": [],
   "references": [
     {
-      "path": "../../packages/vx/system-utils"
-    },
-    {
-      "path": "../../packages/vx/start"
-    },
-    {
       "path": "./tsconfig.app.json"
     },
     {
