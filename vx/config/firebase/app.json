@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/apps/@vx-app",
+    "public": "apps/@vx-app/dist",
     "rewrites": [
       {
         "source": "**",

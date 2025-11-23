@@ -1,14 +1,14 @@
 import nx from '@nx/eslint-plugin'
 import tanstackQuery from '@tanstack/eslint-plugin-query'
+import jsoncParser from 'jsonc-eslint-parser'
+
 // import react from 'eslint-plugin-react'
 // import reactHooks from 'eslint-plugin-react-hooks'
 const ignores = [
   '**/dist',
   '**/node_modules',
   '**/coverage',
-  '**/vite.config.*.timestamp*',
-  '**/vitest.config.*.timestamp*',
-  '**/test-output',
+  '**/out-tsc',
   '**/.vezham',
   '**/.nx',
   '**/.lintstagedrc.js',
@@ -16,6 +16,14 @@ const ignores = [
 ]
 
 export default [
+  {
+    files: ['**/*.json'],
+    // Override or add rules here
+    rules: {},
+    languageOptions: {
+      parser: jsoncParser
+    }
+  },
   ...nx.configs['flat/base'],
   ...nx.configs['flat/typescript'],
   ...nx.configs['flat/javascript'],
@@ -24,15 +32,18 @@ export default [
     ignores
   },
   {
+    ignores: [
+      '**/vite.config.*.timestamp*',
+      '**/vitest.config.*.timestamp*',
+      '**/test-output'
+    ]
+  },
+  {
     files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
     rules: {
       '@nx/enforce-module-boundaries': [
         'error',
         {
-          // ignoredCircularDependencies: [
-          //   // ['v-atoms', '*']
-          //   // ['v-ions', '*']
-          // ],
           enforceBuildableLibDependency: true,
           allow: ['^.*/eslint(\\.base)?\\.config\\.[cm]?[jt]s$'],
           depConstraints: [
@@ -58,21 +69,23 @@ export default [
     ],
     // Override or add rules here
     rules: {}
-  },
-  // --- wjdlz/NOTE(v): skipped for internal tools
-  {
-    files: ['vx/scripts/**/*.tsx', 'vx/scripts/**/*.ts'],
-    rules: {
-      '@typescript-eslint/no-unused-vars': 'off'
-    }
-  },
-  {
-    files: ['vx/scripts/helpers.ts'],
-    rules: {
-      '@typescript-eslint/no-explicit-any': 'off'
-    }
-  },
+  }
   // --- wjdlz/TODO: review based on WS
+  // ----------
+  // --- wjdlz/NOTE(vx): skipped for internal tools
+  // {
+  //   files: ['vx/scripts/**/*.tsx', 'vx/scripts/**/*.ts'],
+  //   rules: {
+  //     '@typescript-eslint/no-unused-vars': 'off'
+  //   }
+  // },
+  // {
+  //   files: ['vx/scripts/helpers.ts'],
+  //   rules: {
+  //     '@typescript-eslint/no-explicit-any': 'off'
+  //   }
+  // }
+  // --- * ---
   // {
   //   files: ['**/**/vite.config.ts'],
   //   rules: {
@@ -127,7 +140,4 @@ export default [
   //   }
   // }
   // wjdlz/TODO: set workspace config
-  {
-    ignores: ['**/vite.config.*.timestamp*', '**/vitest.config.*.timestamp*']
-  }
 ]
