@@ -13,11 +13,12 @@ on:
     #   - 'packages/**'
 
 run-name: >
-  ${{ github.event_name == 'schedule' && 'ci(TVA): QA' ||
-      github.event_name == 'workflow_dispatch' && 'ci(TVA): QA - Trails' ||
+  ${{ github.event_name == 'schedule' && 'ci(TVA): 🕒 QA • Scheduled' ||
+      github.event_name == 'workflow_dispatch' && 'ci(TVA): ⚡ QA • Trails' ||
       github.event.head_commit.message ||
       github.event.workflow_run.head_commit.message ||
-      github.ref_name }} 
+      github.ref_name
+  }} 
   - by @${{ github.actor || 'vx/ci' }}
 
 concurrency:
