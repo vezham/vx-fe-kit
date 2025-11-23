@@ -1,4 +1,3 @@
-import { execSync } from 'child_process'
 import { releaseChangelog, releasePublish, releaseVersion } from 'nx/release'
 import * as yargs from 'yargs'
 
@@ -6,7 +5,8 @@ const NS = '[vezham] TOOLS/release'
 
 ;(async () => {
   const options = await yargs
-    .version(false) // don't use the default meaning of version in yargs
+    // @ts-expect-error - don't use the default meaning of version in yargs
+    .version(false)
     .option('version', {
       alias: 'v',
       description:
@@ -36,14 +36,14 @@ const NS = '[vezham] TOOLS/release'
     .parseAsync()
   console.log(NS, '[data] options: ', JSON.stringify(options))
 
-  console.log(NS, 'init releaseVersion')
-  let op_version = ''
-  // Get current branch
-  const currentBranch = execSync('git branch --show-current').toString().trim()
-  if (currentBranch !== 'timeline') {
-    op_version = `-${currentBranch}`
-  }
+  // let op_version = ''
+  // // Get current branch
+  // const currentBranch = execSync('git branch --show-current').toString().trim()
+  // if (currentBranch !== 'timeline') {
+  //   op_version = `-${currentBranch}`
+  // }
 
+  console.log(NS, 'init releaseVersion')
   const { workspaceVersion, projectsVersionData } = await releaseVersion({
     // specifier: `0.0.0-${op_version}-canary`,
     specifier: options.version,
