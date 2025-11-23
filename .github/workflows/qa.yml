@@ -60,9 +60,9 @@ jobs:
         run: |
           pnpm nx run-many -t build || { echo "❌ Build failed"; exit 1; }
 
-      - name: action | 🤖 NX • AI Auto Tune
+      - name: action | 🤖 NX • Post Ops
         if: always()
-        uses: vezham/vx-deployer/.github/actions/nx/ai-fix@timeline
+        uses: vezham/vx-deployer/.github/actions/nx/post-ops@timeline
 
   types:
     runs-on: ubuntu-latest
@@ -82,9 +82,9 @@ jobs:
         run: |
           pnpm nx run-many -t typecheck
 
-      - name: action | 🤖 NX • AI Auto Tune
+      - name: action | 🤖 NX • Post Ops
         if: always()
-        uses: vezham/vx-deployer/.github/actions/nx/ai-fix@timeline
+        uses: vezham/vx-deployer/.github/actions/nx/post-ops@timeline
 
   lint:
     runs-on: ubuntu-latest
@@ -104,9 +104,9 @@ jobs:
         run: |
           pnpm nx run-many -t lint
 
-      - name: action | 🤖 NX • AI Auto Tune
+      - name: action | 🤖 NX • Post Ops
         if: always()
-        uses: vezham/vx-deployer/.github/actions/nx/ai-fix@timeline
+        uses: vezham/vx-deployer/.github/actions/nx/post-ops@timeline
 
   prettier:
     runs-on: ubuntu-latest
@@ -126,9 +126,9 @@ jobs:
         run: |
           pnpm nx run @vx:@vx-ci/format-check
 
-      - name: action | 🤖 NX • AI Auto Tune
+      - name: action | 🤖 NX • Post Ops
         if: always()
-        uses: vezham/vx-deployer/.github/actions/nx/ai-fix@timeline
+        uses: vezham/vx-deployer/.github/actions/nx/post-ops@timeline
 
   tests:
     runs-on: ubuntu-latest
@@ -148,9 +148,9 @@ jobs:
         run: |
           pnpm nx run-many -t test --passWithNoTests --exclude=${{ env.VX_SKIP }}
 
-      - name: action | 🤖 NX • AI Auto Tune
+      - name: action | 🤖 NX • Post Ops
         if: always()
-        uses: vezham/vx-deployer/.github/actions/nx/ai-fix@timeline
+        uses: vezham/vx-deployer/.github/actions/nx/post-ops@timeline
 
   e2e:
     runs-on: ubuntu-latest
@@ -172,9 +172,9 @@ jobs:
           npx playwright install --with-deps
           pnpm nx run-many -t e2e
 
-      - name: action | 🤖 NX • AI Auto Tune
+      - name: action | 🤖 NX • Post Ops
         if: always()
-        uses: vezham/vx-deployer/.github/actions/nx/ai-fix@timeline
+        uses: vezham/vx-deployer/.github/actions/nx/post-ops@timeline
 
   summary:
     if: always()
@@ -183,7 +183,7 @@ jobs:
 
     steps:
       - name: action | 🧾 QA Summary
-        uses: vezham/vx-deployer/.github/actions/common/qa-summary@timeline
+        uses: vezham/vx-deployer/.github/actions/common/summary-qa@timeline
         with:
           actor: ${{ env.ACTOR }}
           token: ${{ secrets.GITHUB_TOKEN }}
