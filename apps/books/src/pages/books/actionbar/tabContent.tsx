@@ -1,12 +1,13 @@
+import { Icon } from '@iconify/react/dist/iconify.js'
+import React from 'react'
+
 import {
   Button,
   Dropdown,
   DropdownItem,
   DropdownMenu,
   DropdownTrigger
-} from '@heroui/react'
-import { Icon } from '@iconify/react/dist/iconify.js'
-import React from 'react'
+} from '@vezham/react/v2'
 
 const TabContent = () => {
   const [selectedPeriod, setSelectedPeriod] = React.useState('Monthly')

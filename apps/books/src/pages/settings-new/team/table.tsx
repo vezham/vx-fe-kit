@@ -1,9 +1,13 @@
 'use client'
-import type { Selection, SortDescriptor } from '@heroui/react'
+
+import { Icon } from '@iconify/react'
+import { motion } from 'framer-motion'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+
+import type { Selection, SortDescriptor } from '@vezham/react/v2'
 import {
   Button,
   Chip,
-  cn,
   Divider,
   Dropdown,
   DropdownItem,
@@ -23,10 +27,9 @@ import {
   TableColumn,
   TableHeader,
   TableRow,
-  User
-} from '@heroui/react'
-import { Icon } from '@iconify/react'
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+  User,
+  cn
+} from '@vezham/react/v2'
 
 import {
   ChevronDownIcon,
@@ -37,11 +40,11 @@ import {
   DeleteIcon,
   EditIcon,
   SearchIcon
-} from '@heroui/shared-icons'
-import { motion } from 'framer-motion'
+} from '@vx-oss/heroui-v2-shared-icons'
+
 import { usePermit } from '../utils'
 import type { ColumnsKey } from './data'
-import { columns, INITIAL_VISIBLE_COLUMNS, statusColorMap, users } from './data'
+import { INITIAL_VISIBLE_COLUMNS, columns, statusColorMap, users } from './data'
 import { Users } from './types'
 import { tableStyles } from './variant'
 

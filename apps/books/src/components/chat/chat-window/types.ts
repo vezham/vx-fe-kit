@@ -1,5 +1,6 @@
-import type { InputProps } from '@heroui/react'
 import type { HTMLAttributes } from 'react'
+
+import type { InputProps } from '@vezham/react/v2'
 
 export interface MessagingChatWindowProps
   extends HTMLAttributes<HTMLDivElement> {

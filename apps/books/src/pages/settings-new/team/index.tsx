@@ -1,10 +1,12 @@
 'use client'
 
+import { Icon } from '@iconify/react'
+import * as React from 'react'
+
 import {
   Button,
   Card,
   CardBody,
-  cn,
   Divider,
   Input,
   Modal,
@@ -14,16 +16,14 @@ import {
   Select,
   SelectItem,
   Spacer,
+  cn,
   useDisclosure
-} from '@heroui/react'
-import { Icon } from '@iconify/react'
-import * as React from 'react'
+} from '@vezham/react/v2'
+
 import { role, roleOptions } from './data'
 import TableUI from './table'
-
-import { iconSizeClasses, teamSettingStyles } from './variant'
-
 import { TeamSettingCardProps } from './types'
+import { iconSizeClasses, teamSettingStyles } from './variant'
 
 const icons = {
   success: 'lucide:check-circle',

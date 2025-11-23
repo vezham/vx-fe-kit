@@ -1,5 +1,8 @@
 'use client'
 
+import { Icon } from '@iconify/react'
+import * as React from 'react'
+
 import {
   Avatar,
   Badge,
@@ -10,9 +13,7 @@ import {
   Select,
   SelectItem,
   Spacer
-} from '@heroui/react'
-import { Icon } from '@iconify/react'
-import * as React from 'react'
+} from '@vezham/react/v2'
 
 import { usePermit } from '../utils'
 import { companyIndustries, companyTypes, states } from './data'

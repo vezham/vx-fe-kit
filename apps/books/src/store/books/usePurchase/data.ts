@@ -1,4 +1,4 @@
-import { Dates, Purchase, purchaseStats, Status, Tags } from './types'
+import { Dates, Purchase, Status, Tags, purchaseStats } from './types'
 
 type StatusProps = {
   label: string

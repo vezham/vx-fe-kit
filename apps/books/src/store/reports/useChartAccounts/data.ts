@@ -1,5 +1,4 @@
 import { FolderItem } from './types'
-
 import { Types } from './types'
 
 type typeProps = {

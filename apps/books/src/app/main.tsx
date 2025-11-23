@@ -1,11 +1,11 @@
 import { RouterProvider, createRouter } from '@tanstack/react-router'
 
-import { FocusModeProvider } from '../pages/reports/reportTabs/nexus_test/context/FocusModeContext'
-import { defineConfig } from '../start'
+import { defineConfig } from '@vx/start'
 
 // import { APP_NAME, defineEnv, defineServerEnv } from '@v0x/env'
 
 import { ThemeProvider } from '../common/context'
+import { FocusModeProvider } from '../pages/reports/reportTabs/nexus_test/context/FocusModeContext'
 import { routeTree } from '../routeTree.gen'
 import './global.css'
 

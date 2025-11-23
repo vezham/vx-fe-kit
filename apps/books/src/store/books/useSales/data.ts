@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker'
-import { Dates, Sales, salesStats, Status, Tags } from './types'
+
+import { Dates, Sales, Status, Tags, salesStats } from './types'
 
 type statusProps = {
   label: string

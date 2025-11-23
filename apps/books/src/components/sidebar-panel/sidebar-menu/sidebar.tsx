@@ -4,13 +4,12 @@
 //   ListboxItem,
 //   ScrollShadow,
 //   Tooltip
-// } from '@heroui/react'
+// } from '@vezham/react/v2'
 // import { Icon } from '@iconify/react'
 // import { useNavigate } from '@tanstack/react-router'
 // import React from 'react'
 // import { SidebarItem, SidebarProps } from './types'
 // import { sidebarStyles } from './variant'
-
 // const Sidebar: React.FC<SidebarProps> = ({
 //   items,
 //   selectedKey,
@@ -21,12 +20,10 @@
 // }) => {
 //   const navigate = useNavigate()
 //   const [searchValue, setSearchValue] = React.useState('')
-
 //   const handleSelect = (key: string, href?: string) => {
 //     if (onSelect) onSelect(key)
 //     if (href) navigate({ to: href })
 //   }
-
 //   const renderItem = (item: SidebarItem) => {
 //     const iconEl = (
 //       <Icon
@@ -37,7 +34,6 @@
 //         }`}
 //       />
 //     )
-
 //     if (isCompact) {
 //       return (
 //         <div
@@ -49,11 +45,9 @@
 //           <Tooltip content={item.title} placement="right">
 //             {iconEl}
 //           </Tooltip>
-
 //         </div>
 //       )
 //     }
-
 //     return (
 //       <ListboxItem
 //         key={item.key}
@@ -69,14 +63,12 @@
 //       </ListboxItem>
 //     )
 //   }
-
 //   // filter items based on search
 //   const filteredItems = React.useMemo(() => {
 //     if (!searchValue.trim()) return items
 //     const query = searchValue.toLowerCase()
 //     return items.filter(item => item.title.toLowerCase().includes(query))
 //   }, [items, searchValue])
-
 //   return (
 //     <div className={sidebarStyles.container}>
 //       {/* Search Box */}
@@ -100,7 +92,6 @@
 //           />
 //         }
 //       />
-
 //       <ScrollShadow hideScrollBar orientation="vertical">
 //         {isCompact ? (
 //           <div>{filteredItems.map(renderItem)}</div>
@@ -124,8 +115,10 @@
 //     </div>
 //   )
 // }
-
 // export default Sidebar
+import { Icon } from '@iconify/react'
+import { useNavigate } from '@tanstack/react-router'
+import React from 'react'
 
 import {
   Input,
@@ -134,10 +127,8 @@ import {
   ListboxItem,
   ScrollShadow,
   Tooltip
-} from '@heroui/react'
-import { Icon } from '@iconify/react'
-import { useNavigate } from '@tanstack/react-router'
-import React from 'react'
+} from '@vezham/react/v2'
+
 import { useTheme } from '../../../common/context'
 import CommandMenu from '../../command-menu/index'
 import { SidebarItem, SidebarProps } from './types'

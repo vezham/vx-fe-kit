@@ -1,8 +1,9 @@
 'use client'
 
-import { Button, Chip, cn } from '@heroui/react'
 import { Icon } from '@iconify/react'
 import React from 'react'
+
+import { Button, Chip, cn } from '@vezham/react/v2'
 
 import type { MessagingChatHeaderProps } from './types'
 import * as styles from './variant'

@@ -4,7 +4,6 @@ import {
   operatingData,
   summaryData
 } from './data'
-
 import {
   CashFlowData,
   RQGetCashFlow,

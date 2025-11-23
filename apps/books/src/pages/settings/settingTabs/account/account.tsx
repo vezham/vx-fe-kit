@@ -1,5 +1,7 @@
-import { cn, Input, Select, SelectItem } from '@heroui/react'
 import React from 'react'
+
+import { Input, Select, SelectItem, cn } from '@vezham/react/v2'
+
 import { currencyTypes, financialTypes } from './data'
 import { AccountProps } from './types'
 import { getInputProps, getSelectProps } from './variant'

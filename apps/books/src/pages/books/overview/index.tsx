@@ -1,6 +1,8 @@
 'use client'
 
-import type { CardProps } from '@heroui/react'
+import { Icon } from '@iconify/react'
+
+import type { CardProps } from '@vezham/react/v2'
 import {
   Alert,
   Button,
@@ -10,10 +12,10 @@ import {
   Divider,
   Skeleton,
   Spacer
-} from '@heroui/react'
-import { Icon } from '@iconify/react'
+} from '@vezham/react/v2'
 
-import { PlusFilledIcon } from '@heroui/shared-icons'
+import { PlusFilledIcon } from '@vx-oss/heroui-v2-shared-icons'
+
 import { usePurchase } from '../../../store/books/usePurchase'
 import type { purchaseStats } from '../../../store/books/usePurchase/types'
 import { useSales } from '../../../store/books/useSales'

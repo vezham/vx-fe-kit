@@ -1,7 +1,8 @@
 'use client'
 
-import { cn, Input, Select, SelectItem, Spacer } from '@heroui/react'
 import * as React from 'react'
+
+import { Input, Select, SelectItem, Spacer, cn } from '@vezham/react/v2'
 
 import { currencyTypes, financialTypes } from './data'
 import { AccountSettingCardProps } from './types'

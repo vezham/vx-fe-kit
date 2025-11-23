@@ -1,4 +1,4 @@
-import { cn } from '@heroui/react'
+import { cn } from '@vezham/react/v2'
 
 export const headerBaseClass =
   'flex w-full items-center justify-between  sm:px-4 py-3'

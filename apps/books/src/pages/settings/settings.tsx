@@ -1,4 +1,5 @@
-import { Button } from '@heroui/react'
+import { Button } from '@vezham/react/v2'
+
 import { useTheme } from '../../common/context'
 import Header from '../../components/header/index'
 import AccountSetting from './settingTabs/account/account'

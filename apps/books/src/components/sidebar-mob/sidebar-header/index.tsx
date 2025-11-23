@@ -1,3 +1,6 @@
+import { Icon } from '@iconify/react'
+import React from 'react'
+
 import {
   Avatar,
   Button,
@@ -8,9 +11,7 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger
-} from '@heroui/react'
-import { Icon } from '@iconify/react'
-import React from 'react'
+} from '@vezham/react/v2'
 
 import { SidebarHeaderProps } from './types'
 import { sidebarHeaderVariants, userPopoverCardVariants } from './variant'

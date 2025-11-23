@@ -1,5 +1,8 @@
 'use client'
 
+import { Icon } from '@iconify/react'
+import React from 'react'
+
 import {
   Avatar,
   Card,
@@ -11,9 +14,7 @@ import {
   ScrollShadow,
   Tab,
   Tabs
-} from '@heroui/react'
-import { Icon } from '@iconify/react'
-import React from 'react'
+} from '@vezham/react/v2'
 
 // import MessagingChatHeader from "../chat-header/index";
 import dummyImages from '../data/dummy-images'

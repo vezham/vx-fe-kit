@@ -1,4 +1,5 @@
 import { type FC, type ReactNode, createContext, useContext } from 'react'
+
 import { useWaveAnimation } from './hooks/useWaveAnimation'
 
 interface PageWrapperProps {

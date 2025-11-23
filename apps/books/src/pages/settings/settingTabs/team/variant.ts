@@ -1,4 +1,4 @@
-import { cn } from '@heroui/react'
+import { cn } from '@vezham/react/v2'
 
 // Card Styles
 export const cardClasses = (isDarkMode?: boolean) =>

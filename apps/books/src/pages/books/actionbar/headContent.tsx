@@ -1,15 +1,18 @@
 'use client'
 
+import { Icon } from '@iconify/react/dist/iconify.js'
+import { useEffect, useState } from 'react'
+
 import {
   Button,
   Dropdown,
   DropdownItem,
   DropdownMenu,
   DropdownTrigger
-} from '@heroui/react'
-import { SearchIcon } from '@heroui/shared-icons'
-import { Icon } from '@iconify/react/dist/iconify.js'
-import { useEffect, useState } from 'react'
+} from '@vezham/react/v2'
+
+import { SearchIcon } from '@vx-oss/heroui-v2-shared-icons'
+
 import { usePurchaseRefetch } from '../../../store/books/usePurchase'
 import { useSalesRefetch } from '../../../store/books/useSales'
 

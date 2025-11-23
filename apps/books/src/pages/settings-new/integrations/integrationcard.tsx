@@ -1,6 +1,14 @@
 'use client'
 
-import { Avatar, Button, Card, CardBody, CardFooter, Chip } from '@heroui/react'
+import {
+  Avatar,
+  Button,
+  Card,
+  CardBody,
+  CardFooter,
+  Chip
+} from '@vezham/react/v2'
+
 import { usePermit } from '../utils'
 import { Integration } from './types'
 import { integrationVariants } from './variant'

@@ -1,11 +1,12 @@
 import {
+  type FC,
+  type ReactNode,
   createContext,
   useContext,
   useEffect,
-  useState,
-  type FC,
-  type ReactNode
+  useState
 } from 'react'
+
 import { storage } from '../utils/utils'
 
 interface FocusModeContextType {

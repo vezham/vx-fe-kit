@@ -1,12 +1,24 @@
 'use client'
-import type { Selection, SortDescriptor } from '@heroui/react'
+
+import { Icon } from '@iconify/react'
+import { motion } from 'framer-motion'
+import React, {
+  forwardRef,
+  memo,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState
+} from 'react'
+
+import type { Selection, SortDescriptor } from '@vezham/react/v2'
 import {
   Alert,
   Button,
   Card,
   CardBody,
   Chip,
-  cn,
   Divider,
   Drawer,
   DrawerBody,
@@ -34,18 +46,10 @@ import {
   TableHeader,
   TableRow,
   Tooltip,
-  useDisclosure,
-  User
-} from '@heroui/react'
-import { Icon } from '@iconify/react'
-import React, {
-  memo,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState
-} from 'react'
+  User,
+  cn,
+  useDisclosure
+} from '@vezham/react/v2'
 
 import {
   ChevronLeftIcon,
@@ -56,21 +60,20 @@ import {
   EyeFilledIcon,
   SearchIcon,
   SendFilledIcon
-} from '@heroui/shared-icons'
-import { motion } from 'framer-motion'
+} from '@vx-oss/heroui-v2-shared-icons'
+
 import { usePurchase } from '../../../store/books/usePurchase'
 import type { Columns } from '../../../store/books/usePurchase/data'
 import {
+  INITIAL_VISIBLE_COLUMNS,
   getColumnProps,
   getDateProps,
-  getStatusProps,
-  INITIAL_VISIBLE_COLUMNS
+  getStatusProps
 } from '../../../store/books/usePurchase/data'
 import { teamSettingStyles } from '../../settings-new/team/variant'
 import { CopyTextProps, Purchase, Tags } from './types'
 import { copyTextVariants, tableStyles } from './variant'
 
-import { forwardRef } from 'react'
 const Component = () => {
   const {
     data: users = [],

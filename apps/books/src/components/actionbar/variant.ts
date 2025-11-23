@@ -1,4 +1,4 @@
-import { cn } from '@heroui/react'
+import { cn } from '@vezham/react/v2'
 
 // Button styles — default to light mode to avoid forcing dark unintentionally
 export const getButtonVariantClasses = ({

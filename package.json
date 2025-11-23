@@ -14,9 +14,22 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@faker-js/faker": "^10.0.0",
+    "@radix-ui/react-dropdown-menu": "^2.1.16",
+    "@radix-ui/react-select": "^2.2.6",
+    "@radix-ui/react-slot": "^1.2.3",
+    "@vezham/hooks": "^0.3.3",
+    "@vezham/shared-sw": "^0.0.1",
+    "@vx-oss/heroui-v2-shared-icons": "^2.1.11-alpha.1",
+    "clsx": "^2.1.1",
     "framer-motion": "^12.23.12",
+    "lucide-react": "^0.544.0",
     "react": "19.0.0",
-    "react-dom": "19.0.0"
+    "react-dom": "19.0.0",
+    "recharts": "^3.1.2",
+    "tailwind-merge": "^3.3.1",
+    "tailwind-variants": "^3.1.1",
+    "usehooks-ts": "^3.1.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^20.0.0",

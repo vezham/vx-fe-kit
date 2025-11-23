@@ -1,5 +1,7 @@
 'use client'
 
+import React, { useState } from 'react'
+
 import {
   Button,
   Card,
@@ -7,8 +9,8 @@ import {
   CardHeader,
   Divider,
   Switch
-} from '@heroui/react'
-import React, { useState } from 'react'
+} from '@vezham/react/v2'
+
 import { generalNotifications, notificationTypes } from './data'
 import { NotificationItem, NotificationProps } from './types'
 import { getCardClassName, getSwitchClass } from './variant'

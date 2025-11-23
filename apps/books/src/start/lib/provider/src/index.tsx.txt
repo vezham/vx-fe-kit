@@ -2,6 +2,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { FC, StrictMode, lazy } from 'react'
 import ReactDOM from 'react-dom/client'
+
 // import { Toaster } from 'sonner'
 
 // import { APP_NAME, __DEV__, initWorker } from '@vezham/contracts'
@@ -10,9 +11,11 @@ import ReactDOM from 'react-dom/client'
 // import { Lockscreen, NoInternetConnection } from '@vezham/templates'
 // import { ThemeProvider } from '@vezham/theme'
 // import { defineAxios, defineStore, useLogger } from '@vezham/hooks'
-import { cn } from '@vezham/react-utils'
+import { cn } from '@vezham/react/v2'
 import { startWorker as defineWorker } from '@vezham/shared-sw'
-import { HeroUIProvider } from '@vx-oss/react'
+
+import { HeroUIProvider } from '@vezham/react/v2'
+
 import { Props } from './types'
 
 const NAMESPACE = 'Core/System'

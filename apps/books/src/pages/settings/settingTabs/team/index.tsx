@@ -1,5 +1,8 @@
 'use client'
 
+import { Icon } from '@iconify/react'
+import React from 'react'
+
 import {
   Avatar,
   Button,
@@ -14,10 +17,8 @@ import {
   TableColumn,
   TableHeader,
   TableRow
-} from '@heroui/react'
-import { Icon } from '@iconify/react'
+} from '@vezham/react/v2'
 
-import React from 'react'
 import { colors, icons, members, roles } from './data'
 import { TeamProps } from './types'
 import {

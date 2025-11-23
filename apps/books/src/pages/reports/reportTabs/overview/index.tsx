@@ -1,22 +1,5 @@
 'use client'
 
-import {
-  Alert,
-  Button,
-  Card,
-  Chip,
-  cn,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
-  Select,
-  SelectItem,
-  Spacer,
-  Spinner,
-  Tab,
-  Tabs
-} from '@heroui/react'
 import { Icon } from '@iconify/react'
 import React from 'react'
 import {
@@ -32,12 +15,23 @@ import {
   YAxis
 } from 'recharts'
 
-// data + mocks
 import {
-  aggregateData,
-  formatCurrency,
-  formatMonth
-} from '../../../../store/reports/useReportStats/data'
+  Alert,
+  Button,
+  Card,
+  Chip,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+  Select,
+  SelectItem,
+  Spacer,
+  Spinner,
+  Tab,
+  Tabs,
+  cn
+} from '@vezham/react/v2'
 
 import Header from '../../../../components/header'
 import End from '../../../../pages/reports/actionbar/endContent'
@@ -49,13 +43,19 @@ import {
   useReportIncomeStats,
   useReportSalesStats
 } from '../../../../store/reports/useReportStats'
+// data + mocks
+import {
+  aggregateData,
+  formatCurrency,
+  formatMonth
+} from '../../../../store/reports/useReportStats/data'
 import { ChartDataPoint, KpiStat, TimeRange } from './types'
 import {
+  CustomLegend,
+  FinancialRow,
   analyticsVariants,
   cardVariants,
   cashFlowVariants,
-  CustomLegend,
-  FinancialRow,
   incomeVariants,
   salesFlowVariants
 } from './variants'

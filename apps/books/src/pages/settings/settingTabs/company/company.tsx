@@ -1,17 +1,20 @@
 'use client'
+
+import { Icon } from '@iconify/react/dist/iconify.js'
+import React from 'react'
+
 import {
   Avatar,
   Badge,
   Button,
   Card,
   CardBody,
-  cn,
   Input,
   Select,
-  SelectItem
-} from '@heroui/react'
-import { Icon } from '@iconify/react/dist/iconify.js'
-import React from 'react'
+  SelectItem,
+  cn
+} from '@vezham/react/v2'
+
 import { companyIndustries, companyTypes, states } from './data'
 import { CompanyProps } from './types'
 import {

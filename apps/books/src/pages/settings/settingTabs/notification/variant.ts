@@ -1,4 +1,4 @@
-import { cn } from '@heroui/react'
+import { cn } from '@vezham/react/v2'
 
 export const getCardClassName = (isDarkmode?: boolean) =>
   cn(

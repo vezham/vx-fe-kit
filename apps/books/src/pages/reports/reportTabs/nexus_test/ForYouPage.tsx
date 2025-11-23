@@ -9,7 +9,10 @@ import {
   Info,
   Search
 } from 'lucide-react'
-import { useState, type FC } from 'react'
+import { type FC, useState } from 'react'
+
+import { Header } from './Header'
+import { PageSection, PageWrapper } from './PageWrapper'
 import { Button } from './components/button'
 import { Card, CardContent, CardHeader, CardTitle } from './components/card'
 import { Input } from './components/input'
@@ -20,9 +23,7 @@ import {
   SelectTrigger,
   SelectValue
 } from './components/select'
-import { forYouFeed, type FeedItem } from './data'
-import { Header } from './Header'
-import { PageSection, PageWrapper } from './PageWrapper'
+import { type FeedItem, forYouFeed } from './data'
 import { formatRelativeTime } from './utils/utils'
 
 const getTypeIcon = (type: FeedItem['type']) => {

@@ -1,7 +1,8 @@
 'use client'
 
-import { Button, Card, CardBody, cn, Divider, Switch } from '@heroui/react'
 import * as React from 'react'
+
+import { Button, Card, CardBody, Divider, Switch, cn } from '@vezham/react/v2'
 
 import { usePermit } from '../utils'
 import { generalNotifications, notificationTypes } from './data'

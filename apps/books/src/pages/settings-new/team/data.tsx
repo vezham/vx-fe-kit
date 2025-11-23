@@ -1,4 +1,5 @@
 import { JSX } from 'react'
+
 import { StatusOptions, Users } from './types'
 
 const createCircleSvg = (fillColor: string): JSX.Element => (

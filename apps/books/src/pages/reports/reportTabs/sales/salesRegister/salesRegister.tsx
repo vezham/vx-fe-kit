@@ -1,4 +1,4 @@
-import { Button } from '@vx-oss/react'
+import { Button } from '@vezham/react/v2'
 
 const SalesRegister = () => {
   return (

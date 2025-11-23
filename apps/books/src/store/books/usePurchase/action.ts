@@ -1,10 +1,10 @@
 import { purchaseData, purchaseStatData } from './data'
 import {
   Purchase,
-  purchaseStats,
   RQGetUsers,
   RQListUsers,
-  RQStats
+  RQStats,
+  purchaseStats
 } from './types'
 
 const Api = {

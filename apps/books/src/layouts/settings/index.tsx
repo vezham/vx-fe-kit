@@ -1,6 +1,8 @@
 // pages/settings-new/index.tsx
-import { Button } from '@heroui/react'
-import { PlusFilledIcon } from '@heroui/shared-icons'
+import { Button } from '@vezham/react/v2'
+
+import { PlusFilledIcon } from '@vx-oss/heroui-v2-shared-icons'
+
 import Settings from '../../pages/settings-new/settings-layout'
 import { currentUser, usePermit } from '../../pages/settings-new/utils'
 

@@ -1,5 +1,7 @@
-import { Chip } from '@heroui/react'
 import { Icon } from '@iconify/react'
+
+import { Chip } from '@vezham/react/v2'
+
 import { SidebarItem } from '../../sidebar-panel/sidebar-menu/types'
 
 // import {type SidebarItem} from "./sidebar";

@@ -1,5 +1,7 @@
-import { cn } from '@heroui/react'
 import { Icon } from '@iconify/react'
+
+import { cn } from '@vezham/react/v2'
+
 import { FinancialRowProps } from './types'
 
 export const cardVariants = {

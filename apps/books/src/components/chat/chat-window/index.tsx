@@ -1,5 +1,8 @@
 'use client'
 
+import { Icon } from '@iconify/react'
+import React from 'react'
+
 import {
   Avatar,
   Button,
@@ -10,12 +13,10 @@ import {
   Image,
   Input,
   ScrollShadow,
-  Tooltip
-} from '@heroui/react'
-import { Icon } from '@iconify/react'
-import React from 'react'
+  Tooltip,
+  cn
+} from '@vezham/react/v2'
 
-import { cn } from '@heroui/react'
 import messagingChatConversations from '../data/messaging-chat-conversations'
 import type {
   MessagingChatInputProps,

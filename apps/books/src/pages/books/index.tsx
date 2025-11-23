@@ -1,8 +1,9 @@
 'use client'
 
-import { Tab, Tabs } from '@heroui/react'
 import { Outlet, useNavigate, useRouterState } from '@tanstack/react-router'
 import React from 'react'
+
+import { Tab, Tabs } from '@vezham/react/v2'
 
 export default function BooksLayout({
   headerEndContent,

@@ -1,5 +1,4 @@
 import { mockDataByPeriod } from './data'
-
 import { FinancialData, RQGetBalanceSheet, RQListBalanceSheet } from './types'
 
 const Api = {

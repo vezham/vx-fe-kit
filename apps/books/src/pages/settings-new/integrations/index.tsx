@@ -1,7 +1,9 @@
 'use client'
 
-import { Card, CardBody, Spacer, cn } from '@heroui/react'
 import * as React from 'react'
+
+import { Card, CardBody, Spacer, cn } from '@vezham/react/v2'
+
 import { integrations } from './data'
 import IntegrationCard from './integrationcard'
 import { integrationVariants } from './variant'

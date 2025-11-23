@@ -1,15 +1,15 @@
 'use client'
 
-import { Button, Tab, Tabs } from '@heroui/react'
-import { PlusFilledIcon } from '@heroui/shared-icons'
+import { Button, Tab, Tabs } from '@vezham/react/v2'
+
+import { PlusFilledIcon } from '@vx-oss/heroui-v2-shared-icons'
 
 import AccountSetting from './account/index'
 import CompanySetting from './company/index'
 import IntegrationSetting from './integrations/index'
 import NotificationSetting from './notifications/index'
-import TeamSetting from './team/index'
-
 import { ROLE_TAB_VISIBILITY } from './rebac'
+import TeamSetting from './team/index'
 import { User, usePermit } from './utils'
 
 export default function SettingsLayout({

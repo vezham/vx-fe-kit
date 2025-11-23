@@ -1,4 +1,4 @@
-import { cn } from '@heroui/react'
+import { cn } from '@vezham/react/v2'
 
 export const companySettingStyles = {
   container: (className?: string) => cn('w-full max-w-2xl p-2', className),

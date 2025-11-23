@@ -1,18 +1,19 @@
 'use client'
 
+import { Icon } from '@iconify/react'
+import React from 'react'
+
 import {
   Avatar,
   Badge,
-  cn,
   Input,
   Listbox,
   ListboxItem,
   ScrollShadow,
   Tab,
-  Tabs
-} from '@heroui/react'
-import { Icon } from '@iconify/react'
-import React from 'react'
+  Tabs,
+  cn
+} from '@vezham/react/v2'
 
 import type { MessageChatInboxProps, MessagingChatListItem } from './types'
 import * as variants from './variant'

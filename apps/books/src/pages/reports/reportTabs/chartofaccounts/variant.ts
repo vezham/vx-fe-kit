@@ -1,4 +1,5 @@
 import { tv } from 'tailwind-variants'
+
 import { FolderVariantProps } from './types'
 
 export const folderVariants = tv({

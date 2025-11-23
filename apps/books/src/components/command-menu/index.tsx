@@ -1,6 +1,7 @@
-import { Button, Input, Kbd, Modal, ModalContent } from '@heroui/react'
 import { Icon } from '@iconify/react'
 import React from 'react'
+
+import { Button, Input, Kbd, Modal, ModalContent } from '@vezham/react/v2'
 
 import {
   generateNavigationItems,

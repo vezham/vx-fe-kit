@@ -1,5 +1,5 @@
 // variants.ts
-import { cn, type InputProps, type SelectProps } from '@heroui/react'
+import { type InputProps, type SelectProps, cn } from '@vezham/react/v2'
 
 export const getInputProps = (
   isDarkmode?: boolean

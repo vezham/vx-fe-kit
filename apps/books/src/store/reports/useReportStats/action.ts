@@ -6,7 +6,6 @@ import {
   fullChartData,
   salesData
 } from './data'
-
 import {
   CardData,
   ChartData,

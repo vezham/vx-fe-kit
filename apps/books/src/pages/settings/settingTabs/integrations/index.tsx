@@ -1,6 +1,7 @@
 'use client'
 
-import { Button, Card, CardBody, CardHeader } from '@heroui/react'
+import { Button, Card, CardBody, CardHeader } from '@vezham/react/v2'
+
 import { integrations } from './data'
 import { Integration, IntegrationProps } from './types'
 import {

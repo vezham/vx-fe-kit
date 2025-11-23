@@ -1,7 +1,9 @@
 'use client'
 
-import { Tab, Tabs } from '@heroui/react'
 import { useLocation, useRouter } from '@tanstack/react-router'
+
+import { Tab, Tabs } from '@vezham/react/v2'
+
 import ItemWiseReport from './itemwiseReport/itemWiseReport'
 import PurchaseReport from './purchaseReport/purchaseReport'
 import PurchaserReport from './purchaserReport/purchaserReport'

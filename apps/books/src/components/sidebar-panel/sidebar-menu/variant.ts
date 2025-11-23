@@ -1,6 +1,5 @@
 // // sidebar-menu/variant.ts
-// import { cn } from '@heroui/react'
-
+// import { cn } from '@vezham/react/v2'
 // export const getSectionClasses = ({
 //   isCompact,
 //   isVertical,
@@ -24,7 +23,6 @@
 //     ' w-full': !isVertical && !isCompact
 //   })
 // })
-
 // export const getItemClasses = ({
 //   isCompact,
 //   itemClassesProp
@@ -37,7 +35,6 @@
 //     'h-11 w-11 gap-0 p-0': isCompact
 //   })
 // })
-
 // export const getListboxItemBaseClass = ({
 //   isCompact,
 //   isVertical,
@@ -50,7 +47,6 @@
 //   cn('rounded-large px-3', itemClasses?.base, {
 //     'w-auto flex-shrink-0': !isVertical && !isCompact
 //   })
-
 // export const getListboxItemTitleClass = ({
 //   iconClassName,
 //   itemClasses
@@ -63,27 +59,23 @@
 //     iconClassName || 'text-current',
 //     itemClasses?.title
 //   )
-
 // export const getInputClassName = ({ isDarkMode }: { isDarkMode?: boolean }) =>
 //   `mb-4 rounded-md ${
 //     isDarkMode
 //       ? 'bg-neutral-800 text-white placeholder-gray-400'
 //       : 'bg-white text-black placeholder-gray-500 border border-gray-300'
 //   }`
-
 // export const getSearchIconClassName = ({
 //   buttonTextColor
 // }: {
 //   buttonTextColor?: string
 // }) => `text-default-500 ${buttonTextColor}`
-
 // export const getScrollShadowClassName = ({
 //   scrollShadowBg
 // }: {
 //   scrollShadowBg?: string
 // }) =>
 //   ` flex flex-col items-center   ${scrollShadowBg} rounded-md`
-
 // export const getSidebarMenuItemBaseClass = ({
 //   isSelected,
 //   isDarkMode
@@ -96,7 +88,6 @@
 //     ? 'px-3 rounded-lg '
 //     : 'px-3 rounded-lg  '
 // }
-
 // export const getSidebarMenuTitleClass = ({
 //   textColorClass
 // }: {
@@ -104,28 +95,22 @@
 // }) =>
 //   cn(
 //     'text-medium font-normal',
-
 //     textColorClass
 //   )
-
 // // variant.ts
-
 // export const sidebarStyles = {
 //   // Styles for the main container
 //   container: 'flex flex-col px-2 align-center justify-center',
-
 //   // Styles for a single listbox item
 //   listboxItem: {
 //     base: 'data-[hover=true]:bg-default/20 data-[hover=true]:text-default-400 gap-4',
 //     selected: 'bg-default/20 text-default-400'
 //   },
-
 //   // Styles for a compact single item
 //   compactItem: {
 //     base: 'hover:bg-default/20 flex cursor-pointer justify-center rounded-md',
 //     selected: 'bg-default/20 text-white'
 //   },
-
 //   // Styles for nested items
 //   nestedItem: {
 //     container: 'flex flex-col',
@@ -137,21 +122,18 @@
 //     title: 'text-small font-medium',
 //     subheader: 'border-default-200 mt-1 ml-4 border-l pl-4'
 //   },
-
 //   // Styles for icon elements
 //   icon: {
 //     base: 'text-default-500',
 //     selected: 'text-black',
 //     nestedSelected: 'text-default-400'
 //   },
-
 //   // Other utility styles used in the component
 //   gapHalf: 'gap-0.5',
 //   button: 'h-8 w-8 min-w-8',
 //   flexCenterGap2: 'flex items-center gap-2'
 // }
-
-import { cn } from '@heroui/react'
+import { cn } from '@vezham/react/v2'
 
 export const getInputWrapperClass = ({
   isDarkMode,

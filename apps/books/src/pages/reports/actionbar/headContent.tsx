@@ -1,8 +1,9 @@
 'use client'
 
-import { Button } from '@heroui/react'
 import { Icon } from '@iconify/react/dist/iconify.js'
 import { useRouteContext } from '@tanstack/react-router'
+
+import { Button } from '@vezham/react/v2'
 
 const HeadContent = () => {
   const { handleBack } = useRouteContext({ from: '/reports' })

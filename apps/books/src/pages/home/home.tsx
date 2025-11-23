@@ -1,6 +1,6 @@
 import React from 'react'
-import { useTheme } from '../../common/context'
 
+import { useTheme } from '../../common/context'
 import Header from '../../components/header/index'
 
 const Home = () => {
