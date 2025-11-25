@@ -126,6 +126,9 @@
         "parallel": false
       }
     },
+    "@vx-ci/build": {
+      "command": "nx run-many -t build"
+    },
     "@vx-ci/nx:release": {
       "executor": "nx:run-commands",
       "options": {
