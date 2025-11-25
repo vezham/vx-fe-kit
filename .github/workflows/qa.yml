@@ -6,17 +6,20 @@ on:
     - cron: '30 22 * * 2,5' # every Wed, Sat at 04:00 AM IST
   workflow_dispatch:
   push:
-    branches: [timeline, feat/*]
+    branches:
+      - timeline
+      - feat/**
     # paths:
     #   - '.github/workflows/qa.yml'
     #   - 'vx/handbooks/ci.md'
     #   - 'packages/**'
 
 run-name: >
-  🧪 QA • ${{ github.event_name == 'schedule' && '🕒 Scheduled' ||
+  🧪 QA • ${{
+      github.event_name == 'schedule' && '🕒 Scheduled' ||
       github.event_name == 'workflow_dispatch' && '⚡ Trails' ||
       github.event.head_commit.message ||
-      github.event.workflow_run.head_commit.message ||
+      github.event.workflow_run && github.event.workflow_run.head_commit.message ||
       github.ref_name
   }} 
   - by @${{ github.actor || 'vx/ci' }}
@@ -44,7 +47,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: action | 🧰 Checkout | ${{ env.REPO }}@${{ env.BRANCH }}
+      - name: action | 🧰 Checkout • ${{ env.REPO }}@${{ env.BRANCH }}
         uses: vezham/vx-deployer/.github/actions/common/setup-checkout@timeline
         with:
           GIT_REPO: ${{ env.REPO }}
@@ -68,7 +71,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: action | 🧰 Checkout | ${{ env.REPO }}@${{ env.BRANCH }}
+      - name: action | 🧰 Checkout • ${{ env.REPO }}@${{ env.BRANCH }}
         uses: vezham/vx-deployer/.github/actions/common/setup-checkout@timeline
         with:
           GIT_REPO: ${{ env.REPO }}
@@ -90,7 +93,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: action | 🧰 Checkout | ${{ env.REPO }}@${{ env.BRANCH }}
+      - name: action | 🧰 Checkout • ${{ env.REPO }}@${{ env.BRANCH }}
         uses: vezham/vx-deployer/.github/actions/common/setup-checkout@timeline
         with:
           GIT_REPO: ${{ env.REPO }}
@@ -99,7 +102,7 @@ jobs:
       - name: action | 🧩 Setup Node & pnpm
         uses: vezham/vx-deployer/.github/actions/common/setup-install@timeline
 
-      - name: fork | 🧹 Lint - ESLint
+      - name: fork | 🧹 Lint • ESLint
         shell: bash
         run: |
           pnpm nx run-many -t lint
@@ -112,7 +115,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: action | 🧰 Checkout | ${{ env.REPO }}@${{ env.BRANCH }}
+      - name: action | 🧰 Checkout • ${{ env.REPO }}@${{ env.BRANCH }}
         uses: vezham/vx-deployer/.github/actions/common/setup-checkout@timeline
         with:
           GIT_REPO: ${{ env.REPO }}
@@ -121,7 +124,7 @@ jobs:
       - name: action | 🧩 Setup Node & pnpm
         uses: vezham/vx-deployer/.github/actions/common/setup-install@timeline
 
-      - name: fork | 🎨 Format - Prettier
+      - name: fork | 🎨 Format • Prettier
         shell: bash
         run: |
           pnpm nx run @vx:@vx-ci/format-check
@@ -134,7 +137,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: action | 🧰 Checkout | ${{ env.REPO }}@${{ env.BRANCH }}
+      - name: action | 🧰 Checkout • ${{ env.REPO }}@${{ env.BRANCH }}
         uses: vezham/vx-deployer/.github/actions/common/setup-checkout@timeline
         with:
           GIT_REPO: ${{ env.REPO }}
@@ -143,7 +146,7 @@ jobs:
       - name: action | 🧩 Setup Node & pnpm
         uses: vezham/vx-deployer/.github/actions/common/setup-install@timeline
 
-      - name: fork | 🧪 Test - Vitest
+      - name: fork | 🧪 Test • Vitest
         shell: bash
         run: |
           pnpm nx run-many -t test --passWithNoTests --exclude=${{ env.VX_SKIP }}
@@ -157,7 +160,7 @@ jobs:
     timeout-minutes: 60
 
     steps:
-      - name: action | 🧰 Checkout | ${{ env.REPO }}@${{ env.BRANCH }}
+      - name: action | 🧰 Checkout • ${{ env.REPO }}@${{ env.BRANCH }}
         uses: vezham/vx-deployer/.github/actions/common/setup-checkout@timeline
         with:
           GIT_REPO: ${{ env.REPO }}
@@ -166,7 +169,7 @@ jobs:
       - name: action | 🧩 Setup Node & pnpm
         uses: vezham/vx-deployer/.github/actions/common/setup-install@timeline
 
-      - name: fork | 🎭 E2E - Playwright
+      - name: fork | 🎭 E2E • Playwright
         shell: bash
         run: |
           npx playwright install --with-deps
