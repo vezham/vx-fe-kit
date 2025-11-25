@@ -47,23 +47,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: action | 🧰 Checkout • ${{ env.REPO }}@${{ env.BRANCH }}
+      - name: 🟠 · 🧰 Checkout • ${{ env.REPO }}@${{ env.BRANCH }}
         uses: vezham/vx-deployer/.github/actions/common/setup-checkout@timeline
         with:
           GIT_REPO: ${{ env.REPO }}
           GIT_BRANCH: ${{ env.BRANCH }}
 
-      - name: action | 🧩 Setup Node & pnpm
+      - name: 🟠 · 🧩 Setup Node & pnpm
         uses: vezham/vx-deployer/.github/actions/common/setup-install@timeline
 
-      - name: fork | 🏗️ Build
+      - name: 🔵 · 🏗️ Build
         # id: build
         # continue-on-error: false
         shell: bash
         run: |
           pnpm nx run-many -t build || { echo "❌ Build failed"; exit 1; }
 
-      - name: action | 🤖 NX • Post Ops
+      - name: 🟠 · ⛭ NX • Post Ops
         if: always()
         uses: vezham/vx-deployer/.github/actions/nx/post-ops@timeline
 
@@ -71,21 +71,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: action | 🧰 Checkout • ${{ env.REPO }}@${{ env.BRANCH }}
+      - name: 🟠 · 🧰 Checkout • ${{ env.REPO }}@${{ env.BRANCH }}
         uses: vezham/vx-deployer/.github/actions/common/setup-checkout@timeline
         with:
           GIT_REPO: ${{ env.REPO }}
           GIT_BRANCH: ${{ env.BRANCH }}
 
-      - name: action | 🧩 Setup Node & pnpm
+      - name: 🟠 · 🧩 Setup Node & pnpm
         uses: vezham/vx-deployer/.github/actions/common/setup-install@timeline
 
-      - name: fork | 🧠 Typecheck
+      - name: 🔵 · 🧠 Typecheck
         shell: bash
         run: |
           pnpm nx run-many -t typecheck
 
-      - name: action | 🤖 NX • Post Ops
+      - name: 🟠 · ⛭ NX • Post Ops
         if: always()
         uses: vezham/vx-deployer/.github/actions/nx/post-ops@timeline
 
@@ -93,21 +93,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: action | 🧰 Checkout • ${{ env.REPO }}@${{ env.BRANCH }}
+      - name: 🟠 · 🧰 Checkout • ${{ env.REPO }}@${{ env.BRANCH }}
         uses: vezham/vx-deployer/.github/actions/common/setup-checkout@timeline
         with:
           GIT_REPO: ${{ env.REPO }}
           GIT_BRANCH: ${{ env.BRANCH }}
 
-      - name: action | 🧩 Setup Node & pnpm
+      - name: 🟠 · 🧩 Setup Node & pnpm
         uses: vezham/vx-deployer/.github/actions/common/setup-install@timeline
 
-      - name: fork | 🧹 Lint • ESLint
+      - name: 🔵 · 🧹 Lint • ESLint
         shell: bash
         run: |
           pnpm nx run-many -t lint
 
-      - name: action | 🤖 NX • Post Ops
+      - name: 🟠 · ⛭ NX • Post Ops
         if: always()
         uses: vezham/vx-deployer/.github/actions/nx/post-ops@timeline
 
@@ -115,21 +115,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: action | 🧰 Checkout • ${{ env.REPO }}@${{ env.BRANCH }}
+      - name: 🟠 · 🧰 Checkout • ${{ env.REPO }}@${{ env.BRANCH }}
         uses: vezham/vx-deployer/.github/actions/common/setup-checkout@timeline
         with:
           GIT_REPO: ${{ env.REPO }}
           GIT_BRANCH: ${{ env.BRANCH }}
 
-      - name: action | 🧩 Setup Node & pnpm
+      - name: 🟠 · 🧩 Setup Node & pnpm
         uses: vezham/vx-deployer/.github/actions/common/setup-install@timeline
 
-      - name: fork | 🎨 Format • Prettier
+      - name: 🔵 · 🎨 Format • Prettier
         shell: bash
         run: |
           pnpm nx run @vx:@vx-ci/format-check
 
-      - name: action | 🤖 NX • Post Ops
+      - name: 🟠 · ⛭ NX • Post Ops
         if: always()
         uses: vezham/vx-deployer/.github/actions/nx/post-ops@timeline
 
@@ -137,21 +137,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: action | 🧰 Checkout • ${{ env.REPO }}@${{ env.BRANCH }}
+      - name: 🟠 · 🧰 Checkout • ${{ env.REPO }}@${{ env.BRANCH }}
         uses: vezham/vx-deployer/.github/actions/common/setup-checkout@timeline
         with:
           GIT_REPO: ${{ env.REPO }}
           GIT_BRANCH: ${{ env.BRANCH }}
 
-      - name: action | 🧩 Setup Node & pnpm
+      - name: 🟠 · 🧩 Setup Node & pnpm
         uses: vezham/vx-deployer/.github/actions/common/setup-install@timeline
 
-      - name: fork | 🧪 Test • Vitest
+      - name: 🔵 · 🧪 Test • Vitest
         shell: bash
         run: |
           pnpm nx run-many -t test --passWithNoTests --exclude=${{ env.VX_SKIP }}
 
-      - name: action | 🤖 NX • Post Ops
+      - name: 🟠 · ⛭ NX • Post Ops
         if: always()
         uses: vezham/vx-deployer/.github/actions/nx/post-ops@timeline
 
@@ -160,22 +160,22 @@ jobs:
     timeout-minutes: 60
 
     steps:
-      - name: action | 🧰 Checkout • ${{ env.REPO }}@${{ env.BRANCH }}
+      - name: 🟠 · 🧰 Checkout • ${{ env.REPO }}@${{ env.BRANCH }}
         uses: vezham/vx-deployer/.github/actions/common/setup-checkout@timeline
         with:
           GIT_REPO: ${{ env.REPO }}
           GIT_BRANCH: ${{ env.BRANCH }}
 
-      - name: action | 🧩 Setup Node & pnpm
+      - name: 🟠 · 🧩 Setup Node & pnpm
         uses: vezham/vx-deployer/.github/actions/common/setup-install@timeline
 
-      - name: fork | 🎭 E2E • Playwright
+      - name: 🔵 · 🎭 E2E • Playwright
         shell: bash
         run: |
           npx playwright install --with-deps
           pnpm nx run-many -t e2e
 
-      - name: action | 🤖 NX • Post Ops
+      - name: 🟠 · ⛭ NX • Post Ops
         if: always()
         uses: vezham/vx-deployer/.github/actions/nx/post-ops@timeline
 
@@ -185,7 +185,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: action | 🧾 QA Summary
+      - name: 🟠 · 🧾 QA Summary
         uses: vezham/vx-deployer/.github/actions/common/summary-qa@timeline
         with:
           actor: ${{ env.ACTOR }}
