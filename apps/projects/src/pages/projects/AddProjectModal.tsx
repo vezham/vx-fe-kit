@@ -16,7 +16,7 @@ import {
 } from '@vezham/react/v2'
 
 import { Attachment } from '../../layouts/projects/types'
-import { useProjects } from '../../store/useProjects'
+import { useCreateProject } from '../../store/useProjects'
 import { statuses, tags } from '../../store/useProjects/data'
 import { Project, Status, Tags } from '../../store/useProjects/types'
 
@@ -55,7 +55,7 @@ const getInitialForm = (): Omit<Project, 'id'> => ({
 })
 
 export const AddProjectModal = ({ isOpen, onOpenChange }: Props) => {
-  const { mutateAsync } = useProjects.create()
+  const { mutateAsync } = useCreateProject()
   const [form, setForm] = useState<Omit<Project, 'id'>>(getInitialForm())
 
   const handleFileUpload = (files: FileList | null) => {

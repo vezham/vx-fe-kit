@@ -31,7 +31,7 @@ export type Project = {
   owner: Owner
   projectId: number
   status: Status
-  attachements: Attachment[]
+  attachments: Attachment[]
 }
 
 export interface CopyTextProps extends React.HTMLAttributes<HTMLDivElement> {

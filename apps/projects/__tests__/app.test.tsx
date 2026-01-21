@@ -1,8 +1,8 @@
 import { render } from '@testing-library/react'
 
-import Page from '../src/pages/home'
+import Home from '../src/pages/home'
 
-const App = () => <Page />
+const App = () => <Home />
 
 describe('App', () => {
   it('should render successfully', () => {

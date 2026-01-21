@@ -1,5 +1,3 @@
-import { ReactNode } from 'react'
-
 import { SidebarItem } from './types'
 
 export const items: SidebarItem[] = [

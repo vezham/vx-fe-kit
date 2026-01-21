@@ -1,6 +1,4 @@
-import { ReactNode } from 'react'
-
-import { SidebarItem, SidebarItemType } from '../sidebar-menu/types'
+import { SidebarItem } from '../sidebar-menu/types'
 
 export const longMenuItems: SidebarItem[] = [
   {

@@ -1,5 +1,3 @@
-import React from 'react'
-
 const Home = () => {
   return (
     <div className="h-screen w-full">
@@ -20,4 +18,4 @@ const Home = () => {
   )
 }
 
-export { Home }
+export default Home

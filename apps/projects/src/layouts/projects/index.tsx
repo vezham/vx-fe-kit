@@ -63,7 +63,11 @@ import {
   SendFilledIcon
 } from '@vx-oss/heroui-v2-shared-icons'
 
-import { useProjects } from '../../store/useProjects'
+import {
+  useDeleteProject,
+  useProject,
+  useProjectList
+} from '../../store/useProjects'
 import {
   Columns,
   INITIAL_VISIBLE_COLUMNS,
@@ -80,9 +84,9 @@ const Component = () => {
     isLoading: projectLoading,
     isError: projectError,
     refetch: refetchProject
-  } = useProjects.list({})
+  } = useProjectList({})
 
-  const { mutate: deleteProject } = useProjects.delete()
+  const { mutate: deleteProject } = useDeleteProject()
 
   const handleDelete = useCallback(
     (id: number) => {
@@ -100,7 +104,7 @@ const Component = () => {
     isLoading: selectedLoading,
     isError: selectedError,
     refetch: selectedRefetch
-  } = useProjects.get({ id: selectedUserId ?? 0 })
+  } = useProject({ id: selectedUserId ?? 0 })
 
   const [tableData, setTableData] = useState<Project[]>([])
   const [filterValue, setFilterValue] = useState('')
@@ -1456,12 +1460,12 @@ const Component = () => {
                     </div>
                     <div>
                       <b>Date:</b>{' '}
-                      {selectedUser?.startdate
+                      {selectedUser?.startDate
                         ? new Intl.DateTimeFormat('en-US', {
                             month: 'long',
                             day: 'numeric',
                             year: 'numeric'
-                          }).format(new Date(selectedUser.startdate))
+                          }).format(new Date(selectedUser.startDate))
                         : '—'}
                     </div>
                     <div>
