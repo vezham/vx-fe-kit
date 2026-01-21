@@ -1,3 +1,20 @@
+export type AttachmentType =
+  | 'image'
+  | 'pdf'
+  | 'doc'
+  | 'sheet'
+  | 'zip'
+  | 'video'
+  | 'audio'
+  | 'other'
+
+export type Attachment = {
+  id: string
+  name: string
+  url: string
+  type: AttachmentType
+}
+
 export type Owner = {
   avatar: string
   email: string
@@ -8,11 +25,13 @@ export type Project = {
   startDate: Date
   dueDate: Date
   project: string
+  description: string
   tags: Tags[]
   id: number
   owner: Owner
   projectId: number
   status: Status
+  attachements: Attachment[]
 }
 
 export interface CopyTextProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -25,13 +44,16 @@ export interface CopyTextProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export type Status =
-  | 'paid'
-  | 'draft'
-  | 'overdue'
-  | 'sent'
-  | 'onhold'
-  | 'pending'
-  | 'cancelled'
+  | 'Active'
+  | 'InProgress'
+  | 'InTesting'
+  | 'Delayed'
+  | 'OnHold'
+  | 'Approved'
+  | 'Cancelled'
+  | 'Planning'
+  | 'Completed'
+  | 'Invoiced'
 
 export type Tags =
   | 'Design'

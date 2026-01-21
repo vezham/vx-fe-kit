@@ -4,15 +4,34 @@ export type Owner = {
   name: string
 }
 
+export type AttachmentType =
+  | 'image'
+  | 'pdf'
+  | 'doc'
+  | 'sheet'
+  | 'zip'
+  | 'video'
+  | 'audio'
+  | 'other'
+
+export type Attachment = {
+  id: string
+  name: string
+  url: string
+  type: AttachmentType
+}
+
 export type Project = {
   id: number
   projectId: number
   owner: Owner
   project: string
-  startdate: Date
+  description: string
+  startDate: Date
   dueDate: Date
   tags: Tags[]
   status: Status
+  attachments: Attachment[]
 }
 
 export type Tags =
@@ -27,13 +46,16 @@ export type Tags =
   | (string & {})
 
 export type Status =
-  | 'paid'
-  | 'draft'
-  | 'overdue'
-  | 'sent'
-  | 'onhold'
-  | 'pending'
-  | 'cancelled'
+  | 'Active'
+  | 'InProgress'
+  | 'InTesting'
+  | 'Delayed'
+  | 'OnHold'
+  | 'Approved'
+  | 'Cancelled'
+  | 'Planning'
+  | 'Completed'
+  | 'Invoiced'
 
 export type Dates = 'all' | 'last7Days' | 'last30Days' | 'last60Days'
 

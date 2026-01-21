@@ -29,6 +29,7 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
+  Image,
   Input,
   Pagination,
   Popover,
@@ -70,7 +71,7 @@ import {
   getDateProps,
   getStatusProps
 } from '../../store/useProjects/data'
-import { CopyTextProps, Project, Tags } from './types'
+import { Attachment, CopyTextProps, Project, Tags } from './types'
 import { copyTextVariants, tableStyles } from './variant'
 
 const Component = () => {
@@ -199,7 +200,11 @@ const Component = () => {
           ...(user.tags?.map(tag => tag.toString()) || [])
         ]
 
-        return values.some(val => val?.toLowerCase().includes(lowerFilter))
+        return values.some(val =>
+          String(val ?? '')
+            .toLowerCase()
+            .includes(lowerFilter)
+        )
       })
     }
 
@@ -328,6 +333,7 @@ const Component = () => {
       switch (userKey) {
         case 'projectId':
           return <CopyText>{String(cellValue)}</CopyText>
+
         case 'owner':
           return (
             <User
@@ -343,6 +349,7 @@ const Component = () => {
           )
         case 'project':
           return <p className="w-full truncate">{cellValue}</p>
+
         case 'startdate':
           return (
             <div className={tableStyles.cell.lastLoginContainer}>
@@ -359,6 +366,7 @@ const Component = () => {
               </p>
             </div>
           )
+
         case 'duedate':
           return (
             <div className={tableStyles.cell.lastLoginContainer}>
@@ -375,6 +383,7 @@ const Component = () => {
               </p>
             </div>
           )
+
         case 'status': {
           const statusValue = user.status
           const key = statusValue.toLowerCase() as keyof typeof getStatusProps
@@ -382,7 +391,7 @@ const Component = () => {
 
           return (
             <Chip
-              className={`${color} ${label}`} // 👈 merge bg + text
+              className={`${color} ${label}`}
               variant="solid"
               radius="sm"
               startContent={
@@ -1103,6 +1112,68 @@ const Component = () => {
       </Alert>
     )
 
+  const AttachmentItem = ({ file }: { file: Attachment }) => {
+    switch (file.type) {
+      case 'image':
+        return (
+          <div className="w-fit overflow-hidden rounded-md border">
+            <Image
+              src={file.url}
+              alt={file.name}
+              width={200}
+              height={140}
+              className="object-cover"
+            />
+            <p className="text-default-500 px-2 py-1 text-xs">{file.name}</p>
+          </div>
+        )
+
+      case 'pdf':
+        return (
+          <a
+            href={file.url}
+            target="_blank"
+            className="text-danger flex items-center gap-2 text-sm hover:underline">
+            <Icon icon="solar:file-pdf-linear" width={18} />
+            {file.name}
+          </a>
+        )
+
+      case 'doc':
+        return (
+          <a
+            href={file.url}
+            target="_blank"
+            className="text-primary flex items-center gap-2 text-sm hover:underline">
+            <Icon icon="solar:file-text-linear" width={18} />
+            {file.name}
+          </a>
+        )
+
+      case 'sheet':
+        return (
+          <a
+            href={file.url}
+            target="_blank"
+            className="text-success flex items-center gap-2 text-sm hover:underline">
+            <Icon icon="solar:file-spreadsheet-linear" width={18} />
+            {file.name}
+          </a>
+        )
+
+      default:
+        return (
+          <a
+            href={file.url}
+            target="_blank"
+            className="text-default-500 flex items-center gap-2 text-sm hover:underline">
+            <Icon icon="solar:file-linear" width={18} />
+            {file.name}
+          </a>
+        )
+    }
+  }
+
   return (
     <div className="flex items-start justify-between p-0">
       <div className="w-full">
@@ -1409,21 +1480,27 @@ const Component = () => {
                       <Chip
                         radius="sm"
                         color={
-                          selectedUser.status === 'paid'
+                          selectedUser.status === 'Active'
                             ? 'success'
-                            : selectedUser.status === 'pending'
-                              ? 'default'
-                              : selectedUser.status === 'overdue'
+                            : selectedUser.status === 'InProgress'
+                              ? 'warning'
+                              : selectedUser.status === 'Delayed'
                                 ? 'danger'
-                                : selectedUser.status === 'onhold'
-                                  ? 'secondary'
-                                  : selectedUser.status === 'sent'
+                                : selectedUser.status === 'OnHold'
+                                  ? 'warning'
+                                  : selectedUser.status === 'Approved'
                                     ? 'primary'
-                                    : selectedUser.status === 'draft'
-                                      ? 'warning'
-                                      : selectedUser.status === 'cancelled'
-                                        ? 'warning'
-                                        : 'warning'
+                                    : selectedUser.status === 'InTesting'
+                                      ? 'default'
+                                      : selectedUser.status === 'Cancelled'
+                                        ? 'danger'
+                                        : selectedUser.status === 'Planning'
+                                          ? 'primary'
+                                          : selectedUser.status === 'Completed'
+                                            ? 'success'
+                                            : selectedUser.status === 'Invoiced'
+                                              ? 'secondary'
+                                              : 'default'
                         }
                         variant="dot">
                         {selectedUser.status}
@@ -1453,6 +1530,20 @@ const Component = () => {
                             </Chip>
                           )
                         )}
+                    </div>
+                    <div className="text-justify">
+                      <b>Description: </b>
+                      <br />
+                      {selectedUser.description}
+                    </div>
+                    <div>
+                      <b>Attachments:</b>
+
+                      <div className="mt-2 space-y-3">
+                        {selectedUser.attachments.map(file => (
+                          <AttachmentItem key={file.id} file={file} />
+                        ))}
+                      </div>
                     </div>
                   </div>
                 )}
