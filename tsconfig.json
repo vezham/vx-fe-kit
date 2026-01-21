@@ -22,6 +22,12 @@
     },
     {
       "path": "./apps/books"
+    },
+    {
+      "path": "./apps/projects-e2e"
+    },
+    {
+      "path": "./apps/projects"
     }
   ]
 }

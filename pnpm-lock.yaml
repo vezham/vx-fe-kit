@@ -317,6 +317,39 @@ importers:
         specifier: ^16.4.1
         version: 16.6.1
 
+  apps/projects:
+    devDependencies:
+      '@vx/start':
+        specifier: workspace:*
+        version: link:../../packages/vx/start
+      '@vx/system-utils':
+        specifier: workspace:*
+        version: link:../../packages/vx/system-utils
+
+  apps/projects-e2e: {}
+
+  apps/projects-mock:
+    dependencies:
+      '@faker-js/faker':
+        specifier: ^8.4.1
+        version: 8.4.1
+      json-server:
+        specifier: ^0.17.4
+        version: 0.17.4
+    devDependencies:
+      '@types/json-server':
+        specifier: ^0.14.8
+        version: 0.14.8
+      '@types/node':
+        specifier: ^20.0.0
+        version: 20.19.9
+      '@vezham/use-logger':
+        specifier: ^0.3.3
+        version: 0.3.3
+      dotenv:
+        specifier: ^16.4.1
+        version: 16.6.1
+
   apps_internals/playground:
     devDependencies:
       '@vx/start':

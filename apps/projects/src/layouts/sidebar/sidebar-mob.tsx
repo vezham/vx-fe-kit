@@ -107,9 +107,7 @@ export default function SidebarWithSearchInput() {
   const buttonTextColor = isDarkMode ? 'text-white' : 'text-black'
 
   const mobileNavItems = items.filter(item =>
-    ['bank', 'books', 'inventory', 'reports', 'widgets', 'settings'].includes(
-      item.key
-    )
+    ['home', 'projects', 'teams', 'settings'].includes(item.key)
   )
 
   return (

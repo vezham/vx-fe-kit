@@ -62,27 +62,35 @@ import {
   SendFilledIcon
 } from '@vx-oss/heroui-v2-shared-icons'
 
-import { useSales } from '../../../store/books/useSales'
-import type { Columns } from '../../../store/books/useSales/data'
+import { useProjects } from '../../store/useProjects'
 import {
+  Columns,
   INITIAL_VISIBLE_COLUMNS,
   getColumnProps,
   getDateProps,
   getStatusProps
-} from '../../../store/books/useSales/data'
-import { Sales, Tags } from '../../../store/books/useSales/types'
-import { teamSettingStyles } from '../../settings-new/team/variant'
-import { CopyTextProps } from './types'
+} from '../../store/useProjects/data'
+import { CopyTextProps, Project, Tags } from './types'
 import { copyTextVariants, tableStyles } from './variant'
 
 const Component = () => {
   const {
     data: users = [],
-    isLoading: salesLoading,
-    isError: salesError,
-    refetch: refetchSales
-  } = useSales.list({})
+    isLoading: projectLoading,
+    isError: projectError,
+    refetch: refetchProject
+  } = useProjects.list({})
 
+  const { mutate: deleteProject } = useProjects.delete()
+
+  const handleDelete = useCallback(
+    (id: number) => {
+      deleteProject(id)
+    },
+    [deleteProject]
+  )
+
+  // selected user id
   const [selectedUserId, setSelectedUserId] = useState<number | null>(null)
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
 
@@ -91,10 +99,9 @@ const Component = () => {
     isLoading: selectedLoading,
     isError: selectedError,
     refetch: selectedRefetch
-  } = useSales.get({ id: selectedUserId ?? 0 })
+  } = useProjects.get({ id: selectedUserId ?? 0 })
 
-  const [tableData, setTableData] = useState<Sales[]>([])
-
+  const [tableData, setTableData] = useState<Project[]>([])
   const [filterValue, setFilterValue] = useState('')
   const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set([]))
   const [visibleColumns, setVisibleColumns] = useState<Selection>(
@@ -103,20 +110,24 @@ const Component = () => {
   const [rowsPerPage] = useState(5)
   const [page, setPage] = useState(1)
 
-  const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
-    column: 'vendor',
-    direction: 'ascending'
-  })
-
   useEffect(() => {
     if (users.length) {
       setTableData(users)
     }
   }, [users])
 
+  const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
+    column: 'owner',
+    direction: 'ascending'
+  })
+
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
 
-  const handleRowClick = (user: Sales) => {
+  const [statusFilter, setStatusFilter] = useState('all')
+  const [startDateFilter, setStartDateFilter] = useState('all')
+  const [dueDateFilter, setDueDateFilter] = useState('all')
+
+  const handleRowClick = (user: Project) => {
     const index = sortedItems.findIndex(i => i.id === user.id)
     setSelectedIndex(index)
     setSelectedUserId(user.id)
@@ -124,19 +135,12 @@ const Component = () => {
     onOpen()
   }
 
-  const handleDelete = useCallback(
-    (id: number) => {
-      console.log('Deleting user with id:', id)
-      setTableData(prev => prev.filter(u => u.id !== id))
-    },
-    [setTableData]
-  )
-
   const handleEdit = useCallback(
     (id: number) => {
-      setTableData(prev => prev.map(u => (u.id === id ? { ...u } : u)))
+      setSelectedUserId(id)
+      onOpen()
     },
-    [setTableData]
+    [onOpen]
   )
 
   const headerColumns = useMemo(() => {
@@ -147,12 +151,8 @@ const Component = () => {
     )
   }, [visibleColumns])
 
-  const [statusFilter, setStatusFilter] = useState('all')
-  const [startDateFilter, setStartDateFilter] = useState('all')
-  const [dueDateFilter, setDueDateFilter] = useState('all')
-
   const itemFilter = useCallback(
-    (col: Sales) => {
+    (col: Project) => {
       const statusMatch =
         statusFilter === 'all' ||
         col.status.toLowerCase() === statusFilter.toLowerCase()
@@ -163,7 +163,7 @@ const Component = () => {
         const daysAgo = match ? +match[1] : 0
         const limit = new Date()
         limit.setDate(limit.getDate() - daysAgo)
-        return new Date(col.date) >= limit
+        return new Date(col.startDate) >= limit
       })()
 
       const dueDateMatch = (() => {
@@ -188,15 +188,13 @@ const Component = () => {
 
       filteredUsers = filteredUsers.filter(user => {
         const values = [
-          user.amount?.toString(),
-          user.product,
-          user.date?.toString(),
+          user.project,
+          user.startDate?.toString(),
           user.dueDate?.toString(),
           user.id?.toString(),
-          user.vendor?.name,
+          user.owner?.name,
           user.status,
-          user.orderId?.toString(),
-          user.externalOrderID,
+          user.projectId,
 
           ...(user.tags?.map(tag => tag.toString()) || [])
         ]
@@ -207,7 +205,7 @@ const Component = () => {
 
     filteredUsers = filteredUsers.filter(itemFilter)
     return filteredUsers
-  }, [filterValue, tableData, itemFilter])
+  }, [filterValue, itemFilter, tableData])
 
   const pages = Math.ceil(filteredItems.length / rowsPerPage) || 1
 
@@ -219,13 +217,13 @@ const Component = () => {
   }, [page, filteredItems, rowsPerPage])
 
   const sortedItems = useMemo(() => {
-    return [...items].sort((a: Sales, b: Sales) => {
-      const col = sortDescriptor.column as keyof Sales
+    return [...items].sort((a: Project, b: Project) => {
+      const col = sortDescriptor.column as keyof Project
 
       let first = a[col]
       let second = b[col]
 
-      if (col === 'vendor') {
+      if (col === 'owner') {
         first = a[col].name
         second = b[col].name
       }
@@ -321,21 +319,16 @@ const Component = () => {
       )
     })
   )
-  const renderCell = useCallback(
-    (user: Sales, columnKey: React.Key) => {
-      const userKey = columnKey as Columns
-      const cellValue = user[userKey as unknown as keyof Sales] as string
 
-      const statusValue = user.status
-      const key = statusValue.toLowerCase() as keyof typeof getStatusProps
-      const { color } = getStatusProps[key] || {}
+  const renderCell = useCallback(
+    (user: Project, columnKey: React.Key) => {
+      const userKey = columnKey as Columns
+      const cellValue = user[userKey as unknown as keyof Project] as string
 
       switch (userKey) {
-        case 'orderId':
+        case 'projectId':
           return <CopyText>{String(cellValue)}</CopyText>
-        case 'externalOrderID':
-          return <CopyText>{String(cellValue)}</CopyText>
-        case 'vendor':
+        case 'owner':
           return (
             <User
               avatarProps={{ radius: 'lg', src: user[userKey].avatar }}
@@ -348,9 +341,9 @@ const Component = () => {
               {user[userKey].email}
             </User>
           )
-        case 'product':
+        case 'project':
           return <p className="w-full truncate">{cellValue}</p>
-        case 'date':
+        case 'startdate':
           return (
             <div className={tableStyles.cell.lastLoginContainer}>
               <Icon
@@ -382,13 +375,14 @@ const Component = () => {
               </p>
             </div>
           )
-        case 'amount':
-          return <p className="w-full min-w-[55px]">$ {user.amount}</p>
-
         case 'status': {
+          const statusValue = user.status
+          const key = statusValue.toLowerCase() as keyof typeof getStatusProps
+          const { label, color } = getStatusProps[key] || {}
+
           return (
             <Chip
-              className={`${color}`} // 👈 merge bg + text
+              className={`${color} ${label}`} // 👈 merge bg + text
               variant="solid"
               radius="sm"
               startContent={
@@ -398,6 +392,7 @@ const Component = () => {
             </Chip>
           )
         }
+
         case 'tags':
           return (
             <div className="float-start flex gap-1">
@@ -500,7 +495,7 @@ const Component = () => {
           return cellValue
       }
     },
-    [CopyText, handleEdit, handleDelete]
+    [handleEdit, handleDelete, CopyText]
   )
 
   const onSelectionChange = useCallback((keys: Selection) => {
@@ -508,6 +503,7 @@ const Component = () => {
   }, [])
 
   const [isPageLoading, setIsPageLoading] = useState(false)
+
   const sleep = () => new Promise(resolve => setTimeout(resolve, 500))
 
   const onNextPage = useCallback(async () => {
@@ -556,7 +552,7 @@ const Component = () => {
       <div className={tableStyles.topBarContainer}>
         <div className={tableStyles.topBarLeft}>
           <div className={tableStyles.topBarLeftInner}>
-            <p className={tableStyles.membersText}>Orders</p>
+            <p className={tableStyles.membersText}>Projects</p>
 
             <Chip className={tableStyles.chip} size="sm" variant="flat">
               {users.length}
@@ -609,9 +605,8 @@ const Component = () => {
                   </DropdownTrigger>
                   <DropdownMenu aria-label="Selected Actions">
                     <DropdownItem key="send-email">Send email</DropdownItem>
-                    <DropdownItem key="pay-invoices">Pay invoices</DropdownItem>
+                    <DropdownItem key="pay-invoices">Bulk delete</DropdownItem>
                     <DropdownItem key="bulk-edit">Bulk edit</DropdownItem>
-                    <DropdownItem key="end-contract">End contract</DropdownItem>
                   </DropdownMenu>
                 </Dropdown>
               </div>
@@ -719,7 +714,6 @@ const Component = () => {
 
                       <Spacer y={5} />
 
-                      {/* Due Date filter */}
                       <RadioGroup
                         label="Due Date"
                         value={dueDateFilter}
@@ -845,7 +839,7 @@ const Component = () => {
 
                   <DropdownMenu aria-label="More actions" closeOnSelect={false}>
                     <DropdownItem key="filter" className="p-0">
-                      <Popover placement="bottom-end">
+                      <Popover placement="bottom">
                         <PopoverTrigger>
                           <Button
                             variant="light"
@@ -861,6 +855,7 @@ const Component = () => {
 
                         <PopoverContent className={tableStyles.popoverContent}>
                           <div className={tableStyles.filterPopoverContent}>
+                            {/* Status filter */}
                             <RadioGroup
                               label="Status"
                               value={statusFilter}
@@ -877,6 +872,7 @@ const Component = () => {
 
                             <Spacer y={5} />
 
+                            {/* Start Date filter */}
                             <RadioGroup
                               label="Start Date"
                               value={startDateFilter}
@@ -892,6 +888,7 @@ const Component = () => {
 
                             <Spacer y={5} />
 
+                            {/* Due Date filter */}
                             <RadioGroup
                               label="Due Date"
                               value={dueDateFilter}
@@ -982,17 +979,18 @@ const Component = () => {
                             Columns
                           </Button>
                         </DropdownTrigger>
+
                         <DropdownMenu
                           disallowEmptySelection
                           aria-label="Columns"
                           items={Object.entries(getColumnProps)
-                            .map(([id, col]) => ({ ...col, id }))
-                            .filter(c => c.id !== 'actions')}
+                            .map(([uid, col]) => ({ uid, ...col }))
+                            .filter(c => c.uid !== 'actions')}
                           selectedKeys={visibleColumns}
                           selectionMode="multiple"
                           onSelectionChange={setVisibleColumns}>
                           {item => (
-                            <DropdownItem key={item.id}>
+                            <DropdownItem key={item.uid}>
                               {item.label}
                             </DropdownItem>
                           )}
@@ -1082,23 +1080,23 @@ const Component = () => {
         </div>
       </div>
     )
-  }, [page, pages, onPreviousPage, onNextPage, onPaginationChange])
+  }, [page, pages, onPaginationChange, onPreviousPage, onNextPage])
 
-  if (salesError)
+  if (projectError)
     return (
       <Alert
         variant="faded"
         color="default"
-        title="Error loading Sales"
+        title="Error loading Purchase"
         hideIcon
-        className="mt-6 flex flex-col items-center justify-center">
+        className="mt-6 flex flex-col items-center">
         <Button
           color="danger"
           size="sm"
           variant="light"
           className="mx-auto mt-2"
           onPress={() => {
-            refetchSales()
+            refetchProject()
           }}>
           Try Again
         </Button>
@@ -1106,14 +1104,16 @@ const Component = () => {
     )
 
   return (
-    <div className={teamSettingStyles.tableSectionContainer}>
-      <div className={teamSettingStyles.tableWrapper}>
-        <Card className={teamSettingStyles.tableCard} shadow="none">
+    <div className="flex items-start justify-between p-0">
+      <div className="w-full">
+        <Card
+          className="sm:border-default-200 mt-4 bg-transparent sm:border"
+          shadow="none">
           <CardBody>
             <div className={tableStyles.wrapper}>
-              {!salesLoading && <div>{topBar}</div>}
+              {!projectLoading && <div>{topBar}</div>}
               <ScrollShadow orientation="horizontal">
-                {salesLoading ? (
+                {projectLoading ? (
                   <div className="flex h-75 items-center justify-center">
                     <Spinner size="lg" />
                   </div>
@@ -1122,7 +1122,6 @@ const Component = () => {
                     removeWrapper
                     aria-label="Users Table"
                     bottomContentPlacement="outside"
-                    classNames={tableStyles.table}
                     selectedKeys={filterSelectedKeys}
                     selectionMode="multiple"
                     sortDescriptor={sortDescriptor}
@@ -1133,7 +1132,7 @@ const Component = () => {
                       {column => (
                         <TableColumn
                           key={column.id}
-                          // disable sorting for specific columns
+                          // enables sorting except for specific columns
                           allowsSorting={
                             column.id !== 'actions' && column.id !== 'tags'
                           }
@@ -1143,36 +1142,7 @@ const Component = () => {
                               ? 'flex items-center justify-end px-[20px]'
                               : ''
                           ])}>
-                          {column.label}
-                          {/* <div
-                            className="flex cursor-pointer items-center justify-between select-none"
-                            onClick={() => {
-                              if (
-                                column.id === 'actions' ||
-                                column.id === 'tags'
-                              )
-                                return
-
-                              setSortDescriptor({
-                                column: column.id,
-                                direction:
-                                  sortDescriptor.column === column.id &&
-                                  sortDescriptor.direction === 'ascending'
-                                    ? 'descending'
-                                    : 'ascending'
-                              })
-                            }}>
-                            {column.info && (
-                              <Tooltip content={column.info}>
-                                <Icon
-                                  className="text-default-300"
-                                  height={16}
-                                  icon="solar:info-circle-linear"
-                                  width={16}
-                                />
-                              </Tooltip>
-                            )}
-                          </div> */}
+                          <span>{column.label}</span>
                         </TableColumn>
                       )}
                     </TableHeader>
@@ -1192,6 +1162,7 @@ const Component = () => {
                         item => (
                           <TableRow
                             key={item.id}
+                            className="group"
                             onClick={() => handleRowClick(item)}>
                             {columnKey => (
                               <TableCell>
@@ -1205,7 +1176,7 @@ const Component = () => {
                   </Table>
                 )}
               </ScrollShadow>
-              {!salesLoading && <div>{bottomContent}</div>}
+              {!projectLoading && <div>{bottomContent}</div>}
             </div>
           </CardBody>
         </Card>
@@ -1401,25 +1372,25 @@ const Component = () => {
                     <User
                       avatarProps={{
                         src:
-                          selectedUser.vendor.avatar ||
+                          selectedUser.owner.avatar ||
                           'https://i.pravatar.cc/150?u=a04258',
-                        name: selectedUser.vendor.name
+                        name: selectedUser.owner.name
                       }}
-                      name={selectedUser.vendor.name}
-                      description={selectedUser.vendor.email}
+                      name={selectedUser.owner.name}
+                      description={selectedUser.owner.email}
                     />
 
                     <div>
-                      <b>Product:</b> {selectedUser.product}
+                      <b>Project Name:</b> {selectedUser.project}
                     </div>
                     <div>
                       <b>Date:</b>{' '}
-                      {selectedUser?.date
+                      {selectedUser?.startdate
                         ? new Intl.DateTimeFormat('en-US', {
                             month: 'long',
                             day: 'numeric',
                             year: 'numeric'
-                          }).format(new Date(selectedUser.date))
+                          }).format(new Date(selectedUser.startdate))
                         : '—'}
                     </div>
                     <div>
@@ -1431,9 +1402,6 @@ const Component = () => {
                             year: 'numeric'
                           }).format(new Date(selectedUser.dueDate))
                         : '—'}
-                    </div>
-                    <div>
-                      <b>Amount:</b> {selectedUser.amount}
                     </div>
 
                     <div className="flex items-center gap-2">
