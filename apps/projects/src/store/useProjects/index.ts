@@ -55,10 +55,30 @@ export function useDeleteProject() {
 
   return useMutation({
     mutationFn: (id: number) => Api.delete(id),
-    onSuccess: id => {
+
+    onMutate: async id => {
+      await queryClient.cancelQueries({ queryKey: [...CK_PROJECT, 'list'] })
+
+      const previousData = queryClient.getQueryData<Project[]>([
+        ...CK_PROJECT,
+        'list'
+      ])
+
       queryClient.setQueryData<Project[]>([...CK_PROJECT, 'list'], (old = []) =>
         old.filter(p => p.id !== id)
       )
+
+      return { previousData }
+    },
+
+    onError: (_err, _id, context) => {
+      if (context?.previousData) {
+        queryClient.setQueryData([...CK_PROJECT, 'list'], context.previousData)
+      }
+    },
+
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: [...CK_PROJECT, 'list'] })
     }
   })
 }

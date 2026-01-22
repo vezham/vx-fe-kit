@@ -17,17 +17,13 @@ export const items: SidebarItem[] = [
     key: 'teams',
     href: '/teams',
     icon: 'lucide:user-round',
-    title: 'Teams',
-    endContent: '+',
-    showInMainContent: true
+    title: 'Teams'
   },
 
   {
     key: 'settings',
     href: '/settings',
     icon: 'lucide:settings',
-    title: 'Settings',
-    endContent: '+',
-    showInMainContent: true
+    title: 'Settings'
   }
 ]

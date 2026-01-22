@@ -11,13 +11,8 @@ import {
   Tooltip
 } from '@vezham/react/v2'
 
-import { useTheme } from '../../../common/context'
 import { SidebarItem, SidebarProps } from './types'
-import {
-  getInputWrapperClass,
-  getSearchIconClass,
-  sidebarStyles
-} from './variant'
+import { sidebarStyles } from './variant'
 
 const Sidebar: React.FC<SidebarProps> = ({
   items,
@@ -29,7 +24,6 @@ const Sidebar: React.FC<SidebarProps> = ({
 }) => {
   const navigate = useNavigate()
   const [searchValue, setSearchValue] = React.useState('')
-  const { isDarkMode } = useTheme()
 
   const handleSelect = (key: string, href?: string) => {
     if (onSelect) onSelect(key)
@@ -91,41 +85,17 @@ const Sidebar: React.FC<SidebarProps> = ({
   }, [items, searchValue])
 
   return (
-    <div className={`${sidebarStyles.container} flex h-full flex-col`}>
-      {/* Search Box */}
-      <div className="cursor-pointer">
-        <Input
-          size="sm"
-          fullWidth={!isCompact}
-          aria-label="search"
-          value={searchValue}
-          placeholder={isCompact ? '' : 'Search or Jump to... (⌘K)'}
-          className="mb-2 px-3"
-          classNames={{
-            input: isCompact ? 'hidden' : 'block',
-            inputWrapper: getInputWrapperClass({ isDarkMode, isCompact })
-          }}
-          startContent={
-            <Icon
-              icon="lucide:search"
-              width={20}
-              className={getSearchIconClass({ isDarkMode })}
-            />
-          }
-          endContent={
-            !isCompact && <Kbd className="hidden sm:inline-block">⌘K</Kbd>
-          }
-          readOnly
-        />
-      </div>
-
+    <div className={`${sidebarStyles.container}`}>
       <ScrollShadow hideScrollBar orientation="vertical">
         {isCompact ? (
-          <div className="flex flex-col">{filteredItems.map(renderItem)}</div>
+          <div className="flex min-h-full flex-col justify-center gap-1">
+            {filteredItems.map(renderItem)}
+          </div>
         ) : (
           <Listbox
             aria-label="Main menu"
             selectionMode="single"
+            className="flex flex-col justify-start"
             selectedKeys={selectedKey ? new Set([selectedKey]) : new Set()}
             onSelectionChange={keys => {
               if (keys !== 'all') {

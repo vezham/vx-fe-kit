@@ -1,6 +1,3 @@
-// layouts/reports/ReportsLayout.tsx
-'use client'
-
 import {
   Outlet,
   useLocation,
@@ -15,16 +12,6 @@ import { ScrollShadow, Spacer, cn } from '@vezham/react/v2'
 import { sectionItems } from './items'
 import Sidebar from './sidebar'
 
-// layouts/reports/ReportsLayout.tsx
-
-// layouts/reports/ReportsLayout.tsx
-
-// layouts/reports/ReportsLayout.tsx
-
-// layouts/reports/ReportsLayout.tsx
-
-// layouts/reports/ReportsLayout.tsx
-
 export default function ReportsLayout() {
   const navigate = useNavigate()
   const location = useLocation()
@@ -32,7 +19,6 @@ export default function ReportsLayout() {
   const [showSidebar, setShowSidebar] = React.useState(true)
   const routeContext = useRouteContext({ from: '/reports' })
 
-  // Find active key from current path
   const getActiveKey = React.useCallback((path: string) => {
     if (path === '/reports' || path === '/reports/') return 'overview' // choose default
     for (const section of sectionItems) {
@@ -52,7 +38,6 @@ export default function ReportsLayout() {
 
   const activeKey = getActiveKey(location.pathname)
 
-  // Map a key back to its href (search nested items)
   const findHrefByKey = React.useCallback((key: string): string | undefined => {
     for (const section of sectionItems) {
       for (const item of section.items ?? []) {

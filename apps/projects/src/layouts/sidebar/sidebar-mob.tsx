@@ -1,4 +1,4 @@
-import { Outlet } from '@tanstack/react-router'
+import { Outlet, useRouterState } from '@tanstack/react-router'
 import React from 'react'
 
 import { useTheme } from '../../common/context'
@@ -12,16 +12,35 @@ import SidebarMenu from '../../components/sidebar-panel/sidebar-menu/sidebar'
 import { items } from '../../components/sidebar-panel/sidebar-menu/sidebar-items'
 import type { SidebarItem } from '../../components/sidebar-panel/sidebar-menu/types'
 
+const getKeyFromPath = (pathname: string) => {
+  if (pathname.startsWith('/projects')) return 'projects'
+  if (pathname.startsWith('/teams')) return 'teams'
+  if (pathname.startsWith('/settings')) return 'settings'
+  return 'home'
+}
+
 export default function SidebarWithSearchInput() {
   const { isDarkMode, toggleTheme } = useTheme()
+
+  const { location } = useRouterState()
+  const currentKey = React.useMemo(
+    () => getKeyFromPath(location.pathname),
+    [location.pathname]
+  )
+
   const [isCompact, setIsCompact] = React.useState(true)
   const [expandedKeys, setExpandedKeys] = React.useState<Set<string>>(new Set())
   const [searchValue, setSearchValue] = React.useState('')
   const [isRightSidebar, setIsRightSidebar] = React.useState(false)
   const [isRtl, setIsRtl] = React.useState(false)
-  const [selectedKey, setSelectedKey] = React.useState('home')
-  const [activeKey, setActiveKey] = React.useState('home')
+  const [selectedKey, setSelectedKey] = React.useState(currentKey)
+  const [activeKey, setActiveKey] = React.useState(currentKey)
   const [isPopoverOpen, setIsPopoverOpen] = React.useState(false)
+
+  React.useEffect(() => {
+    setSelectedKey(currentKey)
+    setActiveKey(currentKey)
+  }, [currentKey])
 
   const menuItemsForBottomNavbar = longMenuItems
 
@@ -32,6 +51,8 @@ export default function SidebarWithSearchInput() {
   const handleItemSelect = React.useCallback(
     (key: string) => {
       setSelectedKey(key)
+      setActiveKey(key)
+
       const findItem = (
         items: SidebarItem[],
         targetKey: string
@@ -43,7 +64,6 @@ export default function SidebarWithSearchInput() {
             if (found) return found
           }
         }
-        return undefined
       }
 
       const selectedItem = findItem(items, key)
@@ -117,7 +137,7 @@ export default function SidebarWithSearchInput() {
         <div
           className={`${bgColorClass} ${textColorClass} flex h-full w-full gap-4 overflow-hidden`}>
           <div
-            className={`${isCompact ? 'w-22' : 'w-54 lg:w-65'} h-full flex-shrink-0`}>
+            className={`${isCompact ? 'w-22' : 'w-40 lg:w-50'} h-full flex-shrink-0`}>
             <div
               className={`flex h-full flex-col rounded-lg shadow-md ${bgSidebarClass} ${textColorClass}`}
               dir={isRtl ? 'rtl' : 'ltr'}>

@@ -11,20 +11,18 @@ export const longMenuItems: SidebarItem[] = [
     key: 'projects',
     href: '/projects',
     icon: 'lucide:folder',
-    title: 'Chat'
+    title: 'Projects'
   },
   {
     key: 'teams',
     href: '/teams',
     icon: 'lucide:user-round',
-    title: 'Teams',
-    endContent: '+'
+    title: 'Teams'
   },
   {
     key: 'settings',
     href: '/settings',
     icon: 'lucide:settings',
-    title: 'Settings',
-    endContent: '+'
+    title: 'Settings'
   }
 ]
