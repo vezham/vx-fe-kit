@@ -623,9 +623,14 @@
 // }
 // export default Component
 import { Icon } from '@iconify/react'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import {
+  Outlet,
+  useLocation,
+  useNavigate,
+  useParams
+} from '@tanstack/react-router'
+import { useEffect, useMemo, useState } from 'react'
 
-import type { Selection } from '@vezham/react/v2'
 import {
   Alert,
   Button,
@@ -636,117 +641,93 @@ import {
   Input,
   ScrollShadow,
   Spacer,
+  Tab,
+  Tabs,
   useDisclosure
 } from '@vezham/react/v2'
 
-import {
-  DeleteIcon,
-  EditIcon,
-  EyeFilledIcon
-} from '@vx-oss/heroui-v2-shared-icons'
+import { DeleteIcon, EyeFilledIcon } from '@vx-oss/heroui-v2-shared-icons'
 
-import {
-  useDeleteProject,
-  useProject,
-  useProjectList
-} from '../../store/useProjects'
+import { useDeleteProject, useProjectList } from '../../store/useProjects'
 import { AddProjectDrawer } from './AddProjectDrawer'
-import { AddProjectModal } from './AddProjectModal'
-import { ProjectDetails } from './ProjectDetails'
-import { Project } from './types'
 
-const Component = () => {
-  const {
-    data: users = [],
-    isError: projectError,
-    refetch: refetchProject
-  } = useProjectList({})
+const ProjectLayout = () => {
+  const navigate = useNavigate()
+  const location = useLocation()
+  const { projectId } = useParams({ strict: false })
 
+  const { data: projects = [], isError, refetch } = useProjectList({})
   const { mutate: deleteProject } = useDeleteProject()
 
-  const {
-    isOpen: isDrawerOpen,
-    onOpen: openDrawer,
-    onOpenChange: onDrawerChange
-  } = useDisclosure()
-
-  const {
-    isOpen: isAddModalOpen,
-    onOpen: openAddModal,
-    onOpenChange: onAddModalChange
-  } = useDisclosure()
+  const { isOpen, onOpen, onOpenChange } = useDisclosure()
 
   /* ---------------- state ---------------- */
-
   const [searchValue, setSearchValue] = useState('')
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null)
-  const [selectedUserId, setSelectedUserId] = useState<number | null>(null)
-  const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set([]))
+  const [showDetails, setShowDetails] = useState(false) // mobile only
 
-  /* ---------------- derived data ---------------- */
-
+  /* ---------------- derived ---------------- */
   const filteredProjects = useMemo(() => {
-    if (!searchValue) return users
-    return users.filter(project =>
-      project.project.toLowerCase().includes(searchValue.toLowerCase())
+    if (!searchValue) return projects
+    return projects.filter(p =>
+      p.project.toLowerCase().includes(searchValue.toLowerCase())
     )
-  }, [users, searchValue])
+  }, [projects, searchValue])
 
-  useEffect(() => {
-    if (!selectedProject && users.length > 0) {
-      const first = users[0]
-      setSelectedProject(first)
-      setSelectedUserId(first.id)
-      setSelectedKeys(new Set([first.id]))
-    }
-  }, [users, selectedProject])
+  const activeId = Number(projectId)
 
-  const handleProjectSelect = (project: Project) => {
-    setSelectedProject(project)
-    setSelectedUserId(project.id)
-    setSelectedKeys(new Set([project.id]))
+  const activeTab = (() => {
+    if (!projectId) return 'overview'
+    if (location.pathname.endsWith('/tasks')) return 'tasks'
+    if (location.pathname.endsWith('/reports')) return 'reports'
+    return 'overview'
+  })()
+
+  /* ---------------- handlers ---------------- */
+  const handleSelect = (id: number) => {
+    navigate({
+      to: '/projects/$projectId',
+      params: { projectId: id }
+    })
+    setShowDetails(true)
   }
 
-  const handleEdit = useCallback(
-    (id: number) => {
-      setSelectedUserId(id)
-      openDrawer()
-    },
-    [openDrawer]
-  )
-
-  const handleDelete = useCallback(
-    (id: number) => {
-      deleteProject(id)
-      if (selectedProject?.id === id) {
-        setSelectedProject(null)
+  const handleDelete = (id: number) => {
+    deleteProject(id, {
+      onSuccess: () => {
+        setShowDetails(false)
+        navigate({ to: '/projects' })
       }
-    },
-    [deleteProject, selectedProject]
-  )
+    })
+  }
 
-  if (projectError) {
+  useEffect(() => {
+    if (!projectId) {
+      setShowDetails(true)
+    } else {
+      setShowDetails(false)
+    }
+  }, [projectId])
+
+  if (isError) {
     return (
-      <Alert
-        variant="faded"
-        title="Error loading projects"
-        hideIcon
-        className="mt-6 text-center">
-        <Button size="sm" onPress={refetchProject}>
-          Try again
+      <Alert title="Error loading projects" variant="faded">
+        <Button size="sm" onPress={refetch}>
+          Retry
         </Button>
       </Alert>
     )
   }
 
   return (
-    <div className="flex min-h-screen">
-      <div className="border-default-200 w-80 border-r">
+    <div className="flex h-screen">
+      {/* ---------------- Sidebar ---------------- */}
+      <div
+        className={`border-default-200 w-full px-2 lg:w-72 lg:border-r ${showDetails ? 'hidden lg:block' : 'block'} overflow-y-auto`}>
         <div className="p-3">
-          <div className="mt-1 flex items-center justify-between">
+          <div className="flex items-center justify-between">
             <h1 className="text-2xl font-semibold">Projects</h1>
             <span className="bg-default-100 rounded-lg px-3 py-1">
-              {users.length}
+              {projects.length}
             </span>
           </div>
 
@@ -757,22 +738,14 @@ const Component = () => {
             size="sm"
             startContent={<Icon icon="lucide:plus" />}
             color="primary"
-            onPress={openDrawer}>
+            onPress={onOpen}>
             Add Project
           </Button>
 
-          <AddProjectModal
-            isOpen={isAddModalOpen}
-            onOpenChange={onAddModalChange}
-          />
-          <AddProjectDrawer
-            isOpen={isDrawerOpen}
-            onOpenChange={onDrawerChange}
-          />
+          <AddProjectDrawer isOpen={isOpen} onOpenChange={onOpenChange} />
 
           <Spacer y={4} />
 
-          {/* 🔍 SEARCH BAR */}
           <Input
             size="sm"
             placeholder="Search projects..."
@@ -783,20 +756,20 @@ const Component = () => {
 
           <Spacer y={4} />
 
-          <ScrollShadow className="h-[calc(100vh-220px)]">
+          <ScrollShadow>
             {filteredProjects.map(project => (
               <div
                 key={project.id}
-                onClick={() => handleProjectSelect(project)}
-                className={`cursor-pointer rounded-lg px-2 py-2 transition-colors ${
-                  selectedProject?.id === project.id
+                onClick={() => handleSelect(project.id)}
+                className={`my-1 cursor-pointer rounded-lg px-2 py-2 ${
+                  project.id === activeId
                     ? 'bg-primary-50 border-primary-200 border'
                     : 'hover:bg-default-100'
                 }`}>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <Icon icon="lucide:folder" />
-                    <p className="text-sm">{project.project}</p>
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex min-w-0 items-center gap-2">
+                    <Icon icon="lucide:folder" className="shrink-0" />
+                    <p className="truncate text-sm">{project.project}</p>
                   </div>
 
                   <Dropdown placement="bottom-end">
@@ -808,7 +781,7 @@ const Component = () => {
                     <DropdownMenu>
                       <DropdownItem
                         startContent={<EyeFilledIcon />}
-                        onClick={() => handleProjectSelect(project)}
+                        onClick={() => handleSelect(project.id)}
                         key={''}>
                         View
                       </DropdownItem>
@@ -828,19 +801,63 @@ const Component = () => {
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="flex-1 overflow-auto p-3">
-        {selectedProject && (
-          <ProjectDetails
-            project={selectedProject}
-            onEdit={() => handleEdit(selectedProject.id)}
-            onDelete={() => handleDelete(selectedProject.id)}
-            onBack={() => setSelectedProject(null)}
-          />
-        )}
+      {/* ---------------- Details ---------------- */}
+      <div className="flex flex-1 flex-col">
+        <div
+          className={`h-screen overflow-y-auto p-3 ${showDetails ? 'block' : 'hidden lg:block'}`}>
+          <div className="px-3">
+            <h1 className="text-3xl font-bold">Projects & Tasks</h1>
+            <p className="text-default-500 mt-2">
+              Manage your projects and tasks
+            </p>
+          </div>
+
+          <div className="px-2 py-4">
+            <Tabs
+              variant="light"
+              color="primary"
+              size="sm"
+              selectedKey={activeTab}>
+              <Tab
+                key="overview"
+                title="Overview"
+                onClick={() =>
+                  navigate({
+                    to: '/projects/$projectId',
+                    params: { projectId: activeId }
+                  })
+                }
+              />
+              <Tab
+                key="tasks"
+                title="Tasks"
+                onClick={() =>
+                  navigate({
+                    to: '/projects/$projectId/tasks',
+                    params: { projectId: activeId }
+                  })
+                }
+              />
+              <Tab
+                key="reports"
+                title="Reports"
+                onClick={() =>
+                  navigate({
+                    to: '/projects/$projectId/reports',
+                    params: { projectId: activeId }
+                  })
+                }
+              />
+            </Tabs>
+          </div>
+
+          <div>
+            <Outlet />
+          </div>
+        </div>
       </div>
     </div>
   )
 }
 
-export default Component
+export { ProjectLayout }

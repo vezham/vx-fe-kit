@@ -111,11 +111,12 @@ export const AddProjectDrawer = ({ isOpen, onOpenChange }: Props) => {
     <Drawer
       hideCloseButton
       backdrop="blur"
+      size="lg"
       isOpen={isOpen}
       onOpenChange={onOpenChange}
       placement="right">
       <DrawerContent>
-        <DrawerHeader className="border-default-200/50 bg-content1/50 absolute inset-x-0 top-0 z-50 flex flex-row justify-between gap-2 border-b px-2 py-2 backdrop-blur-lg backdrop-saturate-150">
+        <DrawerHeader className="border-default-200/50 bg-content1/50 flex flex-row items-center gap-2 border-b px-2 py-2 backdrop-blur-lg backdrop-saturate-150">
           <Tooltip content="Close">
             <Button
               isIconOnly
@@ -141,6 +142,7 @@ export const AddProjectDrawer = ({ isOpen, onOpenChange }: Props) => {
         </DrawerHeader>
 
         <DrawerBody className="space-y-3">
+          {/* Project Name */}
           <Input
             label="Project Name"
             value={form.project}
@@ -148,6 +150,7 @@ export const AddProjectDrawer = ({ isOpen, onOpenChange }: Props) => {
             isRequired
           />
 
+          {/* Description */}
           <Input
             label="Description"
             value={form.description}
@@ -155,24 +158,28 @@ export const AddProjectDrawer = ({ isOpen, onOpenChange }: Props) => {
             isRequired
           />
 
-          <Input
-            label="Owner Name"
-            value={form.owner.name}
-            onValueChange={v =>
-              setForm(f => ({ ...f, owner: { ...f.owner, name: v } }))
-            }
-            isRequired
-          />
+          {/* Owner Name + Owner Email */}
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+            <Input
+              label="Owner Name"
+              value={form.owner.name}
+              onValueChange={v =>
+                setForm(f => ({ ...f, owner: { ...f.owner, name: v } }))
+              }
+              isRequired
+            />
 
-          <Input
-            label="Owner Email"
-            value={form.owner.email}
-            onValueChange={v =>
-              setForm(f => ({ ...f, owner: { ...f.owner, email: v } }))
-            }
-            isRequired
-          />
+            <Input
+              label="Owner Email"
+              value={form.owner.email}
+              onValueChange={v =>
+                setForm(f => ({ ...f, owner: { ...f.owner, email: v } }))
+              }
+              isRequired
+            />
+          </div>
 
+          {/* Avatar URL */}
           <Input
             label="Owner Avatar URL"
             value={form.owner.avatar}
@@ -181,22 +188,28 @@ export const AddProjectDrawer = ({ isOpen, onOpenChange }: Props) => {
             }
           />
 
-          <Input
-            type="date"
-            label="Start Date"
-            onValueChange={v =>
-              setForm(f => ({ ...f, startDate: new Date(v) }))
-            }
-            isRequired
-          />
+          {/* Start Date + Due Date */}
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+            <Input
+              type="date"
+              label="Start Date"
+              onValueChange={v =>
+                setForm(f => ({ ...f, startDate: new Date(v) }))
+              }
+              isRequired
+            />
 
-          <Input
-            type="date"
-            label="Due Date"
-            onValueChange={v => setForm(f => ({ ...f, dueDate: new Date(v) }))}
-            isRequired
-          />
+            <Input
+              type="date"
+              label="Due Date"
+              onValueChange={v =>
+                setForm(f => ({ ...f, dueDate: new Date(v) }))
+              }
+              isRequired
+            />
+          </div>
 
+          {/* Status */}
           <Select
             label="Status"
             selectedKeys={[form.status]}
@@ -209,6 +222,7 @@ export const AddProjectDrawer = ({ isOpen, onOpenChange }: Props) => {
             ))}
           </Select>
 
+          {/* Tags */}
           <Select
             label="Tags"
             selectionMode="multiple"
@@ -230,6 +244,7 @@ export const AddProjectDrawer = ({ isOpen, onOpenChange }: Props) => {
             ))}
           </div>
 
+          {/* Attachments */}
           <Input
             type="file"
             label="Attachments"

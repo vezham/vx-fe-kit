@@ -284,4 +284,4 @@ const generateMockUserData = (count: number): Project[] => {
   return mockData
 }
 
-export const projectData: Project[] = generateMockUserData(5)
+export const projectData: Project[] = generateMockUserData(20)

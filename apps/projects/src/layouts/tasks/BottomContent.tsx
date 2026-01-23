@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useMemo } from 'react'
+import React from 'react'
 
 import { Button, Pagination } from '@vezham/react/v2'
 
@@ -9,7 +9,7 @@ import {
   ChevronRightIcon
 } from '@vx-oss/heroui-v2-shared-icons'
 
-import { tableStyles } from './variant'
+import { tableStyles } from '../projects/variant'
 
 interface BottomContentProps {
   page: number

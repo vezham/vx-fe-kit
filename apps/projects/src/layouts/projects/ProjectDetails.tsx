@@ -16,9 +16,8 @@ import { Attachment, Project } from './types'
 
 interface ProjectDetailsProps {
   project: Project
-  onBack: () => void
-  onEdit: () => void
-  onDelete: () => void
+  onBack?: () => void
+  onDelete?: () => void
 }
 
 const AttachmentItem = ({ file }: { file: Attachment }) => {
@@ -83,44 +82,47 @@ const AttachmentItem = ({ file }: { file: Attachment }) => {
   }
 }
 
-export const ProjectDetails: React.FC<ProjectDetailsProps> = ({
+const ProjectDetails: React.FC<ProjectDetailsProps> = ({
   project,
   onBack,
-  onEdit,
   onDelete
 }) => {
   if (!project) return null
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
+    <div className=" ">
+      <div className="border-default-200 flex items-center justify-between border-t">
+        <div className="flex items-center gap-3 p-3">
           <Button
             isIconOnly
             variant="flat"
             size="sm"
             onPress={onBack}
-            className="mr-2">
-            <Icon icon="solar:arrow-left-linear" width={20} height={20} />
+            className="block lg:hidden">
+            <Icon
+              className="ml-2"
+              icon="mdi:arrow-left"
+              width={16}
+              height={16}
+            />
           </Button>
-          <h1 className="text-2xl font-bold">{project.project}</h1>
+          <h1 className="text-xl font-bold lg:text-2xl">{project.project}</h1>
         </div>
         <div className="flex gap-2">
           <Button
+            isIconOnly
             color="danger"
             variant="flat"
-            startContent={
-              <Icon icon="solar:trash-bin-trash-linear" width={16} />
-            }
+            size="sm"
             onPress={onDelete}>
-            Delete
+            <Icon icon="solar:trash-bin-trash-linear" width={16} />
           </Button>
         </div>
       </div>
 
       <Card shadow="none">
         <CardBody>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             {/* Project Info */}
             <div className="space-y-4">
               <h2 className="text-lg font-semibold">Project Information</h2>
@@ -236,7 +238,7 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({
               ))}
             </div>
           </div>
-          <div className="text-base">{project.description}</div>
+          <div className="mb-4 text-justify">{project.description}</div>
           <div>
             <b>Attachments:</b>
             <div className="mt-2 space-y-3">
@@ -250,3 +252,5 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({
     </div>
   )
 }
+
+export { ProjectDetails }

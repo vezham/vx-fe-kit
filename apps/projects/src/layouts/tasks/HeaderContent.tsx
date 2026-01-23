@@ -29,7 +29,7 @@ import {
   getDateProps,
   getStatusProps
 } from '../../store/useProjects/data'
-import { tableStyles } from './variant'
+import { tableStyles } from '../projects/variant'
 
 interface HeaderContentProps {
   selectedKeys: Selection

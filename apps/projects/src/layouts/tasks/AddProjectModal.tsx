@@ -15,10 +15,10 @@ import {
   SelectItem
 } from '@vezham/react/v2'
 
-import { Attachment } from '../../layouts/projects/types'
 import { useCreateProject } from '../../store/useProjects'
 import { statuses, tags } from '../../store/useProjects/data'
 import { Project, Status, Tags } from '../../store/useProjects/types'
+import { Attachment } from '../projects/types'
 
 type Props = {
   isOpen: boolean

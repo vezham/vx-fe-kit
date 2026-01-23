@@ -17,7 +17,7 @@ import {
   User
 } from '@vezham/react/v2'
 
-import { Attachment, Project, Tags } from './types'
+import { Attachment, Project, Tags } from '../projects/types'
 
 interface ProjectDrawerProps {
   isOpen: boolean
