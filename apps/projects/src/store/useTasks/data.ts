@@ -1,4 +1,4 @@
-import { Attachment, Dates, Project, Status, Tags } from './types'
+import { Attachment, Dates, Status, Tags, Task } from './types'
 
 type StatusProps = {
   label: string
@@ -6,7 +6,7 @@ type StatusProps = {
 }
 
 export const getStatusProps: Record<Status, StatusProps> = {
-  Active: {
+  Open: {
     label: 'Active',
     color: 'bg-success-300 text-success'
   },
@@ -14,11 +14,11 @@ export const getStatusProps: Record<Status, StatusProps> = {
     label: 'In Progress',
     color: 'bg-warning-300 text-warning'
   },
-  InTesting: {
+  InReview: {
     label: 'In Testing',
     color: 'bg-default-300 text-default'
   },
-  Approved: {
+  TobeTested: {
     label: 'Approved',
     color: 'bg-primary-300 text-primary'
   },
@@ -34,17 +34,9 @@ export const getStatusProps: Record<Status, StatusProps> = {
     label: 'Cancelled',
     color: 'bg-danger-300 text-danger'
   },
-  Planning: {
+  Closed: {
     label: 'Planning',
     color: 'bg-primary-300 text-primary'
-  },
-  Completed: {
-    label: 'Completed',
-    color: 'bg-success-600 text-success'
-  },
-  Invoiced: {
-    label: 'Invoiced',
-    color: 'bg-secondary-300 text-secondary'
   }
 }
 
@@ -74,14 +66,14 @@ type columnProps = {
 }
 
 export const getColumnProps: Record<Columns, columnProps> = {
-  projectId: {
-    id: 'projectId',
-    label: ' ID',
+  taskId: {
+    id: 'taskId',
+    label: 'ID',
     info: ''
   },
-  project: {
-    id: 'project',
-    label: 'Project Name',
+  taskname: {
+    id: 'taskname',
+    label: 'Task Name',
     info: ''
   },
   owner: {
@@ -89,6 +81,12 @@ export const getColumnProps: Record<Columns, columnProps> = {
     label: 'Owner',
     info: ''
   },
+  description: {
+    id: 'description',
+    label: 'Description',
+    info: ''
+  },
+
   startdate: {
     id: 'startdate',
     label: 'Start Date',
@@ -110,6 +108,16 @@ export const getColumnProps: Record<Columns, columnProps> = {
     label: 'Tags',
     info: ''
   },
+  priority: {
+    id: 'priority',
+    label: 'Priority',
+    info: ''
+  },
+  billingtype: {
+    id: 'billingtype',
+    label: 'Billing',
+    info: ''
+  },
   actions: {
     id: 'actions',
     label: 'Actions',
@@ -118,13 +126,16 @@ export const getColumnProps: Record<Columns, columnProps> = {
 }
 
 export type Columns =
-  | 'projectId'
-  | 'project'
+  | 'taskId'
+  | 'taskname'
   | 'owner'
+  | 'description'
   | 'startdate'
   | 'duedate'
   | 'status'
   | 'tags'
+  | 'priority'
+  | 'billingtype'
   | 'actions'
 
 export const tags: Tags[] = [
@@ -139,26 +150,27 @@ export const tags: Tags[] = [
 ]
 
 export const statuses: Status[] = [
-  'Active',
+  'Open',
   'InProgress',
-  'InTesting',
+  'InReview',
   'Delayed',
   'OnHold',
-  'Approved',
+  'Closed',
   'Cancelled',
-  'Planning',
-  'Completed',
-  'Invoiced'
+  'TobeTested'
 ]
 
 export const INITIAL_VISIBLE_COLUMNS = [
-  'projectId',
+  'taskId',
   'owner',
-  'project',
-  'startDate',
-  'dueDate',
+  'taskname',
+  'description',
+  'startdate',
+  'duedate',
   'status',
   'tags',
+  'priority',
+  'billingtype',
   'actions'
 ] as const
 
@@ -183,7 +195,7 @@ const names = [
   'Sophia Davis'
 ]
 
-const projects = [
+const tasks = [
   'Whispers of the Forgotten Shore',
   'The Quantum Paradox',
   'Beneath the Iron Sky',
@@ -200,6 +212,10 @@ const projects = [
   'Dancing with Fireflies',
   'The Forgotten Codex'
 ]
+
+export const priority = ['High', 'Medium', 'Low', 'None']
+
+export const billingType = ['Billable', 'Non-Billable', 'None']
 
 const description = [
   'Over 500+ professionally designed, fully responsive, expertly crafted component examples you can drop into your Tailwind projects and customize to your heart’s content.',
@@ -248,19 +264,23 @@ const generateAttachments = (): Attachment[] => [
 // }
 // export const purchaseData: Purchase[] = generateFakePurchase(10)
 
-const generateMockUserData = (count: number): Project[] => {
-  const mockData: Project[] = []
-  for (let i = 1; i < count; i++) {
+const generateMockUserData = (count: number): Task[] => {
+  const mockData: Task[] = []
+  for (let i = 0; i < count; i++) {
     const selectedName = names[Math.floor(Math.random() * names.length)]
-    const selectProject = projects[Math.floor(Math.random() * projects.length)]
+    const selectTask = tasks[Math.floor(Math.random() * tasks.length)]
     const selectDescription =
       description[Math.floor(Math.random() * description.length)]
 
-    const user: Project = {
-      id: i,
-      projectId: Math.floor(Math.random() * 1000),
+    const selectPriority = priority[Math.floor(Math.random() * priority.length)]
+    const selectBilling =
+      billingType[Math.floor(Math.random() * billingType.length)]
 
-      project: selectProject,
+    const user: Task = {
+      id: i,
+      taskId: Math.floor(Math.random() * 1000),
+
+      taskname: selectTask,
       description: selectDescription,
       owner: {
         avatar: `https://i.pravatar.cc/150?img=${i}`,
@@ -273,7 +293,8 @@ const generateMockUserData = (count: number): Project[] => {
       dueDate: new Date(
         new Date().getTime() - Math.random() * (24 * 60 * 60 * 1000 * 40)
       ),
-
+      priority: selectPriority,
+      billingtype: selectBilling,
       tags: tags.filter(() => Math.random() > 0.5),
 
       status: statuses[Math.floor(Math.random() * statuses.length)],
@@ -284,4 +305,4 @@ const generateMockUserData = (count: number): Project[] => {
   return mockData
 }
 
-export const projectData: Project[] = generateMockUserData(20)
+export const taskData: Task[] = generateMockUserData(20)

@@ -28,8 +28,8 @@ import {
   getColumnProps,
   getDateProps,
   getStatusProps
-} from '../../store/useProjects/data'
-import { tableStyles } from '../projects/variant'
+} from '../../../store/useTasks/data'
+import { tableStyles } from '../variant'
 
 interface HeaderContentProps {
   selectedKeys: Selection
@@ -81,7 +81,7 @@ export const HeaderContent: React.FC<HeaderContentProps> = ({
     <div className={tableStyles.topBarContainer}>
       <div className={tableStyles.topBarLeft}>
         <div className={tableStyles.topBarLeftInner}>
-          <p className={tableStyles.membersText}>Projects</p>
+          <p className={tableStyles.membersText}>Tasks</p>
           <Chip className={tableStyles.chip} size="sm" variant="flat">
             {usersLength}
           </Chip>

@@ -9,7 +9,7 @@ import {
   ChevronRightIcon
 } from '@vx-oss/heroui-v2-shared-icons'
 
-import { tableStyles } from '../projects/variant'
+import { tableStyles } from '../variant'
 
 interface BottomContentProps {
   page: number

@@ -19,64 +19,52 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 import { Api } from './action'
-import { Project, RQGetUsers, RQListUsers } from './types'
+import { RQGetUsers, RQListUsers, Task } from './types'
 
-const CK_PROJECT = ['project']
+const CK_TASK = ['task']
 
-export function useProjects() {
-  const rq: RQListUsers = {
-    page: 1,
-    limit: 100
-  }
-
-  return useQuery<Project[]>({
-    queryKey: [...CK_PROJECT, 'list', rq],
+export function useTaskList(rq: RQListUsers) {
+  return useQuery({
+    queryKey: [...CK_TASK, 'list', rq],
     queryFn: () => Api.list(rq)
   })
 }
 
-export function useProjectList(rq: RQListUsers) {
+export function useTask(rq: RQGetUsers) {
   return useQuery({
-    queryKey: [...CK_PROJECT, 'list', rq],
-    queryFn: () => Api.list(rq)
-  })
-}
-
-export function useProject(rq: RQGetUsers) {
-  return useQuery({
-    queryKey: [...CK_PROJECT, 'id', rq.id, rq],
+    queryKey: [...CK_TASK, 'id', rq.id, rq],
     queryFn: () => Api.get(rq)
   })
 }
 
-export function useCreateProject() {
+export function useCreateTask() {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: (payload: Project) => Api.create(payload),
+    mutationFn: (payload: Task) => Api.create(payload),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [...CK_PROJECT, 'list']
+        queryKey: [...CK_TASK, 'list']
       })
     }
   })
 }
 
-export function useDeleteProject() {
+export function useDeleteTask() {
   const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: (id: number) => Api.delete(id),
 
     onMutate: async id => {
-      await queryClient.cancelQueries({ queryKey: [...CK_PROJECT, 'list'] })
+      await queryClient.cancelQueries({ queryKey: [...CK_TASK, 'list'] })
 
-      const previousData = queryClient.getQueryData<Project[]>([
-        ...CK_PROJECT,
+      const previousData = queryClient.getQueryData<Task[]>([
+        ...CK_TASK,
         'list'
       ])
 
-      queryClient.setQueryData<Project[]>([...CK_PROJECT, 'list'], (old = []) =>
+      queryClient.setQueryData<Task[]>([...CK_TASK, 'list'], (old = []) =>
         old.filter(p => p.id !== id)
       )
 
@@ -85,12 +73,12 @@ export function useDeleteProject() {
 
     onError: (_err, _id, context) => {
       if (context?.previousData) {
-        queryClient.setQueryData([...CK_PROJECT, 'list'], context.previousData)
+        queryClient.setQueryData([...CK_TASK, 'list'], context.previousData)
       }
     },
 
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: [...CK_PROJECT, 'list'] })
+      queryClient.invalidateQueries({ queryKey: [...CK_TASK, 'list'] })
     }
   })
 }

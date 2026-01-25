@@ -648,24 +648,45 @@ import {
 
 import { DeleteIcon, EyeFilledIcon } from '@vx-oss/heroui-v2-shared-icons'
 
-import { useDeleteProject, useProjectList } from '../../store/useProjects'
+import { useDeleteProject, useProjects } from '../../store/useProjects'
+import { useTask } from '../../store/useTasks'
 import { AddProjectDrawer } from './AddProjectDrawer'
+import { TaskDrawer } from './tasks/TaskDrawer'
 
 const ProjectLayout = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const { projectId } = useParams({ strict: false })
 
-  const { data: projects = [], isError, refetch } = useProjectList({})
+  const { data: projects = [], isError, refetch } = useProjects()
   const { mutate: deleteProject } = useDeleteProject()
+  const [selectedUserId, setSelectedUserId] = useState<number | null>(null)
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
+  const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set([]))
 
-  const { isOpen, onOpen, onOpenChange } = useDisclosure()
+  const {
+    isOpen: isProjectOpen,
+    onOpen: openProject,
+    onOpenChange: onProjectChange
+  } = useDisclosure()
 
-  /* ---------------- state ---------------- */
+  // Task drawer (NEW)
+  const {
+    isOpen: isTaskOpen,
+    onOpen: openTask,
+    onOpenChange: onTaskChange
+  } = useDisclosure()
+
+  const {
+    data: selectedUser,
+    isLoading: selectedLoading,
+    isError: selectedError,
+    refetch: selectedRefetch
+  } = useTask({ id: selectedUserId ?? 0 })
+
   const [searchValue, setSearchValue] = useState('')
   const [showDetails, setShowDetails] = useState(false) // mobile only
 
-  /* ---------------- derived ---------------- */
   const filteredProjects = useMemo(() => {
     if (!searchValue) return projects
     return projects.filter(p =>
@@ -682,7 +703,6 @@ const ProjectLayout = () => {
     return 'overview'
   })()
 
-  /* ---------------- handlers ---------------- */
   const handleSelect = (id: number) => {
     navigate({
       to: '/projects/$projectId',
@@ -720,9 +740,10 @@ const ProjectLayout = () => {
 
   return (
     <div className="flex h-screen">
-      {/* ---------------- Sidebar ---------------- */}
       <div
-        className={`border-default-200 w-full px-2 lg:w-72 lg:border-r ${showDetails ? 'hidden lg:block' : 'block'} overflow-y-auto`}>
+        className={`border-default-200 w-full px-2 lg:w-72 lg:border-r ${
+          showDetails ? 'hidden lg:block' : 'block'
+        } overflow-y-auto`}>
         <div className="p-3">
           <div className="flex items-center justify-between">
             <h1 className="text-2xl font-semibold">Projects</h1>
@@ -733,16 +754,21 @@ const ProjectLayout = () => {
 
           <Spacer y={4} />
 
-          <Button
-            fullWidth
-            size="sm"
-            startContent={<Icon icon="lucide:plus" />}
-            color="primary"
-            onPress={onOpen}>
-            Add Project
-          </Button>
+          <div className="block lg:hidden">
+            <Button
+              fullWidth
+              size="sm"
+              startContent={<Icon icon="lucide:plus" />}
+              color="primary"
+              onPress={openProject}>
+              Add Project
+            </Button>
+          </div>
 
-          <AddProjectDrawer isOpen={isOpen} onOpenChange={onOpenChange} />
+          <AddProjectDrawer
+            isOpen={isProjectOpen}
+            onOpenChange={onProjectChange}
+          />
 
           <Spacer y={4} />
 
@@ -782,14 +808,14 @@ const ProjectLayout = () => {
                       <DropdownItem
                         startContent={<EyeFilledIcon />}
                         onClick={() => handleSelect(project.id)}
-                        key={''}>
+                        key="view">
                         View
                       </DropdownItem>
                       <DropdownItem
                         className="text-danger"
                         startContent={<DeleteIcon />}
                         onClick={() => handleDelete(project.id)}
-                        key={''}>
+                        key="delete">
                         Delete
                       </DropdownItem>
                     </DropdownMenu>
@@ -801,10 +827,11 @@ const ProjectLayout = () => {
         </div>
       </div>
 
-      {/* ---------------- Details ---------------- */}
-      <div className="flex flex-1 flex-col">
+      <div className="flex flex-1 flex-col overflow-hidden">
         <div
-          className={`h-screen overflow-y-auto p-3 ${showDetails ? 'block' : 'hidden lg:block'}`}>
+          className={`h-full overflow-y-auto p-2 ${
+            showDetails ? 'block' : 'hidden lg:block'
+          }`}>
           <div className="px-3">
             <h1 className="text-3xl font-bold">Projects & Tasks</h1>
             <p className="text-default-500 mt-2">
@@ -812,46 +839,102 @@ const ProjectLayout = () => {
             </p>
           </div>
 
-          <div className="px-2 py-4">
-            <Tabs
-              variant="light"
-              color="primary"
-              size="sm"
-              selectedKey={activeTab}>
-              <Tab
-                key="overview"
-                title="Overview"
-                onClick={() =>
-                  navigate({
-                    to: '/projects/$projectId',
-                    params: { projectId: activeId }
-                  })
-                }
+          <div className="mt-4 flex w-full flex-col items-start justify-between sm:flex-row sm:items-center">
+            {/* Tabs Container */}
+            <div className="w-full py-4 sm:w-auto md:px-2">
+              <Tabs
+                variant="light"
+                color="primary"
+                size="md"
+                classNames={{
+                  base: 'flex w-full sm:w-auto',
+                  tabList: 'w-full sm:w-auto'
+                }}
+                selectedKey={activeTab}>
+                <Tab
+                  key="overview"
+                  title="Overview"
+                  onClick={() =>
+                    navigate({
+                      to: '/projects/$projectId',
+                      params: { projectId: activeId }
+                    })
+                  }
+                />
+                <Tab
+                  key="tasks"
+                  title="Tasks"
+                  onClick={() =>
+                    navigate({
+                      to: '/projects/$projectId/tasks',
+                      params: { projectId: activeId }
+                    })
+                  }
+                />
+                <Tab
+                  key="reports"
+                  title="Reports"
+                  onClick={() =>
+                    navigate({
+                      to: '/projects/$projectId/reports',
+                      params: { projectId: activeId }
+                    })
+                  }
+                />
+              </Tabs>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
+              {activeTab === 'overview' && (
+                <Button
+                  className="w-full flex-shrink-0 sm:w-auto"
+                  size="sm"
+                  color="primary"
+                  onPress={openProject}
+                  startContent={<Icon icon="lucide:plus" />}>
+                  Add Project
+                </Button>
+              )}
+
+              {activeTab === 'tasks' && (
+                <Button
+                  className="w-full flex-shrink-0 sm:w-auto"
+                  size="sm"
+                  color="primary"
+                  startContent={<Icon icon="lucide:plus" />}
+                  onPress={openTask}>
+                  Add Task
+                </Button>
+              )}
+
+              {activeTab === 'reports' && (
+                <Button
+                  className="w-full flex-shrink-0 sm:w-auto"
+                  size="sm"
+                  color="primary"
+                  startContent={<Icon icon="lucide:plus" />}>
+                  Add Report
+                </Button>
+              )}
+
+              <TaskDrawer
+                isOpen={isTaskOpen}
+                onOpenChange={onTaskChange}
+                selectedUserId={selectedUserId}
+                selectedIndex={selectedIndex}
+                selectedUser={selectedUser}
+                selectedLoading={selectedLoading}
+                selectedError={selectedError}
+                setSelectedKeys={setSelectedKeys}
+                setSelectedUserId={setSelectedUserId}
+                setSelectedIndex={setSelectedIndex}
+                selectedRefetch={selectedRefetch}
               />
-              <Tab
-                key="tasks"
-                title="Tasks"
-                onClick={() =>
-                  navigate({
-                    to: '/projects/$projectId/tasks',
-                    params: { projectId: activeId }
-                  })
-                }
-              />
-              <Tab
-                key="reports"
-                title="Reports"
-                onClick={() =>
-                  navigate({
-                    to: '/projects/$projectId/reports',
-                    params: { projectId: activeId }
-                  })
-                }
-              />
-            </Tabs>
+            </div>
           </div>
 
-          <div>
+          <div className="overflow-hidden">
             <Outlet />
           </div>
         </div>
