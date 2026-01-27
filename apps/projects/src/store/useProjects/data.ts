@@ -73,8 +73,8 @@ type columnProps = {
   info: string
 }
 
-export const getColumnProps: Record<Columns, columnProps> = {
-  projectId: {
+export const getColumnProps: Record<Column, columnProps> = {
+  projectsId: {
     id: 'projectId',
     label: ' ID',
     info: ''
@@ -117,8 +117,8 @@ export const getColumnProps: Record<Columns, columnProps> = {
   }
 }
 
-export type Columns =
-  | 'projectId'
+export type Column =
+  | 'projectsId'
   | 'project'
   | 'owner'
   | 'startdate'
@@ -152,7 +152,7 @@ export const statuses: Status[] = [
 ]
 
 export const INITIAL_VISIBLE_COLUMNS = [
-  'projectId',
+  'projectsId',
   'owner',
   'project',
   'startDate',
@@ -258,7 +258,7 @@ const generateMockUserData = (count: number): Project[] => {
 
     const user: Project = {
       id: i,
-      projectId: Math.floor(Math.random() * 1000),
+      projectsId: Math.floor(Math.random() * 1000),
 
       project: selectProject,
       description: selectDescription,

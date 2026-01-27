@@ -22,7 +22,7 @@ export type Owner = {
 }
 export type Task = {
   id: number
-  projectId?: number
+  projectsId: number | undefined
   taskId: number
   taskname: string
   description: string

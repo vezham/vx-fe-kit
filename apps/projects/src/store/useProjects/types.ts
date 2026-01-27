@@ -23,7 +23,7 @@ export type Attachment = {
 
 export type Project = {
   id: number
-  projectId: number
+  projectsId: number
   owner: Owner
   project: string
   description: string

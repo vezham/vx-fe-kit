@@ -40,7 +40,7 @@ const getAttachmentType = (file: File): Attachment['type'] => {
 }
 
 const getInitialForm = (): Omit<Project, 'id'> => ({
-  projectId: Math.floor(Math.random() * 1000),
+  projectsId: Math.floor(Math.random() * 1000),
   project: '',
   description: '',
   owner: {

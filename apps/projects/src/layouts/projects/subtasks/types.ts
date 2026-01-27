@@ -20,16 +20,20 @@ export type Owner = {
   email: string
   name: string
 }
-
-export type Project = {
+export type SubTask = {
+  id: number
+  projectsId: number | undefined
+  subtaskId: number
+  taskId: number | undefined
+  subtaskname: string
+  description: string
+  owner: Owner
   startDate: Date
   dueDate: Date
-  project: string
-  description: string
   tags: Tags[]
-  owner: Owner
-  projectsId: number
   status: Status
+  priority: string
+  billingtype: string
   attachments: Attachment[]
 }
 
@@ -43,16 +47,14 @@ export interface CopyTextProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export type Status =
-  | 'Active'
+  | 'Open'
   | 'InProgress'
-  | 'InTesting'
+  | 'InReview'
+  | 'TobeTested'
   | 'Delayed'
   | 'OnHold'
-  | 'Approved'
+  | 'Closed'
   | 'Cancelled'
-  | 'Planning'
-  | 'Completed'
-  | 'Invoiced'
 
 export type Tags =
   | 'Design'

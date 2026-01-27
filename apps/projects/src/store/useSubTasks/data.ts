@@ -1,6 +1,6 @@
-import { projectData } from '../useProjects/data'
-import { Project } from '../useProjects/types'
-import { Attachment, Dates, Status, Tags, Task } from './types'
+import { taskData } from '../useTasks/data'
+import { Task } from '../useTasks/types'
+import { Attachment, Dates, Status, SubTask, Tags } from './types'
 
 type StatusProps = {
   label: string
@@ -68,19 +68,19 @@ type columnProps = {
 }
 
 export const getColumnProps: Record<Columns, columnProps> = {
+  subtaskId: {
+    id: 'subtaskId',
+    label: 'SubTask ID',
+    info: ''
+  },
   taskId: {
     id: 'taskId',
     label: 'Task ID',
     info: ''
   },
-  projectsId: {
-    id: 'projectsId',
-    label: 'Project ID',
-    info: ''
-  },
-  taskname: {
-    id: 'taskname',
-    label: 'Task Name',
+  subtaskname: {
+    id: 'subtaskname',
+    label: 'SubTask Name',
     info: ''
   },
   owner: {
@@ -133,9 +133,9 @@ export const getColumnProps: Record<Columns, columnProps> = {
 }
 
 export type Columns =
-  | 'projectsId'
   | 'taskId'
-  | 'taskname'
+  | 'subtaskId'
+  | 'subtaskname'
   | 'owner'
   | 'description'
   | 'startDate'
@@ -169,10 +169,10 @@ export const statuses: Status[] = [
 ]
 
 export const INITIAL_VISIBLE_COLUMNS = [
-  'projectsId',
   'taskId',
+  'subtaskId',
   'owner',
-  'taskname',
+  'subtaskname',
   'description',
   'startDate',
   'dueDate',
@@ -204,7 +204,7 @@ const names = [
   'Sophia Davis'
 ]
 
-const tasks = [
+const subtasks = [
   'Whispers of the Forgotten Shore',
   'The Quantum Paradox',
   'Beneath the Iron Sky',
@@ -273,28 +273,29 @@ const generateAttachments = (): Attachment[] => [
 // }
 // export const purchaseData: Purchase[] = generateFakePurchase(10)
 
-const generateMockUserData = (count: number, projects: Project[]): Task[] => {
-  const mockData: Task[] = []
+const generateMockUserData = (
+  count: number,
+
+  tasks: Task[]
+): SubTask[] => {
+  const mockData: SubTask[] = []
 
   for (let i = 1; i < count; i++) {
     const selectedName = names[Math.floor(Math.random() * names.length)]
-    const selectTask = tasks[Math.floor(Math.random() * tasks.length)]
+    const selectTask = subtasks[Math.floor(Math.random() * subtasks.length)]
     const selectDescription =
       description[Math.floor(Math.random() * description.length)]
 
     const selectPriority = priority[Math.floor(Math.random() * priority.length)]
     const selectBilling =
       billingType[Math.floor(Math.random() * billingType.length)]
-    const selectedProject =
-      projects[Math.floor(Math.random() * projects.length)]
+    const selectedTask = tasks[Math.floor(Math.random() * tasks.length)]
 
-    const user: Task = {
+    const user: SubTask = {
       id: i,
-      projectsId: selectedProject.projectsId,
-
-      taskId: Math.floor(Math.random() * 1000),
-
-      taskname: selectTask,
+      taskId: selectedTask.taskId,
+      subtaskId: Math.floor(Math.random() * 1000),
+      subtaskname: selectTask,
       description: selectDescription,
       owner: {
         avatar: `https://i.pravatar.cc/150?img=${i}`,
@@ -319,4 +320,4 @@ const generateMockUserData = (count: number, projects: Project[]): Task[] => {
   return mockData
 }
 
-export const taskData: Task[] = generateMockUserData(11, projectData)
+export const subtaskData: SubTask[] = generateMockUserData(2, taskData)

@@ -1,285 +1,8 @@
-// 'use client'
-
-// import { useState } from 'react'
-// import {
-//   Button,
-//   Chip,
-//   Input,
-//   Modal,
-//   ModalBody,
-//   ModalContent,
-//   ModalFooter,
-//   ModalHeader,
-//   Select,
-//   SelectItem
-// } from '@vezham/react/v2'
-
-// import { useCreateProject } from '../../../store/useProjects'
-// import { statuses, tags } from '../../../store/useProjects/data'
-// import { Attachment,  Status, Tags,  } from '../types'
-// import { useTaskList } from '../../../store/useTasks'
-// import { Task } from './types'
-// import { getStatusProps } from '../../../store/useTasks/data'
-
-// type Props = {
-//   isOpen: boolean
-//   onOpenChange: () => void
-// }
-
-// const getAttachmentType = (file: File): Attachment['type'] => {
-//   if (file.type.startsWith('image/')) return 'image'
-//   if (file.type.includes('pdf')) return 'pdf'
-//   if (
-//     file.type.includes('word') ||
-//     file.name.endsWith('.doc') ||
-//     file.name.endsWith('.docx')
-//   )
-//     return 'doc'
-//   if (file.type.includes('sheet') || file.name.endsWith('.xlsx')) return 'sheet'
-//   return 'other'
-// }
-
-// const getInitialForm = (): Omit<Task, 'id'> => ({
-//   projectId: Math.floor(Math.random() * 1000),
-//   taskId: Math.floor(Math.random() * 1000),
-//   taskname: '',
-//   description: '',
-//   owner: {
-//     name: '',
-//     email: '',
-//     avatar: ''
-//   },
-//   startDate: new Date(),
-//   dueDate: new Date(),
-//   status: 'Open',
-//   priority: 'None',
-//   billingtype:'None',
-//   tags: [],
-//   attachments: []
-// })
-
-// export const AddProjectModal = ({ isOpen, onOpenChange }: Props) => {
-//   const { mutateAsync } = useCreateProject()
-//   const [form, setForm] = useState<Omit<Task, 'id'>>(getInitialForm())
-
-//   // Fetch tasks
-//   const { data: tasks = [], isLoading, isError } = useTaskList({})
-
-//   const handleFileUpload = (files: FileList | null) => {
-//     if (!files) return
-
-//     const uploaded: Attachment[] = Array.from(files).map(file => ({
-//       id: `${file.name}-${Date.now()}`,
-//       name: file.name,
-//       url: URL.createObjectURL(file),
-//       type: getAttachmentType(file)
-//     }))
-
-//     setForm(f => ({
-//       ...f,
-//       attachments: [...f.attachments, ...uploaded]
-//     }))
-//   }
-
-//   const removeAttachment = (id: string) => {
-//     setForm(f => ({
-//       ...f,
-//       attachments: f.attachments.filter(a => a.id !== id)
-//     }))
-//   }
-
-//   const onSubmit = async () => {
-//     await mutateAsync({
-//       id: Date.now(),
-//       ...form
-//     })
-
-//     onOpenChange()
-//     setForm(getInitialForm())
-//   }
-
-//   return (
-//     <Modal
-//       isOpen={isOpen}
-//       onOpenChange={onOpenChange}
-//       size="lg"
-//       scrollBehavior="inside">
-//       <ModalContent>
-//         {onClose => (
-//           <>
-//             <ModalHeader>Add Project</ModalHeader>
-
-//             <ModalBody className="space-y-4">
-//               {/* --- Project Form Inputs --- */}
-//               <Input
-//                 label="Project Name"
-//                 value={form.taskname}
-//                 onValueChange={v => setForm(f => ({ ...f, project: v }))}
-//               />
-
-//               <Input
-//                 label="Description"
-//                 value={form.description}
-//                 onValueChange={v => setForm(f => ({ ...f, description: v }))}
-//               />
-
-//               <Input
-//                 label="Owner Name"
-//                 value={form.owner.name}
-//                 onValueChange={v =>
-//                   setForm(f => ({ ...f, owner: { ...f.owner, name: v } }))
-//                 }
-//               />
-
-//               <Input
-//                 label="Owner Email"
-//                 value={form.owner.email}
-//                 onValueChange={v =>
-//                   setForm(f => ({ ...f, owner: { ...f.owner, email: v } }))
-//                 }
-//               />
-
-//               <Input
-//                 label="Owner Avatar URL"
-//                 value={form.owner.avatar}
-//                 onValueChange={v =>
-//                   setForm(f => ({ ...f, owner: { ...f.owner, avatar: v } }))
-//                 }
-//               />
-
-//               <Input
-//                 type="date"
-//                 label="Start Date"
-//                 onValueChange={v =>
-//                   setForm(f => ({ ...f, startDate: new Date(v) }))
-//                 }
-//               />
-
-//               <Input
-//                 type="date"
-//                 label="Due Date"
-//                 onValueChange={v =>
-//                   setForm(f => ({ ...f, dueDate: new Date(v) }))
-//                 }
-//               />
-
-//               <Select
-//                 label="Status"
-//                 selectedKeys={[form.status]}
-//                 onSelectionChange={keys =>
-//                   setForm(f => ({ ...f, status: [...keys][0] as Status }))
-//                 }>
-//                 {statuses.map(s => (
-//                   <SelectItem key={s}>{s}</SelectItem>
-//                 ))}
-//               </Select>
-
-//               <Select
-//                 label="Tags"
-//                 selectionMode="multiple"
-//                 selectedKeys={form.tags}
-//                 onSelectionChange={keys =>
-//                   setForm(f => ({ ...f, tags: [...keys] as Tags[] }))
-//                 }>
-//                 {tags.map(tag => (
-//                   <SelectItem key={tag}>{tag}</SelectItem>
-//                 ))}
-//               </Select>
-
-//               <div className="flex flex-wrap gap-1">
-//                 {form.tags.map(tag => (
-//                   <Chip key={tag} size="sm">
-//                     {tag}
-//                   </Chip>
-//                 ))}
-//               </div>
-
-//               <Input
-//                 type="file"
-//                 label="Attachments"
-//                 multiple
-//                 accept="image/*,.pdf,.doc,.docx"
-//                 onChange={e => handleFileUpload(e.currentTarget.files)}
-//               />
-
-//               <div className="flex flex-wrap gap-2">
-//                 {form.attachments.map(att => (
-//                   <Chip
-//                     key={att.id}
-//                     size="sm"
-//                     variant="flat"
-//                     onClose={() => removeAttachment(att.id)}>
-//                     {att.name}
-//                   </Chip>
-//                 ))}
-//               </div>
-
-//               {/* --- Tasks List --- */}
-//               <div>
-//                 <h4 className="text-sm font-semibold mb-2">Tasks</h4>
-
-//                 {isLoading && <p className="text-sm text-default-500">Loading tasks…</p>}
-//                 {isError && <p className="text-sm text-danger">Failed to load tasks</p>}
-//                 {!isLoading && tasks.length === 0 && (
-//                   <p className="text-sm text-default-400">No tasks found</p>
-//                 )}
-
-//                 <div className="space-y-2 max-h-60 overflow-y-auto">
-//                   {tasks.map(task => {
-//                     const status = getStatusProps[task.status]
-//                     return (
-//                       <div
-//                         key={task.id}
-//                         className="border rounded-md p-3 flex flex-col gap-2"
-//                       >
-//                         <div className="flex items-center justify-between">
-//                           <p className="font-medium text-sm">{task.taskname}</p>
-//                           <span
-//                             className={`text-xs px-2 py-0.5 rounded ${status.color}`}
-//                           >
-//                             {status.label}
-//                           </span>
-//                         </div>
-
-//                         <p className="text-xs text-default-500 line-clamp-2">
-//                           {task.description}
-//                         </p>
-
-//                         <div className="flex items-center justify-between">
-//                           <p className="text-xs">👤 {task.owner.name}</p>
-//                           <div className="flex gap-1">
-//                             {task.tags.map(tag => (
-//                               <Chip key={tag} size="sm" variant="flat">
-//                                 {tag}
-//                               </Chip>
-//                             ))}
-//                           </div>
-//                         </div>
-//                       </div>
-//                     )
-//                   })}
-//                 </div>
-//               </div>
-//             </ModalBody>
-
-//             <ModalFooter>
-//               <Button variant="light" onPress={onClose}>
-//                 Cancel
-//               </Button>
-//               <Button color="primary" onPress={onSubmit}>
-//                 Add Project
-//               </Button>
-//             </ModalFooter>
-//           </>
-//         )}
-//       </ModalContent>
-//     </Modal>
-//   )
-// }
-
 'use client'
 
 import { Icon } from '@iconify/react'
+import { useLocation, useNavigate, useParams } from '@tanstack/react-router'
+import { useState } from 'react'
 
 import {
   Button,
@@ -296,291 +19,13 @@ import {
 } from '@vezham/react/v2'
 
 import { getStatusProps } from '../../../store/useTasks/data'
+import { SubTaskDrawer } from '../subtasks/SubTaskDrawer'
 import { Attachment, Tags, Task } from './types'
 
-// 'use client'
-
-// import { useState } from 'react'
-// import {
-//   Button,
-//   Chip,
-//   Input,
-//   Modal,
-//   ModalBody,
-//   ModalContent,
-//   ModalFooter,
-//   ModalHeader,
-//   Select,
-//   SelectItem
-// } from '@vezham/react/v2'
-
-// import { useCreateProject } from '../../../store/useProjects'
-// import { statuses, tags } from '../../../store/useProjects/data'
-// import { Attachment,  Status, Tags,  } from '../types'
-// import { useTaskList } from '../../../store/useTasks'
-// import { Task } from './types'
-// import { getStatusProps } from '../../../store/useTasks/data'
-
-// type Props = {
-//   isOpen: boolean
-//   onOpenChange: () => void
-// }
-
-// const getAttachmentType = (file: File): Attachment['type'] => {
-//   if (file.type.startsWith('image/')) return 'image'
-//   if (file.type.includes('pdf')) return 'pdf'
-//   if (
-//     file.type.includes('word') ||
-//     file.name.endsWith('.doc') ||
-//     file.name.endsWith('.docx')
-//   )
-//     return 'doc'
-//   if (file.type.includes('sheet') || file.name.endsWith('.xlsx')) return 'sheet'
-//   return 'other'
-// }
-
-// const getInitialForm = (): Omit<Task, 'id'> => ({
-//   projectId: Math.floor(Math.random() * 1000),
-//   taskId: Math.floor(Math.random() * 1000),
-//   taskname: '',
-//   description: '',
-//   owner: {
-//     name: '',
-//     email: '',
-//     avatar: ''
-//   },
-//   startDate: new Date(),
-//   dueDate: new Date(),
-//   status: 'Open',
-//   priority: 'None',
-//   billingtype:'None',
-//   tags: [],
-//   attachments: []
-// })
-
-// export const AddProjectModal = ({ isOpen, onOpenChange }: Props) => {
-//   const { mutateAsync } = useCreateProject()
-//   const [form, setForm] = useState<Omit<Task, 'id'>>(getInitialForm())
-
-//   // Fetch tasks
-//   const { data: tasks = [], isLoading, isError } = useTaskList({})
-
-//   const handleFileUpload = (files: FileList | null) => {
-//     if (!files) return
-
-//     const uploaded: Attachment[] = Array.from(files).map(file => ({
-//       id: `${file.name}-${Date.now()}`,
-//       name: file.name,
-//       url: URL.createObjectURL(file),
-//       type: getAttachmentType(file)
-//     }))
-
-//     setForm(f => ({
-//       ...f,
-//       attachments: [...f.attachments, ...uploaded]
-//     }))
-//   }
-
-//   const removeAttachment = (id: string) => {
-//     setForm(f => ({
-//       ...f,
-//       attachments: f.attachments.filter(a => a.id !== id)
-//     }))
-//   }
-
-//   const onSubmit = async () => {
-//     await mutateAsync({
-//       id: Date.now(),
-//       ...form
-//     })
-
-//     onOpenChange()
-//     setForm(getInitialForm())
-//   }
-
-//   return (
-//     <Modal
-//       isOpen={isOpen}
-//       onOpenChange={onOpenChange}
-//       size="lg"
-//       scrollBehavior="inside">
-//       <ModalContent>
-//         {onClose => (
-//           <>
-//             <ModalHeader>Add Project</ModalHeader>
-
-//             <ModalBody className="space-y-4">
-//               {/* --- Project Form Inputs --- */}
-//               <Input
-//                 label="Project Name"
-//                 value={form.taskname}
-//                 onValueChange={v => setForm(f => ({ ...f, project: v }))}
-//               />
-
-//               <Input
-//                 label="Description"
-//                 value={form.description}
-//                 onValueChange={v => setForm(f => ({ ...f, description: v }))}
-//               />
-
-//               <Input
-//                 label="Owner Name"
-//                 value={form.owner.name}
-//                 onValueChange={v =>
-//                   setForm(f => ({ ...f, owner: { ...f.owner, name: v } }))
-//                 }
-//               />
-
-//               <Input
-//                 label="Owner Email"
-//                 value={form.owner.email}
-//                 onValueChange={v =>
-//                   setForm(f => ({ ...f, owner: { ...f.owner, email: v } }))
-//                 }
-//               />
-
-//               <Input
-//                 label="Owner Avatar URL"
-//                 value={form.owner.avatar}
-//                 onValueChange={v =>
-//                   setForm(f => ({ ...f, owner: { ...f.owner, avatar: v } }))
-//                 }
-//               />
-
-//               <Input
-//                 type="date"
-//                 label="Start Date"
-//                 onValueChange={v =>
-//                   setForm(f => ({ ...f, startDate: new Date(v) }))
-//                 }
-//               />
-
-//               <Input
-//                 type="date"
-//                 label="Due Date"
-//                 onValueChange={v =>
-//                   setForm(f => ({ ...f, dueDate: new Date(v) }))
-//                 }
-//               />
-
-//               <Select
-//                 label="Status"
-//                 selectedKeys={[form.status]}
-//                 onSelectionChange={keys =>
-//                   setForm(f => ({ ...f, status: [...keys][0] as Status }))
-//                 }>
-//                 {statuses.map(s => (
-//                   <SelectItem key={s}>{s}</SelectItem>
-//                 ))}
-//               </Select>
-
-//               <Select
-//                 label="Tags"
-//                 selectionMode="multiple"
-//                 selectedKeys={form.tags}
-//                 onSelectionChange={keys =>
-//                   setForm(f => ({ ...f, tags: [...keys] as Tags[] }))
-//                 }>
-//                 {tags.map(tag => (
-//                   <SelectItem key={tag}>{tag}</SelectItem>
-//                 ))}
-//               </Select>
-
-//               <div className="flex flex-wrap gap-1">
-//                 {form.tags.map(tag => (
-//                   <Chip key={tag} size="sm">
-//                     {tag}
-//                   </Chip>
-//                 ))}
-//               </div>
-
-//               <Input
-//                 type="file"
-//                 label="Attachments"
-//                 multiple
-//                 accept="image/*,.pdf,.doc,.docx"
-//                 onChange={e => handleFileUpload(e.currentTarget.files)}
-//               />
-
-//               <div className="flex flex-wrap gap-2">
-//                 {form.attachments.map(att => (
-//                   <Chip
-//                     key={att.id}
-//                     size="sm"
-//                     variant="flat"
-//                     onClose={() => removeAttachment(att.id)}>
-//                     {att.name}
-//                   </Chip>
-//                 ))}
-//               </div>
-
-//               {/* --- Tasks List --- */}
-//               <div>
-//                 <h4 className="text-sm font-semibold mb-2">Tasks</h4>
-
-//                 {isLoading && <p className="text-sm text-default-500">Loading tasks…</p>}
-//                 {isError && <p className="text-sm text-danger">Failed to load tasks</p>}
-//                 {!isLoading && tasks.length === 0 && (
-//                   <p className="text-sm text-default-400">No tasks found</p>
-//                 )}
-
-//                 <div className="space-y-2 max-h-60 overflow-y-auto">
-//                   {tasks.map(task => {
-//                     const status = getStatusProps[task.status]
-//                     return (
-//                       <div
-//                         key={task.id}
-//                         className="border rounded-md p-3 flex flex-col gap-2"
-//                       >
-//                         <div className="flex items-center justify-between">
-//                           <p className="font-medium text-sm">{task.taskname}</p>
-//                           <span
-//                             className={`text-xs px-2 py-0.5 rounded ${status.color}`}
-//                           >
-//                             {status.label}
-//                           </span>
-//                         </div>
-
-//                         <p className="text-xs text-default-500 line-clamp-2">
-//                           {task.description}
-//                         </p>
-
-//                         <div className="flex items-center justify-between">
-//                           <p className="text-xs">👤 {task.owner.name}</p>
-//                           <div className="flex gap-1">
-//                             {task.tags.map(tag => (
-//                               <Chip key={tag} size="sm" variant="flat">
-//                                 {tag}
-//                               </Chip>
-//                             ))}
-//                           </div>
-//                         </div>
-//                       </div>
-//                     )
-//                   })}
-//                 </div>
-//               </div>
-//             </ModalBody>
-
-//             <ModalFooter>
-//               <Button variant="light" onPress={onClose}>
-//                 Cancel
-//               </Button>
-//               <Button color="primary" onPress={onSubmit}>
-//                 Add Project
-//               </Button>
-//             </ModalFooter>
-//           </>
-//         )}
-//       </ModalContent>
-//     </Modal>
-//   )
-// }
-
 type Props = {
-  isOpen: boolean
-  onOpenChange: () => void
   task?: Task | null
+  onOpenChange: () => void
+  children?: React.ReactNode
 }
 
 const AttachmentItem = ({ file }: { file: Attachment }) => {
@@ -645,7 +90,25 @@ const AttachmentItem = ({ file }: { file: Attachment }) => {
   }
 }
 
-export const TaskDetailModal = ({ isOpen, onOpenChange, task }: Props) => {
+export const TaskDetailModal = ({ task, children }: Props) => {
+  const navigate = useNavigate()
+  const { projectId, taskId } = useParams({ strict: false })
+  const location = useLocation()
+  const [isSubtaskOpen, setIsSubtaskOpen] = useState(false)
+
+  const closeModal = () => {
+    navigate({
+      to: '/projects/$projectId/tasks',
+      params: { projectId }
+    })
+  }
+
+  const activeTab = location.pathname.includes('/comments')
+    ? 'comments'
+    : location.pathname.includes('/subtasks')
+      ? 'subtasks'
+      : 'issues'
+
   if (!task) return null
 
   const status = getStatusProps[task.status as keyof typeof getStatusProps] || {
@@ -655,8 +118,8 @@ export const TaskDetailModal = ({ isOpen, onOpenChange, task }: Props) => {
 
   return (
     <Modal
-      isOpen={isOpen}
-      onOpenChange={onOpenChange}
+      isOpen={Boolean(taskId)}
+      onOpenChange={closeModal}
       size="full"
       scrollBehavior="inside">
       <ModalContent>
@@ -731,13 +194,59 @@ export const TaskDetailModal = ({ isOpen, onOpenChange, task }: Props) => {
                   ))}
                 </p>
               </div>
-              <div>
-                <Tabs variant="light" color="primary" size="sm">
-                  <Tab>Comments</Tab>
-                  <Tab>Subtasks</Tab>
-                  <Tab>Issues</Tab>
-                </Tabs>
+              <div className="flex w-full flex-col items-start justify-between sm:flex-row sm:items-center">
+                <div className="w-full py-4 sm:w-auto md:py-0">
+                  <Tabs
+                    classNames={{
+                      base: 'flex w-full sm:w-auto',
+                      tabList: 'w-full sm:w-auto'
+                    }}
+                    color="primary"
+                    size="sm"
+                    selectedKey={activeTab}
+                    onSelectionChange={key => {
+                      navigate({
+                        to: '/projects/$projectId/tasks/$taskId/$tab',
+                        params: {
+                          projectId,
+                          taskId,
+                          tab: String(key)
+                        }
+                      })
+                    }}>
+                    <Tab key="comments" title="Comments" />
+                    <Tab key="subtasks" title="Subtasks" />
+                    <Tab key="issues" title="Issues" />
+                  </Tabs>
+                </div>
+
+                <div className="flex w-full flex-col sm:w-auto sm:flex-row">
+                  {activeTab === 'subtasks' && (
+                    <Button
+                      size="sm"
+                      color="primary"
+                      className="w-full flex-shrink-0 sm:w-auto"
+                      onPress={() => setIsSubtaskOpen(true)}>
+                      Add Subtask
+                    </Button>
+                  )}
+
+                  {activeTab === 'issues' && (
+                    <Button
+                      size="sm"
+                      color="primary"
+                      className="w-full flex-shrink-0 sm:w-auto">
+                      Add Issues
+                    </Button>
+                  )}
+                </div>
+                <SubTaskDrawer
+                  isOpen={isSubtaskOpen}
+                  onOpenChange={open => setIsSubtaskOpen(open)}
+                  taskId={task.id}
+                />
               </div>
+              {children}
             </ModalBody>
 
             <ModalFooter>

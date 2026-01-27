@@ -23,8 +23,13 @@ import { RQGetUsers, RQListUsers, Task } from './types'
 
 const CK_TASK = ['task']
 
-export function useTaskList(rq: RQListUsers) {
-  return useQuery({
+export function useTasks() {
+  const rq: RQListUsers = {
+    page: 1,
+    limit: 100
+  }
+
+  return useQuery<Task[]>({
     queryKey: [...CK_TASK, 'list', rq],
     queryFn: () => Api.list(rq)
   })
@@ -65,7 +70,7 @@ export function useDeleteTask() {
       ])
 
       queryClient.setQueryData<Task[]>([...CK_TASK, 'list'], (old = []) =>
-        old.filter(p => p.id !== id)
+        old.filter(p => p.taskId !== id)
       )
 
       return { previousData }

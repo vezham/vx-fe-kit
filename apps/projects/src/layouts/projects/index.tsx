@@ -639,6 +639,11 @@ import {
   DropdownMenu,
   DropdownTrigger,
   Input,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  Radio,
+  RadioGroup,
   ScrollShadow,
   Spacer,
   Tab,
@@ -649,20 +654,25 @@ import {
 import { DeleteIcon, EyeFilledIcon } from '@vx-oss/heroui-v2-shared-icons'
 
 import { useDeleteProject, useProjects } from '../../store/useProjects'
+import { getDateProps, getStatusProps } from '../../store/useProjects/data'
 import { useTask } from '../../store/useTasks'
 import { AddProjectDrawer } from './AddProjectDrawer'
 import { TaskDrawer } from './tasks/TaskDrawer'
+import { tableStyles } from './variant'
 
 const ProjectLayout = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const { projectId } = useParams({ strict: false })
 
-  const { data: projects = [], isError, refetch } = useProjects()
+  const { data: projects = [], isError, refetch, isLoading } = useProjects()
   const { mutate: deleteProject } = useDeleteProject()
   const [selectedUserId, setSelectedUserId] = useState<number | null>(null)
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
   const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set([]))
+  const [statusFilter, setStatusFilter] = useState('all')
+  const [startDateFilter, setStartDateFilter] = useState('all')
+  const [dueDateFilter, setDueDateFilter] = useState('all')
 
   const {
     isOpen: isProjectOpen,
@@ -687,32 +697,98 @@ const ProjectLayout = () => {
   const [searchValue, setSearchValue] = useState('')
   const [showDetails, setShowDetails] = useState(false) // mobile only
 
-  const filteredProjects = useMemo(() => {
-    if (!searchValue) return projects
-    return projects.filter(p =>
-      p.project.toLowerCase().includes(searchValue.toLowerCase())
-    )
-  }, [projects, searchValue])
+  // const filteredProjects = useMemo(() => {
+  //   if (!searchValue) return projects
+  //   return projects.filter(p =>
+  //     p.project.toLowerCase().includes(searchValue.toLowerCase())
+  //   )
+  // }, [projects, searchValue])
 
-  const activeId = Number(projectId)
+  const normalizeDate = (value: string | Date) => {
+    const d = value instanceof Date ? new Date(value) : new Date(value)
+    if (Number.isNaN(d.getTime())) return null
+
+    d.setHours(0, 0, 0, 0)
+    return d
+  }
+
+  const isDateInRange = (dateValue: string | Date, filter: string) => {
+    if (filter === 'all') return true
+    if (!dateValue) return false
+
+    const date = normalizeDate(dateValue)
+    if (!date) return false
+
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+
+    const diffInDays = Math.floor(
+      (today.getTime() - date.getTime()) / (1000 * 60 * 60 * 24)
+    )
+
+    switch (filter) {
+      case 'last7Days':
+        return diffInDays >= 0 && diffInDays <= 7
+
+      case 'last30Days':
+        return diffInDays >= 0 && diffInDays <= 30
+
+      case 'last60Days':
+        return diffInDays >= 0 && diffInDays <= 60
+
+      default:
+        return true
+    }
+  }
+
+  const filteredProjects = useMemo(() => {
+    const search = searchValue.trim().toLowerCase()
+    return projects.filter(project => {
+      const matchesSearch =
+        !search ||
+        project.project?.toLowerCase().includes(search) ||
+        project.projectsId?.toString().includes(search) ||
+        project.owner?.name?.toLowerCase().includes(search)
+
+      const matchesStatus =
+        statusFilter === 'all' || project.status === statusFilter
+
+      const matchesStartDate = isDateInRange(project.startDate, startDateFilter)
+
+      const matchesDueDate = isDateInRange(project.dueDate, dueDateFilter)
+
+      console.log({
+        raw: project.startDate,
+        normalized: normalizeDate(project.startDate),
+        today: new Date().toDateString(),
+        filter: startDateFilter
+      })
+
+      return (
+        matchesSearch && matchesStatus && matchesStartDate && matchesDueDate
+      )
+    })
+  }, [projects, searchValue, statusFilter, startDateFilter, dueDateFilter])
+
+  const activeId = projectId ? Number(projectId) : null
 
   const activeTab = (() => {
     if (!projectId) return 'overview'
-    if (location.pathname.endsWith('/tasks')) return 'tasks'
-    if (location.pathname.endsWith('/reports')) return 'reports'
+    if (location.pathname.includes('/tasks')) return 'tasks'
+    if (location.pathname.includes('/reports')) return 'reports'
     return 'overview'
   })()
 
-  const handleSelect = (id: number) => {
+  const handleSelect = (projectId: number) => {
     navigate({
       to: '/projects/$projectId',
-      params: { projectId: id }
+      params: { projectId: projectId }
     })
     setShowDetails(true)
   }
 
-  const handleDelete = (id: number) => {
-    deleteProject(id, {
+  const handleDelete = (projectsId: number) => {
+    deleteProject(projectsId, {
       onSuccess: () => {
         setShowDetails(false)
         navigate({ to: '/projects' })
@@ -721,12 +797,20 @@ const ProjectLayout = () => {
   }
 
   useEffect(() => {
-    if (!projectId) {
-      setShowDetails(true)
-    } else {
+    if (projectId) {
       setShowDetails(false)
     }
   }, [projectId])
+
+  if (isLoading) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <div className="text-center">
+          <div className="text-default-500">Loading projects...</div>
+        </div>
+      </div>
+    )
+  }
 
   if (isError) {
     return (
@@ -735,6 +819,24 @@ const ProjectLayout = () => {
           Retry
         </Button>
       </Alert>
+    )
+  }
+
+  // Don't render the main layout until we have projects and have handled the redirect
+  if (projects.length === 0 && !isLoading) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <div className="text-center">
+          <div className="text-default-500 mb-4">No projects found</div>
+          <Button color="primary" onPress={openProject}>
+            Create Your First Project
+          </Button>
+        </div>
+        <AddProjectDrawer
+          isOpen={isProjectOpen}
+          onOpenChange={onProjectChange}
+        />
+      </div>
     )
   }
 
@@ -772,13 +874,62 @@ const ProjectLayout = () => {
 
           <Spacer y={4} />
 
-          <Input
-            size="sm"
-            placeholder="Search projects..."
-            startContent={<Icon icon="lucide:search" />}
-            value={searchValue}
-            onValueChange={setSearchValue}
-          />
+          <div className="flex gap-3">
+            <Input
+              size="sm"
+              placeholder="Search projects..."
+              startContent={<Icon icon="lucide:search" />}
+              value={searchValue}
+              onValueChange={setSearchValue}
+            />
+            <Popover placement="bottom">
+              <PopoverTrigger>
+                <Button
+                  isIconOnly
+                  size="sm"
+                  startContent={
+                    <Icon icon="solar:tuning-2-linear" width={16} />
+                  }></Button>
+              </PopoverTrigger>
+              <PopoverContent className={tableStyles.popoverContent}>
+                <div className={tableStyles.filterPopoverContent}>
+                  <RadioGroup
+                    label="Status"
+                    value={statusFilter}
+                    onValueChange={setStatusFilter}>
+                    <Radio value="all">All</Radio>
+                    {Object.entries(getStatusProps).map(([key, { label }]) => (
+                      <Radio key={key} value={key}>
+                        {label}
+                      </Radio>
+                    ))}
+                  </RadioGroup>
+                  <Spacer y={5} />
+                  <RadioGroup
+                    label="Start Date"
+                    value={startDateFilter}
+                    onValueChange={setStartDateFilter}>
+                    {Object.entries(getDateProps).map(([key, { label }]) => (
+                      <Radio key={key} value={key}>
+                        {label}
+                      </Radio>
+                    ))}
+                  </RadioGroup>
+                  <Spacer y={5} />
+                  <RadioGroup
+                    label="Due Date"
+                    value={dueDateFilter}
+                    onValueChange={setDueDateFilter}>
+                    {Object.entries(getDateProps).map(([key, { label }]) => (
+                      <Radio key={key} value={key}>
+                        {label}
+                      </Radio>
+                    ))}
+                  </RadioGroup>
+                </div>
+              </PopoverContent>
+            </Popover>
+          </div>
 
           <Spacer y={4} />
 
@@ -786,9 +937,9 @@ const ProjectLayout = () => {
             {filteredProjects.map(project => (
               <div
                 key={project.id}
-                onClick={() => handleSelect(project.id)}
+                onClick={() => handleSelect(project.projectsId)}
                 className={`my-1 cursor-pointer rounded-lg px-2 py-2 ${
-                  project.id === activeId
+                  project.projectsId === activeId
                     ? 'bg-primary-50 border-primary-200 border'
                     : 'hover:bg-default-100'
                 }`}>
@@ -807,14 +958,14 @@ const ProjectLayout = () => {
                     <DropdownMenu>
                       <DropdownItem
                         startContent={<EyeFilledIcon />}
-                        onClick={() => handleSelect(project.id)}
+                        onClick={() => handleSelect(project.projectsId)}
                         key="view">
                         View
                       </DropdownItem>
                       <DropdownItem
                         className="text-danger"
                         startContent={<DeleteIcon />}
-                        onClick={() => handleDelete(project.id)}
+                        onClick={() => handleDelete(project.projectsId)}
                         key="delete">
                         Delete
                       </DropdownItem>
@@ -832,107 +983,115 @@ const ProjectLayout = () => {
           className={`h-full overflow-y-auto p-2 ${
             showDetails ? 'block' : 'hidden lg:block'
           }`}>
-          <div className="px-3">
-            <h1 className="text-3xl font-bold">Projects & Tasks</h1>
-            <p className="text-default-500 mt-2">
-              Manage your projects and tasks
-            </p>
-          </div>
+          {/* Show header when we have projects */}
+          {projects.length > 0 && (
+            <>
+              <div className="px-3">
+                <h1 className="text-3xl font-bold">Projects & Tasks</h1>
+                <p className="text-default-500 mt-2">
+                  Manage your projects and tasks
+                </p>
+              </div>
 
-          <div className="mt-4 flex w-full flex-col items-start justify-between sm:flex-row sm:items-center">
-            {/* Tabs Container */}
-            <div className="w-full py-4 sm:w-auto md:px-2">
-              <Tabs
-                variant="light"
-                color="primary"
-                size="md"
-                classNames={{
-                  base: 'flex w-full sm:w-auto',
-                  tabList: 'w-full sm:w-auto'
-                }}
-                selectedKey={activeTab}>
-                <Tab
-                  key="overview"
-                  title="Overview"
-                  onClick={() =>
-                    navigate({
-                      to: '/projects/$projectId',
-                      params: { projectId: activeId }
-                    })
-                  }
-                />
-                <Tab
-                  key="tasks"
-                  title="Tasks"
-                  onClick={() =>
-                    navigate({
-                      to: '/projects/$projectId/tasks',
-                      params: { projectId: activeId }
-                    })
-                  }
-                />
-                <Tab
-                  key="reports"
-                  title="Reports"
-                  onClick={() =>
-                    navigate({
-                      to: '/projects/$projectId/reports',
-                      params: { projectId: activeId }
-                    })
-                  }
-                />
-              </Tabs>
-            </div>
+              <div className="mt-4 flex w-full flex-col items-start justify-between sm:flex-row sm:items-center">
+                {/* Tabs Container */}
+                <div className="w-full py-4 sm:w-auto md:px-2">
+                  <Tabs
+                    variant="light"
+                    color="primary"
+                    size="md"
+                    classNames={{
+                      base: 'flex w-full sm:w-auto',
+                      tabList: 'w-full sm:w-auto'
+                    }}
+                    selectedKey={activeTab}>
+                    <Tab
+                      key="overview"
+                      title="Overview"
+                      onClick={() =>
+                        activeId &&
+                        navigate({
+                          to: '/projects/$projectId',
+                          params: { projectId: activeId }
+                        })
+                      }
+                    />
+                    <Tab
+                      key="tasks"
+                      title="Tasks"
+                      onClick={() =>
+                        activeId &&
+                        navigate({
+                          to: '/projects/$projectId/tasks',
+                          params: { projectId: activeId }
+                        })
+                      }
+                    />
+                    <Tab
+                      key="reports"
+                      title="Reports"
+                      onClick={() =>
+                        activeId &&
+                        navigate({
+                          to: '/projects/$projectId/reports',
+                          params: { projectId: activeId }
+                        })
+                      }
+                    />
+                  </Tabs>
+                </div>
 
-            {/* Action Buttons */}
-            <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
-              {activeTab === 'overview' && (
-                <Button
-                  className="w-full flex-shrink-0 sm:w-auto"
-                  size="sm"
-                  color="primary"
-                  onPress={openProject}
-                  startContent={<Icon icon="lucide:plus" />}>
-                  Add Project
-                </Button>
-              )}
+                {/* Action Buttons */}
+                <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
+                  {activeTab === 'overview' && (
+                    <Button
+                      className="w-full flex-shrink-0 sm:w-auto"
+                      size="sm"
+                      color="primary"
+                      onPress={openProject}
+                      startContent={<Icon icon="lucide:plus" />}>
+                      Add Project
+                    </Button>
+                  )}
 
-              {activeTab === 'tasks' && (
-                <Button
-                  className="w-full flex-shrink-0 sm:w-auto"
-                  size="sm"
-                  color="primary"
-                  startContent={<Icon icon="lucide:plus" />}
-                  onPress={openTask}>
-                  Add Task
-                </Button>
-              )}
+                  {activeTab === 'tasks' && activeId && (
+                    <Button
+                      className="w-full flex-shrink-0 sm:w-auto"
+                      size="sm"
+                      color="primary"
+                      startContent={<Icon icon="lucide:plus" />}
+                      onPress={openTask}>
+                      Add Task
+                    </Button>
+                  )}
 
-              {activeTab === 'reports' && (
-                <Button
-                  className="w-full flex-shrink-0 sm:w-auto"
-                  size="sm"
-                  color="primary"
-                  startContent={<Icon icon="lucide:plus" />}>
-                  Add Report
-                </Button>
-              )}
+                  {activeTab === 'reports' && activeId && (
+                    <Button
+                      className="w-full flex-shrink-0 sm:w-auto"
+                      size="sm"
+                      color="primary"
+                      startContent={<Icon icon="lucide:plus" />}>
+                      Add Report
+                    </Button>
+                  )}
 
-              <TaskDrawer
-                isOpen={isTaskOpen}
-                onOpenChange={onTaskChange}
-                selectedUserId={selectedUserId}
-                selectedIndex={selectedIndex}
-                selectedUser={selectedUser}
-                selectedLoading={selectedLoading}
-                selectedError={selectedError}
-                setSelectedKeys={setSelectedKeys}
-                setSelectedUserId={setSelectedUserId}
-                setSelectedIndex={setSelectedIndex}
-                selectedRefetch={selectedRefetch}
-              />
-            </div>
-          </div>
+                  <TaskDrawer
+                    isOpen={isTaskOpen}
+                    onOpenChange={onTaskChange}
+                    selectedUserId={selectedUserId}
+                    selectedIndex={selectedIndex}
+                    selectedUser={selectedUser}
+                    selectedLoading={selectedLoading}
+                    selectedError={selectedError}
+                    setSelectedKeys={setSelectedKeys}
+                    setSelectedUserId={setSelectedUserId}
+                    setSelectedIndex={setSelectedIndex}
+                    selectedRefetch={selectedRefetch}
+                  />
+                </div>
+              </div>
+            </>
+          )}
 
           <div className="overflow-hidden">
             <Outlet />

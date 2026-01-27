@@ -1,6 +1,7 @@
 'use client'
 
 import { Icon } from '@iconify/react'
+import { Outlet, useNavigate, useParams } from '@tanstack/react-router'
 import React, {
   forwardRef,
   memo,
@@ -31,31 +32,30 @@ import {
   TableHeader,
   TableRow,
   Tooltip,
-  User,
-  cn,
-  useDisclosure
+  User
 } from '@vezham/react/v2'
 
 import {
   DeleteIcon,
   EditIcon,
-  EyeFilledIcon,
+  EyeIcon,
   SendFilledIcon
 } from '@vx-oss/heroui-v2-shared-icons'
 
-import { useDeleteTask, useTaskList } from '../../store/useTasks'
+import { useProjects } from '../../../store/useProjects'
+import { useDeleteTask, useTasks } from '../../../store/useTasks'
 import {
   Columns,
   INITIAL_VISIBLE_COLUMNS,
   getColumnProps,
   getStatusProps
-} from '../../store/useTasks/data'
-import { BottomContent } from './tasks/BottomContent'
-import { HeaderContent } from './tasks/HeaderContent'
-import { TaskDetailModal } from './tasks/TaskDetailsModal'
-import { Task } from './tasks/types'
-import { CopyTextProps, Tags } from './types'
-import { copyTextVariants, tableStyles } from './variant'
+} from '../../../store/useTasks/data'
+import { CopyTextProps, Project, Tags } from '../types'
+import { copyTextVariants, tableStyles } from '../variant'
+import { BottomContent } from './BottomContent'
+import { HeaderContent } from './HeaderContent'
+import { TaskDetailModal } from './TaskDetailsModal'
+import { Task } from './types'
 
 const CopyText = memo(
   forwardRef<HTMLDivElement, CopyTextProps>((props, forwardedRef) => {
@@ -129,7 +129,14 @@ const ProjectTask = () => {
     isLoading: taskLoading,
     isError: taskError,
     refetch: refetchTask
-  } = useTaskList({})
+  } = useTasks()
+
+  const {
+    data: projects = [],
+    isLoading: projectLoading,
+    isError: projectError,
+    refetch: refetchProject
+  } = useProjects()
 
   const { mutate: deleteTask } = useDeleteTask()
 
@@ -156,7 +163,22 @@ const ProjectTask = () => {
 
   const searchInputRef = useRef<HTMLInputElement>(null)
 
-  const { isOpen, onOpen, onOpenChange } = useDisclosure()
+  // const { isOpen, onOpen, onOpenChange } = useDisclosure()
+  const navigate = useNavigate()
+  const { projectId, taskId } = useParams({ strict: false })
+
+  const isOpen = Boolean(taskId)
+
+  const selectedTask = useMemo(
+    () => users.find(u => u.taskId === Number(taskId)),
+    [users, taskId]
+  )
+  const closeModal = () => {
+    navigate({
+      to: '/projects/$projectId/tasks',
+      params: { projectId }
+    })
+  }
 
   const itemFilter = useCallback(
     (col: Task) => {
@@ -194,6 +216,8 @@ const ProjectTask = () => {
       const lowerFilter = filterValue.toLowerCase()
       filteredUsers = filteredUsers.filter(user =>
         [
+          user.projectsId,
+          user.taskId,
           user.taskname,
           user.startDate?.toString(),
           user.dueDate?.toString(),
@@ -247,28 +271,40 @@ const ProjectTask = () => {
     )
   }, [selectedKeys, filteredItems])
 
-  const handleRowClick = useCallback(
-    (key: React.Key) => {
-      const user = sortedItems.find(item => item.id === Number(key))
-      if (!user) return
+  // const handleRowClick = useCallback(
+  //   (key: React.Key) => {
+  //     const user = sortedItems.find(item => item.id === Number(key))
+  //     if (!user) return
 
-      const index = sortedItems.findIndex(i => i.id === user.id)
+  //     const index = sortedItems.findIndex(i => i.id === user.id)
 
-      setSelectedIndex(index)
-      setSelectedUserId(user.id)
-      setSelectedKeys(new Set([String(user.id)]))
-      onOpen()
-    },
-    [sortedItems, onOpen]
-  )
+  //     setSelectedIndex(index)
+  //     setSelectedUserId(user.id)
+  //     setSelectedKeys(new Set([String(user.id)]))
+  //     onOpen()
+  //   },
+  //   [sortedItems, onOpen]
+  // )
 
-  const handleEdit = useCallback(
-    (id: number) => {
-      setSelectedUserId(id)
-      onOpen()
-    },
-    [onOpen]
-  )
+  const handleRowClick = (task: Task) => {
+    navigate({
+      to: '/projects/$projectId/tasks/$taskId',
+      params: {
+        projectId: String(task.projectsId),
+        taskId: String(task.taskId)
+      }
+    })
+  }
+
+  const handleView = (task: Task) => {
+    navigate({
+      to: '/projects/$projectId/tasks/$taskId',
+      params: {
+        projectId: String(task.projectsId),
+        taskId: String(task.taskId)
+      }
+    })
+  }
 
   const headerColumns = useMemo(() => {
     return Array.from(visibleColumns).length === 0
@@ -278,13 +314,37 @@ const ProjectTask = () => {
         )
   }, [visibleColumns])
 
+  const projectMap = useMemo(() => {
+    return new Map<number, Project>(projects.map(p => [p.projectsId, p]))
+  }, [projects])
+
   const renderCell = useCallback(
     (user: Task, columnKey: React.Key) => {
       const key = columnKey as Columns
       const value = user[key as keyof Task] as any
+
       switch (key) {
         case 'taskId':
           return <CopyText>{String(value)}</CopyText>
+
+        case 'projectsId': {
+          const project = projectMap.get(user.projectsId)
+
+          if (!project) {
+            return (
+              <Chip size="sm" variant="flat">
+                Unknown
+              </Chip>
+            )
+          }
+
+          return (
+            <div className="flex flex-col">
+              <span className="font-medium">{project.projectsId}</span>
+            </div>
+          )
+        }
+
         case 'owner':
           return (
             <User
@@ -295,11 +355,13 @@ const ProjectTask = () => {
           )
         case 'taskname':
         case 'description':
+          return <p className="max-w-[200px] truncate">{value}</p>
         case 'priority':
         case 'billingtype':
           return <p className="truncate">{value}</p>
-        case 'startdate':
-        case 'duedate':
+
+        case 'startDate':
+        case 'dueDate':
           return (
             <div className={tableStyles.cell.lastLoginContainer}>
               <Icon
@@ -362,11 +424,10 @@ const ProjectTask = () => {
                 size="sm"
                 variant="light"
                 className={tableStyles.actionButton}
-                onClick={e => {
-                  e.stopPropagation()
-                  handleEdit(user.id)
+                onPress={() => {
+                  handleView(user)
                 }}>
-                <EditIcon
+                <EyeIcon
                   className={tableStyles.cell.actionIcon}
                   height={18}
                   width={18}
@@ -379,17 +440,15 @@ const ProjectTask = () => {
                   </Button>
                 </DropdownTrigger>
                 <DropdownMenu aria-label="More actions">
+                  <DropdownItem startContent={<EditIcon width={20} />} key={''}>
+                    Edit
+                  </DropdownItem>
                   <DropdownItem
                     startContent={<DeleteIcon height={18} width={18} />}
                     className="text-danger"
-                    onClick={() => handleDelete(user.id)}
+                    onClick={() => handleDelete(user.taskId)}
                     key={''}>
                     Delete
-                  </DropdownItem>
-                  <DropdownItem
-                    startContent={<SendFilledIcon width={20} />}
-                    key={''}>
-                    Send
                   </DropdownItem>
                   <DropdownItem
                     startContent={
@@ -406,7 +465,7 @@ const ProjectTask = () => {
           return value
       }
     },
-    [handleDelete, handleEdit]
+    [handleDelete, handleView]
   )
 
   const onSelectionChange = useCallback(
@@ -472,7 +531,7 @@ const ProjectTask = () => {
 
   return (
     <div className="flex items-start justify-between p-0">
-      <div className="w-full">
+      <div className="w-full md:pl-3">
         <Card
           className="sm:border-default-200 mt-4 bg-transparent sm:border"
           shadow="none">
@@ -508,7 +567,7 @@ const ProjectTask = () => {
                   </div>
                 ) : (
                   <Table
-                    className="w-full lg:w-[300px]"
+                    className="w-full"
                     removeWrapper
                     aria-label="Users Table"
                     bottomContentPlacement="outside"
@@ -517,7 +576,8 @@ const ProjectTask = () => {
                     sortDescriptor={sortDescriptor}
                     topContentPlacement="outside"
                     onSelectionChange={onSelectionChange}
-                    onSortChange={setSortDescriptor}>
+                    onSortChange={setSortDescriptor}
+                    onRowAction={handleRowClick}>
                     <TableHeader columns={headerColumns}>
                       {column => (
                         <TableColumn
@@ -562,9 +622,10 @@ const ProjectTask = () => {
       </div>
       <TaskDetailModal
         isOpen={isOpen}
-        onOpenChange={onOpenChange}
-        task={selectedUserId ? users.find(u => u.id === selectedUserId) : null}
-      />
+        onOpenChange={closeModal}
+        task={selectedTask}>
+        <Outlet />
+      </TaskDetailModal>
     </div>
   )
 }

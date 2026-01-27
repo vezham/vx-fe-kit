@@ -21,11 +21,11 @@ export type Attachment = {
   type: AttachmentType
 }
 
-export type Task = {
+export type SubTask = {
   id: number
   taskId: number
-  projectsId: number // ✅ LINK
-  taskname: string
+  subtaskId: number
+  subtaskname: string
   description: string
   owner: Owner
   startDate: Date
@@ -60,10 +60,10 @@ export type Status =
 
 export type Dates = 'all' | 'last7Days' | 'last30Days' | 'last60Days'
 
-export type RQTask = object
+export type RQSubTask = object
 
-export type RQListUsers = RQTask
+export type RQListUsers = RQSubTask
 
-export interface RQGetUsers extends RQTask {
+export interface RQGetUsers extends RQSubTask {
   id: number
 }

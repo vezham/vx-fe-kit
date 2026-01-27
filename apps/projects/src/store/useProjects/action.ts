@@ -24,7 +24,7 @@ const Api = {
   },
 
   get: async (rq: RQGetUsers): Promise<Project> => {
-    const project = projectData.find(p => p.id === rq.id)
+    const project = projectData.find(p => p.projectsId === rq.id)
     if (!project) throw new Error('Project not found')
     return Promise.resolve(project)
   },
@@ -34,10 +34,10 @@ const Api = {
     return Promise.resolve(payload)
   },
 
-  delete: async (id: number): Promise<number> => {
-    const index = projectData.findIndex(p => p.id === id)
+  delete: async (projectId: number): Promise<number> => {
+    const index = projectData.findIndex(p => p.projectsId === projectId)
     if (index !== -1) projectData.splice(index, 1)
-    return Promise.resolve(id)
+    return Promise.resolve(projectId)
   }
 }
 

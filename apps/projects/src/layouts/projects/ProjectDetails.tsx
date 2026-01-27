@@ -1,4 +1,3 @@
-// components/ProjectDetails.tsx
 import { Icon } from '@iconify/react'
 import React from 'react'
 
@@ -91,7 +90,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
 
   return (
     <div className=" ">
-      <div className="border-default-200 flex items-center justify-between border-t">
+      <div className="border-default-200 flex items-center justify-between border-t pt-2">
         <div className="flex items-center gap-3 p-3">
           <Button
             isIconOnly
@@ -129,7 +128,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({
               <div className="space-y-3">
                 <div>
                   <p className="text-default-500 text-sm">Project ID</p>
-                  <p className="py-1 font-medium">{project.projectId}</p>
+                  <p className="py-1 font-medium">{project.projectsId}</p>
                 </div>
                 <div>
                   <p className="text-default-500 py-1 text-sm">Status</p>

@@ -15,12 +15,12 @@ import {
   Tooltip
 } from '@vezham/react/v2'
 
-import { useProjects } from '../../../store/useProjects'
-import { useCreateTask } from '../../../store/useTasks'
-import { statuses, tags } from '../../../store/useTasks/data'
+import { useCreateSubTask } from '../../../store/useSubTasks'
+import { statuses, tags } from '../../../store/useSubTasks/data'
 // ✅ FIX
-import { billingType, priority } from '../../../store/useTasks/data'
-import { Attachment, Status, Tags, Task } from './types'
+import { billingType, priority } from '../../../store/useSubTasks/data'
+import { useTasks } from '../../../store/useTasks'
+import { Attachment, Status, SubTask, Tags } from './types'
 
 const getAttachmentType = (file: File): Attachment['type'] => {
   if (file.type.startsWith('image/')) return 'image'
@@ -30,10 +30,11 @@ const getAttachmentType = (file: File): Attachment['type'] => {
   return 'other'
 }
 
-const getInitialForm = (): Omit<Task, 'id'> => ({
+const getInitialForm = (): Omit<SubTask, 'id'> => ({
   projectsId: undefined,
-  taskId: Math.floor(Math.random() * 1000),
-  taskname: '',
+  taskId: undefined, // ✅ this is what Select controls
+  subtaskId: Math.floor(Math.random() * 1000),
+  subtaskname: '',
   description: '',
   owner: {
     name: '',
@@ -51,24 +52,24 @@ const getInitialForm = (): Omit<Task, 'id'> => ({
 
 type Props = {
   isOpen: boolean
-  onOpenChange: () => void
+  onOpenChange: (open: boolean) => void
 }
 
-export const TaskDrawer = ({ isOpen, onOpenChange }: Props) => {
-  const { data: projects = [], isLoading: projectsLoading } = useProjects() // ✅ FIX
+export const SubTaskDrawer = ({ isOpen, onOpenChange }: Props) => {
+  const { data: tasks = [], isLoading: tasksLoading } = useTasks() // ✅ FIX
 
-  const { mutateAsync } = useCreateTask()
-  const [form, setForm] = useState<Omit<Task, 'id'>>(getInitialForm())
+  const { mutateAsync } = useCreateSubTask()
+  const [form, setForm] = useState<Omit<SubTask, 'id'>>(getInitialForm())
 
-  const selectedProject = useMemo(
-    () => projects.find(p => p.projectsId === form.projectsId),
-    [projects, form.projectsId]
+  const selectedTask = useMemo(
+    () => tasks.find(t => t.taskId === form.taskId),
+    [tasks, form.taskId]
   )
 
   const isFormValid = useMemo(
     () =>
-      form.projectsId &&
-      form.taskname.trim().length > 0 &&
+      form.taskId &&
+      form.subtaskname.trim().length > 0 &&
       form.description.trim().length > 0 &&
       form.owner.name.trim().length > 0 &&
       form.owner.email.trim().length > 0 &&
@@ -107,9 +108,6 @@ export const TaskDrawer = ({ isOpen, onOpenChange }: Props) => {
       ...form
     })
 
-    console.log('Project.projectId:', selectedProject?.projectsId)
-    console.log('Saving task with projectId:', form.projectsId)
-
     setForm(getInitialForm())
     onOpenChange()
   }
@@ -130,51 +128,51 @@ export const TaskDrawer = ({ isOpen, onOpenChange }: Props) => {
                 isIconOnly
                 size="sm"
                 variant="light"
-                onPress={onOpenChange}>
+                onPress={() => onOpenChange(false)}>
                 ←
               </Button>
             </Tooltip>
-            Add Task
+            Add SubTask
           </div>
 
-          {selectedProject && (
+          {selectedTask && (
             <Chip size="sm" variant="flat" color="primary">
-              {selectedProject.project}
+              {selectedTask.taskname}
             </Chip>
           )}
         </DrawerHeader>
 
         <DrawerBody className="space-y-3">
           {/* Project Select */}
-          {projectsLoading ? (
+          {tasksLoading ? (
             <div className="text-default-500 flex items-center gap-2 text-sm">
-              <Spinner size="sm" /> Loading projects...
+              <Spinner size="sm" /> Loading subtasks...
             </div>
           ) : (
             <Select
-              label="Project"
-              selectedKeys={form.projectsId ? [String(form.projectsId)] : []}
+              label="Task"
+              selectedKeys={form.taskId ? [String(form.taskId)] : []}
               onSelectionChange={keys => {
                 const selectedKey = [...keys][0]
                 setForm(f => ({
                   ...f,
-                  projectsId: Number(selectedKey) // ✅ convert ONCE
+                  taskId: Number(selectedKey) // ✅ FIX: update taskId
                 }))
               }}
               isRequired>
-              {projects.map(p => (
-                <SelectItem key={String(p.projectsId)}>{p.project}</SelectItem>
+              {tasks.map(t => (
+                <SelectItem key={String(t.taskId)}>{t.taskname}</SelectItem>
               ))}
             </Select>
           )}
 
           {/* Show fields ONLY after project selected */}
-          {form.projectsId && (
+          {form.taskId && (
             <>
               <Input
-                label="Task Name"
-                value={form.taskname}
-                onValueChange={v => setForm(f => ({ ...f, taskname: v }))}
+                label="SubTask Name"
+                value={form.subtaskname}
+                onValueChange={v => setForm(f => ({ ...f, subtaskname: v }))}
                 isRequired
               />
 
@@ -331,7 +329,7 @@ export const TaskDrawer = ({ isOpen, onOpenChange }: Props) => {
             Cancel
           </Button>
           <Button color="primary" isDisabled={!isFormValid} onPress={onSubmit}>
-            Add Task
+            Add SubTask
           </Button>
         </DrawerFooter>
       </DrawerContent>

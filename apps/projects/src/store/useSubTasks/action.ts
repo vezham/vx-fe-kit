@@ -15,28 +15,28 @@
 //   }
 // }
 // export { Api }
-import { taskData } from './data'
-import { RQGetUsers, RQListUsers, Task } from './types'
+import { subtaskData } from './data'
+import { RQGetUsers, RQListUsers, SubTask } from './types'
 
 const Api = {
-  list: async (_rq: RQListUsers): Promise<Task[]> => {
-    return Promise.resolve([...taskData])
+  list: async (_rq: RQListUsers): Promise<SubTask[]> => {
+    return Promise.resolve([...subtaskData])
   },
 
-  get: async (rq: RQGetUsers): Promise<Task> => {
-    const Task = taskData.find(p => p.taskId === rq.id)
+  get: async (rq: RQGetUsers): Promise<SubTask> => {
+    const Task = subtaskData.find(p => p.taskId === rq.id)
     if (!Task) throw new Error('Task not found')
     return Promise.resolve(Task)
   },
 
-  create: async (payload: Task): Promise<Task> => {
-    taskData.unshift(payload) // ✅ mutate array
+  create: async (payload: SubTask): Promise<SubTask> => {
+    subtaskData.unshift(payload) // ✅ mutate array
     return Promise.resolve(payload)
   },
 
   delete: async (id: number): Promise<number> => {
-    const index = taskData.findIndex(p => p.taskId === id)
-    if (index !== -1) taskData.splice(index, 1)
+    const index = subtaskData.findIndex(p => p.taskId === id)
+    if (index !== -1) subtaskData.splice(index, 1)
     return Promise.resolve(id)
   }
 }
