@@ -14,13 +14,6 @@ export const items: SidebarItem[] = [
     href: '/projects'
   },
   {
-    key: 'teams',
-    href: '/teams',
-    icon: 'lucide:user-round',
-    title: 'Teams'
-  },
-
-  {
     key: 'settings',
     href: '/settings',
     icon: 'lucide:settings',

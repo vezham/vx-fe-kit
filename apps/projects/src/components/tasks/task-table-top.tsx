@@ -1,10 +1,7 @@
-'use client'
-
 import { Icon } from '@iconify/react'
 import { motion } from 'framer-motion'
 import React from 'react'
 
-import type { Selection, SortDescriptor } from '@vezham/react/v2'
 import {
   Button,
   Chip,
@@ -28,73 +25,64 @@ import {
   getColumnProps,
   getDateProps,
   getStatusProps
-} from '../../../store/useTasks/data'
-import { tableStyles } from '../variant'
+} from '../../store/useTasks/data'
+import { HeaderContentProps, useHeaderContentProps } from './types'
 
-interface HeaderContentProps {
-  selectedKeys: Selection
-  usersLength: number
-  isSearchExpanded: boolean
-  filterValue: string
-  statusFilter: string
-  startDateFilter: string
-  dueDateFilter: string
-  headerColumns: any[]
-  visibleColumns: Selection
-  sortDescriptor: SortDescriptor
-  onSearchChange: (value?: string) => void
-  toggleSearch: () => void
-  setStatusFilter: (value: string) => void
-  setStartDateFilter: (value: string) => void
-  setDueDateFilter: (value: string) => void
-  setVisibleColumns: (columns: Selection) => void
-  setSortDescriptor: (descriptor: SortDescriptor) => void
-  searchInputRef: React.RefObject<HTMLInputElement | null>
-  setFilterValue: (value: string) => void
-}
+const HeaderContent: React.FC<HeaderContentProps> = originalProps => {
+  const {
+    getTopBarContainerProps,
+    getTopBarLeftProps,
+    getTopBarLeftInnerProps,
+    getMembersTextProps,
+    getChipProps,
+    getSelectedActionsContainerProps,
+    getDividerProps,
+    getSelectedCountTextProps,
+    getSelectedActionsProps,
+    getSelectedActionsButtonProps,
+    getSelectedActionsMoreButtonProps,
+    getDropdownIconProps,
+    getTopBarRightProps,
+    getSearchContainerProps,
+    getSearchButtonProps,
+    getSearchInputProps,
+    getSearchCloseIconProps,
+    getFilterSortButtonsProps,
+    getFilterSortButtonProps,
+    getFilterSortIconProps,
+    getPopoverContentProps,
+    getFilterPopoverContentProps,
+    getMobileActionsProps,
+    getMobileActionsButtonProps,
+    getMobileFilterButtonProps,
+    getSearchFocusButtonProps,
 
-export const HeaderContent: React.FC<HeaderContentProps> = ({
-  selectedKeys,
-  usersLength,
-  isSearchExpanded,
-  filterValue,
-  statusFilter,
-  startDateFilter,
-  dueDateFilter,
-  headerColumns,
-  visibleColumns,
-  sortDescriptor,
-  onSearchChange,
-  toggleSearch,
-  setStatusFilter,
-  setStartDateFilter,
-  setDueDateFilter,
-  setVisibleColumns,
-  setSortDescriptor,
-  searchInputRef,
-  setFilterValue
-}) => {
+    isSearchExpanded
+  } = useHeaderContentProps(originalProps)
+
   const isSelectionEmpty =
-    selectedKeys === 'all' ? false : selectedKeys.size === 0
+    originalProps.selectedKeys === 'all'
+      ? false
+      : originalProps.selectedKeys.size === 0
 
   return (
-    <div className={tableStyles.topBarContainer}>
-      <div className={tableStyles.topBarLeft}>
-        <div className={tableStyles.topBarLeftInner}>
-          <p className={tableStyles.membersText}>Tasks</p>
-          <Chip className={tableStyles.chip} size="sm" variant="flat">
-            {usersLength}
+    <div {...getTopBarContainerProps()}>
+      <div {...getTopBarLeftProps()}>
+        <div {...getTopBarLeftInnerProps()}>
+          <p {...getMembersTextProps()}>Tasks</p>
+          <Chip {...getChipProps()} size="sm" variant="flat">
+            {originalProps.usersLength}
           </Chip>
         </div>
 
         <div>
           {!isSelectionEmpty && (
-            <div className={tableStyles.selectedActionsContainer}>
-              <Divider className={tableStyles.divider} orientation="vertical" />
-              <div className={tableStyles.selectedCountText}>
-                {selectedKeys === 'all'
+            <div {...getSelectedActionsContainerProps()}>
+              <Divider {...getDividerProps()} orientation="vertical" />
+              <div {...getSelectedCountTextProps()}>
+                {originalProps.selectedKeys === 'all'
                   ? 'All selected'
-                  : `${selectedKeys.size} Selected`}
+                  : `${originalProps.selectedKeys.size} Selected`}
               </div>
               <Divider className="block h-5 sm:hidden" orientation="vertical" />
               <Dropdown>
@@ -102,18 +90,18 @@ export const HeaderContent: React.FC<HeaderContentProps> = ({
                   <Button
                     size="sm"
                     variant="flat"
-                    className={tableStyles.selectedActions}>
-                    <span className={tableStyles.selectedActionsMoreButton}>
+                    {...getSelectedActionsProps()}>
+                    <span {...getSelectedActionsMoreButtonProps()}>
                       <Icon
                         icon="solar:menu-dots-bold"
                         width={10}
                         height={10}
                       />
                     </span>
-                    <span className={tableStyles.selectedActionsButton}>
+                    <span {...getSelectedActionsButtonProps()}>
                       <span>Selected Actions</span>
                       <Icon
-                        className={tableStyles.dropdownIcon}
+                        {...getDropdownIconProps()}
                         icon="solar:alt-arrow-down-linear"
                       />
                     </span>
@@ -130,56 +118,53 @@ export const HeaderContent: React.FC<HeaderContentProps> = ({
         </div>
       </div>
       {isSelectionEmpty && (
-        <div className={tableStyles.topBarRight}>
+        <div {...getTopBarRightProps()}>
           <motion.div
             initial={{ width: 40 }}
             animate={{ width: isSearchExpanded ? 150 : 40 }}
             transition={{ ease: 'easeInOut' }}
-            className={tableStyles.searchContainer}>
+            {...getSearchContainerProps()}>
             {isSearchExpanded ? (
               <Input
-                className={tableStyles.searchInput}
-                ref={searchInputRef}
+                {...getSearchInputProps()}
+                ref={originalProps.searchInputRef}
                 endContent={
                   <button
-                    className="focus:outline-none"
+                    {...getSearchFocusButtonProps()}
                     onClick={() => {
-                      if (filterValue) {
-                        setFilterValue('')
+                      if (originalProps.filterValue) {
+                        originalProps.setFilterValue('')
                       } else {
-                        toggleSearch()
+                        originalProps.toggleSearch()
                       }
                     }}>
-                    <CloseIcon
-                      className={tableStyles.searchCloseIcon}
-                      width={16}
-                    />
+                    <CloseIcon {...getSearchCloseIconProps()} width={16} />
                   </button>
                 }
                 placeholder="Search"
                 size="sm"
-                value={filterValue}
-                onValueChange={onSearchChange}
+                value={originalProps.filterValue}
+                onValueChange={originalProps.onSearchChange}
               />
             ) : (
               <button
-                className={tableStyles.searchButton}
-                onClick={toggleSearch}>
+                {...getSearchButtonProps()}
+                onClick={originalProps.toggleSearch}>
                 <SearchIcon className="text-default-600" width={18} />
               </button>
             )}
           </motion.div>
 
           <div className="flex items-center gap-2">
-            <div className={tableStyles.filterSortButtons}>
+            <div {...getFilterSortButtonsProps()}>
               <Popover placement="bottom">
                 <PopoverTrigger>
                   <Button
-                    className={tableStyles.filterSortButton}
+                    {...getFilterSortButtonProps()}
                     size="sm"
                     startContent={
                       <Icon
-                        className={tableStyles.filterSortIcon}
+                        {...getFilterSortIconProps()}
                         icon="solar:tuning-2-linear"
                         width={16}
                       />
@@ -187,12 +172,12 @@ export const HeaderContent: React.FC<HeaderContentProps> = ({
                     {!isSearchExpanded && 'Filter'}
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className={tableStyles.popoverContent}>
-                  <div className={tableStyles.filterPopoverContent}>
+                <PopoverContent {...getPopoverContentProps()}>
+                  <div {...getFilterPopoverContentProps()}>
                     <RadioGroup
                       label="Status"
-                      value={statusFilter}
-                      onValueChange={setStatusFilter}>
+                      value={originalProps.statusFilter}
+                      onValueChange={originalProps.setStatusFilter}>
                       <Radio value="all">All</Radio>
                       {Object.entries(getStatusProps).map(
                         ([key, { label }]) => (
@@ -205,8 +190,8 @@ export const HeaderContent: React.FC<HeaderContentProps> = ({
                     <Spacer y={5} />
                     <RadioGroup
                       label="Start Date"
-                      value={startDateFilter}
-                      onValueChange={setStartDateFilter}>
+                      value={originalProps.startDateFilter}
+                      onValueChange={originalProps.setStartDateFilter}>
                       {Object.entries(getDateProps).map(([key, { label }]) => (
                         <Radio key={key} value={key}>
                           {label}
@@ -216,8 +201,8 @@ export const HeaderContent: React.FC<HeaderContentProps> = ({
                     <Spacer y={5} />
                     <RadioGroup
                       label="Due Date"
-                      value={dueDateFilter}
-                      onValueChange={setDueDateFilter}>
+                      value={originalProps.dueDateFilter}
+                      onValueChange={originalProps.setDueDateFilter}>
                       {Object.entries(getDateProps).map(([key, { label }]) => (
                         <Radio key={key} value={key}>
                           {label}
@@ -229,15 +214,15 @@ export const HeaderContent: React.FC<HeaderContentProps> = ({
               </Popover>
             </div>
 
-            <div className={tableStyles.filterSortButtons}>
+            <div {...getFilterSortButtonsProps()}>
               <Dropdown>
                 <DropdownTrigger>
                   <Button
-                    className={tableStyles.filterSortButton}
+                    {...getFilterSortButtonProps()}
                     size="sm"
                     startContent={
                       <Icon
-                        className={tableStyles.filterSortIcon}
+                        {...getFilterSortIconProps()}
                         icon="solar:sort-linear"
                         width={16}
                       />
@@ -246,21 +231,22 @@ export const HeaderContent: React.FC<HeaderContentProps> = ({
                   </Button>
                 </DropdownTrigger>
                 <DropdownMenu aria-label="Sort">
-                  {headerColumns
+                  {originalProps.headerColumns
                     .filter(c => !['actions', 'teams'].includes(c.id))
                     .map(item => (
                       <DropdownItem
                         key={item.id}
                         className={
-                          sortDescriptor.column === item.id
+                          originalProps.sortDescriptor.column === item.id
                             ? 'bg-default-100 font-medium'
                             : ''
                         }
                         endContent={
-                          sortDescriptor.column === item.id ? (
+                          originalProps.sortDescriptor.column === item.id ? (
                             <Icon
                               icon={
-                                sortDescriptor.direction === 'ascending'
+                                originalProps.sortDescriptor.direction ===
+                                'ascending'
                                   ? 'solar:arrow-up-linear'
                                   : 'solar:arrow-down-linear'
                               }
@@ -270,11 +256,12 @@ export const HeaderContent: React.FC<HeaderContentProps> = ({
                           ) : null
                         }
                         onPress={() => {
-                          setSortDescriptor({
+                          originalProps.setSortDescriptor({
                             column: item.id,
                             direction:
-                              sortDescriptor.column === item.id &&
-                              sortDescriptor.direction === 'ascending'
+                              originalProps.sortDescriptor.column === item.id &&
+                              originalProps.sortDescriptor.direction ===
+                                'ascending'
                                 ? 'descending'
                                 : 'ascending'
                           })
@@ -286,15 +273,15 @@ export const HeaderContent: React.FC<HeaderContentProps> = ({
               </Dropdown>
             </div>
 
-            <div className={tableStyles.filterSortButtons}>
+            <div {...getFilterSortButtonsProps()}>
               <Dropdown closeOnSelect={false}>
                 <DropdownTrigger>
                   <Button
-                    className={tableStyles.filterSortButton}
+                    {...getFilterSortButtonProps()}
                     size="sm"
                     startContent={
                       <Icon
-                        className={tableStyles.filterSortIcon}
+                        {...getFilterSortIconProps()}
                         icon="solar:sort-horizontal-linear"
                         width={16}
                       />
@@ -305,9 +292,9 @@ export const HeaderContent: React.FC<HeaderContentProps> = ({
                 <DropdownMenu
                   disallowEmptySelection
                   aria-label="Columns"
-                  selectedKeys={visibleColumns}
+                  selectedKeys={originalProps.visibleColumns}
                   selectionMode="multiple"
-                  onSelectionChange={setVisibleColumns}>
+                  onSelectionChange={originalProps.setVisibleColumns}>
                   {Object.entries(getColumnProps)
                     .filter(([key]) => key !== 'actions')
                     .map(([key, col]) => (
@@ -317,14 +304,14 @@ export const HeaderContent: React.FC<HeaderContentProps> = ({
               </Dropdown>
             </div>
 
-            <div className={tableStyles.mobileActions}>
+            <div {...getMobileActionsProps()}>
               <Dropdown>
                 <DropdownTrigger>
                   <Button
                     isIconOnly
                     size="sm"
                     variant="flat"
-                    className={tableStyles.mobileActionsButton}>
+                    {...getMobileActionsButtonProps()}>
                     <Icon icon="solar:menu-dots-bold" width={18} height={18} />
                   </Button>
                 </DropdownTrigger>
@@ -339,16 +326,16 @@ export const HeaderContent: React.FC<HeaderContentProps> = ({
                           startContent={
                             <Icon icon="solar:tuning-2-linear" width={16} />
                           }
-                          className={tableStyles.mobileFilterButton}>
+                          {...getMobileFilterButtonProps()}>
                           Filter
                         </Button>
                       </PopoverTrigger>
-                      <PopoverContent className={tableStyles.popoverContent}>
-                        <div className={tableStyles.filterPopoverContent}>
+                      <PopoverContent {...getPopoverContentProps()}>
+                        <div {...getFilterPopoverContentProps()}>
                           <RadioGroup
                             label="Status"
-                            value={statusFilter}
-                            onValueChange={setStatusFilter}>
+                            value={originalProps.statusFilter}
+                            onValueChange={originalProps.setStatusFilter}>
                             <Radio value="all">All</Radio>
                             {Object.entries(getStatusProps).map(
                               ([key, { label }]) => (
@@ -361,8 +348,8 @@ export const HeaderContent: React.FC<HeaderContentProps> = ({
                           <Spacer y={5} />
                           <RadioGroup
                             label="Start Date"
-                            value={startDateFilter}
-                            onValueChange={setStartDateFilter}>
+                            value={originalProps.startDateFilter}
+                            onValueChange={originalProps.setStartDateFilter}>
                             {Object.entries(getDateProps).map(
                               ([key, { label }]) => (
                                 <Radio key={key} value={key}>
@@ -374,8 +361,8 @@ export const HeaderContent: React.FC<HeaderContentProps> = ({
                           <Spacer y={5} />
                           <RadioGroup
                             label="Due Date"
-                            value={dueDateFilter}
-                            onValueChange={setDueDateFilter}>
+                            value={originalProps.dueDateFilter}
+                            onValueChange={originalProps.setDueDateFilter}>
                             {Object.entries(getDateProps).map(
                               ([key, { label }]) => (
                                 <Radio key={key} value={key}>
@@ -399,26 +386,28 @@ export const HeaderContent: React.FC<HeaderContentProps> = ({
                           startContent={
                             <Icon icon="solar:sort-linear" width={16} />
                           }
-                          className={tableStyles.mobileFilterButton}>
+                          {...getMobileFilterButtonProps()}>
                           Sort
                         </Button>
                       </DropdownTrigger>
                       <DropdownMenu aria-label="Sort">
-                        {headerColumns
+                        {originalProps.headerColumns
                           .filter(c => !['actions', 'teams'].includes(c.id))
                           .map(item => (
                             <DropdownItem
                               key={item.id}
                               className={
-                                sortDescriptor.column === item.id
+                                originalProps.sortDescriptor.column === item.id
                                   ? 'bg-default-100 font-medium'
                                   : ''
                               }
                               endContent={
-                                sortDescriptor.column === item.id ? (
+                                originalProps.sortDescriptor.column ===
+                                item.id ? (
                                   <Icon
                                     icon={
-                                      sortDescriptor.direction === 'ascending'
+                                      originalProps.sortDescriptor.direction ===
+                                      'ascending'
                                         ? 'solar:arrow-up-linear'
                                         : 'solar:arrow-down-linear'
                                     }
@@ -428,11 +417,13 @@ export const HeaderContent: React.FC<HeaderContentProps> = ({
                                 ) : null
                               }
                               onPress={() => {
-                                setSortDescriptor({
+                                originalProps.setSortDescriptor({
                                   column: item.id,
                                   direction:
-                                    sortDescriptor.column === item.id &&
-                                    sortDescriptor.direction === 'ascending'
+                                    originalProps.sortDescriptor.column ===
+                                      item.id &&
+                                    originalProps.sortDescriptor.direction ===
+                                      'ascending'
                                       ? 'descending'
                                       : 'ascending'
                                 })
@@ -457,7 +448,7 @@ export const HeaderContent: React.FC<HeaderContentProps> = ({
                               width={16}
                             />
                           }
-                          className={tableStyles.mobileFilterButton}>
+                          {...getMobileFilterButtonProps()}>
                           Columns
                         </Button>
                       </DropdownTrigger>
@@ -467,9 +458,9 @@ export const HeaderContent: React.FC<HeaderContentProps> = ({
                         items={Object.entries(getColumnProps)
                           .map(([uid, col]) => ({ uid, ...col }))
                           .filter(c => c.uid !== 'actions')}
-                        selectedKeys={visibleColumns}
+                        selectedKeys={originalProps.visibleColumns}
                         selectionMode="multiple"
-                        onSelectionChange={setVisibleColumns}>
+                        onSelectionChange={originalProps.setVisibleColumns}>
                         {item => (
                           <DropdownItem key={item.uid}>
                             {item.label}
@@ -487,3 +478,6 @@ export const HeaderContent: React.FC<HeaderContentProps> = ({
     </div>
   )
 }
+
+HeaderContent.displayName = 'HeaderContent'
+export { HeaderContent }

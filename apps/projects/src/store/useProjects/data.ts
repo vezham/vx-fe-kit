@@ -264,7 +264,6 @@ const generateMockUserData = (count: number): Project[] => {
       description: selectDescription,
       owner: {
         avatar: `https://i.pravatar.cc/150?img=${i}`,
-        email: `${selectedName.toLowerCase().replace(/\s+/g, '.')}@example.com`,
         name: selectedName
       },
       startDate: new Date(

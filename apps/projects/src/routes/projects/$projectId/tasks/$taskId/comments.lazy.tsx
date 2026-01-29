@@ -1,6 +1,6 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
 
-import { CommentSection } from '../../../../../layouts/projects/comments'
+import { CommentSection } from '../../../../../components/comments'
 
 export const Route = createLazyFileRoute(
   '/projects/$projectId/tasks/$taskId/comments'

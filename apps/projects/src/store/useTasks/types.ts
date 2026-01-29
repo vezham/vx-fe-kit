@@ -24,7 +24,7 @@ export type Attachment = {
 export type Task = {
   id: number
   taskId: number
-  projectsId: number // ✅ LINK
+  projectsId?: number
   taskname: string
   description: string
   owner: Owner

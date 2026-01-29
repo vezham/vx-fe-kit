@@ -14,12 +14,6 @@ export const longMenuItems: SidebarItem[] = [
     title: 'Projects'
   },
   {
-    key: 'teams',
-    href: '/teams',
-    icon: 'lucide:user-round',
-    title: 'Teams'
-  },
-  {
     key: 'settings',
     href: '/settings',
     icon: 'lucide:settings',

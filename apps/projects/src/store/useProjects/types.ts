@@ -1,6 +1,5 @@
 export type Owner = {
   avatar: string
-  email: string
   name: string
 }
 

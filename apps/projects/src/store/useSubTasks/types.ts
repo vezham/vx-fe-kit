@@ -23,7 +23,7 @@ export type Attachment = {
 
 export type SubTask = {
   id: number
-  taskId: number
+  taskId?: number
   subtaskId: number
   subtaskname: string
   description: string

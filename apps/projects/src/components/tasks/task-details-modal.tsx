@@ -1,5 +1,3 @@
-'use client'
-
 import { Icon } from '@iconify/react'
 import { useLocation, useNavigate, useParams } from '@tanstack/react-router'
 import { useState } from 'react'
@@ -18,15 +16,14 @@ import {
   User
 } from '@vezham/react/v2'
 
-import { getStatusProps } from '../../../store/useTasks/data'
-import { SubTaskDrawer } from '../subtasks/SubTaskDrawer'
-import { Attachment, Tags, Task } from './types'
-
-type Props = {
-  task?: Task | null
-  onOpenChange: () => void
-  children?: React.ReactNode
-}
+import { getStatusProps } from '../../store/useTasks/data'
+import { SubTaskDrawer } from '../subtasks/subtask-add-drawer'
+import {
+  Attachment,
+  Tags,
+  TaskDetailModalProps,
+  useTaskDetailModalProps
+} from './types'
 
 const AttachmentItem = ({ file }: { file: Attachment }) => {
   switch (file.type) {
@@ -90,11 +87,25 @@ const AttachmentItem = ({ file }: { file: Attachment }) => {
   }
 }
 
-export const TaskDetailModal = ({ task, children }: Props) => {
+const TaskDetailModal = ({ task, children }: TaskDetailModalProps) => {
   const navigate = useNavigate()
   const { projectId, taskId } = useParams({ strict: false })
   const location = useLocation()
   const [isSubtaskOpen, setIsSubtaskOpen] = useState(false)
+
+  const {
+    slots,
+    getModalContentProps,
+    getModalHeaderProps,
+    getModalBodyProps,
+    getModalFooterProps,
+    getTitleProps,
+    getDescriptionProps,
+    getOwnerContainerProps,
+    hasAttachments,
+    getAttachmentsSectionProps,
+    getAttachmentsGridProps
+  } = useTaskDetailModalProps({ task })
 
   const closeModal = () => {
     navigate({
@@ -120,19 +131,19 @@ export const TaskDetailModal = ({ task, children }: Props) => {
     <Modal
       isOpen={Boolean(taskId)}
       onOpenChange={closeModal}
-      size="full"
+      size="5xl"
       scrollBehavior="inside">
-      <ModalContent>
+      <ModalContent {...getModalContentProps()}>
         {onClose => (
           <>
-            <ModalHeader>Task Details</ModalHeader>
-            <ModalBody className="space-y-4">
+            <ModalHeader {...getModalHeaderProps()}>Task Details</ModalHeader>
+            <ModalBody {...getModalBodyProps()}>
               <div className="flex flex-col gap-2">
-                <p className="text-lg font-semibold">{task.taskname}</p>
-                <p className="text-default-500 text-sm">{task.description}</p>
+                <p {...getTitleProps()}>{task.taskname}</p>
+                <p {...getDescriptionProps()}>{task.description}</p>
               </div>
 
-              <div className="flex items-center gap-2">
+              <div {...getOwnerContainerProps()}>
                 <User
                   avatarProps={{ src: task.owner.avatar, radius: 'lg' }}
                   name={task.owner.name}
@@ -186,14 +197,18 @@ export const TaskDetailModal = ({ task, children }: Props) => {
                 <b>BillingType:</b>
                 <p>{task.billingtype}</p>
               </div>
-              <div>
-                <b>Atttachments:</b>
-                <p className="mt-2 items-center space-y-3 md:flex md:space-y-0 md:space-x-3">
-                  {task.attachments.map(file => (
-                    <AttachmentItem key={file.id} file={file} />
-                  ))}
-                </p>
-              </div>
+
+              {hasAttachments && (
+                <div {...getAttachmentsSectionProps()}>
+                  <b>Atttachments:</b>
+                  <div {...getAttachmentsGridProps()}>
+                    {task.attachments.map(file => (
+                      <AttachmentItem key={file.id} file={file} />
+                    ))}
+                  </div>
+                </div>
+              )}
+
               <div className="flex w-full flex-col items-start justify-between sm:flex-row sm:items-center">
                 <div className="w-full py-4 sm:w-auto md:py-0">
                   <Tabs
@@ -249,7 +264,7 @@ export const TaskDetailModal = ({ task, children }: Props) => {
               {children}
             </ModalBody>
 
-            <ModalFooter>
+            <ModalFooter {...getModalFooterProps()}>
               <Button variant="light" onPress={onClose}>
                 Close
               </Button>
@@ -260,3 +275,6 @@ export const TaskDetailModal = ({ task, children }: Props) => {
     </Modal>
   )
 }
+
+TaskDetailModal.displayName = 'TaskDetailModal'
+export { TaskDetailModal }

@@ -11,6 +11,9 @@ importers:
       '@faker-js/faker':
         specifier: ^10.0.0
         version: 10.1.0
+      '@internationalized/date':
+        specifier: ^3.10.1
+        version: 3.10.1
       '@radix-ui/react-dropdown-menu':
         specifier: ^2.1.16
         version: 2.1.16(@types/react-dom@19.0.0)(@types/react@19.0.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -319,6 +322,9 @@ importers:
 
   apps/projects:
     devDependencies:
+      '@vezham/react-utils':
+        specifier: ^0.3.3
+        version: 0.3.3(react@19.0.0)(tailwindcss@4.1.13)
       '@vx/start':
         specifier: workspace:*
         version: link:../../packages/vx/start
@@ -1443,6 +1449,9 @@ packages:
 
   '@internationalized/date@3.10.0':
     resolution: {integrity: sha512-oxDR/NTEJ1k+UFVQElaNIk65E/Z83HK1z1WI3lQyhTtnNg4R5oVXaPzK3jcpKG8UHKDVuDQHzn+wsxSz8RP3aw==}
+
+  '@internationalized/date@3.10.1':
+    resolution: {integrity: sha512-oJrXtQiAXLvT9clCf1K4kxp3eKsQhIaZqxEyowkBcsvZDdZkbWrVmnGknxs5flTD0VGsxrxKgBCZty1EzoiMzA==}
 
   '@internationalized/message@3.1.8':
     resolution: {integrity: sha512-Rwk3j/TlYZhn3HQ6PyXUV0XP9Uv42jqZGNegt0BXlxjE6G3+LwHjbQZAGHhCnCPdaA6Tvd3ma/7QzLlLkJxAWA==}
@@ -4201,6 +4210,17 @@ packages:
   '@v0xoss/shared-utils@0.0.5':
     resolution: {integrity: sha512-53yYPqTYHV7H9D54KoinJOgmbTlQYals0nJVjtl7Q7lzpaNbgcMsqH/ZzOoELPah7JI8WCeMcRkszqZtmUUo/Q==}
 
+  '@v0xoss/system-rsc@0.0.5':
+    resolution: {integrity: sha512-x42902R7OOFfyn9XOawg11AmAjinRi4/abfrIUtm+Jeeb9X6BvvD0CQ3SrsUGUol9pJXpFJQIvABlj7F6Dr4+A==}
+    peerDependencies:
+      '@v0xoss/theme': '>=0.0.0'
+      react: '>=18 || >=19.0.0-rc.0'
+
+  '@v0xoss/theme@0.0.5':
+    resolution: {integrity: sha512-Uzc0iBJ/QgwUH4aAgujWvfsMXzutb9KPoOqhw3y3rhVfwbj7KoP68vomGmM+/JCVv6RNf7l06fXJ6CCKAa4cig==}
+    peerDependencies:
+      tailwindcss: '>=3.4.0'
+
   '@v0xoss/use-aria-accordion-item@0.0.5':
     resolution: {integrity: sha512-6BbVRvDajVFXRHmCDshyb/m+QQVIAXMrmolnjLUFa73c3PqIzZWPzVL9pOND6DvJdT+9aO5wcIE5Uvp18E4PKg==}
     peerDependencies:
@@ -4419,6 +4439,9 @@ packages:
 
   '@vezham/hooks@0.3.3':
     resolution: {integrity: sha512-gJRfab7uFtRr5NcJE3wH4GrYyhJPnJX6j2bPmxZVl7/lmNKM0WhXPSx5rDeF2jBHPQKqp+JpgZVHb7O2aSC6Ag==}
+
+  '@vezham/react-utils@0.3.3':
+    resolution: {integrity: sha512-NPgLyQHMzm+ZtQwkJwAxZEpuQC1KGBiie8b0nJZQZy0tlaYAaL6kXUXRcOAdUmYvS22dket3Ai5qw9Vuvgra4A==}
 
   '@vezham/react@0.4.0-alpha.2':
     resolution: {integrity: sha512-QjPTLownwyiFf07BaN6FinMN8cjZxQN7RI6T8cMVsVu6vJsvzVUnsAdhBGf94613h/F9HtpwmATfVRR7dxA64g==}
@@ -9991,8 +10014,17 @@ packages:
     resolution: {integrity: sha512-9kY+CygyYM6j02t5YFHbNz2FN5QmYGv9zAjVp4lCDjlCw7amdckXlEt/bjMhUIfj4ThGRE4gCUH5+yGnNuPo5A==}
     engines: {node: '>=10.0.0'}
 
+  tailwind-merge@2.5.4:
+    resolution: {integrity: sha512-0q8cfZHMu9nuYP/b5Shb7Y7Sh1B7Nnl5GqNr1U+n2p6+mybvRtayrQ+0042Z5byvTA8ihjlP8Odo8/VnHbZu4Q==}
+
   tailwind-merge@3.3.1:
     resolution: {integrity: sha512-gBXpgUm/3rp1lMZZrM/w7D8GKqshif0zAymAhbCyIt8KMe+0v9DQ7cdYLR4FHH/cKpdTXb+A/tKKU3eolfsI+g==}
+
+  tailwind-variants@0.3.0:
+    resolution: {integrity: sha512-ho2k5kn+LB1fT5XdNS3Clb96zieWxbStE9wNLK7D0AV64kdZMaYzAKo0fWl6fXLPY99ffF9oBJnIj5escEl/8A==}
+    engines: {node: '>=16.x', pnpm: '>=7.x'}
+    peerDependencies:
+      tailwindcss: '*'
 
   tailwind-variants@3.1.1:
     resolution: {integrity: sha512-ftLXe3krnqkMHsuBTEmaVUXYovXtPyTK7ckEfDRXS8PBZx0bAUas+A0jYxuKA5b8qg++wvQ3d2MQ7l/xeZxbZQ==}
@@ -10021,6 +10053,7 @@ packages:
   tar@7.5.1:
     resolution: {integrity: sha512-nlGpxf+hv0v7GkWBK2V9spgactGOp0qvfWRxUMjqHyzrt3SgwE48DIv/FhqPHJYLHpgW1opq3nERbz5Anq7n1g==}
     engines: {node: '>=18'}
+    deprecated: Old versions of tar are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exhorbitant rates) by contacting i@izs.me
 
   terser-webpack-plugin@5.3.14:
     resolution: {integrity: sha512-vkZjpUjb6OMS7dhV+tILUW6BhpDR7P2L/aQSAv+Uwk+m8KATX9EccViHTJR2qDtACKPIYndLGCyl3FMo+r2LMw==}
@@ -10596,6 +10629,7 @@ packages:
   whatwg-encoding@2.0.0:
     resolution: {integrity: sha512-p41ogyeMUrw3jWclHWTQg1k05DSVXPLcVxRTYsXUk+ZooOCZLcoYgPZ/HL/D/N+uQPOtcp1me1WhBEaX02mhWg==}
     engines: {node: '>=12'}
+    deprecated: Use @exodus/bytes instead for a more spec-conformant and faster implementation
 
   whatwg-mimetype@3.0.0:
     resolution: {integrity: sha512-nt+N2dzIutVRxARx1nghPKGv1xHikU7HKdfafKkLNLindmPU/ch3U31NOCGGA/dmPcmb1VlofO0vnKAcsm0o/Q==}
@@ -11998,6 +12032,10 @@ snapshots:
     dependencies:
       '@swc/helpers': 0.5.17
 
+  '@internationalized/date@3.10.1':
+    dependencies:
+      '@swc/helpers': 0.5.17
+
   '@internationalized/message@3.1.8':
     dependencies:
       '@swc/helpers': 0.5.17
@@ -13341,7 +13379,7 @@ snapshots:
 
   '@react-aria/calendar@3.9.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
     dependencies:
-      '@internationalized/date': 3.10.0
+      '@internationalized/date': 3.10.1
       '@react-aria/i18n': 3.12.13(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@react-aria/interactions': 3.25.6(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@react-aria/live-announcer': 3.4.4
@@ -13422,7 +13460,7 @@ snapshots:
 
   '@react-aria/datepicker@3.15.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
     dependencies:
-      '@internationalized/date': 3.10.0
+      '@internationalized/date': 3.10.1
       '@internationalized/number': 3.6.5
       '@internationalized/string': 3.2.7
       '@react-aria/focus': 3.21.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -13545,7 +13583,7 @@ snapshots:
 
   '@react-aria/i18n@3.12.13(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
     dependencies:
-      '@internationalized/date': 3.10.0
+      '@internationalized/date': 3.10.1
       '@internationalized/message': 3.1.8
       '@internationalized/number': 3.6.5
       '@internationalized/string': 3.2.7
@@ -13558,7 +13596,7 @@ snapshots:
 
   '@react-aria/i18n@3.12.5(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
     dependencies:
-      '@internationalized/date': 3.10.0
+      '@internationalized/date': 3.10.1
       '@internationalized/message': 3.1.8
       '@internationalized/number': 3.6.5
       '@internationalized/string': 3.2.7
@@ -14063,7 +14101,7 @@ snapshots:
 
   '@react-stately/calendar@3.9.0(react@19.0.0)':
     dependencies:
-      '@internationalized/date': 3.10.0
+      '@internationalized/date': 3.10.1
       '@react-stately/utils': 3.10.8(react@19.0.0)
       '@react-types/calendar': 3.8.0(react@19.0.0)
       '@react-types/shared': 3.32.1(react@19.0.0)
@@ -14118,7 +14156,7 @@ snapshots:
 
   '@react-stately/datepicker@3.15.2(react@19.0.0)':
     dependencies:
-      '@internationalized/date': 3.10.0
+      '@internationalized/date': 3.10.1
       '@internationalized/string': 3.2.7
       '@react-stately/form': 3.2.2(react@19.0.0)
       '@react-stately/overlays': 3.6.20(react@19.0.0)
@@ -14386,7 +14424,7 @@ snapshots:
 
   '@react-types/calendar@3.8.0(react@19.0.0)':
     dependencies:
-      '@internationalized/date': 3.10.0
+      '@internationalized/date': 3.10.1
       '@react-types/shared': 3.32.1(react@19.0.0)
       react: 19.0.0
 
@@ -14408,7 +14446,7 @@ snapshots:
 
   '@react-types/datepicker@3.13.2(react@19.0.0)':
     dependencies:
-      '@internationalized/date': 3.10.0
+      '@internationalized/date': 3.10.1
       '@react-types/calendar': 3.8.0(react@19.0.0)
       '@react-types/overlays': 3.9.2(react@19.0.0)
       '@react-types/shared': 3.32.1(react@19.0.0)
@@ -15694,6 +15732,25 @@ snapshots:
 
   '@v0xoss/shared-utils@0.0.5': {}
 
+  '@v0xoss/system-rsc@0.0.5(@v0xoss/theme@0.0.5(tailwindcss@4.1.13))(react@19.0.0)':
+    dependencies:
+      '@react-types/shared': 3.27.0(react@19.0.0)
+      '@v0xoss/theme': 0.0.5(tailwindcss@4.1.13)
+      clsx: 1.2.1
+      react: 19.0.0
+
+  '@v0xoss/theme@0.0.5(tailwindcss@4.1.13)':
+    dependencies:
+      '@v0xoss/shared-utils': 0.0.5
+      clsx: 1.2.1
+      color: 4.2.3
+      color2k: 2.0.3
+      deepmerge: 4.3.1
+      flat: 5.0.2
+      tailwind-merge: 2.5.4
+      tailwind-variants: 0.3.0(tailwindcss@4.1.13)
+      tailwindcss: 4.1.13
+
   '@v0xoss/use-aria-accordion-item@0.0.5(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
     dependencies:
       '@react-aria/button': 3.11.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -16071,6 +16128,15 @@ snapshots:
       - debug
       - react
       - react-dom
+
+  '@vezham/react-utils@0.3.3(react@19.0.0)(tailwindcss@4.1.13)':
+    dependencies:
+      '@v0xoss/react-utils': 0.0.5(react@19.0.0)
+      '@v0xoss/system-rsc': 0.0.5(@v0xoss/theme@0.0.5(tailwindcss@4.1.13))(react@19.0.0)
+      '@v0xoss/theme': 0.0.5(tailwindcss@4.1.13)
+    transitivePeerDependencies:
+      - react
+      - tailwindcss
 
   '@vezham/react@0.4.0-alpha.2(@types/react-dom@19.0.0)(@types/react@19.0.0)(framer-motion@12.23.22(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(tailwindcss@4.1.13)':
     dependencies:
@@ -21886,7 +21952,7 @@ snapshots:
 
   react-aria-components@1.13.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
     dependencies:
-      '@internationalized/date': 3.10.0
+      '@internationalized/date': 3.10.1
       '@internationalized/string': 3.2.7
       '@react-aria/autocomplete': 3.0.0-rc.3(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@react-aria/collections': 3.0.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -22894,7 +22960,14 @@ snapshots:
       string-width: 4.2.3
       strip-ansi: 6.0.1
 
+  tailwind-merge@2.5.4: {}
+
   tailwind-merge@3.3.1: {}
+
+  tailwind-variants@0.3.0(tailwindcss@4.1.13):
+    dependencies:
+      tailwind-merge: 2.5.4
+      tailwindcss: 4.1.13
 
   tailwind-variants@3.1.1(tailwind-merge@3.3.1)(tailwindcss@4.1.13):
     dependencies:

@@ -1,6 +1,6 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
 
-import { SubTaskSection } from '../../../../../layouts/projects/subtasks'
+import { SubTaskSection } from '../../../../../components/subtasks'
 
 export const Route = createLazyFileRoute(
   '/projects/$projectId/tasks/$taskId/subtasks'

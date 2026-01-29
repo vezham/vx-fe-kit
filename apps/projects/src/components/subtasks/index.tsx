@@ -1,5 +1,3 @@
-'use client'
-
 import { Icon } from '@iconify/react'
 import { Outlet, useNavigate, useParams } from '@tanstack/react-router'
 import React, {
@@ -32,32 +30,30 @@ import {
   TableHeader,
   TableRow,
   Tooltip,
-  User,
-  useDisclosure
+  User
 } from '@vezham/react/v2'
 
-import {
-  DeleteIcon,
-  EditIcon,
-  EyeIcon,
-  SendFilledIcon
-} from '@vx-oss/heroui-v2-shared-icons'
+import { DeleteIcon, EditIcon, EyeIcon } from '@vx-oss/heroui-v2-shared-icons'
 
-import { useDeleteSubTask, useSubTaskList } from '../../../store/useSubTasks'
+import { useDeleteSubTask, useSubTaskList } from '../../store/useSubTasks'
 import {
   Columns,
   INITIAL_VISIBLE_COLUMNS,
   getColumnProps,
   getStatusProps
-} from '../../../store/useSubTasks/data'
-import { useTasks } from '../../../store/useTasks'
+} from '../../store/useSubTasks/data'
+import { useTasks } from '../../store/useTasks'
 import { Task } from '../tasks/types'
-import { CopyTextProps, Project, Tags } from '../types'
-import { copyTextVariants, tableStyles } from '../variant'
-import { BottomContent } from './BottomContent'
-import { HeaderContent } from './HeaderContent'
-import { SubTaskDetailModal } from './SubTaskDetailsModal'
-import { SubTask } from './types'
+import { SubTaskDetailsModal } from './subtask-details-modal'
+import { BottomContent } from './subtask-table-bottom'
+import { HeaderContent } from './subtask-table-top'
+import {
+  CopyTextProps,
+  SubTask,
+  useCopyTextProps,
+  useSubTaskSectionProps,
+  useTableCellProps
+} from './types'
 
 const CopyText = memo(
   forwardRef<HTMLDivElement, CopyTextProps>((props, forwardedRef) => {
@@ -94,12 +90,18 @@ const CopyText = memo(
       }
     }
 
+    const {
+      slots,
+      getBaseProps,
+      getTextProps,
+      getButtonProps,
+      getIconProps,
+      getSuccessIconProps
+    } = useCopyTextProps({ ...props, isCopied: copied })
+
     return (
-      <div
-        ref={forwardedRef}
-        {...rest}
-        className={copyTextVariants[variant](className)}>
-        <span className={textClassName}>{children}</span>
+      <div ref={forwardedRef} {...rest} {...getBaseProps()}>
+        <span {...getTextProps()}>{children}</span>
         <Tooltip
           className="text-foreground"
           content={copied ? 'Copied!' : copyText}
@@ -108,15 +110,15 @@ const CopyText = memo(
             isIconOnly
             size="sm"
             variant="light"
-            className="text-foreground h-7 w-7 min-w-7"
+            {...getButtonProps()}
             onPress={handleCopy}>
             {copied ? (
               <Icon
                 icon="solar:check-read-linear"
-                className="text-success h-[14px] w-[14px]"
+                {...getIconProps({ class: getSuccessIconProps().className })}
               />
             ) : (
-              <Icon icon="solar:copy-linear" className="h-[14px] w-[14px]" />
+              <Icon icon="solar:copy-linear" {...getIconProps()} />
             )}
           </Button>
         </Tooltip>
@@ -125,7 +127,16 @@ const CopyText = memo(
   })
 )
 
-const SubTaskSection = () => {
+const SubTaskSection = forwardRef<HTMLDivElement, any>((props, ref) => {
+  const {
+    getBaseProps,
+    getCardProps,
+    getCardBodyProps,
+    getTableWrapperProps,
+    getLoadingContainerProps,
+    getOutletContainerProps
+  } = useSubTaskSectionProps({ ...props, ref })
+
   const {
     data: users = [],
     isLoading: subtaskLoading,
@@ -140,14 +151,12 @@ const SubTaskSection = () => {
   } = useTasks()
 
   const navigate = useNavigate()
-  const { taskId, subtaskId } = useParams({ strict: false })
+  const { projectId, taskId, subtaskId } = useParams({ strict: false })
 
   const { mutate: deleteTask } = useDeleteSubTask()
 
   const handleDelete = useCallback((id: number) => deleteTask(id), [deleteTask])
 
-  const [selectedUserId, setSelectedUserId] = useState<number | null>(null)
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
   const [filterValue, setFilterValue] = useState('')
   const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set([]))
   const [visibleColumns, setVisibleColumns] = useState<Selection>(
@@ -167,17 +176,18 @@ const SubTaskSection = () => {
 
   const searchInputRef = useRef<HTMLInputElement>(null)
 
-  const isOpen = Boolean(subtaskId)
-
-  const selectedTask = useMemo(
-    () => users.find(u => u.subtaskId === Number(subtaskId)),
+  // Fix: Use subtaskId to find the selected subtask
+  const selectedSubTask = useMemo(
+    () => users.find(u => u.id === Number(subtaskId)), // Changed from subtask.subtaskId to subtask.id
     [users, subtaskId]
   )
+
+  const isOpen = Boolean(subtaskId && selectedSubTask)
 
   const closeModal = () => {
     navigate({
       to: '/projects/$projectId/tasks/$taskId/subtasks',
-      params: { taskId }
+      params: { projectId: String(projectId), taskId: String(taskId) }
     })
   }
 
@@ -217,7 +227,6 @@ const SubTaskSection = () => {
       const lowerFilter = filterValue.toLowerCase()
       filteredUsers = filteredUsers.filter(user =>
         [
-          user.projectsId,
           user.taskId,
           user.subtaskId,
           user.subtaskname,
@@ -273,27 +282,13 @@ const SubTaskSection = () => {
     )
   }, [selectedKeys, filteredItems])
 
-  // const handleRowClick = useCallback(
-  //   (key: React.Key) => {
-  //     const user = sortedItems.find(item => item.id === Number(key))
-  //     if (!user) return
-
-  //     const index = sortedItems.findIndex(i => i.id === user.id)
-
-  //     setSelectedIndex(index)
-  //     setSelectedUserId(user.id)
-  //     setSelectedKeys(new Set([String(user.id)]))
-  //     onOpen()
-  //   },
-  //   [sortedItems, onOpen]
-  // )
-
   const handleRowClick = (subtask: SubTask) => {
     navigate({
       to: '/projects/$projectId/tasks/$taskId/subtasks/$subtaskId',
       params: {
-        taskId: String(subtask.taskId),
-        subtaskId: String(subtask.subtaskId)
+        projectId: String(projectId),
+        taskId: String(taskId),
+        subtaskId: String(subtask.id) // Changed from subtask.subtaskId to subtask.id
       }
     })
   }
@@ -302,8 +297,9 @@ const SubTaskSection = () => {
     navigate({
       to: '/projects/$projectId/tasks/$taskId/subtasks/$subtaskId',
       params: {
-        taskId: String(subtask.taskId),
-        subtaskId: String(subtask.subtaskId)
+        projectId: String(projectId),
+        taskId: String(taskId),
+        subtaskId: String(subtask.id) // Changed from subtask.subtaskId to subtask.id
       }
     })
   }
@@ -316,31 +312,27 @@ const SubTaskSection = () => {
         )
   }, [visibleColumns])
 
-  const taskMap = useMemo(() => {
-    return new Map<number, Task>(tasks.map(t => [t.taskId, t]))
-  }, [tasks])
+  const {
+    getLastLoginContainerProps,
+    getLastLoginIconProps,
+    getLastLoginTextProps,
+    getActionsContainerProps,
+    getActionIconProps,
+    getActionButtonProps,
+    getTagsContainerProps,
+    getTagChipProps,
+    getMoreTagChipProps,
+    getTruncateTextProps
+  } = useTableCellProps()
 
   const renderCell = useCallback(
-    (user: Task, columnKey: React.Key) => {
+    (subtask: SubTask, columnKey: React.Key) => {
       const key = columnKey as Columns
-      const value = user[key as keyof Task] as any
+      const value = subtask[key as keyof SubTask] as any
 
       switch (key) {
         case 'subtaskId':
-          return <CopyText>{String(value)}</CopyText>
-        case 'taskId': {
-          const task = taskMap.get(user.taskId)
-
-          if (!task) {
-            return (
-              <Chip size="sm" variant="flat">
-                Unknown
-              </Chip>
-            )
-          }
-
-          return <p>{task.taskId}</p>
-        }
+          return <CopyText>{String(subtask.subtaskId)}</CopyText>
 
         case 'owner':
           return (
@@ -352,19 +344,19 @@ const SubTaskSection = () => {
           )
         case 'subtaskname':
         case 'description':
-          return <p className="max-w-[200px] truncate">{value}</p>
+          return <p {...getTruncateTextProps()}>{value}</p>
         case 'priority':
         case 'billingtype':
-          return <p className="truncate">{value}</p>
+          return <p {...getTruncateTextProps()}>{value}</p>
         case 'startDate':
         case 'dueDate':
           return (
-            <div className={tableStyles.cell.lastLoginContainer}>
+            <div {...getLastLoginContainerProps()}>
               <Icon
                 icon="solar:calendar-minimalistic-linear"
-                className={tableStyles.cell.lastLoginIcon}
+                {...getLastLoginIconProps()}
               />
-              <p className={tableStyles.cell.lastLoginText}>
+              <p {...getLastLoginTextProps()}>
                 {new Intl.DateTimeFormat('en-US', {
                   month: 'long',
                   day: 'numeric',
@@ -390,12 +382,12 @@ const SubTaskSection = () => {
         }
         case 'tags':
           return (
-            <div className="flex gap-1">
-              {value.slice(0, 4).map((tag: Tags, i: number) =>
+            <div {...getTagsContainerProps()}>
+              {value.slice(0, 4).map((tag: any, i: number) =>
                 i < 3 ? (
                   <Chip
                     key={tag}
-                    className="bg-default-100 text-default-800 rounded-xl px-[6px] capitalize"
+                    {...getTagChipProps()}
                     size="sm"
                     variant="flat">
                     {tag}
@@ -403,7 +395,7 @@ const SubTaskSection = () => {
                 ) : (
                   <Chip
                     key="more"
-                    className="text-default-500"
+                    {...getMoreTagChipProps()}
                     size="sm"
                     variant="flat">
                     +{value.length - 3}
@@ -414,36 +406,39 @@ const SubTaskSection = () => {
           )
         case 'actions':
           return (
-            <div className={tableStyles.cell.actionsContainer}>
+            <div {...getActionsContainerProps()}>
               <Button
                 isIconOnly
                 size="sm"
                 variant="light"
-                className={tableStyles.actionButton}
-                onPress={() => {
-                  handleView(user)
+                {...getActionButtonProps()}
+                onPress={e => {
+                  e.stopPropagation() // Prevent row click from firing
+                  handleView(subtask)
                 }}>
-                <EyeIcon
-                  className={tableStyles.cell.actionIcon}
-                  height={18}
-                  width={18}
-                />
+                <EyeIcon {...getActionIconProps()} height={18} width={18} />
               </Button>
               <Dropdown placement="bottom-end">
                 <DropdownTrigger>
-                  <Button isIconOnly size="sm" variant="light">
+                  <Button
+                    isIconOnly
+                    size="sm"
+                    variant="light"
+                    onPress={e => e.stopPropagation()}>
                     <Icon icon="solar:menu-dots-bold" width={18} height={18} />
                   </Button>
                 </DropdownTrigger>
                 <DropdownMenu aria-label="More actions">
-                  <DropdownItem startContent={<EditIcon width={20} />} key={''}>
+                  <DropdownItem
+                    startContent={<EditIcon width={20} />}
+                    key={'edit'}>
                     Edit
                   </DropdownItem>
                   <DropdownItem
                     startContent={<DeleteIcon height={18} width={18} />}
                     className="text-danger"
-                    onClick={() => handleDelete(user.taskId)}
-                    key={''}>
+                    onClick={() => handleDelete(subtask.id)}
+                    key={'delete'}>
                     Delete
                   </DropdownItem>
 
@@ -451,7 +446,7 @@ const SubTaskSection = () => {
                     startContent={
                       <Icon icon="solar:download-line-duotone" width={20} />
                     }
-                    key={''}>
+                    key={'download'}>
                     Download
                   </DropdownItem>
                 </DropdownMenu>
@@ -527,13 +522,11 @@ const SubTaskSection = () => {
     )
 
   return (
-    <div className="flex items-start justify-between p-0">
+    <div {...getBaseProps()}>
       <div className="w-full">
-        <Card
-          className="sm:border-default-200 mt-4 bg-transparent sm:border"
-          shadow="none">
-          <CardBody>
-            <div className={tableStyles.wrapper}>
+        <Card {...getCardProps()}>
+          <CardBody {...getCardBodyProps()}>
+            <div {...getTableWrapperProps()}>
               {!taskLoading && (
                 <HeaderContent
                   selectedKeys={selectedKeys}
@@ -559,7 +552,7 @@ const SubTaskSection = () => {
               )}
               <ScrollShadow orientation="horizontal">
                 {taskLoading ? (
-                  <div className="flex h-75 items-center justify-center">
+                  <div {...getLoadingContainerProps()}>
                     <Spinner size="lg" />
                   </div>
                 ) : (
@@ -592,7 +585,7 @@ const SubTaskSection = () => {
                       {item => (
                         <TableRow
                           key={item.id}
-                          className="group"
+                          className="group hover:bg-default-100 cursor-pointer"
                           onClick={() => handleRowClick(item)}>
                           {columnKey => (
                             <TableCell>{renderCell(item, columnKey)}</TableCell>
@@ -616,13 +609,18 @@ const SubTaskSection = () => {
           </CardBody>
         </Card>
       </div>
-      <SubTaskDetailModal subtask={selectedTask}>
-        <div className="mt-4">
+      <SubTaskDetailsModal
+        isOpen={isOpen}
+        onOpenChange={closeModal}
+        subtask={selectedSubTask}>
+        <div {...getOutletContainerProps()}>
           <Outlet />
         </div>
-      </SubTaskDetailModal>
+      </SubTaskDetailsModal>
     </div>
   )
-}
+})
+
+SubTaskSection.displayName = 'SubTaskSection'
 
 export { SubTaskSection }

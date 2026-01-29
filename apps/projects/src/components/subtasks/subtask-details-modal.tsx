@@ -15,13 +15,12 @@ import {
   User
 } from '@vezham/react/v2'
 
-import { getStatusProps } from '../../../store/useTasks/data'
-import { Attachment, SubTask } from './types'
-
-type Props = {
-  subtask?: SubTask | undefined
-  children?: React.ReactNode
-}
+import { getStatusProps } from '../../store/useTasks/data'
+import {
+  Attachment,
+  SubTaskDetailModalProps,
+  useSubTaskDetailModalProps
+} from './types'
 
 const AttachmentItem = ({ file }: { file: Attachment }) => {
   switch (file.type) {
@@ -85,9 +84,25 @@ const AttachmentItem = ({ file }: { file: Attachment }) => {
   }
 }
 
-export const SubTaskDetailModal = ({ subtask, children }: Props) => {
+const SubTaskDetailsModal = ({
+  subtask,
+  children
+}: SubTaskDetailModalProps) => {
   const navigate = useNavigate()
   const { taskId, subtaskId } = useParams({ strict: false })
+
+  const {
+    getModalContentProps,
+    getModalHeaderProps,
+    getModalBodyProps,
+    getModalFooterProps,
+    getTitleProps,
+    getDescriptionProps,
+    getOwnerContainerProps,
+    getAttachmentsSectionProps,
+    getAttachmentsGridProps,
+    hasAttachments
+  } = useSubTaskDetailModalProps({ subtask })
 
   const closeModal = () => {
     navigate({
@@ -113,30 +128,34 @@ export const SubTaskDetailModal = ({ subtask, children }: Props) => {
       }}
       size="md"
       scrollBehavior="inside">
-      <ModalContent>
+      <ModalContent {...getModalContentProps()}>
         {onClose => (
           <>
-            <ModalHeader>Subtask Details</ModalHeader>
+            <ModalHeader {...getModalHeaderProps()}>
+              Subtask Details
+            </ModalHeader>
 
-            <ModalBody className="space-y-4">
-              <p className="text-lg font-semibold">{subtask.subtaskname}</p>
+            <ModalBody {...getModalBodyProps()}>
+              <p {...getTitleProps()}>{subtask.subtaskname}</p>
 
-              <p className="text-default-500 text-sm">{subtask.description}</p>
+              <p {...getDescriptionProps()}>{subtask.description}</p>
 
-              <div className="flex items-center justify-between">
+              <div {...getOwnerContainerProps()}>
                 <User
                   avatarProps={{ src: subtask.owner.avatar, radius: 'lg' }}
                   name={subtask.owner.name}
                   description={subtask.owner.email}
                 />
 
-                <Chip className={status.color}>{status.label}</Chip>
+                <Chip radius="sm" className={status.color}>
+                  {status.label}
+                </Chip>
               </div>
 
-              {subtask.attachments?.length > 0 && (
-                <div>
+              {hasAttachments && (
+                <div {...getAttachmentsSectionProps()}>
                   <b>Attachments</b>
-                  <div className="mt-2 grid gap-2">
+                  <div {...getAttachmentsGridProps()}>
                     {subtask.attachments.map(file => (
                       <AttachmentItem key={file.id} file={file} />
                     ))}
@@ -147,7 +166,7 @@ export const SubTaskDetailModal = ({ subtask, children }: Props) => {
               {children}
             </ModalBody>
 
-            <ModalFooter>
+            <ModalFooter {...getModalFooterProps()}>
               <Button variant="light" onPress={onClose}>
                 Close
               </Button>
@@ -158,3 +177,6 @@ export const SubTaskDetailModal = ({ subtask, children }: Props) => {
     </Modal>
   )
 }
+
+SubTaskDetailsModal.displayName = 'SubTaskDetailsModal'
+export { SubTaskDetailsModal }

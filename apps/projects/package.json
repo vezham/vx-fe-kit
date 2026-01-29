@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "devDependencies": {
+    "@vezham/react-utils": "^0.3.3",
     "@vx/start": "workspace:*",
     "@vx/system-utils": "workspace:*"
   }

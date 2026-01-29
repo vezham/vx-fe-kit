@@ -1,5 +1,3 @@
-'use client'
-
 import { Icon } from '@iconify/react'
 import { Outlet, useNavigate, useParams } from '@tanstack/react-router'
 import React, {
@@ -32,30 +30,33 @@ import {
   TableHeader,
   TableRow,
   Tooltip,
-  User
+  User,
+  useDisclosure
 } from '@vezham/react/v2'
 
-import {
-  DeleteIcon,
-  EditIcon,
-  EyeIcon,
-  SendFilledIcon
-} from '@vx-oss/heroui-v2-shared-icons'
+import { DeleteIcon, EditIcon, EyeIcon } from '@vx-oss/heroui-v2-shared-icons'
 
-import { useProjects } from '../../../store/useProjects'
-import { useDeleteTask, useTasks } from '../../../store/useTasks'
+import { useProjects } from '../../store/useProjects'
+import { useDeleteTask, useTasks } from '../../store/useTasks'
 import {
   Columns,
   INITIAL_VISIBLE_COLUMNS,
   getColumnProps,
   getStatusProps
-} from '../../../store/useTasks/data'
-import { CopyTextProps, Project, Tags } from '../types'
-import { copyTextVariants, tableStyles } from '../variant'
-import { BottomContent } from './BottomContent'
-import { HeaderContent } from './HeaderContent'
-import { TaskDetailModal } from './TaskDetailsModal'
-import { Task } from './types'
+} from '../../store/useTasks/data'
+import { TaskDrawer } from './task-add-drawer'
+import { TaskDetailModal } from './task-details-modal'
+import { BottomContent } from './task-table-bottom'
+import { HeaderContent } from './task-table-top'
+import {
+  CopyTextProps,
+  Project,
+  Tags,
+  Task,
+  useCopyTextProps,
+  useTableCellProps,
+  useTaskSectionProps
+} from './types'
 
 const CopyText = memo(
   forwardRef<HTMLDivElement, CopyTextProps>((props, forwardedRef) => {
@@ -92,12 +93,18 @@ const CopyText = memo(
       }
     }
 
+    const {
+      slots,
+      getBaseProps,
+      getTextProps,
+      getButtonProps,
+      getIconProps,
+      getSuccessIconProps
+    } = useCopyTextProps({ ...props, isCopied: copied })
+
     return (
-      <div
-        ref={forwardedRef}
-        {...rest}
-        className={copyTextVariants[variant](className)}>
-        <span className={textClassName}>{children}</span>
+      <div ref={forwardedRef} {...rest} {...getBaseProps()}>
+        <span {...getTextProps()}>{children}</span>
         <Tooltip
           className="text-foreground"
           content={copied ? 'Copied!' : copyText}
@@ -106,15 +113,15 @@ const CopyText = memo(
             isIconOnly
             size="sm"
             variant="light"
-            className="text-foreground h-7 w-7 min-w-7"
+            {...getButtonProps()}
             onPress={handleCopy}>
             {copied ? (
               <Icon
                 icon="solar:check-read-linear"
-                className="text-success h-[14px] w-[14px]"
+                {...getIconProps({ class: getSuccessIconProps().className })}
               />
             ) : (
-              <Icon icon="solar:copy-linear" className="h-[14px] w-[14px]" />
+              <Icon icon="solar:copy-linear" {...getIconProps()} />
             )}
           </Button>
         </Tooltip>
@@ -125,25 +132,25 @@ const CopyText = memo(
 
 const ProjectTask = () => {
   const {
+    getBaseProps,
+    getCardProps,
+    getCardBodyProps,
+    getTableWrapperProps,
+    getLoadingContainerProps,
+    getEmptyStateProps
+  } = useTaskSectionProps({} as any)
+
+  const {
     data: users = [],
     isLoading: taskLoading,
     isError: taskError,
     refetch: refetchTask
   } = useTasks()
 
-  const {
-    data: projects = [],
-    isLoading: projectLoading,
-    isError: projectError,
-    refetch: refetchProject
-  } = useProjects()
-
   const { mutate: deleteTask } = useDeleteTask()
 
   const handleDelete = useCallback((id: number) => deleteTask(id), [deleteTask])
 
-  const [selectedUserId, setSelectedUserId] = useState<number | null>(null)
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
   const [filterValue, setFilterValue] = useState('')
   const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set([]))
   const [visibleColumns, setVisibleColumns] = useState<Selection>(
@@ -161,18 +168,21 @@ const ProjectTask = () => {
   const [isPageLoading, setIsPageLoading] = useState(false)
   const [isSearchExpanded, setIsSearchExpanded] = useState(false)
 
+  // Add task drawer state
+  const { isOpen: isTaskOpen, onOpenChange: onTaskChange } = useDisclosure()
+
   const searchInputRef = useRef<HTMLInputElement>(null)
 
-  // const { isOpen, onOpen, onOpenChange } = useDisclosure()
   const navigate = useNavigate()
   const { projectId, taskId } = useParams({ strict: false })
 
-  const isOpen = Boolean(taskId)
+  const isModalOpen = Boolean(taskId)
 
   const selectedTask = useMemo(
     () => users.find(u => u.taskId === Number(taskId)),
     [users, taskId]
   )
+
   const closeModal = () => {
     navigate({
       to: '/projects/$projectId/tasks',
@@ -271,21 +281,6 @@ const ProjectTask = () => {
     )
   }, [selectedKeys, filteredItems])
 
-  // const handleRowClick = useCallback(
-  //   (key: React.Key) => {
-  //     const user = sortedItems.find(item => item.id === Number(key))
-  //     if (!user) return
-
-  //     const index = sortedItems.findIndex(i => i.id === user.id)
-
-  //     setSelectedIndex(index)
-  //     setSelectedUserId(user.id)
-  //     setSelectedKeys(new Set([String(user.id)]))
-  //     onOpen()
-  //   },
-  //   [sortedItems, onOpen]
-  // )
-
   const handleRowClick = (task: Task) => {
     navigate({
       to: '/projects/$projectId/tasks/$taskId',
@@ -314,9 +309,18 @@ const ProjectTask = () => {
         )
   }, [visibleColumns])
 
-  const projectMap = useMemo(() => {
-    return new Map<number, Project>(projects.map(p => [p.projectsId, p]))
-  }, [projects])
+  const {
+    getLastLoginContainerProps,
+    getLastLoginIconProps,
+    getLastLoginTextProps,
+    getActionsContainerProps,
+    getActionIconProps,
+    getActionButtonProps,
+    getTagsContainerProps,
+    getTagChipProps,
+    getMoreTagChipProps,
+    getTruncateTextProps
+  } = useTableCellProps()
 
   const renderCell = useCallback(
     (user: Task, columnKey: React.Key) => {
@@ -326,24 +330,6 @@ const ProjectTask = () => {
       switch (key) {
         case 'taskId':
           return <CopyText>{String(value)}</CopyText>
-
-        case 'projectsId': {
-          const project = projectMap.get(user.projectsId)
-
-          if (!project) {
-            return (
-              <Chip size="sm" variant="flat">
-                Unknown
-              </Chip>
-            )
-          }
-
-          return (
-            <div className="flex flex-col">
-              <span className="font-medium">{project.projectsId}</span>
-            </div>
-          )
-        }
 
         case 'owner':
           return (
@@ -355,20 +341,20 @@ const ProjectTask = () => {
           )
         case 'taskname':
         case 'description':
-          return <p className="max-w-[200px] truncate">{value}</p>
+          return <p {...getTruncateTextProps()}>{value}</p>
         case 'priority':
         case 'billingtype':
-          return <p className="truncate">{value}</p>
+          return <p {...getTruncateTextProps()}>{value}</p>
 
         case 'startDate':
         case 'dueDate':
           return (
-            <div className={tableStyles.cell.lastLoginContainer}>
+            <div {...getLastLoginContainerProps()}>
               <Icon
                 icon="solar:calendar-minimalistic-linear"
-                className={tableStyles.cell.lastLoginIcon}
+                {...getLastLoginIconProps()}
               />
-              <p className={tableStyles.cell.lastLoginText}>
+              <p {...getLastLoginTextProps()}>
                 {new Intl.DateTimeFormat('en-US', {
                   month: 'long',
                   day: 'numeric',
@@ -394,12 +380,12 @@ const ProjectTask = () => {
         }
         case 'tags':
           return (
-            <div className="flex gap-1">
+            <div {...getTagsContainerProps()}>
               {value.slice(0, 4).map((tag: Tags, i: number) =>
                 i < 3 ? (
                   <Chip
                     key={tag}
-                    className="bg-default-100 text-default-800 rounded-xl px-[6px] capitalize"
+                    {...getTagChipProps()}
                     size="sm"
                     variant="flat">
                     {tag}
@@ -407,7 +393,7 @@ const ProjectTask = () => {
                 ) : (
                   <Chip
                     key="more"
-                    className="text-default-500"
+                    {...getMoreTagChipProps()}
                     size="sm"
                     variant="flat">
                     +{value.length - 3}
@@ -418,20 +404,16 @@ const ProjectTask = () => {
           )
         case 'actions':
           return (
-            <div className={tableStyles.cell.actionsContainer}>
+            <div {...getActionsContainerProps()}>
               <Button
                 isIconOnly
                 size="sm"
                 variant="light"
-                className={tableStyles.actionButton}
+                {...getActionButtonProps()}
                 onPress={() => {
                   handleView(user)
                 }}>
-                <EyeIcon
-                  className={tableStyles.cell.actionIcon}
-                  height={18}
-                  width={18}
-                />
+                <EyeIcon {...getActionIconProps()} height={18} width={18} />
               </Button>
               <Dropdown placement="bottom-end">
                 <DropdownTrigger>
@@ -529,14 +511,31 @@ const ProjectTask = () => {
       </Alert>
     )
 
+  // Handle empty state when no tasks
+  if (!taskLoading && users.length === 0) {
+    return (
+      <div {...getEmptyStateProps()}>
+        <div>No tasks found</div>
+
+        <Button color="primary" onPress={() => onTaskChange(true)}>
+          Create Your Task
+        </Button>
+
+        <TaskDrawer
+          isOpen={isTaskOpen}
+          onOpenChange={onTaskChange}
+          projectId={projectId ? Number(projectId) : undefined}
+        />
+      </div>
+    )
+  }
+
   return (
-    <div className="flex items-start justify-between p-0">
+    <div {...getBaseProps()}>
       <div className="w-full md:pl-3">
-        <Card
-          className="sm:border-default-200 mt-4 bg-transparent sm:border"
-          shadow="none">
-          <CardBody>
-            <div className={tableStyles.wrapper}>
+        <Card {...getCardProps()}>
+          <CardBody {...getCardBodyProps()}>
+            <div {...getTableWrapperProps()}>
               {!taskLoading && (
                 <HeaderContent
                   selectedKeys={selectedKeys}
@@ -562,7 +561,7 @@ const ProjectTask = () => {
               )}
               <ScrollShadow orientation="horizontal">
                 {taskLoading ? (
-                  <div className="flex h-75 items-center justify-center">
+                  <div {...getLoadingContainerProps()}>
                     <Spinner size="lg" />
                   </div>
                 ) : (
@@ -576,8 +575,7 @@ const ProjectTask = () => {
                     sortDescriptor={sortDescriptor}
                     topContentPlacement="outside"
                     onSelectionChange={onSelectionChange}
-                    onSortChange={setSortDescriptor}
-                    onRowAction={handleRowClick}>
+                    onSortChange={setSortDescriptor}>
                     <TableHeader columns={headerColumns}>
                       {column => (
                         <TableColumn
@@ -592,12 +590,12 @@ const ProjectTask = () => {
                     </TableHeader>
                     <TableBody
                       items={isPageLoading ? [] : sortedItems}
-                      emptyContent="No users found">
+                      emptyContent="No tasks found">
                       {item => (
                         <TableRow
                           key={item.id}
                           className="group"
-                          onClick={e => handleRowClick(item, e)}>
+                          onClick={() => handleRowClick(item)}>
                           {columnKey => (
                             <TableCell>{renderCell(item, columnKey)}</TableCell>
                           )}
@@ -621,11 +619,16 @@ const ProjectTask = () => {
         </Card>
       </div>
       <TaskDetailModal
-        isOpen={isOpen}
+        isOpen={isModalOpen}
         onOpenChange={closeModal}
         task={selectedTask}>
         <Outlet />
       </TaskDetailModal>
+      <TaskDrawer
+        isOpen={isTaskOpen}
+        onOpenChange={onTaskChange}
+        projectId={projectId ? Number(projectId) : undefined}
+      />
     </div>
   )
 }

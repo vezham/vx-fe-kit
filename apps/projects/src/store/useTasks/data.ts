@@ -73,11 +73,7 @@ export const getColumnProps: Record<Columns, columnProps> = {
     label: 'Task ID',
     info: ''
   },
-  projectsId: {
-    id: 'projectsId',
-    label: 'Project ID',
-    info: ''
-  },
+
   taskname: {
     id: 'taskname',
     label: 'Task Name',
@@ -133,7 +129,6 @@ export const getColumnProps: Record<Columns, columnProps> = {
 }
 
 export type Columns =
-  | 'projectsId'
   | 'taskId'
   | 'taskname'
   | 'owner'
@@ -169,7 +164,6 @@ export const statuses: Status[] = [
 ]
 
 export const INITIAL_VISIBLE_COLUMNS = [
-  'projectsId',
   'taskId',
   'owner',
   'taskname',
@@ -285,12 +279,9 @@ const generateMockUserData = (count: number, projects: Project[]): Task[] => {
     const selectPriority = priority[Math.floor(Math.random() * priority.length)]
     const selectBilling =
       billingType[Math.floor(Math.random() * billingType.length)]
-    const selectedProject =
-      projects[Math.floor(Math.random() * projects.length)]
 
     const user: Task = {
       id: i,
-      projectsId: selectedProject.projectsId,
 
       taskId: Math.floor(Math.random() * 1000),
 
