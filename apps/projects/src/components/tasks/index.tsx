@@ -1,636 +1,639 @@
-import { Icon } from '@iconify/react'
-import { Outlet, useNavigate, useParams } from '@tanstack/react-router'
-import React, {
-  forwardRef,
-  memo,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState
-} from 'react'
+// import { Icon } from '@iconify/react'
+// import { Outlet, useNavigate, useParams } from '@tanstack/react-router'
+// import React, {
+//   forwardRef,
+//   memo,
+//   useCallback,
+//   useEffect,
+//   useMemo,
+//   useRef,
+//   useState
+// } from 'react'
 
-import type { Selection, SortDescriptor } from '@vezham/react/v2'
-import {
-  Alert,
-  Button,
-  Card,
-  CardBody,
-  Chip,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
-  ScrollShadow,
-  Spinner,
-  Table,
-  TableBody,
-  TableCell,
-  TableColumn,
-  TableHeader,
-  TableRow,
-  Tooltip,
-  User,
-  useDisclosure
-} from '@vezham/react/v2'
+// import type { Selection, SortDescriptor } from '@vezham/react/v2'
+// import {
+//   Alert,
+//   Button,
+//   Card,
+//   CardBody,
+//   Chip,
+//   Dropdown,
+//   DropdownItem,
+//   DropdownMenu,
+//   DropdownTrigger,
+//   ScrollShadow,
+//   Spinner,
+//   Table,
+//   TableBody,
+//   TableCell,
+//   TableColumn,
+//   TableHeader,
+//   TableRow,
+//   Tooltip,
+//   User,
+//   useDisclosure
+// } from '@vezham/react/v2'
 
-import { DeleteIcon, EditIcon, EyeIcon } from '@vx-oss/heroui-v2-shared-icons'
+// import { DeleteIcon, EditIcon, EyeIcon } from '@vx-oss/heroui-v2-shared-icons'
 
-import { useProjects } from '../../store/useProjects'
-import { useDeleteTask, useTasks } from '../../store/useTasks'
-import {
-  Columns,
-  INITIAL_VISIBLE_COLUMNS,
-  getColumnProps,
-  getStatusProps
-} from '../../store/useTasks/data'
-import { TaskDrawer } from './task-add-drawer'
-import { TaskDetailModal } from './task-details-modal'
-import { BottomContent } from './task-table-bottom'
-import { HeaderContent } from './task-table-top'
-import {
-  CopyTextProps,
-  Project,
-  Tags,
-  Task,
-  useCopyTextProps,
-  useTableCellProps,
-  useTaskSectionProps
-} from './types'
+// import { useDeleteTask, useTasks } from '../../store/useTasks'
+// import {
+//   Columns,
+//   INITIAL_VISIBLE_COLUMNS,
+//   getColumnProps,
+//   getStatusProps
+// } from '../../store/useTasks/data'
+// import { TaskDrawer } from './task-add-drawer'
+// import { TaskDetailModal } from './task-details-modal'
+// import { BottomContent } from './task-table-bottom'
+// import { HeaderContent } from './task-table-top'
+// import {
+//   CopyTextProps,
+//   Project,
+//   Tags,
+//   Task,
+//   useCopyTextProps,
+//   useTableCellProps,
+//   useTaskSectionProps
+// } from './types'
 
-const CopyText = memo(
-  forwardRef<HTMLDivElement, CopyTextProps>((props, forwardedRef) => {
-    const {
-      className,
-      textClassName,
-      children,
-      copyText = 'Copy',
-      timeout = 1500,
-      variant = 'default',
-      ...rest
-    } = props
+// const CopyText = memo(
+//   forwardRef<HTMLDivElement, CopyTextProps>((props, forwardedRef) => {
+//     const {
+//       className,
+//       textClassName,
+//       children,
+//       copyText = 'Copy',
+//       timeout = 1500,
+//       variant = 'default',
+//       ...rest
+//     } = props
 
-    const [copied, setCopied] = useState(false)
-    const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+//     const [copied, setCopied] = useState(false)
+//     const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-    useEffect(() => {
-      return () => {
-        if (timeoutRef.current) clearTimeout(timeoutRef.current)
-      }
-    }, [])
+//     useEffect(() => {
+//       return () => {
+//         if (timeoutRef.current) clearTimeout(timeoutRef.current)
+//       }
+//     }, [])
 
-    const handleCopy = async (e: React.MouseEvent) => {
-      e.stopPropagation()
-      try {
-        await navigator.clipboard.writeText(String(children))
-        setCopied(true)
-        if (timeoutRef.current) clearTimeout(timeoutRef.current)
-        timeoutRef.current = setTimeout(() => {
-          setCopied(false)
-        }, timeout)
-      } catch (err) {
-        console.error('Failed to copy:', err)
-      }
-    }
+//     const handleCopy = async (e: React.MouseEvent) => {
+//       e.stopPropagation()
+//       try {
+//         await navigator.clipboard.writeText(String(children))
+//         setCopied(true)
+//         if (timeoutRef.current) clearTimeout(timeoutRef.current)
+//         timeoutRef.current = setTimeout(() => {
+//           setCopied(false)
+//         }, timeout)
+//       } catch (err) {
+//         console.error('Failed to copy:', err)
+//       }
+//     }
 
-    const {
-      slots,
-      getBaseProps,
-      getTextProps,
-      getButtonProps,
-      getIconProps,
-      getSuccessIconProps
-    } = useCopyTextProps({ ...props, isCopied: copied })
+//     const {
+//       slots,
+//       getBaseProps,
+//       getTextProps,
+//       getButtonProps,
+//       getIconProps,
+//       getSuccessIconProps
+//     } = useCopyTextProps({ ...props, isCopied: copied })
 
-    return (
-      <div ref={forwardedRef} {...rest} {...getBaseProps()}>
-        <span {...getTextProps()}>{children}</span>
-        <Tooltip
-          className="text-foreground"
-          content={copied ? 'Copied!' : copyText}
-          closeDelay={100}>
-          <Button
-            isIconOnly
-            size="sm"
-            variant="light"
-            {...getButtonProps()}
-            onPress={handleCopy}>
-            {copied ? (
-              <Icon
-                icon="solar:check-read-linear"
-                {...getIconProps({ class: getSuccessIconProps().className })}
-              />
-            ) : (
-              <Icon icon="solar:copy-linear" {...getIconProps()} />
-            )}
-          </Button>
-        </Tooltip>
-      </div>
-    )
-  })
-)
+//     return (
+//       <div ref={forwardedRef} {...rest} {...getBaseProps()}>
+//         <span {...getTextProps()}>{children}</span>
+//         <Tooltip
+//           className="text-foreground"
+//           content={copied ? 'Copied!' : copyText}
+//           closeDelay={100}>
+//           <Button
+//             isIconOnly
+//             size="sm"
+//             variant="light"
+//             {...getButtonProps()}
+//             onPress={handleCopy}>
+//             {copied ? (
+//               <Icon
+//                 icon="solar:check-read-linear"
+//                 {...getIconProps({ class: getSuccessIconProps().className })}
+//               />
+//             ) : (
+//               <Icon icon="solar:copy-linear" {...getIconProps()} />
+//             )}
+//           </Button>
+//         </Tooltip>
+//       </div>
+//     )
+//   })
+// )
 
-const ProjectTask = () => {
-  const {
-    getBaseProps,
-    getCardProps,
-    getCardBodyProps,
-    getTableWrapperProps,
-    getLoadingContainerProps,
-    getEmptyStateProps
-  } = useTaskSectionProps({} as any)
+// const ProjectTask = () => {
+//   const {
+//     getBaseProps,
+//     getCardProps,
+//     getCardBodyProps,
+//     getTableWrapperProps,
+//     getLoadingContainerProps,
+//     getEmptyStateProps
+//   } = useTaskSectionProps({} as any)
 
-  const {
-    data: users = [],
-    isLoading: taskLoading,
-    isError: taskError,
-    refetch: refetchTask
-  } = useTasks()
+//   const {
+//     data: users = [],
+//     isLoading: taskLoading,
+//     isError: taskError,
+//     refetch: refetchTask
+//   } = useTasks()
 
-  const { mutate: deleteTask } = useDeleteTask()
+//   const { mutate: deleteTask } = useDeleteTask()
 
-  const handleDelete = useCallback((id: number) => deleteTask(id), [deleteTask])
+//   const handleDelete = useCallback((id: number) => deleteTask(id), [deleteTask])
 
-  const [filterValue, setFilterValue] = useState('')
-  const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set([]))
-  const [visibleColumns, setVisibleColumns] = useState<Selection>(
-    new Set(INITIAL_VISIBLE_COLUMNS)
-  )
-  const [rowsPerPage] = useState(7)
-  const [page, setPage] = useState(1)
-  const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
-    column: 'owner',
-    direction: 'ascending'
-  })
-  const [statusFilter, setStatusFilter] = useState('all')
-  const [startDateFilter, setStartDateFilter] = useState('all')
-  const [dueDateFilter, setDueDateFilter] = useState('all')
-  const [isPageLoading, setIsPageLoading] = useState(false)
-  const [isSearchExpanded, setIsSearchExpanded] = useState(false)
+//   const [filterValue, setFilterValue] = useState('')
+//   const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set([]))
+//   const [visibleColumns, setVisibleColumns] = useState<Selection>(
+//     new Set(INITIAL_VISIBLE_COLUMNS)
+//   )
+//   const [rowsPerPage] = useState(7)
+//   const [page, setPage] = useState(1)
+//   const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
+//     column: 'owner',
+//     direction: 'ascending'
+//   })
+//   const [statusFilter, setStatusFilter] = useState('all')
+//   const [startDateFilter, setStartDateFilter] = useState('all')
+//   const [dueDateFilter, setDueDateFilter] = useState('all')
+//   const [isPageLoading, setIsPageLoading] = useState(false)
+//   const [isSearchExpanded, setIsSearchExpanded] = useState(false)
 
-  // Add task drawer state
-  const { isOpen: isTaskOpen, onOpenChange: onTaskChange } = useDisclosure()
+//   const { isOpen: isTaskOpen, onOpenChange: onTaskChange } = useDisclosure()
 
-  const searchInputRef = useRef<HTMLInputElement>(null)
+//   const searchInputRef = useRef<HTMLInputElement>(null)
 
-  const navigate = useNavigate()
-  const { projectId, taskId } = useParams({ strict: false })
+//   const navigate = useNavigate()
 
-  const isModalOpen = Boolean(taskId)
+//   const { projectId, taskId } = useParams({
+//     from: '/projects/$projectId/tasks/$taskId' as const,
+//     strict: false,
+//   })
 
-  const selectedTask = useMemo(
-    () => users.find(u => u.taskId === Number(taskId)),
-    [users, taskId]
-  )
+//   const isModalOpen = Boolean(taskId)
 
-  const closeModal = () => {
-    navigate({
-      to: '/projects/$projectId/tasks',
-      params: { projectId }
-    })
-  }
+//   const selectedTask = useMemo(
+//     () => users.find(u => u.taskId === Number(taskId)),
+//     [users, taskId]
+//   )
 
-  const itemFilter = useCallback(
-    (col: Task) => {
-      const statusMatch =
-        statusFilter === 'all' ||
-        col.status.toLowerCase() === statusFilter.toLowerCase()
-      const startDateMatch =
-        startDateFilter === 'all' ||
-        new Date(col.startDate) >=
-          (() => {
-            const match = startDateFilter.match(/(\d+)(?=Days)/)
-            const daysAgo = match ? +match[1] : 0
-            const limit = new Date()
-            limit.setDate(limit.getDate() - daysAgo)
-            return limit
-          })()
-      const dueDateMatch =
-        dueDateFilter === 'all' ||
-        new Date(col.dueDate) >=
-          (() => {
-            const match = dueDateFilter.match(/(\d+)(?=Days)/)
-            const daysAgo = match ? +match[1] : 0
-            const limit = new Date()
-            limit.setDate(limit.getDate() - daysAgo)
-            return limit
-          })()
-      return statusMatch && startDateMatch && dueDateMatch
-    },
-    [statusFilter, startDateFilter, dueDateFilter]
-  )
+//   const closeModal = () => {
+//     navigate({
+//       to: '/projects/$projectId/tasks',
+//       params: { projectId }
+//     })
+//   }
 
-  const filteredItems = useMemo(() => {
-    let filteredUsers = [...users]
-    if (filterValue) {
-      const lowerFilter = filterValue.toLowerCase()
-      filteredUsers = filteredUsers.filter(user =>
-        [
-          user.projectsId,
-          user.taskId,
-          user.taskname,
-          user.startDate?.toString(),
-          user.dueDate?.toString(),
-          user.id?.toString(),
-          user.owner?.name,
-          user.status,
-          user.taskId,
-          user.description,
-          user.priority,
-          user.billingtype,
-          ...(user.tags?.map(tag => tag.toString()) || [])
-        ].some(val =>
-          String(val ?? '')
-            .toLowerCase()
-            .includes(lowerFilter)
-        )
-      )
-    }
-    return filteredUsers.filter(itemFilter)
-  }, [filterValue, itemFilter, users])
+//   const itemFilter = useCallback(
+//     (col: Task) => {
+//       const statusMatch =
+//         statusFilter === 'all' ||
+//         col.status.toLowerCase() === statusFilter.toLowerCase()
+//       const startDateMatch =
+//         startDateFilter === 'all' ||
+//         new Date(col.startDate) >=
+//           (() => {
+//             const match = startDateFilter.match(/(\d+)(?=Days)/)
+//             const daysAgo = match ? +match[1] : 0
+//             const limit = new Date()
+//             limit.setDate(limit.getDate() - daysAgo)
+//             return limit
+//           })()
+//       const dueDateMatch =
+//         dueDateFilter === 'all' ||
+//         new Date(col.dueDate) >=
+//           (() => {
+//             const match = dueDateFilter.match(/(\d+)(?=Days)/)
+//             const daysAgo = match ? +match[1] : 0
+//             const limit = new Date()
+//             limit.setDate(limit.getDate() - daysAgo)
+//             return limit
+//           })()
+//       return statusMatch && startDateMatch && dueDateMatch
+//     },
+//     [statusFilter, startDateFilter, dueDateFilter]
+//   )
 
-  const pages = Math.ceil(filteredItems.length / rowsPerPage) || 1
+//   const filteredItems = useMemo(() => {
+//     let filteredUsers = [...users]
+//     if (filterValue) {
+//       const lowerFilter = filterValue.toLowerCase()
+//       filteredUsers = filteredUsers.filter(user =>
+//         [
+//           user.projectsId,
+//           user.taskId,
+//           user.taskname,
+//           user.startDate?.toString(),
+//           user.dueDate?.toString(),
+//           user.id?.toString(),
+//           user.owner?.name,
+//           user.status,
+//           user.taskId,
+//           user.description,
+//           user.priority,
+//           user.billingtype,
+//           ...(user.tags?.map(tag => tag.toString()) || [])
+//         ].some(val =>
+//           String(val ?? '')
+//             .toLowerCase()
+//             .includes(lowerFilter)
+//         )
+//       )
+//     }
+//     return filteredUsers.filter(itemFilter)
+//   }, [filterValue, itemFilter, users])
 
-  const items = useMemo(() => {
-    const start = (page - 1) * rowsPerPage
-    return filteredItems.slice(start, start + rowsPerPage)
-  }, [page, filteredItems, rowsPerPage])
+//   const pages = Math.ceil(filteredItems.length / rowsPerPage) || 1
 
-  const sortedItems = useMemo(() => {
-    return [...items].sort((a, b) => {
-      const col = sortDescriptor.column as keyof Task
-      let first: any = a[col]
-      let second: any = b[col]
-      if (col === 'owner') {
-        first = a[col].name
-        second = b[col].name
-      }
-      const cmp = first < second ? -1 : first > second ? 1 : 0
-      return sortDescriptor.direction === 'descending' ? -cmp : cmp
-    })
-  }, [sortDescriptor, items])
+//   const items = useMemo(() => {
+//     const start = (page - 1) * rowsPerPage
+//     return filteredItems.slice(start, start + rowsPerPage)
+//   }, [page, filteredItems, rowsPerPage])
 
-  const filterSelectedKeys = useMemo(() => {
-    if (selectedKeys === 'all') {
-      return new Set(filteredItems.map(item => String(item.id)))
-    }
-    return new Set(
-      Array.from(selectedKeys).filter(key =>
-        filteredItems.some(item => String(item.id) === key)
-      )
-    )
-  }, [selectedKeys, filteredItems])
+//   const sortedItems = useMemo(() => {
+//     return [...items].sort((a, b) => {
+//       const col = sortDescriptor.column as keyof Task
+//       let first: any = a[col]
+//       let second: any = b[col]
+//       if (col === 'owner') {
+//         first = a[col].name
+//         second = b[col].name
+//       }
+//       const cmp = first < second ? -1 : first > second ? 1 : 0
+//       return sortDescriptor.direction === 'descending' ? -cmp : cmp
+//     })
+//   }, [sortDescriptor, items])
 
-  const handleRowClick = (task: Task) => {
-    navigate({
-      to: '/projects/$projectId/tasks/$taskId',
-      params: {
-        projectId: String(task.projectsId),
-        taskId: String(task.taskId)
-      }
-    })
-  }
+//   const filterSelectedKeys = useMemo(() => {
+//     if (selectedKeys === 'all') {
+//       return new Set(filteredItems.map(item => String(item.id)))
+//     }
+//     return new Set(
+//       Array.from(selectedKeys).filter(key =>
+//         filteredItems.some(item => String(item.id) === key)
+//       )
+//     )
+//   }, [selectedKeys, filteredItems])
 
-  const handleView = (task: Task) => {
-    navigate({
-      to: '/projects/$projectId/tasks/$taskId',
-      params: {
-        projectId: String(task.projectsId),
-        taskId: String(task.taskId)
-      }
-    })
-  }
+//   const handleRowClick = (task: Task) => {
+//     navigate({
+//       to: '/projects/$projectId/tasks/$taskId',
+//       params: {
+//         projectId: String(task.projectsId),
+//         taskId: String(task.taskId),
+//       }
+//     })
+//   }
 
-  const headerColumns = useMemo(() => {
-    return Array.from(visibleColumns).length === 0
-      ? Object.values(getColumnProps)
-      : Object.values(getColumnProps).filter(column =>
-          visibleColumns.has(column.id)
-        )
-  }, [visibleColumns])
+//   const handleView = (task: Task) => {
+//     navigate({
+//       to: '/projects/$projectId/tasks/$taskId',
+//       params: {
+//         projectId: String(task.projectsId),
+//         taskId: String(task.taskId)
+//       }
+//     })
+//   }
 
-  const {
-    getLastLoginContainerProps,
-    getLastLoginIconProps,
-    getLastLoginTextProps,
-    getActionsContainerProps,
-    getActionIconProps,
-    getActionButtonProps,
-    getTagsContainerProps,
-    getTagChipProps,
-    getMoreTagChipProps,
-    getTruncateTextProps
-  } = useTableCellProps()
+//   const headerColumns = useMemo(() => {
+//     return Array.from(visibleColumns).length === 0
+//       ? Object.values(getColumnProps)
+//       : Object.values(getColumnProps).filter(column =>
+//           visibleColumns.has(column.id)
+//         )
+//   }, [visibleColumns])
 
-  const renderCell = useCallback(
-    (user: Task, columnKey: React.Key) => {
-      const key = columnKey as Columns
-      const value = user[key as keyof Task] as any
+//   const {
+//     getLastLoginContainerProps,
+//     getLastLoginIconProps,
+//     getLastLoginTextProps,
+//     getActionsContainerProps,
+//     getActionIconProps,
+//     getActionButtonProps,
+//     getTagsContainerProps,
+//     getTagChipProps,
+//     getMoreTagChipProps,
+//     getTruncateTextProps
+//   } = useTableCellProps()
 
-      switch (key) {
-        case 'taskId':
-          return <CopyText>{String(value)}</CopyText>
+//   const renderCell = useCallback(
+//     (user: Task, columnKey: React.Key) => {
+//       const key = columnKey as Columns
+//       const value = user[key as keyof Task] as any
 
-        case 'owner':
-          return (
-            <User
-              avatarProps={{ radius: 'lg', src: value.avatar }}
-              name={value.name}
-              description={value.email}
-            />
-          )
-        case 'taskname':
-        case 'description':
-          return <p {...getTruncateTextProps()}>{value}</p>
-        case 'priority':
-        case 'billingtype':
-          return <p {...getTruncateTextProps()}>{value}</p>
+//       switch (key) {
+//         case 'taskId':
+//           return <CopyText>{String(value)}</CopyText>
 
-        case 'startDate':
-        case 'dueDate':
-          return (
-            <div {...getLastLoginContainerProps()}>
-              <Icon
-                icon="solar:calendar-minimalistic-linear"
-                {...getLastLoginIconProps()}
-              />
-              <p {...getLastLoginTextProps()}>
-                {new Intl.DateTimeFormat('en-US', {
-                  month: 'long',
-                  day: 'numeric',
-                  year: 'numeric'
-                }).format(value)}
-              </p>
-            </div>
-          )
-        case 'status': {
-          const { label, color } =
-            getStatusProps[value as keyof typeof getStatusProps] || {}
-          return (
-            <Chip
-              variant="solid"
-              radius="sm"
-              className={`${color} ${label}`}
-              startContent={
-                <Icon icon="solar:circle-linear" width={24} height={24} />
-              }>
-              {value}
-            </Chip>
-          )
-        }
-        case 'tags':
-          return (
-            <div {...getTagsContainerProps()}>
-              {value.slice(0, 4).map((tag: Tags, i: number) =>
-                i < 3 ? (
-                  <Chip
-                    key={tag}
-                    {...getTagChipProps()}
-                    size="sm"
-                    variant="flat">
-                    {tag}
-                  </Chip>
-                ) : (
-                  <Chip
-                    key="more"
-                    {...getMoreTagChipProps()}
-                    size="sm"
-                    variant="flat">
-                    +{value.length - 3}
-                  </Chip>
-                )
-              )}
-            </div>
-          )
-        case 'actions':
-          return (
-            <div {...getActionsContainerProps()}>
-              <Button
-                isIconOnly
-                size="sm"
-                variant="light"
-                {...getActionButtonProps()}
-                onPress={() => {
-                  handleView(user)
-                }}>
-                <EyeIcon {...getActionIconProps()} height={18} width={18} />
-              </Button>
-              <Dropdown placement="bottom-end">
-                <DropdownTrigger>
-                  <Button isIconOnly size="sm" variant="light">
-                    <Icon icon="solar:menu-dots-bold" width={18} height={18} />
-                  </Button>
-                </DropdownTrigger>
-                <DropdownMenu aria-label="More actions">
-                  <DropdownItem startContent={<EditIcon width={20} />} key={''}>
-                    Edit
-                  </DropdownItem>
-                  <DropdownItem
-                    startContent={<DeleteIcon height={18} width={18} />}
-                    className="text-danger"
-                    onClick={() => handleDelete(user.taskId)}
-                    key={''}>
-                    Delete
-                  </DropdownItem>
-                  <DropdownItem
-                    startContent={
-                      <Icon icon="solar:download-line-duotone" width={20} />
-                    }
-                    key={''}>
-                    Download
-                  </DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
-            </div>
-          )
-        default:
-          return value
-      }
-    },
-    [handleDelete, handleView]
-  )
+//         case 'owner':
+//           return (
+//             <User
+//               avatarProps={{ radius: 'lg', src: value.avatar }}
+//               name={value.name}
+//               description={value.email}
+//             />
+//           )
+//         case 'taskname':
+//         case 'description':
+//           return <p {...getTruncateTextProps()}>{value}</p>
+//         case 'priority':
+//         case 'billingtype':
+//           return <p {...getTruncateTextProps()}>{value}</p>
 
-  const onSelectionChange = useCallback(
-    (keys: Selection) => setSelectedKeys(keys),
-    []
-  )
-  const sleep = () => new Promise(resolve => setTimeout(resolve, 500))
+//         case 'startDate':
+//         case 'dueDate':
+//           return (
+//             <div {...getLastLoginContainerProps()}>
+//               <Icon
+//                 icon="solar:calendar-minimalistic-linear"
+//                 {...getLastLoginIconProps()}
+//               />
+//               <p {...getLastLoginTextProps()}>
+//                 {new Intl.DateTimeFormat('en-US', {
+//                   month: 'long',
+//                   day: 'numeric',
+//                   year: 'numeric'
+//                 }).format(value)}
+//               </p>
+//             </div>
+//           )
+//         case 'status': {
+//           const { label, color } =
+//             getStatusProps[value as keyof typeof getStatusProps] || {}
+//           return (
+//             <Chip
+//               variant="solid"
+//               radius="sm"
+//               className={`${color} ${label}`}
+//               startContent={
+//                 <Icon icon="solar:circle-linear" width={24} height={24} />
+//               }>
+//               {value}
+//             </Chip>
+//           )
+//         }
+//         case 'tags':
+//           return (
+//             <div {...getTagsContainerProps()}>
+//               {value.slice(0, 4).map((tag: Tags, i: number) =>
+//                 i < 3 ? (
+//                   <Chip
+//                     key={tag}
+//                     {...getTagChipProps()}
+//                     size="sm"
+//                     variant="flat">
+//                     {tag}
+//                   </Chip>
+//                 ) : (
+//                   <Chip
+//                     key="more"
+//                     {...getMoreTagChipProps()}
+//                     size="sm"
+//                     variant="flat">
+//                     +{value.length - 3}
+//                   </Chip>
+//                 )
+//               )}
+//             </div>
+//           )
+//         case 'actions':
+//           return (
+//             <div {...getActionsContainerProps()}>
+//               <Button
+//                 isIconOnly
+//                 size="sm"
+//                 variant="light"
+//                 {...getActionButtonProps()}
+//                 onPress={() => {
+//                   handleView(user)
+//                 }}>
+//                 <EyeIcon {...getActionIconProps()} height={18} width={18} />
+//               </Button>
+//               <Dropdown placement="bottom-end">
+//                 <DropdownTrigger>
+//                   <Button isIconOnly size="sm" variant="light">
+//                     <Icon icon="solar:menu-dots-bold" width={18} height={18} />
+//                   </Button>
+//                 </DropdownTrigger>
+//                 <DropdownMenu aria-label="More actions">
+//                   <DropdownItem startContent={<EditIcon width={20} />} key={''}>
+//                     Edit
+//                   </DropdownItem>
+//                   <DropdownItem
+//                     startContent={<DeleteIcon height={18} width={18} />}
+//                     className="text-danger"
+//                     onClick={() => handleDelete(user.taskId)}
+//                     key={''}>
+//                     Delete
+//                   </DropdownItem>
+//                   <DropdownItem
+//                     startContent={
+//                       <Icon icon="solar:download-line-duotone" width={20} />
+//                     }
+//                     key={''}>
+//                     Download
+//                   </DropdownItem>
+//                 </DropdownMenu>
+//               </Dropdown>
+//             </div>
+//           )
+//         default:
+//           return value
+//       }
+//     },
+//     [handleDelete, handleView]
+//   )
 
-  const onNextPage = useCallback(async () => {
-    if (page < pages) {
-      setIsPageLoading(true)
-      await sleep()
-      setPage(p => p + 1)
-      setIsPageLoading(false)
-    }
-  }, [page, pages])
-  const onPreviousPage = useCallback(async () => {
-    if (page > 1) {
-      setIsPageLoading(true)
-      await sleep()
-      setPage(p => p - 1)
-      setIsPageLoading(false)
-    }
-  }, [page])
-  const onPaginationChange = async (newPage: number) => {
-    if (newPage !== page) {
-      setIsPageLoading(true)
-      await sleep()
-      setPage(newPage)
-      setIsPageLoading(false)
-    }
-  }
+//   const onSelectionChange = useCallback(
+//     (keys: Selection) => setSelectedKeys(keys),
+//     []
+//   )
+//   const sleep = () => new Promise(resolve => setTimeout(resolve, 500))
 
-  const onSearchChange = useCallback((value?: string) => {
-    setFilterValue(value || '')
-    setPage(1)
-  }, [])
-  const toggleSearch = useCallback(() => setIsSearchExpanded(prev => !prev), [])
+//   const onNextPage = useCallback(async () => {
+//     if (page < pages) {
+//       setIsPageLoading(true)
+//       await sleep()
+//       setPage(p => p + 1)
+//       setIsPageLoading(false)
+//     }
+//   }, [page, pages])
+//   const onPreviousPage = useCallback(async () => {
+//     if (page > 1) {
+//       setIsPageLoading(true)
+//       await sleep()
+//       setPage(p => p - 1)
+//       setIsPageLoading(false)
+//     }
+//   }, [page])
+//   const onPaginationChange = async (newPage: number) => {
+//     if (newPage !== page) {
+//       setIsPageLoading(true)
+//       await sleep()
+//       setPage(newPage)
+//       setIsPageLoading(false)
+//     }
+//   }
 
-  useEffect(() => {
-    if (isSearchExpanded && searchInputRef.current)
-      setTimeout(() => searchInputRef.current?.focus(), 100)
-  }, [isSearchExpanded])
+//   const onSearchChange = useCallback((value?: string) => {
+//     setFilterValue(value || '')
+//     setPage(1)
+//   }, [])
+//   const toggleSearch = useCallback(() => setIsSearchExpanded(prev => !prev), [])
 
-  if (taskError)
-    return (
-      <Alert
-        variant="faded"
-        color="default"
-        title="Error loading Purchase"
-        hideIcon
-        className="mt-6 flex flex-col items-center">
-        <Button
-          color="danger"
-          size="sm"
-          variant="light"
-          className="mx-auto mt-2"
-          onPress={refetchTask}>
-          Try Again
-        </Button>
-      </Alert>
-    )
+//   useEffect(() => {
+//     if (isSearchExpanded && searchInputRef.current)
+//       setTimeout(() => searchInputRef.current?.focus(), 100)
+//   }, [isSearchExpanded])
 
-  // Handle empty state when no tasks
-  if (!taskLoading && users.length === 0) {
-    return (
-      <div {...getEmptyStateProps()}>
-        <div>No tasks found</div>
+//   if (taskError)
+//     return (
+//       <Alert
+//         variant="faded"
+//         color="default"
+//         title="Error loading Purchase"
+//         hideIcon
+//         className="mt-6 flex flex-col items-center">
+//         <Button
+//           color="danger"
+//           size="sm"
+//           variant="light"
+//           className="mx-auto mt-2"
+//           onPress={refetchTask}>
+//           Try Again
+//         </Button>
+//       </Alert>
+//     )
 
-        <Button color="primary" onPress={() => onTaskChange(true)}>
-          Create Your Task
-        </Button>
+//   // Handle empty state when no tasks
+//   if (!taskLoading && users.length === 0) {
+//     return (
+//       <div {...getEmptyStateProps()}>
+//         <div>No tasks found</div>
 
-        <TaskDrawer
-          isOpen={isTaskOpen}
-          onOpenChange={onTaskChange}
-          projectId={projectId ? Number(projectId) : undefined}
-        />
-      </div>
-    )
-  }
+//         <Button color="primary" onPress={() => onTaskChange(true)}>
+//           Create Your Task
+//         </Button>
 
-  return (
-    <div {...getBaseProps()}>
-      <div className="w-full md:pl-3">
-        <Card {...getCardProps()}>
-          <CardBody {...getCardBodyProps()}>
-            <div {...getTableWrapperProps()}>
-              {!taskLoading && (
-                <HeaderContent
-                  selectedKeys={selectedKeys}
-                  usersLength={users.length}
-                  isSearchExpanded={isSearchExpanded}
-                  filterValue={filterValue}
-                  statusFilter={statusFilter}
-                  startDateFilter={startDateFilter}
-                  dueDateFilter={dueDateFilter}
-                  headerColumns={headerColumns}
-                  visibleColumns={visibleColumns}
-                  sortDescriptor={sortDescriptor}
-                  onSearchChange={onSearchChange}
-                  toggleSearch={toggleSearch}
-                  setStatusFilter={setStatusFilter}
-                  setStartDateFilter={setStartDateFilter}
-                  setDueDateFilter={setDueDateFilter}
-                  setVisibleColumns={setVisibleColumns}
-                  setSortDescriptor={setSortDescriptor}
-                  searchInputRef={searchInputRef}
-                  setFilterValue={setFilterValue}
-                />
-              )}
-              <ScrollShadow orientation="horizontal">
-                {taskLoading ? (
-                  <div {...getLoadingContainerProps()}>
-                    <Spinner size="lg" />
-                  </div>
-                ) : (
-                  <Table
-                    className="w-full"
-                    removeWrapper
-                    aria-label="Users Table"
-                    bottomContentPlacement="outside"
-                    selectedKeys={filterSelectedKeys}
-                    selectionMode="multiple"
-                    sortDescriptor={sortDescriptor}
-                    topContentPlacement="outside"
-                    onSelectionChange={onSelectionChange}
-                    onSortChange={setSortDescriptor}>
-                    <TableHeader columns={headerColumns}>
-                      {column => (
-                        <TableColumn
-                          key={column.id}
-                          allowsSorting={
-                            column.id !== 'actions' && column.id !== 'tags'
-                          }
-                          align={column.id === 'actions' ? 'end' : 'start'}>
-                          <span>{column.label}</span>
-                        </TableColumn>
-                      )}
-                    </TableHeader>
-                    <TableBody
-                      items={isPageLoading ? [] : sortedItems}
-                      emptyContent="No tasks found">
-                      {item => (
-                        <TableRow
-                          key={item.id}
-                          className="group"
-                          onClick={() => handleRowClick(item)}>
-                          {columnKey => (
-                            <TableCell>{renderCell(item, columnKey)}</TableCell>
-                          )}
-                        </TableRow>
-                      )}
-                    </TableBody>
-                  </Table>
-                )}
-              </ScrollShadow>
-              {!taskLoading && (
-                <BottomContent
-                  page={page}
-                  pages={pages}
-                  onPaginationChange={onPaginationChange}
-                  onPreviousPage={onPreviousPage}
-                  onNextPage={onNextPage}
-                />
-              )}
-            </div>
-          </CardBody>
-        </Card>
-      </div>
-      <TaskDetailModal
-        isOpen={isModalOpen}
-        onOpenChange={closeModal}
-        task={selectedTask}>
-        <Outlet />
-      </TaskDetailModal>
-      <TaskDrawer
-        isOpen={isTaskOpen}
-        onOpenChange={onTaskChange}
-        projectId={projectId ? Number(projectId) : undefined}
-      />
-    </div>
-  )
-}
+//         <TaskDrawer
+//           isOpen={isTaskOpen}
+//           onOpenChange={onTaskChange}
+//           projectId={projectId ? Number(projectId) : undefined}
+//         />
+//       </div>
+//     )
+//   }
 
-export { ProjectTask }
+//   return (
+//     <div {...getBaseProps()}>
+//       <div className="w-full md:pl-3">
+//         <Card {...getCardProps()}>
+//           <CardBody {...getCardBodyProps()}>
+//             <div {...getTableWrapperProps()}>
+//               {!taskLoading && (
+//                 <HeaderContent
+//                   selectedKeys={selectedKeys}
+//                   usersLength={users.length}
+//                   isSearchExpanded={isSearchExpanded}
+//                   filterValue={filterValue}
+//                   statusFilter={statusFilter}
+//                   startDateFilter={startDateFilter}
+//                   dueDateFilter={dueDateFilter}
+//                   headerColumns={headerColumns}
+//                   visibleColumns={visibleColumns}
+//                   sortDescriptor={sortDescriptor}
+//                   onSearchChange={onSearchChange}
+//                   toggleSearch={toggleSearch}
+//                   setStatusFilter={setStatusFilter}
+//                   setStartDateFilter={setStartDateFilter}
+//                   setDueDateFilter={setDueDateFilter}
+//                   setVisibleColumns={setVisibleColumns}
+//                   setSortDescriptor={setSortDescriptor}
+//                   searchInputRef={searchInputRef}
+//                   setFilterValue={setFilterValue}
+//                 />
+//               )}
+//               <ScrollShadow orientation="horizontal">
+//                 {taskLoading ? (
+//                   <div {...getLoadingContainerProps()}>
+//                     <Spinner size="lg" />
+//                   </div>
+//                 ) : (
+//                   <Table
+//                     className="w-full"
+//                     removeWrapper
+//                     aria-label="Users Table"
+//                     bottomContentPlacement="outside"
+//                     selectedKeys={filterSelectedKeys}
+//                     selectionMode="multiple"
+//                     sortDescriptor={sortDescriptor}
+//                     topContentPlacement="outside"
+//                     onSelectionChange={onSelectionChange}
+//                     onSortChange={setSortDescriptor}>
+//                     <TableHeader columns={headerColumns}>
+//                       {column => (
+//                         <TableColumn
+//                           key={column.id}
+//                           allowsSorting={
+//                             column.id !== 'actions' && column.id !== 'tags'
+//                           }
+//                           align={column.id === 'actions' ? 'end' : 'start'}>
+//                           <span>{column.label}</span>
+//                         </TableColumn>
+//                       )}
+//                     </TableHeader>
+//                     <TableBody
+//                       items={isPageLoading ? [] : sortedItems}
+//                       emptyContent="No tasks found">
+//                       {item => (
+//                         <TableRow
+//                           key={item.id}
+//                           className="group"
+//                           onClick={() => handleRowClick(item)}>
+//                           {columnKey => (
+//                             <TableCell>{renderCell(item, columnKey)}</TableCell>
+//                           )}
+//                         </TableRow>
+//                       )}
+//                     </TableBody>
+//                   </Table>
+//                 )}
+//               </ScrollShadow>
+//               {!taskLoading && (
+//                 <BottomContent
+//                   page={page}
+//                   pages={pages}
+//                   onPaginationChange={onPaginationChange}
+//                   onPreviousPage={onPreviousPage}
+//                   onNextPage={onNextPage}
+//                 />
+//               )}
+//             </div>
+//           </CardBody>
+//         </Card>
+//       </div>
+//       <TaskDetailModal
+//         isOpen={isModalOpen}
+//         onOpenChange={closeModal}
+//         task={selectedTask}>
+//         <Outlet />
+//       </TaskDetailModal>
+
+//       <TaskDrawer
+//         isOpen={isTaskOpen}
+//         onOpenChange={onTaskChange}
+//         projectId={projectId ? Number(projectId) : undefined}
+//       />
+//     </div>
+//   )
+// }
+
+// export { ProjectTask }

@@ -1,11 +1,11 @@
-import { Projects } from '../../components/projects'
+import { ProjectLayout } from '../../layouts/projects'
 
-const ProjectLayout = () => {
+const Page = () => {
   return (
     <div>
-      <Projects />
+      <ProjectLayout />
     </div>
   )
 }
 
-export { ProjectLayout }
+export { Page }

@@ -1,4 +1,4 @@
-import { createRootRoute } from '@tanstack/react-router'
+import { Outlet, createRootRoute } from '@tanstack/react-router'
 import { lazy } from 'react'
 
 import { __DEV__ } from '@vx/system-utils'

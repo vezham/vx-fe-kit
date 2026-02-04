@@ -11,10 +11,10 @@ import './global.css'
 // @vx/NOTE: Create a new router instance
 const router = createRouter({
   scrollRestoration: true,
-  routeTree
+  routeTree,
   // defaultPendingComponent: () => <Loading />,
   // defaultErrorComponent: () => <ErrorPage />,
-  // defaultNotFoundComponent: () => <NotFound app={APP_NAME} />
+  defaultNotFoundComponent: () => 'Test error'
 })
 
 // @vx/NOTE: Register the router instance for type safety
