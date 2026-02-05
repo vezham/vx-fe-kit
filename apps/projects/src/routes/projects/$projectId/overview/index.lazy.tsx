@@ -1,6 +1,6 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
 
-import { ProjectDetails } from '../../../../layouts/projects/project-details'
+import { Page } from '../../../../pages/projects/ProjectOverview'
 import { useProjects } from '../../../../store/useProjects'
 
 export const Route = createLazyFileRoute('/projects/$projectId/overview/')({
@@ -17,5 +17,5 @@ function OverviewPage() {
 
   if (!project) return <div>Project not found</div>
 
-  return <ProjectDetails project={project} />
+  return <Page project={project} />
 }

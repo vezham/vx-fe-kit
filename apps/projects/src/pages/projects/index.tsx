@@ -1,11 +1,7 @@
 import { ProjectLayout } from '../../layouts/projects'
 
 const Page = () => {
-  return (
-    <div>
-      <ProjectLayout />
-    </div>
-  )
+  return <ProjectLayout />
 }
 
 export { Page }
