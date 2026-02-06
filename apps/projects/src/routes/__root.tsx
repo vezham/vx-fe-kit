@@ -1,9 +1,9 @@
-import { createRootRoute } from '@tanstack/react-router'
+import { Outlet, createRootRoute } from '@tanstack/react-router'
 import { lazy } from 'react'
 
 import { __DEV__ } from '@vx/system-utils'
 
-import ProjectSidebar from '../layouts/sidebar/sidebar-mob'
+import Sidebar from '../layouts/sidebar/sidebar-mob'
 
 const TanStackRouterDevtools = lazy(() =>
   import('@tanstack/react-router-devtools').then(d => ({
@@ -18,7 +18,8 @@ export const Route = createRootRoute({
 function RootComponent() {
   return (
     <>
-      <ProjectSidebar />
+      <Sidebar />
+      {/* <Outlet/> */}
       {__DEV__ ? <TanStackRouterDevtools position="bottom-right" /> : null}
     </>
   )

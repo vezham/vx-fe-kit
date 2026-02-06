@@ -311,4 +311,4 @@ const generateMockUserData = (
   return mockData
 }
 
-export const subtaskData: SubTask[] = generateMockUserData(2, taskData)
+export const subtaskData: SubTask[] = generateMockUserData(5, taskData)

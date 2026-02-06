@@ -1,5 +1,5 @@
 import { Icon } from '@iconify/react'
-import { Outlet, useNavigate } from '@tanstack/react-router'
+import { useNavigate } from '@tanstack/react-router'
 
 import { Button, Tab, Tabs, useDisclosure } from '@vezham/react/v2'
 
@@ -8,11 +8,12 @@ import { TaskDrawer } from '../project-task-drawer'
 import { ProjectsHeaderProps, useProjectsHeaderProps } from './types'
 
 export const ProjectsHeader: React.FC<ProjectsHeaderProps> = props => {
-  // ⭐ SAFETY GUARD
-  if (!props.headerContent) return null
+  // SAFETY GUARD
+  if (!props.headerContent || !props.activeProject) return null
 
   const navigate = useNavigate()
   const { data: tasks = [] } = useTasks()
+
   const {
     isOpen: isTaskOpen,
     onOpen: openTask,
@@ -26,23 +27,25 @@ export const ProjectsHeader: React.FC<ProjectsHeaderProps> = props => {
     getTabsContainerProps,
     getActionsContainerProps,
     getMobileButtonProps,
-    getOutletContainerProps,
     slots
   } = useProjectsHeaderProps(props)
 
-  const handleTabClick = (tab: string) => {
-    if (!props.activeProject?.projectsId) return
-
-    const route = tab === 'overview' ? '' : `/${tab}`
-
+  const handleTabChange = (key: React.Key) => {
+    const tab = String(key)
     navigate({
-      to: `/projects/$projectId${route}`,
-      params: { projectId: props.activeProject.projectsId }
+      to:
+        tab === 'overview'
+          ? '/projects/$projectId/overview'
+          : '/projects/$projectId/' + tab,
+      params: {
+        projectId: String(props.activeProject.projectsId)
+      },
+      replace: false
     })
   }
 
   return (
-    <div {...props.getDetailsAreaProps()}>
+    <div>
       <div className="flex w-full flex-col gap-3 sm:flex-row sm:justify-between">
         {/* HEADER */}
         <div {...getHeaderProps()}>
@@ -67,7 +70,7 @@ export const ProjectsHeader: React.FC<ProjectsHeaderProps> = props => {
             </div>
 
             {/* DELETE BUTTON */}
-            {props.activeTab === 'overview' && props.activeProject && (
+            {props.activeTab === 'overview' && (
               <Button
                 isIconOnly
                 color="danger"
@@ -111,48 +114,32 @@ export const ProjectsHeader: React.FC<ProjectsHeaderProps> = props => {
             color="primary"
             size="md"
             selectedKey={props.activeTab}
+            onSelectionChange={handleTabChange}
             classNames={{
               base: slots.tabs(),
               tabList: slots.tabList()
             }}>
-            <Tab
-              key="overview"
-              title="Overview"
-              onClick={() => handleTabClick('overview')}
-            />
-            <Tab
-              key="tasks"
-              title="Tasks"
-              onClick={() => handleTabClick('tasks')}
-            />
-            <Tab
-              key="reports"
-              title="Reports"
-              onClick={() => handleTabClick('reports')}
-            />
+            <Tab key="overview" title="Overview" />
+            <Tab key="tasks" title="Tasks" />
+            <Tab key="reports" title="Reports" />
           </Tabs>
         </div>
 
         {/* TASK DRAWER */}
-        {props.activeProject && (
-          <TaskDrawer
-            isOpen={isTaskOpen}
-            onOpenChange={onTaskChange}
-            projectId={props.activeProject.projectsId}
-            selectedUserId={props.selectedUserId}
-            selectedIndex={props.selectedIndex}
-            selectedUser={props.selectedUser}
-            selectedLoading={props.selectedLoading}
-            selectedError={props.selectedError}
-            setSelectedKeys={props.setSelectedKeys}
-            setSelectedUserId={props.setSelectedUserId}
-            setSelectedIndex={props.setSelectedIndex}
-            selectedRefetch={props.selectedRefetch}
-          />
-        )}
-        <div className="flex-1 overflow-auto">
-          <Outlet />
-        </div>
+        <TaskDrawer
+          isOpen={isTaskOpen}
+          onOpenChange={onTaskChange}
+          projectId={props.activeProject.projectsId}
+          selectedUserId={props.selectedUserId}
+          selectedIndex={props.selectedIndex}
+          selectedUser={props.selectedUser}
+          selectedLoading={props.selectedLoading}
+          selectedError={props.selectedError}
+          setSelectedKeys={props.setSelectedKeys}
+          setSelectedUserId={props.setSelectedUserId}
+          setSelectedIndex={props.setSelectedIndex}
+          selectedRefetch={props.selectedRefetch}
+        />
       </div>
     </div>
   )

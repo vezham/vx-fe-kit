@@ -17,7 +17,7 @@ import {
 } from '@vezham/react/v2'
 
 import { getStatusProps } from '../../store/useTasks/data'
-import { SubTaskDrawer } from '../subtasks/subtask-add-drawer'
+import { SubTaskDrawer } from '../project-subtask-drawer'
 import { TaskDetailModalProps, useTaskDetailModalProps } from './types'
 
 const AttachmentItem = ({ file }: { file: any }) => {
@@ -215,12 +215,13 @@ export const TaskDetailModal = ({ task, children }: TaskDetailModalProps) => {
                     selectedKey={activeTab}
                     onSelectionChange={key => {
                       navigate({
-                        to: '/projects/$projectId/tasks/$taskId/$tab',
-                        params: {
-                          projectId,
-                          taskId,
-                          tab: String(key)
-                        }
+                        to:
+                          key === 'comments'
+                            ? '/projects/$projectId/tasks/$taskId/comments'
+                            : key === 'subtasks'
+                              ? '/projects/$projectId/tasks/$taskId/subtasks'
+                              : '/projects/$projectId/tasks/$taskId/issues',
+                        params: { projectId, taskId }
                       })
                     }}>
                     <Tab key="comments" title="Comments" />

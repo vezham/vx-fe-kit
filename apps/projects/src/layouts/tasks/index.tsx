@@ -50,7 +50,8 @@ const ProjectTask = () => {
     getCardBodyProps,
     getTableWrapperProps,
     getLoadingContainerProps,
-    getEmptyStateProps
+    getEmptyStateProps,
+    children
   } = useTaskSectionProps({} as TaskSectionProps)
 
   const {
@@ -85,7 +86,6 @@ const ProjectTask = () => {
   const searchInputRef = useRef<HTMLInputElement>(null)
   const navigate = useNavigate()
   const { projectId, taskId } = useParams({
-    from: '/projects/$projectId/tasks/$taskId' as const,
     strict: false
   })
   const isModalOpen = Boolean(taskId)
@@ -196,7 +196,6 @@ const ProjectTask = () => {
     navigate({
       to: '/projects/$projectId/tasks/$taskId',
       params: {
-        projectId: String(task.projectsId),
         taskId: String(task.taskId)
       }
     })

@@ -1,10 +1,21 @@
-import { createLazyFileRoute, redirect } from '@tanstack/react-router'
+import { Outlet, createLazyFileRoute } from '@tanstack/react-router'
+
+import { Page } from '../../../pages/projects'
+
+export type ProjectRouteContext = {
+  activeProject: any | null
+}
 
 export const Route = createLazyFileRoute('/projects/$projectId/')({
-  beforeLoad: ({ params }) => {
-    throw redirect({
-      to: '/projects/$projectId/overview',
-      params: { projectId: params.projectId }
-    })
-  }
+  component: RouteComponent
 })
+
+function RouteComponent() {
+  return (
+    <div>
+      <Page>
+        <Outlet />
+      </Page>
+    </div>
+  )
+}

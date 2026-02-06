@@ -119,12 +119,6 @@ export const useProjectsHeaderProps = (originalProps: ProjectsHeaderProps) => {
     })
   })
 
-  const getOutletContainerProps: PropGetter = () => ({
-    className: slots.outletContainer({
-      class: originalProps.classNames?.outletContainer
-    })
-  })
-
   return {
     slots,
     getHeaderProps,
@@ -132,7 +126,6 @@ export const useProjectsHeaderProps = (originalProps: ProjectsHeaderProps) => {
     getSubtitleProps,
     getTabsContainerProps,
     getActionsContainerProps,
-    getOutletContainerProps,
     getMobileButtonProps
   }
 }

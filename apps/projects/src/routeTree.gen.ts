@@ -14,9 +14,13 @@ import { Route as rootRouteImport } from './routes/__root'
 
 const IndexLazyRouteImport = createFileRoute('/')()
 const ProjectsIndexLazyRouteImport = createFileRoute('/projects/')()
+const BoardsIndexLazyRouteImport = createFileRoute('/boards/')()
 const BlogsIndexLazyRouteImport = createFileRoute('/blogs/')()
 const ProjectsProjectIdIndexLazyRouteImport = createFileRoute(
   '/projects/$projectId/',
+)()
+const BoardsProjectIdIndexLazyRouteImport = createFileRoute(
+  '/boards/$projectId/',
 )()
 const ProjectsProjectIdTasksIndexLazyRouteImport = createFileRoute(
   '/projects/$projectId/tasks/',
@@ -26,6 +30,9 @@ const ProjectsProjectIdReportsIndexLazyRouteImport = createFileRoute(
 )()
 const ProjectsProjectIdOverviewIndexLazyRouteImport = createFileRoute(
   '/projects/$projectId/overview/',
+)()
+const BoardsProjectIdOverviewIndexLazyRouteImport = createFileRoute(
+  '/boards/$projectId/overview/',
 )()
 const ProjectsProjectIdTasksTaskIdIndexLazyRouteImport = createFileRoute(
   '/projects/$projectId/tasks/$taskId/',
@@ -37,6 +44,8 @@ const ProjectsProjectIdTasksTaskIdIssuesIndexLazyRouteImport = createFileRoute(
 )()
 const ProjectsProjectIdTasksTaskIdCommentsIndexLazyRouteImport =
   createFileRoute('/projects/$projectId/tasks/$taskId/comments/')()
+const ProjectsProjectIdTasksTaskIdSubtasksSubtaskIdIndexLazyRouteImport =
+  createFileRoute('/projects/$projectId/tasks/$taskId/subtasks/$subtaskId/')()
 
 const IndexLazyRoute = IndexLazyRouteImport.update({
   id: '/',
@@ -50,6 +59,11 @@ const ProjectsIndexLazyRoute = ProjectsIndexLazyRouteImport.update({
 } as any).lazy(() =>
   import('./routes/projects/index.lazy').then((d) => d.Route),
 )
+const BoardsIndexLazyRoute = BoardsIndexLazyRouteImport.update({
+  id: '/boards/',
+  path: '/boards/',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() => import('./routes/boards/index.lazy').then((d) => d.Route))
 const BlogsIndexLazyRoute = BlogsIndexLazyRouteImport.update({
   id: '/blogs/',
   path: '/blogs/',
@@ -62,6 +76,14 @@ const ProjectsProjectIdIndexLazyRoute =
     getParentRoute: () => rootRouteImport,
   } as any).lazy(() =>
     import('./routes/projects/$projectId/index.lazy').then((d) => d.Route),
+  )
+const BoardsProjectIdIndexLazyRoute =
+  BoardsProjectIdIndexLazyRouteImport.update({
+    id: '/boards/$projectId/',
+    path: '/boards/$projectId/',
+    getParentRoute: () => rootRouteImport,
+  } as any).lazy(() =>
+    import('./routes/boards/$projectId/index.lazy').then((d) => d.Route),
   )
 const ProjectsProjectIdTasksIndexLazyRoute =
   ProjectsProjectIdTasksIndexLazyRouteImport.update({
@@ -90,6 +112,16 @@ const ProjectsProjectIdOverviewIndexLazyRoute =
     getParentRoute: () => rootRouteImport,
   } as any).lazy(() =>
     import('./routes/projects/$projectId/overview/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const BoardsProjectIdOverviewIndexLazyRoute =
+  BoardsProjectIdOverviewIndexLazyRouteImport.update({
+    id: '/boards/$projectId/overview/',
+    path: '/boards/$projectId/overview/',
+    getParentRoute: () => rootRouteImport,
+  } as any).lazy(() =>
+    import('./routes/boards/$projectId/overview/index.lazy').then(
       (d) => d.Route,
     ),
   )
@@ -133,12 +165,25 @@ const ProjectsProjectIdTasksTaskIdCommentsIndexLazyRoute =
       './routes/projects/$projectId/tasks/$taskId/comments/index.lazy'
     ).then((d) => d.Route),
   )
+const ProjectsProjectIdTasksTaskIdSubtasksSubtaskIdIndexLazyRoute =
+  ProjectsProjectIdTasksTaskIdSubtasksSubtaskIdIndexLazyRouteImport.update({
+    id: '/projects/$projectId/tasks/$taskId/subtasks/$subtaskId/',
+    path: '/projects/$projectId/tasks/$taskId/subtasks/$subtaskId/',
+    getParentRoute: () => rootRouteImport,
+  } as any).lazy(() =>
+    import(
+      './routes/projects/$projectId/tasks/$taskId/subtasks/$subtaskId/index.lazy'
+    ).then((d) => d.Route),
+  )
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
   '/blogs': typeof BlogsIndexLazyRoute
+  '/boards': typeof BoardsIndexLazyRoute
   '/projects': typeof ProjectsIndexLazyRoute
+  '/boards/$projectId': typeof BoardsProjectIdIndexLazyRoute
   '/projects/$projectId': typeof ProjectsProjectIdIndexLazyRoute
+  '/boards/$projectId/overview': typeof BoardsProjectIdOverviewIndexLazyRoute
   '/projects/$projectId/overview': typeof ProjectsProjectIdOverviewIndexLazyRoute
   '/projects/$projectId/reports': typeof ProjectsProjectIdReportsIndexLazyRoute
   '/projects/$projectId/tasks': typeof ProjectsProjectIdTasksIndexLazyRoute
@@ -146,12 +191,16 @@ export interface FileRoutesByFullPath {
   '/projects/$projectId/tasks/$taskId/comments': typeof ProjectsProjectIdTasksTaskIdCommentsIndexLazyRoute
   '/projects/$projectId/tasks/$taskId/issues': typeof ProjectsProjectIdTasksTaskIdIssuesIndexLazyRoute
   '/projects/$projectId/tasks/$taskId/subtasks': typeof ProjectsProjectIdTasksTaskIdSubtasksIndexLazyRoute
+  '/projects/$projectId/tasks/$taskId/subtasks/$subtaskId': typeof ProjectsProjectIdTasksTaskIdSubtasksSubtaskIdIndexLazyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
   '/blogs': typeof BlogsIndexLazyRoute
+  '/boards': typeof BoardsIndexLazyRoute
   '/projects': typeof ProjectsIndexLazyRoute
+  '/boards/$projectId': typeof BoardsProjectIdIndexLazyRoute
   '/projects/$projectId': typeof ProjectsProjectIdIndexLazyRoute
+  '/boards/$projectId/overview': typeof BoardsProjectIdOverviewIndexLazyRoute
   '/projects/$projectId/overview': typeof ProjectsProjectIdOverviewIndexLazyRoute
   '/projects/$projectId/reports': typeof ProjectsProjectIdReportsIndexLazyRoute
   '/projects/$projectId/tasks': typeof ProjectsProjectIdTasksIndexLazyRoute
@@ -159,13 +208,17 @@ export interface FileRoutesByTo {
   '/projects/$projectId/tasks/$taskId/comments': typeof ProjectsProjectIdTasksTaskIdCommentsIndexLazyRoute
   '/projects/$projectId/tasks/$taskId/issues': typeof ProjectsProjectIdTasksTaskIdIssuesIndexLazyRoute
   '/projects/$projectId/tasks/$taskId/subtasks': typeof ProjectsProjectIdTasksTaskIdSubtasksIndexLazyRoute
+  '/projects/$projectId/tasks/$taskId/subtasks/$subtaskId': typeof ProjectsProjectIdTasksTaskIdSubtasksSubtaskIdIndexLazyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexLazyRoute
   '/blogs/': typeof BlogsIndexLazyRoute
+  '/boards/': typeof BoardsIndexLazyRoute
   '/projects/': typeof ProjectsIndexLazyRoute
+  '/boards/$projectId/': typeof BoardsProjectIdIndexLazyRoute
   '/projects/$projectId/': typeof ProjectsProjectIdIndexLazyRoute
+  '/boards/$projectId/overview/': typeof BoardsProjectIdOverviewIndexLazyRoute
   '/projects/$projectId/overview/': typeof ProjectsProjectIdOverviewIndexLazyRoute
   '/projects/$projectId/reports/': typeof ProjectsProjectIdReportsIndexLazyRoute
   '/projects/$projectId/tasks/': typeof ProjectsProjectIdTasksIndexLazyRoute
@@ -173,14 +226,18 @@ export interface FileRoutesById {
   '/projects/$projectId/tasks/$taskId/comments/': typeof ProjectsProjectIdTasksTaskIdCommentsIndexLazyRoute
   '/projects/$projectId/tasks/$taskId/issues/': typeof ProjectsProjectIdTasksTaskIdIssuesIndexLazyRoute
   '/projects/$projectId/tasks/$taskId/subtasks/': typeof ProjectsProjectIdTasksTaskIdSubtasksIndexLazyRoute
+  '/projects/$projectId/tasks/$taskId/subtasks/$subtaskId/': typeof ProjectsProjectIdTasksTaskIdSubtasksSubtaskIdIndexLazyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/blogs'
+    | '/boards'
     | '/projects'
+    | '/boards/$projectId'
     | '/projects/$projectId'
+    | '/boards/$projectId/overview'
     | '/projects/$projectId/overview'
     | '/projects/$projectId/reports'
     | '/projects/$projectId/tasks'
@@ -188,12 +245,16 @@ export interface FileRouteTypes {
     | '/projects/$projectId/tasks/$taskId/comments'
     | '/projects/$projectId/tasks/$taskId/issues'
     | '/projects/$projectId/tasks/$taskId/subtasks'
+    | '/projects/$projectId/tasks/$taskId/subtasks/$subtaskId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/blogs'
+    | '/boards'
     | '/projects'
+    | '/boards/$projectId'
     | '/projects/$projectId'
+    | '/boards/$projectId/overview'
     | '/projects/$projectId/overview'
     | '/projects/$projectId/reports'
     | '/projects/$projectId/tasks'
@@ -201,12 +262,16 @@ export interface FileRouteTypes {
     | '/projects/$projectId/tasks/$taskId/comments'
     | '/projects/$projectId/tasks/$taskId/issues'
     | '/projects/$projectId/tasks/$taskId/subtasks'
+    | '/projects/$projectId/tasks/$taskId/subtasks/$subtaskId'
   id:
     | '__root__'
     | '/'
     | '/blogs/'
+    | '/boards/'
     | '/projects/'
+    | '/boards/$projectId/'
     | '/projects/$projectId/'
+    | '/boards/$projectId/overview/'
     | '/projects/$projectId/overview/'
     | '/projects/$projectId/reports/'
     | '/projects/$projectId/tasks/'
@@ -214,13 +279,17 @@ export interface FileRouteTypes {
     | '/projects/$projectId/tasks/$taskId/comments/'
     | '/projects/$projectId/tasks/$taskId/issues/'
     | '/projects/$projectId/tasks/$taskId/subtasks/'
+    | '/projects/$projectId/tasks/$taskId/subtasks/$subtaskId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
   BlogsIndexLazyRoute: typeof BlogsIndexLazyRoute
+  BoardsIndexLazyRoute: typeof BoardsIndexLazyRoute
   ProjectsIndexLazyRoute: typeof ProjectsIndexLazyRoute
+  BoardsProjectIdIndexLazyRoute: typeof BoardsProjectIdIndexLazyRoute
   ProjectsProjectIdIndexLazyRoute: typeof ProjectsProjectIdIndexLazyRoute
+  BoardsProjectIdOverviewIndexLazyRoute: typeof BoardsProjectIdOverviewIndexLazyRoute
   ProjectsProjectIdOverviewIndexLazyRoute: typeof ProjectsProjectIdOverviewIndexLazyRoute
   ProjectsProjectIdReportsIndexLazyRoute: typeof ProjectsProjectIdReportsIndexLazyRoute
   ProjectsProjectIdTasksIndexLazyRoute: typeof ProjectsProjectIdTasksIndexLazyRoute
@@ -228,6 +297,7 @@ export interface RootRouteChildren {
   ProjectsProjectIdTasksTaskIdCommentsIndexLazyRoute: typeof ProjectsProjectIdTasksTaskIdCommentsIndexLazyRoute
   ProjectsProjectIdTasksTaskIdIssuesIndexLazyRoute: typeof ProjectsProjectIdTasksTaskIdIssuesIndexLazyRoute
   ProjectsProjectIdTasksTaskIdSubtasksIndexLazyRoute: typeof ProjectsProjectIdTasksTaskIdSubtasksIndexLazyRoute
+  ProjectsProjectIdTasksTaskIdSubtasksSubtaskIdIndexLazyRoute: typeof ProjectsProjectIdTasksTaskIdSubtasksSubtaskIdIndexLazyRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -246,6 +316,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProjectsIndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/boards/': {
+      id: '/boards/'
+      path: '/boards'
+      fullPath: '/boards'
+      preLoaderRoute: typeof BoardsIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/blogs/': {
       id: '/blogs/'
       path: '/blogs'
@@ -258,6 +335,13 @@ declare module '@tanstack/react-router' {
       path: '/projects/$projectId'
       fullPath: '/projects/$projectId'
       preLoaderRoute: typeof ProjectsProjectIdIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/boards/$projectId/': {
+      id: '/boards/$projectId/'
+      path: '/boards/$projectId'
+      fullPath: '/boards/$projectId'
+      preLoaderRoute: typeof BoardsProjectIdIndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/projects/$projectId/tasks/': {
@@ -279,6 +363,13 @@ declare module '@tanstack/react-router' {
       path: '/projects/$projectId/overview'
       fullPath: '/projects/$projectId/overview'
       preLoaderRoute: typeof ProjectsProjectIdOverviewIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/boards/$projectId/overview/': {
+      id: '/boards/$projectId/overview/'
+      path: '/boards/$projectId/overview'
+      fullPath: '/boards/$projectId/overview'
+      preLoaderRoute: typeof BoardsProjectIdOverviewIndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/projects/$projectId/tasks/$taskId/': {
@@ -309,14 +400,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProjectsProjectIdTasksTaskIdCommentsIndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/projects/$projectId/tasks/$taskId/subtasks/$subtaskId/': {
+      id: '/projects/$projectId/tasks/$taskId/subtasks/$subtaskId/'
+      path: '/projects/$projectId/tasks/$taskId/subtasks/$subtaskId'
+      fullPath: '/projects/$projectId/tasks/$taskId/subtasks/$subtaskId'
+      preLoaderRoute: typeof ProjectsProjectIdTasksTaskIdSubtasksSubtaskIdIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
   BlogsIndexLazyRoute: BlogsIndexLazyRoute,
+  BoardsIndexLazyRoute: BoardsIndexLazyRoute,
   ProjectsIndexLazyRoute: ProjectsIndexLazyRoute,
+  BoardsProjectIdIndexLazyRoute: BoardsProjectIdIndexLazyRoute,
   ProjectsProjectIdIndexLazyRoute: ProjectsProjectIdIndexLazyRoute,
+  BoardsProjectIdOverviewIndexLazyRoute: BoardsProjectIdOverviewIndexLazyRoute,
   ProjectsProjectIdOverviewIndexLazyRoute:
     ProjectsProjectIdOverviewIndexLazyRoute,
   ProjectsProjectIdReportsIndexLazyRoute:
@@ -330,6 +431,8 @@ const rootRouteChildren: RootRouteChildren = {
     ProjectsProjectIdTasksTaskIdIssuesIndexLazyRoute,
   ProjectsProjectIdTasksTaskIdSubtasksIndexLazyRoute:
     ProjectsProjectIdTasksTaskIdSubtasksIndexLazyRoute,
+  ProjectsProjectIdTasksTaskIdSubtasksSubtaskIdIndexLazyRoute:
+    ProjectsProjectIdTasksTaskIdSubtasksSubtaskIdIndexLazyRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

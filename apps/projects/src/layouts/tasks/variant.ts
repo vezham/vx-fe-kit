@@ -2,7 +2,7 @@ import { tv } from '@vezham/react/v2'
 
 export const mainTva = tv({
   slots: {
-    wrapper: 'flex items-start justify-between p-0',
+    wrapper: 'flex items-start justify-between pt-4',
     card: 'sm:border-default-200 mt-4 bg-transparent sm:border',
     cardBody: '',
     tableWrapper: 'h-full w-full sm:p-2',

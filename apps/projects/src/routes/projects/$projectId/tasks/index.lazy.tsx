@@ -1,7 +1,18 @@
-import { createLazyFileRoute } from '@tanstack/react-router'
+import { Outlet, createLazyFileRoute } from '@tanstack/react-router'
 
+import { ProjectLayout } from '../../../../layouts/projects'
 import { ProjectTask } from '../../../../layouts/tasks'
 
 export const Route = createLazyFileRoute('/projects/$projectId/tasks/')({
-  component: () => <ProjectTask />
+  component: RouteComponent
 })
+
+function RouteComponent() {
+  return (
+    <div>
+      <ProjectLayout>
+        <ProjectTask />
+      </ProjectLayout>
+    </div>
+  )
+}

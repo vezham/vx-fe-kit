@@ -7,7 +7,7 @@ import {
 import { cn } from '@vezham/react-utils'
 import type { SlotsToClasses } from '@vezham/react-utils'
 
-import { MainTvaSlots, mainTva } from './variant'
+import { MainTvaSlots, mainTva, tableCellTva } from './variant'
 
 export type AttachmentType =
   | 'image'
@@ -82,6 +82,7 @@ export type Project = {
 
 export interface TaskSectionProps extends HTMLHeroUIProps<'div'> {
   ref?: ReactRef<HTMLDivElement | null>
+  children?: React.ReactNode
   classNames?: SlotsToClasses<MainTvaSlots>
 }
 
@@ -143,7 +144,7 @@ export const useTaskSectionProps = (originalProps: TaskSectionProps) => {
 }
 
 export const useTableCellProps = () => {
-  const slots = TableCellTva()
+  const slots = tableCellTva()
 
   const getLastLoginContainerProps: PropGetter = () => ({
     className: slots.lastLoginContainer()

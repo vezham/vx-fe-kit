@@ -46,7 +46,12 @@ import {
   getStatusProps
 } from '../../store/useSubTasks/data'
 import { useTasks } from '../../store/useTasks'
-import { SubTask, SubTaskSectionProps, useSubTaskSectionProps } from './types'
+import {
+  SubTask,
+  SubTaskSectionProps,
+  useSubTaskSectionProps,
+  useTableCellProps
+} from './types'
 
 const SubTaskSection = forwardRef<HTMLDivElement, SubTaskSectionProps>(
   (props, ref) => {
@@ -212,7 +217,7 @@ const SubTaskSection = forwardRef<HTMLDivElement, SubTaskSectionProps>(
         params: {
           projectId: String(projectId),
           taskId: String(taskId),
-          subtaskId: String(subtask.id)
+          subtaskId: String(subtask.subtaskId)
         }
       })
     }
