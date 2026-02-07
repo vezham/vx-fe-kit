@@ -71,5 +71,8 @@
     }
   },
   "nxConsole.generateAiAgentRules": true,
-  "eslint.validate": ["json"]
+  "eslint.validate": ["json"],
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  }
 }

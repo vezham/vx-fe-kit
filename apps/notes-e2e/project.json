@@ -1,0 +1,10 @@
+{
+  "name": "notes-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/notes-e2e/src",
+  "tags": ["category:app", "e2e"],
+  "implicitDependencies": ["notes"],
+  "// targets": "to see all targets run: nx show project notes-e2e --web",
+  "targets": {}
+}
