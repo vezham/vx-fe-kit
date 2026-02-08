@@ -13,9 +13,6 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRouteImport } from './routes/__root'
 
 const IndexLazyRouteImport = createFileRoute('/')()
-const WorldclockIndexLazyRouteImport = createFileRoute('/worldclock/')()
-const TimerIndexLazyRouteImport = createFileRoute('/timer/')()
-const StopwatchIndexLazyRouteImport = createFileRoute('/stopwatch/')()
 const SharedWithMeIndexLazyRouteImport = createFileRoute('/shared-with-me/')()
 const SearchIndexLazyRouteImport = createFileRoute('/search/')()
 const RecentNotesIndexLazyRouteImport = createFileRoute('/recent-notes/')()
@@ -23,10 +20,6 @@ const PinnedNotesIndexLazyRouteImport = createFileRoute('/pinned-notes/')()
 const OverviewIndexLazyRouteImport = createFileRoute('/overview/')()
 const NotesIndexLazyRouteImport = createFileRoute('/notes/')()
 const FoldersIndexLazyRouteImport = createFileRoute('/folders/')()
-const AlarmIndexLazyRouteImport = createFileRoute('/alarm/')()
-const WorldclockClockIdIndexLazyRouteImport = createFileRoute(
-  '/worldclock/$clockId/',
-)()
 const NotesTrashIndexLazyRouteImport = createFileRoute('/notes/trash/')()
 const NotesPinnedIndexLazyRouteImport = createFileRoute('/notes/pinned/')()
 const NotesNewIndexLazyRouteImport = createFileRoute('/notes/new/')()
@@ -51,25 +44,6 @@ const IndexLazyRoute = IndexLazyRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
-const WorldclockIndexLazyRoute = WorldclockIndexLazyRouteImport.update({
-  id: '/worldclock/',
-  path: '/worldclock/',
-  getParentRoute: () => rootRouteImport,
-} as any).lazy(() =>
-  import('./routes/worldclock/index.lazy').then((d) => d.Route),
-)
-const TimerIndexLazyRoute = TimerIndexLazyRouteImport.update({
-  id: '/timer/',
-  path: '/timer/',
-  getParentRoute: () => rootRouteImport,
-} as any).lazy(() => import('./routes/timer/index.lazy').then((d) => d.Route))
-const StopwatchIndexLazyRoute = StopwatchIndexLazyRouteImport.update({
-  id: '/stopwatch/',
-  path: '/stopwatch/',
-  getParentRoute: () => rootRouteImport,
-} as any).lazy(() =>
-  import('./routes/stopwatch/index.lazy').then((d) => d.Route),
-)
 const SharedWithMeIndexLazyRoute = SharedWithMeIndexLazyRouteImport.update({
   id: '/shared-with-me/',
   path: '/shared-with-me/',
@@ -113,19 +87,6 @@ const FoldersIndexLazyRoute = FoldersIndexLazyRouteImport.update({
   path: '/folders/',
   getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/folders/index.lazy').then((d) => d.Route))
-const AlarmIndexLazyRoute = AlarmIndexLazyRouteImport.update({
-  id: '/alarm/',
-  path: '/alarm/',
-  getParentRoute: () => rootRouteImport,
-} as any).lazy(() => import('./routes/alarm/index.lazy').then((d) => d.Route))
-const WorldclockClockIdIndexLazyRoute =
-  WorldclockClockIdIndexLazyRouteImport.update({
-    id: '/worldclock/$clockId/',
-    path: '/worldclock/$clockId/',
-    getParentRoute: () => rootRouteImport,
-  } as any).lazy(() =>
-    import('./routes/worldclock/$clockId/index.lazy').then((d) => d.Route),
-  )
 const NotesTrashIndexLazyRoute = NotesTrashIndexLazyRouteImport.update({
   id: '/notes/trash/',
   path: '/notes/trash/',
@@ -205,7 +166,6 @@ const NotesNotesIdAttachmentsIndexLazyRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
-  '/alarm': typeof AlarmIndexLazyRoute
   '/folders': typeof FoldersIndexLazyRoute
   '/notes': typeof NotesIndexLazyRoute
   '/overview': typeof OverviewIndexLazyRoute
@@ -213,16 +173,12 @@ export interface FileRoutesByFullPath {
   '/recent-notes': typeof RecentNotesIndexLazyRoute
   '/search': typeof SearchIndexLazyRoute
   '/shared-with-me': typeof SharedWithMeIndexLazyRoute
-  '/stopwatch': typeof StopwatchIndexLazyRoute
-  '/timer': typeof TimerIndexLazyRoute
-  '/worldclock': typeof WorldclockIndexLazyRoute
   '/notes/$notesId': typeof NotesNotesIdIndexLazyRoute
   '/notes/all': typeof NotesAllIndexLazyRoute
   '/notes/archived': typeof NotesArchivedIndexLazyRoute
   '/notes/new': typeof NotesNewIndexLazyRoute
   '/notes/pinned': typeof NotesPinnedIndexLazyRoute
   '/notes/trash': typeof NotesTrashIndexLazyRoute
-  '/worldclock/$clockId': typeof WorldclockClockIdIndexLazyRoute
   '/notes/$notesId/attachments': typeof NotesNotesIdAttachmentsIndexLazyRoute
   '/notes/$notesId/comments': typeof NotesNotesIdCommentsIndexLazyRoute
   '/notes/$notesId/overview': typeof NotesNotesIdOverviewIndexLazyRoute
@@ -230,7 +186,6 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
-  '/alarm': typeof AlarmIndexLazyRoute
   '/folders': typeof FoldersIndexLazyRoute
   '/notes': typeof NotesIndexLazyRoute
   '/overview': typeof OverviewIndexLazyRoute
@@ -238,16 +193,12 @@ export interface FileRoutesByTo {
   '/recent-notes': typeof RecentNotesIndexLazyRoute
   '/search': typeof SearchIndexLazyRoute
   '/shared-with-me': typeof SharedWithMeIndexLazyRoute
-  '/stopwatch': typeof StopwatchIndexLazyRoute
-  '/timer': typeof TimerIndexLazyRoute
-  '/worldclock': typeof WorldclockIndexLazyRoute
   '/notes/$notesId': typeof NotesNotesIdIndexLazyRoute
   '/notes/all': typeof NotesAllIndexLazyRoute
   '/notes/archived': typeof NotesArchivedIndexLazyRoute
   '/notes/new': typeof NotesNewIndexLazyRoute
   '/notes/pinned': typeof NotesPinnedIndexLazyRoute
   '/notes/trash': typeof NotesTrashIndexLazyRoute
-  '/worldclock/$clockId': typeof WorldclockClockIdIndexLazyRoute
   '/notes/$notesId/attachments': typeof NotesNotesIdAttachmentsIndexLazyRoute
   '/notes/$notesId/comments': typeof NotesNotesIdCommentsIndexLazyRoute
   '/notes/$notesId/overview': typeof NotesNotesIdOverviewIndexLazyRoute
@@ -256,7 +207,6 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexLazyRoute
-  '/alarm/': typeof AlarmIndexLazyRoute
   '/folders/': typeof FoldersIndexLazyRoute
   '/notes/': typeof NotesIndexLazyRoute
   '/overview/': typeof OverviewIndexLazyRoute
@@ -264,16 +214,12 @@ export interface FileRoutesById {
   '/recent-notes/': typeof RecentNotesIndexLazyRoute
   '/search/': typeof SearchIndexLazyRoute
   '/shared-with-me/': typeof SharedWithMeIndexLazyRoute
-  '/stopwatch/': typeof StopwatchIndexLazyRoute
-  '/timer/': typeof TimerIndexLazyRoute
-  '/worldclock/': typeof WorldclockIndexLazyRoute
   '/notes/$notesId/': typeof NotesNotesIdIndexLazyRoute
   '/notes/all/': typeof NotesAllIndexLazyRoute
   '/notes/archived/': typeof NotesArchivedIndexLazyRoute
   '/notes/new/': typeof NotesNewIndexLazyRoute
   '/notes/pinned/': typeof NotesPinnedIndexLazyRoute
   '/notes/trash/': typeof NotesTrashIndexLazyRoute
-  '/worldclock/$clockId/': typeof WorldclockClockIdIndexLazyRoute
   '/notes/$notesId/attachments/': typeof NotesNotesIdAttachmentsIndexLazyRoute
   '/notes/$notesId/comments/': typeof NotesNotesIdCommentsIndexLazyRoute
   '/notes/$notesId/overview/': typeof NotesNotesIdOverviewIndexLazyRoute
@@ -283,7 +229,6 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/alarm'
     | '/folders'
     | '/notes'
     | '/overview'
@@ -291,16 +236,12 @@ export interface FileRouteTypes {
     | '/recent-notes'
     | '/search'
     | '/shared-with-me'
-    | '/stopwatch'
-    | '/timer'
-    | '/worldclock'
     | '/notes/$notesId'
     | '/notes/all'
     | '/notes/archived'
     | '/notes/new'
     | '/notes/pinned'
     | '/notes/trash'
-    | '/worldclock/$clockId'
     | '/notes/$notesId/attachments'
     | '/notes/$notesId/comments'
     | '/notes/$notesId/overview'
@@ -308,7 +249,6 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/alarm'
     | '/folders'
     | '/notes'
     | '/overview'
@@ -316,16 +256,12 @@ export interface FileRouteTypes {
     | '/recent-notes'
     | '/search'
     | '/shared-with-me'
-    | '/stopwatch'
-    | '/timer'
-    | '/worldclock'
     | '/notes/$notesId'
     | '/notes/all'
     | '/notes/archived'
     | '/notes/new'
     | '/notes/pinned'
     | '/notes/trash'
-    | '/worldclock/$clockId'
     | '/notes/$notesId/attachments'
     | '/notes/$notesId/comments'
     | '/notes/$notesId/overview'
@@ -333,7 +269,6 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
-    | '/alarm/'
     | '/folders/'
     | '/notes/'
     | '/overview/'
@@ -341,16 +276,12 @@ export interface FileRouteTypes {
     | '/recent-notes/'
     | '/search/'
     | '/shared-with-me/'
-    | '/stopwatch/'
-    | '/timer/'
-    | '/worldclock/'
     | '/notes/$notesId/'
     | '/notes/all/'
     | '/notes/archived/'
     | '/notes/new/'
     | '/notes/pinned/'
     | '/notes/trash/'
-    | '/worldclock/$clockId/'
     | '/notes/$notesId/attachments/'
     | '/notes/$notesId/comments/'
     | '/notes/$notesId/overview/'
@@ -359,7 +290,6 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
-  AlarmIndexLazyRoute: typeof AlarmIndexLazyRoute
   FoldersIndexLazyRoute: typeof FoldersIndexLazyRoute
   NotesIndexLazyRoute: typeof NotesIndexLazyRoute
   OverviewIndexLazyRoute: typeof OverviewIndexLazyRoute
@@ -367,16 +297,12 @@ export interface RootRouteChildren {
   RecentNotesIndexLazyRoute: typeof RecentNotesIndexLazyRoute
   SearchIndexLazyRoute: typeof SearchIndexLazyRoute
   SharedWithMeIndexLazyRoute: typeof SharedWithMeIndexLazyRoute
-  StopwatchIndexLazyRoute: typeof StopwatchIndexLazyRoute
-  TimerIndexLazyRoute: typeof TimerIndexLazyRoute
-  WorldclockIndexLazyRoute: typeof WorldclockIndexLazyRoute
   NotesNotesIdIndexLazyRoute: typeof NotesNotesIdIndexLazyRoute
   NotesAllIndexLazyRoute: typeof NotesAllIndexLazyRoute
   NotesArchivedIndexLazyRoute: typeof NotesArchivedIndexLazyRoute
   NotesNewIndexLazyRoute: typeof NotesNewIndexLazyRoute
   NotesPinnedIndexLazyRoute: typeof NotesPinnedIndexLazyRoute
   NotesTrashIndexLazyRoute: typeof NotesTrashIndexLazyRoute
-  WorldclockClockIdIndexLazyRoute: typeof WorldclockClockIdIndexLazyRoute
   NotesNotesIdAttachmentsIndexLazyRoute: typeof NotesNotesIdAttachmentsIndexLazyRoute
   NotesNotesIdCommentsIndexLazyRoute: typeof NotesNotesIdCommentsIndexLazyRoute
   NotesNotesIdOverviewIndexLazyRoute: typeof NotesNotesIdOverviewIndexLazyRoute
@@ -390,27 +316,6 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexLazyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/worldclock/': {
-      id: '/worldclock/'
-      path: '/worldclock'
-      fullPath: '/worldclock'
-      preLoaderRoute: typeof WorldclockIndexLazyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/timer/': {
-      id: '/timer/'
-      path: '/timer'
-      fullPath: '/timer'
-      preLoaderRoute: typeof TimerIndexLazyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/stopwatch/': {
-      id: '/stopwatch/'
-      path: '/stopwatch'
-      fullPath: '/stopwatch'
-      preLoaderRoute: typeof StopwatchIndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/shared-with-me/': {
@@ -460,20 +365,6 @@ declare module '@tanstack/react-router' {
       path: '/folders'
       fullPath: '/folders'
       preLoaderRoute: typeof FoldersIndexLazyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/alarm/': {
-      id: '/alarm/'
-      path: '/alarm'
-      fullPath: '/alarm'
-      preLoaderRoute: typeof AlarmIndexLazyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/worldclock/$clockId/': {
-      id: '/worldclock/$clockId/'
-      path: '/worldclock/$clockId'
-      fullPath: '/worldclock/$clockId'
-      preLoaderRoute: typeof WorldclockClockIdIndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/notes/trash/': {
@@ -551,7 +442,6 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
-  AlarmIndexLazyRoute: AlarmIndexLazyRoute,
   FoldersIndexLazyRoute: FoldersIndexLazyRoute,
   NotesIndexLazyRoute: NotesIndexLazyRoute,
   OverviewIndexLazyRoute: OverviewIndexLazyRoute,
@@ -559,16 +449,12 @@ const rootRouteChildren: RootRouteChildren = {
   RecentNotesIndexLazyRoute: RecentNotesIndexLazyRoute,
   SearchIndexLazyRoute: SearchIndexLazyRoute,
   SharedWithMeIndexLazyRoute: SharedWithMeIndexLazyRoute,
-  StopwatchIndexLazyRoute: StopwatchIndexLazyRoute,
-  TimerIndexLazyRoute: TimerIndexLazyRoute,
-  WorldclockIndexLazyRoute: WorldclockIndexLazyRoute,
   NotesNotesIdIndexLazyRoute: NotesNotesIdIndexLazyRoute,
   NotesAllIndexLazyRoute: NotesAllIndexLazyRoute,
   NotesArchivedIndexLazyRoute: NotesArchivedIndexLazyRoute,
   NotesNewIndexLazyRoute: NotesNewIndexLazyRoute,
   NotesPinnedIndexLazyRoute: NotesPinnedIndexLazyRoute,
   NotesTrashIndexLazyRoute: NotesTrashIndexLazyRoute,
-  WorldclockClockIdIndexLazyRoute: WorldclockClockIdIndexLazyRoute,
   NotesNotesIdAttachmentsIndexLazyRoute: NotesNotesIdAttachmentsIndexLazyRoute,
   NotesNotesIdCommentsIndexLazyRoute: NotesNotesIdCommentsIndexLazyRoute,
   NotesNotesIdOverviewIndexLazyRoute: NotesNotesIdOverviewIndexLazyRoute,

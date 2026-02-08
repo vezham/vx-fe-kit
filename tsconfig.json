@@ -22,6 +22,12 @@
     },
     {
       "path": "./apps/notes"
+    },
+    {
+      "path": "./apps/clock-e2e"
+    },
+    {
+      "path": "./apps/clock"
     }
   ]
 }
