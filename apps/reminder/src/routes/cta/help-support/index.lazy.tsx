@@ -1,9 +1,8 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
 
-import Home from '../pages/home'
-import Page from '../pages/menu/layout'
+import Page from '../../../pages/menu/layout'
 
-export const Route = createLazyFileRoute('/')({
+export const Route = createLazyFileRoute('/cta/help-support/')({
   component: () => (
     <Page
       menu={[
@@ -12,7 +11,7 @@ export const Route = createLazyFileRoute('/')({
         { label: 'Settings', href: '/settings' },
         { label: 'CTA', href: '/cta' }
       ]}>
-      <div>Dashboard</div>
+      <div>Help & support</div>
     </Page>
   )
 })

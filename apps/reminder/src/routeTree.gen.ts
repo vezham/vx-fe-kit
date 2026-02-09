@@ -12,38 +12,339 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRouteImport } from './routes/__root'
 
+const SettingsRouteLazyRouteImport = createFileRoute('/settings')()
 const IndexLazyRouteImport = createFileRoute('/')()
+const SettingsIndexLazyRouteImport = createFileRoute('/settings/')()
+const RemindersIndexLazyRouteImport = createFileRoute('/reminders/')()
+const CtaIndexLazyRouteImport = createFileRoute('/cta/')()
+const SettingsWorkspaceIndexLazyRouteImport = createFileRoute(
+  '/settings/workspace/',
+)()
+const SettingsUsersIndexLazyRouteImport = createFileRoute('/settings/users/')()
+const SettingsSecurityIndexLazyRouteImport = createFileRoute(
+  '/settings/security/',
+)()
+const SettingsNotificationsIndexLazyRouteImport = createFileRoute(
+  '/settings/notifications/',
+)()
+const SettingsBillingIndexLazyRouteImport =
+  createFileRoute('/settings/billing/')()
+const SettingsAutomationsIndexLazyRouteImport = createFileRoute(
+  '/settings/automations/',
+)()
+const RemindersTodayIndexLazyRouteImport =
+  createFileRoute('/reminders/today/')()
+const RemindersScheduledIndexLazyRouteImport = createFileRoute(
+  '/reminders/scheduled/',
+)()
+const RemindersOverviewIndexLazyRouteImport = createFileRoute(
+  '/reminders/overview/',
+)()
+const RemindersFlaggedIndexLazyRouteImport = createFileRoute(
+  '/reminders/flagged/',
+)()
+const RemindersCompletedIndexLazyRouteImport = createFileRoute(
+  '/reminders/completed/',
+)()
+const RemindersArchiveIndexLazyRouteImport = createFileRoute(
+  '/reminders/archive/',
+)()
+const RemindersAllIndexLazyRouteImport = createFileRoute('/reminders/all/')()
+const CtaHelpSupportIndexLazyRouteImport =
+  createFileRoute('/cta/help-support/')()
 
+const SettingsRouteLazyRoute = SettingsRouteLazyRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() =>
+  import('./routes/settings/route.lazy').then((d) => d.Route),
+)
 const IndexLazyRoute = IndexLazyRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+const SettingsIndexLazyRoute = SettingsIndexLazyRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => SettingsRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/settings/index.lazy').then((d) => d.Route),
+)
+const RemindersIndexLazyRoute = RemindersIndexLazyRouteImport.update({
+  id: '/reminders/',
+  path: '/reminders/',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() =>
+  import('./routes/reminders/index.lazy').then((d) => d.Route),
+)
+const CtaIndexLazyRoute = CtaIndexLazyRouteImport.update({
+  id: '/cta/',
+  path: '/cta/',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() => import('./routes/cta/index.lazy').then((d) => d.Route))
+const SettingsWorkspaceIndexLazyRoute =
+  SettingsWorkspaceIndexLazyRouteImport.update({
+    id: '/workspace/',
+    path: '/workspace/',
+    getParentRoute: () => SettingsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/settings/workspace/index.lazy').then((d) => d.Route),
+  )
+const SettingsUsersIndexLazyRoute = SettingsUsersIndexLazyRouteImport.update({
+  id: '/users/',
+  path: '/users/',
+  getParentRoute: () => SettingsRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/settings/users/index.lazy').then((d) => d.Route),
+)
+const SettingsSecurityIndexLazyRoute =
+  SettingsSecurityIndexLazyRouteImport.update({
+    id: '/security/',
+    path: '/security/',
+    getParentRoute: () => SettingsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/settings/security/index.lazy').then((d) => d.Route),
+  )
+const SettingsNotificationsIndexLazyRoute =
+  SettingsNotificationsIndexLazyRouteImport.update({
+    id: '/notifications/',
+    path: '/notifications/',
+    getParentRoute: () => SettingsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/settings/notifications/index.lazy').then((d) => d.Route),
+  )
+const SettingsBillingIndexLazyRoute =
+  SettingsBillingIndexLazyRouteImport.update({
+    id: '/billing/',
+    path: '/billing/',
+    getParentRoute: () => SettingsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/settings/billing/index.lazy').then((d) => d.Route),
+  )
+const SettingsAutomationsIndexLazyRoute =
+  SettingsAutomationsIndexLazyRouteImport.update({
+    id: '/automations/',
+    path: '/automations/',
+    getParentRoute: () => SettingsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/settings/automations/index.lazy').then((d) => d.Route),
+  )
+const RemindersTodayIndexLazyRoute = RemindersTodayIndexLazyRouteImport.update({
+  id: '/reminders/today/',
+  path: '/reminders/today/',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() =>
+  import('./routes/reminders/today/index.lazy').then((d) => d.Route),
+)
+const RemindersScheduledIndexLazyRoute =
+  RemindersScheduledIndexLazyRouteImport.update({
+    id: '/reminders/scheduled/',
+    path: '/reminders/scheduled/',
+    getParentRoute: () => rootRouteImport,
+  } as any).lazy(() =>
+    import('./routes/reminders/scheduled/index.lazy').then((d) => d.Route),
+  )
+const RemindersOverviewIndexLazyRoute =
+  RemindersOverviewIndexLazyRouteImport.update({
+    id: '/reminders/overview/',
+    path: '/reminders/overview/',
+    getParentRoute: () => rootRouteImport,
+  } as any).lazy(() =>
+    import('./routes/reminders/overview/index.lazy').then((d) => d.Route),
+  )
+const RemindersFlaggedIndexLazyRoute =
+  RemindersFlaggedIndexLazyRouteImport.update({
+    id: '/reminders/flagged/',
+    path: '/reminders/flagged/',
+    getParentRoute: () => rootRouteImport,
+  } as any).lazy(() =>
+    import('./routes/reminders/flagged/index.lazy').then((d) => d.Route),
+  )
+const RemindersCompletedIndexLazyRoute =
+  RemindersCompletedIndexLazyRouteImport.update({
+    id: '/reminders/completed/',
+    path: '/reminders/completed/',
+    getParentRoute: () => rootRouteImport,
+  } as any).lazy(() =>
+    import('./routes/reminders/completed/index.lazy').then((d) => d.Route),
+  )
+const RemindersArchiveIndexLazyRoute =
+  RemindersArchiveIndexLazyRouteImport.update({
+    id: '/reminders/archive/',
+    path: '/reminders/archive/',
+    getParentRoute: () => rootRouteImport,
+  } as any).lazy(() =>
+    import('./routes/reminders/archive/index.lazy').then((d) => d.Route),
+  )
+const RemindersAllIndexLazyRoute = RemindersAllIndexLazyRouteImport.update({
+  id: '/reminders/all/',
+  path: '/reminders/all/',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() =>
+  import('./routes/reminders/all/index.lazy').then((d) => d.Route),
+)
+const CtaHelpSupportIndexLazyRoute = CtaHelpSupportIndexLazyRouteImport.update({
+  id: '/cta/help-support/',
+  path: '/cta/help-support/',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() =>
+  import('./routes/cta/help-support/index.lazy').then((d) => d.Route),
+)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
+  '/settings': typeof SettingsRouteLazyRouteWithChildren
+  '/cta': typeof CtaIndexLazyRoute
+  '/reminders': typeof RemindersIndexLazyRoute
+  '/settings/': typeof SettingsIndexLazyRoute
+  '/cta/help-support': typeof CtaHelpSupportIndexLazyRoute
+  '/reminders/all': typeof RemindersAllIndexLazyRoute
+  '/reminders/archive': typeof RemindersArchiveIndexLazyRoute
+  '/reminders/completed': typeof RemindersCompletedIndexLazyRoute
+  '/reminders/flagged': typeof RemindersFlaggedIndexLazyRoute
+  '/reminders/overview': typeof RemindersOverviewIndexLazyRoute
+  '/reminders/scheduled': typeof RemindersScheduledIndexLazyRoute
+  '/reminders/today': typeof RemindersTodayIndexLazyRoute
+  '/settings/automations': typeof SettingsAutomationsIndexLazyRoute
+  '/settings/billing': typeof SettingsBillingIndexLazyRoute
+  '/settings/notifications': typeof SettingsNotificationsIndexLazyRoute
+  '/settings/security': typeof SettingsSecurityIndexLazyRoute
+  '/settings/users': typeof SettingsUsersIndexLazyRoute
+  '/settings/workspace': typeof SettingsWorkspaceIndexLazyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
+  '/cta': typeof CtaIndexLazyRoute
+  '/reminders': typeof RemindersIndexLazyRoute
+  '/settings': typeof SettingsIndexLazyRoute
+  '/cta/help-support': typeof CtaHelpSupportIndexLazyRoute
+  '/reminders/all': typeof RemindersAllIndexLazyRoute
+  '/reminders/archive': typeof RemindersArchiveIndexLazyRoute
+  '/reminders/completed': typeof RemindersCompletedIndexLazyRoute
+  '/reminders/flagged': typeof RemindersFlaggedIndexLazyRoute
+  '/reminders/overview': typeof RemindersOverviewIndexLazyRoute
+  '/reminders/scheduled': typeof RemindersScheduledIndexLazyRoute
+  '/reminders/today': typeof RemindersTodayIndexLazyRoute
+  '/settings/automations': typeof SettingsAutomationsIndexLazyRoute
+  '/settings/billing': typeof SettingsBillingIndexLazyRoute
+  '/settings/notifications': typeof SettingsNotificationsIndexLazyRoute
+  '/settings/security': typeof SettingsSecurityIndexLazyRoute
+  '/settings/users': typeof SettingsUsersIndexLazyRoute
+  '/settings/workspace': typeof SettingsWorkspaceIndexLazyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexLazyRoute
+  '/settings': typeof SettingsRouteLazyRouteWithChildren
+  '/cta/': typeof CtaIndexLazyRoute
+  '/reminders/': typeof RemindersIndexLazyRoute
+  '/settings/': typeof SettingsIndexLazyRoute
+  '/cta/help-support/': typeof CtaHelpSupportIndexLazyRoute
+  '/reminders/all/': typeof RemindersAllIndexLazyRoute
+  '/reminders/archive/': typeof RemindersArchiveIndexLazyRoute
+  '/reminders/completed/': typeof RemindersCompletedIndexLazyRoute
+  '/reminders/flagged/': typeof RemindersFlaggedIndexLazyRoute
+  '/reminders/overview/': typeof RemindersOverviewIndexLazyRoute
+  '/reminders/scheduled/': typeof RemindersScheduledIndexLazyRoute
+  '/reminders/today/': typeof RemindersTodayIndexLazyRoute
+  '/settings/automations/': typeof SettingsAutomationsIndexLazyRoute
+  '/settings/billing/': typeof SettingsBillingIndexLazyRoute
+  '/settings/notifications/': typeof SettingsNotificationsIndexLazyRoute
+  '/settings/security/': typeof SettingsSecurityIndexLazyRoute
+  '/settings/users/': typeof SettingsUsersIndexLazyRoute
+  '/settings/workspace/': typeof SettingsWorkspaceIndexLazyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/settings'
+    | '/cta'
+    | '/reminders'
+    | '/settings/'
+    | '/cta/help-support'
+    | '/reminders/all'
+    | '/reminders/archive'
+    | '/reminders/completed'
+    | '/reminders/flagged'
+    | '/reminders/overview'
+    | '/reminders/scheduled'
+    | '/reminders/today'
+    | '/settings/automations'
+    | '/settings/billing'
+    | '/settings/notifications'
+    | '/settings/security'
+    | '/settings/users'
+    | '/settings/workspace'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/cta'
+    | '/reminders'
+    | '/settings'
+    | '/cta/help-support'
+    | '/reminders/all'
+    | '/reminders/archive'
+    | '/reminders/completed'
+    | '/reminders/flagged'
+    | '/reminders/overview'
+    | '/reminders/scheduled'
+    | '/reminders/today'
+    | '/settings/automations'
+    | '/settings/billing'
+    | '/settings/notifications'
+    | '/settings/security'
+    | '/settings/users'
+    | '/settings/workspace'
+  id:
+    | '__root__'
+    | '/'
+    | '/settings'
+    | '/cta/'
+    | '/reminders/'
+    | '/settings/'
+    | '/cta/help-support/'
+    | '/reminders/all/'
+    | '/reminders/archive/'
+    | '/reminders/completed/'
+    | '/reminders/flagged/'
+    | '/reminders/overview/'
+    | '/reminders/scheduled/'
+    | '/reminders/today/'
+    | '/settings/automations/'
+    | '/settings/billing/'
+    | '/settings/notifications/'
+    | '/settings/security/'
+    | '/settings/users/'
+    | '/settings/workspace/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
+  SettingsRouteLazyRoute: typeof SettingsRouteLazyRouteWithChildren
+  CtaIndexLazyRoute: typeof CtaIndexLazyRoute
+  RemindersIndexLazyRoute: typeof RemindersIndexLazyRoute
+  CtaHelpSupportIndexLazyRoute: typeof CtaHelpSupportIndexLazyRoute
+  RemindersAllIndexLazyRoute: typeof RemindersAllIndexLazyRoute
+  RemindersArchiveIndexLazyRoute: typeof RemindersArchiveIndexLazyRoute
+  RemindersCompletedIndexLazyRoute: typeof RemindersCompletedIndexLazyRoute
+  RemindersFlaggedIndexLazyRoute: typeof RemindersFlaggedIndexLazyRoute
+  RemindersOverviewIndexLazyRoute: typeof RemindersOverviewIndexLazyRoute
+  RemindersScheduledIndexLazyRoute: typeof RemindersScheduledIndexLazyRoute
+  RemindersTodayIndexLazyRoute: typeof RemindersTodayIndexLazyRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -51,11 +352,164 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/settings/': {
+      id: '/settings/'
+      path: '/'
+      fullPath: '/settings/'
+      preLoaderRoute: typeof SettingsIndexLazyRouteImport
+      parentRoute: typeof SettingsRouteLazyRoute
+    }
+    '/reminders/': {
+      id: '/reminders/'
+      path: '/reminders'
+      fullPath: '/reminders'
+      preLoaderRoute: typeof RemindersIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cta/': {
+      id: '/cta/'
+      path: '/cta'
+      fullPath: '/cta'
+      preLoaderRoute: typeof CtaIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings/workspace/': {
+      id: '/settings/workspace/'
+      path: '/workspace'
+      fullPath: '/settings/workspace'
+      preLoaderRoute: typeof SettingsWorkspaceIndexLazyRouteImport
+      parentRoute: typeof SettingsRouteLazyRoute
+    }
+    '/settings/users/': {
+      id: '/settings/users/'
+      path: '/users'
+      fullPath: '/settings/users'
+      preLoaderRoute: typeof SettingsUsersIndexLazyRouteImport
+      parentRoute: typeof SettingsRouteLazyRoute
+    }
+    '/settings/security/': {
+      id: '/settings/security/'
+      path: '/security'
+      fullPath: '/settings/security'
+      preLoaderRoute: typeof SettingsSecurityIndexLazyRouteImport
+      parentRoute: typeof SettingsRouteLazyRoute
+    }
+    '/settings/notifications/': {
+      id: '/settings/notifications/'
+      path: '/notifications'
+      fullPath: '/settings/notifications'
+      preLoaderRoute: typeof SettingsNotificationsIndexLazyRouteImport
+      parentRoute: typeof SettingsRouteLazyRoute
+    }
+    '/settings/billing/': {
+      id: '/settings/billing/'
+      path: '/billing'
+      fullPath: '/settings/billing'
+      preLoaderRoute: typeof SettingsBillingIndexLazyRouteImport
+      parentRoute: typeof SettingsRouteLazyRoute
+    }
+    '/settings/automations/': {
+      id: '/settings/automations/'
+      path: '/automations'
+      fullPath: '/settings/automations'
+      preLoaderRoute: typeof SettingsAutomationsIndexLazyRouteImport
+      parentRoute: typeof SettingsRouteLazyRoute
+    }
+    '/reminders/today/': {
+      id: '/reminders/today/'
+      path: '/reminders/today'
+      fullPath: '/reminders/today'
+      preLoaderRoute: typeof RemindersTodayIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reminders/scheduled/': {
+      id: '/reminders/scheduled/'
+      path: '/reminders/scheduled'
+      fullPath: '/reminders/scheduled'
+      preLoaderRoute: typeof RemindersScheduledIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reminders/overview/': {
+      id: '/reminders/overview/'
+      path: '/reminders/overview'
+      fullPath: '/reminders/overview'
+      preLoaderRoute: typeof RemindersOverviewIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reminders/flagged/': {
+      id: '/reminders/flagged/'
+      path: '/reminders/flagged'
+      fullPath: '/reminders/flagged'
+      preLoaderRoute: typeof RemindersFlaggedIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reminders/completed/': {
+      id: '/reminders/completed/'
+      path: '/reminders/completed'
+      fullPath: '/reminders/completed'
+      preLoaderRoute: typeof RemindersCompletedIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reminders/archive/': {
+      id: '/reminders/archive/'
+      path: '/reminders/archive'
+      fullPath: '/reminders/archive'
+      preLoaderRoute: typeof RemindersArchiveIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reminders/all/': {
+      id: '/reminders/all/'
+      path: '/reminders/all'
+      fullPath: '/reminders/all'
+      preLoaderRoute: typeof RemindersAllIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cta/help-support/': {
+      id: '/cta/help-support/'
+      path: '/cta/help-support'
+      fullPath: '/cta/help-support'
+      preLoaderRoute: typeof CtaHelpSupportIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
+interface SettingsRouteLazyRouteChildren {
+  SettingsIndexLazyRoute: typeof SettingsIndexLazyRoute
+  SettingsAutomationsIndexLazyRoute: typeof SettingsAutomationsIndexLazyRoute
+  SettingsBillingIndexLazyRoute: typeof SettingsBillingIndexLazyRoute
+  SettingsNotificationsIndexLazyRoute: typeof SettingsNotificationsIndexLazyRoute
+  SettingsSecurityIndexLazyRoute: typeof SettingsSecurityIndexLazyRoute
+  SettingsUsersIndexLazyRoute: typeof SettingsUsersIndexLazyRoute
+  SettingsWorkspaceIndexLazyRoute: typeof SettingsWorkspaceIndexLazyRoute
+}
+
+const SettingsRouteLazyRouteChildren: SettingsRouteLazyRouteChildren = {
+  SettingsIndexLazyRoute: SettingsIndexLazyRoute,
+  SettingsAutomationsIndexLazyRoute: SettingsAutomationsIndexLazyRoute,
+  SettingsBillingIndexLazyRoute: SettingsBillingIndexLazyRoute,
+  SettingsNotificationsIndexLazyRoute: SettingsNotificationsIndexLazyRoute,
+  SettingsSecurityIndexLazyRoute: SettingsSecurityIndexLazyRoute,
+  SettingsUsersIndexLazyRoute: SettingsUsersIndexLazyRoute,
+  SettingsWorkspaceIndexLazyRoute: SettingsWorkspaceIndexLazyRoute,
+}
+
+const SettingsRouteLazyRouteWithChildren =
+  SettingsRouteLazyRoute._addFileChildren(SettingsRouteLazyRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
+  SettingsRouteLazyRoute: SettingsRouteLazyRouteWithChildren,
+  CtaIndexLazyRoute: CtaIndexLazyRoute,
+  RemindersIndexLazyRoute: RemindersIndexLazyRoute,
+  CtaHelpSupportIndexLazyRoute: CtaHelpSupportIndexLazyRoute,
+  RemindersAllIndexLazyRoute: RemindersAllIndexLazyRoute,
+  RemindersArchiveIndexLazyRoute: RemindersArchiveIndexLazyRoute,
+  RemindersCompletedIndexLazyRoute: RemindersCompletedIndexLazyRoute,
+  RemindersFlaggedIndexLazyRoute: RemindersFlaggedIndexLazyRoute,
+  RemindersOverviewIndexLazyRoute: RemindersOverviewIndexLazyRoute,
+  RemindersScheduledIndexLazyRoute: RemindersScheduledIndexLazyRoute,
+  RemindersTodayIndexLazyRoute: RemindersTodayIndexLazyRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
