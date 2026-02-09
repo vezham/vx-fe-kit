@@ -1,10 +1,10 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
 
-import Home2 from '../../../pages/home2'
-import Page from '../../../pages/menu/layout'
-import Sidebar from '../../../pages/sidebar'
+import Home2 from '../../pages/home2'
+import Page from '../../pages/menu/layout'
+import Sidebar from '../../pages/sidebar'
 
-export const Route = createLazyFileRoute('/notes/pinned/')({
+export const Route = createLazyFileRoute('/settings/')({
   component: RouteComponent
 })
 
@@ -17,7 +17,7 @@ function RouteComponent() {
         { label: 'Notes', href: '/notes' },
         { label: 'Settings', href: '/settings' }
       ]}>
-      <div>Pinned Notes </div>
+      <div>Settings</div>
     </Page>
   )
 }

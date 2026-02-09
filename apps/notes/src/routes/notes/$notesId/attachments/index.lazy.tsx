@@ -1,6 +1,7 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
 
 import Home2 from '../../../../pages/home2'
+import Page from '../../../../pages/menu/layout'
 import Sidebar from '../../../../pages/sidebar'
 
 export const Route = createLazyFileRoute('/notes/$notesId/attachments/')({
@@ -9,10 +10,14 @@ export const Route = createLazyFileRoute('/notes/$notesId/attachments/')({
 
 function RouteComponent() {
   return (
-    <Home2>
-      <Sidebar>
-        <div>Single userid Attachments</div>
-      </Sidebar>
-    </Home2>
+    <Page
+      sidebar={<Sidebar />}
+      menu={[
+        { label: 'Home', href: '/' },
+        { label: 'Notes', href: '/notes' },
+        { label: 'Settings', href: '/settings' }
+      ]}>
+      <div>Single userid Attachments </div>
+    </Page>
   )
 }

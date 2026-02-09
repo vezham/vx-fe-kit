@@ -2,6 +2,7 @@ import { createLazyFileRoute } from '@tanstack/react-router'
 
 import Home from '../../pages/home'
 import Home2 from '../../pages/home2'
+import Page from '../../pages/menu'
 
 export const Route = createLazyFileRoute('/recent-notes/')({
   component: RouteComponent
@@ -14,9 +15,14 @@ function RouteComponent() {
         <div>Home-overview</div>
       </Home> */}
 
-      <Home2>
-        <div>Home-Recent Notes</div>
-      </Home2>
+      <Page
+        menu={[
+          { label: 'Home', href: '/' },
+          { label: 'Notes', href: '/notes' },
+          { label: 'Settings', href: '/settings' }
+        ]}>
+        <div>Recent Notes</div>
+      </Page>
     </>
   )
 }

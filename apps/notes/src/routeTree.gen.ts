@@ -14,12 +14,12 @@ import { Route as rootRouteImport } from './routes/__root'
 
 const IndexLazyRouteImport = createFileRoute('/')()
 const SharedWithMeIndexLazyRouteImport = createFileRoute('/shared-with-me/')()
+const SettingsIndexLazyRouteImport = createFileRoute('/settings/')()
 const SearchIndexLazyRouteImport = createFileRoute('/search/')()
 const RecentNotesIndexLazyRouteImport = createFileRoute('/recent-notes/')()
 const PinnedNotesIndexLazyRouteImport = createFileRoute('/pinned-notes/')()
 const OverviewIndexLazyRouteImport = createFileRoute('/overview/')()
 const NotesIndexLazyRouteImport = createFileRoute('/notes/')()
-const FoldersIndexLazyRouteImport = createFileRoute('/folders/')()
 const NotesTrashIndexLazyRouteImport = createFileRoute('/notes/trash/')()
 const NotesPinnedIndexLazyRouteImport = createFileRoute('/notes/pinned/')()
 const NotesNewIndexLazyRouteImport = createFileRoute('/notes/new/')()
@@ -50,6 +50,13 @@ const SharedWithMeIndexLazyRoute = SharedWithMeIndexLazyRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any).lazy(() =>
   import('./routes/shared-with-me/index.lazy').then((d) => d.Route),
+)
+const SettingsIndexLazyRoute = SettingsIndexLazyRouteImport.update({
+  id: '/settings/',
+  path: '/settings/',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() =>
+  import('./routes/settings/index.lazy').then((d) => d.Route),
 )
 const SearchIndexLazyRoute = SearchIndexLazyRouteImport.update({
   id: '/search/',
@@ -82,11 +89,6 @@ const NotesIndexLazyRoute = NotesIndexLazyRouteImport.update({
   path: '/notes/',
   getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/notes/index.lazy').then((d) => d.Route))
-const FoldersIndexLazyRoute = FoldersIndexLazyRouteImport.update({
-  id: '/folders/',
-  path: '/folders/',
-  getParentRoute: () => rootRouteImport,
-} as any).lazy(() => import('./routes/folders/index.lazy').then((d) => d.Route))
 const NotesTrashIndexLazyRoute = NotesTrashIndexLazyRouteImport.update({
   id: '/notes/trash/',
   path: '/notes/trash/',
@@ -166,12 +168,12 @@ const NotesNotesIdAttachmentsIndexLazyRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
-  '/folders': typeof FoldersIndexLazyRoute
   '/notes': typeof NotesIndexLazyRoute
   '/overview': typeof OverviewIndexLazyRoute
   '/pinned-notes': typeof PinnedNotesIndexLazyRoute
   '/recent-notes': typeof RecentNotesIndexLazyRoute
   '/search': typeof SearchIndexLazyRoute
+  '/settings': typeof SettingsIndexLazyRoute
   '/shared-with-me': typeof SharedWithMeIndexLazyRoute
   '/notes/$notesId': typeof NotesNotesIdIndexLazyRoute
   '/notes/all': typeof NotesAllIndexLazyRoute
@@ -186,12 +188,12 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
-  '/folders': typeof FoldersIndexLazyRoute
   '/notes': typeof NotesIndexLazyRoute
   '/overview': typeof OverviewIndexLazyRoute
   '/pinned-notes': typeof PinnedNotesIndexLazyRoute
   '/recent-notes': typeof RecentNotesIndexLazyRoute
   '/search': typeof SearchIndexLazyRoute
+  '/settings': typeof SettingsIndexLazyRoute
   '/shared-with-me': typeof SharedWithMeIndexLazyRoute
   '/notes/$notesId': typeof NotesNotesIdIndexLazyRoute
   '/notes/all': typeof NotesAllIndexLazyRoute
@@ -207,12 +209,12 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexLazyRoute
-  '/folders/': typeof FoldersIndexLazyRoute
   '/notes/': typeof NotesIndexLazyRoute
   '/overview/': typeof OverviewIndexLazyRoute
   '/pinned-notes/': typeof PinnedNotesIndexLazyRoute
   '/recent-notes/': typeof RecentNotesIndexLazyRoute
   '/search/': typeof SearchIndexLazyRoute
+  '/settings/': typeof SettingsIndexLazyRoute
   '/shared-with-me/': typeof SharedWithMeIndexLazyRoute
   '/notes/$notesId/': typeof NotesNotesIdIndexLazyRoute
   '/notes/all/': typeof NotesAllIndexLazyRoute
@@ -229,12 +231,12 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/folders'
     | '/notes'
     | '/overview'
     | '/pinned-notes'
     | '/recent-notes'
     | '/search'
+    | '/settings'
     | '/shared-with-me'
     | '/notes/$notesId'
     | '/notes/all'
@@ -249,12 +251,12 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/folders'
     | '/notes'
     | '/overview'
     | '/pinned-notes'
     | '/recent-notes'
     | '/search'
+    | '/settings'
     | '/shared-with-me'
     | '/notes/$notesId'
     | '/notes/all'
@@ -269,12 +271,12 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
-    | '/folders/'
     | '/notes/'
     | '/overview/'
     | '/pinned-notes/'
     | '/recent-notes/'
     | '/search/'
+    | '/settings/'
     | '/shared-with-me/'
     | '/notes/$notesId/'
     | '/notes/all/'
@@ -290,12 +292,12 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
-  FoldersIndexLazyRoute: typeof FoldersIndexLazyRoute
   NotesIndexLazyRoute: typeof NotesIndexLazyRoute
   OverviewIndexLazyRoute: typeof OverviewIndexLazyRoute
   PinnedNotesIndexLazyRoute: typeof PinnedNotesIndexLazyRoute
   RecentNotesIndexLazyRoute: typeof RecentNotesIndexLazyRoute
   SearchIndexLazyRoute: typeof SearchIndexLazyRoute
+  SettingsIndexLazyRoute: typeof SettingsIndexLazyRoute
   SharedWithMeIndexLazyRoute: typeof SharedWithMeIndexLazyRoute
   NotesNotesIdIndexLazyRoute: typeof NotesNotesIdIndexLazyRoute
   NotesAllIndexLazyRoute: typeof NotesAllIndexLazyRoute
@@ -323,6 +325,13 @@ declare module '@tanstack/react-router' {
       path: '/shared-with-me'
       fullPath: '/shared-with-me'
       preLoaderRoute: typeof SharedWithMeIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings/': {
+      id: '/settings/'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsIndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/search/': {
@@ -358,13 +367,6 @@ declare module '@tanstack/react-router' {
       path: '/notes'
       fullPath: '/notes'
       preLoaderRoute: typeof NotesIndexLazyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/folders/': {
-      id: '/folders/'
-      path: '/folders'
-      fullPath: '/folders'
-      preLoaderRoute: typeof FoldersIndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/notes/trash/': {
@@ -442,12 +444,12 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
-  FoldersIndexLazyRoute: FoldersIndexLazyRoute,
   NotesIndexLazyRoute: NotesIndexLazyRoute,
   OverviewIndexLazyRoute: OverviewIndexLazyRoute,
   PinnedNotesIndexLazyRoute: PinnedNotesIndexLazyRoute,
   RecentNotesIndexLazyRoute: RecentNotesIndexLazyRoute,
   SearchIndexLazyRoute: SearchIndexLazyRoute,
+  SettingsIndexLazyRoute: SettingsIndexLazyRoute,
   SharedWithMeIndexLazyRoute: SharedWithMeIndexLazyRoute,
   NotesNotesIdIndexLazyRoute: NotesNotesIdIndexLazyRoute,
   NotesAllIndexLazyRoute: NotesAllIndexLazyRoute,
