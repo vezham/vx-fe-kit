@@ -10,11 +10,7 @@ const PageLayout: React.FC<MenuLayoutProps> = ({ children, sidebar, menu }) => {
 
       <div className="flex-1">
         <div className="flex">
-          {sidebar && (
-            <div className="bg-primary grid h-screen w-64 items-center justify-center">
-              {sidebar}
-            </div>
-          )}
+          {sidebar && <div>{sidebar}</div>}
 
           <div className="flex-1 p-4">{children}</div>
         </div>
