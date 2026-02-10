@@ -1,9 +1,0 @@
-import { createLazyFileRoute } from '@tanstack/react-router'
-
-export const Route = createLazyFileRoute('/reminders/completed/')({
-  component: RouteComponent
-})
-
-function RouteComponent() {
-  return <div>Completed</div>
-}
