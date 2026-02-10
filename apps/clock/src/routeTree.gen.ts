@@ -12,77 +12,102 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRouteImport } from './routes/__root'
 
-const IndexLazyRouteImport = createFileRoute('/')()
-const WorldclockIndexLazyRouteImport = createFileRoute('/worldclock/')()
-const TimerIndexLazyRouteImport = createFileRoute('/timer/')()
-const StopwatchIndexLazyRouteImport = createFileRoute('/stopwatch/')()
-const AlarmIndexLazyRouteImport = createFileRoute('/alarm/')()
-const WorldclockClockIdIndexLazyRouteImport = createFileRoute(
-  '/worldclock/$clockId/',
+const homeRouteLazyRouteImport = createFileRoute('/(home)')()
+const homeIndexLazyRouteImport = createFileRoute('/(home)/')()
+const homeWorldclockIndexLazyRouteImport = createFileRoute(
+  '/(home)/worldclock/',
+)()
+const homeTimerIndexLazyRouteImport = createFileRoute('/(home)/timer/')()
+const homeStopwatchIndexLazyRouteImport =
+  createFileRoute('/(home)/stopwatch/')()
+const homeAlarmIndexLazyRouteImport = createFileRoute('/(home)/alarm/')()
+const homeWorldclockClockIdIndexLazyRouteImport = createFileRoute(
+  '/(home)/worldclock/$clockId/',
 )()
 
-const IndexLazyRoute = IndexLazyRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
-const WorldclockIndexLazyRoute = WorldclockIndexLazyRouteImport.update({
-  id: '/worldclock/',
-  path: '/worldclock/',
-  getParentRoute: () => rootRouteImport,
-} as any).lazy(() =>
-  import('./routes/worldclock/index.lazy').then((d) => d.Route),
-)
-const TimerIndexLazyRoute = TimerIndexLazyRouteImport.update({
-  id: '/timer/',
-  path: '/timer/',
-  getParentRoute: () => rootRouteImport,
-} as any).lazy(() => import('./routes/timer/index.lazy').then((d) => d.Route))
-const StopwatchIndexLazyRoute = StopwatchIndexLazyRouteImport.update({
-  id: '/stopwatch/',
-  path: '/stopwatch/',
-  getParentRoute: () => rootRouteImport,
-} as any).lazy(() =>
-  import('./routes/stopwatch/index.lazy').then((d) => d.Route),
-)
-const AlarmIndexLazyRoute = AlarmIndexLazyRouteImport.update({
-  id: '/alarm/',
-  path: '/alarm/',
-  getParentRoute: () => rootRouteImport,
-} as any).lazy(() => import('./routes/alarm/index.lazy').then((d) => d.Route))
-const WorldclockClockIdIndexLazyRoute =
-  WorldclockClockIdIndexLazyRouteImport.update({
-    id: '/worldclock/$clockId/',
-    path: '/worldclock/$clockId/',
+const homeRouteLazyRoute = homeRouteLazyRouteImport
+  .update({
+    id: '/(home)',
     getParentRoute: () => rootRouteImport,
-  } as any).lazy(() =>
-    import('./routes/worldclock/$clockId/index.lazy').then((d) => d.Route),
+  } as any)
+  .lazy(() => import('./routes/(home)/route.lazy').then((d) => d.Route))
+const homeIndexLazyRoute = homeIndexLazyRouteImport
+  .update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => homeRouteLazyRoute,
+  } as any)
+  .lazy(() => import('./routes/(home)/index.lazy').then((d) => d.Route))
+const homeWorldclockIndexLazyRoute = homeWorldclockIndexLazyRouteImport
+  .update({
+    id: '/worldclock/',
+    path: '/worldclock/',
+    getParentRoute: () => homeRouteLazyRoute,
+  } as any)
+  .lazy(() =>
+    import('./routes/(home)/worldclock/index.lazy').then((d) => d.Route),
   )
+const homeTimerIndexLazyRoute = homeTimerIndexLazyRouteImport
+  .update({
+    id: '/timer/',
+    path: '/timer/',
+    getParentRoute: () => homeRouteLazyRoute,
+  } as any)
+  .lazy(() => import('./routes/(home)/timer/index.lazy').then((d) => d.Route))
+const homeStopwatchIndexLazyRoute = homeStopwatchIndexLazyRouteImport
+  .update({
+    id: '/stopwatch/',
+    path: '/stopwatch/',
+    getParentRoute: () => homeRouteLazyRoute,
+  } as any)
+  .lazy(() =>
+    import('./routes/(home)/stopwatch/index.lazy').then((d) => d.Route),
+  )
+const homeAlarmIndexLazyRoute = homeAlarmIndexLazyRouteImport
+  .update({
+    id: '/alarm/',
+    path: '/alarm/',
+    getParentRoute: () => homeRouteLazyRoute,
+  } as any)
+  .lazy(() => import('./routes/(home)/alarm/index.lazy').then((d) => d.Route))
+const homeWorldclockClockIdIndexLazyRoute =
+  homeWorldclockClockIdIndexLazyRouteImport
+    .update({
+      id: '/worldclock/$clockId/',
+      path: '/worldclock/$clockId/',
+      getParentRoute: () => homeRouteLazyRoute,
+    } as any)
+    .lazy(() =>
+      import('./routes/(home)/worldclock/$clockId/index.lazy').then(
+        (d) => d.Route,
+      ),
+    )
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexLazyRoute
-  '/alarm': typeof AlarmIndexLazyRoute
-  '/stopwatch': typeof StopwatchIndexLazyRoute
-  '/timer': typeof TimerIndexLazyRoute
-  '/worldclock': typeof WorldclockIndexLazyRoute
-  '/worldclock/$clockId': typeof WorldclockClockIdIndexLazyRoute
+  '/': typeof homeIndexLazyRoute
+  '/alarm': typeof homeAlarmIndexLazyRoute
+  '/stopwatch': typeof homeStopwatchIndexLazyRoute
+  '/timer': typeof homeTimerIndexLazyRoute
+  '/worldclock': typeof homeWorldclockIndexLazyRoute
+  '/worldclock/$clockId': typeof homeWorldclockClockIdIndexLazyRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexLazyRoute
-  '/alarm': typeof AlarmIndexLazyRoute
-  '/stopwatch': typeof StopwatchIndexLazyRoute
-  '/timer': typeof TimerIndexLazyRoute
-  '/worldclock': typeof WorldclockIndexLazyRoute
-  '/worldclock/$clockId': typeof WorldclockClockIdIndexLazyRoute
+  '/': typeof homeIndexLazyRoute
+  '/alarm': typeof homeAlarmIndexLazyRoute
+  '/stopwatch': typeof homeStopwatchIndexLazyRoute
+  '/timer': typeof homeTimerIndexLazyRoute
+  '/worldclock': typeof homeWorldclockIndexLazyRoute
+  '/worldclock/$clockId': typeof homeWorldclockClockIdIndexLazyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexLazyRoute
-  '/alarm/': typeof AlarmIndexLazyRoute
-  '/stopwatch/': typeof StopwatchIndexLazyRoute
-  '/timer/': typeof TimerIndexLazyRoute
-  '/worldclock/': typeof WorldclockIndexLazyRoute
-  '/worldclock/$clockId/': typeof WorldclockClockIdIndexLazyRoute
+  '/(home)': typeof homeRouteLazyRouteWithChildren
+  '/(home)/': typeof homeIndexLazyRoute
+  '/(home)/alarm/': typeof homeAlarmIndexLazyRoute
+  '/(home)/stopwatch/': typeof homeStopwatchIndexLazyRoute
+  '/(home)/timer/': typeof homeTimerIndexLazyRoute
+  '/(home)/worldclock/': typeof homeWorldclockIndexLazyRoute
+  '/(home)/worldclock/$clockId/': typeof homeWorldclockClockIdIndexLazyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -103,77 +128,97 @@ export interface FileRouteTypes {
     | '/worldclock/$clockId'
   id:
     | '__root__'
-    | '/'
-    | '/alarm/'
-    | '/stopwatch/'
-    | '/timer/'
-    | '/worldclock/'
-    | '/worldclock/$clockId/'
+    | '/(home)'
+    | '/(home)/'
+    | '/(home)/alarm/'
+    | '/(home)/stopwatch/'
+    | '/(home)/timer/'
+    | '/(home)/worldclock/'
+    | '/(home)/worldclock/$clockId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexLazyRoute: typeof IndexLazyRoute
-  AlarmIndexLazyRoute: typeof AlarmIndexLazyRoute
-  StopwatchIndexLazyRoute: typeof StopwatchIndexLazyRoute
-  TimerIndexLazyRoute: typeof TimerIndexLazyRoute
-  WorldclockIndexLazyRoute: typeof WorldclockIndexLazyRoute
-  WorldclockClockIdIndexLazyRoute: typeof WorldclockClockIdIndexLazyRoute
+  homeRouteLazyRoute: typeof homeRouteLazyRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
+    '/(home)': {
+      id: '/(home)'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexLazyRouteImport
+      preLoaderRoute: typeof homeRouteLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/worldclock/': {
-      id: '/worldclock/'
+    '/(home)/': {
+      id: '/(home)/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof homeIndexLazyRouteImport
+      parentRoute: typeof homeRouteLazyRoute
+    }
+    '/(home)/worldclock/': {
+      id: '/(home)/worldclock/'
       path: '/worldclock'
       fullPath: '/worldclock'
-      preLoaderRoute: typeof WorldclockIndexLazyRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof homeWorldclockIndexLazyRouteImport
+      parentRoute: typeof homeRouteLazyRoute
     }
-    '/timer/': {
-      id: '/timer/'
+    '/(home)/timer/': {
+      id: '/(home)/timer/'
       path: '/timer'
       fullPath: '/timer'
-      preLoaderRoute: typeof TimerIndexLazyRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof homeTimerIndexLazyRouteImport
+      parentRoute: typeof homeRouteLazyRoute
     }
-    '/stopwatch/': {
-      id: '/stopwatch/'
+    '/(home)/stopwatch/': {
+      id: '/(home)/stopwatch/'
       path: '/stopwatch'
       fullPath: '/stopwatch'
-      preLoaderRoute: typeof StopwatchIndexLazyRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof homeStopwatchIndexLazyRouteImport
+      parentRoute: typeof homeRouteLazyRoute
     }
-    '/alarm/': {
-      id: '/alarm/'
+    '/(home)/alarm/': {
+      id: '/(home)/alarm/'
       path: '/alarm'
       fullPath: '/alarm'
-      preLoaderRoute: typeof AlarmIndexLazyRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof homeAlarmIndexLazyRouteImport
+      parentRoute: typeof homeRouteLazyRoute
     }
-    '/worldclock/$clockId/': {
-      id: '/worldclock/$clockId/'
+    '/(home)/worldclock/$clockId/': {
+      id: '/(home)/worldclock/$clockId/'
       path: '/worldclock/$clockId'
       fullPath: '/worldclock/$clockId'
-      preLoaderRoute: typeof WorldclockClockIdIndexLazyRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof homeWorldclockClockIdIndexLazyRouteImport
+      parentRoute: typeof homeRouteLazyRoute
     }
   }
 }
 
+interface homeRouteLazyRouteChildren {
+  homeIndexLazyRoute: typeof homeIndexLazyRoute
+  homeAlarmIndexLazyRoute: typeof homeAlarmIndexLazyRoute
+  homeStopwatchIndexLazyRoute: typeof homeStopwatchIndexLazyRoute
+  homeTimerIndexLazyRoute: typeof homeTimerIndexLazyRoute
+  homeWorldclockIndexLazyRoute: typeof homeWorldclockIndexLazyRoute
+  homeWorldclockClockIdIndexLazyRoute: typeof homeWorldclockClockIdIndexLazyRoute
+}
+
+const homeRouteLazyRouteChildren: homeRouteLazyRouteChildren = {
+  homeIndexLazyRoute: homeIndexLazyRoute,
+  homeAlarmIndexLazyRoute: homeAlarmIndexLazyRoute,
+  homeStopwatchIndexLazyRoute: homeStopwatchIndexLazyRoute,
+  homeTimerIndexLazyRoute: homeTimerIndexLazyRoute,
+  homeWorldclockIndexLazyRoute: homeWorldclockIndexLazyRoute,
+  homeWorldclockClockIdIndexLazyRoute: homeWorldclockClockIdIndexLazyRoute,
+}
+
+const homeRouteLazyRouteWithChildren = homeRouteLazyRoute._addFileChildren(
+  homeRouteLazyRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexLazyRoute: IndexLazyRoute,
-  AlarmIndexLazyRoute: AlarmIndexLazyRoute,
-  StopwatchIndexLazyRoute: StopwatchIndexLazyRoute,
-  TimerIndexLazyRoute: TimerIndexLazyRoute,
-  WorldclockIndexLazyRoute: WorldclockIndexLazyRoute,
-  WorldclockClockIdIndexLazyRoute: WorldclockClockIdIndexLazyRoute,
+  homeRouteLazyRoute: homeRouteLazyRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
