@@ -11,7 +11,7 @@ const PageLayout: React.FC<MenuLayoutProps> = ({ children, sidebar, menu }) => {
       <div className="flex-1">
         <div className="flex">
           {sidebar && (
-            <div className="bg-warning grid h-screen w-64 items-center justify-center">
+            <div className="bg-primary grid h-screen w-64 items-center justify-center">
               {sidebar}
             </div>
           )}

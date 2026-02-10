@@ -1,6 +1,7 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
 
 import Page from '../../../pages/menu/layout'
+import TodaySection from '../../../pages/reminders/today'
 import Sidebar from '../../../pages/sidebar'
 
 export const Route = createLazyFileRoute('/reminders/today/')({
@@ -21,7 +22,6 @@ function RouteComponent() {
         sidebar={
           <Sidebar
             sidebar={[
-              { label: 'Overview', href: '/reminders/overview' },
               { label: 'All', href: '/reminders/all' },
               { label: 'Today', href: '/reminders/today' },
               { label: 'Scheduled', href: '/reminders/scheduled' },
@@ -31,7 +31,7 @@ function RouteComponent() {
             ]}
           />
         }>
-        Today
+        <TodaySection />
       </Page>
     </div>
   )

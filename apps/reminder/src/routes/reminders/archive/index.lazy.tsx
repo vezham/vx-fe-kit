@@ -21,7 +21,6 @@ function RouteComponent() {
         sidebar={
           <Sidebar
             sidebar={[
-              { label: 'Overview', href: '/reminders/overview' },
               { label: 'All', href: '/reminders/all' },
               { label: 'Today', href: '/reminders/today' },
               { label: 'Scheduled', href: '/reminders/scheduled' },

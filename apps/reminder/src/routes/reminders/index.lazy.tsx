@@ -5,7 +5,7 @@ const ReminderIndex = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    navigate({ to: '/reminders/overview', replace: true })
+    navigate({ to: '/reminders/all', replace: true })
   }, [navigate])
 
   return null
