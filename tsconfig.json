@@ -40,6 +40,30 @@
     },
     {
       "path": "./apps/calendar"
+    },
+    {
+      "path": "./apps/ts-quickstart-e2e"
+    },
+    {
+      "path": "./apps/ts-quickstart"
+    },
+    {
+      "path": "./apps/ts-basic-e2e"
+    },
+    {
+      "path": "./apps/ts-basic"
+    },
+    {
+      "path": "./apps/ts-basic+react-query-e2e"
+    },
+    {
+      "path": "./apps/ts-basic+react-query"
+    },
+    {
+      "path": "./apps/ts-kitchen-sink-e2e"
+    },
+    {
+      "path": "./apps/ts-kitchen-sink"
     }
   ]
 }

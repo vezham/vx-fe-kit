@@ -1,0 +1,33 @@
+{
+  "name": "ts-quickstart-mock",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/ts-quickstart-mock/src",
+  "targets": {
+    "serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/ts-quickstart-mock",
+        "commands": ["pnpm serve"],
+        "parallel": false
+      }
+    },
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/ts-quickstart-mock",
+        "commands": ["pnpm build"],
+        "parallel": false
+      }
+    },
+    "generate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/ts-quickstart-mock",
+        "commands": ["pnpm generate"],
+        "parallel": false
+      }
+    }
+  },
+  "tags": ["category:app", "mock"]
+}

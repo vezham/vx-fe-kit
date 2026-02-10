@@ -1,0 +1,19 @@
+{
+  "name": "ts-kitchen-sink",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/ts-kitchen-sink/src",
+  "targets": {
+    "config-local-hostile": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/ts-kitchen-sink",
+        "commands": [
+          "sudo pnpm exec hostile set localhost ts-kitchen-sink.vezham.local && sudo pnpm exec hostile set localhost ts-kitchen-sink.mock.vezham.local"
+        ],
+        "parallel": false
+      }
+    }
+  },
+  "tags": ["category:app"]
+}

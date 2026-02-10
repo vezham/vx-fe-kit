@@ -1,0 +1,19 @@
+{
+  "name": "ts-basic+react-query",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/ts-basic+react-query/src",
+  "targets": {
+    "config-local-hostile": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/ts-basic+react-query",
+        "commands": [
+          "sudo pnpm exec hostile set localhost ts-basic+react-query.vezham.local && sudo pnpm exec hostile set localhost ts-basic+react-query.mock.vezham.local"
+        ],
+        "parallel": false
+      }
+    }
+  },
+  "tags": ["category:app"]
+}
