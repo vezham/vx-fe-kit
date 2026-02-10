@@ -62,10 +62,11 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebar, children }) => {
         )}>
         <Button
           isIconOnly
+          variant="light"
           onClick={() => setCollapsed(!collapsed)}
-          className={cn('hover:bg-default-100 rounded-md p-2 text-xs')}>
+          className={cn('hover:bg-default-100 text-white')}>
           {collapsed ? (
-            <Icon icon="mdi:chevron-right" />
+            <Icon icon="mdi:chevron-right" width={16} />
           ) : (
             <Icon icon="mdi:chevron-left" />
           )}

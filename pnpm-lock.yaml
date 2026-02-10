@@ -253,6 +253,39 @@ importers:
         specifier: ^3.0.0
         version: 3.2.4(@types/node@20.19.9)(@vitest/ui@3.2.4)(jiti@2.4.2)(jsdom@22.1.0)(lightningcss@1.30.1)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
 
+  apps/calendar:
+    devDependencies:
+      '@vx/start':
+        specifier: workspace:*
+        version: link:../../packages/vx/start
+      '@vx/system-utils':
+        specifier: workspace:*
+        version: link:../../packages/vx/system-utils
+
+  apps/calendar-e2e: {}
+
+  apps/calendar-mock:
+    dependencies:
+      '@faker-js/faker':
+        specifier: ^8.4.1
+        version: 8.4.1
+      json-server:
+        specifier: ^0.17.4
+        version: 0.17.4
+    devDependencies:
+      '@types/json-server':
+        specifier: ^0.14.8
+        version: 0.14.8
+      '@types/node':
+        specifier: ^20.0.0
+        version: 20.19.9
+      '@vezham/use-logger':
+        specifier: ^0.3.3
+        version: 0.3.3
+      dotenv:
+        specifier: ^16.4.1
+        version: 16.6.1
+
   apps/clock:
     devDependencies:
       '@vx/start':
