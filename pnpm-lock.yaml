@@ -459,6 +459,12 @@ importers:
       '@vx/system-utils':
         specifier: workspace:*
         version: link:../../packages/vx/system-utils
+      immer:
+        specifier: ^10.1.1
+        version: 10.2.0
+      zod:
+        specifier: ^3.24.2
+        version: 3.25.76
 
   apps/ts-kitchen-sink-e2e: {}
 
@@ -6738,6 +6744,9 @@ packages:
   ignore@7.0.5:
     resolution: {integrity: sha512-Hs59xBNfUIunMFgWAbGX5cq6893IbWg4KnrjbYwX3tx0ztorVgTDA6B2sxf8ejHJ4wz8BqGUMYlnzNBer5NvGg==}
     engines: {node: '>= 4'}
+
+  immer@10.2.0:
+    resolution: {integrity: sha512-d/+XTN3zfODyjr89gM3mPq1WNX2B8pYsu7eORitdwyA2sBubnTl3laYlBk4sXY5FUa5qTZGBDPJICVbvqzjlbw==}
 
   import-cwd@3.0.0:
     resolution: {integrity: sha512-4pnzH16plW+hgvRECbDWpQl3cqtvSofHWh44met7ESfZ8UZOWWddm8hEyDTqREJ9RbYHY8gi8DqmaelApoOGMg==}
@@ -18046,6 +18055,8 @@ snapshots:
   ignore@5.3.2: {}
 
   ignore@7.0.5: {}
+
+  immer@10.2.0: {}
 
   import-cwd@3.0.0:
     dependencies:

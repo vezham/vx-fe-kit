@@ -13,33 +13,65 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRouteImport } from './routes/__root'
 
 const IndexLazyRouteImport = createFileRoute('/')()
+const PostsIndexLazyRouteImport = createFileRoute('/posts/')()
+const AboutIndexLazyRouteImport = createFileRoute('/about/')()
+const PostsPostIdIndexLazyRouteImport = createFileRoute('/posts/$postId/')()
 
 const IndexLazyRoute = IndexLazyRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+const PostsIndexLazyRoute = PostsIndexLazyRouteImport.update({
+  id: '/posts/',
+  path: '/posts/',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() => import('./routes/posts/index.lazy').then((d) => d.Route))
+const AboutIndexLazyRoute = AboutIndexLazyRouteImport.update({
+  id: '/about/',
+  path: '/about/',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() => import('./routes/about/index.lazy').then((d) => d.Route))
+const PostsPostIdIndexLazyRoute = PostsPostIdIndexLazyRouteImport.update({
+  id: '/posts/$postId/',
+  path: '/posts/$postId/',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() =>
+  import('./routes/posts/$postId/index.lazy').then((d) => d.Route),
+)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
+  '/about': typeof AboutIndexLazyRoute
+  '/posts': typeof PostsIndexLazyRoute
+  '/posts/$postId': typeof PostsPostIdIndexLazyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
+  '/about': typeof AboutIndexLazyRoute
+  '/posts': typeof PostsIndexLazyRoute
+  '/posts/$postId': typeof PostsPostIdIndexLazyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexLazyRoute
+  '/about/': typeof AboutIndexLazyRoute
+  '/posts/': typeof PostsIndexLazyRoute
+  '/posts/$postId/': typeof PostsPostIdIndexLazyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/about' | '/posts' | '/posts/$postId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/about' | '/posts' | '/posts/$postId'
+  id: '__root__' | '/' | '/about/' | '/posts/' | '/posts/$postId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
+  AboutIndexLazyRoute: typeof AboutIndexLazyRoute
+  PostsIndexLazyRoute: typeof PostsIndexLazyRoute
+  PostsPostIdIndexLazyRoute: typeof PostsPostIdIndexLazyRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -51,11 +83,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/posts/': {
+      id: '/posts/'
+      path: '/posts'
+      fullPath: '/posts'
+      preLoaderRoute: typeof PostsIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about/': {
+      id: '/about/'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/posts/$postId/': {
+      id: '/posts/$postId/'
+      path: '/posts/$postId'
+      fullPath: '/posts/$postId'
+      preLoaderRoute: typeof PostsPostIdIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
+  AboutIndexLazyRoute: AboutIndexLazyRoute,
+  PostsIndexLazyRoute: PostsIndexLazyRoute,
+  PostsPostIdIndexLazyRoute: PostsPostIdIndexLazyRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

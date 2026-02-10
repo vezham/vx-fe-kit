@@ -1,3 +1,4 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { RouterProvider, createRouter } from '@tanstack/react-router'
 
 import { defineConfig } from '@vx/start'
@@ -6,6 +7,8 @@ import { defineConfig } from '@vx/start'
 
 import { routeTree } from '../routeTree.gen'
 import './global.css'
+
+const queryClient = new QueryClient()
 
 // @vx/NOTE: Create a new router instance
 const router = createRouter({
@@ -24,5 +27,9 @@ declare module '@tanstack/react-router' {
 }
 
 defineConfig({
-  children: <RouterProvider router={router} />
+  children: (
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
+  )
 })
