@@ -12,455 +12,966 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRouteImport } from './routes/__root'
 
-const IndexLazyRouteImport = createFileRoute('/')()
-const SharedWithMeIndexLazyRouteImport = createFileRoute('/shared-with-me/')()
-const SettingsIndexLazyRouteImport = createFileRoute('/settings/')()
-const SearchIndexLazyRouteImport = createFileRoute('/search/')()
-const RecentNotesIndexLazyRouteImport = createFileRoute('/recent-notes/')()
-const PinnedNotesIndexLazyRouteImport = createFileRoute('/pinned-notes/')()
-const OverviewIndexLazyRouteImport = createFileRoute('/overview/')()
-const NotesIndexLazyRouteImport = createFileRoute('/notes/')()
-const NotesTrashIndexLazyRouteImport = createFileRoute('/notes/trash/')()
-const NotesPinnedIndexLazyRouteImport = createFileRoute('/notes/pinned/')()
-const NotesNewIndexLazyRouteImport = createFileRoute('/notes/new/')()
-const NotesArchivedIndexLazyRouteImport = createFileRoute('/notes/archived/')()
-const NotesAllIndexLazyRouteImport = createFileRoute('/notes/all/')()
-const NotesNotesIdIndexLazyRouteImport = createFileRoute('/notes/$notesId/')()
-const NotesNotesIdRemindersIndexLazyRouteImport = createFileRoute(
-  '/notes/$notesId/reminders/',
+const homeRouteLazyRouteImport = createFileRoute('/(home)')()
+const homeIndexLazyRouteImport = createFileRoute('/(home)/')()
+const homeTeamsRouteLazyRouteImport = createFileRoute('/(home)/teams')()
+const homeSettingsRouteLazyRouteImport = createFileRoute('/(home)/settings')()
+const homeNotesRouteLazyRouteImport = createFileRoute('/(home)/notes')()
+const homeTeamsIndexLazyRouteImport = createFileRoute('/(home)/teams/')()
+const homeSettingsIndexLazyRouteImport = createFileRoute('/(home)/settings/')()
+const homeNotificationsIndexLazyRouteImport = createFileRoute(
+  '/(home)/notifications/',
 )()
-const NotesNotesIdOverviewIndexLazyRouteImport = createFileRoute(
-  '/notes/$notesId/overview/',
+const homeNotesIndexLazyRouteImport = createFileRoute('/(home)/notes/')()
+const homeCtaIndexLazyRouteImport = createFileRoute('/(home)/cta/')()
+const homeNotesSharedRouteLazyRouteImport = createFileRoute(
+  '/(home)/notes/shared',
 )()
-const NotesNotesIdCommentsIndexLazyRouteImport = createFileRoute(
-  '/notes/$notesId/comments/',
+const homeTeamsRolesIndexLazyRouteImport = createFileRoute(
+  '/(home)/teams/roles/',
 )()
-const NotesNotesIdAttachmentsIndexLazyRouteImport = createFileRoute(
-  '/notes/$notesId/attachments/',
+const homeTeamsPermissionsIndexLazyRouteImport = createFileRoute(
+  '/(home)/teams/permissions/',
 )()
+const homeTeamsOverviewIndexLazyRouteImport = createFileRoute(
+  '/(home)/teams/overview/',
+)()
+const homeTeamsMembersIndexLazyRouteImport = createFileRoute(
+  '/(home)/teams/members/',
+)()
+const homeSettingsWorkspaceIndexLazyRouteImport = createFileRoute(
+  '/(home)/settings/workspace/',
+)()
+const homeSettingsSecurityIndexLazyRouteImport = createFileRoute(
+  '/(home)/settings/security/',
+)()
+const homeSettingsIntegrationsIndexLazyRouteImport = createFileRoute(
+  '/(home)/settings/integrations/',
+)()
+const homeSettingsBillingIndexLazyRouteImport = createFileRoute(
+  '/(home)/settings/billing/',
+)()
+const homeSettingsAutomationsIndexLazyRouteImport = createFileRoute(
+  '/(home)/settings/automations/',
+)()
+const homeNotesTrashIndexLazyRouteImport = createFileRoute(
+  '/(home)/notes/trash/',
+)()
+const homeNotesSharedIndexLazyRouteImport = createFileRoute(
+  '/(home)/notes/shared/',
+)()
+const homeNotesPinnedIndexLazyRouteImport = createFileRoute(
+  '/(home)/notes/pinned/',
+)()
+const homeNotesFoldersIndexLazyRouteImport = createFileRoute(
+  '/(home)/notes/folders/',
+)()
+const homeNotesArchivedIndexLazyRouteImport = createFileRoute(
+  '/(home)/notes/archived/',
+)()
+const homeNotesAllIndexLazyRouteImport = createFileRoute('/(home)/notes/all/')()
+const homeNotesNotesIdIndexLazyRouteImport = createFileRoute(
+  '/(home)/notes/$notesId/',
+)()
+const homeCtaHelpSupportIndexLazyRouteImport = createFileRoute(
+  '/(home)/cta/help-support/',
+)()
+const homeNotesSharedSharedWithMeIndexLazyRouteImport = createFileRoute(
+  '/(home)/notes/shared/shared-with-me/',
+)()
+const homeNotesSharedSharedByMeIndexLazyRouteImport = createFileRoute(
+  '/(home)/notes/shared/shared-by-me/',
+)()
+const homeNotesFoldersSubfoldersIndexLazyRouteImport = createFileRoute(
+  '/(home)/notes/folders/subfolders/',
+)()
+const homeNotesFoldersFolderIdIndexLazyRouteImport = createFileRoute(
+  '/(home)/notes/folders/$folderId/',
+)()
+const homeNotesFoldersSubfoldersSubfoldersIdIndexLazyRouteImport =
+  createFileRoute('/(home)/notes/folders/subfolders/$subfoldersId/')()
 
-const IndexLazyRoute = IndexLazyRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
-const SharedWithMeIndexLazyRoute = SharedWithMeIndexLazyRouteImport.update({
-  id: '/shared-with-me/',
-  path: '/shared-with-me/',
-  getParentRoute: () => rootRouteImport,
-} as any).lazy(() =>
-  import('./routes/shared-with-me/index.lazy').then((d) => d.Route),
-)
-const SettingsIndexLazyRoute = SettingsIndexLazyRouteImport.update({
-  id: '/settings/',
-  path: '/settings/',
-  getParentRoute: () => rootRouteImport,
-} as any).lazy(() =>
-  import('./routes/settings/index.lazy').then((d) => d.Route),
-)
-const SearchIndexLazyRoute = SearchIndexLazyRouteImport.update({
-  id: '/search/',
-  path: '/search/',
-  getParentRoute: () => rootRouteImport,
-} as any).lazy(() => import('./routes/search/index.lazy').then((d) => d.Route))
-const RecentNotesIndexLazyRoute = RecentNotesIndexLazyRouteImport.update({
-  id: '/recent-notes/',
-  path: '/recent-notes/',
-  getParentRoute: () => rootRouteImport,
-} as any).lazy(() =>
-  import('./routes/recent-notes/index.lazy').then((d) => d.Route),
-)
-const PinnedNotesIndexLazyRoute = PinnedNotesIndexLazyRouteImport.update({
-  id: '/pinned-notes/',
-  path: '/pinned-notes/',
-  getParentRoute: () => rootRouteImport,
-} as any).lazy(() =>
-  import('./routes/pinned-notes/index.lazy').then((d) => d.Route),
-)
-const OverviewIndexLazyRoute = OverviewIndexLazyRouteImport.update({
-  id: '/overview/',
-  path: '/overview/',
-  getParentRoute: () => rootRouteImport,
-} as any).lazy(() =>
-  import('./routes/overview/index.lazy').then((d) => d.Route),
-)
-const NotesIndexLazyRoute = NotesIndexLazyRouteImport.update({
-  id: '/notes/',
-  path: '/notes/',
-  getParentRoute: () => rootRouteImport,
-} as any).lazy(() => import('./routes/notes/index.lazy').then((d) => d.Route))
-const NotesTrashIndexLazyRoute = NotesTrashIndexLazyRouteImport.update({
-  id: '/notes/trash/',
-  path: '/notes/trash/',
-  getParentRoute: () => rootRouteImport,
-} as any).lazy(() =>
-  import('./routes/notes/trash/index.lazy').then((d) => d.Route),
-)
-const NotesPinnedIndexLazyRoute = NotesPinnedIndexLazyRouteImport.update({
-  id: '/notes/pinned/',
-  path: '/notes/pinned/',
-  getParentRoute: () => rootRouteImport,
-} as any).lazy(() =>
-  import('./routes/notes/pinned/index.lazy').then((d) => d.Route),
-)
-const NotesNewIndexLazyRoute = NotesNewIndexLazyRouteImport.update({
-  id: '/notes/new/',
-  path: '/notes/new/',
-  getParentRoute: () => rootRouteImport,
-} as any).lazy(() =>
-  import('./routes/notes/new/index.lazy').then((d) => d.Route),
-)
-const NotesArchivedIndexLazyRoute = NotesArchivedIndexLazyRouteImport.update({
-  id: '/notes/archived/',
-  path: '/notes/archived/',
-  getParentRoute: () => rootRouteImport,
-} as any).lazy(() =>
-  import('./routes/notes/archived/index.lazy').then((d) => d.Route),
-)
-const NotesAllIndexLazyRoute = NotesAllIndexLazyRouteImport.update({
-  id: '/notes/all/',
-  path: '/notes/all/',
-  getParentRoute: () => rootRouteImport,
-} as any).lazy(() =>
-  import('./routes/notes/all/index.lazy').then((d) => d.Route),
-)
-const NotesNotesIdIndexLazyRoute = NotesNotesIdIndexLazyRouteImport.update({
-  id: '/notes/$notesId/',
-  path: '/notes/$notesId/',
-  getParentRoute: () => rootRouteImport,
-} as any).lazy(() =>
-  import('./routes/notes/$notesId/index.lazy').then((d) => d.Route),
-)
-const NotesNotesIdRemindersIndexLazyRoute =
-  NotesNotesIdRemindersIndexLazyRouteImport.update({
-    id: '/notes/$notesId/reminders/',
-    path: '/notes/$notesId/reminders/',
+const homeRouteLazyRoute = homeRouteLazyRouteImport
+  .update({
+    id: '/(home)',
     getParentRoute: () => rootRouteImport,
-  } as any).lazy(() =>
-    import('./routes/notes/$notesId/reminders/index.lazy').then((d) => d.Route),
+  } as any)
+  .lazy(() => import('./routes/(home)/route.lazy').then((d) => d.Route))
+const homeIndexLazyRoute = homeIndexLazyRouteImport
+  .update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => homeRouteLazyRoute,
+  } as any)
+  .lazy(() => import('./routes/(home)/index.lazy').then((d) => d.Route))
+const homeTeamsRouteLazyRoute = homeTeamsRouteLazyRouteImport
+  .update({
+    id: '/teams',
+    path: '/teams',
+    getParentRoute: () => homeRouteLazyRoute,
+  } as any)
+  .lazy(() => import('./routes/(home)/teams/route.lazy').then((d) => d.Route))
+const homeSettingsRouteLazyRoute = homeSettingsRouteLazyRouteImport
+  .update({
+    id: '/settings',
+    path: '/settings',
+    getParentRoute: () => homeRouteLazyRoute,
+  } as any)
+  .lazy(() =>
+    import('./routes/(home)/settings/route.lazy').then((d) => d.Route),
   )
-const NotesNotesIdOverviewIndexLazyRoute =
-  NotesNotesIdOverviewIndexLazyRouteImport.update({
-    id: '/notes/$notesId/overview/',
-    path: '/notes/$notesId/overview/',
-    getParentRoute: () => rootRouteImport,
-  } as any).lazy(() =>
-    import('./routes/notes/$notesId/overview/index.lazy').then((d) => d.Route),
+const homeNotesRouteLazyRoute = homeNotesRouteLazyRouteImport
+  .update({
+    id: '/notes',
+    path: '/notes',
+    getParentRoute: () => homeRouteLazyRoute,
+  } as any)
+  .lazy(() => import('./routes/(home)/notes/route.lazy').then((d) => d.Route))
+const homeTeamsIndexLazyRoute = homeTeamsIndexLazyRouteImport
+  .update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => homeTeamsRouteLazyRoute,
+  } as any)
+  .lazy(() => import('./routes/(home)/teams/index.lazy').then((d) => d.Route))
+const homeSettingsIndexLazyRoute = homeSettingsIndexLazyRouteImport
+  .update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => homeSettingsRouteLazyRoute,
+  } as any)
+  .lazy(() =>
+    import('./routes/(home)/settings/index.lazy').then((d) => d.Route),
   )
-const NotesNotesIdCommentsIndexLazyRoute =
-  NotesNotesIdCommentsIndexLazyRouteImport.update({
-    id: '/notes/$notesId/comments/',
-    path: '/notes/$notesId/comments/',
-    getParentRoute: () => rootRouteImport,
-  } as any).lazy(() =>
-    import('./routes/notes/$notesId/comments/index.lazy').then((d) => d.Route),
+const homeNotificationsIndexLazyRoute = homeNotificationsIndexLazyRouteImport
+  .update({
+    id: '/notifications/',
+    path: '/notifications/',
+    getParentRoute: () => homeRouteLazyRoute,
+  } as any)
+  .lazy(() =>
+    import('./routes/(home)/notifications/index.lazy').then((d) => d.Route),
   )
-const NotesNotesIdAttachmentsIndexLazyRoute =
-  NotesNotesIdAttachmentsIndexLazyRouteImport.update({
-    id: '/notes/$notesId/attachments/',
-    path: '/notes/$notesId/attachments/',
-    getParentRoute: () => rootRouteImport,
-  } as any).lazy(() =>
-    import('./routes/notes/$notesId/attachments/index.lazy').then(
-      (d) => d.Route,
-    ),
+const homeNotesIndexLazyRoute = homeNotesIndexLazyRouteImport
+  .update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => homeNotesRouteLazyRoute,
+  } as any)
+  .lazy(() => import('./routes/(home)/notes/index.lazy').then((d) => d.Route))
+const homeCtaIndexLazyRoute = homeCtaIndexLazyRouteImport
+  .update({
+    id: '/cta/',
+    path: '/cta/',
+    getParentRoute: () => homeRouteLazyRoute,
+  } as any)
+  .lazy(() => import('./routes/(home)/cta/index.lazy').then((d) => d.Route))
+const homeNotesSharedRouteLazyRoute = homeNotesSharedRouteLazyRouteImport
+  .update({
+    id: '/shared',
+    path: '/shared',
+    getParentRoute: () => homeNotesRouteLazyRoute,
+  } as any)
+  .lazy(() =>
+    import('./routes/(home)/notes/shared/route.lazy').then((d) => d.Route),
   )
+const homeTeamsRolesIndexLazyRoute = homeTeamsRolesIndexLazyRouteImport
+  .update({
+    id: '/roles/',
+    path: '/roles/',
+    getParentRoute: () => homeTeamsRouteLazyRoute,
+  } as any)
+  .lazy(() =>
+    import('./routes/(home)/teams/roles/index.lazy').then((d) => d.Route),
+  )
+const homeTeamsPermissionsIndexLazyRoute =
+  homeTeamsPermissionsIndexLazyRouteImport
+    .update({
+      id: '/permissions/',
+      path: '/permissions/',
+      getParentRoute: () => homeTeamsRouteLazyRoute,
+    } as any)
+    .lazy(() =>
+      import('./routes/(home)/teams/permissions/index.lazy').then(
+        (d) => d.Route,
+      ),
+    )
+const homeTeamsOverviewIndexLazyRoute = homeTeamsOverviewIndexLazyRouteImport
+  .update({
+    id: '/overview/',
+    path: '/overview/',
+    getParentRoute: () => homeTeamsRouteLazyRoute,
+  } as any)
+  .lazy(() =>
+    import('./routes/(home)/teams/overview/index.lazy').then((d) => d.Route),
+  )
+const homeTeamsMembersIndexLazyRoute = homeTeamsMembersIndexLazyRouteImport
+  .update({
+    id: '/members/',
+    path: '/members/',
+    getParentRoute: () => homeTeamsRouteLazyRoute,
+  } as any)
+  .lazy(() =>
+    import('./routes/(home)/teams/members/index.lazy').then((d) => d.Route),
+  )
+const homeSettingsWorkspaceIndexLazyRoute =
+  homeSettingsWorkspaceIndexLazyRouteImport
+    .update({
+      id: '/workspace/',
+      path: '/workspace/',
+      getParentRoute: () => homeSettingsRouteLazyRoute,
+    } as any)
+    .lazy(() =>
+      import('./routes/(home)/settings/workspace/index.lazy').then(
+        (d) => d.Route,
+      ),
+    )
+const homeSettingsSecurityIndexLazyRoute =
+  homeSettingsSecurityIndexLazyRouteImport
+    .update({
+      id: '/security/',
+      path: '/security/',
+      getParentRoute: () => homeSettingsRouteLazyRoute,
+    } as any)
+    .lazy(() =>
+      import('./routes/(home)/settings/security/index.lazy').then(
+        (d) => d.Route,
+      ),
+    )
+const homeSettingsIntegrationsIndexLazyRoute =
+  homeSettingsIntegrationsIndexLazyRouteImport
+    .update({
+      id: '/integrations/',
+      path: '/integrations/',
+      getParentRoute: () => homeSettingsRouteLazyRoute,
+    } as any)
+    .lazy(() =>
+      import('./routes/(home)/settings/integrations/index.lazy').then(
+        (d) => d.Route,
+      ),
+    )
+const homeSettingsBillingIndexLazyRoute =
+  homeSettingsBillingIndexLazyRouteImport
+    .update({
+      id: '/billing/',
+      path: '/billing/',
+      getParentRoute: () => homeSettingsRouteLazyRoute,
+    } as any)
+    .lazy(() =>
+      import('./routes/(home)/settings/billing/index.lazy').then(
+        (d) => d.Route,
+      ),
+    )
+const homeSettingsAutomationsIndexLazyRoute =
+  homeSettingsAutomationsIndexLazyRouteImport
+    .update({
+      id: '/automations/',
+      path: '/automations/',
+      getParentRoute: () => homeSettingsRouteLazyRoute,
+    } as any)
+    .lazy(() =>
+      import('./routes/(home)/settings/automations/index.lazy').then(
+        (d) => d.Route,
+      ),
+    )
+const homeNotesTrashIndexLazyRoute = homeNotesTrashIndexLazyRouteImport
+  .update({
+    id: '/trash/',
+    path: '/trash/',
+    getParentRoute: () => homeNotesRouteLazyRoute,
+  } as any)
+  .lazy(() =>
+    import('./routes/(home)/notes/trash/index.lazy').then((d) => d.Route),
+  )
+const homeNotesSharedIndexLazyRoute = homeNotesSharedIndexLazyRouteImport
+  .update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => homeNotesSharedRouteLazyRoute,
+  } as any)
+  .lazy(() =>
+    import('./routes/(home)/notes/shared/index.lazy').then((d) => d.Route),
+  )
+const homeNotesPinnedIndexLazyRoute = homeNotesPinnedIndexLazyRouteImport
+  .update({
+    id: '/pinned/',
+    path: '/pinned/',
+    getParentRoute: () => homeNotesRouteLazyRoute,
+  } as any)
+  .lazy(() =>
+    import('./routes/(home)/notes/pinned/index.lazy').then((d) => d.Route),
+  )
+const homeNotesFoldersIndexLazyRoute = homeNotesFoldersIndexLazyRouteImport
+  .update({
+    id: '/folders/',
+    path: '/folders/',
+    getParentRoute: () => homeNotesRouteLazyRoute,
+  } as any)
+  .lazy(() =>
+    import('./routes/(home)/notes/folders/index.lazy').then((d) => d.Route),
+  )
+const homeNotesArchivedIndexLazyRoute = homeNotesArchivedIndexLazyRouteImport
+  .update({
+    id: '/archived/',
+    path: '/archived/',
+    getParentRoute: () => homeNotesRouteLazyRoute,
+  } as any)
+  .lazy(() =>
+    import('./routes/(home)/notes/archived/index.lazy').then((d) => d.Route),
+  )
+const homeNotesAllIndexLazyRoute = homeNotesAllIndexLazyRouteImport
+  .update({
+    id: '/all/',
+    path: '/all/',
+    getParentRoute: () => homeNotesRouteLazyRoute,
+  } as any)
+  .lazy(() =>
+    import('./routes/(home)/notes/all/index.lazy').then((d) => d.Route),
+  )
+const homeNotesNotesIdIndexLazyRoute = homeNotesNotesIdIndexLazyRouteImport
+  .update({
+    id: '/$notesId/',
+    path: '/$notesId/',
+    getParentRoute: () => homeNotesRouteLazyRoute,
+  } as any)
+  .lazy(() =>
+    import('./routes/(home)/notes/$notesId/index.lazy').then((d) => d.Route),
+  )
+const homeCtaHelpSupportIndexLazyRoute = homeCtaHelpSupportIndexLazyRouteImport
+  .update({
+    id: '/cta/help-support/',
+    path: '/cta/help-support/',
+    getParentRoute: () => homeRouteLazyRoute,
+  } as any)
+  .lazy(() =>
+    import('./routes/(home)/cta/help-support/index.lazy').then((d) => d.Route),
+  )
+const homeNotesSharedSharedWithMeIndexLazyRoute =
+  homeNotesSharedSharedWithMeIndexLazyRouteImport
+    .update({
+      id: '/shared-with-me/',
+      path: '/shared-with-me/',
+      getParentRoute: () => homeNotesSharedRouteLazyRoute,
+    } as any)
+    .lazy(() =>
+      import('./routes/(home)/notes/shared/shared-with-me/index.lazy').then(
+        (d) => d.Route,
+      ),
+    )
+const homeNotesSharedSharedByMeIndexLazyRoute =
+  homeNotesSharedSharedByMeIndexLazyRouteImport
+    .update({
+      id: '/shared-by-me/',
+      path: '/shared-by-me/',
+      getParentRoute: () => homeNotesSharedRouteLazyRoute,
+    } as any)
+    .lazy(() =>
+      import('./routes/(home)/notes/shared/shared-by-me/index.lazy').then(
+        (d) => d.Route,
+      ),
+    )
+const homeNotesFoldersSubfoldersIndexLazyRoute =
+  homeNotesFoldersSubfoldersIndexLazyRouteImport
+    .update({
+      id: '/folders/subfolders/',
+      path: '/folders/subfolders/',
+      getParentRoute: () => homeNotesRouteLazyRoute,
+    } as any)
+    .lazy(() =>
+      import('./routes/(home)/notes/folders/subfolders/index.lazy').then(
+        (d) => d.Route,
+      ),
+    )
+const homeNotesFoldersFolderIdIndexLazyRoute =
+  homeNotesFoldersFolderIdIndexLazyRouteImport
+    .update({
+      id: '/folders/$folderId/',
+      path: '/folders/$folderId/',
+      getParentRoute: () => homeNotesRouteLazyRoute,
+    } as any)
+    .lazy(() =>
+      import('./routes/(home)/notes/folders/$folderId/index.lazy').then(
+        (d) => d.Route,
+      ),
+    )
+const homeNotesFoldersSubfoldersSubfoldersIdIndexLazyRoute =
+  homeNotesFoldersSubfoldersSubfoldersIdIndexLazyRouteImport
+    .update({
+      id: '/folders/subfolders/$subfoldersId/',
+      path: '/folders/subfolders/$subfoldersId/',
+      getParentRoute: () => homeNotesRouteLazyRoute,
+    } as any)
+    .lazy(() =>
+      import(
+        './routes/(home)/notes/folders/subfolders/$subfoldersId/index.lazy'
+      ).then((d) => d.Route),
+    )
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexLazyRoute
-  '/notes': typeof NotesIndexLazyRoute
-  '/overview': typeof OverviewIndexLazyRoute
-  '/pinned-notes': typeof PinnedNotesIndexLazyRoute
-  '/recent-notes': typeof RecentNotesIndexLazyRoute
-  '/search': typeof SearchIndexLazyRoute
-  '/settings': typeof SettingsIndexLazyRoute
-  '/shared-with-me': typeof SharedWithMeIndexLazyRoute
-  '/notes/$notesId': typeof NotesNotesIdIndexLazyRoute
-  '/notes/all': typeof NotesAllIndexLazyRoute
-  '/notes/archived': typeof NotesArchivedIndexLazyRoute
-  '/notes/new': typeof NotesNewIndexLazyRoute
-  '/notes/pinned': typeof NotesPinnedIndexLazyRoute
-  '/notes/trash': typeof NotesTrashIndexLazyRoute
-  '/notes/$notesId/attachments': typeof NotesNotesIdAttachmentsIndexLazyRoute
-  '/notes/$notesId/comments': typeof NotesNotesIdCommentsIndexLazyRoute
-  '/notes/$notesId/overview': typeof NotesNotesIdOverviewIndexLazyRoute
-  '/notes/$notesId/reminders': typeof NotesNotesIdRemindersIndexLazyRoute
+  '/': typeof homeIndexLazyRoute
+  '/notes': typeof homeNotesRouteLazyRouteWithChildren
+  '/settings': typeof homeSettingsRouteLazyRouteWithChildren
+  '/teams': typeof homeTeamsRouteLazyRouteWithChildren
+  '/notes/shared': typeof homeNotesSharedRouteLazyRouteWithChildren
+  '/cta': typeof homeCtaIndexLazyRoute
+  '/notes/': typeof homeNotesIndexLazyRoute
+  '/notifications': typeof homeNotificationsIndexLazyRoute
+  '/settings/': typeof homeSettingsIndexLazyRoute
+  '/teams/': typeof homeTeamsIndexLazyRoute
+  '/cta/help-support': typeof homeCtaHelpSupportIndexLazyRoute
+  '/notes/$notesId': typeof homeNotesNotesIdIndexLazyRoute
+  '/notes/all': typeof homeNotesAllIndexLazyRoute
+  '/notes/archived': typeof homeNotesArchivedIndexLazyRoute
+  '/notes/folders': typeof homeNotesFoldersIndexLazyRoute
+  '/notes/pinned': typeof homeNotesPinnedIndexLazyRoute
+  '/notes/shared/': typeof homeNotesSharedIndexLazyRoute
+  '/notes/trash': typeof homeNotesTrashIndexLazyRoute
+  '/settings/automations': typeof homeSettingsAutomationsIndexLazyRoute
+  '/settings/billing': typeof homeSettingsBillingIndexLazyRoute
+  '/settings/integrations': typeof homeSettingsIntegrationsIndexLazyRoute
+  '/settings/security': typeof homeSettingsSecurityIndexLazyRoute
+  '/settings/workspace': typeof homeSettingsWorkspaceIndexLazyRoute
+  '/teams/members': typeof homeTeamsMembersIndexLazyRoute
+  '/teams/overview': typeof homeTeamsOverviewIndexLazyRoute
+  '/teams/permissions': typeof homeTeamsPermissionsIndexLazyRoute
+  '/teams/roles': typeof homeTeamsRolesIndexLazyRoute
+  '/notes/folders/$folderId': typeof homeNotesFoldersFolderIdIndexLazyRoute
+  '/notes/folders/subfolders': typeof homeNotesFoldersSubfoldersIndexLazyRoute
+  '/notes/shared/shared-by-me': typeof homeNotesSharedSharedByMeIndexLazyRoute
+  '/notes/shared/shared-with-me': typeof homeNotesSharedSharedWithMeIndexLazyRoute
+  '/notes/folders/subfolders/$subfoldersId': typeof homeNotesFoldersSubfoldersSubfoldersIdIndexLazyRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexLazyRoute
-  '/notes': typeof NotesIndexLazyRoute
-  '/overview': typeof OverviewIndexLazyRoute
-  '/pinned-notes': typeof PinnedNotesIndexLazyRoute
-  '/recent-notes': typeof RecentNotesIndexLazyRoute
-  '/search': typeof SearchIndexLazyRoute
-  '/settings': typeof SettingsIndexLazyRoute
-  '/shared-with-me': typeof SharedWithMeIndexLazyRoute
-  '/notes/$notesId': typeof NotesNotesIdIndexLazyRoute
-  '/notes/all': typeof NotesAllIndexLazyRoute
-  '/notes/archived': typeof NotesArchivedIndexLazyRoute
-  '/notes/new': typeof NotesNewIndexLazyRoute
-  '/notes/pinned': typeof NotesPinnedIndexLazyRoute
-  '/notes/trash': typeof NotesTrashIndexLazyRoute
-  '/notes/$notesId/attachments': typeof NotesNotesIdAttachmentsIndexLazyRoute
-  '/notes/$notesId/comments': typeof NotesNotesIdCommentsIndexLazyRoute
-  '/notes/$notesId/overview': typeof NotesNotesIdOverviewIndexLazyRoute
-  '/notes/$notesId/reminders': typeof NotesNotesIdRemindersIndexLazyRoute
+  '/': typeof homeIndexLazyRoute
+  '/cta': typeof homeCtaIndexLazyRoute
+  '/notes': typeof homeNotesIndexLazyRoute
+  '/notifications': typeof homeNotificationsIndexLazyRoute
+  '/settings': typeof homeSettingsIndexLazyRoute
+  '/teams': typeof homeTeamsIndexLazyRoute
+  '/cta/help-support': typeof homeCtaHelpSupportIndexLazyRoute
+  '/notes/$notesId': typeof homeNotesNotesIdIndexLazyRoute
+  '/notes/all': typeof homeNotesAllIndexLazyRoute
+  '/notes/archived': typeof homeNotesArchivedIndexLazyRoute
+  '/notes/folders': typeof homeNotesFoldersIndexLazyRoute
+  '/notes/pinned': typeof homeNotesPinnedIndexLazyRoute
+  '/notes/shared': typeof homeNotesSharedIndexLazyRoute
+  '/notes/trash': typeof homeNotesTrashIndexLazyRoute
+  '/settings/automations': typeof homeSettingsAutomationsIndexLazyRoute
+  '/settings/billing': typeof homeSettingsBillingIndexLazyRoute
+  '/settings/integrations': typeof homeSettingsIntegrationsIndexLazyRoute
+  '/settings/security': typeof homeSettingsSecurityIndexLazyRoute
+  '/settings/workspace': typeof homeSettingsWorkspaceIndexLazyRoute
+  '/teams/members': typeof homeTeamsMembersIndexLazyRoute
+  '/teams/overview': typeof homeTeamsOverviewIndexLazyRoute
+  '/teams/permissions': typeof homeTeamsPermissionsIndexLazyRoute
+  '/teams/roles': typeof homeTeamsRolesIndexLazyRoute
+  '/notes/folders/$folderId': typeof homeNotesFoldersFolderIdIndexLazyRoute
+  '/notes/folders/subfolders': typeof homeNotesFoldersSubfoldersIndexLazyRoute
+  '/notes/shared/shared-by-me': typeof homeNotesSharedSharedByMeIndexLazyRoute
+  '/notes/shared/shared-with-me': typeof homeNotesSharedSharedWithMeIndexLazyRoute
+  '/notes/folders/subfolders/$subfoldersId': typeof homeNotesFoldersSubfoldersSubfoldersIdIndexLazyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexLazyRoute
-  '/notes/': typeof NotesIndexLazyRoute
-  '/overview/': typeof OverviewIndexLazyRoute
-  '/pinned-notes/': typeof PinnedNotesIndexLazyRoute
-  '/recent-notes/': typeof RecentNotesIndexLazyRoute
-  '/search/': typeof SearchIndexLazyRoute
-  '/settings/': typeof SettingsIndexLazyRoute
-  '/shared-with-me/': typeof SharedWithMeIndexLazyRoute
-  '/notes/$notesId/': typeof NotesNotesIdIndexLazyRoute
-  '/notes/all/': typeof NotesAllIndexLazyRoute
-  '/notes/archived/': typeof NotesArchivedIndexLazyRoute
-  '/notes/new/': typeof NotesNewIndexLazyRoute
-  '/notes/pinned/': typeof NotesPinnedIndexLazyRoute
-  '/notes/trash/': typeof NotesTrashIndexLazyRoute
-  '/notes/$notesId/attachments/': typeof NotesNotesIdAttachmentsIndexLazyRoute
-  '/notes/$notesId/comments/': typeof NotesNotesIdCommentsIndexLazyRoute
-  '/notes/$notesId/overview/': typeof NotesNotesIdOverviewIndexLazyRoute
-  '/notes/$notesId/reminders/': typeof NotesNotesIdRemindersIndexLazyRoute
+  '/(home)': typeof homeRouteLazyRouteWithChildren
+  '/(home)/notes': typeof homeNotesRouteLazyRouteWithChildren
+  '/(home)/settings': typeof homeSettingsRouteLazyRouteWithChildren
+  '/(home)/teams': typeof homeTeamsRouteLazyRouteWithChildren
+  '/(home)/': typeof homeIndexLazyRoute
+  '/(home)/notes/shared': typeof homeNotesSharedRouteLazyRouteWithChildren
+  '/(home)/cta/': typeof homeCtaIndexLazyRoute
+  '/(home)/notes/': typeof homeNotesIndexLazyRoute
+  '/(home)/notifications/': typeof homeNotificationsIndexLazyRoute
+  '/(home)/settings/': typeof homeSettingsIndexLazyRoute
+  '/(home)/teams/': typeof homeTeamsIndexLazyRoute
+  '/(home)/cta/help-support/': typeof homeCtaHelpSupportIndexLazyRoute
+  '/(home)/notes/$notesId/': typeof homeNotesNotesIdIndexLazyRoute
+  '/(home)/notes/all/': typeof homeNotesAllIndexLazyRoute
+  '/(home)/notes/archived/': typeof homeNotesArchivedIndexLazyRoute
+  '/(home)/notes/folders/': typeof homeNotesFoldersIndexLazyRoute
+  '/(home)/notes/pinned/': typeof homeNotesPinnedIndexLazyRoute
+  '/(home)/notes/shared/': typeof homeNotesSharedIndexLazyRoute
+  '/(home)/notes/trash/': typeof homeNotesTrashIndexLazyRoute
+  '/(home)/settings/automations/': typeof homeSettingsAutomationsIndexLazyRoute
+  '/(home)/settings/billing/': typeof homeSettingsBillingIndexLazyRoute
+  '/(home)/settings/integrations/': typeof homeSettingsIntegrationsIndexLazyRoute
+  '/(home)/settings/security/': typeof homeSettingsSecurityIndexLazyRoute
+  '/(home)/settings/workspace/': typeof homeSettingsWorkspaceIndexLazyRoute
+  '/(home)/teams/members/': typeof homeTeamsMembersIndexLazyRoute
+  '/(home)/teams/overview/': typeof homeTeamsOverviewIndexLazyRoute
+  '/(home)/teams/permissions/': typeof homeTeamsPermissionsIndexLazyRoute
+  '/(home)/teams/roles/': typeof homeTeamsRolesIndexLazyRoute
+  '/(home)/notes/folders/$folderId/': typeof homeNotesFoldersFolderIdIndexLazyRoute
+  '/(home)/notes/folders/subfolders/': typeof homeNotesFoldersSubfoldersIndexLazyRoute
+  '/(home)/notes/shared/shared-by-me/': typeof homeNotesSharedSharedByMeIndexLazyRoute
+  '/(home)/notes/shared/shared-with-me/': typeof homeNotesSharedSharedWithMeIndexLazyRoute
+  '/(home)/notes/folders/subfolders/$subfoldersId/': typeof homeNotesFoldersSubfoldersSubfoldersIdIndexLazyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/notes'
-    | '/overview'
-    | '/pinned-notes'
-    | '/recent-notes'
-    | '/search'
     | '/settings'
-    | '/shared-with-me'
+    | '/teams'
+    | '/notes/shared'
+    | '/cta'
+    | '/notes/'
+    | '/notifications'
+    | '/settings/'
+    | '/teams/'
+    | '/cta/help-support'
     | '/notes/$notesId'
     | '/notes/all'
     | '/notes/archived'
-    | '/notes/new'
+    | '/notes/folders'
     | '/notes/pinned'
+    | '/notes/shared/'
     | '/notes/trash'
-    | '/notes/$notesId/attachments'
-    | '/notes/$notesId/comments'
-    | '/notes/$notesId/overview'
-    | '/notes/$notesId/reminders'
+    | '/settings/automations'
+    | '/settings/billing'
+    | '/settings/integrations'
+    | '/settings/security'
+    | '/settings/workspace'
+    | '/teams/members'
+    | '/teams/overview'
+    | '/teams/permissions'
+    | '/teams/roles'
+    | '/notes/folders/$folderId'
+    | '/notes/folders/subfolders'
+    | '/notes/shared/shared-by-me'
+    | '/notes/shared/shared-with-me'
+    | '/notes/folders/subfolders/$subfoldersId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/cta'
     | '/notes'
-    | '/overview'
-    | '/pinned-notes'
-    | '/recent-notes'
-    | '/search'
+    | '/notifications'
     | '/settings'
-    | '/shared-with-me'
+    | '/teams'
+    | '/cta/help-support'
     | '/notes/$notesId'
     | '/notes/all'
     | '/notes/archived'
-    | '/notes/new'
+    | '/notes/folders'
     | '/notes/pinned'
+    | '/notes/shared'
     | '/notes/trash'
-    | '/notes/$notesId/attachments'
-    | '/notes/$notesId/comments'
-    | '/notes/$notesId/overview'
-    | '/notes/$notesId/reminders'
+    | '/settings/automations'
+    | '/settings/billing'
+    | '/settings/integrations'
+    | '/settings/security'
+    | '/settings/workspace'
+    | '/teams/members'
+    | '/teams/overview'
+    | '/teams/permissions'
+    | '/teams/roles'
+    | '/notes/folders/$folderId'
+    | '/notes/folders/subfolders'
+    | '/notes/shared/shared-by-me'
+    | '/notes/shared/shared-with-me'
+    | '/notes/folders/subfolders/$subfoldersId'
   id:
     | '__root__'
-    | '/'
-    | '/notes/'
-    | '/overview/'
-    | '/pinned-notes/'
-    | '/recent-notes/'
-    | '/search/'
-    | '/settings/'
-    | '/shared-with-me/'
-    | '/notes/$notesId/'
-    | '/notes/all/'
-    | '/notes/archived/'
-    | '/notes/new/'
-    | '/notes/pinned/'
-    | '/notes/trash/'
-    | '/notes/$notesId/attachments/'
-    | '/notes/$notesId/comments/'
-    | '/notes/$notesId/overview/'
-    | '/notes/$notesId/reminders/'
+    | '/(home)'
+    | '/(home)/notes'
+    | '/(home)/settings'
+    | '/(home)/teams'
+    | '/(home)/'
+    | '/(home)/notes/shared'
+    | '/(home)/cta/'
+    | '/(home)/notes/'
+    | '/(home)/notifications/'
+    | '/(home)/settings/'
+    | '/(home)/teams/'
+    | '/(home)/cta/help-support/'
+    | '/(home)/notes/$notesId/'
+    | '/(home)/notes/all/'
+    | '/(home)/notes/archived/'
+    | '/(home)/notes/folders/'
+    | '/(home)/notes/pinned/'
+    | '/(home)/notes/shared/'
+    | '/(home)/notes/trash/'
+    | '/(home)/settings/automations/'
+    | '/(home)/settings/billing/'
+    | '/(home)/settings/integrations/'
+    | '/(home)/settings/security/'
+    | '/(home)/settings/workspace/'
+    | '/(home)/teams/members/'
+    | '/(home)/teams/overview/'
+    | '/(home)/teams/permissions/'
+    | '/(home)/teams/roles/'
+    | '/(home)/notes/folders/$folderId/'
+    | '/(home)/notes/folders/subfolders/'
+    | '/(home)/notes/shared/shared-by-me/'
+    | '/(home)/notes/shared/shared-with-me/'
+    | '/(home)/notes/folders/subfolders/$subfoldersId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexLazyRoute: typeof IndexLazyRoute
-  NotesIndexLazyRoute: typeof NotesIndexLazyRoute
-  OverviewIndexLazyRoute: typeof OverviewIndexLazyRoute
-  PinnedNotesIndexLazyRoute: typeof PinnedNotesIndexLazyRoute
-  RecentNotesIndexLazyRoute: typeof RecentNotesIndexLazyRoute
-  SearchIndexLazyRoute: typeof SearchIndexLazyRoute
-  SettingsIndexLazyRoute: typeof SettingsIndexLazyRoute
-  SharedWithMeIndexLazyRoute: typeof SharedWithMeIndexLazyRoute
-  NotesNotesIdIndexLazyRoute: typeof NotesNotesIdIndexLazyRoute
-  NotesAllIndexLazyRoute: typeof NotesAllIndexLazyRoute
-  NotesArchivedIndexLazyRoute: typeof NotesArchivedIndexLazyRoute
-  NotesNewIndexLazyRoute: typeof NotesNewIndexLazyRoute
-  NotesPinnedIndexLazyRoute: typeof NotesPinnedIndexLazyRoute
-  NotesTrashIndexLazyRoute: typeof NotesTrashIndexLazyRoute
-  NotesNotesIdAttachmentsIndexLazyRoute: typeof NotesNotesIdAttachmentsIndexLazyRoute
-  NotesNotesIdCommentsIndexLazyRoute: typeof NotesNotesIdCommentsIndexLazyRoute
-  NotesNotesIdOverviewIndexLazyRoute: typeof NotesNotesIdOverviewIndexLazyRoute
-  NotesNotesIdRemindersIndexLazyRoute: typeof NotesNotesIdRemindersIndexLazyRoute
+  homeRouteLazyRoute: typeof homeRouteLazyRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
+    '/(home)': {
+      id: '/(home)'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexLazyRouteImport
+      preLoaderRoute: typeof homeRouteLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/shared-with-me/': {
-      id: '/shared-with-me/'
-      path: '/shared-with-me'
-      fullPath: '/shared-with-me'
-      preLoaderRoute: typeof SharedWithMeIndexLazyRouteImport
-      parentRoute: typeof rootRouteImport
+    '/(home)/': {
+      id: '/(home)/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof homeIndexLazyRouteImport
+      parentRoute: typeof homeRouteLazyRoute
     }
-    '/settings/': {
-      id: '/settings/'
+    '/(home)/teams': {
+      id: '/(home)/teams'
+      path: '/teams'
+      fullPath: '/teams'
+      preLoaderRoute: typeof homeTeamsRouteLazyRouteImport
+      parentRoute: typeof homeRouteLazyRoute
+    }
+    '/(home)/settings': {
+      id: '/(home)/settings'
       path: '/settings'
       fullPath: '/settings'
-      preLoaderRoute: typeof SettingsIndexLazyRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof homeSettingsRouteLazyRouteImport
+      parentRoute: typeof homeRouteLazyRoute
     }
-    '/search/': {
-      id: '/search/'
-      path: '/search'
-      fullPath: '/search'
-      preLoaderRoute: typeof SearchIndexLazyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/recent-notes/': {
-      id: '/recent-notes/'
-      path: '/recent-notes'
-      fullPath: '/recent-notes'
-      preLoaderRoute: typeof RecentNotesIndexLazyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/pinned-notes/': {
-      id: '/pinned-notes/'
-      path: '/pinned-notes'
-      fullPath: '/pinned-notes'
-      preLoaderRoute: typeof PinnedNotesIndexLazyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/overview/': {
-      id: '/overview/'
-      path: '/overview'
-      fullPath: '/overview'
-      preLoaderRoute: typeof OverviewIndexLazyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/notes/': {
-      id: '/notes/'
+    '/(home)/notes': {
+      id: '/(home)/notes'
       path: '/notes'
       fullPath: '/notes'
-      preLoaderRoute: typeof NotesIndexLazyRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof homeNotesRouteLazyRouteImport
+      parentRoute: typeof homeRouteLazyRoute
     }
-    '/notes/trash/': {
-      id: '/notes/trash/'
-      path: '/notes/trash'
+    '/(home)/teams/': {
+      id: '/(home)/teams/'
+      path: '/'
+      fullPath: '/teams/'
+      preLoaderRoute: typeof homeTeamsIndexLazyRouteImport
+      parentRoute: typeof homeTeamsRouteLazyRoute
+    }
+    '/(home)/settings/': {
+      id: '/(home)/settings/'
+      path: '/'
+      fullPath: '/settings/'
+      preLoaderRoute: typeof homeSettingsIndexLazyRouteImport
+      parentRoute: typeof homeSettingsRouteLazyRoute
+    }
+    '/(home)/notifications/': {
+      id: '/(home)/notifications/'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof homeNotificationsIndexLazyRouteImport
+      parentRoute: typeof homeRouteLazyRoute
+    }
+    '/(home)/notes/': {
+      id: '/(home)/notes/'
+      path: '/'
+      fullPath: '/notes/'
+      preLoaderRoute: typeof homeNotesIndexLazyRouteImport
+      parentRoute: typeof homeNotesRouteLazyRoute
+    }
+    '/(home)/cta/': {
+      id: '/(home)/cta/'
+      path: '/cta'
+      fullPath: '/cta'
+      preLoaderRoute: typeof homeCtaIndexLazyRouteImport
+      parentRoute: typeof homeRouteLazyRoute
+    }
+    '/(home)/notes/shared': {
+      id: '/(home)/notes/shared'
+      path: '/shared'
+      fullPath: '/notes/shared'
+      preLoaderRoute: typeof homeNotesSharedRouteLazyRouteImport
+      parentRoute: typeof homeNotesRouteLazyRoute
+    }
+    '/(home)/teams/roles/': {
+      id: '/(home)/teams/roles/'
+      path: '/roles'
+      fullPath: '/teams/roles'
+      preLoaderRoute: typeof homeTeamsRolesIndexLazyRouteImport
+      parentRoute: typeof homeTeamsRouteLazyRoute
+    }
+    '/(home)/teams/permissions/': {
+      id: '/(home)/teams/permissions/'
+      path: '/permissions'
+      fullPath: '/teams/permissions'
+      preLoaderRoute: typeof homeTeamsPermissionsIndexLazyRouteImport
+      parentRoute: typeof homeTeamsRouteLazyRoute
+    }
+    '/(home)/teams/overview/': {
+      id: '/(home)/teams/overview/'
+      path: '/overview'
+      fullPath: '/teams/overview'
+      preLoaderRoute: typeof homeTeamsOverviewIndexLazyRouteImport
+      parentRoute: typeof homeTeamsRouteLazyRoute
+    }
+    '/(home)/teams/members/': {
+      id: '/(home)/teams/members/'
+      path: '/members'
+      fullPath: '/teams/members'
+      preLoaderRoute: typeof homeTeamsMembersIndexLazyRouteImport
+      parentRoute: typeof homeTeamsRouteLazyRoute
+    }
+    '/(home)/settings/workspace/': {
+      id: '/(home)/settings/workspace/'
+      path: '/workspace'
+      fullPath: '/settings/workspace'
+      preLoaderRoute: typeof homeSettingsWorkspaceIndexLazyRouteImport
+      parentRoute: typeof homeSettingsRouteLazyRoute
+    }
+    '/(home)/settings/security/': {
+      id: '/(home)/settings/security/'
+      path: '/security'
+      fullPath: '/settings/security'
+      preLoaderRoute: typeof homeSettingsSecurityIndexLazyRouteImport
+      parentRoute: typeof homeSettingsRouteLazyRoute
+    }
+    '/(home)/settings/integrations/': {
+      id: '/(home)/settings/integrations/'
+      path: '/integrations'
+      fullPath: '/settings/integrations'
+      preLoaderRoute: typeof homeSettingsIntegrationsIndexLazyRouteImport
+      parentRoute: typeof homeSettingsRouteLazyRoute
+    }
+    '/(home)/settings/billing/': {
+      id: '/(home)/settings/billing/'
+      path: '/billing'
+      fullPath: '/settings/billing'
+      preLoaderRoute: typeof homeSettingsBillingIndexLazyRouteImport
+      parentRoute: typeof homeSettingsRouteLazyRoute
+    }
+    '/(home)/settings/automations/': {
+      id: '/(home)/settings/automations/'
+      path: '/automations'
+      fullPath: '/settings/automations'
+      preLoaderRoute: typeof homeSettingsAutomationsIndexLazyRouteImport
+      parentRoute: typeof homeSettingsRouteLazyRoute
+    }
+    '/(home)/notes/trash/': {
+      id: '/(home)/notes/trash/'
+      path: '/trash'
       fullPath: '/notes/trash'
-      preLoaderRoute: typeof NotesTrashIndexLazyRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof homeNotesTrashIndexLazyRouteImport
+      parentRoute: typeof homeNotesRouteLazyRoute
     }
-    '/notes/pinned/': {
-      id: '/notes/pinned/'
-      path: '/notes/pinned'
+    '/(home)/notes/shared/': {
+      id: '/(home)/notes/shared/'
+      path: '/'
+      fullPath: '/notes/shared/'
+      preLoaderRoute: typeof homeNotesSharedIndexLazyRouteImport
+      parentRoute: typeof homeNotesSharedRouteLazyRoute
+    }
+    '/(home)/notes/pinned/': {
+      id: '/(home)/notes/pinned/'
+      path: '/pinned'
       fullPath: '/notes/pinned'
-      preLoaderRoute: typeof NotesPinnedIndexLazyRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof homeNotesPinnedIndexLazyRouteImport
+      parentRoute: typeof homeNotesRouteLazyRoute
     }
-    '/notes/new/': {
-      id: '/notes/new/'
-      path: '/notes/new'
-      fullPath: '/notes/new'
-      preLoaderRoute: typeof NotesNewIndexLazyRouteImport
-      parentRoute: typeof rootRouteImport
+    '/(home)/notes/folders/': {
+      id: '/(home)/notes/folders/'
+      path: '/folders'
+      fullPath: '/notes/folders'
+      preLoaderRoute: typeof homeNotesFoldersIndexLazyRouteImport
+      parentRoute: typeof homeNotesRouteLazyRoute
     }
-    '/notes/archived/': {
-      id: '/notes/archived/'
-      path: '/notes/archived'
+    '/(home)/notes/archived/': {
+      id: '/(home)/notes/archived/'
+      path: '/archived'
       fullPath: '/notes/archived'
-      preLoaderRoute: typeof NotesArchivedIndexLazyRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof homeNotesArchivedIndexLazyRouteImport
+      parentRoute: typeof homeNotesRouteLazyRoute
     }
-    '/notes/all/': {
-      id: '/notes/all/'
-      path: '/notes/all'
+    '/(home)/notes/all/': {
+      id: '/(home)/notes/all/'
+      path: '/all'
       fullPath: '/notes/all'
-      preLoaderRoute: typeof NotesAllIndexLazyRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof homeNotesAllIndexLazyRouteImport
+      parentRoute: typeof homeNotesRouteLazyRoute
     }
-    '/notes/$notesId/': {
-      id: '/notes/$notesId/'
-      path: '/notes/$notesId'
+    '/(home)/notes/$notesId/': {
+      id: '/(home)/notes/$notesId/'
+      path: '/$notesId'
       fullPath: '/notes/$notesId'
-      preLoaderRoute: typeof NotesNotesIdIndexLazyRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof homeNotesNotesIdIndexLazyRouteImport
+      parentRoute: typeof homeNotesRouteLazyRoute
     }
-    '/notes/$notesId/reminders/': {
-      id: '/notes/$notesId/reminders/'
-      path: '/notes/$notesId/reminders'
-      fullPath: '/notes/$notesId/reminders'
-      preLoaderRoute: typeof NotesNotesIdRemindersIndexLazyRouteImport
-      parentRoute: typeof rootRouteImport
+    '/(home)/cta/help-support/': {
+      id: '/(home)/cta/help-support/'
+      path: '/cta/help-support'
+      fullPath: '/cta/help-support'
+      preLoaderRoute: typeof homeCtaHelpSupportIndexLazyRouteImport
+      parentRoute: typeof homeRouteLazyRoute
     }
-    '/notes/$notesId/overview/': {
-      id: '/notes/$notesId/overview/'
-      path: '/notes/$notesId/overview'
-      fullPath: '/notes/$notesId/overview'
-      preLoaderRoute: typeof NotesNotesIdOverviewIndexLazyRouteImport
-      parentRoute: typeof rootRouteImport
+    '/(home)/notes/shared/shared-with-me/': {
+      id: '/(home)/notes/shared/shared-with-me/'
+      path: '/shared-with-me'
+      fullPath: '/notes/shared/shared-with-me'
+      preLoaderRoute: typeof homeNotesSharedSharedWithMeIndexLazyRouteImport
+      parentRoute: typeof homeNotesSharedRouteLazyRoute
     }
-    '/notes/$notesId/comments/': {
-      id: '/notes/$notesId/comments/'
-      path: '/notes/$notesId/comments'
-      fullPath: '/notes/$notesId/comments'
-      preLoaderRoute: typeof NotesNotesIdCommentsIndexLazyRouteImport
-      parentRoute: typeof rootRouteImport
+    '/(home)/notes/shared/shared-by-me/': {
+      id: '/(home)/notes/shared/shared-by-me/'
+      path: '/shared-by-me'
+      fullPath: '/notes/shared/shared-by-me'
+      preLoaderRoute: typeof homeNotesSharedSharedByMeIndexLazyRouteImport
+      parentRoute: typeof homeNotesSharedRouteLazyRoute
     }
-    '/notes/$notesId/attachments/': {
-      id: '/notes/$notesId/attachments/'
-      path: '/notes/$notesId/attachments'
-      fullPath: '/notes/$notesId/attachments'
-      preLoaderRoute: typeof NotesNotesIdAttachmentsIndexLazyRouteImport
-      parentRoute: typeof rootRouteImport
+    '/(home)/notes/folders/subfolders/': {
+      id: '/(home)/notes/folders/subfolders/'
+      path: '/folders/subfolders'
+      fullPath: '/notes/folders/subfolders'
+      preLoaderRoute: typeof homeNotesFoldersSubfoldersIndexLazyRouteImport
+      parentRoute: typeof homeNotesRouteLazyRoute
+    }
+    '/(home)/notes/folders/$folderId/': {
+      id: '/(home)/notes/folders/$folderId/'
+      path: '/folders/$folderId'
+      fullPath: '/notes/folders/$folderId'
+      preLoaderRoute: typeof homeNotesFoldersFolderIdIndexLazyRouteImport
+      parentRoute: typeof homeNotesRouteLazyRoute
+    }
+    '/(home)/notes/folders/subfolders/$subfoldersId/': {
+      id: '/(home)/notes/folders/subfolders/$subfoldersId/'
+      path: '/folders/subfolders/$subfoldersId'
+      fullPath: '/notes/folders/subfolders/$subfoldersId'
+      preLoaderRoute: typeof homeNotesFoldersSubfoldersSubfoldersIdIndexLazyRouteImport
+      parentRoute: typeof homeNotesRouteLazyRoute
     }
   }
 }
 
+interface homeNotesSharedRouteLazyRouteChildren {
+  homeNotesSharedIndexLazyRoute: typeof homeNotesSharedIndexLazyRoute
+  homeNotesSharedSharedByMeIndexLazyRoute: typeof homeNotesSharedSharedByMeIndexLazyRoute
+  homeNotesSharedSharedWithMeIndexLazyRoute: typeof homeNotesSharedSharedWithMeIndexLazyRoute
+}
+
+const homeNotesSharedRouteLazyRouteChildren: homeNotesSharedRouteLazyRouteChildren =
+  {
+    homeNotesSharedIndexLazyRoute: homeNotesSharedIndexLazyRoute,
+    homeNotesSharedSharedByMeIndexLazyRoute:
+      homeNotesSharedSharedByMeIndexLazyRoute,
+    homeNotesSharedSharedWithMeIndexLazyRoute:
+      homeNotesSharedSharedWithMeIndexLazyRoute,
+  }
+
+const homeNotesSharedRouteLazyRouteWithChildren =
+  homeNotesSharedRouteLazyRoute._addFileChildren(
+    homeNotesSharedRouteLazyRouteChildren,
+  )
+
+interface homeNotesRouteLazyRouteChildren {
+  homeNotesSharedRouteLazyRoute: typeof homeNotesSharedRouteLazyRouteWithChildren
+  homeNotesIndexLazyRoute: typeof homeNotesIndexLazyRoute
+  homeNotesNotesIdIndexLazyRoute: typeof homeNotesNotesIdIndexLazyRoute
+  homeNotesAllIndexLazyRoute: typeof homeNotesAllIndexLazyRoute
+  homeNotesArchivedIndexLazyRoute: typeof homeNotesArchivedIndexLazyRoute
+  homeNotesFoldersIndexLazyRoute: typeof homeNotesFoldersIndexLazyRoute
+  homeNotesPinnedIndexLazyRoute: typeof homeNotesPinnedIndexLazyRoute
+  homeNotesTrashIndexLazyRoute: typeof homeNotesTrashIndexLazyRoute
+  homeNotesFoldersFolderIdIndexLazyRoute: typeof homeNotesFoldersFolderIdIndexLazyRoute
+  homeNotesFoldersSubfoldersIndexLazyRoute: typeof homeNotesFoldersSubfoldersIndexLazyRoute
+  homeNotesFoldersSubfoldersSubfoldersIdIndexLazyRoute: typeof homeNotesFoldersSubfoldersSubfoldersIdIndexLazyRoute
+}
+
+const homeNotesRouteLazyRouteChildren: homeNotesRouteLazyRouteChildren = {
+  homeNotesSharedRouteLazyRoute: homeNotesSharedRouteLazyRouteWithChildren,
+  homeNotesIndexLazyRoute: homeNotesIndexLazyRoute,
+  homeNotesNotesIdIndexLazyRoute: homeNotesNotesIdIndexLazyRoute,
+  homeNotesAllIndexLazyRoute: homeNotesAllIndexLazyRoute,
+  homeNotesArchivedIndexLazyRoute: homeNotesArchivedIndexLazyRoute,
+  homeNotesFoldersIndexLazyRoute: homeNotesFoldersIndexLazyRoute,
+  homeNotesPinnedIndexLazyRoute: homeNotesPinnedIndexLazyRoute,
+  homeNotesTrashIndexLazyRoute: homeNotesTrashIndexLazyRoute,
+  homeNotesFoldersFolderIdIndexLazyRoute:
+    homeNotesFoldersFolderIdIndexLazyRoute,
+  homeNotesFoldersSubfoldersIndexLazyRoute:
+    homeNotesFoldersSubfoldersIndexLazyRoute,
+  homeNotesFoldersSubfoldersSubfoldersIdIndexLazyRoute:
+    homeNotesFoldersSubfoldersSubfoldersIdIndexLazyRoute,
+}
+
+const homeNotesRouteLazyRouteWithChildren =
+  homeNotesRouteLazyRoute._addFileChildren(homeNotesRouteLazyRouteChildren)
+
+interface homeSettingsRouteLazyRouteChildren {
+  homeSettingsIndexLazyRoute: typeof homeSettingsIndexLazyRoute
+  homeSettingsAutomationsIndexLazyRoute: typeof homeSettingsAutomationsIndexLazyRoute
+  homeSettingsBillingIndexLazyRoute: typeof homeSettingsBillingIndexLazyRoute
+  homeSettingsIntegrationsIndexLazyRoute: typeof homeSettingsIntegrationsIndexLazyRoute
+  homeSettingsSecurityIndexLazyRoute: typeof homeSettingsSecurityIndexLazyRoute
+  homeSettingsWorkspaceIndexLazyRoute: typeof homeSettingsWorkspaceIndexLazyRoute
+}
+
+const homeSettingsRouteLazyRouteChildren: homeSettingsRouteLazyRouteChildren = {
+  homeSettingsIndexLazyRoute: homeSettingsIndexLazyRoute,
+  homeSettingsAutomationsIndexLazyRoute: homeSettingsAutomationsIndexLazyRoute,
+  homeSettingsBillingIndexLazyRoute: homeSettingsBillingIndexLazyRoute,
+  homeSettingsIntegrationsIndexLazyRoute:
+    homeSettingsIntegrationsIndexLazyRoute,
+  homeSettingsSecurityIndexLazyRoute: homeSettingsSecurityIndexLazyRoute,
+  homeSettingsWorkspaceIndexLazyRoute: homeSettingsWorkspaceIndexLazyRoute,
+}
+
+const homeSettingsRouteLazyRouteWithChildren =
+  homeSettingsRouteLazyRoute._addFileChildren(
+    homeSettingsRouteLazyRouteChildren,
+  )
+
+interface homeTeamsRouteLazyRouteChildren {
+  homeTeamsIndexLazyRoute: typeof homeTeamsIndexLazyRoute
+  homeTeamsMembersIndexLazyRoute: typeof homeTeamsMembersIndexLazyRoute
+  homeTeamsOverviewIndexLazyRoute: typeof homeTeamsOverviewIndexLazyRoute
+  homeTeamsPermissionsIndexLazyRoute: typeof homeTeamsPermissionsIndexLazyRoute
+  homeTeamsRolesIndexLazyRoute: typeof homeTeamsRolesIndexLazyRoute
+}
+
+const homeTeamsRouteLazyRouteChildren: homeTeamsRouteLazyRouteChildren = {
+  homeTeamsIndexLazyRoute: homeTeamsIndexLazyRoute,
+  homeTeamsMembersIndexLazyRoute: homeTeamsMembersIndexLazyRoute,
+  homeTeamsOverviewIndexLazyRoute: homeTeamsOverviewIndexLazyRoute,
+  homeTeamsPermissionsIndexLazyRoute: homeTeamsPermissionsIndexLazyRoute,
+  homeTeamsRolesIndexLazyRoute: homeTeamsRolesIndexLazyRoute,
+}
+
+const homeTeamsRouteLazyRouteWithChildren =
+  homeTeamsRouteLazyRoute._addFileChildren(homeTeamsRouteLazyRouteChildren)
+
+interface homeRouteLazyRouteChildren {
+  homeNotesRouteLazyRoute: typeof homeNotesRouteLazyRouteWithChildren
+  homeSettingsRouteLazyRoute: typeof homeSettingsRouteLazyRouteWithChildren
+  homeTeamsRouteLazyRoute: typeof homeTeamsRouteLazyRouteWithChildren
+  homeIndexLazyRoute: typeof homeIndexLazyRoute
+  homeCtaIndexLazyRoute: typeof homeCtaIndexLazyRoute
+  homeNotificationsIndexLazyRoute: typeof homeNotificationsIndexLazyRoute
+  homeCtaHelpSupportIndexLazyRoute: typeof homeCtaHelpSupportIndexLazyRoute
+}
+
+const homeRouteLazyRouteChildren: homeRouteLazyRouteChildren = {
+  homeNotesRouteLazyRoute: homeNotesRouteLazyRouteWithChildren,
+  homeSettingsRouteLazyRoute: homeSettingsRouteLazyRouteWithChildren,
+  homeTeamsRouteLazyRoute: homeTeamsRouteLazyRouteWithChildren,
+  homeIndexLazyRoute: homeIndexLazyRoute,
+  homeCtaIndexLazyRoute: homeCtaIndexLazyRoute,
+  homeNotificationsIndexLazyRoute: homeNotificationsIndexLazyRoute,
+  homeCtaHelpSupportIndexLazyRoute: homeCtaHelpSupportIndexLazyRoute,
+}
+
+const homeRouteLazyRouteWithChildren = homeRouteLazyRoute._addFileChildren(
+  homeRouteLazyRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexLazyRoute: IndexLazyRoute,
-  NotesIndexLazyRoute: NotesIndexLazyRoute,
-  OverviewIndexLazyRoute: OverviewIndexLazyRoute,
-  PinnedNotesIndexLazyRoute: PinnedNotesIndexLazyRoute,
-  RecentNotesIndexLazyRoute: RecentNotesIndexLazyRoute,
-  SearchIndexLazyRoute: SearchIndexLazyRoute,
-  SettingsIndexLazyRoute: SettingsIndexLazyRoute,
-  SharedWithMeIndexLazyRoute: SharedWithMeIndexLazyRoute,
-  NotesNotesIdIndexLazyRoute: NotesNotesIdIndexLazyRoute,
-  NotesAllIndexLazyRoute: NotesAllIndexLazyRoute,
-  NotesArchivedIndexLazyRoute: NotesArchivedIndexLazyRoute,
-  NotesNewIndexLazyRoute: NotesNewIndexLazyRoute,
-  NotesPinnedIndexLazyRoute: NotesPinnedIndexLazyRoute,
-  NotesTrashIndexLazyRoute: NotesTrashIndexLazyRoute,
-  NotesNotesIdAttachmentsIndexLazyRoute: NotesNotesIdAttachmentsIndexLazyRoute,
-  NotesNotesIdCommentsIndexLazyRoute: NotesNotesIdCommentsIndexLazyRoute,
-  NotesNotesIdOverviewIndexLazyRoute: NotesNotesIdOverviewIndexLazyRoute,
-  NotesNotesIdRemindersIndexLazyRoute: NotesNotesIdRemindersIndexLazyRoute,
+  homeRouteLazyRoute: homeRouteLazyRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
