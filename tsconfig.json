@@ -64,6 +64,12 @@
     },
     {
       "path": "./apps/ts-kitchen-sink"
+    },
+    {
+      "path": "./apps/contact-e2e"
+    },
+    {
+      "path": "./apps/contact"
     }
   ]
 }

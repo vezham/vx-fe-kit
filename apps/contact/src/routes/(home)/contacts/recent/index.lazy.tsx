@@ -1,15 +1,15 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
 
-import { EventSection } from '../../../../pages/events'
+import { Recent } from '../../../../pages/contacts/recently-added'
 
-export const Route = createLazyFileRoute('/(home)/calendar/events/')({
+export const Route = createLazyFileRoute('/(home)/contacts/recent/')({
   component: RouteComponent
 })
 
 function RouteComponent() {
   return (
     <div>
-      <EventSection />
+      <Recent />
     </div>
   )
 }

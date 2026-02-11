@@ -1,15 +1,15 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
 
-import { EventSection } from '../../../../pages/events'
+import { Favorites } from '../../../../pages/contacts/favorites'
 
-export const Route = createLazyFileRoute('/(home)/calendar/events/')({
+export const Route = createLazyFileRoute('/(home)/contacts/favorites/')({
   component: RouteComponent
 })
 
 function RouteComponent() {
   return (
     <div>
-      <EventSection />
+      <Favorites />
     </div>
   )
 }
