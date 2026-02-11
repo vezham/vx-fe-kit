@@ -1,0 +1,10 @@
+{
+  "name": "contact-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/contact-e2e/src",
+  "tags": ["category:app", "e2e"],
+  "implicitDependencies": ["contact"],
+  "// targets": "to see all targets run: nx show project contact-e2e --web",
+  "targets": {}
+}
