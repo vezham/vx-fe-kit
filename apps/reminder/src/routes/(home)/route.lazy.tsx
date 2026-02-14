@@ -21,10 +21,9 @@ function HomeLayout() {
 
   return (
     <Page
-      menu={[
-        { label: 'Home', href: '/' },
-        { label: 'Settings', href: '/settings' },
-        { label: 'CTA', href: '/cta' }
+      header={[
+        { icon: 'mdi:cog-outline', href: '/settings' },
+        { icon: 'mdi:help-circle-outline', href: '/cta/help-support' }
       ]}
       sidebar={
         hideSidebar ? null : (

@@ -9,7 +9,7 @@ const Menu: React.FC<MenuProps> = ({ menu }) => {
   const navigate = useNavigate()
 
   return (
-    <div className="bg-default flex h-screen w-36 flex-col items-center justify-center gap-3 py-4">
+    <div className="bg-default flex h-screen w-64 flex-col items-center justify-center gap-3 py-4">
       {menu?.map(item => (
         <Link
           key={item.href}

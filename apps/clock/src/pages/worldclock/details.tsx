@@ -8,7 +8,7 @@ import { deleteWorldClock, getWorldClockById } from './storage'
 import { WorldClockItem } from './types'
 
 const DetailPage = () => {
-  const { clockId } = useParams({ from: '/worldclock/$clockId/' })
+  const { clockId } = useParams({ strict: false })
   const navigate = useNavigate()
 
   const [clock, setClock] = useState<WorldClockItem | null>(null)
@@ -27,7 +27,7 @@ const DetailPage = () => {
   }, [clockId])
 
   const goBack = () => {
-    navigate({ to: '/worldclock' })
+    navigate({ to: '/' })
   }
 
   if (loading) {

@@ -13,18 +13,14 @@ export const Route = createLazyFileRoute('/(home)')({
 })
 
 function HomeLayout() {
-  const matchRoute = useMatchRoute()
-  const isHome = matchRoute({ to: '/', fuzzy: false })
-
   return (
     <Page
       menu={[
-        { label: 'Worldclock', href: '/worldclock' },
+        { label: 'Worldclock', href: '/' },
         { label: 'Alarm', href: '/alarm' },
         { label: 'Stopwatch', href: '/stopwatch' },
         { label: 'Timer', href: '/timer' }
-      ]}
-      sidebar={isHome ? null : <Sidebar />}>
+      ]}>
       <Outlet />
     </Page>
   )

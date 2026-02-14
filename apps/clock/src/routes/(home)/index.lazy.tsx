@@ -1,16 +1,11 @@
-import { createLazyFileRoute, useNavigate } from '@tanstack/react-router'
-import { useEffect } from 'react'
+import { createLazyFileRoute } from '@tanstack/react-router'
 
-const ClockIndex = () => {
-  const navigate = useNavigate()
-
-  useEffect(() => {
-    navigate({ to: '/worldclock', replace: true })
-  }, [navigate])
-
-  return null
-}
+import WorldClockLocal from '../../pages/worldclock'
+import WorldClockQuery from '../../pages/worldclock/query_state'
+import WorldClockURL from '../../pages/worldclock/url_state'
 
 export const Route = createLazyFileRoute('/(home)/')({
-  component: ClockIndex
+  // component: () => <WorldClockLocal />
+  component: () => <WorldClockURL />
+  // component: () => <WorldClockQuery />
 })
