@@ -3,10 +3,10 @@ import React from 'react'
 
 import { Button } from '@vezham/react/v2'
 
-import { useContacts } from '../../pages/contact/data'
-import { ContactDrawer } from '../../pages/contact/drawer'
+import { useContacts } from '../../../pages/contact/data'
+import CreateGroupModal from '../../../pages/groups/modal'
 
-export const Route = createLazyFileRoute('/(home)/')({
+export const Route = createLazyFileRoute('/(home)/groups/')({
   component: RouteComponent
 })
 
@@ -17,9 +17,9 @@ function RouteComponent() {
   if (!contacts || contacts.length === 0) {
     return (
       <div className="flex h-screen flex-col items-center justify-center gap-3 text-gray-500">
-        <p>No contacts created yet.</p>
-        <Button onClick={() => setOpen(true)}>Create New Contact</Button>
-        <ContactDrawer isOpen={open} onOpenChange={setOpen} />
+        <p>No Groups</p>
+        <Button onClick={() => setOpen(true)}>Create New Group</Button>
+        <CreateGroupModal isOpen={open} onOpenChange={setOpen} />
       </div>
     )
   }

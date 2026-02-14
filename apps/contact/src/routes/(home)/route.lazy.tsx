@@ -1,11 +1,15 @@
 import {
   Outlet,
   createLazyFileRoute,
-  useMatchRoute
+  useMatchRoute,
+  useRouterState
 } from '@tanstack/react-router'
 
 import Page from '../../components/menu/layout'
 import Sidebar from '../../components/sidebar'
+import ContactList from '../../pages/contact'
+import FavoriteList from '../../pages/favorites'
+import GroupsList from '../../pages/groups'
 
 export const Route = createLazyFileRoute('/(home)')({
   component: HomeLayout
@@ -13,36 +17,48 @@ export const Route = createLazyFileRoute('/(home)')({
 
 function HomeLayout() {
   const matchRoute = useMatchRoute()
+  const { location } = useRouterState()
 
   const isSettings = matchRoute({ to: '/settings', fuzzy: true })
   const isNotifications = matchRoute({ to: '/notifications', fuzzy: true })
   const isTeams = matchRoute({ to: '/teams', fuzzy: true })
   const isCTA = matchRoute({ to: '/cta/help-support', fuzzy: true })
+  const isShared = Boolean(matchRoute({ to: '/shared', fuzzy: true }))
+  const isImport = Boolean(matchRoute({ to: '/import-export', fuzzy: true }))
 
-  const hideSidebar = isSettings || isNotifications || isTeams || isCTA
+  const hideChild =
+    isImport || isShared || isSettings || isNotifications || isTeams || isCTA
+
+  let sidebarChild = null
+  if (!hideChild) {
+    if (location.pathname === '/favorites') {
+      sidebarChild = <FavoriteList />
+    } else if (location.pathname === '/groups') {
+      sidebarChild = <GroupsList />
+    } else {
+      sidebarChild = <ContactList />
+    }
+  }
 
   return (
     <Page
-      menu={[
-        { label: 'Home', href: '/' },
-        { label: 'Notifications', href: '/notifications' },
-        { label: 'Teams', href: '/teams' },
-        { label: 'Settings', href: '/settings' },
-        { label: 'CTA', href: '/cta' }
+      header={[
+        { icon: 'mdi:bell-outline', href: '/notifications' },
+        { icon: 'mdi:cog-outline', href: '/settings' },
+        { icon: 'mdi:account-group', href: '/teams' },
+        { icon: 'mdi:help-circle-outline', href: '/cta/help-support' }
       ]}
       sidebar={
-        hideSidebar ? null : (
-          <Sidebar
-            sidebar={[
-              { label: 'All', href: '/contacts/all' },
-              { label: 'Favorites', href: '/contacts/favorites' },
-              { label: 'Recently Added', href: '/contacts/recent' },
-              { label: 'Groups', href: '/contacts/groups' },
-              { label: 'Shared', href: '/contacts/shared' },
-              { label: 'Import / Export', href: '/contacts/import-export' }
-            ]}
-          />
-        )
+        <Sidebar
+          sidebar={[
+            { label: 'All Contacts', href: '/' },
+            { label: 'Favorites', href: '/favorites' },
+            { label: 'Groups', href: '/groups' },
+            { label: 'Shared', href: '/shared/shared-by-me' },
+            { label: 'Import / Export', href: '/import-export' }
+          ]}>
+          {sidebarChild}
+        </Sidebar>
       }>
       <Outlet />
     </Page>

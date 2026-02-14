@@ -2,6 +2,7 @@ import { RouterProvider, createRouter } from '@tanstack/react-router'
 
 import { defineConfig } from '@vx/start'
 
+import { ContactProvider } from '../pages/contact/data'
 // import { Loading, ErrorPage, NotFound } from '@vezham/templates'
 
 import { routeTree } from '../routeTree.gen'
@@ -24,5 +25,9 @@ declare module '@tanstack/react-router' {
 }
 
 defineConfig({
-  children: <RouterProvider router={router} />
+  children: (
+    <ContactProvider>
+      <RouterProvider router={router} />
+    </ContactProvider>
+  )
 })

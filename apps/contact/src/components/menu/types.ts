@@ -1,8 +1,11 @@
 import React from 'react'
 
+import type { HeaderItem } from '../header/types'
+
 export type MenuItem = {
   label: string
   href: string
+  count?: string
 }
 
 export type MenuProps = {
@@ -14,4 +17,5 @@ export type MenuLayoutProps = {
   children?: React.ReactNode
   sidebar?: React.ReactNode
   menu?: MenuItem[]
+  header?: HeaderItem[]
 }
