@@ -1,6 +1,6 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
 
-import FlagSection from '../../../pages/home/flagged'
+import FlagSection from '../../../pages/flagged'
 
 export const Route = createLazyFileRoute('/(home)/flagged/')({
   component: RouteComponent

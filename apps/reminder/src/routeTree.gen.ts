@@ -28,8 +28,8 @@ const homeCompletedIndexLazyRouteImport =
   createFileRoute('/(home)/completed/')()
 const homeArchiveIndexLazyRouteImport = createFileRoute('/(home)/archive/')()
 const homeAllIndexLazyRouteImport = createFileRoute('/(home)/all/')()
-const homeReminderIdIndexLazyRouteImport = createFileRoute(
-  '/(home)/$reminderId/',
+const homeTrashTrashIdIndexLazyRouteImport = createFileRoute(
+  '/(home)/trash/$trashId/',
 )()
 const homeSettingsWorkspaceIndexLazyRouteImport = createFileRoute(
   '/(home)/settings/workspace/',
@@ -49,8 +49,11 @@ const homeSettingsBillingIndexLazyRouteImport = createFileRoute(
 const homeSettingsAutomationsIndexLazyRouteImport = createFileRoute(
   '/(home)/settings/automations/',
 )()
-const homeListsListIdIndexLazyRouteImport = createFileRoute(
-  '/(home)/lists/$listId/',
+const homeReminderReminderIdIndexLazyRouteImport = createFileRoute(
+  '/(home)/reminder/$reminderId/',
+)()
+const homeListsListNameIndexLazyRouteImport = createFileRoute(
+  '/(home)/lists/$listName/',
 )()
 const homeCtaHelpSupportIndexLazyRouteImport = createFileRoute(
   '/(home)/cta/help-support/',
@@ -161,14 +164,14 @@ const homeAllIndexLazyRoute = homeAllIndexLazyRouteImport
     getParentRoute: () => homeRouteLazyRoute,
   } as any)
   .lazy(() => import('./routes/(home)/all/index.lazy').then((d) => d.Route))
-const homeReminderIdIndexLazyRoute = homeReminderIdIndexLazyRouteImport
+const homeTrashTrashIdIndexLazyRoute = homeTrashTrashIdIndexLazyRouteImport
   .update({
-    id: '/$reminderId/',
-    path: '/$reminderId/',
+    id: '/trash/$trashId/',
+    path: '/trash/$trashId/',
     getParentRoute: () => homeRouteLazyRoute,
   } as any)
   .lazy(() =>
-    import('./routes/(home)/$reminderId/index.lazy').then((d) => d.Route),
+    import('./routes/(home)/trash/$trashId/index.lazy').then((d) => d.Route),
   )
 const homeSettingsWorkspaceIndexLazyRoute =
   homeSettingsWorkspaceIndexLazyRouteImport
@@ -239,14 +242,26 @@ const homeSettingsAutomationsIndexLazyRoute =
         (d) => d.Route,
       ),
     )
-const homeListsListIdIndexLazyRoute = homeListsListIdIndexLazyRouteImport
+const homeReminderReminderIdIndexLazyRoute =
+  homeReminderReminderIdIndexLazyRouteImport
+    .update({
+      id: '/reminder/$reminderId/',
+      path: '/reminder/$reminderId/',
+      getParentRoute: () => homeRouteLazyRoute,
+    } as any)
+    .lazy(() =>
+      import('./routes/(home)/reminder/$reminderId/index.lazy').then(
+        (d) => d.Route,
+      ),
+    )
+const homeListsListNameIndexLazyRoute = homeListsListNameIndexLazyRouteImport
   .update({
-    id: '/lists/$listId/',
-    path: '/lists/$listId/',
+    id: '/lists/$listName/',
+    path: '/lists/$listName/',
     getParentRoute: () => homeRouteLazyRoute,
   } as any)
   .lazy(() =>
-    import('./routes/(home)/lists/$listId/index.lazy').then((d) => d.Route),
+    import('./routes/(home)/lists/$listName/index.lazy').then((d) => d.Route),
   )
 const homeCtaHelpSupportIndexLazyRoute = homeCtaHelpSupportIndexLazyRouteImport
   .update({
@@ -261,7 +276,6 @@ const homeCtaHelpSupportIndexLazyRoute = homeCtaHelpSupportIndexLazyRouteImport
 export interface FileRoutesByFullPath {
   '/': typeof homeIndexLazyRoute
   '/settings': typeof homeSettingsRouteLazyRouteWithChildren
-  '/$reminderId': typeof homeReminderIdIndexLazyRoute
   '/all': typeof homeAllIndexLazyRoute
   '/archive': typeof homeArchiveIndexLazyRoute
   '/completed': typeof homeCompletedIndexLazyRoute
@@ -274,17 +288,18 @@ export interface FileRoutesByFullPath {
   '/today': typeof homeTodayIndexLazyRoute
   '/trash': typeof homeTrashIndexLazyRoute
   '/cta/help-support': typeof homeCtaHelpSupportIndexLazyRoute
-  '/lists/$listId': typeof homeListsListIdIndexLazyRoute
+  '/lists/$listName': typeof homeListsListNameIndexLazyRoute
+  '/reminder/$reminderId': typeof homeReminderReminderIdIndexLazyRoute
   '/settings/automations': typeof homeSettingsAutomationsIndexLazyRoute
   '/settings/billing': typeof homeSettingsBillingIndexLazyRoute
   '/settings/notifications': typeof homeSettingsNotificationsIndexLazyRoute
   '/settings/security': typeof homeSettingsSecurityIndexLazyRoute
   '/settings/users': typeof homeSettingsUsersIndexLazyRoute
   '/settings/workspace': typeof homeSettingsWorkspaceIndexLazyRoute
+  '/trash/$trashId': typeof homeTrashTrashIdIndexLazyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof homeIndexLazyRoute
-  '/$reminderId': typeof homeReminderIdIndexLazyRoute
   '/all': typeof homeAllIndexLazyRoute
   '/archive': typeof homeArchiveIndexLazyRoute
   '/completed': typeof homeCompletedIndexLazyRoute
@@ -297,20 +312,21 @@ export interface FileRoutesByTo {
   '/today': typeof homeTodayIndexLazyRoute
   '/trash': typeof homeTrashIndexLazyRoute
   '/cta/help-support': typeof homeCtaHelpSupportIndexLazyRoute
-  '/lists/$listId': typeof homeListsListIdIndexLazyRoute
+  '/lists/$listName': typeof homeListsListNameIndexLazyRoute
+  '/reminder/$reminderId': typeof homeReminderReminderIdIndexLazyRoute
   '/settings/automations': typeof homeSettingsAutomationsIndexLazyRoute
   '/settings/billing': typeof homeSettingsBillingIndexLazyRoute
   '/settings/notifications': typeof homeSettingsNotificationsIndexLazyRoute
   '/settings/security': typeof homeSettingsSecurityIndexLazyRoute
   '/settings/users': typeof homeSettingsUsersIndexLazyRoute
   '/settings/workspace': typeof homeSettingsWorkspaceIndexLazyRoute
+  '/trash/$trashId': typeof homeTrashTrashIdIndexLazyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/(home)': typeof homeRouteLazyRouteWithChildren
   '/(home)/settings': typeof homeSettingsRouteLazyRouteWithChildren
   '/(home)/': typeof homeIndexLazyRoute
-  '/(home)/$reminderId/': typeof homeReminderIdIndexLazyRoute
   '/(home)/all/': typeof homeAllIndexLazyRoute
   '/(home)/archive/': typeof homeArchiveIndexLazyRoute
   '/(home)/completed/': typeof homeCompletedIndexLazyRoute
@@ -323,20 +339,21 @@ export interface FileRoutesById {
   '/(home)/today/': typeof homeTodayIndexLazyRoute
   '/(home)/trash/': typeof homeTrashIndexLazyRoute
   '/(home)/cta/help-support/': typeof homeCtaHelpSupportIndexLazyRoute
-  '/(home)/lists/$listId/': typeof homeListsListIdIndexLazyRoute
+  '/(home)/lists/$listName/': typeof homeListsListNameIndexLazyRoute
+  '/(home)/reminder/$reminderId/': typeof homeReminderReminderIdIndexLazyRoute
   '/(home)/settings/automations/': typeof homeSettingsAutomationsIndexLazyRoute
   '/(home)/settings/billing/': typeof homeSettingsBillingIndexLazyRoute
   '/(home)/settings/notifications/': typeof homeSettingsNotificationsIndexLazyRoute
   '/(home)/settings/security/': typeof homeSettingsSecurityIndexLazyRoute
   '/(home)/settings/users/': typeof homeSettingsUsersIndexLazyRoute
   '/(home)/settings/workspace/': typeof homeSettingsWorkspaceIndexLazyRoute
+  '/(home)/trash/$trashId/': typeof homeTrashTrashIdIndexLazyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/settings'
-    | '/$reminderId'
     | '/all'
     | '/archive'
     | '/completed'
@@ -349,17 +366,18 @@ export interface FileRouteTypes {
     | '/today'
     | '/trash'
     | '/cta/help-support'
-    | '/lists/$listId'
+    | '/lists/$listName'
+    | '/reminder/$reminderId'
     | '/settings/automations'
     | '/settings/billing'
     | '/settings/notifications'
     | '/settings/security'
     | '/settings/users'
     | '/settings/workspace'
+    | '/trash/$trashId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/$reminderId'
     | '/all'
     | '/archive'
     | '/completed'
@@ -372,19 +390,20 @@ export interface FileRouteTypes {
     | '/today'
     | '/trash'
     | '/cta/help-support'
-    | '/lists/$listId'
+    | '/lists/$listName'
+    | '/reminder/$reminderId'
     | '/settings/automations'
     | '/settings/billing'
     | '/settings/notifications'
     | '/settings/security'
     | '/settings/users'
     | '/settings/workspace'
+    | '/trash/$trashId'
   id:
     | '__root__'
     | '/(home)'
     | '/(home)/settings'
     | '/(home)/'
-    | '/(home)/$reminderId/'
     | '/(home)/all/'
     | '/(home)/archive/'
     | '/(home)/completed/'
@@ -397,13 +416,15 @@ export interface FileRouteTypes {
     | '/(home)/today/'
     | '/(home)/trash/'
     | '/(home)/cta/help-support/'
-    | '/(home)/lists/$listId/'
+    | '/(home)/lists/$listName/'
+    | '/(home)/reminder/$reminderId/'
     | '/(home)/settings/automations/'
     | '/(home)/settings/billing/'
     | '/(home)/settings/notifications/'
     | '/(home)/settings/security/'
     | '/(home)/settings/users/'
     | '/(home)/settings/workspace/'
+    | '/(home)/trash/$trashId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -510,11 +531,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof homeAllIndexLazyRouteImport
       parentRoute: typeof homeRouteLazyRoute
     }
-    '/(home)/$reminderId/': {
-      id: '/(home)/$reminderId/'
-      path: '/$reminderId'
-      fullPath: '/$reminderId'
-      preLoaderRoute: typeof homeReminderIdIndexLazyRouteImport
+    '/(home)/trash/$trashId/': {
+      id: '/(home)/trash/$trashId/'
+      path: '/trash/$trashId'
+      fullPath: '/trash/$trashId'
+      preLoaderRoute: typeof homeTrashTrashIdIndexLazyRouteImport
       parentRoute: typeof homeRouteLazyRoute
     }
     '/(home)/settings/workspace/': {
@@ -559,11 +580,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof homeSettingsAutomationsIndexLazyRouteImport
       parentRoute: typeof homeSettingsRouteLazyRoute
     }
-    '/(home)/lists/$listId/': {
-      id: '/(home)/lists/$listId/'
-      path: '/lists/$listId'
-      fullPath: '/lists/$listId'
-      preLoaderRoute: typeof homeListsListIdIndexLazyRouteImport
+    '/(home)/reminder/$reminderId/': {
+      id: '/(home)/reminder/$reminderId/'
+      path: '/reminder/$reminderId'
+      fullPath: '/reminder/$reminderId'
+      preLoaderRoute: typeof homeReminderReminderIdIndexLazyRouteImport
+      parentRoute: typeof homeRouteLazyRoute
+    }
+    '/(home)/lists/$listName/': {
+      id: '/(home)/lists/$listName/'
+      path: '/lists/$listName'
+      fullPath: '/lists/$listName'
+      preLoaderRoute: typeof homeListsListNameIndexLazyRouteImport
       parentRoute: typeof homeRouteLazyRoute
     }
     '/(home)/cta/help-support/': {
@@ -605,7 +633,6 @@ const homeSettingsRouteLazyRouteWithChildren =
 interface homeRouteLazyRouteChildren {
   homeSettingsRouteLazyRoute: typeof homeSettingsRouteLazyRouteWithChildren
   homeIndexLazyRoute: typeof homeIndexLazyRoute
-  homeReminderIdIndexLazyRoute: typeof homeReminderIdIndexLazyRoute
   homeAllIndexLazyRoute: typeof homeAllIndexLazyRoute
   homeArchiveIndexLazyRoute: typeof homeArchiveIndexLazyRoute
   homeCompletedIndexLazyRoute: typeof homeCompletedIndexLazyRoute
@@ -617,13 +644,14 @@ interface homeRouteLazyRouteChildren {
   homeTodayIndexLazyRoute: typeof homeTodayIndexLazyRoute
   homeTrashIndexLazyRoute: typeof homeTrashIndexLazyRoute
   homeCtaHelpSupportIndexLazyRoute: typeof homeCtaHelpSupportIndexLazyRoute
-  homeListsListIdIndexLazyRoute: typeof homeListsListIdIndexLazyRoute
+  homeListsListNameIndexLazyRoute: typeof homeListsListNameIndexLazyRoute
+  homeReminderReminderIdIndexLazyRoute: typeof homeReminderReminderIdIndexLazyRoute
+  homeTrashTrashIdIndexLazyRoute: typeof homeTrashTrashIdIndexLazyRoute
 }
 
 const homeRouteLazyRouteChildren: homeRouteLazyRouteChildren = {
   homeSettingsRouteLazyRoute: homeSettingsRouteLazyRouteWithChildren,
   homeIndexLazyRoute: homeIndexLazyRoute,
-  homeReminderIdIndexLazyRoute: homeReminderIdIndexLazyRoute,
   homeAllIndexLazyRoute: homeAllIndexLazyRoute,
   homeArchiveIndexLazyRoute: homeArchiveIndexLazyRoute,
   homeCompletedIndexLazyRoute: homeCompletedIndexLazyRoute,
@@ -635,7 +663,9 @@ const homeRouteLazyRouteChildren: homeRouteLazyRouteChildren = {
   homeTodayIndexLazyRoute: homeTodayIndexLazyRoute,
   homeTrashIndexLazyRoute: homeTrashIndexLazyRoute,
   homeCtaHelpSupportIndexLazyRoute: homeCtaHelpSupportIndexLazyRoute,
-  homeListsListIdIndexLazyRoute: homeListsListIdIndexLazyRoute,
+  homeListsListNameIndexLazyRoute: homeListsListNameIndexLazyRoute,
+  homeReminderReminderIdIndexLazyRoute: homeReminderReminderIdIndexLazyRoute,
+  homeTrashTrashIdIndexLazyRoute: homeTrashTrashIdIndexLazyRoute,
 }
 
 const homeRouteLazyRouteWithChildren = homeRouteLazyRoute._addFileChildren(

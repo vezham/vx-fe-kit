@@ -1,16 +1,9 @@
-import { createLazyFileRoute, useNavigate } from '@tanstack/react-router'
-import { useEffect } from 'react'
-
-const ReminderIndex = () => {
-  const navigate = useNavigate()
-
-  useEffect(() => {
-    navigate({ to: '/all', replace: true })
-  }, [navigate])
-
-  return null
-}
+import { createLazyFileRoute } from '@tanstack/react-router'
 
 export const Route = createLazyFileRoute('/(home)/')({
-  component: ReminderIndex
+  component: RouteComponent
 })
+
+function RouteComponent() {
+  return null
+}

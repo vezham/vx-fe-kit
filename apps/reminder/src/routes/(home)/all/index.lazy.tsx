@@ -1,6 +1,6 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
 
-import AllSection from '../../../pages/home/all'
+import AllSection from '../../../pages/all'
 
 export const Route = createLazyFileRoute('/(home)/all/')({
   component: RouteComponent

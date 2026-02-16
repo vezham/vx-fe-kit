@@ -6,6 +6,9 @@ import {
 
 import Page from '../../components/menu/layout'
 import Sidebar from '../../components/sidebar'
+import ListPage from '../../pages/list'
+import { useReminders } from '../../pages/reminders/store'
+import Trash from '../../pages/trash'
 
 export const Route = createLazyFileRoute('/(home)')({
   component: HomeLayout
@@ -13,6 +16,7 @@ export const Route = createLazyFileRoute('/(home)')({
 
 function HomeLayout() {
   const matchRoute = useMatchRoute()
+  const { counts } = useReminders()
 
   const isSettings = matchRoute({ to: '/settings', fuzzy: true })
   const isCTA = matchRoute({ to: '/cta/help-support', fuzzy: true })
@@ -29,14 +33,24 @@ function HomeLayout() {
         hideSidebar ? null : (
           <Sidebar
             sidebar={[
-              { label: 'All', href: '/all' },
-              { label: 'Today', href: '/today' },
-              { label: 'Scheduled', href: '/scheduled' },
-              { label: 'Completed', href: '/completed' },
-              { label: 'Flagged', href: '/flagged' },
-              { label: 'Archive', href: '/archive' }
-            ]}
-          />
+              { label: 'All', href: '/all', count: counts.all },
+              { label: 'Today', href: '/today', count: counts.today },
+              {
+                label: 'Scheduled',
+                href: '/scheduled',
+                count: counts.scheduled
+              },
+              {
+                label: 'Completed',
+                href: '/completed',
+                count: counts.completed
+              },
+              { label: 'Flagged', href: '/flagged', count: counts.flagged },
+              { label: 'Archive', href: '/archive', count: counts.archive }
+            ]}>
+            <ListPage />
+            <Trash />
+          </Sidebar>
         )
       }>
       <Outlet />

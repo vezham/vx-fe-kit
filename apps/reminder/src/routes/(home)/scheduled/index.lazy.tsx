@@ -1,6 +1,6 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
 
-import ScheduleSection from '../../../pages/home/scheduled'
+import ScheduleSection from '../../../pages/scheduled'
 
 export const Route = createLazyFileRoute('/(home)/scheduled/')({
   component: RouteComponent
