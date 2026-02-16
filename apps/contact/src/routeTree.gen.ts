@@ -17,7 +17,6 @@ const homeIndexLazyRouteImport = createFileRoute('/(home)/')()
 const homeTeamsRouteLazyRouteImport = createFileRoute('/(home)/teams')()
 const homeSharedRouteLazyRouteImport = createFileRoute('/(home)/shared')()
 const homeSettingsRouteLazyRouteImport = createFileRoute('/(home)/settings')()
-const homeGroupsRouteLazyRouteImport = createFileRoute('/(home)/groups')()
 const homeTeamsIndexLazyRouteImport = createFileRoute('/(home)/teams/')()
 const homeSharedIndexLazyRouteImport = createFileRoute('/(home)/shared/')()
 const homeSettingsIndexLazyRouteImport = createFileRoute('/(home)/settings/')()
@@ -111,13 +110,6 @@ const homeSettingsRouteLazyRoute = homeSettingsRouteLazyRouteImport
   .lazy(() =>
     import('./routes/(home)/settings/route.lazy').then((d) => d.Route),
   )
-const homeGroupsRouteLazyRoute = homeGroupsRouteLazyRouteImport
-  .update({
-    id: '/groups',
-    path: '/groups',
-    getParentRoute: () => homeRouteLazyRoute,
-  } as any)
-  .lazy(() => import('./routes/(home)/groups/route.lazy').then((d) => d.Route))
 const homeTeamsIndexLazyRoute = homeTeamsIndexLazyRouteImport
   .update({
     id: '/',
@@ -168,9 +160,9 @@ const homeImportExportIndexLazyRoute = homeImportExportIndexLazyRouteImport
   )
 const homeGroupsIndexLazyRoute = homeGroupsIndexLazyRouteImport
   .update({
-    id: '/',
-    path: '/',
-    getParentRoute: () => homeGroupsRouteLazyRoute,
+    id: '/groups/',
+    path: '/groups/',
+    getParentRoute: () => homeRouteLazyRoute,
   } as any)
   .lazy(() => import('./routes/(home)/groups/index.lazy').then((d) => d.Route))
 const homeFavoritesIndexLazyRoute = homeFavoritesIndexLazyRouteImport
@@ -323,9 +315,9 @@ const homeSettingsAutomationsIndexLazyRoute =
     )
 const homeGroupsGroupIdIndexLazyRoute = homeGroupsGroupIdIndexLazyRouteImport
   .update({
-    id: '/$groupId/',
-    path: '/$groupId/',
-    getParentRoute: () => homeGroupsRouteLazyRoute,
+    id: '/groups/$groupId/',
+    path: '/groups/$groupId/',
+    getParentRoute: () => homeRouteLazyRoute,
   } as any)
   .lazy(() =>
     import('./routes/(home)/groups/$groupId/index.lazy').then((d) => d.Route),
@@ -342,13 +334,12 @@ const homeCtaHelpSupportIndexLazyRoute = homeCtaHelpSupportIndexLazyRouteImport
 
 export interface FileRoutesByFullPath {
   '/': typeof homeIndexLazyRoute
-  '/groups': typeof homeGroupsRouteLazyRouteWithChildren
   '/settings': typeof homeSettingsRouteLazyRouteWithChildren
   '/shared': typeof homeSharedRouteLazyRouteWithChildren
   '/teams': typeof homeTeamsRouteLazyRouteWithChildren
   '/cta': typeof homeCtaIndexLazyRoute
   '/favorites': typeof homeFavoritesIndexLazyRoute
-  '/groups/': typeof homeGroupsIndexLazyRoute
+  '/groups': typeof homeGroupsIndexLazyRoute
   '/import-export': typeof homeImportExportIndexLazyRoute
   '/notifications': typeof homeNotificationsIndexLazyRoute
   '/recent': typeof homeRecentIndexLazyRoute
@@ -399,7 +390,6 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/(home)': typeof homeRouteLazyRouteWithChildren
-  '/(home)/groups': typeof homeGroupsRouteLazyRouteWithChildren
   '/(home)/settings': typeof homeSettingsRouteLazyRouteWithChildren
   '/(home)/shared': typeof homeSharedRouteLazyRouteWithChildren
   '/(home)/teams': typeof homeTeamsRouteLazyRouteWithChildren
@@ -432,13 +422,12 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/groups'
     | '/settings'
     | '/shared'
     | '/teams'
     | '/cta'
     | '/favorites'
-    | '/groups/'
+    | '/groups'
     | '/import-export'
     | '/notifications'
     | '/recent'
@@ -488,7 +477,6 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/(home)'
-    | '/(home)/groups'
     | '/(home)/settings'
     | '/(home)/shared'
     | '/(home)/teams'
@@ -559,13 +547,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof homeSettingsRouteLazyRouteImport
       parentRoute: typeof homeRouteLazyRoute
     }
-    '/(home)/groups': {
-      id: '/(home)/groups'
-      path: '/groups'
-      fullPath: '/groups'
-      preLoaderRoute: typeof homeGroupsRouteLazyRouteImport
-      parentRoute: typeof homeRouteLazyRoute
-    }
     '/(home)/teams/': {
       id: '/(home)/teams/'
       path: '/'
@@ -610,10 +591,10 @@ declare module '@tanstack/react-router' {
     }
     '/(home)/groups/': {
       id: '/(home)/groups/'
-      path: '/'
-      fullPath: '/groups/'
+      path: '/groups'
+      fullPath: '/groups'
       preLoaderRoute: typeof homeGroupsIndexLazyRouteImport
-      parentRoute: typeof homeGroupsRouteLazyRoute
+      parentRoute: typeof homeRouteLazyRoute
     }
     '/(home)/favorites/': {
       id: '/(home)/favorites/'
@@ -715,10 +696,10 @@ declare module '@tanstack/react-router' {
     }
     '/(home)/groups/$groupId/': {
       id: '/(home)/groups/$groupId/'
-      path: '/$groupId'
+      path: '/groups/$groupId'
       fullPath: '/groups/$groupId'
       preLoaderRoute: typeof homeGroupsGroupIdIndexLazyRouteImport
-      parentRoute: typeof homeGroupsRouteLazyRoute
+      parentRoute: typeof homeRouteLazyRoute
     }
     '/(home)/cta/help-support/': {
       id: '/(home)/cta/help-support/'
@@ -729,19 +710,6 @@ declare module '@tanstack/react-router' {
     }
   }
 }
-
-interface homeGroupsRouteLazyRouteChildren {
-  homeGroupsIndexLazyRoute: typeof homeGroupsIndexLazyRoute
-  homeGroupsGroupIdIndexLazyRoute: typeof homeGroupsGroupIdIndexLazyRoute
-}
-
-const homeGroupsRouteLazyRouteChildren: homeGroupsRouteLazyRouteChildren = {
-  homeGroupsIndexLazyRoute: homeGroupsIndexLazyRoute,
-  homeGroupsGroupIdIndexLazyRoute: homeGroupsGroupIdIndexLazyRoute,
-}
-
-const homeGroupsRouteLazyRouteWithChildren =
-  homeGroupsRouteLazyRoute._addFileChildren(homeGroupsRouteLazyRouteChildren)
 
 interface homeSettingsRouteLazyRouteChildren {
   homeSettingsIndexLazyRoute: typeof homeSettingsIndexLazyRoute
@@ -802,32 +770,34 @@ const homeTeamsRouteLazyRouteWithChildren =
   homeTeamsRouteLazyRoute._addFileChildren(homeTeamsRouteLazyRouteChildren)
 
 interface homeRouteLazyRouteChildren {
-  homeGroupsRouteLazyRoute: typeof homeGroupsRouteLazyRouteWithChildren
   homeSettingsRouteLazyRoute: typeof homeSettingsRouteLazyRouteWithChildren
   homeSharedRouteLazyRoute: typeof homeSharedRouteLazyRouteWithChildren
   homeTeamsRouteLazyRoute: typeof homeTeamsRouteLazyRouteWithChildren
   homeIndexLazyRoute: typeof homeIndexLazyRoute
   homeCtaIndexLazyRoute: typeof homeCtaIndexLazyRoute
   homeFavoritesIndexLazyRoute: typeof homeFavoritesIndexLazyRoute
+  homeGroupsIndexLazyRoute: typeof homeGroupsIndexLazyRoute
   homeImportExportIndexLazyRoute: typeof homeImportExportIndexLazyRoute
   homeNotificationsIndexLazyRoute: typeof homeNotificationsIndexLazyRoute
   homeRecentIndexLazyRoute: typeof homeRecentIndexLazyRoute
   homeCtaHelpSupportIndexLazyRoute: typeof homeCtaHelpSupportIndexLazyRoute
+  homeGroupsGroupIdIndexLazyRoute: typeof homeGroupsGroupIdIndexLazyRoute
   homeUserContactIdIndexLazyRoute: typeof homeUserContactIdIndexLazyRoute
 }
 
 const homeRouteLazyRouteChildren: homeRouteLazyRouteChildren = {
-  homeGroupsRouteLazyRoute: homeGroupsRouteLazyRouteWithChildren,
   homeSettingsRouteLazyRoute: homeSettingsRouteLazyRouteWithChildren,
   homeSharedRouteLazyRoute: homeSharedRouteLazyRouteWithChildren,
   homeTeamsRouteLazyRoute: homeTeamsRouteLazyRouteWithChildren,
   homeIndexLazyRoute: homeIndexLazyRoute,
   homeCtaIndexLazyRoute: homeCtaIndexLazyRoute,
   homeFavoritesIndexLazyRoute: homeFavoritesIndexLazyRoute,
+  homeGroupsIndexLazyRoute: homeGroupsIndexLazyRoute,
   homeImportExportIndexLazyRoute: homeImportExportIndexLazyRoute,
   homeNotificationsIndexLazyRoute: homeNotificationsIndexLazyRoute,
   homeRecentIndexLazyRoute: homeRecentIndexLazyRoute,
   homeCtaHelpSupportIndexLazyRoute: homeCtaHelpSupportIndexLazyRoute,
+  homeGroupsGroupIdIndexLazyRoute: homeGroupsGroupIdIndexLazyRoute,
   homeUserContactIdIndexLazyRoute: homeUserContactIdIndexLazyRoute,
 }
 

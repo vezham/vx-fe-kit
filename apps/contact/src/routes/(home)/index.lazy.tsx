@@ -16,7 +16,7 @@ function RouteComponent() {
 
   if (!contacts || contacts.length === 0) {
     return (
-      <div className="flex h-screen flex-col items-center justify-center gap-3 text-gray-500">
+      <div className="flex flex-col items-center justify-center gap-3 text-gray-500">
         <p>No contacts created yet.</p>
         <Button onClick={() => setOpen(true)}>Create New Contact</Button>
         <ContactDrawer isOpen={open} onOpenChange={setOpen} />

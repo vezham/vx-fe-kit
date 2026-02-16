@@ -61,7 +61,9 @@ const ContactList = () => {
   return (
     <div className="mt-4 flex flex-col gap-4">
       {filteredContacts.length === 0 ? (
-        <p className="text-default-400 px-3">No contacts found</p>
+        <p className="text-default-400 flex items-center justify-center px-3">
+          No contacts found
+        </p>
       ) : (
         filteredContacts.map(contact => (
           <div

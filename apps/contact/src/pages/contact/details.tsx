@@ -45,7 +45,7 @@ const ContactDetail = () => {
           startContent={<Icon icon="mdi:chevron-left" />}></Button>
       </div>
 
-      <div className="h-full p-5">
+      <div className="">
         <div className="top-8 mb-8 flex flex-col items-center gap-4">
           <div className="flex h-32 w-32 items-center justify-center overflow-hidden rounded-full bg-gray-300 text-4xl font-bold">
             {contact.avatar ? (

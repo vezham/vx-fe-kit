@@ -24,11 +24,11 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebar, children }) => {
   if (!sidebar || sidebar.length === 0) return null
 
   return (
-    <aside className="flex h-screen">
+    <aside className="flex min-h-screen">
       <div
         className={cn(
           'bg-default flex flex-col gap-3 border-r px-3 py-4 transition-all duration-200',
-          collapsed ? 'w-16' : 'w-64'
+          collapsed ? 'w-16' : 'w-48'
         )}>
         <div
           className={cn(
@@ -84,8 +84,8 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebar, children }) => {
           })}
       </div>
 
-      {!collapsed && children && (
-        <div className="bg-default-400 h-screen w-64 flex-1 border-r px-3 py-4">
+      {children && (
+        <div className="border-default-200 w-72 flex-1 border-r px-3 py-4">
           {children}
         </div>
       )}

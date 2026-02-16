@@ -11,7 +11,7 @@ const GroupsList = () => {
 
   if (!groups.length) {
     return (
-      <div className="text-default-400 flex h-full items-center justify-center">
+      <div className="text-default-400 flex items-center justify-center">
         No groups created yet
       </div>
     )
