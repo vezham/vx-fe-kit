@@ -67,7 +67,7 @@ export default function ReminderList({ filter, listName }: Props) {
       {filtered.map(r => (
         <div
           key={r.id}
-          className="flex cursor-pointer items-center justify-between rounded-xl border p-4"
+          className="border-default-200 flex cursor-pointer items-center justify-between rounded-xl border p-4"
           onClick={() =>
             navigate({
               to: '/reminder/$reminderId',

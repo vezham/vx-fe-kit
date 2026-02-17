@@ -1,0 +1,19 @@
+{
+  "name": "notes3",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/notes3/src",
+  "targets": {
+    "config-local-hostile": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/notes3",
+        "commands": [
+          "sudo pnpm exec hostile set localhost notes3.vezham.local && sudo pnpm exec hostile set localhost notes3.mock.vezham.local"
+        ],
+        "parallel": false
+      }
+    }
+  },
+  "tags": ["category:app"]
+}

@@ -76,6 +76,12 @@
     },
     {
       "path": "./apps/notes2"
+    },
+    {
+      "path": "./apps/notes3-e2e"
+    },
+    {
+      "path": "./apps/notes3"
     }
   ]
 }
