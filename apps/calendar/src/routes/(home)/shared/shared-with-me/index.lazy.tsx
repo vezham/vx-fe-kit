@@ -1,8 +1,6 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
 
-export const Route = createLazyFileRoute(
-  '/(home)/calendar/shared/shared-with-me/'
-)({
+export const Route = createLazyFileRoute('/(home)/shared/shared-with-me/')({
   component: RouteComponent
 })
 

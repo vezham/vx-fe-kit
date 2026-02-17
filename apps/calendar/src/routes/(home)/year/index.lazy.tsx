@@ -1,9 +1,9 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
 
-export const Route = createLazyFileRoute('/(home)/calendar/today/')({
+export const Route = createLazyFileRoute('/(home)/year/')({
   component: RouteComponent
 })
 
 function RouteComponent() {
-  return <div>Hello "/(home)/calendar/today/"!</div>
+  return <div>Hello "/(home)/calendar/year/"!</div>
 }

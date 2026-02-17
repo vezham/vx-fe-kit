@@ -1,9 +1,7 @@
-import {
-  Outlet,
-  createLazyFileRoute,
-  useMatchRoute
-} from '@tanstack/react-router'
+import { Outlet, createLazyFileRoute } from '@tanstack/react-router'
+import { useState } from 'react'
 
+import Menu from '../../components/menu'
 import Page from '../../components/menu/layout'
 import Sidebar from '../../components/sidebar'
 
@@ -12,37 +10,55 @@ export const Route = createLazyFileRoute('/(home)')({
 })
 
 function HomeLayout() {
-  const matchRoute = useMatchRoute()
+  const [visibleCalendars, setVisibleCalendars] = useState<string[]>([
+    'work',
+    'holidays'
+  ])
 
-  const isSettings = matchRoute({ to: '/settings', fuzzy: true })
-  const isNotifications = matchRoute({ to: '/notifications', fuzzy: true })
-  const isTeams = matchRoute({ to: '/teams', fuzzy: true })
-  const isCTA = matchRoute({ to: '/cta/help-support', fuzzy: true })
-
-  const hideSidebar = isSettings || isNotifications || isTeams || isCTA
+  const calendarSections = [
+    {
+      title: 'My Calendars',
+      items: [
+        { id: '1', label: 'Work', value: 'work' },
+        { id: '2', label: 'Personal', value: 'personal' }
+      ]
+    },
+    {
+      title: 'Other',
+      items: [
+        { id: '3', label: 'Holidays', value: 'holidays' },
+        { id: '4', label: 'Reminders', value: 'reminders' },
+        { id: '5', label: 'Birthdays', value: 'birthdays' }
+      ]
+    }
+  ]
 
   return (
     <Page
-      menu={[
-        { label: 'Home', href: '/' },
-        { label: 'Notifications', href: '/notifications' },
-        { label: 'Teams', href: '/teams' },
-        { label: 'Settings', href: '/settings' },
-        { label: 'CTA', href: '/cta' }
+      header={[
+        { icon: 'mdi:bell-outline', href: '/notifications' },
+        { icon: 'mdi:cog-outline', href: '/settings' },
+        { icon: 'mdi:account-group', href: '/teams' },
+        { icon: 'mdi:upload', href: '/shared' },
+        { icon: 'mdi:help-circle-outline', href: '/cta/help-support' }
       ]}
+      calendarMenu={
+        <Menu
+          sections={calendarSections}
+          selectedValues={visibleCalendars}
+          onChange={setVisibleCalendars}
+        />
+      }
       sidebar={
-        hideSidebar ? null : (
-          <Sidebar
-            sidebar={[
-              { label: 'Today', href: '/calendar/today' },
-              { label: 'Week', href: '/calendar/week' },
-              { label: 'Month', href: '/calendar/month' },
-              { label: 'Year', href: '/calendar/year' },
-              { label: 'Events', href: '/calendar/events' },
-              { label: 'Shared', href: '/calendar/shared' }
-            ]}
-          />
-        )
+        <Sidebar
+          sidebar={[
+            { label: 'Today', href: '/today' },
+            { label: 'Week', href: '/week' },
+            { label: 'Month', href: '/month' },
+            { label: 'Year', href: '/year' },
+            { label: 'Events', href: '/events' }
+          ]}
+        />
       }>
       <Outlet />
     </Page>

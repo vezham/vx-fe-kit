@@ -1,6 +1,6 @@
 import { Link, Outlet, createLazyFileRoute } from '@tanstack/react-router'
 
-export const Route = createLazyFileRoute('/(home)/calendar/shared')({
+export const Route = createLazyFileRoute('/(home)/shared')({
   component: SharedComponent
 })
 
@@ -13,8 +13,8 @@ function SharedComponent() {
       <div className="flex flex-wrap divide-x">
         {(
           [
-            ['/calendar/shared/shared-by-me', 'Shared-By-Me', true],
-            ['/calendar/shared/shared-with-me', 'Shared-with-me']
+            ['/shared/shared-by-me', 'Shared-By-Me', true],
+            ['/shared/shared-with-me', 'Shared-with-me']
           ] as const
         ).map(([to, label, exact]) => {
           return (
