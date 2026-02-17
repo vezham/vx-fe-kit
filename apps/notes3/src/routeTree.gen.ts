@@ -65,11 +65,17 @@ const homeSettingsBillingIndexLazyRouteImport = createFileRoute(
 const homeSettingsAutomationsIndexLazyRouteImport = createFileRoute(
   '/(home)/settings/automations/',
 )()
+const homeFoldersSubfoldersIndexLazyRouteImport = createFileRoute(
+  '/(home)/folders/subfolders/',
+)()
 const homeFoldersFolderIdIndexLazyRouteImport = createFileRoute(
   '/(home)/folders/$folderId/',
 )()
 const homeCtaHelpSupportIndexLazyRouteImport = createFileRoute(
   '/(home)/cta/help-support/',
+)()
+const homeFoldersSubfoldersSubfolderIdIndexLazyRouteImport = createFileRoute(
+  '/(home)/folders/subfolders/$subfolderId/',
 )()
 
 const homeRouteLazyRoute = homeRouteLazyRouteImport
@@ -319,6 +325,18 @@ const homeSettingsAutomationsIndexLazyRoute =
         (d) => d.Route,
       ),
     )
+const homeFoldersSubfoldersIndexLazyRoute =
+  homeFoldersSubfoldersIndexLazyRouteImport
+    .update({
+      id: '/folders/subfolders/',
+      path: '/folders/subfolders/',
+      getParentRoute: () => homeRouteLazyRoute,
+    } as any)
+    .lazy(() =>
+      import('./routes/(home)/folders/subfolders/index.lazy').then(
+        (d) => d.Route,
+      ),
+    )
 const homeFoldersFolderIdIndexLazyRoute =
   homeFoldersFolderIdIndexLazyRouteImport
     .update({
@@ -340,6 +358,18 @@ const homeCtaHelpSupportIndexLazyRoute = homeCtaHelpSupportIndexLazyRouteImport
   .lazy(() =>
     import('./routes/(home)/cta/help-support/index.lazy').then((d) => d.Route),
   )
+const homeFoldersSubfoldersSubfolderIdIndexLazyRoute =
+  homeFoldersSubfoldersSubfolderIdIndexLazyRouteImport
+    .update({
+      id: '/folders/subfolders/$subfolderId/',
+      path: '/folders/subfolders/$subfolderId/',
+      getParentRoute: () => homeRouteLazyRoute,
+    } as any)
+    .lazy(() =>
+      import('./routes/(home)/folders/subfolders/$subfolderId/index.lazy').then(
+        (d) => d.Route,
+      ),
+    )
 
 export interface FileRoutesByFullPath {
   '/': typeof homeIndexLazyRoute
@@ -358,6 +388,7 @@ export interface FileRoutesByFullPath {
   '/trash': typeof homeTrashIndexLazyRoute
   '/cta/help-support': typeof homeCtaHelpSupportIndexLazyRoute
   '/folders/$folderId': typeof homeFoldersFolderIdIndexLazyRoute
+  '/folders/subfolders': typeof homeFoldersSubfoldersIndexLazyRoute
   '/settings/automations': typeof homeSettingsAutomationsIndexLazyRoute
   '/settings/billing': typeof homeSettingsBillingIndexLazyRoute
   '/settings/integrations': typeof homeSettingsIntegrationsIndexLazyRoute
@@ -370,6 +401,7 @@ export interface FileRoutesByFullPath {
   '/teams/overview': typeof homeTeamsOverviewIndexLazyRoute
   '/teams/permissions': typeof homeTeamsPermissionsIndexLazyRoute
   '/teams/roles': typeof homeTeamsRolesIndexLazyRoute
+  '/folders/subfolders/$subfolderId': typeof homeFoldersSubfoldersSubfolderIdIndexLazyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof homeIndexLazyRoute
@@ -385,6 +417,7 @@ export interface FileRoutesByTo {
   '/trash': typeof homeTrashIndexLazyRoute
   '/cta/help-support': typeof homeCtaHelpSupportIndexLazyRoute
   '/folders/$folderId': typeof homeFoldersFolderIdIndexLazyRoute
+  '/folders/subfolders': typeof homeFoldersSubfoldersIndexLazyRoute
   '/settings/automations': typeof homeSettingsAutomationsIndexLazyRoute
   '/settings/billing': typeof homeSettingsBillingIndexLazyRoute
   '/settings/integrations': typeof homeSettingsIntegrationsIndexLazyRoute
@@ -397,6 +430,7 @@ export interface FileRoutesByTo {
   '/teams/overview': typeof homeTeamsOverviewIndexLazyRoute
   '/teams/permissions': typeof homeTeamsPermissionsIndexLazyRoute
   '/teams/roles': typeof homeTeamsRolesIndexLazyRoute
+  '/folders/subfolders/$subfolderId': typeof homeFoldersSubfoldersSubfolderIdIndexLazyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -417,6 +451,7 @@ export interface FileRoutesById {
   '/(home)/trash/': typeof homeTrashIndexLazyRoute
   '/(home)/cta/help-support/': typeof homeCtaHelpSupportIndexLazyRoute
   '/(home)/folders/$folderId/': typeof homeFoldersFolderIdIndexLazyRoute
+  '/(home)/folders/subfolders/': typeof homeFoldersSubfoldersIndexLazyRoute
   '/(home)/settings/automations/': typeof homeSettingsAutomationsIndexLazyRoute
   '/(home)/settings/billing/': typeof homeSettingsBillingIndexLazyRoute
   '/(home)/settings/integrations/': typeof homeSettingsIntegrationsIndexLazyRoute
@@ -429,6 +464,7 @@ export interface FileRoutesById {
   '/(home)/teams/overview/': typeof homeTeamsOverviewIndexLazyRoute
   '/(home)/teams/permissions/': typeof homeTeamsPermissionsIndexLazyRoute
   '/(home)/teams/roles/': typeof homeTeamsRolesIndexLazyRoute
+  '/(home)/folders/subfolders/$subfolderId/': typeof homeFoldersSubfoldersSubfolderIdIndexLazyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -449,6 +485,7 @@ export interface FileRouteTypes {
     | '/trash'
     | '/cta/help-support'
     | '/folders/$folderId'
+    | '/folders/subfolders'
     | '/settings/automations'
     | '/settings/billing'
     | '/settings/integrations'
@@ -461,6 +498,7 @@ export interface FileRouteTypes {
     | '/teams/overview'
     | '/teams/permissions'
     | '/teams/roles'
+    | '/folders/subfolders/$subfolderId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -476,6 +514,7 @@ export interface FileRouteTypes {
     | '/trash'
     | '/cta/help-support'
     | '/folders/$folderId'
+    | '/folders/subfolders'
     | '/settings/automations'
     | '/settings/billing'
     | '/settings/integrations'
@@ -488,6 +527,7 @@ export interface FileRouteTypes {
     | '/teams/overview'
     | '/teams/permissions'
     | '/teams/roles'
+    | '/folders/subfolders/$subfolderId'
   id:
     | '__root__'
     | '/(home)'
@@ -507,6 +547,7 @@ export interface FileRouteTypes {
     | '/(home)/trash/'
     | '/(home)/cta/help-support/'
     | '/(home)/folders/$folderId/'
+    | '/(home)/folders/subfolders/'
     | '/(home)/settings/automations/'
     | '/(home)/settings/billing/'
     | '/(home)/settings/integrations/'
@@ -519,6 +560,7 @@ export interface FileRouteTypes {
     | '/(home)/teams/overview/'
     | '/(home)/teams/permissions/'
     | '/(home)/teams/roles/'
+    | '/(home)/folders/subfolders/$subfolderId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -716,6 +758,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof homeSettingsAutomationsIndexLazyRouteImport
       parentRoute: typeof homeSettingsRouteLazyRoute
     }
+    '/(home)/folders/subfolders/': {
+      id: '/(home)/folders/subfolders/'
+      path: '/folders/subfolders'
+      fullPath: '/folders/subfolders'
+      preLoaderRoute: typeof homeFoldersSubfoldersIndexLazyRouteImport
+      parentRoute: typeof homeRouteLazyRoute
+    }
     '/(home)/folders/$folderId/': {
       id: '/(home)/folders/$folderId/'
       path: '/folders/$folderId'
@@ -728,6 +777,13 @@ declare module '@tanstack/react-router' {
       path: '/cta/help-support'
       fullPath: '/cta/help-support'
       preLoaderRoute: typeof homeCtaHelpSupportIndexLazyRouteImport
+      parentRoute: typeof homeRouteLazyRoute
+    }
+    '/(home)/folders/subfolders/$subfolderId/': {
+      id: '/(home)/folders/subfolders/$subfolderId/'
+      path: '/folders/subfolders/$subfolderId'
+      fullPath: '/folders/subfolders/$subfolderId'
+      preLoaderRoute: typeof homeFoldersSubfoldersSubfolderIdIndexLazyRouteImport
       parentRoute: typeof homeRouteLazyRoute
     }
   }
@@ -807,6 +863,8 @@ interface homeRouteLazyRouteChildren {
   homeTrashIndexLazyRoute: typeof homeTrashIndexLazyRoute
   homeCtaHelpSupportIndexLazyRoute: typeof homeCtaHelpSupportIndexLazyRoute
   homeFoldersFolderIdIndexLazyRoute: typeof homeFoldersFolderIdIndexLazyRoute
+  homeFoldersSubfoldersIndexLazyRoute: typeof homeFoldersSubfoldersIndexLazyRoute
+  homeFoldersSubfoldersSubfolderIdIndexLazyRoute: typeof homeFoldersSubfoldersSubfolderIdIndexLazyRoute
 }
 
 const homeRouteLazyRouteChildren: homeRouteLazyRouteChildren = {
@@ -823,6 +881,9 @@ const homeRouteLazyRouteChildren: homeRouteLazyRouteChildren = {
   homeTrashIndexLazyRoute: homeTrashIndexLazyRoute,
   homeCtaHelpSupportIndexLazyRoute: homeCtaHelpSupportIndexLazyRoute,
   homeFoldersFolderIdIndexLazyRoute: homeFoldersFolderIdIndexLazyRoute,
+  homeFoldersSubfoldersIndexLazyRoute: homeFoldersSubfoldersIndexLazyRoute,
+  homeFoldersSubfoldersSubfolderIdIndexLazyRoute:
+    homeFoldersSubfoldersSubfolderIdIndexLazyRoute,
 }
 
 const homeRouteLazyRouteWithChildren = homeRouteLazyRoute._addFileChildren(
