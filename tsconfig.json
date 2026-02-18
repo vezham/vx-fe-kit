@@ -82,6 +82,12 @@
     },
     {
       "path": "./apps/notes3"
+    },
+    {
+      "path": "./apps/mail-e2e"
+    },
+    {
+      "path": "./apps/mail"
     }
   ]
 }
