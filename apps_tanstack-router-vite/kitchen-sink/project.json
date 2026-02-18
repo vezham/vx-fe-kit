@@ -1,0 +1,11 @@
+{
+  "name": "kitchen-sink",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps_tanstack-router-vite/kitchen-sink/src",
+  "targets": {
+    "hosts:setup": {},
+    "routes:tanstack": {}
+  },
+  "tags": ["category:demo"]
+}

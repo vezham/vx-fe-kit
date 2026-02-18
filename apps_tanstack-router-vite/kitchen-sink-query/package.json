@@ -1,0 +1,12 @@
+{
+  "name": "kitchen-sink-query",
+  "version": "0.0.1",
+  "private": true,
+  "devDependencies": {
+    "@vx/start": "workspace:*",
+    "@vx/system-utils": "workspace:*",
+    "immer": "^10.1.1",
+    "redaxios": "^0.5.1",
+    "zod": "^3.24.2"
+  }
+}

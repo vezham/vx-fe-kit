@@ -16,6 +16,21 @@
     },
     {
       "path": "./apps_internals/playground"
+    },
+    {
+      "path": "./apps_tanstack-router-vite/kitchen-sink-query"
+    },
+    {
+      "path": "./apps_tanstack-router-vite/kitchen-sink"
+    },
+    {
+      "path": "./apps_tanstack-router-vite/basic-query"
+    },
+    {
+      "path": "./apps_tanstack-router-vite/quickstart"
+    },
+    {
+      "path": "./apps_tanstack-router-vite/basic"
     }
   ]
 }
