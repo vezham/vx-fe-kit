@@ -1,6 +1,6 @@
 export type SidebarItem = {
-  label: string
-  href: string
+  label?: string
+  href?: string
   count?: number
   filter?: 'all' | 'favorites' | 'groups'
 }
