@@ -1,9 +1,9 @@
 import React from 'react'
 
 import Menu from './index'
-import { MenuLayoutProps } from './types'
+import { AppLayoutProps } from './types'
 
-const PageLayout: React.FC<MenuLayoutProps> = ({
+const AppLayout: React.FC<AppLayoutProps> = ({
   children,
   sidebar,
   header,
@@ -25,4 +25,4 @@ const PageLayout: React.FC<MenuLayoutProps> = ({
   )
 }
 
-export default PageLayout
+export default AppLayout

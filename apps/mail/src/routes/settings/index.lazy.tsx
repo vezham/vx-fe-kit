@@ -5,7 +5,11 @@ const settingsIndex = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    navigate({ to: '/settings/workspace', replace: true })
+    navigate({
+      to: '/settings/workspace',
+      search: prev => ({ ...prev }),
+      replace: true
+    })
   }, [navigate])
 
   return null

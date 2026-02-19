@@ -1,27 +1,28 @@
-import { useNavigate, useRouterState, useSearch } from '@tanstack/react-router'
+import { useNavigate, useSearch } from '@tanstack/react-router'
 
-export const useComposeQuery = () => {
+export const useCreateMailQuery = () => {
   const navigate = useNavigate()
-  const { location } = useRouterState()
+  const search = useSearch({ strict: false }) as {
+    compose?: 'new'
+  }
 
-  const params = new URLSearchParams(location.search)
-  const isOpen = params.get('compose') === 'new'
+  const isOpen = search.compose === 'new'
 
   const openCompose = () => {
-    const newParams = new URLSearchParams(location.search)
-    newParams.set('compose', 'new')
-
     navigate({
-      search: Object.fromEntries(newParams.entries())
+      search: old => ({
+        ...old,
+        compose: 'new'
+      })
     })
   }
 
   const closeCompose = () => {
-    const newParams = new URLSearchParams(location.search)
-    newParams.delete('compose')
-
     navigate({
-      search: Object.fromEntries(newParams.entries()),
+      search: old => ({
+        ...old,
+        compose: undefined
+      }),
       replace: true
     })
   }
@@ -50,42 +51,4 @@ export const useInboxQuery = () => {
   }
 
   return { view, setView }
-}
-
-export const useInboxDrawerQuery = () => {
-  const navigate = useNavigate({ from: '/mail/inbox' })
-  const search = useSearch({ strict: false }) as {
-    drawer?: 'view'
-    id?: string
-  }
-
-  const cleanId =
-    search.id && search.id.startsWith('"')
-      ? JSON.parse(search.id)
-      : (search.id ?? null)
-
-  const isOpen = search.drawer === 'view' && !!cleanId
-
-  const openDrawer = (id: string) => {
-    navigate({
-      search: old => ({
-        ...old,
-        drawer: 'view',
-        id
-      })
-    })
-  }
-
-  const closeDrawer = () => {
-    navigate({
-      search: old => ({
-        ...old,
-        drawer: undefined,
-        id: undefined
-      }),
-      replace: true
-    })
-  }
-
-  return { isOpen, id: cleanId, openDrawer, closeDrawer }
 }

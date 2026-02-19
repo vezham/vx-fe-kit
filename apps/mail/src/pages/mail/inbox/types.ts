@@ -32,12 +32,6 @@ export interface EmailDrawerProps {
 export type FilterOption = 'all' | 'read' | 'unread' | 'none'
 
 export interface EmailListProps {
-  emails: {
-    lastWeek: Email[]
-    lastMonth: Email[]
-    january: Email[]
-    december: Email[]
-    november: Email[]
-  }
+  emails: Record<string, Email[]>
   onEmailClick: (email: Email) => void
 }

@@ -1,4 +1,5 @@
 import { HeaderAction } from '../components/header/types'
+import { Email } from '../pages/mail/inbox/types'
 
 export const emailData = {
   lastWeek: [
@@ -34,6 +35,7 @@ export const emailData = {
       category: 'updates'
     }
   ],
+
   lastMonth: [
     {
       id: '4',
@@ -62,6 +64,7 @@ export const emailData = {
       category: 'important'
     }
   ],
+
   january: [
     {
       id: '6',
@@ -113,6 +116,7 @@ export const emailData = {
       category: 'social'
     }
   ],
+
   december: [
     {
       id: '11',
@@ -144,6 +148,7 @@ export const emailData = {
       category: 'important'
     }
   ],
+
   november: [
     {
       id: '14',
@@ -175,7 +180,7 @@ export const emailData = {
       category: 'social'
     }
   ]
-}
+} satisfies Record<string, Email[]>
 
 export const sidebarData = [
   {

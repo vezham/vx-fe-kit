@@ -1,10 +1,10 @@
 import { Icon } from '@iconify/react'
 import { useRef, useState } from 'react'
 
-import { useComposeQuery } from '../../utils/queryOptions'
+import { useCreateMailQuery } from '../../../utils/queryOptions'
 
-export default function ComposeModal() {
-  const { isOpen, closeCompose } = useComposeQuery()
+export default function CreateMail() {
+  const { isOpen, closeCompose } = useCreateMailQuery()
 
   const [minimized, setMinimized] = useState(false)
   const [showCc, setShowCc] = useState(false)

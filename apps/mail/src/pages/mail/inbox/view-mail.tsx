@@ -16,7 +16,11 @@ import {
 
 import { EmailDrawerProps } from './types'
 
-export function EmailDrawer({ isOpen, onOpenChange, email }: EmailDrawerProps) {
+export function ViewMailDrawer({
+  isOpen,
+  onOpenChange,
+  email
+}: EmailDrawerProps) {
   if (!email) return null
 
   return (

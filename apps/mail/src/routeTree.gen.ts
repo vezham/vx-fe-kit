@@ -58,6 +58,9 @@ const MailInboxIndexLazyRouteImport = createFileRoute('/mail/inbox/')()
 const MailDraftsIndexLazyRouteImport = createFileRoute('/mail/drafts/')()
 const CtaHelpSupportIndexLazyRouteImport =
   createFileRoute('/cta/help-support/')()
+const MailInboxInboxIdIndexLazyRouteImport = createFileRoute(
+  '/mail/inbox/$inboxId/',
+)()
 
 const TeamsRouteLazyRoute = TeamsRouteLazyRouteImport.update({
   id: '/teams',
@@ -252,6 +255,14 @@ const CtaHelpSupportIndexLazyRoute = CtaHelpSupportIndexLazyRouteImport.update({
 } as any).lazy(() =>
   import('./routes/cta/help-support/index.lazy').then((d) => d.Route),
 )
+const MailInboxInboxIdIndexLazyRoute =
+  MailInboxInboxIdIndexLazyRouteImport.update({
+    id: '/mail/inbox/$inboxId/',
+    path: '/mail/inbox/$inboxId/',
+    getParentRoute: () => rootRouteImport,
+  } as any).lazy(() =>
+    import('./routes/mail/inbox/$inboxId/index.lazy').then((d) => d.Route),
+  )
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
@@ -282,6 +293,7 @@ export interface FileRoutesByFullPath {
   '/teams/overview': typeof TeamsOverviewIndexLazyRoute
   '/teams/permissions': typeof TeamsPermissionsIndexLazyRoute
   '/teams/roles': typeof TeamsRolesIndexLazyRoute
+  '/mail/inbox/$inboxId': typeof MailInboxInboxIdIndexLazyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
@@ -309,6 +321,7 @@ export interface FileRoutesByTo {
   '/teams/overview': typeof TeamsOverviewIndexLazyRoute
   '/teams/permissions': typeof TeamsPermissionsIndexLazyRoute
   '/teams/roles': typeof TeamsRolesIndexLazyRoute
+  '/mail/inbox/$inboxId': typeof MailInboxInboxIdIndexLazyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -340,6 +353,7 @@ export interface FileRoutesById {
   '/teams/overview/': typeof TeamsOverviewIndexLazyRoute
   '/teams/permissions/': typeof TeamsPermissionsIndexLazyRoute
   '/teams/roles/': typeof TeamsRolesIndexLazyRoute
+  '/mail/inbox/$inboxId/': typeof MailInboxInboxIdIndexLazyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -372,6 +386,7 @@ export interface FileRouteTypes {
     | '/teams/overview'
     | '/teams/permissions'
     | '/teams/roles'
+    | '/mail/inbox/$inboxId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -399,6 +414,7 @@ export interface FileRouteTypes {
     | '/teams/overview'
     | '/teams/permissions'
     | '/teams/roles'
+    | '/mail/inbox/$inboxId'
   id:
     | '__root__'
     | '/'
@@ -429,6 +445,7 @@ export interface FileRouteTypes {
     | '/teams/overview/'
     | '/teams/permissions/'
     | '/teams/roles/'
+    | '/mail/inbox/$inboxId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -445,6 +462,7 @@ export interface RootRouteChildren {
   MailSpamIndexLazyRoute: typeof MailSpamIndexLazyRoute
   MailStarredIndexLazyRoute: typeof MailStarredIndexLazyRoute
   MailTrashIndexLazyRoute: typeof MailTrashIndexLazyRoute
+  MailInboxInboxIdIndexLazyRoute: typeof MailInboxInboxIdIndexLazyRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -645,6 +663,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CtaHelpSupportIndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/mail/inbox/$inboxId/': {
+      id: '/mail/inbox/$inboxId/'
+      path: '/mail/inbox/$inboxId'
+      fullPath: '/mail/inbox/$inboxId'
+      preLoaderRoute: typeof MailInboxInboxIdIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -721,6 +746,7 @@ const rootRouteChildren: RootRouteChildren = {
   MailSpamIndexLazyRoute: MailSpamIndexLazyRoute,
   MailStarredIndexLazyRoute: MailStarredIndexLazyRoute,
   MailTrashIndexLazyRoute: MailTrashIndexLazyRoute,
+  MailInboxInboxIdIndexLazyRoute: MailInboxInboxIdIndexLazyRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

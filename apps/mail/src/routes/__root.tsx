@@ -4,9 +4,9 @@ import { lazy } from 'react'
 import { __DEV__ } from '@vx/system-utils'
 
 import { Header } from '../components/header'
-import Page from '../components/menu/layout'
 import { Sidebar } from '../components/sidebar'
-import ComposeModal from '../pages/mail/createModal'
+import AppLayout from '../layouts/app-layout'
+import CreateMail from '../pages/mail/inbox/create-mail'
 
 const TanStackRouterDevtools = lazy(() =>
   import('@tanstack/react-router-devtools').then(d => ({
@@ -21,10 +21,11 @@ export const Route = createRootRoute({
 function RootComponent() {
   return (
     <>
-      <Page header={<Header />} sidebar={<Sidebar />}>
+      <AppLayout header={<Header />} sidebar={<Sidebar />}>
         <Outlet />
-        <ComposeModal />
-      </Page>
+        <CreateMail />
+      </AppLayout>
+
       {__DEV__ ? <TanStackRouterDevtools position="bottom-right" /> : null}
     </>
   )

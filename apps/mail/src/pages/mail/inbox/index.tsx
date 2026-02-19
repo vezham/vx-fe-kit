@@ -10,10 +10,15 @@ import {
   DropdownTrigger
 } from '@vezham/react/v2'
 
-import { useInboxQuery } from '../../utils/queryOptions'
-import { Email, EmailListSectionProps, FilterOption } from './types'
+import { useInboxQuery } from '../../../utils/queryOptions'
+import {
+  Email,
+  EmailListProps,
+  EmailListSectionProps,
+  FilterOption
+} from './types'
 
-export function EmailListSection({
+export function MailListSection({
   title,
   emails,
   onEmailClick,
@@ -91,18 +96,7 @@ export function EmailListSection({
   )
 }
 
-interface EmailListProps {
-  emails: {
-    lastWeek: Email[]
-    lastMonth: Email[]
-    january: Email[]
-    december: Email[]
-    november: Email[]
-  }
-  onEmailClick: (email: Email) => void
-}
-
-export function EmailList({ emails, onEmailClick }: EmailListProps) {
+export function MailList({ emails, onEmailClick }: EmailListProps) {
   const [selectedEmails, setSelectedEmails] = React.useState<Set<string>>(
     new Set()
   )
@@ -204,7 +198,6 @@ export function EmailList({ emails, onEmailClick }: EmailListProps) {
           </span>
         </div>
       ) : (
-        /* ✅ Normal Toolbar */
         <div className="flex items-center px-5 py-2">
           <Checkbox
             isSelected={
@@ -251,10 +244,9 @@ export function EmailList({ emails, onEmailClick }: EmailListProps) {
         </div>
       )}
 
-      {/* ✅ Email Sections */}
       <div className="flex flex-col gap-y-2 overflow-auto px-3 py-2">
         {filteredEmails.lastWeek.length > 0 && (
-          <EmailListSection
+          <MailListSection
             title="Last 7 days"
             emails={filteredEmails.lastWeek}
             onEmailClick={onEmailClick}
@@ -264,7 +256,7 @@ export function EmailList({ emails, onEmailClick }: EmailListProps) {
         )}
 
         {filteredEmails.lastMonth.length > 0 && (
-          <EmailListSection
+          <MailListSection
             title="Last 30 days"
             emails={filteredEmails.lastMonth}
             onEmailClick={onEmailClick}
@@ -274,7 +266,7 @@ export function EmailList({ emails, onEmailClick }: EmailListProps) {
         )}
 
         {filteredEmails.january.length > 0 && (
-          <EmailListSection
+          <MailListSection
             title="January"
             emails={filteredEmails.january}
             onEmailClick={onEmailClick}
@@ -284,7 +276,7 @@ export function EmailList({ emails, onEmailClick }: EmailListProps) {
         )}
 
         {filteredEmails.december.length > 0 && (
-          <EmailListSection
+          <MailListSection
             title="December"
             emails={filteredEmails.december}
             onEmailClick={onEmailClick}
@@ -294,7 +286,7 @@ export function EmailList({ emails, onEmailClick }: EmailListProps) {
         )}
 
         {filteredEmails.november.length > 0 && (
-          <EmailListSection
+          <MailListSection
             title="November"
             emails={filteredEmails.november}
             onEmailClick={onEmailClick}
