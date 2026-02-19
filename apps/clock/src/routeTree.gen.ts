@@ -13,13 +13,12 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRouteImport } from './routes/__root'
 
 const homeRouteLazyRouteImport = createFileRoute('/(home)')()
+const TimerIndexLazyRouteImport = createFileRoute('/timer/')()
+const StopwatchIndexLazyRouteImport = createFileRoute('/stopwatch/')()
+const AlarmIndexLazyRouteImport = createFileRoute('/alarm/')()
 const homeIndexLazyRouteImport = createFileRoute('/(home)/')()
-const homeTimerIndexLazyRouteImport = createFileRoute('/(home)/timer/')()
-const homeStopwatchIndexLazyRouteImport =
-  createFileRoute('/(home)/stopwatch/')()
-const homeAlarmIndexLazyRouteImport = createFileRoute('/(home)/alarm/')()
-const homeWorldclockClockIdIndexLazyRouteImport = createFileRoute(
-  '/(home)/worldclock/$clockId/',
+const WorldclockClockIdIndexLazyRouteImport = createFileRoute(
+  '/worldclock/$clockId/',
 )()
 
 const homeRouteLazyRoute = homeRouteLazyRouteImport
@@ -28,6 +27,23 @@ const homeRouteLazyRoute = homeRouteLazyRouteImport
     getParentRoute: () => rootRouteImport,
   } as any)
   .lazy(() => import('./routes/(home)/route.lazy').then((d) => d.Route))
+const TimerIndexLazyRoute = TimerIndexLazyRouteImport.update({
+  id: '/timer/',
+  path: '/timer/',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() => import('./routes/timer/index.lazy').then((d) => d.Route))
+const StopwatchIndexLazyRoute = StopwatchIndexLazyRouteImport.update({
+  id: '/stopwatch/',
+  path: '/stopwatch/',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() =>
+  import('./routes/stopwatch/index.lazy').then((d) => d.Route),
+)
+const AlarmIndexLazyRoute = AlarmIndexLazyRouteImport.update({
+  id: '/alarm/',
+  path: '/alarm/',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() => import('./routes/alarm/index.lazy').then((d) => d.Route))
 const homeIndexLazyRoute = homeIndexLazyRouteImport
   .update({
     id: '/',
@@ -35,64 +51,37 @@ const homeIndexLazyRoute = homeIndexLazyRouteImport
     getParentRoute: () => homeRouteLazyRoute,
   } as any)
   .lazy(() => import('./routes/(home)/index.lazy').then((d) => d.Route))
-const homeTimerIndexLazyRoute = homeTimerIndexLazyRouteImport
-  .update({
-    id: '/timer/',
-    path: '/timer/',
-    getParentRoute: () => homeRouteLazyRoute,
-  } as any)
-  .lazy(() => import('./routes/(home)/timer/index.lazy').then((d) => d.Route))
-const homeStopwatchIndexLazyRoute = homeStopwatchIndexLazyRouteImport
-  .update({
-    id: '/stopwatch/',
-    path: '/stopwatch/',
-    getParentRoute: () => homeRouteLazyRoute,
-  } as any)
-  .lazy(() =>
-    import('./routes/(home)/stopwatch/index.lazy').then((d) => d.Route),
+const WorldclockClockIdIndexLazyRoute =
+  WorldclockClockIdIndexLazyRouteImport.update({
+    id: '/worldclock/$clockId/',
+    path: '/worldclock/$clockId/',
+    getParentRoute: () => rootRouteImport,
+  } as any).lazy(() =>
+    import('./routes/worldclock/$clockId/index.lazy').then((d) => d.Route),
   )
-const homeAlarmIndexLazyRoute = homeAlarmIndexLazyRouteImport
-  .update({
-    id: '/alarm/',
-    path: '/alarm/',
-    getParentRoute: () => homeRouteLazyRoute,
-  } as any)
-  .lazy(() => import('./routes/(home)/alarm/index.lazy').then((d) => d.Route))
-const homeWorldclockClockIdIndexLazyRoute =
-  homeWorldclockClockIdIndexLazyRouteImport
-    .update({
-      id: '/worldclock/$clockId/',
-      path: '/worldclock/$clockId/',
-      getParentRoute: () => homeRouteLazyRoute,
-    } as any)
-    .lazy(() =>
-      import('./routes/(home)/worldclock/$clockId/index.lazy').then(
-        (d) => d.Route,
-      ),
-    )
 
 export interface FileRoutesByFullPath {
   '/': typeof homeIndexLazyRoute
-  '/alarm': typeof homeAlarmIndexLazyRoute
-  '/stopwatch': typeof homeStopwatchIndexLazyRoute
-  '/timer': typeof homeTimerIndexLazyRoute
-  '/worldclock/$clockId': typeof homeWorldclockClockIdIndexLazyRoute
+  '/alarm': typeof AlarmIndexLazyRoute
+  '/stopwatch': typeof StopwatchIndexLazyRoute
+  '/timer': typeof TimerIndexLazyRoute
+  '/worldclock/$clockId': typeof WorldclockClockIdIndexLazyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof homeIndexLazyRoute
-  '/alarm': typeof homeAlarmIndexLazyRoute
-  '/stopwatch': typeof homeStopwatchIndexLazyRoute
-  '/timer': typeof homeTimerIndexLazyRoute
-  '/worldclock/$clockId': typeof homeWorldclockClockIdIndexLazyRoute
+  '/alarm': typeof AlarmIndexLazyRoute
+  '/stopwatch': typeof StopwatchIndexLazyRoute
+  '/timer': typeof TimerIndexLazyRoute
+  '/worldclock/$clockId': typeof WorldclockClockIdIndexLazyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/(home)': typeof homeRouteLazyRouteWithChildren
   '/(home)/': typeof homeIndexLazyRoute
-  '/(home)/alarm/': typeof homeAlarmIndexLazyRoute
-  '/(home)/stopwatch/': typeof homeStopwatchIndexLazyRoute
-  '/(home)/timer/': typeof homeTimerIndexLazyRoute
-  '/(home)/worldclock/$clockId/': typeof homeWorldclockClockIdIndexLazyRoute
+  '/alarm/': typeof AlarmIndexLazyRoute
+  '/stopwatch/': typeof StopwatchIndexLazyRoute
+  '/timer/': typeof TimerIndexLazyRoute
+  '/worldclock/$clockId/': typeof WorldclockClockIdIndexLazyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -103,14 +92,18 @@ export interface FileRouteTypes {
     | '__root__'
     | '/(home)'
     | '/(home)/'
-    | '/(home)/alarm/'
-    | '/(home)/stopwatch/'
-    | '/(home)/timer/'
-    | '/(home)/worldclock/$clockId/'
+    | '/alarm/'
+    | '/stopwatch/'
+    | '/timer/'
+    | '/worldclock/$clockId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   homeRouteLazyRoute: typeof homeRouteLazyRouteWithChildren
+  AlarmIndexLazyRoute: typeof AlarmIndexLazyRoute
+  StopwatchIndexLazyRoute: typeof StopwatchIndexLazyRoute
+  TimerIndexLazyRoute: typeof TimerIndexLazyRoute
+  WorldclockClockIdIndexLazyRoute: typeof WorldclockClockIdIndexLazyRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -122,6 +115,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof homeRouteLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/timer/': {
+      id: '/timer/'
+      path: '/timer'
+      fullPath: '/timer'
+      preLoaderRoute: typeof TimerIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/stopwatch/': {
+      id: '/stopwatch/'
+      path: '/stopwatch'
+      fullPath: '/stopwatch'
+      preLoaderRoute: typeof StopwatchIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/alarm/': {
+      id: '/alarm/'
+      path: '/alarm'
+      fullPath: '/alarm'
+      preLoaderRoute: typeof AlarmIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/(home)/': {
       id: '/(home)/'
       path: '/'
@@ -129,51 +143,22 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof homeIndexLazyRouteImport
       parentRoute: typeof homeRouteLazyRoute
     }
-    '/(home)/timer/': {
-      id: '/(home)/timer/'
-      path: '/timer'
-      fullPath: '/timer'
-      preLoaderRoute: typeof homeTimerIndexLazyRouteImport
-      parentRoute: typeof homeRouteLazyRoute
-    }
-    '/(home)/stopwatch/': {
-      id: '/(home)/stopwatch/'
-      path: '/stopwatch'
-      fullPath: '/stopwatch'
-      preLoaderRoute: typeof homeStopwatchIndexLazyRouteImport
-      parentRoute: typeof homeRouteLazyRoute
-    }
-    '/(home)/alarm/': {
-      id: '/(home)/alarm/'
-      path: '/alarm'
-      fullPath: '/alarm'
-      preLoaderRoute: typeof homeAlarmIndexLazyRouteImport
-      parentRoute: typeof homeRouteLazyRoute
-    }
-    '/(home)/worldclock/$clockId/': {
-      id: '/(home)/worldclock/$clockId/'
+    '/worldclock/$clockId/': {
+      id: '/worldclock/$clockId/'
       path: '/worldclock/$clockId'
       fullPath: '/worldclock/$clockId'
-      preLoaderRoute: typeof homeWorldclockClockIdIndexLazyRouteImport
-      parentRoute: typeof homeRouteLazyRoute
+      preLoaderRoute: typeof WorldclockClockIdIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
     }
   }
 }
 
 interface homeRouteLazyRouteChildren {
   homeIndexLazyRoute: typeof homeIndexLazyRoute
-  homeAlarmIndexLazyRoute: typeof homeAlarmIndexLazyRoute
-  homeStopwatchIndexLazyRoute: typeof homeStopwatchIndexLazyRoute
-  homeTimerIndexLazyRoute: typeof homeTimerIndexLazyRoute
-  homeWorldclockClockIdIndexLazyRoute: typeof homeWorldclockClockIdIndexLazyRoute
 }
 
 const homeRouteLazyRouteChildren: homeRouteLazyRouteChildren = {
   homeIndexLazyRoute: homeIndexLazyRoute,
-  homeAlarmIndexLazyRoute: homeAlarmIndexLazyRoute,
-  homeStopwatchIndexLazyRoute: homeStopwatchIndexLazyRoute,
-  homeTimerIndexLazyRoute: homeTimerIndexLazyRoute,
-  homeWorldclockClockIdIndexLazyRoute: homeWorldclockClockIdIndexLazyRoute,
 }
 
 const homeRouteLazyRouteWithChildren = homeRouteLazyRoute._addFileChildren(
@@ -182,6 +167,10 @@ const homeRouteLazyRouteWithChildren = homeRouteLazyRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   homeRouteLazyRoute: homeRouteLazyRouteWithChildren,
+  AlarmIndexLazyRoute: AlarmIndexLazyRoute,
+  StopwatchIndexLazyRoute: StopwatchIndexLazyRoute,
+  TimerIndexLazyRoute: TimerIndexLazyRoute,
+  WorldclockClockIdIndexLazyRoute: WorldclockClockIdIndexLazyRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
