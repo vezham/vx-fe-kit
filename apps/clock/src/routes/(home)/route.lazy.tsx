@@ -6,7 +6,6 @@ import {
 } from '@tanstack/react-router'
 
 import Page from '../../components/menu/layout'
-import Sidebar from '../../components/sidebar'
 
 export const Route = createLazyFileRoute('/(home)')({
   component: HomeLayout
@@ -19,7 +18,8 @@ function HomeLayout() {
         { label: 'Worldclock', href: '/' },
         { label: 'Alarm', href: '/alarm' },
         { label: 'Stopwatch', href: '/stopwatch' },
-        { label: 'Timer', href: '/timer' }
+        { label: 'Timer', href: '/timer' },
+        { label: 'Widgets', href: '/widgets' }
       ]}>
       <Outlet />
     </Page>
