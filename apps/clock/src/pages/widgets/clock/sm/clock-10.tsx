@@ -1,8 +1,8 @@
 import { AlarmClockIcon } from 'lucide-react'
 import * as React from 'react'
 
-import { Label } from '../../../../components/ui/label'
-import { Switch } from '../../../../components/ui/switch'
+import { Label, Switch } from '@vezham/react/v3'
+
 import {
   Widget,
   WidgetContent,
@@ -27,7 +27,11 @@ export default function Clock10() {
             <Label htmlFor={alarm} className="font-semibold">
               {alarm}
             </Label>
-            <Switch id={alarm} />
+            <Switch>
+              <Switch.Control>
+                <Switch.Thumb id={alarm}></Switch.Thumb>
+              </Switch.Control>
+            </Switch>
           </div>
         ))}
       </WidgetContent>

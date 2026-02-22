@@ -1,6 +1,7 @@
 import * as React from 'react'
 
-import { Label } from '../../../../components/ui/label'
+import { Label } from '@vezham/react/v3'
+
 import {
   Widget,
   WidgetContent,
@@ -10,7 +11,7 @@ import {
 export default function Clock08() {
   return (
     <Widget>
-      <WidgetContent className="flex-col justify-between">
+      <WidgetContent className="flex-col justify-between gap-4">
         <div className="flex w-full items-center justify-between gap-2">
           <Label className="text-sm">Mumbai</Label>
           <WidgetTitle>8:15 AM</WidgetTitle>

@@ -9,8 +9,9 @@ import {
 } from 'lucide-react'
 import * as React from 'react'
 
-import { Button } from '../../../../components/ui/button'
-import { Label } from '../../../../components/ui/label'
+import { Button } from '@vezham/react/v2'
+import { Label } from '@vezham/react/v3'
+
 import {
   Widget,
   WidgetContent,
@@ -67,26 +68,28 @@ export default function Clock11() {
     <Widget className="gap-3" design="mumbai">
       <WidgetHeader className="items-center">
         <Button
+          size="sm"
+          isIconOnly
           aria-label="Subtract one minute"
           disabled={isCountingDown || timeLeft <= 60}
           onClick={() => updateTime('subtract')}
-          variant="ghost"
-          size="icon-sm"
+          variant="light"
           className="disabled:cursor-not-allowed">
-          <MinusIcon />
+          <MinusIcon width={12} />
         </Button>
 
         <Label className="text-base text-gray-500">
           {minutes} Min{minutes !== 1 ? 's' : ''}
         </Label>
         <Button
+          size="sm"
+          isIconOnly
           aria-label="Add one minute"
           disabled={isCountingDown || timeLeft >= 600}
           onClick={() => updateTime('add')}
-          variant="ghost"
-          size="icon-sm"
+          variant="light"
           className="disabled:cursor-not-allowed">
-          <PlusIcon />
+          <PlusIcon width={12} />
         </Button>
       </WidgetHeader>
       <WidgetContent>
@@ -98,21 +101,23 @@ export default function Clock11() {
       </WidgetContent>
       <WidgetFooter>
         <Button
+          size="sm"
+          isIconOnly
+          variant="bordered"
           aria-label="Reset timer"
           onClick={resetTimer}
-          variant="default"
-          size="icon-sm"
-          className="rounded-full">
-          <RotateCcw />
+          className="hover:bg-content2 rounded-full">
+          <RotateCcw width={16} />
         </Button>
         <Button
+          size="sm"
+          variant="bordered"
+          isIconOnly
           aria-label={isCountingDown ? 'Pause timer' : 'Start timer'}
           onClick={handleToggle}
-          variant="default"
-          size="icon-sm"
-          className="rounded-full">
+          className="hover:bg-content2 rounded-full">
           {isCountingDown ? (
-            <PauseIcon className="fill-ot size-4 stroke-none" />
+            <PauseIcon className="size-4 fill-current stroke-none" />
           ) : (
             <PlayIcon className="size-4 fill-current stroke-none" />
           )}

@@ -3,8 +3,9 @@
 import { Pause, Play, RotateCcw } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 
-import { Button } from '../../../../components/ui/button'
-import { Label } from '../../../../components/ui/label'
+import { Button } from '@vezham/react/v2'
+import { Label } from '@vezham/react/v3'
+
 import {
   Widget,
   WidgetContent,
@@ -79,7 +80,7 @@ export default function Clock12() {
                 transform: `rotate(${i * 6}deg)`
               }}>
               {/* Small second tick */}
-              <div className="bg-muted absolute top-0 left-1/2 h-1.5 w-0.5 -translate-x-1/2 transform" />
+              <div className="bg-content2 absolute top-0 left-1/2 h-1.5 w-0.5 -translate-x-1/2 transform" />
             </div>
           )
         })}
@@ -96,7 +97,7 @@ export default function Clock12() {
                 transform: `rotate(${i * 30}deg)`
               }}>
               {/* Hour tick */}
-              <div className="bg-muted-foreground/50 absolute top-0 left-1/2 h-3 w-0.5 -translate-x-1/2 transform" />
+              <div className="bg-default-400 absolute top-0 left-1/2 h-3 w-0.5 -translate-x-1/2 transform" />
             </div>
           )
         })}
@@ -138,18 +139,20 @@ export default function Clock12() {
       <WidgetFooter>
         {/* Reset Button */}
         <Button
+          size="sm"
+          isIconOnly
           onClick={handleReset}
-          size="icon-sm"
-          variant="default"
-          className="rounded-full"
+          variant="bordered"
+          className="hover:bg-content2 rounded-full"
           aria-label="Reset stopwatch">
           <RotateCcw className="size-4" />
         </Button>
         <Button
+          size="sm"
           onClick={handlePlayPause}
-          size="icon-sm"
-          variant="default"
-          className="rounded-full"
+          isIconOnly
+          variant="bordered"
+          className="hover:bg-content2 rounded-full"
           aria-label={isRunning ? 'Pause stopwatch' : 'Start stopwatch'}>
           {isRunning ? (
             <Pause className="size-4 fill-current" />

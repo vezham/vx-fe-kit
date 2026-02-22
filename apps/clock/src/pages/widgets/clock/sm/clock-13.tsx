@@ -1,6 +1,7 @@
 import { CheckIcon, XIcon } from 'lucide-react'
 
-import { Button } from '../../../../components/ui/button'
+import { Button } from '@vezham/react/v2'
+
 import {
   WheelPicker,
   WheelPickerOption,
@@ -54,16 +55,18 @@ export default function Clock13() {
       </WidgetContent>
       <WidgetFooter>
         <Button
-          size="icon-sm"
-          variant="default"
-          className="rounded-full text-red-500"
+          isIconOnly
+          size="sm"
+          variant="bordered"
+          className="hover:bg-content2 rounded-full text-red-500"
           aria-label="Reset stopwatch">
           <XIcon className="stroke-destructive size-4 stroke-3" />
         </Button>
         <Button
-          size="icon-sm"
-          variant="default"
-          className="rounded-full text-green-500"
+          isIconOnly
+          size="sm"
+          variant="bordered"
+          className="hover:bg-content2 rounded-full text-green-500"
           aria-label={'Start stopwatch'}>
           <CheckIcon className="stroke-productive size-4 stroke-3" />
         </Button>
