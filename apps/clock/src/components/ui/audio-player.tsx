@@ -595,6 +595,6 @@ export function AudioPlayerSpeedButtonGroup({
 
 export const exampleTrack = {
   id: '0',
-  src: '/code-monkey.mp3',
+  src: 'https://wigggle-ui.vercel.app/code-monkey.mp3',
   data: { title: 'Code Monkey', artist: 'Jonathan Coulton' }
 }

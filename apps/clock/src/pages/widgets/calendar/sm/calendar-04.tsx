@@ -3,9 +3,8 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import React, { useMemo, useState } from 'react'
 
-import { Badge } from '../../../../components/ui/badge'
-import { Button } from '../../../../components/ui/button'
-import { Separator } from '../../../../components/ui/separator'
+import { Button, Separator } from '@vezham/react/v3'
+
 import {
   Widget,
   WidgetContent,
@@ -50,7 +49,6 @@ export default function CalendarSM04() {
       <WidgetHeader>
         <Button
           variant="ghost"
-          size="icon"
           className="size-4 p-0 hover:cursor-pointer"
           onClick={() => changeMonth(-1)}>
           <ChevronLeft className="h-4 w-4" />
@@ -60,13 +58,12 @@ export default function CalendarSM04() {
         </WidgetTitle>
         <Button
           variant="ghost"
-          size="icon"
           className="size-4 p-0 hover:cursor-pointer"
           onClick={() => changeMonth(1)}>
           <ChevronRight className="h-4 w-4" />
         </Button>
       </WidgetHeader>
-      <Separator className="h-0.5 rounded-full" />
+      <Separator />
       <WidgetContent>
         <div className="grid size-full grid-cols-7 gap-1 text-center">
           {days.map((day, i) => (
@@ -75,13 +72,9 @@ export default function CalendarSM04() {
             </div>
           ))}
           {calendarDays.map((day, i) => (
-            <div key={i} className="text-muted-foreground text-xs">
+            <div key={i} className="text-default-400 text-xs">
               {day && isToday(day) ? (
-                <Badge
-                  variant={'primary'}
-                  className="flex size-4 items-center justify-center p-2">
-                  {day}
-                </Badge>
+                <div className="rounded-md bg-black text-white">{day}</div>
               ) : (
                 day
               )}

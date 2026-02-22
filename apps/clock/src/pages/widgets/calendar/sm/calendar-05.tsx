@@ -1,7 +1,7 @@
 import * as React from 'react'
 
-import { Badge } from '../../../../components/ui/badge'
-import { Label } from '../../../../components/ui/label'
+import { Label } from '@vezham/react/v3'
+
 import {
   Widget,
   WidgetContent,
@@ -25,13 +25,12 @@ export default function CalendarSM05() {
       <WidgetContent className="flex-col items-start justify-start gap-2">
         <Label className="text-3xl">{date}</Label>
         {events.map((event, i) => (
-          <Badge
+          <div
             key={i}
-            variant="default"
-            className="flex w-full items-center justify-between gap-2 px-2 py-1 text-xs">
+            className="bg-content2 flex w-full items-center justify-between gap-2 rounded-md px-2 py-1 text-xs">
             {event.title}
             <span className="text-gray-500">{event.time}</span>
-          </Badge>
+          </div>
         ))}
       </WidgetContent>
     </Widget>

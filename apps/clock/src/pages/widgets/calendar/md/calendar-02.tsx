@@ -3,9 +3,8 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import * as React from 'react'
 
-import { Badge } from '../../../../components/ui/badge'
-import { Button } from '../../../../components/ui/button'
-import { Label } from '../../../../components/ui/label'
+import { Button, Label } from '@vezham/react/v3'
+
 import {
   Widget,
   WidgetContent,
@@ -57,7 +56,6 @@ export default function CalendarMD02() {
           <div className="flex w-full items-center justify-between">
             <Button
               variant="ghost"
-              size="icon"
               className="size-4 p-0"
               onClick={() => changeMonth(-1)}>
               <ChevronLeft className="h-4 w-4" />
@@ -67,7 +65,6 @@ export default function CalendarMD02() {
             </WidgetTitle>
             <Button
               variant="ghost"
-              size="icon"
               className="size-4 p-0"
               onClick={() => changeMonth(1)}>
               <ChevronRight className="h-4 w-4" />
@@ -81,13 +78,11 @@ export default function CalendarMD02() {
               </div>
             ))}
             {calendarDays.map((d, i) => (
-              <div key={i} className="text-muted-foreground text-xs">
+              <div key={i} className="text-default-400 text-xs">
                 {isToday(d) ? (
-                  <Badge
-                    variant={'primary'}
-                    className="flex size-4 items-center justify-center p-2">
+                  <div className="flex size-4 items-center justify-center rounded-md bg-black p-2 text-white">
                     {d}
-                  </Badge>
+                  </div>
                 ) : (
                   (d ?? <>&nbsp;</>)
                 )}
@@ -101,18 +96,17 @@ export default function CalendarMD02() {
             {today.toLocaleDateString('en-US', { weekday: 'long' })}
           </WidgetHeader>
           <div className="w-full flex-col items-end justify-end">
-            <Label className="mx-auto w-max text-3xl">
+            <Label className="flex justify-center text-3xl">
               {today.getDate().toString().padStart(2, '0')}
             </Label>
             <div className="mt-2 space-y-2">
               {events.map((event, i) => (
-                <Badge
+                <div
                   key={i}
-                  variant="default"
-                  className="flex w-full items-center justify-between gap-2 px-2 py-1 text-xs">
+                  className="bg-content2 flex w-full items-center justify-between gap-2 rounded-md px-2 py-1 text-xs">
                   {event.title}
-                  <span className="text-gray-500">{event.time}</span>
-                </Badge>
+                  <span className="text-default-500">{event.time}</span>
+                </div>
               ))}
             </div>
           </div>

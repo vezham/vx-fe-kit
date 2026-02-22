@@ -1,7 +1,8 @@
 import * as React from 'react'
 
-import { Badge } from '../../../../components/ui/badge'
-import { Label } from '../../../../components/ui/label'
+import { Chip } from '@vezham/react/v2'
+import { Label } from '@vezham/react/v3'
+
 import { Widget, WidgetContent } from '../../../../components/ui/widget'
 
 export default function CalendarSM02() {
@@ -17,7 +18,9 @@ export default function CalendarSM02() {
         <Label className="text-gray-500">{day}</Label>
         <Label className="text-5xl font-bold">{date}</Label>
         <Label className="text-gray-500">{month}</Label>
-        <Badge variant="outline">{now.getFullYear()}</Badge>
+        <Chip variant="bordered" radius="md">
+          {now.getFullYear()}
+        </Chip>
       </WidgetContent>
     </Widget>
   )

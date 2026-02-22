@@ -1,14 +1,14 @@
 import { PlusIcon, VideoIcon } from 'lucide-react'
 
-import { Button } from '../../../../components/ui/button'
-import { Label } from '../../../../components/ui/label'
+import { Button } from '@vezham/react/v2'
+import { Label, cn } from '@vezham/react/v3'
+
 import {
   Widget,
   WidgetContent,
   WidgetHeader,
   WidgetTitle
 } from '../../../../components/ui/widget'
-import { cn } from '../../../../lib/utils'
 
 export default function CalendarSM06() {
   const now = new Date()
@@ -44,12 +44,16 @@ export default function CalendarSM06() {
         <div className="flex items-center gap-2">
           <WidgetTitle className="text-3xl">{date}</WidgetTitle>
           <div className="flex flex-col">
-            <Label className="text-muted-foreground">{month}</Label>
-            <Label className="text-muted-foreground">{day}</Label>
+            <Label className="text-default-500 text-xs">{month}</Label>
+            <Label className="text-default-500 text-xs">{day}</Label>
           </div>
         </div>
-        <Button variant="default" className="rounded-md" size="icon-sm">
-          <PlusIcon />
+        <Button
+          isIconOnly
+          size="sm"
+          variant="bordered"
+          className="hover:bg-content2">
+          <PlusIcon width={16} />
         </Button>
       </WidgetHeader>
 
@@ -59,14 +63,18 @@ export default function CalendarSM06() {
             <div className="flex h-full">
               <div className={cn('h-full w-1 rounded-md', borderColor)} />
               <div className="flex flex-col px-2">
-                <Label className="text-muted-foreground text-xs">{time}</Label>
+                <Label className="text-default-500 text-xs">{time}</Label>
                 <Label className="text-xs font-normal">{title}</Label>
               </div>
             </div>
 
             {Action && (
-              <Button variant="default" className="rounded-md" size="icon-sm">
-                <Action />
+              <Button
+                isIconOnly
+                size="sm"
+                variant="bordered"
+                className="hover:bg-content2">
+                <Action width={16} />
               </Button>
             )}
           </div>

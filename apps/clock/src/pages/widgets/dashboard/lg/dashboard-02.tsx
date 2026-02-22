@@ -193,7 +193,14 @@ function StatsItem(item: StatsItemProps) {
     <div className="flex w-full items-center justify-between border-t-2 py-2.5 first:border-0">
       <div className="flex items-center justify-start gap-x-2">
         <item.icon className="text-default-500 size-4" />
-        <Label className="text-default-500">{item.label}</Label>
+        <div>
+          <p className="text-default-500" data-vx="testing">
+            {item.label}
+          </p>
+        </div>
+        <Label className="text-default-500" data-vx="testing">
+          {item.label}
+        </Label>
       </div>
       <Label className="text-default-500">{item.value}</Label>
     </div>

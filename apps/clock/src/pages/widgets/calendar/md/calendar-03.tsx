@@ -3,8 +3,9 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import * as React from 'react'
 
-import { Badge } from '../../../../components/ui/badge'
-import { Button } from '../../../../components/ui/button'
+import { Divider } from '@vezham/react/v2'
+import { Button, Separator } from '@vezham/react/v3'
+
 import {
   Widget,
   WidgetContent,
@@ -67,13 +68,11 @@ export default function CalendarMD03() {
     <div className="grid size-full grid-cols-7 gap-1 text-center">
       <WeekdayRow />
       {days.map((d, i) => (
-        <div key={i} className="text-muted-foreground text-xs">
+        <div key={i} className="text-default-400 text-xs">
           {isToday(d, m, y) ? (
-            <Badge
-              variant={'primary'}
-              className="flex size-4 items-center justify-center p-2">
+            <div className="flex size-4 items-center justify-center rounded-md bg-black p-2 text-white">
               {d}
-            </Badge>
+            </div>
           ) : (
             (d ?? <>&nbsp;</>)
           )}
@@ -89,7 +88,6 @@ export default function CalendarMD03() {
           <div className="flex items-center gap-2">
             <Button
               variant="ghost"
-              size="icon"
               className="size-4 p-0"
               onClick={() => changeMonth(-1)}>
               <ChevronLeft className="h-4 w-4" />
@@ -104,17 +102,16 @@ export default function CalendarMD03() {
             </WidgetTitle>
             <Button
               variant="ghost"
-              size="icon"
               className="size-4 p-0"
               onClick={() => changeMonth(1)}>
               <ChevronRight className="h-4 w-4" />
             </Button>
           </div>
         </div>
-
+        <Separator />
         <div className="flex w-full flex-1 items-center justify-between gap-2">
           <Calendar days={calendarDays} m={month} y={year} />
-          <div className="bg-default h-full w-1" />
+          <Divider orientation="vertical" />
           <Calendar
             days={nextCalendarDays}
             m={next.getMonth()}

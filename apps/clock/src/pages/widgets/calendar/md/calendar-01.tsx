@@ -1,5 +1,5 @@
-import { Badge } from '../../../../components/ui/badge'
-import { Label } from '../../../../components/ui/label'
+import { Label } from '@vezham/react/v3'
+
 import { Widget, WidgetContent } from '../../../../components/ui/widget'
 
 export default function CalendarMD01() {
@@ -40,13 +40,9 @@ export default function CalendarMD01() {
           ))}
 
           {calendarDays.map((d, i) => (
-            <div key={i} className="text-muted-foreground text-xs">
+            <div key={i} className="text-default-400 text-xs">
               {d === date ? (
-                <Badge
-                  variant={'primary'}
-                  className="flex size-4 items-center justify-center p-2">
-                  {d}
-                </Badge>
+                <div className="rounded-md bg-black text-white">{d}</div>
               ) : (
                 (d ?? <>&nbsp;</>)
               )}

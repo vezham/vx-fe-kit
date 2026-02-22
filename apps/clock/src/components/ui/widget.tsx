@@ -1,7 +1,7 @@
-import { type VariantProps, cva } from 'class-variance-authority'
+import { cva } from 'class-variance-authority'
 import * as React from 'react'
 
-import { cn } from '../../lib/utils'
+import { Surface, VariantProps, cn } from '@vezham/react/v3'
 
 const widgetVariants = cva(
   'dark:shadow-secondary/50 border-default-200 relative flex flex-col rounded-3xl border border-2 whitespace-nowrap shadow-md',
@@ -37,7 +37,8 @@ export interface WidgetProps
 
 const Widget = React.forwardRef<HTMLDivElement, WidgetProps>(
   ({ className, size, design, variant, ...props }, ref) => (
-    <div
+    <Surface
+      variant="transparent"
       ref={ref}
       className={cn(widgetVariants({ size, design, variant, className }))}
       {...props}

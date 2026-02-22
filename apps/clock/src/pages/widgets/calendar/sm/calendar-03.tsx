@@ -1,7 +1,7 @@
 import * as React from 'react'
 
-import { Badge } from '../../../../components/ui/badge'
-import { Separator } from '../../../../components/ui/separator'
+import { Separator } from '@vezham/react/v3'
+
 import {
   Widget,
   WidgetContent,
@@ -29,7 +29,7 @@ export default function CalendarSM03() {
           {month} {year}
         </WidgetTitle>
       </WidgetHeader>
-      <Separator className="h-0.5 rounded-full" />
+      <Separator />
       <WidgetContent>
         <div className="grid size-full grid-cols-7 gap-1 text-center">
           {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day, i) => (
@@ -45,13 +45,9 @@ export default function CalendarSM03() {
           ))}
 
           {days.map(day => (
-            <div key={day} className="text-muted-foreground text-xs">
+            <div key={day} className="text-default-400 text-xs">
               {day === date ? (
-                <Badge
-                  variant={'primary'}
-                  className="flex size-4 items-center justify-center p-2">
-                  {day}
-                </Badge>
+                <div className="rounded-md bg-black text-white">{day}</div>
               ) : (
                 day
               )}
