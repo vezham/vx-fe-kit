@@ -1,5 +1,7 @@
 import { Bar, BarChart, CartesianGrid, XAxis } from 'recharts'
 
+import { Label } from '@vezham/react/v3'
+
 import {
   ChartConfig,
   ChartContainer,
@@ -7,7 +9,6 @@ import {
   ChartTooltipContent
 } from '../../../../components/ui/chart'
 import { Icons } from '../../../../components/ui/icons'
-import { Label } from '../../../../components/ui/label'
 import { Widget, WidgetContent } from '../../../../components/ui/widget'
 
 const chartData = [

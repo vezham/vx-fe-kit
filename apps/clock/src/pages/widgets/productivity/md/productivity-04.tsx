@@ -1,5 +1,6 @@
+import { Separator } from '@vezham/react/v3'
+
 import { CircularProgress } from '../../../../components/ui/circular-progress'
-import { Separator } from '../../../../components/ui/separator'
 import { Widget, WidgetContent } from '../../../../components/ui/widget'
 
 const taskChartInfo = [

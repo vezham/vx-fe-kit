@@ -3,14 +3,14 @@
 import { CheckCircle2Icon, CircleIcon, ListIcon } from 'lucide-react'
 import React from 'react'
 
-import { Label } from '../../../../components/ui/label'
+import { Label, cn } from '@vezham/react/v3'
+
 import {
   Widget,
   WidgetContent,
   WidgetHeader,
   WidgetTitle
 } from '../../../../components/ui/widget'
-import { cn } from '../../../../lib/utils'
 
 type TodoType = {
   id: number
@@ -72,22 +72,22 @@ export default function ProductivityMD02() {
             </Label>
           </div>
         </div>
-        <div className="flex size-full flex-col items-center justify-start">
+        <div className="flex size-full flex-col justify-start">
           {todos.map(todo => (
             <button
               className="w-full"
               onClick={() => handleToggle(todo.id)}
               key={todo.id}>
-              <div className="hover:bg-default-100 group flex size-full items-start justify-start gap-2 rounded-md px-2 py-1.5 text-sm hover:cursor-pointer">
+              <div className="hover:bg-default-100 group flex size-full items-start justify-start gap-2 rounded-md px-2 py-1.5 text-start text-sm hover:cursor-pointer">
                 {todo.completed ? (
                   <CheckCircle2Icon className="size-4 text-green-700" />
                 ) : (
                   <CircleIcon className="text-muted-foreground size-4" />
                 )}
-                <div className="space-y-2">
+                <div className="flex flex-col space-y-0">
                   <Label
                     className={cn(
-                      'text-default-500 group-hover:cursor-pointer',
+                      'text-default-500 items-start group-hover:cursor-pointer',
                       todo.completed && 'text-default-500 line-through'
                     )}>
                     {todo.task}

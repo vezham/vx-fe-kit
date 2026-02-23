@@ -1,17 +1,11 @@
-import { Label } from '../../../../components/ui/label'
-import { Separator } from '../../../../components/ui/separator'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger
-} from '../../../../components/ui/tooltip'
+import { Label, Separator, Tooltip, cn } from '@vezham/react/v3'
+
 import {
   Widget,
   WidgetContent,
   WidgetHeader,
   WidgetTitle
 } from '../../../../components/ui/widget'
-import { cn } from '../../../../lib/utils'
 
 const now = new Date()
 const month = now.toLocaleString('en-US', { month: 'short' })
@@ -31,10 +25,10 @@ const taskColor = (level: number | null) =>
   level === null
     ? 'bg-transparent'
     : [
-        'bg-default/40',
-        'bg-default/60',
-        'bg-default/80',
-        'bg-default/90',
+        'bg-content1',
+        'bg-content2',
+        'bg-content3',
+        'bg-content4',
         'bg-default'
       ][Math.min(level, 4)]
 
@@ -60,8 +54,8 @@ export default function ProductivitySM04() {
             </div>
           ))}
           {tasks.map((count, i) => (
-            <Tooltip key={i} delayDuration={300}>
-              <TooltipTrigger asChild>
+            <Tooltip key={i} delay={300}>
+              <Tooltip.Trigger asChild>
                 <div className="m-auto flex size-3 items-center justify-center">
                   <div
                     className={cn(
@@ -70,14 +64,14 @@ export default function ProductivitySM04() {
                     )}
                   />
                 </div>
-              </TooltipTrigger>
-              <TooltipContent className="flex gap-1">
+              </Tooltip.Trigger>
+              <Tooltip.Content className="flex gap-1">
                 <Label className="font-normal">
                   {count} task{count !== 1 ? 's' : ''}
                 </Label>
                 <Label className="font-normal">on</Label>
                 <Label className="font-normal">{`${i + 1} ${month}`}</Label>
-              </TooltipContent>
+              </Tooltip.Content>
             </Tooltip>
           ))}
         </div>

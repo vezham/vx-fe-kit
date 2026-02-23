@@ -1,6 +1,7 @@
 import { DumbbellIcon, SunIcon } from 'lucide-react'
 
-import { Label } from '../../../../components/ui/label'
+import { Label } from '@vezham/react/v3'
+
 import { Widget, WidgetContent } from '../../../../components/ui/widget'
 
 export default function ProductivitySM06() {

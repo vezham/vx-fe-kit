@@ -3,14 +3,14 @@
 import { BookOpenIcon, CheckIcon } from 'lucide-react'
 import React from 'react'
 
-import { Button } from '../../../../components/ui/button'
-import { Label } from '../../../../components/ui/label'
+import { Button } from '@vezham/react/v2'
+import { Label, cn } from '@vezham/react/v3'
+
 import {
   Widget,
   WidgetContent,
   WidgetFooter
 } from '../../../../components/ui/widget'
-import { cn } from '../../../../lib/utils'
 
 const streak = 8
 
@@ -36,12 +36,13 @@ export default function ProductivitySM05() {
           strokeWidth={1.5}
         />
         <Button
+          isIconOnly
           disabled={status}
           onClick={() => setStatus(true)}
-          className="hover:cursor-pointer disabled:pointer-events-none disabled:cursor-not-allowed"
-          variant="default"
-          size="icon-sm">
-          <CheckIcon />
+          className="hover:bg-content2 hover:cursor-pointer disabled:pointer-events-none disabled:cursor-not-allowed"
+          variant="bordered"
+          size="sm">
+          <CheckIcon width={12} />
         </Button>
       </WidgetFooter>
     </Widget>

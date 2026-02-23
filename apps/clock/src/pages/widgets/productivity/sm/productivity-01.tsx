@@ -1,7 +1,8 @@
 import { CheckCircle2Icon, CircleIcon } from 'lucide-react'
 import React from 'react'
 
-import { Label } from '../../../../components/ui/label'
+import { Label } from '@vezham/react/v3'
+
 import {
   Widget,
   WidgetContent,

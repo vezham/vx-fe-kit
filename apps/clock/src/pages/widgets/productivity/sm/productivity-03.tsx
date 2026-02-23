@@ -3,8 +3,9 @@
 import { PauseIcon, PlayIcon, RotateCcwIcon } from 'lucide-react'
 import React from 'react'
 
-import { Button } from '../../../../components/ui/button'
-import { Label } from '../../../../components/ui/label'
+import { Button } from '@vezham/react/v2'
+import { Label } from '@vezham/react/v3'
+
 import {
   Widget,
   WidgetContent,
@@ -62,23 +63,25 @@ export default function ProductivitySM03() {
       </WidgetContent>
       <WidgetFooter>
         <Button
+          isIconOnly
           aria-label="Reset timer"
           onClick={resetTimer}
-          variant="default"
-          size="icon-sm"
-          className="rounded-full">
-          <RotateCcwIcon />
+          variant="bordered"
+          size="sm"
+          className="hover:bg-content2 rounded-full">
+          <RotateCcwIcon width={12} />
         </Button>
         <Button
+          isIconOnly
           aria-label={isCountingDown ? 'Pause timer' : 'Start timer'}
           onClick={handleToggle}
-          variant="default"
-          size="icon-sm"
-          className="rounded-full">
+          variant="bordered"
+          size="sm"
+          className="hover:bg-content2 rounded-full">
           {isCountingDown ? (
-            <PauseIcon className="size-4 fill-current stroke-none" />
+            <PauseIcon width={12} className="size-4 fill-current stroke-none" />
           ) : (
-            <PlayIcon className="size-4 fill-current stroke-none" />
+            <PlayIcon width={12} className="size-4 fill-current stroke-none" />
           )}
         </Button>
       </WidgetFooter>

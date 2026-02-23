@@ -1,6 +1,8 @@
 import React from 'react'
 
-import { Button } from '../../../../components/ui/button'
+import { Button, Textarea } from '@vezham/react/v2'
+import { cn } from '@vezham/react/v3'
+
 import {
   Select,
   SelectContent,
@@ -8,7 +10,6 @@ import {
   SelectTrigger,
   SelectValue
 } from '../../../../components/ui/select'
-import { Textarea } from '../../../../components/ui/textarea'
 import {
   Widget,
   WidgetContent,
@@ -16,7 +17,6 @@ import {
   WidgetHeader,
   WidgetTitle
 } from '../../../../components/ui/widget'
-import { cn } from '../../../../lib/utils'
 
 type StatusOption = {
   value: string
@@ -40,6 +40,7 @@ export default function ProductivitySM02() {
       </WidgetHeader>
       <WidgetContent className="flex-col justify-center gap-4">
         <Textarea
+          variant="bordered"
           className="h-full max-h-28 border"
           placeholder="Add something..."
         />
@@ -52,7 +53,7 @@ export default function ProductivitySM02() {
             <SelectValue placeholder="Select status" />
           </SelectTrigger>
 
-          <SelectContent className="max-w-16 min-w-0">
+          <SelectContent className="max-w-16 min-w-0 bg-white">
             {STATUS_OPTIONS.map(s => (
               <SelectItem key={s.value} value={s.value}>
                 <span className="flex items-center gap-2">
@@ -62,7 +63,7 @@ export default function ProductivitySM02() {
             ))}
           </SelectContent>
         </Select>
-        <Button className="w-max" size="sm">
+        <Button className="w-max bg-black text-white" size="sm">
           Add Task
         </Button>
       </WidgetFooter>
