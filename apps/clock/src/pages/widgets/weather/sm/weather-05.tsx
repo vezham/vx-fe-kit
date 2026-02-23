@@ -1,6 +1,7 @@
 import { MoveDownIcon, MoveUpIcon } from 'lucide-react'
 
-import { Label } from '../../../../components/ui/label'
+import { Label } from '@vezham/react/v3'
+
 import {
   Widget,
   WidgetContent,
@@ -42,7 +43,7 @@ export default function WeatherSM05() {
       <WidgetHeader className="flex-col gap-3">
         <WidgetTitle>{city || 'Unknown'}</WidgetTitle>
         <div className="flex flex-col">
-          <div className="flex items-center gap-x-2">
+          <div className="flex gap-x-2">
             {weather && getWeatherIcon(weather.weatherCode, 'size-8')}
             <Label className="text-4xl">{weather?.temperature}&deg;</Label>
           </div>

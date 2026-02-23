@@ -1,6 +1,7 @@
 import { MoveDownIcon, MoveUpIcon } from 'lucide-react'
 
-import { Label } from '../../../../components/ui/label'
+import { Label } from '@vezham/react/v3'
+
 import {
   Widget,
   WidgetContent,
@@ -35,7 +36,9 @@ export default function WeatherSM08() {
 
   return (
     <Widget>
-      <WidgetTitle>{city || 'Unknown'}</WidgetTitle>
+      <WidgetTitle className="items-center justify-center">
+        {city || 'Unknown'}
+      </WidgetTitle>
       <WidgetContent className="flex items-center justify-center gap-2">
         {weather &&
           getWeatherIcon(weather.weatherCode, 'size-10', { strokeWidth: 2 })}

@@ -1,4 +1,5 @@
-import { Label } from '../../../../components/ui/label'
+import { Label } from '@vezham/react/v3'
+
 import { Widget, WidgetContent } from '../../../../components/ui/widget'
 import { DEFAULT_LOCATION, useLocation } from '../../../../hooks/use-location'
 import { useWeather } from '../../../../hooks/use-weather'
@@ -31,12 +32,14 @@ export default function WeatherSM04() {
 
   return (
     <Widget>
-      <WidgetContent className="mx-auto flex-col items-start">
+      <WidgetContent className="mx-auto flex-col items-center justify-center">
         <Label className="text-6xl">{weather?.temperature}&deg;</Label>
         <Label className="text-2xl">
           {weather ? getWeatherDescription(weather.weatherCode) : 'Sunny'}
         </Label>
-        <Label>{currentDate}</Label>
+        <Label className="items-start justify-start text-start">
+          {currentDate}
+        </Label>
       </WidgetContent>
     </Widget>
   )

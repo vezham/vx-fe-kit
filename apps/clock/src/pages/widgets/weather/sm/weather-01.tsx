@@ -1,4 +1,5 @@
-import { Label } from '../../../../components/ui/label'
+import { Label } from '@vezham/react/v3'
+
 import {
   Widget,
   WidgetContent,
@@ -29,7 +30,7 @@ export default function WeatherSM01() {
 
   return (
     <Widget>
-      <WidgetContent className="flex-col gap-4">
+      <WidgetContent className="flex-col items-center justify-center gap-4">
         {weather &&
           getWeatherIcon(weather.weatherCode, 'size-16', { strokeWidth: 2 })}
         <Label className="text-4xl">{weather?.temperature}&deg;</Label>

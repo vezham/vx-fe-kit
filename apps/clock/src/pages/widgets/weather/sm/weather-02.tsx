@@ -1,4 +1,5 @@
-import { Label } from '../../../../components/ui/label'
+import { Label } from '@vezham/react/v3'
+
 import {
   Widget,
   WidgetContent,
@@ -34,7 +35,7 @@ export default function WeatherSM02() {
         <WidgetTitle>{city || 'Unknown'}</WidgetTitle>
         {weather && getWeatherIcon(weather.weatherCode, 'size-5')}
       </WidgetHeader>
-      <WidgetContent>
+      <WidgetContent className="items-center justify-center">
         <Label className="text-5xl">{weather?.temperature}&deg;</Label>
       </WidgetContent>
     </Widget>

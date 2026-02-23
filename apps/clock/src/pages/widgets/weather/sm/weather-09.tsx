@@ -1,4 +1,5 @@
-import { Label } from '../../../../components/ui/label'
+import { Label } from '@vezham/react/v3'
+
 import { Widget, WidgetContent } from '../../../../components/ui/widget'
 import { DEFAULT_LOCATION, useLocation } from '../../../../hooks/use-location'
 import { useWeather } from '../../../../hooks/use-weather'
@@ -42,7 +43,7 @@ export default function WeatherSM09() {
         {forecast.map((el, index) => (
           <div
             key={index}
-            className="grid w-full grid-cols-4 items-center gap-3 border-b pb-2 last:border-none">
+            className="border-default-200 grid w-full grid-cols-4 items-center gap-3 border-b pb-2 last:border-none">
             <Label className="text-muted-foreground text-base">{el.day}</Label>
             {getWeatherIcon(el.weatherCode, 'size-4', { className: 'mx-auto' })}
             <Label className="mx-aut text-base">{el.min}&deg;</Label>

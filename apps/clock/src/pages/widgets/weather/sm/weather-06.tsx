@@ -1,7 +1,8 @@
 import { DropletIcon, ThermometerIcon } from 'lucide-react'
 import * as React from 'react'
 
-import { Label } from '../../../../components/ui/label'
+import { Label } from '@vezham/react/v3'
+
 import {
   Widget,
   WidgetContent,
@@ -55,7 +56,7 @@ export default function WeatherSM06() {
         <WidgetTitle>{city || 'Unknown'}</WidgetTitle>
         <WidgetTitle className="font-normal">{time}</WidgetTitle>
       </WidgetHeader>
-      <WidgetContent>
+      <WidgetContent className="items-center justify-center">
         {weather && getWeatherIcon(weather.weatherCode, 'size-9')}
       </WidgetContent>
       <WidgetFooter>
@@ -69,7 +70,7 @@ export default function WeatherSM06() {
             <Label>{weather?.humidity}%</Label>
           </div>
         </div>
-        <div className="flex w-full justify-end">
+        <div className="flex w-full items-center justify-center">
           <Label className="text-4xl">{weather?.temperature}&deg;</Label>
         </div>
       </WidgetFooter>

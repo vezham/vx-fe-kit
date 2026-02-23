@@ -5,12 +5,8 @@ import {
   WindIcon
 } from 'lucide-react'
 
-import { Label } from '../../../../components/ui/label'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger
-} from '../../../../components/ui/tooltip'
+import { Label, Tooltip } from '@vezham/react/v3'
+
 import { Widget, WidgetContent } from '../../../../components/ui/widget'
 import { DEFAULT_LOCATION, useLocation } from '../../../../hooks/use-location'
 import { useWeather } from '../../../../hooks/use-weather'
@@ -86,16 +82,16 @@ type InfoItemProps = {
 
 const InfoItem = (el: InfoItemProps) => {
   return (
-    <Tooltip delayDuration={300}>
-      <TooltipTrigger asChild>
+    <Tooltip delay={300}>
+      <Tooltip.Trigger asChild>
         <div className="space-y-2">
           <el.icon className="stroke-muted-foreground size-6" />
           <Label className="text-base font-normal">{el.value}</Label>
         </div>
-      </TooltipTrigger>
-      <TooltipContent>
+      </Tooltip.Trigger>
+      <Tooltip.Content>
         <Label className="text-sm font-normal">{el.label}</Label>
-      </TooltipContent>
+      </Tooltip.Content>
     </Tooltip>
   )
 }
