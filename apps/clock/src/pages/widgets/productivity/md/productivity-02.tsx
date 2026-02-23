@@ -67,9 +67,7 @@ export default function ProductivityMD02() {
           </WidgetHeader>
           <div className="flex flex-col">
             <Label className="text-5xl tracking-wide">{tasksDone}/3</Label>
-            <Label className="text-default-400 text-lg font-normal">
-              tasks done
-            </Label>
+            <Label className="text-muted text-lg font-normal">tasks done</Label>
           </div>
         </div>
         <div className="flex size-full flex-col justify-start">
@@ -87,12 +85,12 @@ export default function ProductivityMD02() {
                 <div className="flex flex-col space-y-0">
                   <Label
                     className={cn(
-                      'text-default-500 items-start group-hover:cursor-pointer',
-                      todo.completed && 'text-default-500 line-through'
+                      'text-muted items-start group-hover:cursor-pointer',
+                      todo.completed && 'text-muted line-through'
                     )}>
                     {todo.task}
                   </Label>
-                  <Label className="text-default-500 text-xs font-normal">
+                  <Label className="text-muted text-xs font-normal">
                     {todo.time}
                   </Label>
                 </div>

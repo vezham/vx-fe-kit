@@ -13,7 +13,7 @@ const FavoritesList = () => {
 
   if (favoriteContacts.length === 0) {
     return (
-      <div className="text-default-400 flex items-center justify-center">
+      <div className="text-muted flex items-center justify-center">
         No favorite contacts
       </div>
     )

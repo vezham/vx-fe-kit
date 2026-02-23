@@ -1,8 +1,6 @@
 import { Icon } from '@iconify/react'
 import { useNavigate } from '@tanstack/react-router'
 
-import { Button } from '@vezham/react/v2'
-
 import { useContacts } from '../contact/data'
 
 const GroupsList = () => {
@@ -11,7 +9,7 @@ const GroupsList = () => {
 
   if (!groups.length) {
     return (
-      <div className="text-default-400 flex items-center justify-center">
+      <div className="text-muted flex items-center justify-center">
         No groups created yet
       </div>
     )

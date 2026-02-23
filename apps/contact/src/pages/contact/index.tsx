@@ -61,7 +61,7 @@ const ContactList = () => {
   return (
     <div className="mt-4 flex flex-col gap-4">
       {filteredContacts.length === 0 ? (
-        <p className="text-default-400 flex items-center justify-center px-3">
+        <p className="text-muted flex items-center justify-center px-3">
           No contacts found
         </p>
       ) : (
@@ -86,9 +86,7 @@ const ContactList = () => {
               <Icon
                 icon="mdi:star"
                 className={`h-6 w-6 cursor-pointer ${
-                  isFavorite(contact.id)
-                    ? 'text-yellow-400'
-                    : 'text-default-400'
+                  isFavorite(contact.id) ? 'text-yellow-400' : 'text-muted'
                 }`}
                 onClick={() => toggleFavorite(contact.id)}
               />

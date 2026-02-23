@@ -88,7 +88,7 @@ export default function Sports07() {
             {scores.map((el, i) => (
               <TableRow
                 key={i}
-                className="order-default-200 border-b text-xs font-extralight">
+                className="border-default-200 border-b text-xs font-extralight">
                 <TableCell
                   className={cn(classes.head, 'w-1 text-start text-white')}>
                   {el.teamAbbr}

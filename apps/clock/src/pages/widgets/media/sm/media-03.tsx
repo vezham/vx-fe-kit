@@ -39,20 +39,20 @@ export default function MediaSM03() {
         <WidgetFooter className="gap-2">
           <AudioPlayerButton
             variant="outline"
-            className="hover:bg-content2 flex-1 rounded-full hover:text-black"
+            className="hover:bg-content2 hover:text-foreground border-default-200 flex-1 rounded-full border"
             item={exampleTrack}
           />
           <Button
             variant="bordered"
             size="sm"
-            className="hover:bg-content2"
+            className="hover:bg-content2 rounded-full"
             isIconOnly>
             <SkipBackIcon width={12} className="stroke-muted-foreground" />
           </Button>
           <Button
             variant="bordered"
             size="sm"
-            className="hover:bg-content2"
+            className="hover:bg-content2 rounded-full"
             isIconOnly>
             <SkipForwardIcon width={12} className="stroke-muted-foreground" />
           </Button>

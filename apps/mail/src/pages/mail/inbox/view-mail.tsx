@@ -1,5 +1,4 @@
 import { Icon } from '@iconify/react'
-import React from 'react'
 
 import {
   Avatar,
@@ -41,7 +40,7 @@ export function ViewMailDrawer({
               <Tooltip content="Close">
                 <Button
                   isIconOnly
-                  className="text-default-400"
+                  className="text-muted"
                   size="sm"
                   variant="light"
                   onPress={onClose}>
@@ -50,14 +49,14 @@ export function ViewMailDrawer({
               </Tooltip>
               <div className="flex w-full justify-start gap-2">
                 <Button
-                  className="text-small text-default-500 font-medium"
+                  className="text-small text-muted font-medium"
                   size="sm"
                   startContent={<Icon icon="lucide:copy" width={16} />}
                   variant="flat">
                   Copy Link
                 </Button>
                 <Button
-                  className="text-small text-default-500 font-medium"
+                  className="text-small text-muted font-medium"
                   endContent={<Icon icon="lucide:external-link" width={16} />}
                   size="sm"
                   variant="flat">
@@ -68,7 +67,7 @@ export function ViewMailDrawer({
                 <Tooltip content="Archive">
                   <Button
                     isIconOnly
-                    className="text-default-500"
+                    className="text-muted"
                     size="sm"
                     variant="flat">
                     <Icon icon="lucide:archive" width={16} />
@@ -77,7 +76,7 @@ export function ViewMailDrawer({
                 <Tooltip content="Delete">
                   <Button
                     isIconOnly
-                    className="text-default-500"
+                    className="text-muted"
                     size="sm"
                     variant="flat">
                     <Icon icon="lucide:trash-2" width={16} />
@@ -95,14 +94,14 @@ export function ViewMailDrawer({
                 <div className="mt-4 flex flex-col gap-3">
                   <div className="flex items-center gap-3">
                     <div className="border-default-200/50 rounded-small w-11 flex-none overflow-hidden border-1 text-center">
-                      <div className="text-tiny bg-default-100 text-default-500 py-0.5">
+                      <div className="text-tiny bg-default-100 text-muted py-0.5">
                         {email.date
                           ? new Date(email.date).toLocaleString('en-US', {
                               month: 'short'
                             })
                           : ''}
                       </div>
-                      <div className="text-medium text-default-500 flex h-6 items-center justify-center font-semibold">
+                      <div className="text-medium text-muted flex h-6 items-center justify-center font-semibold">
                         {email.date ? new Date(email.date).getDate() : ''}
                       </div>
                     </div>
@@ -116,7 +115,7 @@ export function ViewMailDrawer({
                             })
                           : ''}
                       </p>
-                      <p className="text-small text-default-500">
+                      <p className="text-small text-muted">
                         {email.formattedDate}
                       </p>
                     </div>
@@ -132,7 +131,7 @@ export function ViewMailDrawer({
                       <p className="text-medium text-foreground font-medium">
                         {email.sender}
                       </p>
-                      <p className="text-small text-default-500">
+                      <p className="text-small text-muted">
                         To: me{' '}
                         <Icon
                           icon="lucide:chevron-down"
@@ -156,7 +155,7 @@ export function ViewMailDrawer({
                   </div>
 
                   <div className="mt-4 flex flex-col items-start gap-3">
-                    <div className="text-medium text-default-500 flex flex-col gap-2">
+                    <div className="text-medium text-muted flex flex-col gap-2">
                       <p>Hello,</p>
                       <p>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -192,7 +191,7 @@ export function ViewMailDrawer({
                           </div>
                           <div>
                             <p className="text-sm font-medium">Document.pdf</p>
-                            <p className="text-default-500 text-xs">2.4 MB</p>
+                            <p className="text-muted text-xs">2.4 MB</p>
                           </div>
                         </div>
                         <div className="flex items-center gap-2">
@@ -208,13 +207,13 @@ export function ViewMailDrawer({
                   )}
 
                   <div className="mt-4 flex flex-col items-start gap-3">
-                    <span className="text-small text-default-500">CC</span>
+                    <span className="text-small text-muted">CC</span>
                     <div className="flex items-center gap-2">
                       <AvatarGroup
                         isBordered
                         classNames={{
                           base: 'pl-2',
-                          count: 'text-default-500 text-tiny bg-default-100'
+                          count: 'text-muted text-tiny bg-default-100'
                         }}
                         size="sm"
                         total={3}>

@@ -4,20 +4,14 @@ import {
   ShieldCheckIcon
 } from 'lucide-react'
 
-import { Link } from '@vezham/react/v2'
+import { Button, Link } from '@vezham/react/v2'
+import { Label, Tooltip } from '@vezham/react/v3'
 
 import {
   Avatar,
   AvatarFallback,
   AvatarImage
 } from '../../../../components/ui/avatar'
-import { Button } from '../../../../components/ui/button'
-import { Label } from '../../../../components/ui/label'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger
-} from '../../../../components/ui/tooltip'
 import {
   Widget,
   WidgetContent,
@@ -29,7 +23,7 @@ import {
 export default function DashboardSM05() {
   return (
     <Widget className="gap-2.5" design="mumbai">
-      <WidgetHeader className="items-center">
+      <WidgetHeader className="flex items-center">
         <div className="flex items-center justify-start gap-2">
           <Avatar className="size-6">
             <AvatarImage
@@ -41,13 +35,13 @@ export default function DashboardSM05() {
           </Avatar>
           <WidgetTitle className="text-sm font-medium">wigggle-ui</WidgetTitle>
         </div>
-        <Tooltip delayDuration={300}>
-          <TooltipTrigger asChild>
+        <Tooltip delay={300}>
+          <Tooltip.Trigger>
             <div className="bg-success size-2.5 animate-pulse rounded-full" />
-          </TooltipTrigger>
-          <TooltipContent className="text-foreground px-2 py-1 text-sm">
+          </Tooltip.Trigger>
+          <Tooltip.Content className="text-foreground px-2 py-1 text-sm">
             Running
-          </TooltipContent>
+          </Tooltip.Content>
         </Tooltip>
       </WidgetHeader>
       <WidgetContent className="w-full flex-col items-start justify-start gap-2">
@@ -65,8 +59,16 @@ export default function DashboardSM05() {
         </div>
       </WidgetContent>
       <WidgetFooter>
-        <Button className="w-full" variant="default" size="sm" asChild>
-          <Link href="https://github.com/wigggle-ui/ui">Visit</Link>
+        <Button
+          className="hover:bg-content2 w-full"
+          variant="bordered"
+          size="sm"
+          asChild>
+          <Link
+            className="text-foreground"
+            href="https://github.com/wigggle-ui/ui">
+            Visit
+          </Link>
         </Button>
       </WidgetFooter>
     </Widget>

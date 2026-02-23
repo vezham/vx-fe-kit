@@ -1,5 +1,3 @@
-import * as React from 'react'
-
 import { Chip, Image } from '@vezham/react/v2'
 import { Label } from '@vezham/react/v3'
 
@@ -15,7 +13,7 @@ export default function Sports02() {
   return (
     <Widget design="mumbai">
       <WidgetHeader>
-        <WidgetTitle className="text-default-400 flex items-center gap-1 text-sm font-normal">
+        <WidgetTitle className="text-muted flex items-center gap-1 text-sm font-normal">
           <div className="bg-success size-2 rounded-full" />
           Live
         </WidgetTitle>
@@ -42,7 +40,7 @@ export default function Sports02() {
         </div>
       </WidgetContent>
       <WidgetFooter className="justify-center">
-        <Label className="text-default-500">UCL Final</Label>
+        <Label className="text-muted">UCL Final</Label>
       </WidgetFooter>
     </Widget>
   )

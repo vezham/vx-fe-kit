@@ -51,14 +51,14 @@ export default function ProductivitySM03() {
   return (
     <Widget design="mumbai">
       <WidgetHeader className="justify-center">
-        <Label className="text-muted-foreground text-3xl">🚀</Label>
+        <Label className="text-muted text-3xl">🚀</Label>
       </WidgetHeader>
       <WidgetContent>
         <div className="flex h-full w-full flex-col items-center justify-center gap-0.5">
           <Label className="text-4xl">
             {minutes}:{seconds}
           </Label>
-          <Label className="text-muted-foreground text-xs">POMODORO</Label>
+          <Label className="text-muted text-xs">POMODORO</Label>
         </div>
       </WidgetContent>
       <WidgetFooter>

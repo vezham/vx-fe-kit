@@ -46,7 +46,7 @@ export default function WeatherSM07() {
       <WidgetHeader className="flex items-center justify-between gap-3">
         <div className="flex flex-col">
           <Label>{city || 'Unknown'}</Label>
-          <Label className="text-default-400">
+          <Label className="text-muted">
             Feels Like {weather?.feelsLike}&deg;
           </Label>
         </div>

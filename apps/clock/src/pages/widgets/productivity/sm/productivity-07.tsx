@@ -41,11 +41,11 @@ export default function ProductivitySM07() {
           {days.map(day => (
             <div key={day} className="text-muted-foreground text-xs">
               {!skippedDays.includes(day) && day < date ? (
-                <div className="bg-success flex size-4 items-center justify-center rounded-md rounded-xs p-2">
+                <div className="bg-success text-background flex size-4 items-center justify-center rounded-md rounded-xs p-2">
                   {day}
                 </div>
               ) : day === date ? (
-                <div className="bg-foreground/80 flex size-4 items-center justify-center rounded-md p-2 text-white">
+                <div className="bg-foreground text-background flex size-4 items-center justify-center rounded-md p-2">
                   {day}
                 </div>
               ) : (

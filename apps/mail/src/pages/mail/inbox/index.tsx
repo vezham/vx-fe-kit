@@ -65,12 +65,10 @@ export function MailListSection({
                 </span>
 
                 <div className="min-w-0 flex-1">
-                  <p className="text-default-500 truncate text-xs">
+                  <p className="text-muted truncate text-xs">
                     {email.subject}
                     {email.preview && (
-                      <span className="text-default-400 ml-1">
-                        {email.preview}
-                      </span>
+                      <span className="text-muted ml-1">{email.preview}</span>
                     )}
                   </p>
                 </div>
@@ -79,11 +77,11 @@ export function MailListSection({
                   {email.hasAttachment && (
                     <Icon
                       icon="lucide:paperclip"
-                      className="text-default-400 mr-1"
+                      className="text-muted mr-1"
                       width={14}
                     />
                   )}
-                  <span className="text-default-400 text-xs whitespace-nowrap">
+                  <span className="text-muted text-xs whitespace-nowrap">
                     {email.formattedDate}
                   </span>
                 </div>

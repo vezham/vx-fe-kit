@@ -50,16 +50,16 @@ export default function ProductivitySM01() {
             className="w-full"
             onClick={() => handleToggle(todo.id)}
             key={todo.id}>
-            <div className="hover:bg-muted group flex w-full items-center justify-start gap-2 rounded-md px-2 py-1.5 text-sm hover:cursor-pointer">
+            <div className="hover:bg-content2 group flex w-full items-center justify-start gap-2 rounded-md px-2 py-1.5 text-sm hover:cursor-pointer">
               {todo.completed ? (
                 <CheckCircle2Icon className="size-4 text-green-700" />
               ) : (
-                <CircleIcon className="text-muted-foreground size-4" />
+                <CircleIcon className="text-muted size-4" />
               )}
               <Label
                 className={cn(
-                  'text-muted-foreground group-hover:cursor-pointer',
-                  todo.completed && 'text-default-500/70 line-through'
+                  'text-muted group-hover:cursor-pointer',
+                  todo.completed && 'text-muted/70 line-through'
                 )}>
                 {todo.task}
               </Label>

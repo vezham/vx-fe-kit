@@ -1,6 +1,4 @@
 // import Image from 'next/image'
-import * as React from 'react'
-
 import { Image } from '@vezham/react/v2'
 import { Label } from '@vezham/react/v3'
 
@@ -32,8 +30,8 @@ export default function Sports01() {
   return (
     <Widget>
       <WidgetHeader>
-        <WidgetTitle className="text-default-400 text-sm">La Liga</WidgetTitle>
-        <WidgetTitle className="text-default-400 text-sm">21 Oct</WidgetTitle>
+        <WidgetTitle className="text-muted text-sm">La Liga</WidgetTitle>
+        <WidgetTitle className="text-muted text-sm">21 Oct</WidgetTitle>
       </WidgetHeader>
       <WidgetContent className="flex items-end justify-between">
         {details.map(team => (

@@ -62,8 +62,10 @@ export default function WeatherMD02() {
       <WidgetContent className="mt-4 grid w-full grid-cols-6 items-end gap-6">
         {next6Hours.map((el, index) => (
           <div key={index} className="flex flex-col items-center gap-1">
-            <Label className="text-muted-foreground text-xs">{el.time}</Label>
-            <Label>{getSmallWeatherIcon(el.weatherCode)}</Label>
+            <Label className="text-muted text-xs">{el.time}</Label>
+            <Label className="text-muted">
+              {getSmallWeatherIcon(el.weatherCode)}
+            </Label>
             <Label className="text-lg">{el.temp}&deg;</Label>
           </div>
         ))}

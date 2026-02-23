@@ -26,7 +26,7 @@ export default function CalendarMD01() {
       <WidgetContent className="items-center justify-between gap-4">
         <div className="flex w-full flex-col items-center justify-center">
           <div className="flex w-full items-center justify-center gap-2">
-            <Label className="text-danger text-2xl">{dayName}</Label>
+            <Label className="text-danger-500 text-2xl">{dayName}</Label>
             <Label className="text-2xl">{monthName}</Label>
           </div>
           <Label className="text-8xl">{paddedDate}</Label>
@@ -40,9 +40,11 @@ export default function CalendarMD01() {
           ))}
 
           {calendarDays.map((d, i) => (
-            <div key={i} className="text-default-400 text-xs">
+            <div key={i} className="text-muted text-xs">
               {d === date ? (
-                <div className="rounded-md bg-black text-white">{d}</div>
+                <div className="bg-foreground text-background rounded-md">
+                  {d}
+                </div>
               ) : (
                 (d ?? <>&nbsp;</>)
               )}

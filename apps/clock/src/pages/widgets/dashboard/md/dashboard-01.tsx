@@ -67,7 +67,7 @@ export default function DashboardMD01() {
     <Widget design="mumbai" size="md" className="gap-3 pt-2">
       <WidgetContent className="justify-between gap-3">
         <div className="mt-2 flex h-full w-max flex-col items-center justify-center gap-3">
-          <WidgetHeader className="bg-default mx-auto w-max items-center justify-center rounded-md px-2 py-1">
+          <WidgetHeader className="bg-content2 mx-auto w-max items-center justify-center rounded-md px-2 py-1">
             <p>wigggle_db</p>
           </WidgetHeader>
           <ChartContainer
@@ -122,10 +122,10 @@ export default function DashboardMD01() {
           <Table>
             <TableBody>
               {dbInfo.map(el => (
-                <TableRow key={el.label}>
-                  <TableCell className="py-1 text-gray-500">
-                    {el.label}
-                  </TableCell>
+                <TableRow
+                  key={el.label}
+                  className="border-default-200 hover:bg-content2 border-b">
+                  <TableCell className="text-muted py-1">{el.label}</TableCell>
                   <TableCell className="py-1 text-right">{el.value}</TableCell>
                 </TableRow>
               ))}

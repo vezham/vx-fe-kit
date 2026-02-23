@@ -1,6 +1,7 @@
 import { MoveDownIcon, MoveUpIcon } from 'lucide-react'
 
-import { Link } from '@vezham/react/v2'
+import { Divider, Link } from '@vezham/react/v2'
+import { Separator } from '@vezham/react/v3'
 
 import {
   Table,
@@ -52,25 +53,29 @@ export default function DashboardSM03() {
         <Table className="w-full">
           <TableBody>
             {visitors.map(visitor => (
-              <TableRow key={visitor.day}>
-                <TableCell className="py-1.5 font-medium">
-                  {visitor.day}
-                </TableCell>
-                <TableCell className="flex items-center justify-end gap-1.5 py-1.5 text-right">
-                  {visitor.count}
-                  {visitor.hasGrown ? (
-                    <MoveUpIcon
-                      className="size-4 text-green-500"
-                      strokeWidth={3}
-                    />
-                  ) : (
-                    <MoveDownIcon
-                      className="size-4 text-red-500"
-                      strokeWidth={3}
-                    />
-                  )}
-                </TableCell>
-              </TableRow>
+              <>
+                <TableRow
+                  key={visitor.day}
+                  className="border-default-200 hover:bg-content2 border-b">
+                  <TableCell className="py-1.5 font-medium">
+                    {visitor.day}
+                  </TableCell>
+                  <TableCell className="flex items-center justify-end gap-1.5 py-1.5 text-right">
+                    {visitor.count}
+                    {visitor.hasGrown ? (
+                      <MoveUpIcon
+                        className="size-4 text-green-500"
+                        strokeWidth={3}
+                      />
+                    ) : (
+                      <MoveDownIcon
+                        className="size-4 text-red-500"
+                        strokeWidth={3}
+                      />
+                    )}
+                  </TableCell>
+                </TableRow>
+              </>
             ))}
           </TableBody>
         </Table>

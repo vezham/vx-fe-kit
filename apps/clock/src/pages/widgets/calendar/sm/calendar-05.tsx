@@ -21,7 +21,7 @@ export default function CalendarSM05() {
 
   return (
     <Widget design="mumbai">
-      <WidgetHeader className="text-danger text-base">{day}</WidgetHeader>
+      <WidgetHeader className="text-danger-500 text-base">{day}</WidgetHeader>
       <WidgetContent className="flex-col items-start justify-start gap-2">
         <Label className="text-3xl">{date}</Label>
         {events.map((event, i) => (
@@ -29,7 +29,7 @@ export default function CalendarSM05() {
             key={i}
             className="bg-content2 flex w-full items-center justify-between gap-2 rounded-md px-2 py-1 text-xs">
             {event.title}
-            <span className="text-gray-500">{event.time}</span>
+            <span className="text-muted">{event.time}</span>
           </div>
         ))}
       </WidgetContent>

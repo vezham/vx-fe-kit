@@ -2,13 +2,14 @@
 
 import { Pie, PieChart } from 'recharts'
 
+import { Label } from '@vezham/react/v3'
+
 import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent
 } from '../../../../components/ui/chart'
-import { Label } from '../../../../components/ui/label'
 import {
   Widget,
   WidgetContent,

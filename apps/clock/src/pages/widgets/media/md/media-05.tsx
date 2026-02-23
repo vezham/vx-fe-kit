@@ -89,7 +89,7 @@ export default function MediaMD05() {
                   className="size-full max-h-9 max-w-9 rounded-md"></Avatar>
                 <div className="flex flex-col space-y-0">
                   <Label className="text-sm">{exampleTrack.data.title}</Label>
-                  <Label className="text-default-400 text-xs">
+                  <Label className="text-muted text-xs">
                     {exampleTrack.data.artist}
                   </Label>
                 </div>
@@ -97,8 +97,8 @@ export default function MediaMD05() {
               <WidgetContent className="w-full flex-col items-center justify-center gap-1">
                 <AudioPlayerProgress className="h-full max-h-2 w-full flex-1" />
                 <div className="flex w-full items-center justify-between">
-                  <AudioPlayerTime className="text-muted-foreground text-xs" />
-                  <AudioPlayerDuration className="text-muted-foreground text-xs" />
+                  <AudioPlayerTime className="text-muted text-xs" />
+                  <AudioPlayerDuration className="text-muted text-xs" />
                 </div>
               </WidgetContent>
               <WidgetFooter className="mx-auto w-max items-center justify-between gap-x-6">
@@ -113,7 +113,7 @@ export default function MediaMD05() {
                   />
                 </Button>
                 <AudioPlayerButton
-                  className="bg-default hover:bg-content2 rounded-md border-none text-black"
+                  className="hover:bg-content2 text-foreground rounded-md border"
                   size="icon-sm"
                   item={exampleTrack}
                 />
@@ -167,7 +167,7 @@ const MusicCard = ({
         <Label className="w-full truncate text-sm group-hover:cursor-pointer">
           {title}
         </Label>
-        <Label className="text-default-400 text-xs group-hover:cursor-pointer">
+        <Label className="text-muted text-xs group-hover:cursor-pointer">
           {artist}
         </Label>
       </div>

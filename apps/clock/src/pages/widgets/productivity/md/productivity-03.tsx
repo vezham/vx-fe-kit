@@ -31,7 +31,7 @@ export default function ProductivityMD03() {
         </WidgetTitle>
       </WidgetHeader>
       <WidgetContent className="justify-between gap-4">
-        <div className="w-full space-y-2">
+        <div className="w-full space-y-0">
           <ResponsiveContainer width="100%" height={150} className="-mt-1.5">
             <RadialBarChart
               cx="50%"
@@ -51,30 +51,30 @@ export default function ProductivityMD03() {
             </RadialBarChart>
           </ResponsiveContainer>
         </div>
-        <div className="flex w-full flex-col items-start justify-center gap-3">
-          <div className="flex items-center gap-3">
+        <div className="flex w-full flex-col items-start justify-center gap-2">
+          <div className="flex items-center gap-2">
             <div className="size-4 rounded-xs bg-green-600" />
-            <div>
+            <div className="flex flex-col">
               <Label>55/100</Label>
-              <Label className="text-muted-foreground text-xs font-normal">
+              <Label className="text-muted text-xs font-normal">
                 Design Mockups Completed
               </Label>
             </div>
           </div>
           <div className="flex items-center gap-3">
             <div className="size-4 rounded-xs bg-yellow-400" />
-            <div>
+            <div className="flex flex-col">
               <Label>70/100</Label>
-              <Label className="text-muted-foreground text-xs font-normal">
+              <Label className="text-muted text-xs font-normal">
                 Features Developed
               </Label>
             </div>
           </div>
           <div className="flex items-center gap-3">
             <div className="size-4 rounded-xs bg-red-500" />
-            <div>
+            <div className="flex flex-col">
               <Label>85/100</Label>
-              <Label className="text-muted-foreground text-xs font-normal">
+              <Label className="text-muted text-xs font-normal">
                 Test Cases Passed
               </Label>
             </div>

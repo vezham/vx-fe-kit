@@ -25,26 +25,26 @@ export default function MediaSM04() {
             <Label className="absolute bottom-20 left-4 z-10 w-full overflow-hidden text-base">
               {exampleTrack.data.title}
             </Label>
-            <Label className="text-default-400 absolute bottom-16 left-4 z-10 text-xs font-normal">
+            <Label className="text-muted absolute bottom-16 left-4 z-10 text-xs font-normal">
               {exampleTrack.data.artist}
             </Label>
             <div className="absolute inset-x-0 bottom-4 z-20 flex w-full gap-x-3 px-4">
               <AudioPlayerButton
                 variant="outline"
-                className="hover:bg-content2 flex-1 rounded-full bg-white hover:text-black"
+                className="hover:bg-content2 bg-background hover:text-foreground flex-1 rounded-full"
                 item={exampleTrack}
               />
               <Button
                 variant="bordered"
                 size="sm"
-                className="hover:bg-content2 bg-white"
+                className="hover:bg-content2 bg-background rounded-full"
                 isIconOnly>
                 <SkipBackIcon width={12} className="stroke-muted-foreground" />
               </Button>
               <Button
                 variant="bordered"
                 size="sm"
-                className="hover:bg-content2 bg-white"
+                className="hover:bg-content2 bg-background rounded-full"
                 isIconOnly>
                 <SkipForwardIcon
                   width={12}

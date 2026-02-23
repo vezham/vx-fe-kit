@@ -38,7 +38,7 @@ export default function MediaMD01() {
             </Avatar>
             <div className="flex flex-col">
               <Label className="text-base">{exampleTrack.data.title}</Label>
-              <Label className="text-default-400 text-sm">
+              <Label className="text-muted text-sm">
                 {exampleTrack.data.artist}
               </Label>
             </div>
@@ -49,10 +49,10 @@ export default function MediaMD01() {
         </WidgetHeader>
         <WidgetFooter className="flex w-full flex-col gap-3">
           <div className="flex w-full flex-col gap-1.5">
-            <AudioPlayerProgress className="bg-default-200 h-full max-h-2 w-full flex-1" />
+            <AudioPlayerProgress className="bg-content2 h-full max-h-2 w-full flex-1" />
             <div className="flex w-full items-center justify-between">
-              <AudioPlayerTime className="text-muted-foreground text-xs" />
-              <AudioPlayerDuration className="text-muted-foreground text-xs" />
+              <AudioPlayerTime className="text-muted text-xs" />
+              <AudioPlayerDuration className="text-muted text-xs" />
             </div>
           </div>
           <div className="mx-auto flex w-max items-center justify-between gap-8">
@@ -61,17 +61,17 @@ export default function MediaMD01() {
               variant="light"
               size="sm"
               className="hover:bg-content2 dark:hover:bg-content2">
-              <ShuffleIcon className="text-default-400 size-5" />
+              <ShuffleIcon className="text-muted size-5" />
             </Button>
             <Button
               isIconOnly
               variant="light"
               size="sm"
               className="hover:bg-content2 dark:hover:bg-content2">
-              <SkipBackIcon className="text-default-400 hover:bg-content2 size-5" />
+              <SkipBackIcon className="text-muted hover:bg-content2 size-5" />
             </Button>
             <AudioPlayerButton
-              className="rounded-md border-none bg-black text-white"
+              className="bg-foreground text-background rounded-md border-none"
               size="icon-sm"
               item={exampleTrack}
             />
@@ -80,14 +80,14 @@ export default function MediaMD01() {
               variant="light"
               size="sm"
               className="hover:bg-content2 dark:hover:bg-content2">
-              <SkipForwardIcon className="text-default-400 hover:bg-content2 size-5" />
+              <SkipForwardIcon className="text-muted hover:bg-content2 size-5" />
             </Button>
             <Button
               variant="light"
               isIconOnly
               size="sm"
               className="hover:bg-content2 dark:hover:bg-content2">
-              <CastIcon className="text-default-400 hover:bg-content2 size-5" />
+              <CastIcon className="text-muted hover:bg-content2 size-5" />
             </Button>
           </div>
         </WidgetFooter>

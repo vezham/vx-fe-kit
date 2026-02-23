@@ -22,7 +22,7 @@ export default function ProductivitySM05() {
       <WidgetContent className="flex-col items-end justify-start gap-4">
         <div className="flex w-full flex-col">
           <Label className="text-xl">Read 10 Mins</Label>
-          <Label className="text-muted-foreground text-sm font-normal">
+          <Label className="text-muted text-sm font-normal">
             Streak: {status ? streak + 1 : streak} days
           </Label>
         </div>

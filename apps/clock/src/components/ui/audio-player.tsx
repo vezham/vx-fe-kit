@@ -412,10 +412,7 @@ const PlayButton = ({
         onPlayingChange(!playing)
         onClick?.(e)
       }}
-      className={cn(
-        'border-default-200 relative border border-1 bg-transparent',
-        className
-      )}
+      className={cn('relative bg-transparent', className)}
       aria-label={playing ? 'Pause' : 'Play'}
       type="button">
       {playing ? (

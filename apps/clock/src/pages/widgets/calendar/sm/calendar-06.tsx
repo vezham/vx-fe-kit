@@ -44,8 +44,8 @@ export default function CalendarSM06() {
         <div className="flex items-center gap-2">
           <WidgetTitle className="text-3xl">{date}</WidgetTitle>
           <div className="flex flex-col">
-            <Label className="text-default-500 text-xs">{month}</Label>
-            <Label className="text-default-500 text-xs">{day}</Label>
+            <Label className="text-muted text-xs">{month}</Label>
+            <Label className="text-muted text-xs">{day}</Label>
           </div>
         </div>
         <Button
@@ -63,7 +63,7 @@ export default function CalendarSM06() {
             <div className="flex h-full">
               <div className={cn('h-full w-1 rounded-md', borderColor)} />
               <div className="flex flex-col px-2">
-                <Label className="text-default-500 text-xs">{time}</Label>
+                <Label className="text-muted text-xs">{time}</Label>
                 <Label className="text-xs font-normal">{title}</Label>
               </div>
             </div>

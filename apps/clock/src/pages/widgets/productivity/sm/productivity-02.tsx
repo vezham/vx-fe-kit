@@ -63,7 +63,7 @@ export default function ProductivitySM02() {
             ))}
           </SelectContent>
         </Select>
-        <Button className="w-max bg-black text-white" size="sm">
+        <Button className="bg-foreground text-background w-max" size="sm">
           Add Task
         </Button>
       </WidgetFooter>

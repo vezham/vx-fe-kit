@@ -4,7 +4,7 @@ import * as React from 'react'
 import { Surface, VariantProps, cn } from '@vezham/react/v3'
 
 const widgetVariants = cva(
-  'dark:shadow-secondary/50 border-default-200 relative flex flex-col rounded-3xl border border-2 whitespace-nowrap shadow-md',
+  'border-default-200 relative flex flex-col rounded-3xl border border-2 whitespace-nowrap shadow-md',
   {
     variants: {
       size: {
@@ -17,7 +17,7 @@ const widgetVariants = cva(
         mumbai: 'p-4'
       },
       variant: {
-        default: 'text-foreground bg-white',
+        default: 'text-foreground',
         secondary: 'bg-secondary text-secondary-foreground'
       }
     },

@@ -3,6 +3,7 @@
 import { CartesianGrid, Line, LineChart, XAxis } from 'recharts'
 
 import { Link } from '@vezham/react/v2'
+import { Separator } from '@vezham/react/v3'
 
 import {
   ChartConfig,
@@ -46,6 +47,7 @@ export default function DashboardSM04() {
           </WidgetTitle>
         </Link>
       </WidgetHeader>
+
       <WidgetContent>
         <ChartContainer className="size-full" config={chartConfig}>
           <LineChart

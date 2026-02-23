@@ -78,9 +78,9 @@ export default function CalendarMD02() {
               </div>
             ))}
             {calendarDays.map((d, i) => (
-              <div key={i} className="text-default-400 text-xs">
+              <div key={i} className="text-muted text-xs">
                 {isToday(d) ? (
-                  <div className="flex size-4 items-center justify-center rounded-md bg-black p-2 text-white">
+                  <div className="bg-foreground text-background flex size-4 items-center justify-center rounded-md p-2">
                     {d}
                   </div>
                 ) : (
@@ -92,7 +92,7 @@ export default function CalendarMD02() {
         </div>
 
         <div className="flex h-full w-full flex-col items-center justify-start">
-          <WidgetHeader className="text-danger text-base">
+          <WidgetHeader className="text-danger-500 text-base">
             {today.toLocaleDateString('en-US', { weekday: 'long' })}
           </WidgetHeader>
           <div className="w-full flex-col items-end justify-end">
@@ -105,7 +105,7 @@ export default function CalendarMD02() {
                   key={i}
                   className="bg-content2 flex w-full items-center justify-between gap-2 rounded-md px-2 py-1 text-xs">
                   {event.title}
-                  <span className="text-default-500">{event.time}</span>
+                  <span className="text-muted">{event.time}</span>
                 </div>
               ))}
             </div>

@@ -78,7 +78,7 @@ export default function Clock11() {
           <MinusIcon width={12} />
         </Button>
 
-        <Label className="text-base text-gray-500">
+        <Label className="text-muted text-base">
           {minutes} Min{minutes !== 1 ? 's' : ''}
         </Label>
         <Button

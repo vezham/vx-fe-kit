@@ -1,5 +1,3 @@
-import * as React from 'react'
-
 import { Image } from '@vezham/react/v2'
 import { Label } from '@vezham/react/v3'
 
@@ -32,7 +30,7 @@ export default function Sports05() {
   return (
     <Widget design="mumbai">
       <WidgetHeader>
-        <WidgetTitle className="text-default-500">ODI 2</WidgetTitle>
+        <WidgetTitle className="text-muted">ODI 2</WidgetTitle>
       </WidgetHeader>
       <WidgetContent className="flex-col items-center justify-center gap-4">
         {scoreCard.map((team, i) => (
@@ -43,13 +41,13 @@ export default function Sports05() {
             </div>
             <div className="flex items-center justify-end gap-1">
               <Label className="text-base">{team.score}</Label>
-              <Label className="text-default-500 text-xs">({team.overs})</Label>
+              <Label className="text-muted text-xs">({team.overs})</Label>
             </div>
           </div>
         ))}
       </WidgetContent>
       <WidgetFooter className="justify-center">
-        <p className="text-default-500 text-sm">
+        <p className="text-muted text-sm">
           AUS needs <span className="text-green-500">187</span> from{' '}
           <span className="text-green-500">120</span>
         </p>

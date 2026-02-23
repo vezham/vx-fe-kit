@@ -15,7 +15,7 @@ export default function CalendarSM01() {
     <Widget>
       <WidgetContent className="mx-auto flex-col items-start">
         <div className="flex w-full items-center justify-center gap-2">
-          <Label className="text-danger text-2xl">{day}</Label>
+          <Label className="text-danger-500 text-2xl">{day}</Label>
           <Label className="text-2xl">{month}</Label>
         </div>
         <Label className="text-8xl">{date}</Label>

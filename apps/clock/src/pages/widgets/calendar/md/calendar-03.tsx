@@ -68,9 +68,9 @@ export default function CalendarMD03() {
     <div className="grid size-full grid-cols-7 gap-1 text-center">
       <WeekdayRow />
       {days.map((d, i) => (
-        <div key={i} className="text-default-400 text-xs">
+        <div key={i} className="text-muted text-xs">
           {isToday(d, m, y) ? (
-            <div className="flex size-4 items-center justify-center rounded-md bg-black p-2 text-white">
+            <div className="bg-foreground text-background flex size-4 items-center justify-center rounded-md p-2">
               {d}
             </div>
           ) : (

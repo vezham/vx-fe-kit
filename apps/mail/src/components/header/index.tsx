@@ -20,7 +20,7 @@ export function Header() {
     <div className="flex items-center justify-between p-3 px-4">
       <div className="flex items-center">
         <h1 className="flex items-center gap-4 text-lg font-medium">
-          <Icon icon={icon} className="text-default-500" />
+          <Icon icon={icon} className="text-muted" />
           {title}
         </h1>
       </div>
@@ -32,7 +32,7 @@ export function Header() {
             isIconOnly
             variant="light"
             size="sm"
-            className="text-default-500"
+            className="text-muted"
             aria-label={action.ariaLabel}
             onClick={action.onClick}>
             <Icon icon={action.icon} width={18} />

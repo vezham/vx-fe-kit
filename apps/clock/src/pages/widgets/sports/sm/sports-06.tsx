@@ -1,5 +1,3 @@
-import * as React from 'react'
-
 import { Image } from '@vezham/react/v2'
 import { Label, Separator } from '@vezham/react/v3'
 
@@ -46,7 +44,7 @@ export default function Sports06() {
       <WidgetHeader className="pb-1.5">
         <div className="flex items-center gap-1">
           <div className="bg-success size-2 rounded-full" />
-          <Label className="text-default-500 text-sm">IND vs NZ</Label>
+          <Label className="text-muted text-sm">IND vs NZ</Label>
         </div>
         <Label className="text-sm">340/7</Label>
       </WidgetHeader>
@@ -64,7 +62,7 @@ export default function Sports06() {
               </div>
               <Label className="text-xs">
                 {batter.score}
-                <span className="text-default-500">({batter.balls})</span>
+                <span className="text-muted">({batter.balls})</span>
               </Label>
             </div>
           ))}
@@ -83,14 +81,14 @@ export default function Sports06() {
               </div>
               <Label className="text-xs">
                 {bowler.score}
-                <span className="text-default-500">({bowler.overs})</span>
+                <span className="text-muted">({bowler.overs})</span>
               </Label>
             </div>
           ))}
         </div>
       </WidgetContent>
       <WidgetFooter className="justify-center pt-1">
-        <p className="text-default-500 text-sm">
+        <p className="text-muted text-sm">
           IND needs <span className="text-green-500">26</span> from{' '}
           <span className="text-green-500">18</span>
         </p>

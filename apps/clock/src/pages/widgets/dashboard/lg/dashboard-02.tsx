@@ -7,7 +7,10 @@ import {
   StickyNoteIcon
 } from 'lucide-react'
 import React from 'react'
-import { Area, AreaChart, CartesianGrid, Label, XAxis } from 'recharts'
+import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts'
+
+import { Divider } from '@vezham/react/v2'
+import { Label } from '@vezham/react/v3'
 
 import {
   ChartConfig,
@@ -88,7 +91,7 @@ export default function DashboardLG02() {
           </SelectContent>
         </Select>
       </WidgetHeader>
-      <WidgetContent className="flex-col justify-start gap-4">
+      <WidgetContent className="flex-col justify-start gap-2">
         <ChartContainer
           className="size-full max-h-32"
           config={
@@ -96,7 +99,7 @@ export default function DashboardLG02() {
           }>
           <AreaChart
             accessibilityLayer
-            className="text-default-500"
+            className="text-muted"
             data={org === 'wigggle-ui' ? wigggleUIChartData : acmeIncChartData}
             margin={{
               left: 12,
@@ -161,16 +164,19 @@ export default function DashboardLG02() {
             label="Bounce rate"
             value={org === 'wigggle-ui' ? '37.07%' : '43.74%'}
           />
+          <Divider />
           <StatsItem
             icon={StickyNoteIcon}
             label="Pages per visit"
             value={org === 'wigggle-ui' ? '36' : '19'}
           />
+          <Divider />
           <StatsItem
             icon={CalendarIcon}
             label="Monthly hits"
             value={org === 'wigggle-ui' ? '689' : '184'}
           />
+          <Divider />
           <StatsItem
             icon={ClockIcon}
             label="Avg. time spent"
@@ -192,17 +198,13 @@ function StatsItem(item: StatsItemProps) {
   return (
     <div className="flex w-full items-center justify-between border-t-2 py-2.5 first:border-0">
       <div className="flex items-center justify-start gap-x-2">
-        <item.icon className="text-default-500 size-4" />
-        <div>
-          <p className="text-default-500" data-vx="testing">
-            {item.label}
-          </p>
-        </div>
-        <Label className="text-default-500" data-vx="testing">
+        <item.icon className="text-muted size-4" />
+
+        <Label className="text-muted" data-vx="testing">
           {item.label}
         </Label>
       </div>
-      <Label className="text-default-500">{item.value}</Label>
+      <Label className="text-muted">{item.value}</Label>
     </div>
   )
 }

@@ -32,7 +32,7 @@ export default function MediaSM01() {
           </Avatar>
           <div className="flex flex-col space-y-0">
             <Label className="text-base">{exampleTrack.data.title}</Label>
-            <Label className="text-default-400 text-xs">
+            <Label className="text-muted text-xs">
               {exampleTrack.data.artist}
             </Label>
           </div>
@@ -40,13 +40,13 @@ export default function MediaSM01() {
         <WidgetContent className="flex-col items-center justify-center gap-1">
           <AudioPlayerProgress className="h-full max-h-2 w-full flex-1" />
           <div className="flex w-full items-center justify-between">
-            <AudioPlayerTime className="text-muted-foreground text-xs" />
-            <AudioPlayerDuration className="text-muted-foreground text-xs" />
+            <AudioPlayerTime className="text-muted text-xs" />
+            <AudioPlayerDuration className="text-muted text-xs" />
           </div>
         </WidgetContent>
         <WidgetFooter className="mx-auto w-max items-center justify-between gap-x-6">
           <Button
-            variant="bordered"
+            variant="light"
             size="sm"
             className="hover:bg-content2"
             isIconOnly>
@@ -56,10 +56,10 @@ export default function MediaSM01() {
             size="icon-sm"
             variant="outline"
             item={exampleTrack}
-            className="hover:bg-content2 hover:text-black"
+            className="hover:bg-content2 hover:text-foreground border-default-200 border"
           />
           <Button
-            variant="bordered"
+            variant="light"
             size="sm"
             className="hover:bg-content2"
             isIconOnly>

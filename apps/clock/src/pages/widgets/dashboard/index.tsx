@@ -2,6 +2,7 @@ import React from 'react'
 
 import DashboardLG01 from './lg/dashboard-01'
 import DashboardLG02 from './lg/dashboard-02'
+import CircleBar from './lg/test'
 import DashboardMD01 from './md/dashboard-01'
 import DashboardMD02 from './md/dashboard-02'
 import DashboardSM01 from './sm/dashboard-01'

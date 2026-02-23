@@ -13,7 +13,7 @@ export default function ProductivitySM06() {
             <SunIcon className="size-8 stroke-yellow-500" />
             <div className="flex flex-col items-start justify-start gap-1.5">
               <Label className="font-normal">Sleep early</Label>
-              <Label className="text-default-500 font-normal">13 days</Label>
+              <Label className="text-muted font-normal">13 days</Label>
             </div>
           </div>
         </div>
@@ -22,7 +22,7 @@ export default function ProductivitySM06() {
             <DumbbellIcon className="size-8 stroke-amber-700" />
             <div className="flex flex-col items-start justify-start gap-1.5">
               <Label className="font-normal">Workout</Label>
-              <Label className="text-default-500 font-normal">6 days</Label>
+              <Label className="text-muted font-normal">6 days</Label>
             </div>
           </div>
         </div>

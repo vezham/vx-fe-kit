@@ -32,17 +32,15 @@ export default function ProductivityMD04() {
       <WidgetContent className="flex flex-col items-center justify-center gap-2">
         <div className="grid w-full grid-cols-3 items-center gap-4">
           <div className="flex flex-col items-center justify-center gap-1">
-            <p className="text-muted-foreground text-sm font-normal">Time</p>
+            <p className="text-muted text-sm font-normal">Time</p>
             <p className="text-2xl">6h</p>
           </div>
           <div className="flex flex-col items-center justify-center gap-1">
-            <p className="text-muted-foreground text-sm font-normal">Tasks</p>
+            <p className="text-muted text-sm font-normal">Tasks</p>
             <p className="text-2xl">55</p>
           </div>
           <div className="flex flex-col items-center justify-center gap-1">
-            <p className="text-muted-foreground text-sm font-normal">
-              Work day
-            </p>
+            <p className="text-muted text-sm font-normal">Work day</p>
             <p className="text-2xl">79%</p>
           </div>
         </div>

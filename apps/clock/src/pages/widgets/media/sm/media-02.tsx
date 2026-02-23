@@ -38,7 +38,7 @@ export default function MediaSM02() {
         <WidgetContent className="flex-none flex-col items-center justify-center gap-3">
           <div className="flex w-full items-center justify-between">
             <Button
-              variant="bordered"
+              variant="light"
               size="sm"
               className="hover:bg-content2"
               isIconOnly>
@@ -48,10 +48,10 @@ export default function MediaSM02() {
               size="icon-sm"
               variant="ghost"
               item={exampleTrack}
-              className="hover:bg-content2 hover:text-black"
+              className="hover:bg-content2 hover:text-foreground"
             />
             <Button
-              variant="bordered"
+              variant="light"
               size="sm"
               className="hover:bg-content2"
               isIconOnly>

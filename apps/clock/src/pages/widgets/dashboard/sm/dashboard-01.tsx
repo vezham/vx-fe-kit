@@ -1,16 +1,11 @@
-import { Label } from '../../../../components/ui/label'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger
-} from '../../../../components/ui/tooltip'
+import { Label, Tooltip, cn } from '@vezham/react/v3'
+
 import {
   Widget,
   WidgetContent,
   WidgetHeader,
   WidgetTitle
 } from '../../../../components/ui/widget'
-import { cn } from '../../../../lib/utils'
 
 const visitorsChartData = [
   { percentage: '40', color: 'bg-blue-500' },
@@ -36,8 +31,8 @@ export default function DashboardSM01() {
       <WidgetContent className="flex-col justify-start gap-4">
         <div className="flex h-5 w-full">
           {visitorsChartData.map((el, i) => (
-            <Tooltip key={i} delayDuration={300}>
-              <TooltipTrigger asChild>
+            <Tooltip key={i} delay={300}>
+              <Tooltip.Trigger asChild>
                 <div
                   style={{ width: `${el.percentage}%` }}
                   className={cn(
@@ -45,14 +40,14 @@ export default function DashboardSM01() {
                     'h-full transition-all duration-300 first:rounded-l-full last:rounded-r-full hover:scale-115 hover:cursor-pointer'
                   )}
                 />
-              </TooltipTrigger>
-              <TooltipContent className="text-foreground px-2 py-1 text-sm">
+              </Tooltip.Trigger>
+              <Tooltip.Content className="text-foreground px-2 py-1 text-sm">
                 {el.percentage}%
-              </TooltipContent>
+              </Tooltip.Content>
             </Tooltip>
           ))}
         </div>
-        <div className="w-full space-y-3">
+        <div className="w-full space-y-1">
           {visitorsByDeviceChartData.map(el => (
             <div
               key={el.device}

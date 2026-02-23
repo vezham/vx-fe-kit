@@ -70,7 +70,7 @@ export default function WeatherSM06() {
             <Label>{weather?.humidity}%</Label>
           </div>
         </div>
-        <div className="flex w-full items-center justify-center">
+        <div className="flex w-full items-end justify-end">
           <Label className="text-4xl">{weather?.temperature}&deg;</Label>
         </div>
       </WidgetFooter>

@@ -1,13 +1,8 @@
 import { EllipsisIcon, GitBranchIcon } from 'lucide-react'
 
-import { Link } from '@vezham/react/v2'
+import { Button, Link } from '@vezham/react/v2'
+import { Avatar, Label, cn } from '@vezham/react/v3'
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage
-} from '../../../../components/ui/avatar'
-import { Button } from '../../../../components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,13 +10,11 @@ import {
   DropdownMenuTrigger
 } from '../../../../components/ui/dropdown-menu'
 import { Icons } from '../../../../components/ui/icons'
-import { Label } from '../../../../components/ui/label'
 import {
   Widget,
   WidgetContent,
   WidgetHeader
 } from '../../../../components/ui/widget'
-import { cn } from '../../../../lib/utils'
 
 export default function DashboardMD02() {
   return (
@@ -29,25 +22,29 @@ export default function DashboardMD02() {
       <WidgetHeader className="items-center justify-between">
         <div className="flex justify-start gap-3">
           <Avatar className="size-10">
-            <AvatarImage
+            <Avatar.Image
               src="https://github.com/wigggle-ui.png"
               alt="@wigggleui"
             />
-            <AvatarFallback>WUI</AvatarFallback>
+            <Avatar.Fallback>WUI</Avatar.Fallback>
           </Avatar>
-          <div className="space-y-2">
+          <div className="flex flex-col space-y-0">
             <Label className="font-normal">wigggle-ui</Label>
-            <Label className="text-gray-500">wigggle-ui.vercel.app</Label>
+            <Label className="text-muted">wigggle-ui.vercel.app</Label>
           </div>
         </div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon-sm">
+            <Button
+              variant="light"
+              className="hover:bg-content2"
+              size="sm"
+              isIconOnly>
               <EllipsisIcon />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            className="bg-background w-60 p-2 font-light"
+            className="bg-background hover:bg-content2 w-60 p-2 font-light"
             align="start">
             <DropdownMenuItem className="group flex items-center justify-between">
               Add Favorite
@@ -65,14 +62,14 @@ export default function DashboardMD02() {
         <Link
           href="https://github.com/wigggle-ui/ui"
           target="_blank"
-          className="bg-default hover:bg-muted/50 flex w-max items-center justify-center gap-1.5 rounded-full px-2 py-1.5 text-xs font-light transition-colors duration-300">
+          className="bg-content2 text-muted hover:bg-muted/50 flex w-max items-center justify-center gap-1.5 rounded-full px-2 py-1.5 text-xs font-light transition-colors duration-300">
           <Icons.GitHub className="size-4" />
           wigggle-ui/ui
         </Link>
         <Label className="text-sm font-normal">
           feat: added weather-md-01, weather-md-02 widgets
         </Label>
-        <Label className="text-sm font-normal text-gray-500">
+        <Label className="text-muted flex gap-2 text-sm font-normal">
           <span>3d ago on </span>
           <GitBranchIcon className="size-4" />
           <span>main</span>

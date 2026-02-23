@@ -112,7 +112,7 @@ export default function Clock12() {
           return (
             <Label
               key={`num-${i}`}
-              className="text-muted-foreground absolute flex size-4 items-center justify-center text-xs font-semibold"
+              className="text-muted absolute flex size-4 items-center justify-center text-xs font-semibold"
               style={{
                 left: `calc(50% + ${x}px)`,
                 top: `calc(50% + ${y}px)`,

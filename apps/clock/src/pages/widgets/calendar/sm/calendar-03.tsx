@@ -45,9 +45,11 @@ export default function CalendarSM03() {
           ))}
 
           {days.map(day => (
-            <div key={day} className="text-default-400 text-xs">
+            <div key={day} className="text-muted text-xs">
               {day === date ? (
-                <div className="rounded-md bg-black text-white">{day}</div>
+                <div className="bg-foreground text-background rounded-md">
+                  {day}
+                </div>
               ) : (
                 day
               )}

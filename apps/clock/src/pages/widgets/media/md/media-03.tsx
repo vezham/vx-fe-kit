@@ -30,15 +30,15 @@ export default function MediaMD03() {
             <div className="flex h-full w-full flex-col items-start justify-between p-6">
               <div className="flex flex-col space-y-0">
                 <Label className="text-base">{exampleTrack.data.title}</Label>
-                <Label className="text-default-400 text-sm">
+                <Label className="text-muted text-sm">
                   {exampleTrack.data.artist}
                 </Label>
               </div>
               <div className="flex w-full flex-col gap-1.5">
                 <AudioPlayerProgress className="h-full max-h-2 w-full flex-1" />
                 <div className="flex w-full items-center justify-between">
-                  <AudioPlayerTime className="text-muted-foreground text-xs" />
-                  <AudioPlayerDuration className="text-muted-foreground text-xs" />
+                  <AudioPlayerTime className="text-muted text-xs" />
+                  <AudioPlayerDuration className="text-muted text-xs" />
                 </div>
               </div>
               <div className="mx-auto flex w-max items-center justify-between gap-x-6">
@@ -53,7 +53,7 @@ export default function MediaMD03() {
                   />
                 </Button>
                 <AudioPlayerButton
-                  className="bg-default hover:bg-content2 rounded-md border-none text-black"
+                  className="bg-default hover:bg-content2 text-foreground rounded-md border-none"
                   size="icon-sm"
                   item={exampleTrack}
                 />

@@ -16,7 +16,7 @@ export default function Stocks02() {
       <WidgetHeader>
         <WidgetTitle className="flex w-full flex-col items-start justify-start">
           <Label className="text-2xl font-medium">AAPL</Label>
-          <Label className="text-muted-foreground text-lg">Apple Inc</Label>
+          <Label className="text-muted text-lg">Apple Inc</Label>
         </WidgetTitle>
       </WidgetHeader>
       <WidgetContent className="justify-between"></WidgetContent>

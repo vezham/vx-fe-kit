@@ -32,9 +32,11 @@ export default function WeatherSM04() {
 
   return (
     <Widget>
-      <WidgetContent className="mx-auto flex-col items-center justify-center">
-        <Label className="text-6xl">{weather?.temperature}&deg;</Label>
-        <Label className="text-2xl">
+      <WidgetContent className="mx-auto flex-col">
+        <Label className="items-center justify-center text-6xl">
+          {weather?.temperature}&deg;
+        </Label>
+        <Label className="items-center justify-center text-2xl">
           {weather ? getWeatherDescription(weather.weatherCode) : 'Sunny'}
         </Label>
         <Label className="items-start justify-start text-start">

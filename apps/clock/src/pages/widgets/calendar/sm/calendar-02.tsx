@@ -15,9 +15,9 @@ export default function CalendarSM02() {
   return (
     <Widget>
       <WidgetContent className="jsutfy-center flex flex-col items-center gap-2">
-        <Label className="text-gray-500">{day}</Label>
+        <Label className="text-muted">{day}</Label>
         <Label className="text-5xl font-bold">{date}</Label>
-        <Label className="text-gray-500">{month}</Label>
+        <Label className="text-muted">{month}</Label>
         <Chip variant="bordered" radius="md">
           {now.getFullYear()}
         </Chip>

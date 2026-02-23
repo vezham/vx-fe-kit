@@ -1,5 +1,4 @@
 import { EyeIcon, TriangleIcon } from 'lucide-react'
-import * as React from 'react'
 
 import { Label, cn } from '@vezham/react/v3'
 
@@ -59,7 +58,7 @@ export default function Stocks03() {
                 />
                 {stock.ticker}
               </Label>
-              <Label className="text-default-400 text-xs">
+              <Label className="text-muted text-xs">
                 {truncate(stock.company)}
               </Label>
             </div>

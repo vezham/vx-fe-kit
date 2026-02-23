@@ -24,15 +24,11 @@ export function SidebarItem({
       search={prev => ({ ...prev })}
       className={`flex cursor-pointer items-center justify-between rounded-md px-3 py-2 transition-colors ${isActive ? 'bg-[#eaeae8]' : 'hover:bg-default-100'}`}>
       <div className="flex items-center gap-2">
-        <Icon
-          icon={icon}
-          className={iconColor || 'text-default-500'}
-          width={20}
-        />
+        <Icon icon={icon} className={iconColor || 'text-muted'} width={20} />
         <span className="text-sm">{label}</span>
       </div>
       {count !== undefined && (
-        <span className="text-default-400 text-xs">{count}</span>
+        <span className="text-muted text-xs">{count}</span>
       )}
     </Link>
   )
@@ -41,9 +37,7 @@ export function SidebarItem({
 export function SidebarSection({ title, children }: SidebarSectionProps) {
   return (
     <div className="mb-4">
-      <h3 className="text-default-400 mb-1 px-3 text-xs font-medium">
-        {title}
-      </h3>
+      <h3 className="text-muted mb-1 px-3 text-xs font-medium">{title}</h3>
       {children}
     </div>
   )
@@ -77,8 +71,8 @@ export function Sidebar() {
       {/* Search */}
       <div className="px-3 py-2">
         <div className="flex items-center gap-2 rounded-md px-3 py-2">
-          <Icon icon="lucide:search" className="text-default-500" width={18} />
-          <span className="text-default-500 text-sm">Search</span>
+          <Icon icon="lucide:search" className="text-muted" width={18} />
+          <span className="text-muted text-sm">Search</span>
         </div>
       </div>
 
@@ -97,7 +91,7 @@ export function Sidebar() {
       <div className="flex items-center justify-between p-3">
         <div className="flex gap-2">
           <button
-            className="text-default-500"
+            className="text-muted"
             onClick={() =>
               navigate({
                 to: '/notifications',
@@ -106,12 +100,12 @@ export function Sidebar() {
             }>
             <Icon icon="mdi:notifications" width={20} />
           </button>
-          <button className="text-default-500">
+          <button className="text-muted">
             <Icon icon="mdi:calendar" width={20} />
           </button>
         </div>
         <button
-          className="text-default-500"
+          className="text-muted"
           onClick={() => navigate({ to: '/cta', search: old => old })}>
           <Icon icon="lucide:help-circle" width={20} />
         </button>

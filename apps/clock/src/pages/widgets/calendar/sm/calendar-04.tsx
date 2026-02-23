@@ -72,9 +72,11 @@ export default function CalendarSM04() {
             </div>
           ))}
           {calendarDays.map((day, i) => (
-            <div key={i} className="text-default-400 text-xs">
+            <div key={i} className="text-muted text-xs">
               {day && isToday(day) ? (
-                <div className="rounded-md bg-black text-white">{day}</div>
+                <div className="bg-foreground text-background rounded-md">
+                  {day}
+                </div>
               ) : (
                 day
               )}

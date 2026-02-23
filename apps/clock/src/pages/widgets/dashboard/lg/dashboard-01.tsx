@@ -1,14 +1,15 @@
 import { DotIcon, GlobeIcon, MonitorIcon, UploadIcon } from 'lucide-react'
 import { Pie, PieChart } from 'recharts'
 
-import { Button } from '../../../../components/ui/button'
+import { Button } from '@vezham/react/v2'
+import { Label } from '@vezham/react/v3'
+
 import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent
 } from '../../../../components/ui/chart'
-import { Label } from '../../../../components/ui/label'
 import {
   Widget,
   WidgetContent,
@@ -56,13 +57,13 @@ export default function DashboardLG01() {
       <WidgetContent className="flex-col justify-start gap-4">
         <div className="flex w-full items-center justify-start">
           <div className="flex items-center space-x-1">
-            <GlobeIcon className="text-default-500 size-4" />
-            <Label className="text-default-500">Worldwide</Label>
+            <GlobeIcon className="text-muted size-4" />
+            <Label className="text-muted">Worldwide</Label>
           </div>
           <DotIcon className="stroke-muted-foreground/40" />
           <div className="flex items-center space-x-1">
-            <MonitorIcon className="text-default-500 size-4" />
-            <Label className="text-default-500">Desktop</Label>
+            <MonitorIcon className="text-muted size-4" />
+            <Label className="text-muted">Desktop</Label>
           </div>
         </div>
         <ChartContainer config={chartConfig} className="size-full max-h-44">
@@ -83,23 +84,26 @@ export default function DashboardLG01() {
         <div className="flex w-full items-center justify-center gap-6">
           <div className="flex items-center space-x-1.5">
             <div className="size-2.5 rounded-full bg-purple-700" />
-            <Label className="text-muted-foreground text-sm">Direct</Label>
+            <Label className="text-muted text-sm">Direct</Label>
           </div>
           <div className="flex items-center space-x-1.5">
             <div className="size-2.5 rounded-full bg-pink-700" />
-            <Label className="text-muted-foreground text-sm">Search</Label>
+            <Label className="text-muted text-sm">Search</Label>
           </div>
           <div className="flex items-center space-x-1.5">
             <div className="size-2.5 rounded-full bg-yellow-300" />
-            <Label className="text-muted-foreground text-sm">Referrals</Label>
+            <Label className="text-muted text-sm">Referrals</Label>
           </div>
           <div className="flex items-center space-x-1.5">
             <div className="size-2.5 rounded-full bg-blue-600" />
-            <Label className="text-muted-foreground text-sm">Socials</Label>
+            <Label className="text-muted text-sm">Socials</Label>
           </div>
         </div>
-        <Button className="w-full" variant="default">
-          <UploadIcon /> Export
+        <Button
+          className="hover:bg-content2 w-full"
+          variant="bordered"
+          radius="md">
+          <UploadIcon width={16} /> Export
         </Button>
       </WidgetFooter>
     </Widget>

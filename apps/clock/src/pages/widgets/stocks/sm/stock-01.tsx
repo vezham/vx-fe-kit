@@ -26,9 +26,7 @@ export default function Stocks01() {
       </WidgetContent>
       <WidgetFooter className="flex-col items-start">
         <Label className="text-2xl font-medium">META</Label>
-        <Label className="text-muted-foreground text-base">
-          Meta Platforms Inc
-        </Label>
+        <Label className="text-muted text-base">Meta Platforms Inc</Label>
       </WidgetFooter>
     </Widget>
   )
