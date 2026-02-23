@@ -1,3 +1,4 @@
+import { div } from 'framer-motion/client'
 import React from 'react'
 
 import { Card, CardBody } from '@vezham/react/v2'
@@ -93,50 +94,52 @@ const AppleWidgetPage = () => {
   }
 
   return (
-    <Widget size="lg">
-      <WidgetContent>
-        <div className="flex w-full flex-col">
-          <StatusBar />
-          <div className="flex items-center justify-center p-0">
-            <div className="my-6 flex items-center justify-center">
-              <div className="grid grid-cols-3 gap-4 p-3">
-                {menuItems.map((item, index) => (
-                  <MenuItem
-                    key={item.label}
-                    icon={item.icon}
-                    label={item.label}
-                    color={item.color}
-                    delay={index}
-                    onClick={() => item.app && handleOpenApp(item.app)}
-                  />
-                ))}
+    <div className="flex h-screen items-center justify-center">
+      <Widget size="lg">
+        <WidgetContent>
+          <div className="flex w-full flex-col">
+            <StatusBar />
+            <div className="flex items-center justify-center p-0">
+              <div className="my-6 flex items-center justify-center">
+                <div className="grid grid-cols-3 gap-4 p-3">
+                  {menuItems.map((item, index) => (
+                    <MenuItem
+                      key={item.label}
+                      icon={item.icon}
+                      label={item.label}
+                      color={item.color}
+                      delay={index}
+                      onClick={() => item.app && handleOpenApp(item.app)}
+                    />
+                  ))}
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div>
-          <PhoneApp isOpen={openApp === 'phone'} onClose={handleCloseApp} />
-          <MessagesApp
-            isOpen={openApp === 'messages'}
-            onClose={handleCloseApp}
-          />
-          <SettingsApp
-            isOpen={openApp === 'settings'}
-            onClose={handleCloseApp}
-          />
-          <MailApp isOpen={openApp === 'mail'} onClose={handleCloseApp} />
-          <PhotosApp isOpen={openApp === 'photos'} onClose={handleCloseApp} />
-          <MusicApp isOpen={openApp === 'music'} onClose={handleCloseApp} />
-          <HealthApp isOpen={openApp === 'health'} onClose={handleCloseApp} />
-          <CalendarApp
-            isOpen={openApp === 'calendar'}
-            onClose={handleCloseApp}
-          />
-          <MapsApp isOpen={openApp === 'maps'} onClose={handleCloseApp} />
-        </div>
-      </WidgetContent>
-    </Widget>
+          <div>
+            <PhoneApp isOpen={openApp === 'phone'} onClose={handleCloseApp} />
+            <MessagesApp
+              isOpen={openApp === 'messages'}
+              onClose={handleCloseApp}
+            />
+            <SettingsApp
+              isOpen={openApp === 'settings'}
+              onClose={handleCloseApp}
+            />
+            <MailApp isOpen={openApp === 'mail'} onClose={handleCloseApp} />
+            <PhotosApp isOpen={openApp === 'photos'} onClose={handleCloseApp} />
+            <MusicApp isOpen={openApp === 'music'} onClose={handleCloseApp} />
+            <HealthApp isOpen={openApp === 'health'} onClose={handleCloseApp} />
+            <CalendarApp
+              isOpen={openApp === 'calendar'}
+              onClose={handleCloseApp}
+            />
+            <MapsApp isOpen={openApp === 'maps'} onClose={handleCloseApp} />
+          </div>
+        </WidgetContent>
+      </Widget>
+    </div>
   )
 }
 

@@ -8,6 +8,6 @@ export interface Location {
 }
 
 export interface MapsAppProps {
-  isOpen: boolean
-  onClose: () => void
+  isOpen?: boolean
+  onClose?: () => void
 }

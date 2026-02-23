@@ -13,6 +13,6 @@ export interface SettingGroup {
 }
 
 export interface SettingsAppProps {
-  isOpen: boolean
-  onClose: () => void
+  isOpen?: boolean
+  onClose?: () => void
 }

@@ -10,6 +10,6 @@ export interface Email {
 }
 
 export interface MailAppProps {
-  isOpen: boolean
-  onClose: () => void
+  isOpen?: boolean
+  onClose?: () => void
 }

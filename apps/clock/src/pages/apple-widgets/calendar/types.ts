@@ -11,6 +11,6 @@ export interface Event {
 }
 
 export interface CalendarAppProps {
-  isOpen: boolean
-  onClose: () => void
+  isOpen?: boolean
+  onClose?: () => void
 }

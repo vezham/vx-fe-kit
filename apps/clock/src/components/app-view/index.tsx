@@ -3,8 +3,8 @@ import { AnimatePresence, motion } from 'framer-motion'
 import React from 'react'
 
 interface AppViewProps {
-  isOpen: boolean
-  onClose: () => void
+  isOpen?: boolean
+  onClose?: () => void
   children: React.ReactNode
   title: string
 }

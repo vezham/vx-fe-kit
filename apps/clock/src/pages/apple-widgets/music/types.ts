@@ -8,6 +8,6 @@ export interface Song {
 }
 
 export interface MusicAppProps {
-  isOpen: boolean
-  onClose: () => void
+  isOpen?: boolean
+  onClose?: () => void
 }

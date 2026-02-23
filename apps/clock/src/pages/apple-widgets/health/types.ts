@@ -14,6 +14,6 @@ export interface ActivityData {
 }
 
 export interface HealthAppProps {
-  isOpen: boolean
-  onClose: () => void
+  isOpen?: boolean
+  onClose?: () => void
 }

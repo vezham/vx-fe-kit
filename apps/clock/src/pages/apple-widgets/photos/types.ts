@@ -6,6 +6,6 @@ export interface Photo {
 }
 
 export interface PhotosAppProps {
-  isOpen: boolean
-  onClose: () => void
+  isOpen?: boolean
+  onClose?: () => void
 }

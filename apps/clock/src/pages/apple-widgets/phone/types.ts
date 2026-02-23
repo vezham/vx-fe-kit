@@ -8,6 +8,6 @@ export interface Call {
 }
 
 export interface PhoneAppProps {
-  isOpen: boolean
-  onClose: () => void
+  isOpen?: boolean
+  onClose?: () => void
 }

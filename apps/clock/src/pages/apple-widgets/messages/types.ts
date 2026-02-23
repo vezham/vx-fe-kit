@@ -8,6 +8,6 @@ export interface Message {
 }
 
 export interface MessagesAppProps {
-  isOpen: boolean
-  onClose: () => void
+  isOpen?: boolean
+  onClose?: () => void
 }
