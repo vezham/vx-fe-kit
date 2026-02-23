@@ -1,9 +1,8 @@
 import * as React from 'react'
 
 import { Image } from '@vezham/react/v2'
+import { Label, Separator } from '@vezham/react/v3'
 
-import { Label } from '../../../../components/ui/label'
-import { Separator } from '../../../../components/ui/separator'
 import {
   Widget,
   WidgetContent,
@@ -51,7 +50,7 @@ export default function Sports06() {
         </div>
         <Label className="text-sm">340/7</Label>
       </WidgetHeader>
-      <WidgetContent className="justfy-between flex-col items-center gap-2">
+      <WidgetContent className="flex-col items-center justify-center gap-2">
         <div className="flex w-full flex-col items-center justify-between gap-3">
           {battersInfo.map((batter, i) => (
             <div key={i} className="flex w-full items-center justify-between">

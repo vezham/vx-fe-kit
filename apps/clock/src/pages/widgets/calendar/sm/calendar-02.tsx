@@ -14,7 +14,7 @@ export default function CalendarSM02() {
 
   return (
     <Widget>
-      <WidgetContent className="flex flex-col gap-2">
+      <WidgetContent className="jsutfy-center flex flex-col items-center gap-2">
         <Label className="text-gray-500">{day}</Label>
         <Label className="text-5xl font-bold">{date}</Label>
         <Label className="text-gray-500">{month}</Label>

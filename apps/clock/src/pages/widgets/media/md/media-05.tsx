@@ -94,7 +94,7 @@ export default function MediaMD05() {
                   </Label>
                 </div>
               </WidgetHeader>
-              <WidgetContent className="w-full flex-col gap-1">
+              <WidgetContent className="w-full flex-col items-center justify-center gap-1">
                 <AudioPlayerProgress className="h-full max-h-2 w-full flex-1" />
                 <div className="flex w-full items-center justify-between">
                   <AudioPlayerTime className="text-muted-foreground text-xs" />

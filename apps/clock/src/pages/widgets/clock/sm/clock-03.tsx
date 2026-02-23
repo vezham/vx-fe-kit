@@ -37,7 +37,7 @@ export default function Clock03() {
 
   return (
     <Widget>
-      <WidgetContent className="flex-col gap-2">
+      <WidgetContent className="flex-col items-center justify-center gap-2">
         <WidgetTitle className="text-2xl">{day}</WidgetTitle>
         <WidgetTitle className="text-5xl tracking-widest">
           {hours}:{minutes}

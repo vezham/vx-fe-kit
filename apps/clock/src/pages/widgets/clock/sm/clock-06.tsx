@@ -42,7 +42,7 @@ export default function Clock06() {
 
   return (
     <Widget>
-      <WidgetContent>
+      <WidgetContent className="items-center justify-center">
         {romanNumerals.map((numeral, i) => {
           const hour = i + 1
           const angle = (hour / 12) * 360

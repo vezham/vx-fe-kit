@@ -21,7 +21,7 @@ export default function MediaSM08() {
         className="hover:bg-content2 absolute top-2 right-2 rounded-full">
         <XIcon width={12} />
       </Button>
-      <WidgetContent className="flex-col gap-2">
+      <WidgetContent className="flex-col items-center justify-center gap-2">
         <Image
           src="https://wigggle-ui.vercel.app/_next/image?url=%2Fassets%2Fproducts%2Fairpods-max.png&w=384&q=75"
           alt="Airpods Max"

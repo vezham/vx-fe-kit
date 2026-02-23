@@ -48,7 +48,7 @@ export default function MediaMD04() {
         <MusicIcon className="size-5" />
         Top 100 in India
       </WidgetHeader>
-      <WidgetContent className="h-max max-h-32">
+      <WidgetContent className="mt-2 h-max max-h-32">
         <div className="mx-auto">
           <Carousel
             setApi={setApi}

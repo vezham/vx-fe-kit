@@ -67,7 +67,7 @@ export default function Clock12() {
 
   return (
     <Widget design="mumbai">
-      <WidgetContent className="border-foreground/50 relative mx-auto aspect-square size-full max-h-32 max-w-32 rounded-full border-2">
+      <WidgetContent className="border-foreground/50 relative mx-auto aspect-square size-full max-h-32 max-w-32 items-center justify-center rounded-full border-2">
         {/* Clock center dot */}
         <div className="absolute top-1/2 left-1/2 z-20 size-2 -translate-x-1/2 -translate-y-1/2 transform rounded-full border-2 border-red-500" />
 

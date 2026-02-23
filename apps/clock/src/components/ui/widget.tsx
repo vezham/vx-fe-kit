@@ -75,11 +75,7 @@ const WidgetContent = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn('flex flex-1 items-center justify-center', className)}
-    {...props}
-  />
+  <div ref={ref} className={cn('flex flex-1', className)} {...props} />
 ))
 WidgetContent.displayName = 'WidgetContent'
 

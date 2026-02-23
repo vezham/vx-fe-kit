@@ -2,8 +2,8 @@
 import * as React from 'react'
 
 import { Image } from '@vezham/react/v2'
+import { Label } from '@vezham/react/v3'
 
-import { Label } from '../../../../components/ui/label'
 import {
   Widget,
   WidgetContent,
@@ -32,14 +32,10 @@ export default function Sports01() {
   return (
     <Widget>
       <WidgetHeader>
-        <WidgetTitle className="text-muted-foreground text-sm">
-          La Liga
-        </WidgetTitle>
-        <WidgetTitle className="text-muted-foreground text-sm">
-          21 Oct
-        </WidgetTitle>
+        <WidgetTitle className="text-default-400 text-sm">La Liga</WidgetTitle>
+        <WidgetTitle className="text-default-400 text-sm">21 Oct</WidgetTitle>
       </WidgetHeader>
-      <WidgetContent className="items-end justify-between">
+      <WidgetContent className="flex items-end justify-between">
         {details.map(team => (
           <div key={team.name} className="flex flex-col items-center gap-1">
             <Image

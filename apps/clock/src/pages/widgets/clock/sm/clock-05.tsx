@@ -27,7 +27,7 @@ export default function Clock05() {
 
   return (
     <Widget>
-      <WidgetContent>
+      <WidgetContent className="items-center justify-center">
         {[...Array(12)].map((_, i) => {
           const hour = i + 1
           const angle = (hour / 12) * 360

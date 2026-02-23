@@ -25,7 +25,7 @@ export default function MediaSM04() {
             <Label className="absolute bottom-20 left-4 z-10 w-full overflow-hidden text-base">
               {exampleTrack.data.title}
             </Label>
-            <Label className="text-muted-foreground absolute bottom-16 left-4 z-10 text-xs font-normal">
+            <Label className="text-default-400 absolute bottom-16 left-4 z-10 text-xs font-normal">
               {exampleTrack.data.artist}
             </Label>
             <div className="absolute inset-x-0 bottom-4 z-20 flex w-full gap-x-3 px-4">

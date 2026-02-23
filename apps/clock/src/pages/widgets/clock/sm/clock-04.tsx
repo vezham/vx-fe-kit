@@ -27,7 +27,7 @@ export default function Clock04() {
 
   return (
     <Widget>
-      <WidgetContent>
+      <WidgetContent className="items-center justify-center">
         <div className="relative size-[88px]">
           <div
             className="absolute bottom-1/2 left-1/2 h-12 w-1 origin-bottom rounded-full bg-gray-800 dark:bg-gray-200"

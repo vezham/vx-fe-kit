@@ -1,8 +1,8 @@
 import * as React from 'react'
 
 import { Image } from '@vezham/react/v2'
+import { Label } from '@vezham/react/v3'
 
-import { Label } from '../../../../components/ui/label'
 import {
   Widget,
   WidgetContent,
@@ -22,8 +22,6 @@ export default function Sports03() {
           className="size-12"
           src="https://wigggle-ui.vercel.app/_next/image?url=%2Fassets%2Flogos%2Fmci.png&w=96&q=75"
           alt="FC Barcelona"
-          width={48}
-          height={48}
         />
         <div className="text-default-500 flex flex-col gap-2">
           <Label>UCL - 1st</Label>
@@ -34,7 +32,7 @@ export default function Sports03() {
         {upcomingMatches.map((match, i) => (
           <div
             key={i}
-            className="bg-default flex w-full items-center justify-between rounded-lg px-2 py-1">
+            className="bg-content2 flex w-full items-center justify-between rounded-lg px-2 py-1">
             <Label className="text-base tracking-wider">{match.teamName}</Label>
             <div className="text-default-500 flex flex-col gap-0.5">
               <Label className="text-xs">{match.date}</Label>

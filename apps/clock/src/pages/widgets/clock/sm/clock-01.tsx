@@ -28,7 +28,7 @@ export default function Clock01() {
 
   return (
     <Widget>
-      <WidgetContent className="flex-col gap-4">
+      <WidgetContent className="flex-col items-center justify-center gap-4">
         <WidgetTitle className="text-5xl tracking-widest">
           {hours}:{minutes}
         </WidgetTitle>

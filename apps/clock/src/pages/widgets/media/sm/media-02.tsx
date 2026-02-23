@@ -29,13 +29,13 @@ export default function MediaSM02() {
             />
             <Avatar.Fallback>CM</Avatar.Fallback>
           </Avatar>
-          <div className="space-y-0">
-            <Label className="text-base text-wrap">
+          <div className="justify-center space-y-0">
+            <Label className="text-center text-base text-wrap">
               {exampleTrack.data.title}
             </Label>
           </div>
         </WidgetHeader>
-        <WidgetContent className="flex-none flex-col gap-3">
+        <WidgetContent className="flex-none flex-col items-center justify-center gap-3">
           <div className="flex w-full items-center justify-between">
             <Button
               variant="bordered"

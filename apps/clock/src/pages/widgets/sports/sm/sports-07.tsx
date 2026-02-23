@@ -1,8 +1,8 @@
 import * as React from 'react'
 
 import { Image } from '@vezham/react/v2'
+import { Label, cn } from '@vezham/react/v3'
 
-import { Label } from '../../../../components/ui/label'
 import {
   Table,
   TableBody,
@@ -16,7 +16,6 @@ import {
   WidgetContent,
   WidgetHeader
 } from '../../../../components/ui/widget'
-import { cn } from '../../../../lib/utils'
 
 const scores = [
   {
@@ -74,7 +73,7 @@ export default function Sports07() {
       <WidgetContent className="flex-col items-center justify-end gap-2">
         <Table>
           <TableHeader>
-            <TableRow className="text-xs">
+            <TableRow className="border-default-200 border-b text-xs">
               <TableHead className={cn(classes.head, 'w-1 text-start')}>
                 Team
               </TableHead>
@@ -87,7 +86,9 @@ export default function Sports07() {
           </TableHeader>
           <TableBody>
             {scores.map((el, i) => (
-              <TableRow key={i} className="text-xs font-extralight">
+              <TableRow
+                key={i}
+                className="order-default-200 border-b text-xs font-extralight">
                 <TableCell
                   className={cn(classes.head, 'w-1 text-start text-white')}>
                   {el.teamAbbr}

@@ -1,8 +1,8 @@
 import * as React from 'react'
 
 import { Image } from '@vezham/react/v2'
+import { Label } from '@vezham/react/v3'
 
-import { Label } from '../../../../components/ui/label'
 import {
   Widget,
   WidgetContent,
@@ -34,7 +34,7 @@ export default function Sports05() {
       <WidgetHeader>
         <WidgetTitle className="text-default-500">ODI 2</WidgetTitle>
       </WidgetHeader>
-      <WidgetContent className="flex-col items-center gap-4">
+      <WidgetContent className="flex-col items-center justify-center gap-4">
         {scoreCard.map((team, i) => (
           <div key={i} className="flex w-full items-center justify-between">
             <div className="flex items-center justify-start gap-1">

@@ -1,8 +1,8 @@
 import * as React from 'react'
 
 import { Image } from '@vezham/react/v2'
+import { Label } from '@vezham/react/v3'
 
-import { Label } from '../../../../components/ui/label'
 import {
   Widget,
   WidgetContent,
@@ -35,7 +35,7 @@ export default function Sports04() {
   return (
     <Widget design="mumbai">
       <WidgetHeader>
-        <WidgetTitle className="text-muted-foreground text-sm font-normal">
+        <WidgetTitle className="text-default-400 text-sm font-normal">
           Fixtures
         </WidgetTitle>
       </WidgetHeader>
@@ -43,7 +43,7 @@ export default function Sports04() {
         {upcomingMatches.map((match, i) => (
           <div
             key={i}
-            className="bg-default flex w-full items-center justify-between rounded-lg px-2 py-1">
+            className="bg-content2 flex w-full items-center justify-between rounded-lg px-2 py-1">
             <Image className="size-7" src={match.home} alt={match.home} />
             <div className="flex flex-col items-center justify-center gap-0">
               <Label className="text-default-500 text-xs">{match.date}</Label>
