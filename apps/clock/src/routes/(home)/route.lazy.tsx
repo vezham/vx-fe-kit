@@ -19,7 +19,8 @@ function HomeLayout() {
         { label: 'Alarm', href: '/alarm' },
         { label: 'Stopwatch', href: '/stopwatch' },
         { label: 'Timer', href: '/timer' },
-        { label: 'Widgets', href: '/widgets' }
+        { label: 'Widgets', href: '/widgets' },
+        { label: 'Apple Widgets', href: '/apple-widgets' }
       ]}>
       <Outlet />
     </Page>

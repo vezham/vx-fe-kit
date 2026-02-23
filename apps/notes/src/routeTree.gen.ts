@@ -402,44 +402,44 @@ const homeNotesFoldersSubfoldersSubfoldersIdIndexLazyRoute =
       getParentRoute: () => homeNotesRouteLazyRoute,
     } as any)
     .lazy(() =>
-      import(
-        './routes/(home)/notes/folders/subfolders/$subfoldersId/index.lazy'
-      ).then((d) => d.Route),
+      import('./routes/(home)/notes/folders/subfolders/$subfoldersId/index.lazy').then(
+        (d) => d.Route,
+      ),
     )
 
 export interface FileRoutesByFullPath {
-  '/': typeof homeIndexLazyRoute
   '/notes': typeof homeNotesRouteLazyRouteWithChildren
   '/settings': typeof homeSettingsRouteLazyRouteWithChildren
   '/teams': typeof homeTeamsRouteLazyRouteWithChildren
+  '/': typeof homeIndexLazyRoute
   '/notes/shared': typeof homeNotesSharedRouteLazyRouteWithChildren
-  '/cta': typeof homeCtaIndexLazyRoute
+  '/cta/': typeof homeCtaIndexLazyRoute
   '/notes/': typeof homeNotesIndexLazyRoute
-  '/notifications': typeof homeNotificationsIndexLazyRoute
+  '/notifications/': typeof homeNotificationsIndexLazyRoute
   '/settings/': typeof homeSettingsIndexLazyRoute
   '/teams/': typeof homeTeamsIndexLazyRoute
-  '/cta/help-support': typeof homeCtaHelpSupportIndexLazyRoute
-  '/notes/$notesId': typeof homeNotesNotesIdIndexLazyRoute
-  '/notes/all': typeof homeNotesAllIndexLazyRoute
-  '/notes/archived': typeof homeNotesArchivedIndexLazyRoute
-  '/notes/folders': typeof homeNotesFoldersIndexLazyRoute
-  '/notes/pinned': typeof homeNotesPinnedIndexLazyRoute
+  '/cta/help-support/': typeof homeCtaHelpSupportIndexLazyRoute
+  '/notes/$notesId/': typeof homeNotesNotesIdIndexLazyRoute
+  '/notes/all/': typeof homeNotesAllIndexLazyRoute
+  '/notes/archived/': typeof homeNotesArchivedIndexLazyRoute
+  '/notes/folders/': typeof homeNotesFoldersIndexLazyRoute
+  '/notes/pinned/': typeof homeNotesPinnedIndexLazyRoute
   '/notes/shared/': typeof homeNotesSharedIndexLazyRoute
-  '/notes/trash': typeof homeNotesTrashIndexLazyRoute
-  '/settings/automations': typeof homeSettingsAutomationsIndexLazyRoute
-  '/settings/billing': typeof homeSettingsBillingIndexLazyRoute
-  '/settings/integrations': typeof homeSettingsIntegrationsIndexLazyRoute
-  '/settings/security': typeof homeSettingsSecurityIndexLazyRoute
-  '/settings/workspace': typeof homeSettingsWorkspaceIndexLazyRoute
-  '/teams/members': typeof homeTeamsMembersIndexLazyRoute
-  '/teams/overview': typeof homeTeamsOverviewIndexLazyRoute
-  '/teams/permissions': typeof homeTeamsPermissionsIndexLazyRoute
-  '/teams/roles': typeof homeTeamsRolesIndexLazyRoute
-  '/notes/folders/$folderId': typeof homeNotesFoldersFolderIdIndexLazyRoute
-  '/notes/folders/subfolders': typeof homeNotesFoldersSubfoldersIndexLazyRoute
-  '/notes/shared/shared-by-me': typeof homeNotesSharedSharedByMeIndexLazyRoute
-  '/notes/shared/shared-with-me': typeof homeNotesSharedSharedWithMeIndexLazyRoute
-  '/notes/folders/subfolders/$subfoldersId': typeof homeNotesFoldersSubfoldersSubfoldersIdIndexLazyRoute
+  '/notes/trash/': typeof homeNotesTrashIndexLazyRoute
+  '/settings/automations/': typeof homeSettingsAutomationsIndexLazyRoute
+  '/settings/billing/': typeof homeSettingsBillingIndexLazyRoute
+  '/settings/integrations/': typeof homeSettingsIntegrationsIndexLazyRoute
+  '/settings/security/': typeof homeSettingsSecurityIndexLazyRoute
+  '/settings/workspace/': typeof homeSettingsWorkspaceIndexLazyRoute
+  '/teams/members/': typeof homeTeamsMembersIndexLazyRoute
+  '/teams/overview/': typeof homeTeamsOverviewIndexLazyRoute
+  '/teams/permissions/': typeof homeTeamsPermissionsIndexLazyRoute
+  '/teams/roles/': typeof homeTeamsRolesIndexLazyRoute
+  '/notes/folders/$folderId/': typeof homeNotesFoldersFolderIdIndexLazyRoute
+  '/notes/folders/subfolders/': typeof homeNotesFoldersSubfoldersIndexLazyRoute
+  '/notes/shared/shared-by-me/': typeof homeNotesSharedSharedByMeIndexLazyRoute
+  '/notes/shared/shared-with-me/': typeof homeNotesSharedSharedWithMeIndexLazyRoute
+  '/notes/folders/subfolders/$subfoldersId/': typeof homeNotesFoldersSubfoldersSubfoldersIdIndexLazyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof homeIndexLazyRoute
@@ -510,38 +510,38 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
     | '/notes'
     | '/settings'
     | '/teams'
+    | '/'
     | '/notes/shared'
-    | '/cta'
+    | '/cta/'
     | '/notes/'
-    | '/notifications'
+    | '/notifications/'
     | '/settings/'
     | '/teams/'
-    | '/cta/help-support'
-    | '/notes/$notesId'
-    | '/notes/all'
-    | '/notes/archived'
-    | '/notes/folders'
-    | '/notes/pinned'
+    | '/cta/help-support/'
+    | '/notes/$notesId/'
+    | '/notes/all/'
+    | '/notes/archived/'
+    | '/notes/folders/'
+    | '/notes/pinned/'
     | '/notes/shared/'
-    | '/notes/trash'
-    | '/settings/automations'
-    | '/settings/billing'
-    | '/settings/integrations'
-    | '/settings/security'
-    | '/settings/workspace'
-    | '/teams/members'
-    | '/teams/overview'
-    | '/teams/permissions'
-    | '/teams/roles'
-    | '/notes/folders/$folderId'
-    | '/notes/folders/subfolders'
-    | '/notes/shared/shared-by-me'
-    | '/notes/shared/shared-with-me'
-    | '/notes/folders/subfolders/$subfoldersId'
+    | '/notes/trash/'
+    | '/settings/automations/'
+    | '/settings/billing/'
+    | '/settings/integrations/'
+    | '/settings/security/'
+    | '/settings/workspace/'
+    | '/teams/members/'
+    | '/teams/overview/'
+    | '/teams/permissions/'
+    | '/teams/roles/'
+    | '/notes/folders/$folderId/'
+    | '/notes/folders/subfolders/'
+    | '/notes/shared/shared-by-me/'
+    | '/notes/shared/shared-with-me/'
+    | '/notes/folders/subfolders/$subfoldersId/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -618,7 +618,7 @@ declare module '@tanstack/react-router' {
     '/(home)': {
       id: '/(home)'
       path: '/'
-      fullPath: '/'
+      fullPath: ''
       preLoaderRoute: typeof homeRouteLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
@@ -667,7 +667,7 @@ declare module '@tanstack/react-router' {
     '/(home)/notifications/': {
       id: '/(home)/notifications/'
       path: '/notifications'
-      fullPath: '/notifications'
+      fullPath: '/notifications/'
       preLoaderRoute: typeof homeNotificationsIndexLazyRouteImport
       parentRoute: typeof homeRouteLazyRoute
     }
@@ -681,7 +681,7 @@ declare module '@tanstack/react-router' {
     '/(home)/cta/': {
       id: '/(home)/cta/'
       path: '/cta'
-      fullPath: '/cta'
+      fullPath: '/cta/'
       preLoaderRoute: typeof homeCtaIndexLazyRouteImport
       parentRoute: typeof homeRouteLazyRoute
     }
@@ -695,70 +695,70 @@ declare module '@tanstack/react-router' {
     '/(home)/teams/roles/': {
       id: '/(home)/teams/roles/'
       path: '/roles'
-      fullPath: '/teams/roles'
+      fullPath: '/teams/roles/'
       preLoaderRoute: typeof homeTeamsRolesIndexLazyRouteImport
       parentRoute: typeof homeTeamsRouteLazyRoute
     }
     '/(home)/teams/permissions/': {
       id: '/(home)/teams/permissions/'
       path: '/permissions'
-      fullPath: '/teams/permissions'
+      fullPath: '/teams/permissions/'
       preLoaderRoute: typeof homeTeamsPermissionsIndexLazyRouteImport
       parentRoute: typeof homeTeamsRouteLazyRoute
     }
     '/(home)/teams/overview/': {
       id: '/(home)/teams/overview/'
       path: '/overview'
-      fullPath: '/teams/overview'
+      fullPath: '/teams/overview/'
       preLoaderRoute: typeof homeTeamsOverviewIndexLazyRouteImport
       parentRoute: typeof homeTeamsRouteLazyRoute
     }
     '/(home)/teams/members/': {
       id: '/(home)/teams/members/'
       path: '/members'
-      fullPath: '/teams/members'
+      fullPath: '/teams/members/'
       preLoaderRoute: typeof homeTeamsMembersIndexLazyRouteImport
       parentRoute: typeof homeTeamsRouteLazyRoute
     }
     '/(home)/settings/workspace/': {
       id: '/(home)/settings/workspace/'
       path: '/workspace'
-      fullPath: '/settings/workspace'
+      fullPath: '/settings/workspace/'
       preLoaderRoute: typeof homeSettingsWorkspaceIndexLazyRouteImport
       parentRoute: typeof homeSettingsRouteLazyRoute
     }
     '/(home)/settings/security/': {
       id: '/(home)/settings/security/'
       path: '/security'
-      fullPath: '/settings/security'
+      fullPath: '/settings/security/'
       preLoaderRoute: typeof homeSettingsSecurityIndexLazyRouteImport
       parentRoute: typeof homeSettingsRouteLazyRoute
     }
     '/(home)/settings/integrations/': {
       id: '/(home)/settings/integrations/'
       path: '/integrations'
-      fullPath: '/settings/integrations'
+      fullPath: '/settings/integrations/'
       preLoaderRoute: typeof homeSettingsIntegrationsIndexLazyRouteImport
       parentRoute: typeof homeSettingsRouteLazyRoute
     }
     '/(home)/settings/billing/': {
       id: '/(home)/settings/billing/'
       path: '/billing'
-      fullPath: '/settings/billing'
+      fullPath: '/settings/billing/'
       preLoaderRoute: typeof homeSettingsBillingIndexLazyRouteImport
       parentRoute: typeof homeSettingsRouteLazyRoute
     }
     '/(home)/settings/automations/': {
       id: '/(home)/settings/automations/'
       path: '/automations'
-      fullPath: '/settings/automations'
+      fullPath: '/settings/automations/'
       preLoaderRoute: typeof homeSettingsAutomationsIndexLazyRouteImport
       parentRoute: typeof homeSettingsRouteLazyRoute
     }
     '/(home)/notes/trash/': {
       id: '/(home)/notes/trash/'
       path: '/trash'
-      fullPath: '/notes/trash'
+      fullPath: '/notes/trash/'
       preLoaderRoute: typeof homeNotesTrashIndexLazyRouteImport
       parentRoute: typeof homeNotesRouteLazyRoute
     }
@@ -772,77 +772,77 @@ declare module '@tanstack/react-router' {
     '/(home)/notes/pinned/': {
       id: '/(home)/notes/pinned/'
       path: '/pinned'
-      fullPath: '/notes/pinned'
+      fullPath: '/notes/pinned/'
       preLoaderRoute: typeof homeNotesPinnedIndexLazyRouteImport
       parentRoute: typeof homeNotesRouteLazyRoute
     }
     '/(home)/notes/folders/': {
       id: '/(home)/notes/folders/'
       path: '/folders'
-      fullPath: '/notes/folders'
+      fullPath: '/notes/folders/'
       preLoaderRoute: typeof homeNotesFoldersIndexLazyRouteImport
       parentRoute: typeof homeNotesRouteLazyRoute
     }
     '/(home)/notes/archived/': {
       id: '/(home)/notes/archived/'
       path: '/archived'
-      fullPath: '/notes/archived'
+      fullPath: '/notes/archived/'
       preLoaderRoute: typeof homeNotesArchivedIndexLazyRouteImport
       parentRoute: typeof homeNotesRouteLazyRoute
     }
     '/(home)/notes/all/': {
       id: '/(home)/notes/all/'
       path: '/all'
-      fullPath: '/notes/all'
+      fullPath: '/notes/all/'
       preLoaderRoute: typeof homeNotesAllIndexLazyRouteImport
       parentRoute: typeof homeNotesRouteLazyRoute
     }
     '/(home)/notes/$notesId/': {
       id: '/(home)/notes/$notesId/'
       path: '/$notesId'
-      fullPath: '/notes/$notesId'
+      fullPath: '/notes/$notesId/'
       preLoaderRoute: typeof homeNotesNotesIdIndexLazyRouteImport
       parentRoute: typeof homeNotesRouteLazyRoute
     }
     '/(home)/cta/help-support/': {
       id: '/(home)/cta/help-support/'
       path: '/cta/help-support'
-      fullPath: '/cta/help-support'
+      fullPath: '/cta/help-support/'
       preLoaderRoute: typeof homeCtaHelpSupportIndexLazyRouteImport
       parentRoute: typeof homeRouteLazyRoute
     }
     '/(home)/notes/shared/shared-with-me/': {
       id: '/(home)/notes/shared/shared-with-me/'
       path: '/shared-with-me'
-      fullPath: '/notes/shared/shared-with-me'
+      fullPath: '/notes/shared/shared-with-me/'
       preLoaderRoute: typeof homeNotesSharedSharedWithMeIndexLazyRouteImport
       parentRoute: typeof homeNotesSharedRouteLazyRoute
     }
     '/(home)/notes/shared/shared-by-me/': {
       id: '/(home)/notes/shared/shared-by-me/'
       path: '/shared-by-me'
-      fullPath: '/notes/shared/shared-by-me'
+      fullPath: '/notes/shared/shared-by-me/'
       preLoaderRoute: typeof homeNotesSharedSharedByMeIndexLazyRouteImport
       parentRoute: typeof homeNotesSharedRouteLazyRoute
     }
     '/(home)/notes/folders/subfolders/': {
       id: '/(home)/notes/folders/subfolders/'
       path: '/folders/subfolders'
-      fullPath: '/notes/folders/subfolders'
+      fullPath: '/notes/folders/subfolders/'
       preLoaderRoute: typeof homeNotesFoldersSubfoldersIndexLazyRouteImport
       parentRoute: typeof homeNotesRouteLazyRoute
     }
     '/(home)/notes/folders/$folderId/': {
       id: '/(home)/notes/folders/$folderId/'
       path: '/folders/$folderId'
-      fullPath: '/notes/folders/$folderId'
+      fullPath: '/notes/folders/$folderId/'
       preLoaderRoute: typeof homeNotesFoldersFolderIdIndexLazyRouteImport
       parentRoute: typeof homeNotesRouteLazyRoute
     }
     '/(home)/notes/folders/subfolders/$subfoldersId/': {
       id: '/(home)/notes/folders/subfolders/$subfoldersId/'
       path: '/folders/subfolders/$subfoldersId'
-      fullPath: '/notes/folders/subfolders/$subfoldersId'
+      fullPath: '/notes/folders/subfolders/$subfoldersId/'
       preLoaderRoute: typeof homeNotesFoldersSubfoldersSubfoldersIdIndexLazyRouteImport
       parentRoute: typeof homeNotesRouteLazyRoute
     }

@@ -47,7 +47,7 @@ export default function WeatherSM05() {
             {weather && getWeatherIcon(weather.weatherCode, 'size-8')}
             <Label className="text-4xl">{weather?.temperature}&deg;</Label>
           </div>
-          <Label className="text-muted-foreground">
+          <Label className="text-muted">
             Feels Like {weather?.feelsLike}&deg;
           </Label>
         </div>

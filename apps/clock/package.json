@@ -22,10 +22,13 @@
     "@vx/system-utils": "workspace:*",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "date-fns": "^2.30.0",
     "embla-carousel-react": "^8.6.0",
+    "framer-motion": "^11.0.3",
     "lucide-react": "^0.546.0",
     "next": "16.0.10",
     "next-themes": "^0.4.6",
+    "pigeon-maps": "^0.21.3",
     "recharts": "^2.15.4",
     "tailwind-merge": "^3.3.1"
   }

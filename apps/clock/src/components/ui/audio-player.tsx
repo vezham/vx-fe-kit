@@ -435,8 +435,9 @@ const PlayButton = ({
   )
 }
 
-export interface AudioPlayerButtonProps<TData = unknown>
-  extends React.ComponentProps<typeof Button> {
+export interface AudioPlayerButtonProps<
+  TData = unknown
+> extends React.ComponentProps<typeof Button> {
   item?: AudioPlayerItem<TData>
 }
 
@@ -513,8 +514,9 @@ function useAnimationFrame(callback: Callback) {
 
 const PLAYBACK_SPEEDS = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2] as const
 
-export interface AudioPlayerSpeedProps
-  extends React.ComponentProps<typeof Button> {
+export interface AudioPlayerSpeedProps extends React.ComponentProps<
+  typeof Button
+> {
   speeds?: readonly number[]
 }
 
@@ -557,8 +559,10 @@ export function AudioPlayerSpeed({
   )
 }
 
-export interface AudioPlayerSpeedButtonGroupProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> {
+export interface AudioPlayerSpeedButtonGroupProps extends Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  'children'
+> {
   speeds?: readonly number[]
 }
 

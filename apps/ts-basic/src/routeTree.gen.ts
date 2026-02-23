@@ -73,7 +73,7 @@ export interface FileRoutesByFullPath {
   '/posts/': typeof PostsIndexRoute
   '/route-a': typeof PathlessLayoutNestedLayoutRouteARoute
   '/route-b': typeof PathlessLayoutNestedLayoutRouteBRoute
-  '/posts/$postId': typeof PostsPostIdIndexRoute
+  '/posts/$postId/': typeof PostsPostIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -104,7 +104,7 @@ export interface FileRouteTypes {
     | '/posts/'
     | '/route-a'
     | '/route-b'
-    | '/posts/$postId'
+    | '/posts/$postId/'
   fileRoutesByTo: FileRoutesByTo
   to: '/' | '/anchor' | '/posts' | '/route-a' | '/route-b' | '/posts/$postId'
   id:
@@ -139,7 +139,7 @@ declare module '@tanstack/react-router' {
     '/_pathlessLayout': {
       id: '/_pathlessLayout'
       path: ''
-      fullPath: ''
+      fullPath: '/'
       preLoaderRoute: typeof PathlessLayoutRouteImport
       parentRoute: typeof rootRouteImport
     }
@@ -167,14 +167,14 @@ declare module '@tanstack/react-router' {
     '/_pathlessLayout/_nested-layout': {
       id: '/_pathlessLayout/_nested-layout'
       path: ''
-      fullPath: ''
+      fullPath: '/'
       preLoaderRoute: typeof PathlessLayoutNestedLayoutRouteImport
       parentRoute: typeof PathlessLayoutRoute
     }
     '/posts/$postId/': {
       id: '/posts/$postId/'
       path: '/$postId'
-      fullPath: '/posts/$postId'
+      fullPath: '/posts/$postId/'
       preLoaderRoute: typeof PostsPostIdIndexRouteImport
       parentRoute: typeof PostsRouteRoute
     }
