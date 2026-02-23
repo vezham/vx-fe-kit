@@ -3,8 +3,9 @@
 import { TriangleIcon } from 'lucide-react'
 import { Area, AreaChart, CartesianGrid } from 'recharts'
 
+import { Label } from '@vezham/react/v3'
+
 import { ChartConfig, ChartContainer } from '../../../../components/ui/chart'
-import { Label } from '../../../../components/ui/label'
 import {
   Widget,
   WidgetContent,

@@ -1,14 +1,15 @@
 import { EyeIcon, TriangleIcon } from 'lucide-react'
 import * as React from 'react'
 
-import { Label } from '../../../../components/ui/label'
+import { Label, cn } from '@vezham/react/v3'
+
 import {
   Widget,
   WidgetContent,
   WidgetHeader,
   WidgetTitle
 } from '../../../../components/ui/widget'
-import { cn, truncate } from '../../../../lib/utils'
+import { truncate } from '../../../../lib/utils'
 
 const stocks = [
   {
@@ -45,7 +46,7 @@ export default function Stocks03() {
         {stocks.map(stock => (
           <div
             key={stock.ticker}
-            className="flex w-full items-center justify-between space-x-2 border-b py-1.5 last:border-b-0">
+            className="border-default-200 flex w-full items-center justify-between space-x-2 border-b py-0.5 last:border-b-0">
             <div className="flex flex-col items-start gap-0">
               <Label className="text-sm font-semibold">
                 <TriangleIcon
@@ -58,7 +59,7 @@ export default function Stocks03() {
                 />
                 {stock.ticker}
               </Label>
-              <Label className="text-muted-foreground text-xs">
+              <Label className="text-default-400 text-xs">
                 {truncate(stock.company)}
               </Label>
             </div>

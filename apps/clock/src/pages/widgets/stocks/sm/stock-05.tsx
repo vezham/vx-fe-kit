@@ -1,12 +1,8 @@
 import * as React from 'react'
 
+import { Label, Tooltip } from '@vezham/react/v3'
+
 import { Icons } from '../../../../components/ui/icons'
-import { Label } from '../../../../components/ui/label'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger
-} from '../../../../components/ui/tooltip'
 import { Widget, WidgetContent } from '../../../../components/ui/widget'
 
 type Stock = {
@@ -49,16 +45,16 @@ export default function Stocks05() {
       <WidgetContent className="items-center">
         <div className="grid size-full grid-cols-2 items-center gap-6">
           {stocks.map(({ logo: Logo, ticker, price, companyName }) => (
-            <Tooltip delayDuration={300} key={ticker}>
-              <TooltipTrigger asChild>
+            <Tooltip delay={300} key={ticker}>
+              <Tooltip.Trigger asChild>
                 <div className="flex flex-col items-center justify-center gap-1">
                   <Logo className="fill-foreground size-8 rounded-full" />
                   <Label className="text-base">${price}</Label>
                 </div>
-              </TooltipTrigger>
-              <TooltipContent>
+              </Tooltip.Trigger>
+              <Tooltip.Content>
                 <p>{companyName}</p>
-              </TooltipContent>
+              </Tooltip.Content>
             </Tooltip>
           ))}
         </div>
