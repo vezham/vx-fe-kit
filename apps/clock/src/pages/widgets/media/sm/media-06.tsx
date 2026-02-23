@@ -79,7 +79,7 @@ export default function MediaSM06() {
                   <g key={label}>
                     <path
                       d={arcPath(s, e)}
-                      className="fill-default hover:fill-muted-foreground/30 cursor-pointer transition-colors focus:outline-none"
+                      className="fill-default/50 hover:fill-content4 cursor-pointer transition-colors focus:outline-none"
                       strokeWidth={1}
                       role="button"
                       aria-label={label}
@@ -101,7 +101,7 @@ export default function MediaSM06() {
           <Button
             variant="ghost"
             onClick={() => setIsPlaying(p => !p)}
-            className="absolute top-1/2 left-1/2 flex size-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full"
+            className="hover:bg-content2 absolute top-1/2 left-1/2 flex size-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full hover:text-black"
             aria-label={isPlaying ? 'Pause' : 'Play'}>
             {isPlaying ? (
               <PauseIcon className="size-6" />

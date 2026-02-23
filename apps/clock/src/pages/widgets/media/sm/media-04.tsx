@@ -1,12 +1,13 @@
 import { SkipBackIcon, SkipForwardIcon } from 'lucide-react'
 
+import { Button } from '@vezham/react/v2'
+import { Label } from '@vezham/react/v3'
+
 import {
   AudioPlayerButton,
   AudioPlayerProvider,
   exampleTrack
 } from '../../../../components/ui/audio-player'
-import { Button } from '../../../../components/ui/button'
-import { Label } from '../../../../components/ui/label'
 import { Widget, WidgetContent } from '../../../../components/ui/widget'
 
 export default function MediaSM04() {
@@ -30,14 +31,25 @@ export default function MediaSM04() {
             <div className="absolute inset-x-0 bottom-4 z-20 flex w-full gap-x-3 px-4">
               <AudioPlayerButton
                 variant="outline"
-                className="flex-1 rounded-full"
+                className="hover:bg-content2 flex-1 rounded-full bg-white hover:text-black"
                 item={exampleTrack}
               />
-              <Button className="rounded-full" variant="outline" size="icon-sm">
-                <SkipBackIcon />
+              <Button
+                variant="bordered"
+                size="sm"
+                className="hover:bg-content2 bg-white"
+                isIconOnly>
+                <SkipBackIcon width={12} className="stroke-muted-foreground" />
               </Button>
-              <Button className="rounded-full" variant="outline" size="icon-sm">
-                <SkipForwardIcon />
+              <Button
+                variant="bordered"
+                size="sm"
+                className="hover:bg-content2 bg-white"
+                isIconOnly>
+                <SkipForwardIcon
+                  width={12}
+                  className="stroke-muted-foreground"
+                />
               </Button>
             </div>
           </div>

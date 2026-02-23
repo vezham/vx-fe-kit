@@ -310,7 +310,7 @@ export const AudioPlayerProgress = ({
         otherProps.onPointerUp?.(e)
       }}
       className={cn(
-        'group/ data-disabled:opacity-50/20 relative flex h-2 w-full items-center overflow-hidden rounded-full select-none',
+        'group/data-disabled:opacity-50/20 relative flex h-2 w-full items-center overflow-hidden rounded-full select-none',
         otherProps.className
       )}
       onKeyDown={e => {
@@ -329,13 +329,13 @@ export const AudioPlayerProgress = ({
         !Number.isFinite(player.duration) ||
         Number.isNaN(player.duration)
       }>
-      <SliderPrimitive.Track className="bg-muted relative h-1 w-full grow overflow-hidden rounded-full">
-        <SliderPrimitive.Range className="bg-primary absolute h-full" />
+      <SliderPrimitive.Track className="bg-default relative h-1 w-full grow overflow-hidden rounded-full">
+        <SliderPrimitive.Range className="absolute h-full bg-black" />
       </SliderPrimitive.Track>
       <SliderPrimitive.Thumb
         className="relative flex h-0 w-0 items-center justify-center opacity-0 group-hover/player:opacity-100 focus-visible:opacity-100 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50"
         data-slot="slider-thumb">
-        <div className="bg-foreground absolute size-2 rounded-full" />
+        <div className="bg-content2 absolute size-2 rounded-full" />
       </SliderPrimitive.Thumb>
     </SliderPrimitive.Root>
   )
@@ -413,7 +413,7 @@ const PlayButton = ({
         onClick?.(e)
       }}
       className={cn(
-        'border-default-200 relative border border-1 bg-white',
+        'border-default-200 relative border border-1 bg-transparent',
         className
       )}
       aria-label={playing ? 'Pause' : 'Play'}

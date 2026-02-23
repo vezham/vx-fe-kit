@@ -2,10 +2,9 @@
 
 import { XIcon } from 'lucide-react'
 
-import { Image } from '@vezham/react/v2'
+import { Button, Image } from '@vezham/react/v2'
+import { Label } from '@vezham/react/v3'
 
-import { Button } from '../../../../components/ui/button'
-import { Label } from '../../../../components/ui/label'
 import {
   Widget,
   WidgetContent,
@@ -16,10 +15,11 @@ export default function MediaSM08() {
   return (
     <Widget design="mumbai" className="relative justify-between gap-0">
       <Button
-        variant="default"
-        size="icon-sm"
-        className="absolute top-2 right-2 rounded-full">
-        <XIcon />
+        isIconOnly
+        variant="bordered"
+        size="sm"
+        className="hover:bg-content2 absolute top-2 right-2 rounded-full">
+        <XIcon width={12} />
       </Button>
       <WidgetContent className="flex-col gap-2">
         <Image
@@ -30,7 +30,9 @@ export default function MediaSM08() {
         <Label>Henil's AirPods Max</Label>
       </WidgetContent>
       <WidgetFooter>
-        <Button variant="default" className="w-full rounded-full">
+        <Button
+          variant="bordered"
+          className="hover:bg-content2 w-full rounded-full">
           Connect
         </Button>
       </WidgetFooter>

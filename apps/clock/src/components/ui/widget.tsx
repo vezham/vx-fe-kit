@@ -53,10 +53,7 @@ const WidgetHeader = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn(
-      'text-semibold flex flex-none items-start justify-between',
-      className
-    )}
+    className={cn('text-semibold flex flex-none justify-between', className)}
     {...props}
   />
 ))

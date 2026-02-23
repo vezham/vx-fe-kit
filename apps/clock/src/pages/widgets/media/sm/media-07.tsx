@@ -13,7 +13,8 @@ import {
 } from 'lucide-react'
 import { useState } from 'react'
 
-import { Button } from '../../../../components/ui/button'
+import { Button } from '@vezham/react/v2'
+
 import {
   Widget,
   WidgetContent,
@@ -85,8 +86,7 @@ export default function MediaSM07() {
                   <g key={label}>
                     <path
                       d={arcPath(s, e)}
-                      className="fill-default hover:fill-muted-foreground/30 cursor-pointer transition-colors focus:outline-none"
-                      strokeWidth={1}
+                      className="fill-default/50 hover:fill-content4 cursor-pointer transition-colors"
                       role="button"
                       aria-label={label}
                       tabIndex={0}
@@ -105,9 +105,10 @@ export default function MediaSM07() {
             </svg>
           </button>
           <Button
+            isIconOnly
             variant="ghost"
             onClick={() => setIsPlaying(p => !p)}
-            className="absolute top-1/2 left-1/2 flex size-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full"
+            className="absolute top-1/2 left-1/2 flex size-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-none"
             aria-label={isPlaying ? 'Pause' : 'Play'}>
             {isPlaying ? (
               <PauseIcon className="size-6" />
@@ -118,11 +119,19 @@ export default function MediaSM07() {
         </div>
       </WidgetContent>
       <WidgetFooter>
-        <Button variant="default" size="icon-sm" className="rounded-full">
-          <ChevronLeftIcon />
+        <Button
+          variant="bordered"
+          size="sm"
+          className="hover:bg-content2 rounded-full"
+          isIconOnly>
+          <ChevronLeftIcon width={12} />
         </Button>
-        <Button variant="default" size="icon-sm" className="rounded-full">
-          <PowerIcon />
+        <Button
+          variant="bordered"
+          size="sm"
+          className="hover:bg-content2 rounded-full"
+          isIconOnly>
+          <PowerIcon width={12} />
         </Button>
       </WidgetFooter>
     </Widget>

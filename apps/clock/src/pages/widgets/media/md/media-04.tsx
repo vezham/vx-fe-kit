@@ -70,8 +70,8 @@ export default function MediaMD04() {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className="top-[calc(100%-1rem)] left-0 translate-y-0" />
-            <CarouselNext className="top-[calc(100%-1rem)] right-0 translate-y-0" />
+            <CarouselPrevious className="hover:bg-content2 dark:hover:bg-content2 top-[calc(100%-1rem)] left-0 translate-y-0 text-black" />
+            <CarouselNext className="hover:bg-content2 dark:hover:bg-content2 top-[calc(100%-1rem)] right-0 translate-y-0 text-black" />
           </Carousel>
         </div>
       </WidgetContent>
