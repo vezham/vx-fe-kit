@@ -333,33 +333,33 @@ const homeCtaHelpSupportIndexLazyRoute = homeCtaHelpSupportIndexLazyRouteImport
   )
 
 export interface FileRoutesByFullPath {
-  '/': typeof homeIndexLazyRoute
   '/settings': typeof homeSettingsRouteLazyRouteWithChildren
   '/shared': typeof homeSharedRouteLazyRouteWithChildren
   '/teams': typeof homeTeamsRouteLazyRouteWithChildren
-  '/cta': typeof homeCtaIndexLazyRoute
-  '/favorites': typeof homeFavoritesIndexLazyRoute
-  '/groups': typeof homeGroupsIndexLazyRoute
-  '/import-export': typeof homeImportExportIndexLazyRoute
-  '/notifications': typeof homeNotificationsIndexLazyRoute
-  '/recent': typeof homeRecentIndexLazyRoute
+  '/': typeof homeIndexLazyRoute
+  '/cta/': typeof homeCtaIndexLazyRoute
+  '/favorites/': typeof homeFavoritesIndexLazyRoute
+  '/groups/': typeof homeGroupsIndexLazyRoute
+  '/import-export/': typeof homeImportExportIndexLazyRoute
+  '/notifications/': typeof homeNotificationsIndexLazyRoute
+  '/recent/': typeof homeRecentIndexLazyRoute
   '/settings/': typeof homeSettingsIndexLazyRoute
   '/shared/': typeof homeSharedIndexLazyRoute
   '/teams/': typeof homeTeamsIndexLazyRoute
-  '/cta/help-support': typeof homeCtaHelpSupportIndexLazyRoute
-  '/groups/$groupId': typeof homeGroupsGroupIdIndexLazyRoute
-  '/settings/automations': typeof homeSettingsAutomationsIndexLazyRoute
-  '/settings/billing': typeof homeSettingsBillingIndexLazyRoute
-  '/settings/integrations': typeof homeSettingsIntegrationsIndexLazyRoute
-  '/settings/security': typeof homeSettingsSecurityIndexLazyRoute
-  '/settings/workspace': typeof homeSettingsWorkspaceIndexLazyRoute
-  '/shared/shared-by-me': typeof homeSharedSharedByMeIndexLazyRoute
-  '/shared/shared-with-me': typeof homeSharedSharedWithMeIndexLazyRoute
-  '/teams/members': typeof homeTeamsMembersIndexLazyRoute
-  '/teams/overview': typeof homeTeamsOverviewIndexLazyRoute
-  '/teams/permissions': typeof homeTeamsPermissionsIndexLazyRoute
-  '/teams/roles': typeof homeTeamsRolesIndexLazyRoute
-  '/user/$contactId': typeof homeUserContactIdIndexLazyRoute
+  '/cta/help-support/': typeof homeCtaHelpSupportIndexLazyRoute
+  '/groups/$groupId/': typeof homeGroupsGroupIdIndexLazyRoute
+  '/settings/automations/': typeof homeSettingsAutomationsIndexLazyRoute
+  '/settings/billing/': typeof homeSettingsBillingIndexLazyRoute
+  '/settings/integrations/': typeof homeSettingsIntegrationsIndexLazyRoute
+  '/settings/security/': typeof homeSettingsSecurityIndexLazyRoute
+  '/settings/workspace/': typeof homeSettingsWorkspaceIndexLazyRoute
+  '/shared/shared-by-me/': typeof homeSharedSharedByMeIndexLazyRoute
+  '/shared/shared-with-me/': typeof homeSharedSharedWithMeIndexLazyRoute
+  '/teams/members/': typeof homeTeamsMembersIndexLazyRoute
+  '/teams/overview/': typeof homeTeamsOverviewIndexLazyRoute
+  '/teams/permissions/': typeof homeTeamsPermissionsIndexLazyRoute
+  '/teams/roles/': typeof homeTeamsRolesIndexLazyRoute
+  '/user/$contactId/': typeof homeUserContactIdIndexLazyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof homeIndexLazyRoute
@@ -421,33 +421,33 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
     | '/settings'
     | '/shared'
     | '/teams'
-    | '/cta'
-    | '/favorites'
-    | '/groups'
-    | '/import-export'
-    | '/notifications'
-    | '/recent'
+    | '/'
+    | '/cta/'
+    | '/favorites/'
+    | '/groups/'
+    | '/import-export/'
+    | '/notifications/'
+    | '/recent/'
     | '/settings/'
     | '/shared/'
     | '/teams/'
-    | '/cta/help-support'
-    | '/groups/$groupId'
-    | '/settings/automations'
-    | '/settings/billing'
-    | '/settings/integrations'
-    | '/settings/security'
-    | '/settings/workspace'
-    | '/shared/shared-by-me'
-    | '/shared/shared-with-me'
-    | '/teams/members'
-    | '/teams/overview'
-    | '/teams/permissions'
-    | '/teams/roles'
-    | '/user/$contactId'
+    | '/cta/help-support/'
+    | '/groups/$groupId/'
+    | '/settings/automations/'
+    | '/settings/billing/'
+    | '/settings/integrations/'
+    | '/settings/security/'
+    | '/settings/workspace/'
+    | '/shared/shared-by-me/'
+    | '/shared/shared-with-me/'
+    | '/teams/members/'
+    | '/teams/overview/'
+    | '/teams/permissions/'
+    | '/teams/roles/'
+    | '/user/$contactId/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -515,7 +515,7 @@ declare module '@tanstack/react-router' {
     '/(home)': {
       id: '/(home)'
       path: '/'
-      fullPath: '/'
+      fullPath: ''
       preLoaderRoute: typeof homeRouteLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
@@ -571,140 +571,140 @@ declare module '@tanstack/react-router' {
     '/(home)/recent/': {
       id: '/(home)/recent/'
       path: '/recent'
-      fullPath: '/recent'
+      fullPath: '/recent/'
       preLoaderRoute: typeof homeRecentIndexLazyRouteImport
       parentRoute: typeof homeRouteLazyRoute
     }
     '/(home)/notifications/': {
       id: '/(home)/notifications/'
       path: '/notifications'
-      fullPath: '/notifications'
+      fullPath: '/notifications/'
       preLoaderRoute: typeof homeNotificationsIndexLazyRouteImport
       parentRoute: typeof homeRouteLazyRoute
     }
     '/(home)/import-export/': {
       id: '/(home)/import-export/'
       path: '/import-export'
-      fullPath: '/import-export'
+      fullPath: '/import-export/'
       preLoaderRoute: typeof homeImportExportIndexLazyRouteImport
       parentRoute: typeof homeRouteLazyRoute
     }
     '/(home)/groups/': {
       id: '/(home)/groups/'
       path: '/groups'
-      fullPath: '/groups'
+      fullPath: '/groups/'
       preLoaderRoute: typeof homeGroupsIndexLazyRouteImport
       parentRoute: typeof homeRouteLazyRoute
     }
     '/(home)/favorites/': {
       id: '/(home)/favorites/'
       path: '/favorites'
-      fullPath: '/favorites'
+      fullPath: '/favorites/'
       preLoaderRoute: typeof homeFavoritesIndexLazyRouteImport
       parentRoute: typeof homeRouteLazyRoute
     }
     '/(home)/cta/': {
       id: '/(home)/cta/'
       path: '/cta'
-      fullPath: '/cta'
+      fullPath: '/cta/'
       preLoaderRoute: typeof homeCtaIndexLazyRouteImport
       parentRoute: typeof homeRouteLazyRoute
     }
     '/(home)/user/$contactId/': {
       id: '/(home)/user/$contactId/'
       path: '/user/$contactId'
-      fullPath: '/user/$contactId'
+      fullPath: '/user/$contactId/'
       preLoaderRoute: typeof homeUserContactIdIndexLazyRouteImport
       parentRoute: typeof homeRouteLazyRoute
     }
     '/(home)/teams/roles/': {
       id: '/(home)/teams/roles/'
       path: '/roles'
-      fullPath: '/teams/roles'
+      fullPath: '/teams/roles/'
       preLoaderRoute: typeof homeTeamsRolesIndexLazyRouteImport
       parentRoute: typeof homeTeamsRouteLazyRoute
     }
     '/(home)/teams/permissions/': {
       id: '/(home)/teams/permissions/'
       path: '/permissions'
-      fullPath: '/teams/permissions'
+      fullPath: '/teams/permissions/'
       preLoaderRoute: typeof homeTeamsPermissionsIndexLazyRouteImport
       parentRoute: typeof homeTeamsRouteLazyRoute
     }
     '/(home)/teams/overview/': {
       id: '/(home)/teams/overview/'
       path: '/overview'
-      fullPath: '/teams/overview'
+      fullPath: '/teams/overview/'
       preLoaderRoute: typeof homeTeamsOverviewIndexLazyRouteImport
       parentRoute: typeof homeTeamsRouteLazyRoute
     }
     '/(home)/teams/members/': {
       id: '/(home)/teams/members/'
       path: '/members'
-      fullPath: '/teams/members'
+      fullPath: '/teams/members/'
       preLoaderRoute: typeof homeTeamsMembersIndexLazyRouteImport
       parentRoute: typeof homeTeamsRouteLazyRoute
     }
     '/(home)/shared/shared-with-me/': {
       id: '/(home)/shared/shared-with-me/'
       path: '/shared-with-me'
-      fullPath: '/shared/shared-with-me'
+      fullPath: '/shared/shared-with-me/'
       preLoaderRoute: typeof homeSharedSharedWithMeIndexLazyRouteImport
       parentRoute: typeof homeSharedRouteLazyRoute
     }
     '/(home)/shared/shared-by-me/': {
       id: '/(home)/shared/shared-by-me/'
       path: '/shared-by-me'
-      fullPath: '/shared/shared-by-me'
+      fullPath: '/shared/shared-by-me/'
       preLoaderRoute: typeof homeSharedSharedByMeIndexLazyRouteImport
       parentRoute: typeof homeSharedRouteLazyRoute
     }
     '/(home)/settings/workspace/': {
       id: '/(home)/settings/workspace/'
       path: '/workspace'
-      fullPath: '/settings/workspace'
+      fullPath: '/settings/workspace/'
       preLoaderRoute: typeof homeSettingsWorkspaceIndexLazyRouteImport
       parentRoute: typeof homeSettingsRouteLazyRoute
     }
     '/(home)/settings/security/': {
       id: '/(home)/settings/security/'
       path: '/security'
-      fullPath: '/settings/security'
+      fullPath: '/settings/security/'
       preLoaderRoute: typeof homeSettingsSecurityIndexLazyRouteImport
       parentRoute: typeof homeSettingsRouteLazyRoute
     }
     '/(home)/settings/integrations/': {
       id: '/(home)/settings/integrations/'
       path: '/integrations'
-      fullPath: '/settings/integrations'
+      fullPath: '/settings/integrations/'
       preLoaderRoute: typeof homeSettingsIntegrationsIndexLazyRouteImport
       parentRoute: typeof homeSettingsRouteLazyRoute
     }
     '/(home)/settings/billing/': {
       id: '/(home)/settings/billing/'
       path: '/billing'
-      fullPath: '/settings/billing'
+      fullPath: '/settings/billing/'
       preLoaderRoute: typeof homeSettingsBillingIndexLazyRouteImport
       parentRoute: typeof homeSettingsRouteLazyRoute
     }
     '/(home)/settings/automations/': {
       id: '/(home)/settings/automations/'
       path: '/automations'
-      fullPath: '/settings/automations'
+      fullPath: '/settings/automations/'
       preLoaderRoute: typeof homeSettingsAutomationsIndexLazyRouteImport
       parentRoute: typeof homeSettingsRouteLazyRoute
     }
     '/(home)/groups/$groupId/': {
       id: '/(home)/groups/$groupId/'
       path: '/groups/$groupId'
-      fullPath: '/groups/$groupId'
+      fullPath: '/groups/$groupId/'
       preLoaderRoute: typeof homeGroupsGroupIdIndexLazyRouteImport
       parentRoute: typeof homeRouteLazyRoute
     }
     '/(home)/cta/help-support/': {
       id: '/(home)/cta/help-support/'
       path: '/cta/help-support'
-      fullPath: '/cta/help-support'
+      fullPath: '/cta/help-support/'
       preLoaderRoute: typeof homeCtaHelpSupportIndexLazyRouteImport
       parentRoute: typeof homeRouteLazyRoute
     }

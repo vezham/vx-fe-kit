@@ -269,31 +269,31 @@ export interface FileRoutesByFullPath {
   '/settings': typeof SettingsRouteLazyRouteWithChildren
   '/shared': typeof SharedRouteLazyRouteWithChildren
   '/teams': typeof TeamsRouteLazyRouteWithChildren
-  '/cta': typeof CtaIndexLazyRoute
-  '/notifications': typeof NotificationsIndexLazyRoute
+  '/cta/': typeof CtaIndexLazyRoute
+  '/notifications/': typeof NotificationsIndexLazyRoute
   '/settings/': typeof SettingsIndexLazyRoute
   '/shared/': typeof SharedIndexLazyRoute
   '/teams/': typeof TeamsIndexLazyRoute
-  '/cta/help-support': typeof CtaHelpSupportIndexLazyRoute
-  '/mail/drafts': typeof MailDraftsIndexLazyRoute
-  '/mail/inbox': typeof MailInboxIndexLazyRoute
-  '/mail/sent': typeof MailSentIndexLazyRoute
-  '/mail/spam': typeof MailSpamIndexLazyRoute
-  '/mail/starred': typeof MailStarredIndexLazyRoute
-  '/mail/trash': typeof MailTrashIndexLazyRoute
-  '/settings/automations': typeof SettingsAutomationsIndexLazyRoute
-  '/settings/billing': typeof SettingsBillingIndexLazyRoute
-  '/settings/integrations': typeof SettingsIntegrationsIndexLazyRoute
-  '/settings/security': typeof SettingsSecurityIndexLazyRoute
-  '/settings/timezone': typeof SettingsTimezoneIndexLazyRoute
-  '/settings/workspace': typeof SettingsWorkspaceIndexLazyRoute
-  '/shared/shared-by-me': typeof SharedSharedByMeIndexLazyRoute
-  '/shared/shared-with-me': typeof SharedSharedWithMeIndexLazyRoute
-  '/teams/members': typeof TeamsMembersIndexLazyRoute
-  '/teams/overview': typeof TeamsOverviewIndexLazyRoute
-  '/teams/permissions': typeof TeamsPermissionsIndexLazyRoute
-  '/teams/roles': typeof TeamsRolesIndexLazyRoute
-  '/mail/inbox/$inboxId': typeof MailInboxInboxIdIndexLazyRoute
+  '/cta/help-support/': typeof CtaHelpSupportIndexLazyRoute
+  '/mail/drafts/': typeof MailDraftsIndexLazyRoute
+  '/mail/inbox/': typeof MailInboxIndexLazyRoute
+  '/mail/sent/': typeof MailSentIndexLazyRoute
+  '/mail/spam/': typeof MailSpamIndexLazyRoute
+  '/mail/starred/': typeof MailStarredIndexLazyRoute
+  '/mail/trash/': typeof MailTrashIndexLazyRoute
+  '/settings/automations/': typeof SettingsAutomationsIndexLazyRoute
+  '/settings/billing/': typeof SettingsBillingIndexLazyRoute
+  '/settings/integrations/': typeof SettingsIntegrationsIndexLazyRoute
+  '/settings/security/': typeof SettingsSecurityIndexLazyRoute
+  '/settings/timezone/': typeof SettingsTimezoneIndexLazyRoute
+  '/settings/workspace/': typeof SettingsWorkspaceIndexLazyRoute
+  '/shared/shared-by-me/': typeof SharedSharedByMeIndexLazyRoute
+  '/shared/shared-with-me/': typeof SharedSharedWithMeIndexLazyRoute
+  '/teams/members/': typeof TeamsMembersIndexLazyRoute
+  '/teams/overview/': typeof TeamsOverviewIndexLazyRoute
+  '/teams/permissions/': typeof TeamsPermissionsIndexLazyRoute
+  '/teams/roles/': typeof TeamsRolesIndexLazyRoute
+  '/mail/inbox/$inboxId/': typeof MailInboxInboxIdIndexLazyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
@@ -362,31 +362,31 @@ export interface FileRouteTypes {
     | '/settings'
     | '/shared'
     | '/teams'
-    | '/cta'
-    | '/notifications'
+    | '/cta/'
+    | '/notifications/'
     | '/settings/'
     | '/shared/'
     | '/teams/'
-    | '/cta/help-support'
-    | '/mail/drafts'
-    | '/mail/inbox'
-    | '/mail/sent'
-    | '/mail/spam'
-    | '/mail/starred'
-    | '/mail/trash'
-    | '/settings/automations'
-    | '/settings/billing'
-    | '/settings/integrations'
-    | '/settings/security'
-    | '/settings/timezone'
-    | '/settings/workspace'
-    | '/shared/shared-by-me'
-    | '/shared/shared-with-me'
-    | '/teams/members'
-    | '/teams/overview'
-    | '/teams/permissions'
-    | '/teams/roles'
-    | '/mail/inbox/$inboxId'
+    | '/cta/help-support/'
+    | '/mail/drafts/'
+    | '/mail/inbox/'
+    | '/mail/sent/'
+    | '/mail/spam/'
+    | '/mail/starred/'
+    | '/mail/trash/'
+    | '/settings/automations/'
+    | '/settings/billing/'
+    | '/settings/integrations/'
+    | '/settings/security/'
+    | '/settings/timezone/'
+    | '/settings/workspace/'
+    | '/shared/shared-by-me/'
+    | '/shared/shared-with-me/'
+    | '/teams/members/'
+    | '/teams/overview/'
+    | '/teams/permissions/'
+    | '/teams/roles/'
+    | '/mail/inbox/$inboxId/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -519,154 +519,154 @@ declare module '@tanstack/react-router' {
     '/notifications/': {
       id: '/notifications/'
       path: '/notifications'
-      fullPath: '/notifications'
+      fullPath: '/notifications/'
       preLoaderRoute: typeof NotificationsIndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cta/': {
       id: '/cta/'
       path: '/cta'
-      fullPath: '/cta'
+      fullPath: '/cta/'
       preLoaderRoute: typeof CtaIndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/teams/roles/': {
       id: '/teams/roles/'
       path: '/roles'
-      fullPath: '/teams/roles'
+      fullPath: '/teams/roles/'
       preLoaderRoute: typeof TeamsRolesIndexLazyRouteImport
       parentRoute: typeof TeamsRouteLazyRoute
     }
     '/teams/permissions/': {
       id: '/teams/permissions/'
       path: '/permissions'
-      fullPath: '/teams/permissions'
+      fullPath: '/teams/permissions/'
       preLoaderRoute: typeof TeamsPermissionsIndexLazyRouteImport
       parentRoute: typeof TeamsRouteLazyRoute
     }
     '/teams/overview/': {
       id: '/teams/overview/'
       path: '/overview'
-      fullPath: '/teams/overview'
+      fullPath: '/teams/overview/'
       preLoaderRoute: typeof TeamsOverviewIndexLazyRouteImport
       parentRoute: typeof TeamsRouteLazyRoute
     }
     '/teams/members/': {
       id: '/teams/members/'
       path: '/members'
-      fullPath: '/teams/members'
+      fullPath: '/teams/members/'
       preLoaderRoute: typeof TeamsMembersIndexLazyRouteImport
       parentRoute: typeof TeamsRouteLazyRoute
     }
     '/shared/shared-with-me/': {
       id: '/shared/shared-with-me/'
       path: '/shared-with-me'
-      fullPath: '/shared/shared-with-me'
+      fullPath: '/shared/shared-with-me/'
       preLoaderRoute: typeof SharedSharedWithMeIndexLazyRouteImport
       parentRoute: typeof SharedRouteLazyRoute
     }
     '/shared/shared-by-me/': {
       id: '/shared/shared-by-me/'
       path: '/shared-by-me'
-      fullPath: '/shared/shared-by-me'
+      fullPath: '/shared/shared-by-me/'
       preLoaderRoute: typeof SharedSharedByMeIndexLazyRouteImport
       parentRoute: typeof SharedRouteLazyRoute
     }
     '/settings/workspace/': {
       id: '/settings/workspace/'
       path: '/workspace'
-      fullPath: '/settings/workspace'
+      fullPath: '/settings/workspace/'
       preLoaderRoute: typeof SettingsWorkspaceIndexLazyRouteImport
       parentRoute: typeof SettingsRouteLazyRoute
     }
     '/settings/timezone/': {
       id: '/settings/timezone/'
       path: '/timezone'
-      fullPath: '/settings/timezone'
+      fullPath: '/settings/timezone/'
       preLoaderRoute: typeof SettingsTimezoneIndexLazyRouteImport
       parentRoute: typeof SettingsRouteLazyRoute
     }
     '/settings/security/': {
       id: '/settings/security/'
       path: '/security'
-      fullPath: '/settings/security'
+      fullPath: '/settings/security/'
       preLoaderRoute: typeof SettingsSecurityIndexLazyRouteImport
       parentRoute: typeof SettingsRouteLazyRoute
     }
     '/settings/integrations/': {
       id: '/settings/integrations/'
       path: '/integrations'
-      fullPath: '/settings/integrations'
+      fullPath: '/settings/integrations/'
       preLoaderRoute: typeof SettingsIntegrationsIndexLazyRouteImport
       parentRoute: typeof SettingsRouteLazyRoute
     }
     '/settings/billing/': {
       id: '/settings/billing/'
       path: '/billing'
-      fullPath: '/settings/billing'
+      fullPath: '/settings/billing/'
       preLoaderRoute: typeof SettingsBillingIndexLazyRouteImport
       parentRoute: typeof SettingsRouteLazyRoute
     }
     '/settings/automations/': {
       id: '/settings/automations/'
       path: '/automations'
-      fullPath: '/settings/automations'
+      fullPath: '/settings/automations/'
       preLoaderRoute: typeof SettingsAutomationsIndexLazyRouteImport
       parentRoute: typeof SettingsRouteLazyRoute
     }
     '/mail/trash/': {
       id: '/mail/trash/'
       path: '/mail/trash'
-      fullPath: '/mail/trash'
+      fullPath: '/mail/trash/'
       preLoaderRoute: typeof MailTrashIndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/mail/starred/': {
       id: '/mail/starred/'
       path: '/mail/starred'
-      fullPath: '/mail/starred'
+      fullPath: '/mail/starred/'
       preLoaderRoute: typeof MailStarredIndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/mail/spam/': {
       id: '/mail/spam/'
       path: '/mail/spam'
-      fullPath: '/mail/spam'
+      fullPath: '/mail/spam/'
       preLoaderRoute: typeof MailSpamIndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/mail/sent/': {
       id: '/mail/sent/'
       path: '/mail/sent'
-      fullPath: '/mail/sent'
+      fullPath: '/mail/sent/'
       preLoaderRoute: typeof MailSentIndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/mail/inbox/': {
       id: '/mail/inbox/'
       path: '/mail/inbox'
-      fullPath: '/mail/inbox'
+      fullPath: '/mail/inbox/'
       preLoaderRoute: typeof MailInboxIndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/mail/drafts/': {
       id: '/mail/drafts/'
       path: '/mail/drafts'
-      fullPath: '/mail/drafts'
+      fullPath: '/mail/drafts/'
       preLoaderRoute: typeof MailDraftsIndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cta/help-support/': {
       id: '/cta/help-support/'
       path: '/cta/help-support'
-      fullPath: '/cta/help-support'
+      fullPath: '/cta/help-support/'
       preLoaderRoute: typeof CtaHelpSupportIndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/mail/inbox/$inboxId/': {
       id: '/mail/inbox/$inboxId/'
       path: '/mail/inbox/$inboxId'
-      fullPath: '/mail/inbox/$inboxId'
+      fullPath: '/mail/inbox/$inboxId/'
       preLoaderRoute: typeof MailInboxInboxIdIndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }

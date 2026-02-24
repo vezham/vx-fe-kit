@@ -76,12 +76,12 @@ const WorldclockClockIdIndexLazyRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof homeIndexLazyRoute
-  '/alarm/': typeof AlarmIndexLazyRoute
-  '/apple-widgets/': typeof AppleWidgetsIndexLazyRoute
-  '/stopwatch/': typeof StopwatchIndexLazyRoute
-  '/timer/': typeof TimerIndexLazyRoute
-  '/widgets/': typeof WidgetsIndexLazyRoute
-  '/worldclock/$clockId/': typeof WorldclockClockIdIndexLazyRoute
+  '/alarm': typeof AlarmIndexLazyRoute
+  '/apple-widgets': typeof AppleWidgetsIndexLazyRoute
+  '/stopwatch': typeof StopwatchIndexLazyRoute
+  '/timer': typeof TimerIndexLazyRoute
+  '/widgets': typeof WidgetsIndexLazyRoute
+  '/worldclock/$clockId': typeof WorldclockClockIdIndexLazyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof homeIndexLazyRoute
@@ -107,12 +107,12 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/alarm/'
-    | '/apple-widgets/'
-    | '/stopwatch/'
-    | '/timer/'
-    | '/widgets/'
-    | '/worldclock/$clockId/'
+    | '/alarm'
+    | '/apple-widgets'
+    | '/stopwatch'
+    | '/timer'
+    | '/widgets'
+    | '/worldclock/$clockId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -149,42 +149,42 @@ declare module '@tanstack/react-router' {
     '/(home)': {
       id: '/(home)'
       path: '/'
-      fullPath: ''
+      fullPath: '/'
       preLoaderRoute: typeof homeRouteLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/widgets/': {
       id: '/widgets/'
       path: '/widgets'
-      fullPath: '/widgets/'
+      fullPath: '/widgets'
       preLoaderRoute: typeof WidgetsIndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/timer/': {
       id: '/timer/'
       path: '/timer'
-      fullPath: '/timer/'
+      fullPath: '/timer'
       preLoaderRoute: typeof TimerIndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/stopwatch/': {
       id: '/stopwatch/'
       path: '/stopwatch'
-      fullPath: '/stopwatch/'
+      fullPath: '/stopwatch'
       preLoaderRoute: typeof StopwatchIndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/apple-widgets/': {
       id: '/apple-widgets/'
       path: '/apple-widgets'
-      fullPath: '/apple-widgets/'
+      fullPath: '/apple-widgets'
       preLoaderRoute: typeof AppleWidgetsIndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/alarm/': {
       id: '/alarm/'
       path: '/alarm'
-      fullPath: '/alarm/'
+      fullPath: '/alarm'
       preLoaderRoute: typeof AlarmIndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
@@ -198,7 +198,7 @@ declare module '@tanstack/react-router' {
     '/worldclock/$clockId/': {
       id: '/worldclock/$clockId/'
       path: '/worldclock/$clockId'
-      fullPath: '/worldclock/$clockId/'
+      fullPath: '/worldclock/$clockId'
       preLoaderRoute: typeof WorldclockClockIdIndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }

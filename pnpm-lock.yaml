@@ -253,6 +253,39 @@ importers:
         specifier: ^3.0.0
         version: 3.2.4(@types/node@20.19.9)(@vitest/ui@3.2.4)(jiti@2.4.2)(jsdom@22.1.0)(lightningcss@1.31.1)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2)
 
+  apps/books2:
+    devDependencies:
+      '@vx/start':
+        specifier: workspace:*
+        version: link:../../packages/vx/start
+      '@vx/system-utils':
+        specifier: workspace:*
+        version: link:../../packages/vx/system-utils
+
+  apps/books2-e2e: {}
+
+  apps/books2-mock:
+    dependencies:
+      '@faker-js/faker':
+        specifier: ^8.4.1
+        version: 8.4.1
+      json-server:
+        specifier: ^0.17.4
+        version: 0.17.4
+    devDependencies:
+      '@types/json-server':
+        specifier: ^0.14.8
+        version: 0.14.8
+      '@types/node':
+        specifier: ^20.0.0
+        version: 20.19.9
+      '@vezham/use-logger':
+        specifier: ^0.3.3
+        version: 0.3.3
+      dotenv:
+        specifier: ^16.4.1
+        version: 16.6.1
+
   apps/calendar:
     devDependencies:
       '@vx/start':
@@ -20247,7 +20280,7 @@ snapshots:
 
   dotenv-expand@11.0.7:
     dependencies:
-      dotenv: 16.4.7
+      dotenv: 16.6.1
 
   dotenv@16.4.7: {}
 

@@ -274,29 +274,29 @@ const homeCtaHelpSupportIndexLazyRoute = homeCtaHelpSupportIndexLazyRouteImport
   )
 
 export interface FileRoutesByFullPath {
-  '/': typeof homeIndexLazyRoute
   '/settings': typeof homeSettingsRouteLazyRouteWithChildren
-  '/all': typeof homeAllIndexLazyRoute
-  '/archive': typeof homeArchiveIndexLazyRoute
-  '/completed': typeof homeCompletedIndexLazyRoute
-  '/cta': typeof homeCtaIndexLazyRoute
-  '/flagged': typeof homeFlaggedIndexLazyRoute
-  '/lists': typeof homeListsIndexLazyRoute
-  '/scheduled': typeof homeScheduledIndexLazyRoute
+  '/': typeof homeIndexLazyRoute
+  '/all/': typeof homeAllIndexLazyRoute
+  '/archive/': typeof homeArchiveIndexLazyRoute
+  '/completed/': typeof homeCompletedIndexLazyRoute
+  '/cta/': typeof homeCtaIndexLazyRoute
+  '/flagged/': typeof homeFlaggedIndexLazyRoute
+  '/lists/': typeof homeListsIndexLazyRoute
+  '/scheduled/': typeof homeScheduledIndexLazyRoute
   '/settings/': typeof homeSettingsIndexLazyRoute
-  '/tags': typeof homeTagsIndexLazyRoute
-  '/today': typeof homeTodayIndexLazyRoute
-  '/trash': typeof homeTrashIndexLazyRoute
-  '/cta/help-support': typeof homeCtaHelpSupportIndexLazyRoute
-  '/lists/$listName': typeof homeListsListNameIndexLazyRoute
-  '/reminder/$reminderId': typeof homeReminderReminderIdIndexLazyRoute
-  '/settings/automations': typeof homeSettingsAutomationsIndexLazyRoute
-  '/settings/billing': typeof homeSettingsBillingIndexLazyRoute
-  '/settings/notifications': typeof homeSettingsNotificationsIndexLazyRoute
-  '/settings/security': typeof homeSettingsSecurityIndexLazyRoute
-  '/settings/users': typeof homeSettingsUsersIndexLazyRoute
-  '/settings/workspace': typeof homeSettingsWorkspaceIndexLazyRoute
-  '/trash/$trashId': typeof homeTrashTrashIdIndexLazyRoute
+  '/tags/': typeof homeTagsIndexLazyRoute
+  '/today/': typeof homeTodayIndexLazyRoute
+  '/trash/': typeof homeTrashIndexLazyRoute
+  '/cta/help-support/': typeof homeCtaHelpSupportIndexLazyRoute
+  '/lists/$listName/': typeof homeListsListNameIndexLazyRoute
+  '/reminder/$reminderId/': typeof homeReminderReminderIdIndexLazyRoute
+  '/settings/automations/': typeof homeSettingsAutomationsIndexLazyRoute
+  '/settings/billing/': typeof homeSettingsBillingIndexLazyRoute
+  '/settings/notifications/': typeof homeSettingsNotificationsIndexLazyRoute
+  '/settings/security/': typeof homeSettingsSecurityIndexLazyRoute
+  '/settings/users/': typeof homeSettingsUsersIndexLazyRoute
+  '/settings/workspace/': typeof homeSettingsWorkspaceIndexLazyRoute
+  '/trash/$trashId/': typeof homeTrashTrashIdIndexLazyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof homeIndexLazyRoute
@@ -352,29 +352,29 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
     | '/settings'
-    | '/all'
-    | '/archive'
-    | '/completed'
-    | '/cta'
-    | '/flagged'
-    | '/lists'
-    | '/scheduled'
+    | '/'
+    | '/all/'
+    | '/archive/'
+    | '/completed/'
+    | '/cta/'
+    | '/flagged/'
+    | '/lists/'
+    | '/scheduled/'
     | '/settings/'
-    | '/tags'
-    | '/today'
-    | '/trash'
-    | '/cta/help-support'
-    | '/lists/$listName'
-    | '/reminder/$reminderId'
-    | '/settings/automations'
-    | '/settings/billing'
-    | '/settings/notifications'
-    | '/settings/security'
-    | '/settings/users'
-    | '/settings/workspace'
-    | '/trash/$trashId'
+    | '/tags/'
+    | '/today/'
+    | '/trash/'
+    | '/cta/help-support/'
+    | '/lists/$listName/'
+    | '/reminder/$reminderId/'
+    | '/settings/automations/'
+    | '/settings/billing/'
+    | '/settings/notifications/'
+    | '/settings/security/'
+    | '/settings/users/'
+    | '/settings/workspace/'
+    | '/trash/$trashId/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -436,7 +436,7 @@ declare module '@tanstack/react-router' {
     '/(home)': {
       id: '/(home)'
       path: '/'
-      fullPath: '/'
+      fullPath: ''
       preLoaderRoute: typeof homeRouteLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
@@ -457,21 +457,21 @@ declare module '@tanstack/react-router' {
     '/(home)/trash/': {
       id: '/(home)/trash/'
       path: '/trash'
-      fullPath: '/trash'
+      fullPath: '/trash/'
       preLoaderRoute: typeof homeTrashIndexLazyRouteImport
       parentRoute: typeof homeRouteLazyRoute
     }
     '/(home)/today/': {
       id: '/(home)/today/'
       path: '/today'
-      fullPath: '/today'
+      fullPath: '/today/'
       preLoaderRoute: typeof homeTodayIndexLazyRouteImport
       parentRoute: typeof homeRouteLazyRoute
     }
     '/(home)/tags/': {
       id: '/(home)/tags/'
       path: '/tags'
-      fullPath: '/tags'
+      fullPath: '/tags/'
       preLoaderRoute: typeof homeTagsIndexLazyRouteImport
       parentRoute: typeof homeRouteLazyRoute
     }
@@ -485,119 +485,119 @@ declare module '@tanstack/react-router' {
     '/(home)/scheduled/': {
       id: '/(home)/scheduled/'
       path: '/scheduled'
-      fullPath: '/scheduled'
+      fullPath: '/scheduled/'
       preLoaderRoute: typeof homeScheduledIndexLazyRouteImport
       parentRoute: typeof homeRouteLazyRoute
     }
     '/(home)/lists/': {
       id: '/(home)/lists/'
       path: '/lists'
-      fullPath: '/lists'
+      fullPath: '/lists/'
       preLoaderRoute: typeof homeListsIndexLazyRouteImport
       parentRoute: typeof homeRouteLazyRoute
     }
     '/(home)/flagged/': {
       id: '/(home)/flagged/'
       path: '/flagged'
-      fullPath: '/flagged'
+      fullPath: '/flagged/'
       preLoaderRoute: typeof homeFlaggedIndexLazyRouteImport
       parentRoute: typeof homeRouteLazyRoute
     }
     '/(home)/cta/': {
       id: '/(home)/cta/'
       path: '/cta'
-      fullPath: '/cta'
+      fullPath: '/cta/'
       preLoaderRoute: typeof homeCtaIndexLazyRouteImport
       parentRoute: typeof homeRouteLazyRoute
     }
     '/(home)/completed/': {
       id: '/(home)/completed/'
       path: '/completed'
-      fullPath: '/completed'
+      fullPath: '/completed/'
       preLoaderRoute: typeof homeCompletedIndexLazyRouteImport
       parentRoute: typeof homeRouteLazyRoute
     }
     '/(home)/archive/': {
       id: '/(home)/archive/'
       path: '/archive'
-      fullPath: '/archive'
+      fullPath: '/archive/'
       preLoaderRoute: typeof homeArchiveIndexLazyRouteImport
       parentRoute: typeof homeRouteLazyRoute
     }
     '/(home)/all/': {
       id: '/(home)/all/'
       path: '/all'
-      fullPath: '/all'
+      fullPath: '/all/'
       preLoaderRoute: typeof homeAllIndexLazyRouteImport
       parentRoute: typeof homeRouteLazyRoute
     }
     '/(home)/trash/$trashId/': {
       id: '/(home)/trash/$trashId/'
       path: '/trash/$trashId'
-      fullPath: '/trash/$trashId'
+      fullPath: '/trash/$trashId/'
       preLoaderRoute: typeof homeTrashTrashIdIndexLazyRouteImport
       parentRoute: typeof homeRouteLazyRoute
     }
     '/(home)/settings/workspace/': {
       id: '/(home)/settings/workspace/'
       path: '/workspace'
-      fullPath: '/settings/workspace'
+      fullPath: '/settings/workspace/'
       preLoaderRoute: typeof homeSettingsWorkspaceIndexLazyRouteImport
       parentRoute: typeof homeSettingsRouteLazyRoute
     }
     '/(home)/settings/users/': {
       id: '/(home)/settings/users/'
       path: '/users'
-      fullPath: '/settings/users'
+      fullPath: '/settings/users/'
       preLoaderRoute: typeof homeSettingsUsersIndexLazyRouteImport
       parentRoute: typeof homeSettingsRouteLazyRoute
     }
     '/(home)/settings/security/': {
       id: '/(home)/settings/security/'
       path: '/security'
-      fullPath: '/settings/security'
+      fullPath: '/settings/security/'
       preLoaderRoute: typeof homeSettingsSecurityIndexLazyRouteImport
       parentRoute: typeof homeSettingsRouteLazyRoute
     }
     '/(home)/settings/notifications/': {
       id: '/(home)/settings/notifications/'
       path: '/notifications'
-      fullPath: '/settings/notifications'
+      fullPath: '/settings/notifications/'
       preLoaderRoute: typeof homeSettingsNotificationsIndexLazyRouteImport
       parentRoute: typeof homeSettingsRouteLazyRoute
     }
     '/(home)/settings/billing/': {
       id: '/(home)/settings/billing/'
       path: '/billing'
-      fullPath: '/settings/billing'
+      fullPath: '/settings/billing/'
       preLoaderRoute: typeof homeSettingsBillingIndexLazyRouteImport
       parentRoute: typeof homeSettingsRouteLazyRoute
     }
     '/(home)/settings/automations/': {
       id: '/(home)/settings/automations/'
       path: '/automations'
-      fullPath: '/settings/automations'
+      fullPath: '/settings/automations/'
       preLoaderRoute: typeof homeSettingsAutomationsIndexLazyRouteImport
       parentRoute: typeof homeSettingsRouteLazyRoute
     }
     '/(home)/reminder/$reminderId/': {
       id: '/(home)/reminder/$reminderId/'
       path: '/reminder/$reminderId'
-      fullPath: '/reminder/$reminderId'
+      fullPath: '/reminder/$reminderId/'
       preLoaderRoute: typeof homeReminderReminderIdIndexLazyRouteImport
       parentRoute: typeof homeRouteLazyRoute
     }
     '/(home)/lists/$listName/': {
       id: '/(home)/lists/$listName/'
       path: '/lists/$listName'
-      fullPath: '/lists/$listName'
+      fullPath: '/lists/$listName/'
       preLoaderRoute: typeof homeListsListNameIndexLazyRouteImport
       parentRoute: typeof homeRouteLazyRoute
     }
     '/(home)/cta/help-support/': {
       id: '/(home)/cta/help-support/'
       path: '/cta/help-support'
-      fullPath: '/cta/help-support'
+      fullPath: '/cta/help-support/'
       preLoaderRoute: typeof homeCtaHelpSupportIndexLazyRouteImport
       parentRoute: typeof homeRouteLazyRoute
     }

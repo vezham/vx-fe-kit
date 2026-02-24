@@ -372,36 +372,36 @@ const homeFoldersSubfoldersSubfolderIdIndexLazyRoute =
     )
 
 export interface FileRoutesByFullPath {
-  '/': typeof homeIndexLazyRoute
   '/settings': typeof homeSettingsRouteLazyRouteWithChildren
   '/shared': typeof homeSharedRouteLazyRouteWithChildren
   '/teams': typeof homeTeamsRouteLazyRouteWithChildren
-  '/all': typeof homeAllIndexLazyRoute
-  '/archived': typeof homeArchivedIndexLazyRoute
-  '/cta': typeof homeCtaIndexLazyRoute
-  '/folders': typeof homeFoldersIndexLazyRoute
-  '/notifications': typeof homeNotificationsIndexLazyRoute
-  '/pinned': typeof homePinnedIndexLazyRoute
+  '/': typeof homeIndexLazyRoute
+  '/all/': typeof homeAllIndexLazyRoute
+  '/archived/': typeof homeArchivedIndexLazyRoute
+  '/cta/': typeof homeCtaIndexLazyRoute
+  '/folders/': typeof homeFoldersIndexLazyRoute
+  '/notifications/': typeof homeNotificationsIndexLazyRoute
+  '/pinned/': typeof homePinnedIndexLazyRoute
   '/settings/': typeof homeSettingsIndexLazyRoute
   '/shared/': typeof homeSharedIndexLazyRoute
   '/teams/': typeof homeTeamsIndexLazyRoute
-  '/trash': typeof homeTrashIndexLazyRoute
-  '/cta/help-support': typeof homeCtaHelpSupportIndexLazyRoute
-  '/folders/$folderId': typeof homeFoldersFolderIdIndexLazyRoute
-  '/folders/subfolders': typeof homeFoldersSubfoldersIndexLazyRoute
-  '/settings/automations': typeof homeSettingsAutomationsIndexLazyRoute
-  '/settings/billing': typeof homeSettingsBillingIndexLazyRoute
-  '/settings/integrations': typeof homeSettingsIntegrationsIndexLazyRoute
-  '/settings/security': typeof homeSettingsSecurityIndexLazyRoute
-  '/settings/timezone': typeof homeSettingsTimezoneIndexLazyRoute
-  '/settings/workspace': typeof homeSettingsWorkspaceIndexLazyRoute
-  '/shared/shared-by-me': typeof homeSharedSharedByMeIndexLazyRoute
-  '/shared/shared-with-me': typeof homeSharedSharedWithMeIndexLazyRoute
-  '/teams/members': typeof homeTeamsMembersIndexLazyRoute
-  '/teams/overview': typeof homeTeamsOverviewIndexLazyRoute
-  '/teams/permissions': typeof homeTeamsPermissionsIndexLazyRoute
-  '/teams/roles': typeof homeTeamsRolesIndexLazyRoute
-  '/folders/subfolders/$subfolderId': typeof homeFoldersSubfoldersSubfolderIdIndexLazyRoute
+  '/trash/': typeof homeTrashIndexLazyRoute
+  '/cta/help-support/': typeof homeCtaHelpSupportIndexLazyRoute
+  '/folders/$folderId/': typeof homeFoldersFolderIdIndexLazyRoute
+  '/folders/subfolders/': typeof homeFoldersSubfoldersIndexLazyRoute
+  '/settings/automations/': typeof homeSettingsAutomationsIndexLazyRoute
+  '/settings/billing/': typeof homeSettingsBillingIndexLazyRoute
+  '/settings/integrations/': typeof homeSettingsIntegrationsIndexLazyRoute
+  '/settings/security/': typeof homeSettingsSecurityIndexLazyRoute
+  '/settings/timezone/': typeof homeSettingsTimezoneIndexLazyRoute
+  '/settings/workspace/': typeof homeSettingsWorkspaceIndexLazyRoute
+  '/shared/shared-by-me/': typeof homeSharedSharedByMeIndexLazyRoute
+  '/shared/shared-with-me/': typeof homeSharedSharedWithMeIndexLazyRoute
+  '/teams/members/': typeof homeTeamsMembersIndexLazyRoute
+  '/teams/overview/': typeof homeTeamsOverviewIndexLazyRoute
+  '/teams/permissions/': typeof homeTeamsPermissionsIndexLazyRoute
+  '/teams/roles/': typeof homeTeamsRolesIndexLazyRoute
+  '/folders/subfolders/$subfolderId/': typeof homeFoldersSubfoldersSubfolderIdIndexLazyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof homeIndexLazyRoute
@@ -469,36 +469,36 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
     | '/settings'
     | '/shared'
     | '/teams'
-    | '/all'
-    | '/archived'
-    | '/cta'
-    | '/folders'
-    | '/notifications'
-    | '/pinned'
+    | '/'
+    | '/all/'
+    | '/archived/'
+    | '/cta/'
+    | '/folders/'
+    | '/notifications/'
+    | '/pinned/'
     | '/settings/'
     | '/shared/'
     | '/teams/'
-    | '/trash'
-    | '/cta/help-support'
-    | '/folders/$folderId'
-    | '/folders/subfolders'
-    | '/settings/automations'
-    | '/settings/billing'
-    | '/settings/integrations'
-    | '/settings/security'
-    | '/settings/timezone'
-    | '/settings/workspace'
-    | '/shared/shared-by-me'
-    | '/shared/shared-with-me'
-    | '/teams/members'
-    | '/teams/overview'
-    | '/teams/permissions'
-    | '/teams/roles'
-    | '/folders/subfolders/$subfolderId'
+    | '/trash/'
+    | '/cta/help-support/'
+    | '/folders/$folderId/'
+    | '/folders/subfolders/'
+    | '/settings/automations/'
+    | '/settings/billing/'
+    | '/settings/integrations/'
+    | '/settings/security/'
+    | '/settings/timezone/'
+    | '/settings/workspace/'
+    | '/shared/shared-by-me/'
+    | '/shared/shared-with-me/'
+    | '/teams/members/'
+    | '/teams/overview/'
+    | '/teams/permissions/'
+    | '/teams/roles/'
+    | '/folders/subfolders/$subfolderId/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -572,7 +572,7 @@ declare module '@tanstack/react-router' {
     '/(home)': {
       id: '/(home)'
       path: '/'
-      fullPath: '/'
+      fullPath: ''
       preLoaderRoute: typeof homeRouteLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
@@ -607,7 +607,7 @@ declare module '@tanstack/react-router' {
     '/(home)/trash/': {
       id: '/(home)/trash/'
       path: '/trash'
-      fullPath: '/trash'
+      fullPath: '/trash/'
       preLoaderRoute: typeof homeTrashIndexLazyRouteImport
       parentRoute: typeof homeRouteLazyRoute
     }
@@ -635,154 +635,154 @@ declare module '@tanstack/react-router' {
     '/(home)/pinned/': {
       id: '/(home)/pinned/'
       path: '/pinned'
-      fullPath: '/pinned'
+      fullPath: '/pinned/'
       preLoaderRoute: typeof homePinnedIndexLazyRouteImport
       parentRoute: typeof homeRouteLazyRoute
     }
     '/(home)/notifications/': {
       id: '/(home)/notifications/'
       path: '/notifications'
-      fullPath: '/notifications'
+      fullPath: '/notifications/'
       preLoaderRoute: typeof homeNotificationsIndexLazyRouteImport
       parentRoute: typeof homeRouteLazyRoute
     }
     '/(home)/folders/': {
       id: '/(home)/folders/'
       path: '/folders'
-      fullPath: '/folders'
+      fullPath: '/folders/'
       preLoaderRoute: typeof homeFoldersIndexLazyRouteImport
       parentRoute: typeof homeRouteLazyRoute
     }
     '/(home)/cta/': {
       id: '/(home)/cta/'
       path: '/cta'
-      fullPath: '/cta'
+      fullPath: '/cta/'
       preLoaderRoute: typeof homeCtaIndexLazyRouteImport
       parentRoute: typeof homeRouteLazyRoute
     }
     '/(home)/archived/': {
       id: '/(home)/archived/'
       path: '/archived'
-      fullPath: '/archived'
+      fullPath: '/archived/'
       preLoaderRoute: typeof homeArchivedIndexLazyRouteImport
       parentRoute: typeof homeRouteLazyRoute
     }
     '/(home)/all/': {
       id: '/(home)/all/'
       path: '/all'
-      fullPath: '/all'
+      fullPath: '/all/'
       preLoaderRoute: typeof homeAllIndexLazyRouteImport
       parentRoute: typeof homeRouteLazyRoute
     }
     '/(home)/teams/roles/': {
       id: '/(home)/teams/roles/'
       path: '/roles'
-      fullPath: '/teams/roles'
+      fullPath: '/teams/roles/'
       preLoaderRoute: typeof homeTeamsRolesIndexLazyRouteImport
       parentRoute: typeof homeTeamsRouteLazyRoute
     }
     '/(home)/teams/permissions/': {
       id: '/(home)/teams/permissions/'
       path: '/permissions'
-      fullPath: '/teams/permissions'
+      fullPath: '/teams/permissions/'
       preLoaderRoute: typeof homeTeamsPermissionsIndexLazyRouteImport
       parentRoute: typeof homeTeamsRouteLazyRoute
     }
     '/(home)/teams/overview/': {
       id: '/(home)/teams/overview/'
       path: '/overview'
-      fullPath: '/teams/overview'
+      fullPath: '/teams/overview/'
       preLoaderRoute: typeof homeTeamsOverviewIndexLazyRouteImport
       parentRoute: typeof homeTeamsRouteLazyRoute
     }
     '/(home)/teams/members/': {
       id: '/(home)/teams/members/'
       path: '/members'
-      fullPath: '/teams/members'
+      fullPath: '/teams/members/'
       preLoaderRoute: typeof homeTeamsMembersIndexLazyRouteImport
       parentRoute: typeof homeTeamsRouteLazyRoute
     }
     '/(home)/shared/shared-with-me/': {
       id: '/(home)/shared/shared-with-me/'
       path: '/shared-with-me'
-      fullPath: '/shared/shared-with-me'
+      fullPath: '/shared/shared-with-me/'
       preLoaderRoute: typeof homeSharedSharedWithMeIndexLazyRouteImport
       parentRoute: typeof homeSharedRouteLazyRoute
     }
     '/(home)/shared/shared-by-me/': {
       id: '/(home)/shared/shared-by-me/'
       path: '/shared-by-me'
-      fullPath: '/shared/shared-by-me'
+      fullPath: '/shared/shared-by-me/'
       preLoaderRoute: typeof homeSharedSharedByMeIndexLazyRouteImport
       parentRoute: typeof homeSharedRouteLazyRoute
     }
     '/(home)/settings/workspace/': {
       id: '/(home)/settings/workspace/'
       path: '/workspace'
-      fullPath: '/settings/workspace'
+      fullPath: '/settings/workspace/'
       preLoaderRoute: typeof homeSettingsWorkspaceIndexLazyRouteImport
       parentRoute: typeof homeSettingsRouteLazyRoute
     }
     '/(home)/settings/timezone/': {
       id: '/(home)/settings/timezone/'
       path: '/timezone'
-      fullPath: '/settings/timezone'
+      fullPath: '/settings/timezone/'
       preLoaderRoute: typeof homeSettingsTimezoneIndexLazyRouteImport
       parentRoute: typeof homeSettingsRouteLazyRoute
     }
     '/(home)/settings/security/': {
       id: '/(home)/settings/security/'
       path: '/security'
-      fullPath: '/settings/security'
+      fullPath: '/settings/security/'
       preLoaderRoute: typeof homeSettingsSecurityIndexLazyRouteImport
       parentRoute: typeof homeSettingsRouteLazyRoute
     }
     '/(home)/settings/integrations/': {
       id: '/(home)/settings/integrations/'
       path: '/integrations'
-      fullPath: '/settings/integrations'
+      fullPath: '/settings/integrations/'
       preLoaderRoute: typeof homeSettingsIntegrationsIndexLazyRouteImport
       parentRoute: typeof homeSettingsRouteLazyRoute
     }
     '/(home)/settings/billing/': {
       id: '/(home)/settings/billing/'
       path: '/billing'
-      fullPath: '/settings/billing'
+      fullPath: '/settings/billing/'
       preLoaderRoute: typeof homeSettingsBillingIndexLazyRouteImport
       parentRoute: typeof homeSettingsRouteLazyRoute
     }
     '/(home)/settings/automations/': {
       id: '/(home)/settings/automations/'
       path: '/automations'
-      fullPath: '/settings/automations'
+      fullPath: '/settings/automations/'
       preLoaderRoute: typeof homeSettingsAutomationsIndexLazyRouteImport
       parentRoute: typeof homeSettingsRouteLazyRoute
     }
     '/(home)/folders/subfolders/': {
       id: '/(home)/folders/subfolders/'
       path: '/folders/subfolders'
-      fullPath: '/folders/subfolders'
+      fullPath: '/folders/subfolders/'
       preLoaderRoute: typeof homeFoldersSubfoldersIndexLazyRouteImport
       parentRoute: typeof homeRouteLazyRoute
     }
     '/(home)/folders/$folderId/': {
       id: '/(home)/folders/$folderId/'
       path: '/folders/$folderId'
-      fullPath: '/folders/$folderId'
+      fullPath: '/folders/$folderId/'
       preLoaderRoute: typeof homeFoldersFolderIdIndexLazyRouteImport
       parentRoute: typeof homeRouteLazyRoute
     }
     '/(home)/cta/help-support/': {
       id: '/(home)/cta/help-support/'
       path: '/cta/help-support'
-      fullPath: '/cta/help-support'
+      fullPath: '/cta/help-support/'
       preLoaderRoute: typeof homeCtaHelpSupportIndexLazyRouteImport
       parentRoute: typeof homeRouteLazyRoute
     }
     '/(home)/folders/subfolders/$subfolderId/': {
       id: '/(home)/folders/subfolders/$subfolderId/'
       path: '/folders/subfolders/$subfolderId'
-      fullPath: '/folders/subfolders/$subfolderId'
+      fullPath: '/folders/subfolders/$subfolderId/'
       preLoaderRoute: typeof homeFoldersSubfoldersSubfolderIdIndexLazyRouteImport
       parentRoute: typeof homeRouteLazyRoute
     }

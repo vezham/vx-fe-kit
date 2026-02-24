@@ -1,0 +1,19 @@
+{
+  "name": "books2",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/books2/src",
+  "targets": {
+    "config-local-hostile": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/books2",
+        "commands": [
+          "sudo pnpm exec hostile set localhost books2.vezham.local && sudo pnpm exec hostile set localhost books2.mock.vezham.local"
+        ],
+        "parallel": false
+      }
+    }
+  },
+  "tags": ["category:app"]
+}
