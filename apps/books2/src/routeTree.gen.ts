@@ -13,33 +13,63 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRouteImport } from './routes/__root'
 
 const IndexLazyRouteImport = createFileRoute('/')()
+const ReportsIndexLazyRouteImport = createFileRoute('/reports/')()
+const ChatIndexLazyRouteImport = createFileRoute('/chat/')()
+const BankIndexLazyRouteImport = createFileRoute('/bank/')()
 
 const IndexLazyRoute = IndexLazyRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+const ReportsIndexLazyRoute = ReportsIndexLazyRouteImport.update({
+  id: '/reports/',
+  path: '/reports/',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() => import('./routes/reports/index.lazy').then((d) => d.Route))
+const ChatIndexLazyRoute = ChatIndexLazyRouteImport.update({
+  id: '/chat/',
+  path: '/chat/',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() => import('./routes/chat/index.lazy').then((d) => d.Route))
+const BankIndexLazyRoute = BankIndexLazyRouteImport.update({
+  id: '/bank/',
+  path: '/bank/',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() => import('./routes/bank/index.lazy').then((d) => d.Route))
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
+  '/bank/': typeof BankIndexLazyRoute
+  '/chat/': typeof ChatIndexLazyRoute
+  '/reports/': typeof ReportsIndexLazyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
+  '/bank': typeof BankIndexLazyRoute
+  '/chat': typeof ChatIndexLazyRoute
+  '/reports': typeof ReportsIndexLazyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexLazyRoute
+  '/bank/': typeof BankIndexLazyRoute
+  '/chat/': typeof ChatIndexLazyRoute
+  '/reports/': typeof ReportsIndexLazyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/bank/' | '/chat/' | '/reports/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/bank' | '/chat' | '/reports'
+  id: '__root__' | '/' | '/bank/' | '/chat/' | '/reports/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
+  BankIndexLazyRoute: typeof BankIndexLazyRoute
+  ChatIndexLazyRoute: typeof ChatIndexLazyRoute
+  ReportsIndexLazyRoute: typeof ReportsIndexLazyRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -51,11 +81,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/reports/': {
+      id: '/reports/'
+      path: '/reports'
+      fullPath: '/reports/'
+      preLoaderRoute: typeof ReportsIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/chat/': {
+      id: '/chat/'
+      path: '/chat'
+      fullPath: '/chat/'
+      preLoaderRoute: typeof ChatIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/bank/': {
+      id: '/bank/'
+      path: '/bank'
+      fullPath: '/bank/'
+      preLoaderRoute: typeof BankIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
+  BankIndexLazyRoute: BankIndexLazyRoute,
+  ChatIndexLazyRoute: ChatIndexLazyRoute,
+  ReportsIndexLazyRoute: ReportsIndexLazyRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
