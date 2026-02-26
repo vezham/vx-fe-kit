@@ -18,7 +18,6 @@ export const ContainerTabs: React.FC<ContainerTabsProps> = ({
         selectedKey={selectedKey}
         onSelectionChange={key => onSelectionChange(String(key))}>
         <Tabs.ListContainer className="w-full min-w-0">
-          {/* Scroll wrapper */}
           <div className="scrollbar-hide w-full overflow-x-auto rounded-full">
             <Tabs.List
               aria-label="Options"

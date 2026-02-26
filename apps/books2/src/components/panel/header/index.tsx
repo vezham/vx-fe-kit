@@ -19,69 +19,70 @@ export default function Header({
   className
 }: HeaderActionsProps) {
   return (
-    <Surface
-      variant="transparent"
-      className={`flex flex-row items-center gap-2 md:flex-col ${className ?? ''}`}
-      data-vx="header">
-      <Button
-        isIconOnly
-        variant="ghost"
-        size="sm"
-        onPress={() => onAvatarClick?.(user)}
-        className="transition-transform duration-300 hover:scale-110">
-        <Avatar size="sm">
-          {user.avatar && (
-            <Avatar.Image src={user.avatar} alt={user.name} width={24} />
-          )}
-          <Avatar.Fallback>{user.name?.[0]?.toUpperCase()}</Avatar.Fallback>
-        </Avatar>
-      </Button>
-
-      {showSearch && (
+    <>
+      <Surface
+        variant="transparent"
+        className={`flex flex-row items-center gap-2 md:flex-col ${className ?? ''}`}
+        data-vx="header">
         <Button
           isIconOnly
           variant="ghost"
-          onPress={onSearchClick}
-          className="transition-all duration-300 hover:scale-110">
-          <Icon
-            className="text-muted-500"
-            icon="solar:magnifer-linear"
-            width={24}
-          />
+          size="sm"
+          onPress={() => onAvatarClick?.(user)}
+          className="transition-transform duration-300 hover:scale-110">
+          <Avatar size="sm">
+            {user.avatar && (
+              <Avatar.Image src={user.avatar} alt={user.name} width={24} />
+            )}
+            <Avatar.Fallback>{user.name?.[0]?.toUpperCase()}</Avatar.Fallback>
+          </Avatar>
         </Button>
-      )}
 
-      {showFavorites && (
-        <Badge
-          content={favoritesCount}
-          isInvisible={favoritesCount === 0}
-          color="danger">
+        {showSearch && (
           <Button
             isIconOnly
             variant="ghost"
-            onPress={onFavoritesClick}
+            onPress={onSearchClick}
             className="transition-all duration-300 hover:scale-110">
-            <Icon icon="solar:star-linear" width={24} />
+            <Icon
+              className="text-muted-500"
+              icon="solar:magnifer-linear"
+              width={24}
+            />
           </Button>
-        </Badge>
-      )}
+        )}
 
-      {showArchive && (
-        <Badge
-          content={archiveCount}
-          isInvisible={archiveCount === 0}
-          color="primary">
-          <Button
-            isIconOnly
-            variant="ghost"
-            onPress={onArchiveClick}
-            className="transition-all duration-300 hover:scale-110">
-            <Icon icon="solar:archive-linear" width={24} />
-          </Button>
-        </Badge>
-      )}
+        {showFavorites && (
+          <Badge
+            content={favoritesCount}
+            isInvisible={favoritesCount === 0}
+            color="danger">
+            <Button
+              isIconOnly
+              variant="ghost"
+              onPress={onFavoritesClick}
+              className="transition-all duration-300 hover:scale-110">
+              <Icon icon="solar:star-linear" width={24} />
+            </Button>
+          </Badge>
+        )}
 
+        {showArchive && (
+          <Badge
+            content={archiveCount}
+            isInvisible={archiveCount === 0}
+            color="primary">
+            <Button
+              isIconOnly
+              variant="ghost"
+              onPress={onArchiveClick}
+              className="transition-all duration-300 hover:scale-110">
+              <Icon icon="solar:archive-linear" width={24} />
+            </Button>
+          </Badge>
+        )}
+      </Surface>
       <Separator className="hidden md:block" />
-    </Surface>
+    </>
   )
 }

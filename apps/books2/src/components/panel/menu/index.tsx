@@ -23,10 +23,10 @@ const Menu: React.FC<MenuProps> = ({
   return (
     <Surface
       variant="transparent"
-      className={`${sidebarStyles.container} flex-1 flex-col`}
+      className={`${sidebarStyles.container} flex-1 flex-col items-center`}
       data-vx="menu">
       <ScrollShadow
-        className="h-[400px] overflow-y-auto"
+        className="h-auto overflow-y-auto"
         hideScrollBar
         orientation="vertical">
         <div className="flex flex-col">

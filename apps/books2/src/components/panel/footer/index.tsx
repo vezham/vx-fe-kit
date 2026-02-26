@@ -23,7 +23,7 @@ export default function Footer({
       <Separator className="hidden md:block" />
       <Surface
         variant="transparent"
-        className={`flex items-end justify-center gap-3 ${className ?? ''}`}
+        className={`flex items-end justify-center gap-2 ${className ?? ''}`}
         data-vx="footer">
         <div className="hidden flex-row items-center gap-3 min-[500px]:flex md:flex-col">
           {showAI && (
@@ -32,7 +32,7 @@ export default function Footer({
               variant="ghost"
               onPress={onAIClick}
               className="transition-all duration-300 hover:scale-110">
-              <Icon icon="solar:cpu-bolt-linear" width={24} />
+              <Icon icon="solar:cpu-bolt-linear" width={48} />
             </Button>
           )}
 
@@ -86,12 +86,12 @@ export default function Footer({
           )}
         </div>
 
-        {/* ===== Mobile < 500px ===== */}
         <div className="flex items-center gap-3 min-[500px]:hidden">
           <Dropdown placement="right-end">
             <Dropdown.Trigger>
               <Button
                 isIconOnly
+                size="md"
                 variant="ghost"
                 className="transition-all duration-300 hover:scale-110">
                 <Icon icon="solar:menu-dots-linear" width={24} />

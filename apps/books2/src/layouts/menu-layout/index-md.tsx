@@ -9,6 +9,7 @@ import { items } from '../../components/panel/menu/sidebar-items'
 
 export default function MenuMD() {
   const [selectedKey, setSelectedKey] = React.useState(items[0]?.key)
+
   const handleItemSelect = (key: string) => {
     setSelectedKey(key)
   }
@@ -33,28 +34,18 @@ export default function MenuMD() {
       variant="transparent"
       className={`border-default-300 flex h-screen w-[106px] flex-col gap-6 border-r px-4 pt-4 pb-6`}
       data-vx="menu-layout">
-      <Header
-        user={user}
-        showSearch
-        showFavorites
-        showArchive
-        onAvatarClick={user => console.log('Avatar clicked:', user)}
+      <Header user={user} showSearch showFavorites showArchive />
+      <Menu
+        items={items}
+        selectedKey={selectedKey}
+        onSelect={handleItemSelect}
       />
-      <div className="flex min-h-0 flex-1">
-        <Menu
-          items={items}
-          selectedKey={selectedKey}
-          onSelect={handleItemSelect}
-        />
-      </div>
       <Footer
         user={users}
         showAI
         showControlCenter
         showNotifications
         showUserInfo
-        onAIClick={() => console.log('AI clicked')}
-        onUserClick={user => console.log('User clicked:', user)}
       />
     </Surface>
   )
