@@ -1,15 +1,11 @@
+'use client'
+
 import { Icon } from '@iconify/react'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 
-import { Button, useDisclosure } from '@vezham/react/v2'
-import {
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader
-} from '@vezham/react/v2'
+import { Button, Modal, Surface } from '@vezham/react/v3'
 
+import { HeaderActionContext } from '../../context/header-action'
 import { AddDrawer } from './add_drawer'
 import {
   closeModalState,
@@ -25,8 +21,10 @@ const Worldclock = () => {
   const [editing, setEditing] = useState<WorldClockItem | null>(null)
   const [active, setActive] = useState<WorldClockItem | null>(null)
 
-  const drawer = useDisclosure()
-  const modal = useDisclosure()
+  const [isDrawerOpen, setDrawerOpen] = useState(false)
+  const [isModalOpen, setModalOpen] = useState(false)
+
+  const setHeaderActions = useContext(HeaderActionContext)
 
   useEffect(() => {
     const storedClocks = loadClocks()
@@ -38,8 +36,18 @@ const Worldclock = () => {
       const found = storedClocks.find(c => c.id === id)
       if (found) {
         setActive(found)
-        modal.onOpen()
+        setModalOpen(true)
       }
+    }
+  }, [])
+
+  useEffect(() => {
+    setHeaderActions({
+      onAdd: addClock
+    })
+
+    return () => {
+      setHeaderActions({})
     }
   }, [])
 
@@ -50,12 +58,12 @@ const Worldclock = () => {
 
   const addClock = () => {
     setEditing(null)
-    drawer.onOpen()
+    setDrawerOpen(true)
   }
 
   const editClock = (clock: WorldClockItem) => {
     setEditing(clock)
-    drawer.onOpen()
+    setDrawerOpen(true)
   }
 
   const saveClock = (data: { city: string; timezone: string }) => {
@@ -75,7 +83,7 @@ const Worldclock = () => {
 
     persist(next)
     setEditing(null)
-    drawer.onOpenChange()
+    setDrawerOpen(false)
   }
 
   const deleteClock = (id: number) => {
@@ -90,31 +98,24 @@ const Worldclock = () => {
   const openModal = (clock: WorldClockItem) => {
     setActive(clock)
     openModalState(clock.id)
-    modal.onOpen()
+    setModalOpen(true)
   }
 
   const closeModal = () => {
-    setActive(null)
+    setModalOpen(false)
     closeModalState()
-    modal.onClose()
+    setActive(null)
   }
 
   return (
-    <div>
-      <div className="mb-4 flex items-center justify-between">
-        <div className="font-medium">Worldclock</div>
-        <Button
-          isIconOnly
-          onClick={addClock}
-          startContent={<Icon icon="mdi:plus" />}
-        />
-      </div>
-
+    <Surface variant="transparent">
       {clocks.length === 0 ? (
-        <div className="flex h-full flex-col items-center justify-center gap-2">
+        <div className="flex h-screen flex-col items-center justify-center gap-2">
           <Icon icon="mdi:clock-outline" className="text-4xl" />
           <p>No clocks added</p>
-          <Button onClick={addClock}>Create New</Button>
+          <Button variant="secondary" onPress={addClock}>
+            Create New
+          </Button>
         </div>
       ) : (
         <div className="space-y-2">
@@ -122,7 +123,7 @@ const Worldclock = () => {
             <div
               key={clock.id}
               onClick={() => openModal(clock)}
-              className="border-default-200 flex cursor-pointer items-center justify-between rounded border p-3">
+              className="border-default-200 flex cursor-pointer items-center justify-between rounded border-2 p-3">
               <div>
                 <div className="font-medium">{clock.city}</div>
                 <div className="text-muted text-sm">{clock.timezone}</div>
@@ -130,19 +131,20 @@ const Worldclock = () => {
 
               <div className="flex gap-2" onClick={e => e.stopPropagation()}>
                 <Button
+                  variant="ghost"
                   isIconOnly
                   size="sm"
-                  startContent={<Icon icon="mdi:pencil" />}
-                  onClick={() => {
-                    editClock(clock)
-                  }}
-                />
+                  onPress={() => editClock(clock)}>
+                  <Icon icon="mdi:pencil" />
+                </Button>
+
                 <Button
+                  variant="ghost"
                   isIconOnly
                   size="sm"
-                  startContent={<Icon icon="mdi:delete" />}
-                  onClick={() => deleteClock(clock.id)}
-                />
+                  onPress={() => deleteClock(clock.id)}>
+                  <Icon icon="mdi:delete" />
+                </Button>
               </div>
             </div>
           ))}
@@ -150,23 +152,23 @@ const Worldclock = () => {
       )}
 
       <AddDrawer
-        isOpen={drawer.isOpen}
-        onOpenChange={drawer.onOpenChange}
+        isOpen={isDrawerOpen}
+        onOpenChange={setDrawerOpen}
         initialData={editing}
         onSave={saveClock}
       />
 
-      <Modal
-        isOpen={modal.isOpen}
-        onOpenChange={open => {
-          if (!open) closeModal()
-        }}>
-        <ModalContent>
-          {onClose => (
-            <>
-              <ModalHeader>World Clock</ModalHeader>
+      <Modal isOpen={isModalOpen}>
+        <Modal.Backdrop>
+          <Modal.Container>
+            <Modal.Dialog>
+              <Modal.CloseTrigger />
 
-              <ModalBody>
+              <Modal.Header>
+                <Modal.Heading>World Clock</Modal.Heading>
+              </Modal.Header>
+
+              <Modal.Body>
                 {active && (
                   <div className="space-y-3">
                     <div>
@@ -180,18 +182,18 @@ const Worldclock = () => {
                     </div>
                   </div>
                 )}
-              </ModalBody>
+              </Modal.Body>
 
-              <ModalFooter>
-                <Button variant="light" onPress={onClose}>
+              <Modal.Footer>
+                <Button variant="ghost" onPress={closeModal}>
                   Close
                 </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
+              </Modal.Footer>
+            </Modal.Dialog>
+          </Modal.Container>
+        </Modal.Backdrop>
       </Modal>
-    </div>
+    </Surface>
   )
 }
 

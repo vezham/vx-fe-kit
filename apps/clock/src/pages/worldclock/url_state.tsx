@@ -1,9 +1,11 @@
 import { Icon } from '@iconify/react'
 import { useNavigate } from '@tanstack/react-router'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 
-import { Button, useDisclosure } from '@vezham/react/v2'
+import { Button } from '@vezham/react/v3'
+import { Surface } from '@vezham/react/v3'
 
+import { HeaderActionContext } from '../../context/header-action'
 import { AddDrawer } from './add_drawer'
 import { getAllClocks, saveAllClocks } from './storage'
 import { WorldClockItem } from './types'
@@ -12,8 +14,14 @@ const generateId = () => Date.now()
 
 const WorldClockURL = () => {
   const navigate = useNavigate()
-  const { isOpen, onOpen, onOpenChange } = useDisclosure()
+  const [isOpen, setIsOpen] = useState(false)
 
+  const onOpen = () => setIsOpen(true)
+
+  const onOpenChange = (open: boolean) => {
+    setIsOpen(open)
+  }
+  const setHeaderActions = useContext(HeaderActionContext)
   const [clocks, setClocks] = useState<WorldClockItem[]>(() => getAllClocks())
   const [editingClock, setEditingClock] = useState<WorldClockItem | null>(null)
 
@@ -24,6 +32,19 @@ const WorldClockURL = () => {
   useEffect(() => {
     saveAllClocks(clocks)
   }, [clocks])
+
+  useEffect(() => {
+    setHeaderActions({
+      onAdd: () => {
+        setEditingClock(null)
+        onOpen()
+      }
+    })
+
+    return () => {
+      setHeaderActions({})
+    }
+  }, [])
 
   const handleSave = (data: { city: string; timezone: string }) => {
     setClocks(prev => {
@@ -41,7 +62,7 @@ const WorldClockURL = () => {
     })
 
     setEditingClock(null)
-    onOpenChange()
+    onOpenChange(false)
   }
 
   const handleDelete = (id: number) => {
@@ -56,19 +77,7 @@ const WorldClockURL = () => {
   }
 
   return (
-    <div className="h-screen">
-      <div className="mb-4 flex items-center justify-between">
-        <h2 className="font-medium">Worldclock</h2>
-        <Button
-          isIconOnly
-          startContent={<Icon icon="mdi:plus" />}
-          onClick={() => {
-            setEditingClock(null)
-            onOpen()
-          }}
-        />
-      </div>
-
+    <Surface variant="transparent">
       {clocks.length === 0 ? (
         <div className="flex h-full flex-col items-center justify-center gap-2">
           <Icon icon="mdi:clock-outline" className="text-4xl" />
@@ -91,18 +100,18 @@ const WorldClockURL = () => {
                 <Button
                   isIconOnly
                   size="sm"
-                  startContent={<Icon icon="mdi:pencil" />}
                   onClick={() => {
                     setEditingClock(clock)
                     onOpen()
-                  }}
-                />
+                  }}>
+                  <Icon icon="mdi:pencil" />
+                </Button>
                 <Button
                   isIconOnly
                   size="sm"
-                  startContent={<Icon icon="mdi:delete" />}
-                  onClick={() => handleDelete(clock.id)}
-                />
+                  onClick={() => handleDelete(clock.id)}>
+                  <Icon icon="mdi:delete" />
+                </Button>
               </div>
             </div>
           ))}
@@ -115,7 +124,7 @@ const WorldClockURL = () => {
         initialData={editingClock}
         onSave={handleSave}
       />
-    </div>
+    </Surface>
   )
 }
 

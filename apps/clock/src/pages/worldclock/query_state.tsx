@@ -1,9 +1,11 @@
 import { Icon } from '@iconify/react'
 import { useNavigate } from '@tanstack/react-router'
-import { useEffect, useMemo, useState } from 'react'
+import { useContext, useEffect, useMemo, useState } from 'react'
 
-import { Button, useDisclosure } from '@vezham/react/v2'
+import { Button } from '@vezham/react/v3'
+import { Surface } from '@vezham/react/v3'
 
+import { HeaderActionContext } from '../../context/header-action'
 import { AddDrawer } from './add_drawer'
 import { useWorldClockQuery } from './query'
 import { getAllClocks, saveAllClocks } from './storage'
@@ -13,7 +15,7 @@ const generateId = () => Date.now()
 
 const WorldClockQuery = () => {
   const navigate = useNavigate()
-  const drawer = useDisclosure()
+  const setHeaderActions = useContext(HeaderActionContext)
   const query = useWorldClockQuery()
 
   const [clocks, setClocks] = useState<WorldClockItem[]>(() => getAllClocks())
@@ -28,12 +30,14 @@ const WorldClockQuery = () => {
   }, [query.editingId, clocks])
 
   useEffect(() => {
-    if (query.drawer) {
-      drawer.onOpen()
-    } else {
-      drawer.onClose()
+    setHeaderActions({
+      onAdd: query.openAdd
+    })
+
+    return () => {
+      setHeaderActions({})
     }
-  }, [query.drawer])
+  }, [query.openAdd])
 
   const saveClock = (data: { city: string; timezone: string }) => {
     setClocks(prev => {
@@ -59,17 +63,7 @@ const WorldClockQuery = () => {
   }
 
   return (
-    <div className="h-screen">
-      <div className="mb-4 flex items-center justify-between">
-        <h2 className="font-medium">Worldclock</h2>
-
-        <Button
-          isIconOnly
-          onClick={query.openAdd}
-          startContent={<Icon icon="mdi:plus" />}
-        />
-      </div>
-
+    <Surface variant="transparent">
       {clocks.length === 0 ? (
         <div className="flex h-full flex-col items-center justify-center gap-2">
           <Icon icon="mdi:clock-outline" className="text-4xl" />
@@ -92,16 +86,16 @@ const WorldClockQuery = () => {
                 <Button
                   isIconOnly
                   size="sm"
-                  onClick={() => query.openEdit(clock.id)}
-                  startContent={<Icon icon="mdi:pencil" />}
-                />
+                  onClick={() => query.openEdit(clock.id)}>
+                  <Icon icon="mdi:pencil" />
+                </Button>
 
                 <Button
                   isIconOnly
                   size="sm"
-                  onClick={() => deleteClock(clock.id)}
-                  startContent={<Icon icon="mdi:delete" />}
-                />
+                  onClick={() => deleteClock(clock.id)}>
+                  <Icon icon="mdi:delete" />
+                </Button>
               </div>
             </div>
           ))}
@@ -109,12 +103,14 @@ const WorldClockQuery = () => {
       )}
 
       <AddDrawer
-        isOpen={drawer.isOpen}
-        onOpenChange={query.closeDrawer}
+        isOpen={query.drawer === 'add' || query.drawer === 'edit'}
+        onOpenChange={open => {
+          if (!open) query.closeDrawer()
+        }}
         initialData={editingClock}
         onSave={saveClock}
       />
-    </div>
+    </Surface>
   )
 }
 

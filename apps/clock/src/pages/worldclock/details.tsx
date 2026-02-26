@@ -2,7 +2,7 @@ import { Icon } from '@iconify/react'
 import { useNavigate, useParams } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
 
-import { Button } from '@vezham/react/v2'
+import { Button } from '@vezham/react/v3'
 
 import { deleteWorldClock, getWorldClockById } from './storage'
 import { WorldClockItem } from './types'
@@ -47,7 +47,7 @@ const DetailPage = () => {
   return (
     <div className="space-y-6 p-4">
       <div className="flex items-center gap-3">
-        <Button isIconOnly variant="light" onClick={goBack}>
+        <Button isIconOnly variant="ghost" onClick={goBack}>
           <Icon icon="mdi:arrow-left" />
         </Button>
         <h1 className="text-2xl font-bold">{clock.city}</h1>
@@ -76,9 +76,8 @@ const DetailPage = () => {
       </div>
 
       <Button
-        color="danger"
-        variant="light"
-        startContent={<Icon icon="mdi:delete" />}
+        isIconOnly
+        variant="danger"
         onClick={() => {
           const ok = confirm(`Delete ${clock.city}?`)
           if (!ok) return
@@ -86,6 +85,7 @@ const DetailPage = () => {
           deleteWorldClock(clock.id)
           goBack()
         }}>
+        <Icon icon="mdi:delete" />
         Delete
       </Button>
     </div>

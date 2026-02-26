@@ -1,6 +1,6 @@
 import { useNavigate, useSearch } from '@tanstack/react-router'
 
-type WorldClockSearch = {
+export type WorldClockSearch = {
   drawer?: 'add' | 'edit'
   id?: string
 }
@@ -24,7 +24,6 @@ export const useWorldClockQuery = () => {
   const closeDrawer = () => {
     navigate({ search: {} })
   }
-
   return {
     drawer: search.drawer,
     editingId: search.id ? Number(search.id) : null,
