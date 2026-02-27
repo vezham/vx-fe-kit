@@ -12,419 +12,324 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRouteImport } from './routes/__root'
 
-const homeRouteLazyRouteImport = createFileRoute('/(home)')()
-const homeIndexLazyRouteImport = createFileRoute('/(home)/')()
-const homeTeamsRouteLazyRouteImport = createFileRoute('/(home)/teams')()
-const homeSharedRouteLazyRouteImport = createFileRoute('/(home)/shared')()
-const homeSettingsRouteLazyRouteImport = createFileRoute('/(home)/settings')()
-const homeTeamsIndexLazyRouteImport = createFileRoute('/(home)/teams/')()
-const homeSharedIndexLazyRouteImport = createFileRoute('/(home)/shared/')()
-const homeSettingsIndexLazyRouteImport = createFileRoute('/(home)/settings/')()
-const homeRecentIndexLazyRouteImport = createFileRoute('/(home)/recent/')()
-const homeNotificationsIndexLazyRouteImport = createFileRoute(
-  '/(home)/notifications/',
+const TeamsRouteLazyRouteImport = createFileRoute('/teams')()
+const SharedRouteLazyRouteImport = createFileRoute('/shared')()
+const SettingsRouteLazyRouteImport = createFileRoute('/settings')()
+const IndexLazyRouteImport = createFileRoute('/')()
+const TeamsIndexLazyRouteImport = createFileRoute('/teams/')()
+const SharedIndexLazyRouteImport = createFileRoute('/shared/')()
+const SettingsIndexLazyRouteImport = createFileRoute('/settings/')()
+const RecentIndexLazyRouteImport = createFileRoute('/recent/')()
+const NotificationsIndexLazyRouteImport = createFileRoute('/notifications/')()
+const ImportExportIndexLazyRouteImport = createFileRoute('/import-export/')()
+const GroupsIndexLazyRouteImport = createFileRoute('/groups/')()
+const FavoritesIndexLazyRouteImport = createFileRoute('/favorites/')()
+const CtaIndexLazyRouteImport = createFileRoute('/cta/')()
+const UserContactIdIndexLazyRouteImport = createFileRoute('/user/$contactId/')()
+const TeamsRolesIndexLazyRouteImport = createFileRoute('/teams/roles/')()
+const TeamsPermissionsIndexLazyRouteImport = createFileRoute(
+  '/teams/permissions/',
 )()
-const homeImportExportIndexLazyRouteImport = createFileRoute(
-  '/(home)/import-export/',
+const TeamsOverviewIndexLazyRouteImport = createFileRoute('/teams/overview/')()
+const TeamsMembersIndexLazyRouteImport = createFileRoute('/teams/members/')()
+const SharedSharedWithMeIndexLazyRouteImport = createFileRoute(
+  '/shared/shared-with-me/',
 )()
-const homeGroupsIndexLazyRouteImport = createFileRoute('/(home)/groups/')()
-const homeFavoritesIndexLazyRouteImport =
-  createFileRoute('/(home)/favorites/')()
-const homeCtaIndexLazyRouteImport = createFileRoute('/(home)/cta/')()
-const homeUserContactIdIndexLazyRouteImport = createFileRoute(
-  '/(home)/user/$contactId/',
+const SharedSharedByMeIndexLazyRouteImport = createFileRoute(
+  '/shared/shared-by-me/',
 )()
-const homeTeamsRolesIndexLazyRouteImport = createFileRoute(
-  '/(home)/teams/roles/',
+const SettingsWorkspaceIndexLazyRouteImport = createFileRoute(
+  '/settings/workspace/',
 )()
-const homeTeamsPermissionsIndexLazyRouteImport = createFileRoute(
-  '/(home)/teams/permissions/',
+const SettingsSecurityIndexLazyRouteImport = createFileRoute(
+  '/settings/security/',
 )()
-const homeTeamsOverviewIndexLazyRouteImport = createFileRoute(
-  '/(home)/teams/overview/',
+const SettingsIntegrationsIndexLazyRouteImport = createFileRoute(
+  '/settings/integrations/',
 )()
-const homeTeamsMembersIndexLazyRouteImport = createFileRoute(
-  '/(home)/teams/members/',
+const SettingsBillingIndexLazyRouteImport =
+  createFileRoute('/settings/billing/')()
+const SettingsAutomationsIndexLazyRouteImport = createFileRoute(
+  '/settings/automations/',
 )()
-const homeSharedSharedWithMeIndexLazyRouteImport = createFileRoute(
-  '/(home)/shared/shared-with-me/',
-)()
-const homeSharedSharedByMeIndexLazyRouteImport = createFileRoute(
-  '/(home)/shared/shared-by-me/',
-)()
-const homeSettingsWorkspaceIndexLazyRouteImport = createFileRoute(
-  '/(home)/settings/workspace/',
-)()
-const homeSettingsSecurityIndexLazyRouteImport = createFileRoute(
-  '/(home)/settings/security/',
-)()
-const homeSettingsIntegrationsIndexLazyRouteImport = createFileRoute(
-  '/(home)/settings/integrations/',
-)()
-const homeSettingsBillingIndexLazyRouteImport = createFileRoute(
-  '/(home)/settings/billing/',
-)()
-const homeSettingsAutomationsIndexLazyRouteImport = createFileRoute(
-  '/(home)/settings/automations/',
-)()
-const homeGroupsGroupIdIndexLazyRouteImport = createFileRoute(
-  '/(home)/groups/$groupId/',
-)()
-const homeCtaHelpSupportIndexLazyRouteImport = createFileRoute(
-  '/(home)/cta/help-support/',
-)()
+const GroupsGroupIdIndexLazyRouteImport = createFileRoute('/groups/$groupId/')()
+const CtaHelpSupportIndexLazyRouteImport =
+  createFileRoute('/cta/help-support/')()
 
-const homeRouteLazyRoute = homeRouteLazyRouteImport
-  .update({
-    id: '/(home)',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-  .lazy(() => import('./routes/(home)/route.lazy').then((d) => d.Route))
-const homeIndexLazyRoute = homeIndexLazyRouteImport
-  .update({
-    id: '/',
-    path: '/',
-    getParentRoute: () => homeRouteLazyRoute,
-  } as any)
-  .lazy(() => import('./routes/(home)/index.lazy').then((d) => d.Route))
-const homeTeamsRouteLazyRoute = homeTeamsRouteLazyRouteImport
-  .update({
-    id: '/teams',
-    path: '/teams',
-    getParentRoute: () => homeRouteLazyRoute,
-  } as any)
-  .lazy(() => import('./routes/(home)/teams/route.lazy').then((d) => d.Route))
-const homeSharedRouteLazyRoute = homeSharedRouteLazyRouteImport
-  .update({
-    id: '/shared',
-    path: '/shared',
-    getParentRoute: () => homeRouteLazyRoute,
-  } as any)
-  .lazy(() => import('./routes/(home)/shared/route.lazy').then((d) => d.Route))
-const homeSettingsRouteLazyRoute = homeSettingsRouteLazyRouteImport
-  .update({
-    id: '/settings',
-    path: '/settings',
-    getParentRoute: () => homeRouteLazyRoute,
-  } as any)
-  .lazy(() =>
-    import('./routes/(home)/settings/route.lazy').then((d) => d.Route),
+const TeamsRouteLazyRoute = TeamsRouteLazyRouteImport.update({
+  id: '/teams',
+  path: '/teams',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() => import('./routes/teams/route.lazy').then((d) => d.Route))
+const SharedRouteLazyRoute = SharedRouteLazyRouteImport.update({
+  id: '/shared',
+  path: '/shared',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() => import('./routes/shared/route.lazy').then((d) => d.Route))
+const SettingsRouteLazyRoute = SettingsRouteLazyRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() =>
+  import('./routes/settings/route.lazy').then((d) => d.Route),
+)
+const IndexLazyRoute = IndexLazyRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+const TeamsIndexLazyRoute = TeamsIndexLazyRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => TeamsRouteLazyRoute,
+} as any).lazy(() => import('./routes/teams/index.lazy').then((d) => d.Route))
+const SharedIndexLazyRoute = SharedIndexLazyRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => SharedRouteLazyRoute,
+} as any).lazy(() => import('./routes/shared/index.lazy').then((d) => d.Route))
+const SettingsIndexLazyRoute = SettingsIndexLazyRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => SettingsRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/settings/index.lazy').then((d) => d.Route),
+)
+const RecentIndexLazyRoute = RecentIndexLazyRouteImport.update({
+  id: '/recent/',
+  path: '/recent/',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() => import('./routes/recent/index.lazy').then((d) => d.Route))
+const NotificationsIndexLazyRoute = NotificationsIndexLazyRouteImport.update({
+  id: '/notifications/',
+  path: '/notifications/',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() =>
+  import('./routes/notifications/index.lazy').then((d) => d.Route),
+)
+const ImportExportIndexLazyRoute = ImportExportIndexLazyRouteImport.update({
+  id: '/import-export/',
+  path: '/import-export/',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() =>
+  import('./routes/import-export/index.lazy').then((d) => d.Route),
+)
+const GroupsIndexLazyRoute = GroupsIndexLazyRouteImport.update({
+  id: '/groups/',
+  path: '/groups/',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() => import('./routes/groups/index.lazy').then((d) => d.Route))
+const FavoritesIndexLazyRoute = FavoritesIndexLazyRouteImport.update({
+  id: '/favorites/',
+  path: '/favorites/',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() =>
+  import('./routes/favorites/index.lazy').then((d) => d.Route),
+)
+const CtaIndexLazyRoute = CtaIndexLazyRouteImport.update({
+  id: '/cta/',
+  path: '/cta/',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() => import('./routes/cta/index.lazy').then((d) => d.Route))
+const UserContactIdIndexLazyRoute = UserContactIdIndexLazyRouteImport.update({
+  id: '/user/$contactId/',
+  path: '/user/$contactId/',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() =>
+  import('./routes/user/$contactId/index.lazy').then((d) => d.Route),
+)
+const TeamsRolesIndexLazyRoute = TeamsRolesIndexLazyRouteImport.update({
+  id: '/roles/',
+  path: '/roles/',
+  getParentRoute: () => TeamsRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/teams/roles/index.lazy').then((d) => d.Route),
+)
+const TeamsPermissionsIndexLazyRoute =
+  TeamsPermissionsIndexLazyRouteImport.update({
+    id: '/permissions/',
+    path: '/permissions/',
+    getParentRoute: () => TeamsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/teams/permissions/index.lazy').then((d) => d.Route),
   )
-const homeTeamsIndexLazyRoute = homeTeamsIndexLazyRouteImport
-  .update({
-    id: '/',
-    path: '/',
-    getParentRoute: () => homeTeamsRouteLazyRoute,
-  } as any)
-  .lazy(() => import('./routes/(home)/teams/index.lazy').then((d) => d.Route))
-const homeSharedIndexLazyRoute = homeSharedIndexLazyRouteImport
-  .update({
-    id: '/',
-    path: '/',
-    getParentRoute: () => homeSharedRouteLazyRoute,
-  } as any)
-  .lazy(() => import('./routes/(home)/shared/index.lazy').then((d) => d.Route))
-const homeSettingsIndexLazyRoute = homeSettingsIndexLazyRouteImport
-  .update({
-    id: '/',
-    path: '/',
-    getParentRoute: () => homeSettingsRouteLazyRoute,
-  } as any)
-  .lazy(() =>
-    import('./routes/(home)/settings/index.lazy').then((d) => d.Route),
+const TeamsOverviewIndexLazyRoute = TeamsOverviewIndexLazyRouteImport.update({
+  id: '/overview/',
+  path: '/overview/',
+  getParentRoute: () => TeamsRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/teams/overview/index.lazy').then((d) => d.Route),
+)
+const TeamsMembersIndexLazyRoute = TeamsMembersIndexLazyRouteImport.update({
+  id: '/members/',
+  path: '/members/',
+  getParentRoute: () => TeamsRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/teams/members/index.lazy').then((d) => d.Route),
+)
+const SharedSharedWithMeIndexLazyRoute =
+  SharedSharedWithMeIndexLazyRouteImport.update({
+    id: '/shared-with-me/',
+    path: '/shared-with-me/',
+    getParentRoute: () => SharedRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/shared/shared-with-me/index.lazy').then((d) => d.Route),
   )
-const homeRecentIndexLazyRoute = homeRecentIndexLazyRouteImport
-  .update({
-    id: '/recent/',
-    path: '/recent/',
-    getParentRoute: () => homeRouteLazyRoute,
-  } as any)
-  .lazy(() => import('./routes/(home)/recent/index.lazy').then((d) => d.Route))
-const homeNotificationsIndexLazyRoute = homeNotificationsIndexLazyRouteImport
-  .update({
-    id: '/notifications/',
-    path: '/notifications/',
-    getParentRoute: () => homeRouteLazyRoute,
-  } as any)
-  .lazy(() =>
-    import('./routes/(home)/notifications/index.lazy').then((d) => d.Route),
+const SharedSharedByMeIndexLazyRoute =
+  SharedSharedByMeIndexLazyRouteImport.update({
+    id: '/shared-by-me/',
+    path: '/shared-by-me/',
+    getParentRoute: () => SharedRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/shared/shared-by-me/index.lazy').then((d) => d.Route),
   )
-const homeImportExportIndexLazyRoute = homeImportExportIndexLazyRouteImport
-  .update({
-    id: '/import-export/',
-    path: '/import-export/',
-    getParentRoute: () => homeRouteLazyRoute,
-  } as any)
-  .lazy(() =>
-    import('./routes/(home)/import-export/index.lazy').then((d) => d.Route),
+const SettingsWorkspaceIndexLazyRoute =
+  SettingsWorkspaceIndexLazyRouteImport.update({
+    id: '/workspace/',
+    path: '/workspace/',
+    getParentRoute: () => SettingsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/settings/workspace/index.lazy').then((d) => d.Route),
   )
-const homeGroupsIndexLazyRoute = homeGroupsIndexLazyRouteImport
-  .update({
-    id: '/groups/',
-    path: '/groups/',
-    getParentRoute: () => homeRouteLazyRoute,
-  } as any)
-  .lazy(() => import('./routes/(home)/groups/index.lazy').then((d) => d.Route))
-const homeFavoritesIndexLazyRoute = homeFavoritesIndexLazyRouteImport
-  .update({
-    id: '/favorites/',
-    path: '/favorites/',
-    getParentRoute: () => homeRouteLazyRoute,
-  } as any)
-  .lazy(() =>
-    import('./routes/(home)/favorites/index.lazy').then((d) => d.Route),
+const SettingsSecurityIndexLazyRoute =
+  SettingsSecurityIndexLazyRouteImport.update({
+    id: '/security/',
+    path: '/security/',
+    getParentRoute: () => SettingsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/settings/security/index.lazy').then((d) => d.Route),
   )
-const homeCtaIndexLazyRoute = homeCtaIndexLazyRouteImport
-  .update({
-    id: '/cta/',
-    path: '/cta/',
-    getParentRoute: () => homeRouteLazyRoute,
-  } as any)
-  .lazy(() => import('./routes/(home)/cta/index.lazy').then((d) => d.Route))
-const homeUserContactIdIndexLazyRoute = homeUserContactIdIndexLazyRouteImport
-  .update({
-    id: '/user/$contactId/',
-    path: '/user/$contactId/',
-    getParentRoute: () => homeRouteLazyRoute,
-  } as any)
-  .lazy(() =>
-    import('./routes/(home)/user/$contactId/index.lazy').then((d) => d.Route),
+const SettingsIntegrationsIndexLazyRoute =
+  SettingsIntegrationsIndexLazyRouteImport.update({
+    id: '/integrations/',
+    path: '/integrations/',
+    getParentRoute: () => SettingsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/settings/integrations/index.lazy').then((d) => d.Route),
   )
-const homeTeamsRolesIndexLazyRoute = homeTeamsRolesIndexLazyRouteImport
-  .update({
-    id: '/roles/',
-    path: '/roles/',
-    getParentRoute: () => homeTeamsRouteLazyRoute,
-  } as any)
-  .lazy(() =>
-    import('./routes/(home)/teams/roles/index.lazy').then((d) => d.Route),
+const SettingsBillingIndexLazyRoute =
+  SettingsBillingIndexLazyRouteImport.update({
+    id: '/billing/',
+    path: '/billing/',
+    getParentRoute: () => SettingsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/settings/billing/index.lazy').then((d) => d.Route),
   )
-const homeTeamsPermissionsIndexLazyRoute =
-  homeTeamsPermissionsIndexLazyRouteImport
-    .update({
-      id: '/permissions/',
-      path: '/permissions/',
-      getParentRoute: () => homeTeamsRouteLazyRoute,
-    } as any)
-    .lazy(() =>
-      import('./routes/(home)/teams/permissions/index.lazy').then(
-        (d) => d.Route,
-      ),
-    )
-const homeTeamsOverviewIndexLazyRoute = homeTeamsOverviewIndexLazyRouteImport
-  .update({
-    id: '/overview/',
-    path: '/overview/',
-    getParentRoute: () => homeTeamsRouteLazyRoute,
-  } as any)
-  .lazy(() =>
-    import('./routes/(home)/teams/overview/index.lazy').then((d) => d.Route),
+const SettingsAutomationsIndexLazyRoute =
+  SettingsAutomationsIndexLazyRouteImport.update({
+    id: '/automations/',
+    path: '/automations/',
+    getParentRoute: () => SettingsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/settings/automations/index.lazy').then((d) => d.Route),
   )
-const homeTeamsMembersIndexLazyRoute = homeTeamsMembersIndexLazyRouteImport
-  .update({
-    id: '/members/',
-    path: '/members/',
-    getParentRoute: () => homeTeamsRouteLazyRoute,
-  } as any)
-  .lazy(() =>
-    import('./routes/(home)/teams/members/index.lazy').then((d) => d.Route),
-  )
-const homeSharedSharedWithMeIndexLazyRoute =
-  homeSharedSharedWithMeIndexLazyRouteImport
-    .update({
-      id: '/shared-with-me/',
-      path: '/shared-with-me/',
-      getParentRoute: () => homeSharedRouteLazyRoute,
-    } as any)
-    .lazy(() =>
-      import('./routes/(home)/shared/shared-with-me/index.lazy').then(
-        (d) => d.Route,
-      ),
-    )
-const homeSharedSharedByMeIndexLazyRoute =
-  homeSharedSharedByMeIndexLazyRouteImport
-    .update({
-      id: '/shared-by-me/',
-      path: '/shared-by-me/',
-      getParentRoute: () => homeSharedRouteLazyRoute,
-    } as any)
-    .lazy(() =>
-      import('./routes/(home)/shared/shared-by-me/index.lazy').then(
-        (d) => d.Route,
-      ),
-    )
-const homeSettingsWorkspaceIndexLazyRoute =
-  homeSettingsWorkspaceIndexLazyRouteImport
-    .update({
-      id: '/workspace/',
-      path: '/workspace/',
-      getParentRoute: () => homeSettingsRouteLazyRoute,
-    } as any)
-    .lazy(() =>
-      import('./routes/(home)/settings/workspace/index.lazy').then(
-        (d) => d.Route,
-      ),
-    )
-const homeSettingsSecurityIndexLazyRoute =
-  homeSettingsSecurityIndexLazyRouteImport
-    .update({
-      id: '/security/',
-      path: '/security/',
-      getParentRoute: () => homeSettingsRouteLazyRoute,
-    } as any)
-    .lazy(() =>
-      import('./routes/(home)/settings/security/index.lazy').then(
-        (d) => d.Route,
-      ),
-    )
-const homeSettingsIntegrationsIndexLazyRoute =
-  homeSettingsIntegrationsIndexLazyRouteImport
-    .update({
-      id: '/integrations/',
-      path: '/integrations/',
-      getParentRoute: () => homeSettingsRouteLazyRoute,
-    } as any)
-    .lazy(() =>
-      import('./routes/(home)/settings/integrations/index.lazy').then(
-        (d) => d.Route,
-      ),
-    )
-const homeSettingsBillingIndexLazyRoute =
-  homeSettingsBillingIndexLazyRouteImport
-    .update({
-      id: '/billing/',
-      path: '/billing/',
-      getParentRoute: () => homeSettingsRouteLazyRoute,
-    } as any)
-    .lazy(() =>
-      import('./routes/(home)/settings/billing/index.lazy').then(
-        (d) => d.Route,
-      ),
-    )
-const homeSettingsAutomationsIndexLazyRoute =
-  homeSettingsAutomationsIndexLazyRouteImport
-    .update({
-      id: '/automations/',
-      path: '/automations/',
-      getParentRoute: () => homeSettingsRouteLazyRoute,
-    } as any)
-    .lazy(() =>
-      import('./routes/(home)/settings/automations/index.lazy').then(
-        (d) => d.Route,
-      ),
-    )
-const homeGroupsGroupIdIndexLazyRoute = homeGroupsGroupIdIndexLazyRouteImport
-  .update({
-    id: '/groups/$groupId/',
-    path: '/groups/$groupId/',
-    getParentRoute: () => homeRouteLazyRoute,
-  } as any)
-  .lazy(() =>
-    import('./routes/(home)/groups/$groupId/index.lazy').then((d) => d.Route),
-  )
-const homeCtaHelpSupportIndexLazyRoute = homeCtaHelpSupportIndexLazyRouteImport
-  .update({
-    id: '/cta/help-support/',
-    path: '/cta/help-support/',
-    getParentRoute: () => homeRouteLazyRoute,
-  } as any)
-  .lazy(() =>
-    import('./routes/(home)/cta/help-support/index.lazy').then((d) => d.Route),
-  )
+const GroupsGroupIdIndexLazyRoute = GroupsGroupIdIndexLazyRouteImport.update({
+  id: '/groups/$groupId/',
+  path: '/groups/$groupId/',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() =>
+  import('./routes/groups/$groupId/index.lazy').then((d) => d.Route),
+)
+const CtaHelpSupportIndexLazyRoute = CtaHelpSupportIndexLazyRouteImport.update({
+  id: '/cta/help-support/',
+  path: '/cta/help-support/',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() =>
+  import('./routes/cta/help-support/index.lazy').then((d) => d.Route),
+)
 
 export interface FileRoutesByFullPath {
-  '/settings': typeof homeSettingsRouteLazyRouteWithChildren
-  '/shared': typeof homeSharedRouteLazyRouteWithChildren
-  '/teams': typeof homeTeamsRouteLazyRouteWithChildren
-  '/': typeof homeIndexLazyRoute
-  '/cta/': typeof homeCtaIndexLazyRoute
-  '/favorites/': typeof homeFavoritesIndexLazyRoute
-  '/groups/': typeof homeGroupsIndexLazyRoute
-  '/import-export/': typeof homeImportExportIndexLazyRoute
-  '/notifications/': typeof homeNotificationsIndexLazyRoute
-  '/recent/': typeof homeRecentIndexLazyRoute
-  '/settings/': typeof homeSettingsIndexLazyRoute
-  '/shared/': typeof homeSharedIndexLazyRoute
-  '/teams/': typeof homeTeamsIndexLazyRoute
-  '/cta/help-support/': typeof homeCtaHelpSupportIndexLazyRoute
-  '/groups/$groupId/': typeof homeGroupsGroupIdIndexLazyRoute
-  '/settings/automations/': typeof homeSettingsAutomationsIndexLazyRoute
-  '/settings/billing/': typeof homeSettingsBillingIndexLazyRoute
-  '/settings/integrations/': typeof homeSettingsIntegrationsIndexLazyRoute
-  '/settings/security/': typeof homeSettingsSecurityIndexLazyRoute
-  '/settings/workspace/': typeof homeSettingsWorkspaceIndexLazyRoute
-  '/shared/shared-by-me/': typeof homeSharedSharedByMeIndexLazyRoute
-  '/shared/shared-with-me/': typeof homeSharedSharedWithMeIndexLazyRoute
-  '/teams/members/': typeof homeTeamsMembersIndexLazyRoute
-  '/teams/overview/': typeof homeTeamsOverviewIndexLazyRoute
-  '/teams/permissions/': typeof homeTeamsPermissionsIndexLazyRoute
-  '/teams/roles/': typeof homeTeamsRolesIndexLazyRoute
-  '/user/$contactId/': typeof homeUserContactIdIndexLazyRoute
+  '/': typeof IndexLazyRoute
+  '/settings': typeof SettingsRouteLazyRouteWithChildren
+  '/shared': typeof SharedRouteLazyRouteWithChildren
+  '/teams': typeof TeamsRouteLazyRouteWithChildren
+  '/cta/': typeof CtaIndexLazyRoute
+  '/favorites/': typeof FavoritesIndexLazyRoute
+  '/groups/': typeof GroupsIndexLazyRoute
+  '/import-export/': typeof ImportExportIndexLazyRoute
+  '/notifications/': typeof NotificationsIndexLazyRoute
+  '/recent/': typeof RecentIndexLazyRoute
+  '/settings/': typeof SettingsIndexLazyRoute
+  '/shared/': typeof SharedIndexLazyRoute
+  '/teams/': typeof TeamsIndexLazyRoute
+  '/cta/help-support/': typeof CtaHelpSupportIndexLazyRoute
+  '/groups/$groupId/': typeof GroupsGroupIdIndexLazyRoute
+  '/settings/automations/': typeof SettingsAutomationsIndexLazyRoute
+  '/settings/billing/': typeof SettingsBillingIndexLazyRoute
+  '/settings/integrations/': typeof SettingsIntegrationsIndexLazyRoute
+  '/settings/security/': typeof SettingsSecurityIndexLazyRoute
+  '/settings/workspace/': typeof SettingsWorkspaceIndexLazyRoute
+  '/shared/shared-by-me/': typeof SharedSharedByMeIndexLazyRoute
+  '/shared/shared-with-me/': typeof SharedSharedWithMeIndexLazyRoute
+  '/teams/members/': typeof TeamsMembersIndexLazyRoute
+  '/teams/overview/': typeof TeamsOverviewIndexLazyRoute
+  '/teams/permissions/': typeof TeamsPermissionsIndexLazyRoute
+  '/teams/roles/': typeof TeamsRolesIndexLazyRoute
+  '/user/$contactId/': typeof UserContactIdIndexLazyRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof homeIndexLazyRoute
-  '/cta': typeof homeCtaIndexLazyRoute
-  '/favorites': typeof homeFavoritesIndexLazyRoute
-  '/groups': typeof homeGroupsIndexLazyRoute
-  '/import-export': typeof homeImportExportIndexLazyRoute
-  '/notifications': typeof homeNotificationsIndexLazyRoute
-  '/recent': typeof homeRecentIndexLazyRoute
-  '/settings': typeof homeSettingsIndexLazyRoute
-  '/shared': typeof homeSharedIndexLazyRoute
-  '/teams': typeof homeTeamsIndexLazyRoute
-  '/cta/help-support': typeof homeCtaHelpSupportIndexLazyRoute
-  '/groups/$groupId': typeof homeGroupsGroupIdIndexLazyRoute
-  '/settings/automations': typeof homeSettingsAutomationsIndexLazyRoute
-  '/settings/billing': typeof homeSettingsBillingIndexLazyRoute
-  '/settings/integrations': typeof homeSettingsIntegrationsIndexLazyRoute
-  '/settings/security': typeof homeSettingsSecurityIndexLazyRoute
-  '/settings/workspace': typeof homeSettingsWorkspaceIndexLazyRoute
-  '/shared/shared-by-me': typeof homeSharedSharedByMeIndexLazyRoute
-  '/shared/shared-with-me': typeof homeSharedSharedWithMeIndexLazyRoute
-  '/teams/members': typeof homeTeamsMembersIndexLazyRoute
-  '/teams/overview': typeof homeTeamsOverviewIndexLazyRoute
-  '/teams/permissions': typeof homeTeamsPermissionsIndexLazyRoute
-  '/teams/roles': typeof homeTeamsRolesIndexLazyRoute
-  '/user/$contactId': typeof homeUserContactIdIndexLazyRoute
+  '/': typeof IndexLazyRoute
+  '/cta': typeof CtaIndexLazyRoute
+  '/favorites': typeof FavoritesIndexLazyRoute
+  '/groups': typeof GroupsIndexLazyRoute
+  '/import-export': typeof ImportExportIndexLazyRoute
+  '/notifications': typeof NotificationsIndexLazyRoute
+  '/recent': typeof RecentIndexLazyRoute
+  '/settings': typeof SettingsIndexLazyRoute
+  '/shared': typeof SharedIndexLazyRoute
+  '/teams': typeof TeamsIndexLazyRoute
+  '/cta/help-support': typeof CtaHelpSupportIndexLazyRoute
+  '/groups/$groupId': typeof GroupsGroupIdIndexLazyRoute
+  '/settings/automations': typeof SettingsAutomationsIndexLazyRoute
+  '/settings/billing': typeof SettingsBillingIndexLazyRoute
+  '/settings/integrations': typeof SettingsIntegrationsIndexLazyRoute
+  '/settings/security': typeof SettingsSecurityIndexLazyRoute
+  '/settings/workspace': typeof SettingsWorkspaceIndexLazyRoute
+  '/shared/shared-by-me': typeof SharedSharedByMeIndexLazyRoute
+  '/shared/shared-with-me': typeof SharedSharedWithMeIndexLazyRoute
+  '/teams/members': typeof TeamsMembersIndexLazyRoute
+  '/teams/overview': typeof TeamsOverviewIndexLazyRoute
+  '/teams/permissions': typeof TeamsPermissionsIndexLazyRoute
+  '/teams/roles': typeof TeamsRolesIndexLazyRoute
+  '/user/$contactId': typeof UserContactIdIndexLazyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/(home)': typeof homeRouteLazyRouteWithChildren
-  '/(home)/settings': typeof homeSettingsRouteLazyRouteWithChildren
-  '/(home)/shared': typeof homeSharedRouteLazyRouteWithChildren
-  '/(home)/teams': typeof homeTeamsRouteLazyRouteWithChildren
-  '/(home)/': typeof homeIndexLazyRoute
-  '/(home)/cta/': typeof homeCtaIndexLazyRoute
-  '/(home)/favorites/': typeof homeFavoritesIndexLazyRoute
-  '/(home)/groups/': typeof homeGroupsIndexLazyRoute
-  '/(home)/import-export/': typeof homeImportExportIndexLazyRoute
-  '/(home)/notifications/': typeof homeNotificationsIndexLazyRoute
-  '/(home)/recent/': typeof homeRecentIndexLazyRoute
-  '/(home)/settings/': typeof homeSettingsIndexLazyRoute
-  '/(home)/shared/': typeof homeSharedIndexLazyRoute
-  '/(home)/teams/': typeof homeTeamsIndexLazyRoute
-  '/(home)/cta/help-support/': typeof homeCtaHelpSupportIndexLazyRoute
-  '/(home)/groups/$groupId/': typeof homeGroupsGroupIdIndexLazyRoute
-  '/(home)/settings/automations/': typeof homeSettingsAutomationsIndexLazyRoute
-  '/(home)/settings/billing/': typeof homeSettingsBillingIndexLazyRoute
-  '/(home)/settings/integrations/': typeof homeSettingsIntegrationsIndexLazyRoute
-  '/(home)/settings/security/': typeof homeSettingsSecurityIndexLazyRoute
-  '/(home)/settings/workspace/': typeof homeSettingsWorkspaceIndexLazyRoute
-  '/(home)/shared/shared-by-me/': typeof homeSharedSharedByMeIndexLazyRoute
-  '/(home)/shared/shared-with-me/': typeof homeSharedSharedWithMeIndexLazyRoute
-  '/(home)/teams/members/': typeof homeTeamsMembersIndexLazyRoute
-  '/(home)/teams/overview/': typeof homeTeamsOverviewIndexLazyRoute
-  '/(home)/teams/permissions/': typeof homeTeamsPermissionsIndexLazyRoute
-  '/(home)/teams/roles/': typeof homeTeamsRolesIndexLazyRoute
-  '/(home)/user/$contactId/': typeof homeUserContactIdIndexLazyRoute
+  '/': typeof IndexLazyRoute
+  '/settings': typeof SettingsRouteLazyRouteWithChildren
+  '/shared': typeof SharedRouteLazyRouteWithChildren
+  '/teams': typeof TeamsRouteLazyRouteWithChildren
+  '/cta/': typeof CtaIndexLazyRoute
+  '/favorites/': typeof FavoritesIndexLazyRoute
+  '/groups/': typeof GroupsIndexLazyRoute
+  '/import-export/': typeof ImportExportIndexLazyRoute
+  '/notifications/': typeof NotificationsIndexLazyRoute
+  '/recent/': typeof RecentIndexLazyRoute
+  '/settings/': typeof SettingsIndexLazyRoute
+  '/shared/': typeof SharedIndexLazyRoute
+  '/teams/': typeof TeamsIndexLazyRoute
+  '/cta/help-support/': typeof CtaHelpSupportIndexLazyRoute
+  '/groups/$groupId/': typeof GroupsGroupIdIndexLazyRoute
+  '/settings/automations/': typeof SettingsAutomationsIndexLazyRoute
+  '/settings/billing/': typeof SettingsBillingIndexLazyRoute
+  '/settings/integrations/': typeof SettingsIntegrationsIndexLazyRoute
+  '/settings/security/': typeof SettingsSecurityIndexLazyRoute
+  '/settings/workspace/': typeof SettingsWorkspaceIndexLazyRoute
+  '/shared/shared-by-me/': typeof SharedSharedByMeIndexLazyRoute
+  '/shared/shared-with-me/': typeof SharedSharedWithMeIndexLazyRoute
+  '/teams/members/': typeof TeamsMembersIndexLazyRoute
+  '/teams/overview/': typeof TeamsOverviewIndexLazyRoute
+  '/teams/permissions/': typeof TeamsPermissionsIndexLazyRoute
+  '/teams/roles/': typeof TeamsRolesIndexLazyRoute
+  '/user/$contactId/': typeof UserContactIdIndexLazyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/'
     | '/settings'
     | '/shared'
     | '/teams'
-    | '/'
     | '/cta/'
     | '/favorites/'
     | '/groups/'
@@ -476,337 +381,316 @@ export interface FileRouteTypes {
     | '/user/$contactId'
   id:
     | '__root__'
-    | '/(home)'
-    | '/(home)/settings'
-    | '/(home)/shared'
-    | '/(home)/teams'
-    | '/(home)/'
-    | '/(home)/cta/'
-    | '/(home)/favorites/'
-    | '/(home)/groups/'
-    | '/(home)/import-export/'
-    | '/(home)/notifications/'
-    | '/(home)/recent/'
-    | '/(home)/settings/'
-    | '/(home)/shared/'
-    | '/(home)/teams/'
-    | '/(home)/cta/help-support/'
-    | '/(home)/groups/$groupId/'
-    | '/(home)/settings/automations/'
-    | '/(home)/settings/billing/'
-    | '/(home)/settings/integrations/'
-    | '/(home)/settings/security/'
-    | '/(home)/settings/workspace/'
-    | '/(home)/shared/shared-by-me/'
-    | '/(home)/shared/shared-with-me/'
-    | '/(home)/teams/members/'
-    | '/(home)/teams/overview/'
-    | '/(home)/teams/permissions/'
-    | '/(home)/teams/roles/'
-    | '/(home)/user/$contactId/'
+    | '/'
+    | '/settings'
+    | '/shared'
+    | '/teams'
+    | '/cta/'
+    | '/favorites/'
+    | '/groups/'
+    | '/import-export/'
+    | '/notifications/'
+    | '/recent/'
+    | '/settings/'
+    | '/shared/'
+    | '/teams/'
+    | '/cta/help-support/'
+    | '/groups/$groupId/'
+    | '/settings/automations/'
+    | '/settings/billing/'
+    | '/settings/integrations/'
+    | '/settings/security/'
+    | '/settings/workspace/'
+    | '/shared/shared-by-me/'
+    | '/shared/shared-with-me/'
+    | '/teams/members/'
+    | '/teams/overview/'
+    | '/teams/permissions/'
+    | '/teams/roles/'
+    | '/user/$contactId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  homeRouteLazyRoute: typeof homeRouteLazyRouteWithChildren
+  IndexLazyRoute: typeof IndexLazyRoute
+  SettingsRouteLazyRoute: typeof SettingsRouteLazyRouteWithChildren
+  SharedRouteLazyRoute: typeof SharedRouteLazyRouteWithChildren
+  TeamsRouteLazyRoute: typeof TeamsRouteLazyRouteWithChildren
+  CtaIndexLazyRoute: typeof CtaIndexLazyRoute
+  FavoritesIndexLazyRoute: typeof FavoritesIndexLazyRoute
+  GroupsIndexLazyRoute: typeof GroupsIndexLazyRoute
+  ImportExportIndexLazyRoute: typeof ImportExportIndexLazyRoute
+  NotificationsIndexLazyRoute: typeof NotificationsIndexLazyRoute
+  RecentIndexLazyRoute: typeof RecentIndexLazyRoute
+  CtaHelpSupportIndexLazyRoute: typeof CtaHelpSupportIndexLazyRoute
+  GroupsGroupIdIndexLazyRoute: typeof GroupsGroupIdIndexLazyRoute
+  UserContactIdIndexLazyRoute: typeof UserContactIdIndexLazyRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/(home)': {
-      id: '/(home)'
-      path: '/'
-      fullPath: ''
-      preLoaderRoute: typeof homeRouteLazyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/(home)/': {
-      id: '/(home)/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof homeIndexLazyRouteImport
-      parentRoute: typeof homeRouteLazyRoute
-    }
-    '/(home)/teams': {
-      id: '/(home)/teams'
+    '/teams': {
+      id: '/teams'
       path: '/teams'
       fullPath: '/teams'
-      preLoaderRoute: typeof homeTeamsRouteLazyRouteImport
-      parentRoute: typeof homeRouteLazyRoute
+      preLoaderRoute: typeof TeamsRouteLazyRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/(home)/shared': {
-      id: '/(home)/shared'
+    '/shared': {
+      id: '/shared'
       path: '/shared'
       fullPath: '/shared'
-      preLoaderRoute: typeof homeSharedRouteLazyRouteImport
-      parentRoute: typeof homeRouteLazyRoute
+      preLoaderRoute: typeof SharedRouteLazyRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/(home)/settings': {
-      id: '/(home)/settings'
+    '/settings': {
+      id: '/settings'
       path: '/settings'
       fullPath: '/settings'
-      preLoaderRoute: typeof homeSettingsRouteLazyRouteImport
-      parentRoute: typeof homeRouteLazyRoute
+      preLoaderRoute: typeof SettingsRouteLazyRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/(home)/teams/': {
-      id: '/(home)/teams/'
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/teams/': {
+      id: '/teams/'
       path: '/'
       fullPath: '/teams/'
-      preLoaderRoute: typeof homeTeamsIndexLazyRouteImport
-      parentRoute: typeof homeTeamsRouteLazyRoute
+      preLoaderRoute: typeof TeamsIndexLazyRouteImport
+      parentRoute: typeof TeamsRouteLazyRoute
     }
-    '/(home)/shared/': {
-      id: '/(home)/shared/'
+    '/shared/': {
+      id: '/shared/'
       path: '/'
       fullPath: '/shared/'
-      preLoaderRoute: typeof homeSharedIndexLazyRouteImport
-      parentRoute: typeof homeSharedRouteLazyRoute
+      preLoaderRoute: typeof SharedIndexLazyRouteImport
+      parentRoute: typeof SharedRouteLazyRoute
     }
-    '/(home)/settings/': {
-      id: '/(home)/settings/'
+    '/settings/': {
+      id: '/settings/'
       path: '/'
       fullPath: '/settings/'
-      preLoaderRoute: typeof homeSettingsIndexLazyRouteImport
-      parentRoute: typeof homeSettingsRouteLazyRoute
+      preLoaderRoute: typeof SettingsIndexLazyRouteImport
+      parentRoute: typeof SettingsRouteLazyRoute
     }
-    '/(home)/recent/': {
-      id: '/(home)/recent/'
+    '/recent/': {
+      id: '/recent/'
       path: '/recent'
       fullPath: '/recent/'
-      preLoaderRoute: typeof homeRecentIndexLazyRouteImport
-      parentRoute: typeof homeRouteLazyRoute
+      preLoaderRoute: typeof RecentIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/(home)/notifications/': {
-      id: '/(home)/notifications/'
+    '/notifications/': {
+      id: '/notifications/'
       path: '/notifications'
       fullPath: '/notifications/'
-      preLoaderRoute: typeof homeNotificationsIndexLazyRouteImport
-      parentRoute: typeof homeRouteLazyRoute
+      preLoaderRoute: typeof NotificationsIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/(home)/import-export/': {
-      id: '/(home)/import-export/'
+    '/import-export/': {
+      id: '/import-export/'
       path: '/import-export'
       fullPath: '/import-export/'
-      preLoaderRoute: typeof homeImportExportIndexLazyRouteImport
-      parentRoute: typeof homeRouteLazyRoute
+      preLoaderRoute: typeof ImportExportIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/(home)/groups/': {
-      id: '/(home)/groups/'
+    '/groups/': {
+      id: '/groups/'
       path: '/groups'
       fullPath: '/groups/'
-      preLoaderRoute: typeof homeGroupsIndexLazyRouteImport
-      parentRoute: typeof homeRouteLazyRoute
+      preLoaderRoute: typeof GroupsIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/(home)/favorites/': {
-      id: '/(home)/favorites/'
+    '/favorites/': {
+      id: '/favorites/'
       path: '/favorites'
       fullPath: '/favorites/'
-      preLoaderRoute: typeof homeFavoritesIndexLazyRouteImport
-      parentRoute: typeof homeRouteLazyRoute
+      preLoaderRoute: typeof FavoritesIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/(home)/cta/': {
-      id: '/(home)/cta/'
+    '/cta/': {
+      id: '/cta/'
       path: '/cta'
       fullPath: '/cta/'
-      preLoaderRoute: typeof homeCtaIndexLazyRouteImport
-      parentRoute: typeof homeRouteLazyRoute
+      preLoaderRoute: typeof CtaIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/(home)/user/$contactId/': {
-      id: '/(home)/user/$contactId/'
+    '/user/$contactId/': {
+      id: '/user/$contactId/'
       path: '/user/$contactId'
       fullPath: '/user/$contactId/'
-      preLoaderRoute: typeof homeUserContactIdIndexLazyRouteImport
-      parentRoute: typeof homeRouteLazyRoute
+      preLoaderRoute: typeof UserContactIdIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/(home)/teams/roles/': {
-      id: '/(home)/teams/roles/'
+    '/teams/roles/': {
+      id: '/teams/roles/'
       path: '/roles'
       fullPath: '/teams/roles/'
-      preLoaderRoute: typeof homeTeamsRolesIndexLazyRouteImport
-      parentRoute: typeof homeTeamsRouteLazyRoute
+      preLoaderRoute: typeof TeamsRolesIndexLazyRouteImport
+      parentRoute: typeof TeamsRouteLazyRoute
     }
-    '/(home)/teams/permissions/': {
-      id: '/(home)/teams/permissions/'
+    '/teams/permissions/': {
+      id: '/teams/permissions/'
       path: '/permissions'
       fullPath: '/teams/permissions/'
-      preLoaderRoute: typeof homeTeamsPermissionsIndexLazyRouteImport
-      parentRoute: typeof homeTeamsRouteLazyRoute
+      preLoaderRoute: typeof TeamsPermissionsIndexLazyRouteImport
+      parentRoute: typeof TeamsRouteLazyRoute
     }
-    '/(home)/teams/overview/': {
-      id: '/(home)/teams/overview/'
+    '/teams/overview/': {
+      id: '/teams/overview/'
       path: '/overview'
       fullPath: '/teams/overview/'
-      preLoaderRoute: typeof homeTeamsOverviewIndexLazyRouteImport
-      parentRoute: typeof homeTeamsRouteLazyRoute
+      preLoaderRoute: typeof TeamsOverviewIndexLazyRouteImport
+      parentRoute: typeof TeamsRouteLazyRoute
     }
-    '/(home)/teams/members/': {
-      id: '/(home)/teams/members/'
+    '/teams/members/': {
+      id: '/teams/members/'
       path: '/members'
       fullPath: '/teams/members/'
-      preLoaderRoute: typeof homeTeamsMembersIndexLazyRouteImport
-      parentRoute: typeof homeTeamsRouteLazyRoute
+      preLoaderRoute: typeof TeamsMembersIndexLazyRouteImport
+      parentRoute: typeof TeamsRouteLazyRoute
     }
-    '/(home)/shared/shared-with-me/': {
-      id: '/(home)/shared/shared-with-me/'
+    '/shared/shared-with-me/': {
+      id: '/shared/shared-with-me/'
       path: '/shared-with-me'
       fullPath: '/shared/shared-with-me/'
-      preLoaderRoute: typeof homeSharedSharedWithMeIndexLazyRouteImport
-      parentRoute: typeof homeSharedRouteLazyRoute
+      preLoaderRoute: typeof SharedSharedWithMeIndexLazyRouteImport
+      parentRoute: typeof SharedRouteLazyRoute
     }
-    '/(home)/shared/shared-by-me/': {
-      id: '/(home)/shared/shared-by-me/'
+    '/shared/shared-by-me/': {
+      id: '/shared/shared-by-me/'
       path: '/shared-by-me'
       fullPath: '/shared/shared-by-me/'
-      preLoaderRoute: typeof homeSharedSharedByMeIndexLazyRouteImport
-      parentRoute: typeof homeSharedRouteLazyRoute
+      preLoaderRoute: typeof SharedSharedByMeIndexLazyRouteImport
+      parentRoute: typeof SharedRouteLazyRoute
     }
-    '/(home)/settings/workspace/': {
-      id: '/(home)/settings/workspace/'
+    '/settings/workspace/': {
+      id: '/settings/workspace/'
       path: '/workspace'
       fullPath: '/settings/workspace/'
-      preLoaderRoute: typeof homeSettingsWorkspaceIndexLazyRouteImport
-      parentRoute: typeof homeSettingsRouteLazyRoute
+      preLoaderRoute: typeof SettingsWorkspaceIndexLazyRouteImport
+      parentRoute: typeof SettingsRouteLazyRoute
     }
-    '/(home)/settings/security/': {
-      id: '/(home)/settings/security/'
+    '/settings/security/': {
+      id: '/settings/security/'
       path: '/security'
       fullPath: '/settings/security/'
-      preLoaderRoute: typeof homeSettingsSecurityIndexLazyRouteImport
-      parentRoute: typeof homeSettingsRouteLazyRoute
+      preLoaderRoute: typeof SettingsSecurityIndexLazyRouteImport
+      parentRoute: typeof SettingsRouteLazyRoute
     }
-    '/(home)/settings/integrations/': {
-      id: '/(home)/settings/integrations/'
+    '/settings/integrations/': {
+      id: '/settings/integrations/'
       path: '/integrations'
       fullPath: '/settings/integrations/'
-      preLoaderRoute: typeof homeSettingsIntegrationsIndexLazyRouteImport
-      parentRoute: typeof homeSettingsRouteLazyRoute
+      preLoaderRoute: typeof SettingsIntegrationsIndexLazyRouteImport
+      parentRoute: typeof SettingsRouteLazyRoute
     }
-    '/(home)/settings/billing/': {
-      id: '/(home)/settings/billing/'
+    '/settings/billing/': {
+      id: '/settings/billing/'
       path: '/billing'
       fullPath: '/settings/billing/'
-      preLoaderRoute: typeof homeSettingsBillingIndexLazyRouteImport
-      parentRoute: typeof homeSettingsRouteLazyRoute
+      preLoaderRoute: typeof SettingsBillingIndexLazyRouteImport
+      parentRoute: typeof SettingsRouteLazyRoute
     }
-    '/(home)/settings/automations/': {
-      id: '/(home)/settings/automations/'
+    '/settings/automations/': {
+      id: '/settings/automations/'
       path: '/automations'
       fullPath: '/settings/automations/'
-      preLoaderRoute: typeof homeSettingsAutomationsIndexLazyRouteImport
-      parentRoute: typeof homeSettingsRouteLazyRoute
+      preLoaderRoute: typeof SettingsAutomationsIndexLazyRouteImport
+      parentRoute: typeof SettingsRouteLazyRoute
     }
-    '/(home)/groups/$groupId/': {
-      id: '/(home)/groups/$groupId/'
+    '/groups/$groupId/': {
+      id: '/groups/$groupId/'
       path: '/groups/$groupId'
       fullPath: '/groups/$groupId/'
-      preLoaderRoute: typeof homeGroupsGroupIdIndexLazyRouteImport
-      parentRoute: typeof homeRouteLazyRoute
+      preLoaderRoute: typeof GroupsGroupIdIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/(home)/cta/help-support/': {
-      id: '/(home)/cta/help-support/'
+    '/cta/help-support/': {
+      id: '/cta/help-support/'
       path: '/cta/help-support'
       fullPath: '/cta/help-support/'
-      preLoaderRoute: typeof homeCtaHelpSupportIndexLazyRouteImport
-      parentRoute: typeof homeRouteLazyRoute
+      preLoaderRoute: typeof CtaHelpSupportIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
     }
   }
 }
 
-interface homeSettingsRouteLazyRouteChildren {
-  homeSettingsIndexLazyRoute: typeof homeSettingsIndexLazyRoute
-  homeSettingsAutomationsIndexLazyRoute: typeof homeSettingsAutomationsIndexLazyRoute
-  homeSettingsBillingIndexLazyRoute: typeof homeSettingsBillingIndexLazyRoute
-  homeSettingsIntegrationsIndexLazyRoute: typeof homeSettingsIntegrationsIndexLazyRoute
-  homeSettingsSecurityIndexLazyRoute: typeof homeSettingsSecurityIndexLazyRoute
-  homeSettingsWorkspaceIndexLazyRoute: typeof homeSettingsWorkspaceIndexLazyRoute
+interface SettingsRouteLazyRouteChildren {
+  SettingsIndexLazyRoute: typeof SettingsIndexLazyRoute
+  SettingsAutomationsIndexLazyRoute: typeof SettingsAutomationsIndexLazyRoute
+  SettingsBillingIndexLazyRoute: typeof SettingsBillingIndexLazyRoute
+  SettingsIntegrationsIndexLazyRoute: typeof SettingsIntegrationsIndexLazyRoute
+  SettingsSecurityIndexLazyRoute: typeof SettingsSecurityIndexLazyRoute
+  SettingsWorkspaceIndexLazyRoute: typeof SettingsWorkspaceIndexLazyRoute
 }
 
-const homeSettingsRouteLazyRouteChildren: homeSettingsRouteLazyRouteChildren = {
-  homeSettingsIndexLazyRoute: homeSettingsIndexLazyRoute,
-  homeSettingsAutomationsIndexLazyRoute: homeSettingsAutomationsIndexLazyRoute,
-  homeSettingsBillingIndexLazyRoute: homeSettingsBillingIndexLazyRoute,
-  homeSettingsIntegrationsIndexLazyRoute:
-    homeSettingsIntegrationsIndexLazyRoute,
-  homeSettingsSecurityIndexLazyRoute: homeSettingsSecurityIndexLazyRoute,
-  homeSettingsWorkspaceIndexLazyRoute: homeSettingsWorkspaceIndexLazyRoute,
+const SettingsRouteLazyRouteChildren: SettingsRouteLazyRouteChildren = {
+  SettingsIndexLazyRoute: SettingsIndexLazyRoute,
+  SettingsAutomationsIndexLazyRoute: SettingsAutomationsIndexLazyRoute,
+  SettingsBillingIndexLazyRoute: SettingsBillingIndexLazyRoute,
+  SettingsIntegrationsIndexLazyRoute: SettingsIntegrationsIndexLazyRoute,
+  SettingsSecurityIndexLazyRoute: SettingsSecurityIndexLazyRoute,
+  SettingsWorkspaceIndexLazyRoute: SettingsWorkspaceIndexLazyRoute,
 }
 
-const homeSettingsRouteLazyRouteWithChildren =
-  homeSettingsRouteLazyRoute._addFileChildren(
-    homeSettingsRouteLazyRouteChildren,
-  )
+const SettingsRouteLazyRouteWithChildren =
+  SettingsRouteLazyRoute._addFileChildren(SettingsRouteLazyRouteChildren)
 
-interface homeSharedRouteLazyRouteChildren {
-  homeSharedIndexLazyRoute: typeof homeSharedIndexLazyRoute
-  homeSharedSharedByMeIndexLazyRoute: typeof homeSharedSharedByMeIndexLazyRoute
-  homeSharedSharedWithMeIndexLazyRoute: typeof homeSharedSharedWithMeIndexLazyRoute
+interface SharedRouteLazyRouteChildren {
+  SharedIndexLazyRoute: typeof SharedIndexLazyRoute
+  SharedSharedByMeIndexLazyRoute: typeof SharedSharedByMeIndexLazyRoute
+  SharedSharedWithMeIndexLazyRoute: typeof SharedSharedWithMeIndexLazyRoute
 }
 
-const homeSharedRouteLazyRouteChildren: homeSharedRouteLazyRouteChildren = {
-  homeSharedIndexLazyRoute: homeSharedIndexLazyRoute,
-  homeSharedSharedByMeIndexLazyRoute: homeSharedSharedByMeIndexLazyRoute,
-  homeSharedSharedWithMeIndexLazyRoute: homeSharedSharedWithMeIndexLazyRoute,
+const SharedRouteLazyRouteChildren: SharedRouteLazyRouteChildren = {
+  SharedIndexLazyRoute: SharedIndexLazyRoute,
+  SharedSharedByMeIndexLazyRoute: SharedSharedByMeIndexLazyRoute,
+  SharedSharedWithMeIndexLazyRoute: SharedSharedWithMeIndexLazyRoute,
 }
 
-const homeSharedRouteLazyRouteWithChildren =
-  homeSharedRouteLazyRoute._addFileChildren(homeSharedRouteLazyRouteChildren)
+const SharedRouteLazyRouteWithChildren = SharedRouteLazyRoute._addFileChildren(
+  SharedRouteLazyRouteChildren,
+)
 
-interface homeTeamsRouteLazyRouteChildren {
-  homeTeamsIndexLazyRoute: typeof homeTeamsIndexLazyRoute
-  homeTeamsMembersIndexLazyRoute: typeof homeTeamsMembersIndexLazyRoute
-  homeTeamsOverviewIndexLazyRoute: typeof homeTeamsOverviewIndexLazyRoute
-  homeTeamsPermissionsIndexLazyRoute: typeof homeTeamsPermissionsIndexLazyRoute
-  homeTeamsRolesIndexLazyRoute: typeof homeTeamsRolesIndexLazyRoute
+interface TeamsRouteLazyRouteChildren {
+  TeamsIndexLazyRoute: typeof TeamsIndexLazyRoute
+  TeamsMembersIndexLazyRoute: typeof TeamsMembersIndexLazyRoute
+  TeamsOverviewIndexLazyRoute: typeof TeamsOverviewIndexLazyRoute
+  TeamsPermissionsIndexLazyRoute: typeof TeamsPermissionsIndexLazyRoute
+  TeamsRolesIndexLazyRoute: typeof TeamsRolesIndexLazyRoute
 }
 
-const homeTeamsRouteLazyRouteChildren: homeTeamsRouteLazyRouteChildren = {
-  homeTeamsIndexLazyRoute: homeTeamsIndexLazyRoute,
-  homeTeamsMembersIndexLazyRoute: homeTeamsMembersIndexLazyRoute,
-  homeTeamsOverviewIndexLazyRoute: homeTeamsOverviewIndexLazyRoute,
-  homeTeamsPermissionsIndexLazyRoute: homeTeamsPermissionsIndexLazyRoute,
-  homeTeamsRolesIndexLazyRoute: homeTeamsRolesIndexLazyRoute,
+const TeamsRouteLazyRouteChildren: TeamsRouteLazyRouteChildren = {
+  TeamsIndexLazyRoute: TeamsIndexLazyRoute,
+  TeamsMembersIndexLazyRoute: TeamsMembersIndexLazyRoute,
+  TeamsOverviewIndexLazyRoute: TeamsOverviewIndexLazyRoute,
+  TeamsPermissionsIndexLazyRoute: TeamsPermissionsIndexLazyRoute,
+  TeamsRolesIndexLazyRoute: TeamsRolesIndexLazyRoute,
 }
 
-const homeTeamsRouteLazyRouteWithChildren =
-  homeTeamsRouteLazyRoute._addFileChildren(homeTeamsRouteLazyRouteChildren)
-
-interface homeRouteLazyRouteChildren {
-  homeSettingsRouteLazyRoute: typeof homeSettingsRouteLazyRouteWithChildren
-  homeSharedRouteLazyRoute: typeof homeSharedRouteLazyRouteWithChildren
-  homeTeamsRouteLazyRoute: typeof homeTeamsRouteLazyRouteWithChildren
-  homeIndexLazyRoute: typeof homeIndexLazyRoute
-  homeCtaIndexLazyRoute: typeof homeCtaIndexLazyRoute
-  homeFavoritesIndexLazyRoute: typeof homeFavoritesIndexLazyRoute
-  homeGroupsIndexLazyRoute: typeof homeGroupsIndexLazyRoute
-  homeImportExportIndexLazyRoute: typeof homeImportExportIndexLazyRoute
-  homeNotificationsIndexLazyRoute: typeof homeNotificationsIndexLazyRoute
-  homeRecentIndexLazyRoute: typeof homeRecentIndexLazyRoute
-  homeCtaHelpSupportIndexLazyRoute: typeof homeCtaHelpSupportIndexLazyRoute
-  homeGroupsGroupIdIndexLazyRoute: typeof homeGroupsGroupIdIndexLazyRoute
-  homeUserContactIdIndexLazyRoute: typeof homeUserContactIdIndexLazyRoute
-}
-
-const homeRouteLazyRouteChildren: homeRouteLazyRouteChildren = {
-  homeSettingsRouteLazyRoute: homeSettingsRouteLazyRouteWithChildren,
-  homeSharedRouteLazyRoute: homeSharedRouteLazyRouteWithChildren,
-  homeTeamsRouteLazyRoute: homeTeamsRouteLazyRouteWithChildren,
-  homeIndexLazyRoute: homeIndexLazyRoute,
-  homeCtaIndexLazyRoute: homeCtaIndexLazyRoute,
-  homeFavoritesIndexLazyRoute: homeFavoritesIndexLazyRoute,
-  homeGroupsIndexLazyRoute: homeGroupsIndexLazyRoute,
-  homeImportExportIndexLazyRoute: homeImportExportIndexLazyRoute,
-  homeNotificationsIndexLazyRoute: homeNotificationsIndexLazyRoute,
-  homeRecentIndexLazyRoute: homeRecentIndexLazyRoute,
-  homeCtaHelpSupportIndexLazyRoute: homeCtaHelpSupportIndexLazyRoute,
-  homeGroupsGroupIdIndexLazyRoute: homeGroupsGroupIdIndexLazyRoute,
-  homeUserContactIdIndexLazyRoute: homeUserContactIdIndexLazyRoute,
-}
-
-const homeRouteLazyRouteWithChildren = homeRouteLazyRoute._addFileChildren(
-  homeRouteLazyRouteChildren,
+const TeamsRouteLazyRouteWithChildren = TeamsRouteLazyRoute._addFileChildren(
+  TeamsRouteLazyRouteChildren,
 )
 
 const rootRouteChildren: RootRouteChildren = {
-  homeRouteLazyRoute: homeRouteLazyRouteWithChildren,
+  IndexLazyRoute: IndexLazyRoute,
+  SettingsRouteLazyRoute: SettingsRouteLazyRouteWithChildren,
+  SharedRouteLazyRoute: SharedRouteLazyRouteWithChildren,
+  TeamsRouteLazyRoute: TeamsRouteLazyRouteWithChildren,
+  CtaIndexLazyRoute: CtaIndexLazyRoute,
+  FavoritesIndexLazyRoute: FavoritesIndexLazyRoute,
+  GroupsIndexLazyRoute: GroupsIndexLazyRoute,
+  ImportExportIndexLazyRoute: ImportExportIndexLazyRoute,
+  NotificationsIndexLazyRoute: NotificationsIndexLazyRoute,
+  RecentIndexLazyRoute: RecentIndexLazyRoute,
+  CtaHelpSupportIndexLazyRoute: CtaHelpSupportIndexLazyRoute,
+  GroupsGroupIdIndexLazyRoute: GroupsGroupIdIndexLazyRoute,
+  UserContactIdIndexLazyRoute: UserContactIdIndexLazyRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

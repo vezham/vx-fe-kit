@@ -2,7 +2,7 @@ import { Icon } from '@iconify/react'
 import { useNavigate, useParams } from '@tanstack/react-router'
 import { useState } from 'react'
 
-import { Button } from '@vezham/react/v2'
+import { Button } from '@vezham/react/v3'
 
 import { useContacts } from './data'
 import { ContactDrawer } from './drawer'
@@ -37,16 +37,18 @@ const ContactDetail = () => {
 
   return (
     <>
-      <div>
-        <Button
-          isIconOnly
-          size="sm"
-          onClick={() => navigate({ to: '/', replace: true })}
-          startContent={<Icon icon="mdi:chevron-left" />}></Button>
-      </div>
-
-      <div className="">
-        <div className="top-8 mb-8 flex flex-col items-center gap-4">
+      <div className="relative p-6">
+        <div className="absolute top-[-16px] left-5">
+          <Button
+            isIconOnly
+            size="sm"
+            variant="outline"
+            className="rounded-md shadow-md"
+            onClick={() => navigate({ to: '/', replace: true })}>
+            <Icon icon="mdi:chevron-left" />
+          </Button>
+        </div>
+        <div className="top-8 my-8 flex flex-col items-center gap-4">
           <div className="flex h-32 w-32 items-center justify-center overflow-hidden rounded-full bg-gray-300 text-4xl font-bold">
             {contact.avatar ? (
               <img
@@ -62,8 +64,16 @@ const ContactDetail = () => {
           <h1 className="text-2xl font-semibold">{fullName}</h1>
 
           <div className="mt-4 flex gap-3">
-            <Button onPress={() => setIsEditOpen(true)}>Edit</Button>
-            <Button color="danger" variant="flat" onPress={handleDelete}>
+            <Button
+              variant="primary"
+              className="rounded-md"
+              onPress={() => setIsEditOpen(true)}>
+              Edit
+            </Button>
+            <Button
+              className="rounded-md"
+              variant="danger"
+              onPress={handleDelete}>
               Delete
             </Button>
           </div>

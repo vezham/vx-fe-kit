@@ -21,14 +21,12 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebar, children }) => {
   const { groups } = useContacts()
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
 
-  if (!sidebar || sidebar.length === 0) return null
-
   return (
     <aside className="flex min-h-screen">
       <div
         className={cn(
-          'bg-default flex flex-col gap-3 border-r px-3 py-4 transition-all duration-200',
-          collapsed ? 'w-16' : 'w-48'
+          'border-default-300 flex flex-col gap-3 border-r px-3 py-4 transition-all duration-200',
+          collapsed ? 'w-16' : 'w-72'
         )}>
         <div
           className={cn(
@@ -47,48 +45,10 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebar, children }) => {
           </Button>
         </div>
 
-        {!collapsed &&
-          sidebar.map(item => {
-            const isActive = Boolean(matchRoute({ to: item.href, fuzzy: true }))
-            const isGroups = item.href === '/groups'
-
-            return (
-              <Button
-                key={item.href}
-                onClick={() => navigate({ to: item.href })}
-                className={cn(
-                  'flex w-full items-center justify-between rounded-md px-3 py-2 text-sm',
-                  isActive
-                    ? 'bg-primary text-white'
-                    : 'text-default-700 hover:bg-default-100 border'
-                )}>
-                <span>{item.label}</span>
-
-                {isGroups && isActive && (
-                  <Icon
-                    icon="mdi:plus"
-                    width={18}
-                    className="cursor-pointer"
-                    onClick={e => {
-                      e.stopPropagation()
-                      onOpen()
-                    }}
-                  />
-                )}
-
-                {item.count !== undefined && !isGroups && (
-                  <span className="text-xs opacity-70">{item.count}</span>
-                )}
-              </Button>
-            )
-          })}
+        {!collapsed && children && (
+          <div className="flex-1 border-r">{children}</div>
+        )}
       </div>
-
-      {children && (
-        <div className="border-default-200 w-72 flex-1 border-r px-3 py-4">
-          {children}
-        </div>
-      )}
 
       <CreateGroupModal isOpen={isOpen} onOpenChange={onOpenChange} />
     </aside>

@@ -1,3 +1,4 @@
+import { CalendarDate, parseDate } from '@internationalized/date'
 import React, { useEffect, useRef, useState } from 'react'
 
 import {
@@ -36,15 +37,50 @@ const ContactDrawer: React.FC<Props> = ({
     phone: '',
     email: '',
     address: '',
-    birthday: null as any,
+    birthday: null as CalendarDate | null, // Changed type to CalendarDate
     avatar: '',
     favorite: false
   })
 
   const [errors, setErrors] = useState<Record<string, string>>({})
 
+  // Convert string date to CalendarDate
+  const stringToCalendarDate = (dateString: string): CalendarDate | null => {
+    try {
+      // Assuming dateString is in YYYY-MM-DD format
+      return parseDate(dateString.split('T')[0])
+    } catch {
+      return null
+    }
+  }
+
+  // Convert native Date to CalendarDate
+  const dateToCalendarDate = (date: Date): CalendarDate | null => {
+    try {
+      const year = date.getFullYear()
+      const month = date.getMonth() + 1
+      const day = date.getDate()
+      return new CalendarDate(year, month, day)
+    } catch {
+      return null
+    }
+  }
+
   useEffect(() => {
     if (editContact) {
+      let parsedBirthday: CalendarDate | null = null
+
+      if (editContact.birthday) {
+        if (typeof editContact.birthday === 'string') {
+          parsedBirthday = stringToCalendarDate(editContact.birthday)
+        } else if (editContact.birthday instanceof Date) {
+          parsedBirthday = dateToCalendarDate(editContact.birthday)
+        } else {
+          // If it's already in the right format, use it directly
+          parsedBirthday = editContact.birthday as any
+        }
+      }
+
       setForm({
         firstName: editContact.firstName ?? '',
         lastName: editContact.lastName ?? '',
@@ -53,7 +89,7 @@ const ContactDrawer: React.FC<Props> = ({
         phone: editContact.phones?.[0] ?? '',
         email: editContact.emails?.[0] ?? '',
         address: editContact.addresses?.[0] ?? '',
-        birthday: editContact.birthday ?? null,
+        birthday: parsedBirthday,
         avatar: editContact.avatar ?? '',
         favorite: editContact.favorite ?? false
       })
@@ -100,7 +136,9 @@ const ContactDrawer: React.FC<Props> = ({
 
   const handleChange = (key: string, value: any) => {
     setForm(prev => ({ ...prev, [key]: value }))
-    validateField(key, value)
+    if (typeof value === 'string') {
+      validateField(key, value)
+    }
   }
 
   const handleAvatarUpload = (file: File) => {
@@ -127,6 +165,22 @@ const ContactDrawer: React.FC<Props> = ({
 
     const timestamp = new Date().toISOString()
 
+    // Convert CalendarDate to ISO string for storage
+    let birthdayString: string | undefined = undefined
+    if (form.birthday) {
+      try {
+        // If it's a CalendarDate, convert to YYYY-MM-DD
+        if (form.birthday instanceof CalendarDate) {
+          birthdayString = form.birthday.toString()
+        } else {
+          // Fallback for other formats
+          birthdayString = new Date(form.birthday as any).toISOString()
+        }
+      } catch {
+        // Ignore conversion errors
+      }
+    }
+
     const payload = {
       firstName: form.firstName,
       lastName: form.lastName || undefined,
@@ -136,7 +190,7 @@ const ContactDrawer: React.FC<Props> = ({
       phones: [form.phone],
       emails: form.email ? [form.email] : undefined,
       addresses: form.address ? [form.address] : undefined,
-      birthday: form.birthday || undefined,
+      birthday: birthdayString,
       favorite: form.favorite
     }
 
@@ -268,7 +322,9 @@ const ContactDrawer: React.FC<Props> = ({
               <DatePicker
                 label="Birthday"
                 value={form.birthday}
-                onChange={(date: any) => handleChange('birthday', date)}
+                onChange={(date: CalendarDate | null) =>
+                  handleChange('birthday', date)
+                }
                 className="max-w-full"
               />
             </DrawerBody>

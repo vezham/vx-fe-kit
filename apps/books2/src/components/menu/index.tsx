@@ -1,5 +1,3 @@
-'use client'
-
 import { Icon } from '@iconify/react'
 import { useLocation, useNavigate } from '@tanstack/react-router'
 import React, { useEffect, useMemo, useState } from 'react'

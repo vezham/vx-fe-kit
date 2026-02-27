@@ -30,14 +30,21 @@ function RootComponent() {
   const [headerActions, setHeaderActions] = React.useState<HeaderActions>({})
 
   const tabs = [
-    { key: 'worldclock', title: 'Worldclock', href: '/' },
-    { key: 'alarm', title: 'Alarm', href: '/alarm' },
-    { key: 'stopwatch', title: 'Stopwatch', href: '/stopwatch' },
-    { key: 'timer', title: 'Timer', href: '/timer' }
+    { key: 'worldclock', title: 'Worldclock', path: '/' },
+    { key: 'alarm', title: 'Alarm', path: '/alarm' },
+    { key: 'stopwatch', title: 'Stopwatch', path: '/stopwatch' },
+    { key: 'timer', title: 'Timer', path: '/timer' }
   ]
 
   const selectedKey =
     location.pathname === '/' ? 'worldclock' : location.pathname.split('/')[1]
+
+  const handleTabChange = (key: string) => {
+    const tab = tabs.find(t => t.key === key)
+    if (tab?.path) {
+      navigate({ to: tab.path })
+    }
+  }
 
   return (
     <>
@@ -45,12 +52,7 @@ function RootComponent() {
         <AppContainerHeader
           tabs={tabs}
           selectedKey={selectedKey}
-          onTabChange={key => {
-            const tab = tabs.find(t => t.key === key)
-            if (tab?.href) {
-              navigate({ to: tab.href })
-            }
-          }}
+          onTabChange={handleTabChange}
           onAdd={headerActions.onAdd}
           onSearch={headerActions.onSearch}
         />

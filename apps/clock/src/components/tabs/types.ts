@@ -1,7 +1,7 @@
 export interface ContainerTabItem {
   key: string
   title: string
-  href: string
+
   content?: React.ReactNode
 }
 

@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@internationalized/date':
+        specifier: ^3.11.0
+        version: 3.11.0
       framer-motion:
         specifier: ^12.23.12
         version: 12.34.3(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -14776,7 +14779,7 @@ snapshots:
 
   '@react-aria/calendar@3.9.3(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
     dependencies:
-      '@internationalized/date': 3.10.1
+      '@internationalized/date': 3.11.0
       '@react-aria/i18n': 3.12.14(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@react-aria/interactions': 3.26.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@react-aria/live-announcer': 3.4.4
@@ -14909,7 +14912,7 @@ snapshots:
 
   '@react-aria/datepicker@3.15.3(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
     dependencies:
-      '@internationalized/date': 3.10.1
+      '@internationalized/date': 3.11.0
       '@internationalized/number': 3.6.5
       '@internationalized/string': 3.2.7
       '@react-aria/focus': 3.21.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -15736,7 +15739,7 @@ snapshots:
 
   '@react-stately/calendar@3.9.1(react@19.0.0)':
     dependencies:
-      '@internationalized/date': 3.10.1
+      '@internationalized/date': 3.11.0
       '@react-stately/utils': 3.11.0(react@19.0.0)
       '@react-types/calendar': 3.8.1(react@19.0.0)
       '@react-types/shared': 3.32.1(react@19.0.0)
@@ -15827,7 +15830,7 @@ snapshots:
 
   '@react-stately/datepicker@3.15.3(react@19.0.0)':
     dependencies:
-      '@internationalized/date': 3.10.1
+      '@internationalized/date': 3.11.0
       '@internationalized/string': 3.2.7
       '@react-stately/form': 3.2.3(react@19.0.0)
       '@react-stately/overlays': 3.6.22(react@19.0.0)
@@ -16184,7 +16187,7 @@ snapshots:
 
   '@react-types/calendar@3.8.1(react@19.0.0)':
     dependencies:
-      '@internationalized/date': 3.10.1
+      '@internationalized/date': 3.11.0
       '@react-types/shared': 3.32.1(react@19.0.0)
       react: 19.0.0
 
@@ -16228,7 +16231,7 @@ snapshots:
 
   '@react-types/datepicker@3.13.3(react@19.0.0)':
     dependencies:
-      '@internationalized/date': 3.10.1
+      '@internationalized/date': 3.11.0
       '@react-types/calendar': 3.8.2(react@19.0.0)
       '@react-types/overlays': 3.9.3(react@19.0.0)
       '@react-types/shared': 3.32.1(react@19.0.0)
@@ -23399,7 +23402,7 @@ snapshots:
 
   react-aria-components@1.14.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
     dependencies:
-      '@internationalized/date': 3.10.1
+      '@internationalized/date': 3.11.0
       '@internationalized/string': 3.2.7
       '@react-aria/autocomplete': 3.0.0-rc.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@react-aria/collections': 3.0.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0)

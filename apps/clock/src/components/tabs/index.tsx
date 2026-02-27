@@ -25,7 +25,7 @@ export const ContainerTabs: React.FC<ContainerTabsProps> = ({
               aria-label="Options"
               className="flex w-max min-w-full whitespace-nowrap">
               {tabs.map(tab => (
-                <Tabs.Tab key={tab.key} id={tab.key} href={tab.href}>
+                <Tabs.Tab key={tab.key} id={tab.key}>
                   {tab.title}
                   <Tabs.Indicator />
                 </Tabs.Tab>

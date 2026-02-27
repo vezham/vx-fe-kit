@@ -68,7 +68,7 @@ const ContactList = () => {
         filteredContacts.map(contact => (
           <div
             key={contact.id}
-            className="border-default-200 hover:bg-default-100 relative flex items-center justify-between rounded-md border p-3 transition">
+            className="border-default-300 hover:bg-content2 relative flex items-center justify-between rounded-md border p-3 transition">
             <div
               className="flex-1 cursor-pointer"
               onClick={() =>
