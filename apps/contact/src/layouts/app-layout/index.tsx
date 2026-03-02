@@ -37,17 +37,15 @@ const AppLayout = ({ children }: { children: React.ReactNode }) => {
     }
   }
   return (
-    <Surface
-      variant="tertiary"
-      data-vx="app-layout"
-      className="flex w-full flex-col md:flex-row">
+    <Surface variant="tertiary" data-vx="app-layout" className="w-full md:flex">
       <MenuLayout />
-      {sidebarChild && <Sidebar>{sidebarChild}</Sidebar>}
-
-      <div className="flex flex-1 flex-col">
-        <AppContainerHeader showAdd onAdd={() => setIsDrawerOpen(true)} />
-        <ContactDrawer isOpen={isDrawerOpen} onOpenChange={setIsDrawerOpen} />
-        <div className="min-h-screen">{children}</div>
+      <div className="flex w-full">
+        <div>{sidebarChild && <Sidebar>{sidebarChild}</Sidebar>}</div>
+        <div className="flex flex-1 flex-col">
+          <AppContainerHeader showAdd onAdd={() => setIsDrawerOpen(true)} />
+          <ContactDrawer isOpen={isDrawerOpen} onOpenChange={setIsDrawerOpen} />
+          <div className="min-h-screen">{children}</div>
+        </div>
       </div>
     </Surface>
   )

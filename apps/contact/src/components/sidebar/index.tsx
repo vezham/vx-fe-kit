@@ -17,7 +17,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebar, children }) => {
   const navigate = useNavigate()
   const { location } = useRouterState()
   const matchRoute = useMatchRoute()
-  const [collapsed, setCollapsed] = useState(false)
+  const [collapsed, setCollapsed] = useState(true)
   const { groups } = useContacts()
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
 

@@ -4,6 +4,6 @@ export type SidebarItem = {
 }
 
 export type SidebarProps = {
-  sidebar: SidebarItem[]
+  sidebar?: SidebarItem[]
   children?: React.ReactNode
 }

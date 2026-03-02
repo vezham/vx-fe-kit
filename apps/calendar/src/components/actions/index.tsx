@@ -51,8 +51,8 @@ export const ContainerActions: React.FC<ContainerActionsProps> = ({
                     <Label>New Reminder</Label>
                   </Dropdown.Item>
 
-                  <Dropdown.Item key="new-list" onPress={onNewList}>
-                    <Label>New List</Label>
+                  <Dropdown.Item key="new-event" onPress={onNewList}>
+                    <Label>New Event</Label>
                   </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown.Popover>

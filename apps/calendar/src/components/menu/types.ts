@@ -1,34 +1,44 @@
-import React from 'react'
+import { ReactNode } from 'react'
 
-import { HeaderItem } from '../header/types'
-
-export type MenuItem = {
-  label: string
-  href: string
+export enum SidebarItemType {
+  Nest = 'nest'
 }
 
-export type CalendarItem = {
-  id: string
-  label: string
-  value: string
-  color?: string
-  disabled?: boolean
-}
-
-export type CalendarSection = {
+export type SidebarItem = {
+  key: string
   title: string
-  items: CalendarItem[]
+  href?: string
+  icon?: string
+  startContent?: ReactNode
+  endContent?: ReactNode
+  items?: SidebarItem[]
+  type?: SidebarItemType
+  isSelected?: boolean
 }
 
-export type CalendarSidebarProps = {
-  sections: CalendarSection[]
-  selectedValues: string[]
-  onChange: (values: string[]) => void
+export interface BottomNavbarProps {
+  items: SidebarItem[]
+  isDarkMode?: boolean
+  hasMoreAction?: boolean // New prop to handle the > 5 menu items scenario
+  bgColorClass?: string
+  textColorClass?: string
+  buttonTextColor?: string
 }
 
-export type MenuLayoutProps = {
-  children?: React.ReactNode
-  sidebar?: React.ReactNode
-  calendarMenu?: React.ReactNode
-  header?: HeaderItem[]
+export interface BottomDrawerMenuProps {
+  items: SidebarItem[]
+
+  isOpen: boolean
+  onClose: () => void
+  isDarkMode?: boolean
+  bgColorClass?: string
+  buttonTextColor?: string
+}
+
+export type MenuDrawerProps = {
+  items: SidebarItem[]
+  isOpen: boolean
+  onClose: () => void
+  isDarkMode?: boolean
+  buttonTextColor?: string
 }

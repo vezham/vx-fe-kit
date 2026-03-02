@@ -18,7 +18,7 @@ export const ContainerActions: React.FC<ContainerActionsProps> = ({
   return (
     <Surface
       variant="transparent"
-      className="fixed right-10 bottom-24 z-50 flex flex-col gap-4 md:top-5 md:right-5 lg:bg-transparent">
+      className="fixed right-6.5 bottom-24 z-50 flex flex-col gap-4 md:top-5 md:right-5 lg:bg-transparent">
       {showSearch && (
         <Button
           isIconOnly
