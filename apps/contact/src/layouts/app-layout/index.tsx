@@ -47,7 +47,7 @@ const AppLayout = ({ children }: { children: React.ReactNode }) => {
       <div className="flex flex-1 flex-col">
         <AppContainerHeader showAdd onAdd={() => setIsDrawerOpen(true)} />
         <ContactDrawer isOpen={isDrawerOpen} onOpenChange={setIsDrawerOpen} />
-        {children}
+        <div className="min-h-screen">{children}</div>
       </div>
     </Surface>
   )

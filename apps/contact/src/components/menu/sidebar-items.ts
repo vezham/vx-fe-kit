@@ -4,152 +4,78 @@ import { SidebarItem, SidebarItemType } from './types'
 
 export const longMenuItems: SidebarItem[] = [
   {
-    key: 'home',
+    key: 'contacts',
+    icon: 'lucide:users',
     href: '/',
-    icon: 'lucide:home',
-    title: 'Home'
+    title: 'All'
   },
   {
-    key: 'chat',
-    href: '/chat',
-    icon: 'lucide:message-square',
-    title: 'Chat'
+    key: 'favorites',
+    icon: 'lucide:star',
+    href: '/favorites',
+    title: 'Favorites'
   },
   {
-    key: 'bank',
-    type: SidebarItemType.Nest,
-    icon: 'lucide:wallet',
-    href: '/bank',
-    title: 'Bank',
-
-    items: [
-      {
-        key: 'dashboard',
-        href: '/dashboard',
-        title: 'Dashboard',
-        icon: 'lucide:layout-dashboard'
-      },
-      {
-        key: 'accounts',
-        href: '#',
-        title: 'Accounts',
-        icon: 'lucide:credit-card'
-      },
-      {
-        key: 'overview',
-        href: '#',
-        title: 'Overview',
-        icon: 'lucide:pie-chart'
-      },
-      {
-        key: 'transactions',
-        href: '#',
-        title: 'Transactions',
-        icon: 'lucide:list'
-      },
-      {
-        key: 'transactions-log',
-        href: '#',
-        title: 'Transactions Log',
-        icon: 'lucide:clipboard-list'
-      },
-      {
-        key: 'reconciliation',
-        href: '#',
-        title: 'Bank Reconciliation',
-        icon: 'lucide:check-square'
-      }
-    ]
+    key: 'groups',
+    icon: 'lucide:users-round',
+    href: '/groups',
+    title: 'Groups'
   },
   {
-    key: 'books',
-    type: SidebarItemType.Nest,
-    icon: 'lucide:library',
-    title: 'Books',
-    href: '/books',
-
-    items: [
-      {
-        key: 'sales',
-        href: '/sales',
-        title: 'Sales',
-        icon: 'lucide:trending-up'
-      },
-      {
-        key: 'purchase',
-        href: '#',
-        title: 'Purchase',
-        icon: 'lucide:shopping-cart'
-      }
-    ]
+    key: 'teams',
+    icon: 'lucide:users-2',
+    href: '/teams',
+    title: 'Teams'
   },
   {
-    key: 'inventory',
-    href: '#',
-    icon: 'lucide:package',
-    title: 'Inventory'
+    key: 'shared',
+    icon: 'lucide:share-2',
+    href: '/shared/shared-by-me',
+    title: 'Shared'
   },
   {
-    key: 'reports',
-    href: '/reports',
-    icon: 'lucide:bar-chart-2',
-    title: 'Reports',
-    endContent: '+'
-  },
-  {
-    key: 'widgets',
-    // href: "/wid",
-    icon: 'lucide:layers',
-    title: 'Widgets',
-    endContent: 'New' as unknown as ReactNode
-  },
-  {
-    key: 'settings',
-    href: '/settings',
-    icon: 'lucide:settings',
-    title: 'Settings',
-    endContent: '+'
+    key: 'import',
+    icon: 'lucide:arrow-left-right',
+    href: '/import-export',
+    title: 'Import / Export'
   }
 ]
 
 export const items: SidebarItem[] = [
   {
-    key: 'bank',
-    icon: 'lucide:wallet',
-    href: '/bank',
-    title: 'Bank'
+    key: 'contacts',
+    icon: 'lucide:users',
+    href: '/',
+    title: 'All Contacts'
   },
   {
-    key: 'books',
-    icon: 'lucide:library',
-    title: 'Books',
-    href: '/books'
+    key: 'favorites',
+    icon: 'lucide:star',
+    href: '/favorites',
+    title: 'Favorites'
   },
   {
-    key: 'inventory',
-    // href: '#',
-    icon: 'lucide:package',
-    title: 'Inventory'
+    key: 'groups',
+    icon: 'lucide:users-round',
+    href: '/groups',
+    title: 'Groups'
   },
   {
-    key: 'reports',
-    href: '/reports',
-    icon: 'lucide:bar-chart-2',
-    title: 'Reports',
-    endContent: '+'
+    key: 'teams',
+    icon: 'lucide:users-2',
+    href: '/teams',
+    title: 'Teams'
   },
   {
-    key: 'widgets',
-    // href: "/wid",
-    icon: 'lucide:layers',
-    title: 'Widgets',
-    endContent: 'New' as unknown as ReactNode
+    key: 'shared',
+    icon: 'lucide:share-2',
+    href: '/shared/shared-by-me',
+    title: 'Shared'
   },
   {
-    key: 'settings',
-    // href: '/settings',
-    icon: 'lucide:settings',
-    title: 'Settings',
-    endContent: '+'
+    key: 'import',
+    icon: 'lucide:arrow-left-right',
+    href: '/import-export',
+    title: 'Import / Export'
   }
 ]

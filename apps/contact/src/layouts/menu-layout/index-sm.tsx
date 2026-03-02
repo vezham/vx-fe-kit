@@ -9,8 +9,6 @@ import Footer from '../../components/panel/footer'
 import Header from '../../components/panel/header'
 
 export default function MenuSM() {
-  const [activeKey, setActiveKey] = React.useState('home')
-
   const menuItemsForBottomNavbar = longMenuItems
 
   const user = {
@@ -31,8 +29,8 @@ export default function MenuSM() {
   const navigate = useNavigate()
 
   return (
-    <Surface variant="transparent" className={`flex flex-1 flex-col`}>
-      <div className={`sticky top-0 z-50 flex justify-between p-3 shadow-md`}>
+    <Surface variant="transparent" className="flex flex-1 flex-col">
+      <div className="sticky top-0 z-50 flex justify-between p-3 shadow-md">
         <Header
           user={user}
           showSearch
@@ -43,6 +41,7 @@ export default function MenuSM() {
           onFavoritesClick={() => console.log('Favorites clicked')}
           onArchiveClick={() => console.log('Archive clicked')}
         />
+
         <Footer
           user={users}
           onCTA={() => navigate({ to: '/cta' })}
@@ -56,11 +55,7 @@ export default function MenuSM() {
       </div>
 
       <div className="sticky bottom-0">
-        <BottomNavbar
-          items={menuItemsForBottomNavbar}
-          onSelect={setActiveKey}
-          selectedKey={activeKey}
-        />
+        <BottomNavbar items={menuItemsForBottomNavbar} />
       </div>
     </Surface>
   )

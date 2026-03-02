@@ -18,8 +18,6 @@ export type SidebarItem = {
 
 export interface BottomNavbarProps {
   items: SidebarItem[]
-  selectedKey: string
-  onSelect: (key: string) => void
   isDarkMode?: boolean
   hasMoreAction?: boolean // New prop to handle the > 5 menu items scenario
   bgColorClass?: string
@@ -29,8 +27,7 @@ export interface BottomNavbarProps {
 
 export interface BottomDrawerMenuProps {
   items: SidebarItem[]
-  selectedKey: string
-  onSelect: (key: string) => void
+
   isOpen: boolean
   onClose: () => void
   isDarkMode?: boolean
@@ -40,8 +37,6 @@ export interface BottomDrawerMenuProps {
 
 export type MenuDrawerProps = {
   items: SidebarItem[]
-  selectedKey: string
-  onItemSelect: (item: SidebarItem) => void
   isOpen: boolean
   onClose: () => void
   isDarkMode?: boolean
