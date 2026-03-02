@@ -12,17 +12,16 @@ interface ReminderDetailProps {
 export function ReminderDetail({ reminder, onBack }: ReminderDetailProps) {
   return (
     <div className="mx-auto space-y-6 rounded-xl p-4">
-      {/* Header: Back Button + Title */}
       <div className="flex items-center space-x-4">
         <Button
           isIconOnly
+          className="bg-content2"
           onClick={onBack}
           startContent={<Icon icon="mdi:chevron-left" />}
         />
         <h1 className="truncate text-2xl font-bold">{reminder.title}</h1>
       </div>
 
-      {/* Details */}
       <div className="space-y-2">
         {reminder.notes && (
           <p className="text-gray-700">

@@ -16,7 +16,7 @@ const ListPage = () => {
       {lists.map(list => (
         <div
           key={list}
-          className="border-default-400 flex items-center justify-between rounded-md border px-2">
+          className="border-default-400 my-4 flex items-center justify-between rounded-md border px-2">
           <Button
             fullWidth
             variant="flat"

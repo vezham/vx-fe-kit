@@ -1,0 +1,26 @@
+import React from 'react'
+
+export interface UserInfo {
+  id: string
+  name: string
+  avatar?: string
+  isOnline?: boolean
+}
+
+export interface FooterActionsProps {
+  user: UserInfo
+
+  showCTA?: boolean
+  showControlCenter?: boolean
+  showNotifications?: boolean
+  showUserInfo?: boolean
+
+  notificationCount?: number
+
+  onCTA?: () => void
+  onControlCenterClick?: () => void
+  onNotificationsClick?: () => void
+  onUserClick?: (user: UserInfo) => void
+
+  className?: string
+}

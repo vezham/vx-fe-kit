@@ -21,7 +21,6 @@ export default function ReminderList({ filter, listName }: Props) {
   const {
     reminders,
     toggleFlag,
-    toggleComplete,
     toggleArchive,
     deleteReminder,
     restoreFromTrash,
