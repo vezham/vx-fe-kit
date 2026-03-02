@@ -11,10 +11,11 @@ const AllNotesPage = () => {
 
   const [editNote, setEditNote] = useState<Note | null>(null)
   const [openEdit, setOpenEdit] = useState(false)
-
-  const [selectedNote, setSelectedNote] = useState<Note | null>(null)
+  const [selectedNoteId, setSelectedNoteId] = useState<number | null>(null)
 
   const list = notes.filter(n => !n.isArchived && !n.isDeleted)
+
+  const selectedNote = notes.find(n => n.id === selectedNoteId) || null
 
   return (
     <div className="space-y-4 p-6">
@@ -24,14 +25,20 @@ const AllNotesPage = () => {
         <NoteListItem
           key={note.id}
           note={note}
-          onView={() => setSelectedNote(note)}
+          onView={() => setSelectedNoteId(note.id)}
           onEdit={() => {
             setEditNote(note)
             setOpenEdit(true)
           }}
           onPin={() => togglePin(note.id)}
           onArchive={() => archiveNote(note.id)}
-          onDelete={() => moveToTrash(note.id)}
+          onDelete={() => {
+            console.log('Deleting note:', note.id)
+            moveToTrash(note.id)
+            if (selectedNoteId === note.id) {
+              setSelectedNoteId(null)
+            }
+          }}
         />
       ))}
 
@@ -42,17 +49,22 @@ const AllNotesPage = () => {
       />
 
       <NoteDetailModal
-        isOpen={!!selectedNote}
+        isOpen={!!selectedNote && !selectedNote.isDeleted}
         note={selectedNote}
-        onClose={() => setSelectedNote(null)}
-        onPin={() => togglePin(selectedNote!.id)}
+        onClose={() => setSelectedNoteId(null)}
+        onPin={() => {
+          if (!selectedNote) return
+          togglePin(selectedNote.id)
+        }}
         onArchive={() => {
-          archiveNote(selectedNote!.id)
-          setSelectedNote(null)
+          if (!selectedNote) return
+          archiveNote(selectedNote.id)
+          setSelectedNoteId(null)
         }}
         onDelete={() => {
-          moveToTrash(selectedNote!.id)
-          setSelectedNote(null)
+          if (!selectedNote) return
+          moveToTrash(selectedNote.id)
+          setSelectedNoteId(null)
         }}
       />
     </div>

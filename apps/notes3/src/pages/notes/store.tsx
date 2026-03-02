@@ -82,8 +82,13 @@ export const NotesProvider: React.FC<{ children: React.ReactNode }> = ({
   const moveToTrash = (id: number) => {
     setNotes(prev =>
       prev.map(n =>
-        n.id === id
-          ? { ...n, isDeleted: true, isArchived: false, isPinned: false }
+        n.id === id && !n.isDeleted
+          ? {
+              ...n,
+              isDeleted: true,
+              isArchived: false,
+              isPinned: false
+            }
           : n
       )
     )
