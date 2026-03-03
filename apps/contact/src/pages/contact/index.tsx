@@ -68,7 +68,7 @@ const ContactList = () => {
         filteredContacts.map(contact => (
           <div
             key={contact.id}
-            className="border-default-300 hover:bg-content2 relative flex items-center justify-between rounded-md border p-3 transition">
+            className="border-default-300 hover:bg-content2 relative flex items-center justify-between rounded-md border p-3 text-sm transition">
             <div
               className="flex-1 cursor-pointer"
               onClick={() =>
@@ -82,10 +82,10 @@ const ContactList = () => {
               </h3>
             </div>
 
-            <div className="relative flex items-center gap-3">
+            <div className="relative flex items-center gap-2 md:gap-3">
               <Icon
                 icon="mdi:star"
-                className={`h-6 w-6 cursor-pointer ${
+                className={`h-5 w-5 cursor-pointer ${
                   isFavorite(contact.id) ? 'text-yellow-400' : 'text-muted'
                 }`}
                 onClick={() => toggleFavorite(contact.id)}
@@ -93,7 +93,7 @@ const ContactList = () => {
 
               <Icon
                 icon="mdi:account-multiple-plus"
-                className="h-6 w-6 cursor-pointer text-blue-500"
+                className="h-5 w-5 cursor-pointer text-blue-500"
                 onClick={() =>
                   setOpenFor(openFor === contact.id ? null : contact.id)
                 }
@@ -101,7 +101,7 @@ const ContactList = () => {
 
               <Icon
                 icon="mdi:delete"
-                className="h-6 w-6 cursor-pointer text-red-500"
+                className="h-5 w-5 cursor-pointer text-red-500"
                 onClick={() => deleteContact(contact.id)}
               />
 

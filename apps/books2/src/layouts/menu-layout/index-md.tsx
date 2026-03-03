@@ -1,3 +1,4 @@
+import { useNavigate } from '@tanstack/react-router'
 import React from 'react'
 
 import { Surface } from '@vezham/react/v3'
@@ -9,6 +10,7 @@ import { items } from '../../components/panel/menu/sidebar-items'
 
 export default function MenuMD() {
   const [selectedKey, setSelectedKey] = React.useState(items[0]?.key)
+  const navigate = useNavigate()
 
   const handleItemSelect = (key: string) => {
     setSelectedKey(key)
@@ -42,7 +44,10 @@ export default function MenuMD() {
       />
       <Footer
         user={users}
-        showAI
+        onCTA={() => navigate({ to: '/cta' })}
+        onControlCenterClick={() => navigate({ to: '/settings' })}
+        onNotificationsClick={() => navigate({ to: '/notifications' })}
+        showCTA
         showControlCenter
         showNotifications
         showUserInfo

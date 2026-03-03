@@ -7,12 +7,12 @@ import { FooterActionsProps } from './types'
 
 export default function Footer({
   user,
-  showAI = false,
+  showCTA = false,
   showControlCenter = false,
   showNotifications = false,
   showUserInfo = true,
   notificationCount = 0,
-  onAIClick,
+  onCTA,
   onControlCenterClick,
   onNotificationsClick,
   onUserClick,
@@ -26,13 +26,13 @@ export default function Footer({
         className={`flex items-end justify-center gap-2 ${className ?? ''}`}
         data-vx="footer">
         <div className="hidden flex-row items-center gap-3 min-[500px]:flex md:flex-col">
-          {showAI && (
+          {showCTA && (
             <Button
               isIconOnly
               variant="ghost"
-              onPress={onAIClick}
+              onPress={onCTA}
               className="transition-all duration-300 hover:scale-110">
-              <Icon icon="solar:cpu-bolt-linear" width={48} />
+              <Icon icon="solar:question-circle-linear" width={48} />
             </Button>
           )}
 
@@ -100,24 +100,9 @@ export default function Footer({
 
             <Dropdown.Popover>
               <Dropdown.Menu aria-label="More actions">
-                {showAI && (
-                  <Dropdown.Item
-                    key="ai"
-                    onPress={onAIClick}
-                    startContent={
-                      <Icon icon="solar:cpu-bolt-linear" width={20} />
-                    }>
-                    AI
-                  </Dropdown.Item>
-                )}
-
                 {showControlCenter && (
-                  <Dropdown.Item
-                    key="control"
-                    onPress={onControlCenterClick}
-                    startContent={
-                      <Icon icon="solar:settings-linear" width={20} />
-                    }>
+                  <Dropdown.Item key="control" onPress={onControlCenterClick}>
+                    <Icon icon="solar:settings-linear" width={24} />
                     Control Center
                   </Dropdown.Item>
                 )}
@@ -126,7 +111,6 @@ export default function Footer({
                   <Dropdown.Item
                     key="notifications"
                     onPress={onNotificationsClick}
-                    startContent={<Icon icon="solar:bell-linear" width={20} />}
                     endContent={
                       notificationCount > 0 && (
                         <Badge
@@ -136,7 +120,13 @@ export default function Footer({
                         />
                       )
                     }>
-                    Notifications
+                    <Icon icon="solar:bell-linear" width={24} /> Notifications
+                  </Dropdown.Item>
+                )}
+
+                {showCTA && (
+                  <Dropdown.Item key="help" onPress={onCTA}>
+                    <Icon icon="solar:question-circle-linear" width={24} /> Help
                   </Dropdown.Item>
                 )}
               </Dropdown.Menu>

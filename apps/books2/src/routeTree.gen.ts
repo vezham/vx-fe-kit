@@ -12,21 +12,67 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRouteImport } from './routes/__root'
 
+const SettingsRouteLazyRouteImport = createFileRoute('/settings')()
 const IndexLazyRouteImport = createFileRoute('/')()
+const SettingsIndexLazyRouteImport = createFileRoute('/settings/')()
 const ReportsIndexLazyRouteImport = createFileRoute('/reports/')()
+const NotificationsIndexLazyRouteImport = createFileRoute('/notifications/')()
+const CtaIndexLazyRouteImport = createFileRoute('/cta/')()
 const ChatIndexLazyRouteImport = createFileRoute('/chat/')()
 const BankIndexLazyRouteImport = createFileRoute('/bank/')()
+const SettingsWorkspaceIndexLazyRouteImport = createFileRoute(
+  '/settings/workspace/',
+)()
+const SettingsSecurityIndexLazyRouteImport = createFileRoute(
+  '/settings/security/',
+)()
+const SettingsIntegrationsIndexLazyRouteImport = createFileRoute(
+  '/settings/integrations/',
+)()
+const SettingsBillingIndexLazyRouteImport =
+  createFileRoute('/settings/billing/')()
+const SettingsAutomationsIndexLazyRouteImport = createFileRoute(
+  '/settings/automations/',
+)()
+const CtaHelpSupportIndexLazyRouteImport =
+  createFileRoute('/cta/help-support/')()
 
+const SettingsRouteLazyRoute = SettingsRouteLazyRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() =>
+  import('./routes/settings/route.lazy').then((d) => d.Route),
+)
 const IndexLazyRoute = IndexLazyRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+const SettingsIndexLazyRoute = SettingsIndexLazyRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => SettingsRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/settings/index.lazy').then((d) => d.Route),
+)
 const ReportsIndexLazyRoute = ReportsIndexLazyRouteImport.update({
   id: '/reports/',
   path: '/reports/',
   getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/reports/index.lazy').then((d) => d.Route))
+const NotificationsIndexLazyRoute = NotificationsIndexLazyRouteImport.update({
+  id: '/notifications/',
+  path: '/notifications/',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() =>
+  import('./routes/notifications/index.lazy').then((d) => d.Route),
+)
+const CtaIndexLazyRoute = CtaIndexLazyRouteImport.update({
+  id: '/cta/',
+  path: '/cta/',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() => import('./routes/cta/index.lazy').then((d) => d.Route))
 const ChatIndexLazyRoute = ChatIndexLazyRouteImport.update({
   id: '/chat/',
   path: '/chat/',
@@ -37,43 +83,172 @@ const BankIndexLazyRoute = BankIndexLazyRouteImport.update({
   path: '/bank/',
   getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/bank/index.lazy').then((d) => d.Route))
+const SettingsWorkspaceIndexLazyRoute =
+  SettingsWorkspaceIndexLazyRouteImport.update({
+    id: '/workspace/',
+    path: '/workspace/',
+    getParentRoute: () => SettingsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/settings/workspace/index.lazy').then((d) => d.Route),
+  )
+const SettingsSecurityIndexLazyRoute =
+  SettingsSecurityIndexLazyRouteImport.update({
+    id: '/security/',
+    path: '/security/',
+    getParentRoute: () => SettingsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/settings/security/index.lazy').then((d) => d.Route),
+  )
+const SettingsIntegrationsIndexLazyRoute =
+  SettingsIntegrationsIndexLazyRouteImport.update({
+    id: '/integrations/',
+    path: '/integrations/',
+    getParentRoute: () => SettingsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/settings/integrations/index.lazy').then((d) => d.Route),
+  )
+const SettingsBillingIndexLazyRoute =
+  SettingsBillingIndexLazyRouteImport.update({
+    id: '/billing/',
+    path: '/billing/',
+    getParentRoute: () => SettingsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/settings/billing/index.lazy').then((d) => d.Route),
+  )
+const SettingsAutomationsIndexLazyRoute =
+  SettingsAutomationsIndexLazyRouteImport.update({
+    id: '/automations/',
+    path: '/automations/',
+    getParentRoute: () => SettingsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/settings/automations/index.lazy').then((d) => d.Route),
+  )
+const CtaHelpSupportIndexLazyRoute = CtaHelpSupportIndexLazyRouteImport.update({
+  id: '/cta/help-support/',
+  path: '/cta/help-support/',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() =>
+  import('./routes/cta/help-support/index.lazy').then((d) => d.Route),
+)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
+  '/settings': typeof SettingsRouteLazyRouteWithChildren
   '/bank/': typeof BankIndexLazyRoute
   '/chat/': typeof ChatIndexLazyRoute
+  '/cta/': typeof CtaIndexLazyRoute
+  '/notifications/': typeof NotificationsIndexLazyRoute
   '/reports/': typeof ReportsIndexLazyRoute
+  '/settings/': typeof SettingsIndexLazyRoute
+  '/cta/help-support/': typeof CtaHelpSupportIndexLazyRoute
+  '/settings/automations/': typeof SettingsAutomationsIndexLazyRoute
+  '/settings/billing/': typeof SettingsBillingIndexLazyRoute
+  '/settings/integrations/': typeof SettingsIntegrationsIndexLazyRoute
+  '/settings/security/': typeof SettingsSecurityIndexLazyRoute
+  '/settings/workspace/': typeof SettingsWorkspaceIndexLazyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
   '/bank': typeof BankIndexLazyRoute
   '/chat': typeof ChatIndexLazyRoute
+  '/cta': typeof CtaIndexLazyRoute
+  '/notifications': typeof NotificationsIndexLazyRoute
   '/reports': typeof ReportsIndexLazyRoute
+  '/settings': typeof SettingsIndexLazyRoute
+  '/cta/help-support': typeof CtaHelpSupportIndexLazyRoute
+  '/settings/automations': typeof SettingsAutomationsIndexLazyRoute
+  '/settings/billing': typeof SettingsBillingIndexLazyRoute
+  '/settings/integrations': typeof SettingsIntegrationsIndexLazyRoute
+  '/settings/security': typeof SettingsSecurityIndexLazyRoute
+  '/settings/workspace': typeof SettingsWorkspaceIndexLazyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexLazyRoute
+  '/settings': typeof SettingsRouteLazyRouteWithChildren
   '/bank/': typeof BankIndexLazyRoute
   '/chat/': typeof ChatIndexLazyRoute
+  '/cta/': typeof CtaIndexLazyRoute
+  '/notifications/': typeof NotificationsIndexLazyRoute
   '/reports/': typeof ReportsIndexLazyRoute
+  '/settings/': typeof SettingsIndexLazyRoute
+  '/cta/help-support/': typeof CtaHelpSupportIndexLazyRoute
+  '/settings/automations/': typeof SettingsAutomationsIndexLazyRoute
+  '/settings/billing/': typeof SettingsBillingIndexLazyRoute
+  '/settings/integrations/': typeof SettingsIntegrationsIndexLazyRoute
+  '/settings/security/': typeof SettingsSecurityIndexLazyRoute
+  '/settings/workspace/': typeof SettingsWorkspaceIndexLazyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/bank/' | '/chat/' | '/reports/'
+  fullPaths:
+    | '/'
+    | '/settings'
+    | '/bank/'
+    | '/chat/'
+    | '/cta/'
+    | '/notifications/'
+    | '/reports/'
+    | '/settings/'
+    | '/cta/help-support/'
+    | '/settings/automations/'
+    | '/settings/billing/'
+    | '/settings/integrations/'
+    | '/settings/security/'
+    | '/settings/workspace/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/bank' | '/chat' | '/reports'
-  id: '__root__' | '/' | '/bank/' | '/chat/' | '/reports/'
+  to:
+    | '/'
+    | '/bank'
+    | '/chat'
+    | '/cta'
+    | '/notifications'
+    | '/reports'
+    | '/settings'
+    | '/cta/help-support'
+    | '/settings/automations'
+    | '/settings/billing'
+    | '/settings/integrations'
+    | '/settings/security'
+    | '/settings/workspace'
+  id:
+    | '__root__'
+    | '/'
+    | '/settings'
+    | '/bank/'
+    | '/chat/'
+    | '/cta/'
+    | '/notifications/'
+    | '/reports/'
+    | '/settings/'
+    | '/cta/help-support/'
+    | '/settings/automations/'
+    | '/settings/billing/'
+    | '/settings/integrations/'
+    | '/settings/security/'
+    | '/settings/workspace/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
+  SettingsRouteLazyRoute: typeof SettingsRouteLazyRouteWithChildren
   BankIndexLazyRoute: typeof BankIndexLazyRoute
   ChatIndexLazyRoute: typeof ChatIndexLazyRoute
+  CtaIndexLazyRoute: typeof CtaIndexLazyRoute
+  NotificationsIndexLazyRoute: typeof NotificationsIndexLazyRoute
   ReportsIndexLazyRoute: typeof ReportsIndexLazyRoute
+  CtaHelpSupportIndexLazyRoute: typeof CtaHelpSupportIndexLazyRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -81,11 +256,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/settings/': {
+      id: '/settings/'
+      path: '/'
+      fullPath: '/settings/'
+      preLoaderRoute: typeof SettingsIndexLazyRouteImport
+      parentRoute: typeof SettingsRouteLazyRoute
+    }
     '/reports/': {
       id: '/reports/'
       path: '/reports'
       fullPath: '/reports/'
       preLoaderRoute: typeof ReportsIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/notifications/': {
+      id: '/notifications/'
+      path: '/notifications'
+      fullPath: '/notifications/'
+      preLoaderRoute: typeof NotificationsIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cta/': {
+      id: '/cta/'
+      path: '/cta'
+      fullPath: '/cta/'
+      preLoaderRoute: typeof CtaIndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/chat/': {
@@ -102,14 +298,81 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BankIndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/settings/workspace/': {
+      id: '/settings/workspace/'
+      path: '/workspace'
+      fullPath: '/settings/workspace/'
+      preLoaderRoute: typeof SettingsWorkspaceIndexLazyRouteImport
+      parentRoute: typeof SettingsRouteLazyRoute
+    }
+    '/settings/security/': {
+      id: '/settings/security/'
+      path: '/security'
+      fullPath: '/settings/security/'
+      preLoaderRoute: typeof SettingsSecurityIndexLazyRouteImport
+      parentRoute: typeof SettingsRouteLazyRoute
+    }
+    '/settings/integrations/': {
+      id: '/settings/integrations/'
+      path: '/integrations'
+      fullPath: '/settings/integrations/'
+      preLoaderRoute: typeof SettingsIntegrationsIndexLazyRouteImport
+      parentRoute: typeof SettingsRouteLazyRoute
+    }
+    '/settings/billing/': {
+      id: '/settings/billing/'
+      path: '/billing'
+      fullPath: '/settings/billing/'
+      preLoaderRoute: typeof SettingsBillingIndexLazyRouteImport
+      parentRoute: typeof SettingsRouteLazyRoute
+    }
+    '/settings/automations/': {
+      id: '/settings/automations/'
+      path: '/automations'
+      fullPath: '/settings/automations/'
+      preLoaderRoute: typeof SettingsAutomationsIndexLazyRouteImport
+      parentRoute: typeof SettingsRouteLazyRoute
+    }
+    '/cta/help-support/': {
+      id: '/cta/help-support/'
+      path: '/cta/help-support'
+      fullPath: '/cta/help-support/'
+      preLoaderRoute: typeof CtaHelpSupportIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
+interface SettingsRouteLazyRouteChildren {
+  SettingsIndexLazyRoute: typeof SettingsIndexLazyRoute
+  SettingsAutomationsIndexLazyRoute: typeof SettingsAutomationsIndexLazyRoute
+  SettingsBillingIndexLazyRoute: typeof SettingsBillingIndexLazyRoute
+  SettingsIntegrationsIndexLazyRoute: typeof SettingsIntegrationsIndexLazyRoute
+  SettingsSecurityIndexLazyRoute: typeof SettingsSecurityIndexLazyRoute
+  SettingsWorkspaceIndexLazyRoute: typeof SettingsWorkspaceIndexLazyRoute
+}
+
+const SettingsRouteLazyRouteChildren: SettingsRouteLazyRouteChildren = {
+  SettingsIndexLazyRoute: SettingsIndexLazyRoute,
+  SettingsAutomationsIndexLazyRoute: SettingsAutomationsIndexLazyRoute,
+  SettingsBillingIndexLazyRoute: SettingsBillingIndexLazyRoute,
+  SettingsIntegrationsIndexLazyRoute: SettingsIntegrationsIndexLazyRoute,
+  SettingsSecurityIndexLazyRoute: SettingsSecurityIndexLazyRoute,
+  SettingsWorkspaceIndexLazyRoute: SettingsWorkspaceIndexLazyRoute,
+}
+
+const SettingsRouteLazyRouteWithChildren =
+  SettingsRouteLazyRoute._addFileChildren(SettingsRouteLazyRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
+  SettingsRouteLazyRoute: SettingsRouteLazyRouteWithChildren,
   BankIndexLazyRoute: BankIndexLazyRoute,
   ChatIndexLazyRoute: ChatIndexLazyRoute,
+  CtaIndexLazyRoute: CtaIndexLazyRoute,
+  NotificationsIndexLazyRoute: NotificationsIndexLazyRoute,
   ReportsIndexLazyRoute: ReportsIndexLazyRoute,
+  CtaHelpSupportIndexLazyRoute: CtaHelpSupportIndexLazyRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

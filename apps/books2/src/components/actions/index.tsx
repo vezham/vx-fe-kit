@@ -3,7 +3,6 @@
 import { Icon } from '@iconify/react'
 import React from 'react'
 
-import { Divider } from '@vezham/react/v2'
 import { Button, Dropdown, Label, Separator, Surface } from '@vezham/react/v3'
 
 import { ContainerActionsProps } from './types'
@@ -45,12 +44,12 @@ export const ContainerActions: React.FC<ContainerActionsProps> = ({
 
           {showAdd && showMore && (
             <div className="hidden lg:block">
-              <Divider orientation="vertical" />
+              <Separator orientation="vertical" />
             </div>
           )}
           {showAdd && showMore && (
             <div className="lg:hidden">
-              <Divider />
+              <Separator />
             </div>
           )}
 

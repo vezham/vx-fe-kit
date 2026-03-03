@@ -26,7 +26,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebar, children }) => {
       <div
         className={cn(
           'border-default-300 flex flex-col gap-3 border-r px-3 py-4 transition-all duration-200',
-          collapsed ? 'w-16' : 'w-72'
+          collapsed ? 'w-16' : 'w-48 md:w-72'
         )}>
         <div
           className={cn(

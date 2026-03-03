@@ -20,7 +20,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebar, children }) => {
     <aside
       className={cn(
         'border-default-300 flex min-h-screen flex-col border-r p-4 transition-all duration-200',
-        collapsed ? 'w-16' : 'w-72'
+        collapsed ? 'w-16' : 'w-48 md:w-72'
       )}>
       <div
         className={cn(

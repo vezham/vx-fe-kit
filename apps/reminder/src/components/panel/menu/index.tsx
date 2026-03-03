@@ -21,37 +21,35 @@ const Menu: React.FC<MenuProps> = ({
   }
 
   return (
-    <Surface
-      variant="transparent"
-      className={`${sidebarStyles.container} flex-1 flex-col items-center`}
-      data-vx="menu">
-      <ScrollShadow
-        className="h-auto overflow-y-auto"
-        hideScrollBar
-        orientation="vertical">
-        <div className="flex flex-col">
-          {items.map(item => (
-            <div
-              key={item.key}
-              onClick={() => handleSelect(item.key, item.href)}
-              className="cursor-pointer">
-              <div className="flex flex-col items-center gap-1 py-2">
-                <Icon
-                  icon={item.icon || ''}
-                  width={24}
-                  className={`${iconClassName} ${
-                    selectedKey === item.key ? sidebarStyles.icon.selected : ''
-                  }`}
-                />
-                <span className="text-tiny w-full truncate text-center">
-                  {item.title}
-                </span>
-              </div>
+    // <Surface
+    //   variant="transparent"
+    //   className={`${sidebarStyles.container} flex-1 flex-col items-center justify-center`}
+    //   data-vx="menu">
+
+    // </Surface>
+    <ScrollShadow className="flex-1" hideScrollBar orientation="vertical">
+      <div className="flex min-h-full flex-col">
+        {items.map(item => (
+          <div
+            key={item.key}
+            onClick={() => handleSelect(item.key, item.href)}
+            className="cursor-pointer">
+            <div className="flex flex-col items-center gap-1 py-2">
+              <Icon
+                icon={item.icon || ''}
+                width={24}
+                className={`${iconClassName} ${
+                  selectedKey === item.key ? sidebarStyles.icon.selected : ''
+                }`}
+              />
+              <span className="text-tiny w-full truncate text-center">
+                {item.title}
+              </span>
             </div>
-          ))}
-        </div>
-      </ScrollShadow>
-    </Surface>
+          </div>
+        ))}
+      </div>
+    </ScrollShadow>
   )
 }
 

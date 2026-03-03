@@ -9,7 +9,7 @@ export const getNavbarContainerClasses = ({
 }): string => {
   return (
     cn(
-      'fixed bottom-0 z-50 flex w-full md:hidden',
+      'fixed bottom-0 z-75 flex w-full md:hidden',
       'px-8 pt-4 pb-8',
       bgColorClass,
       isDarkMode ? 'dark' : ''

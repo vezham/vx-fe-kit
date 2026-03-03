@@ -9,11 +9,10 @@ import { ContainerTabs } from '../../components/tabs'
 import { ContainerTabItem } from '../../components/tabs/types'
 
 export interface AppContainerHeaderProps {
-  tabs: ContainerTabItem[]
-  selectedKey: string
-  onTabChange: (key: string) => void
+  tabs?: ContainerTabItem[]
+  selectedKey?: string
+  onTabChange?: (key: string) => void
 
-  /* Action Controls */
   showSearch?: boolean
   showAdd?: boolean
   showMore?: boolean
@@ -23,38 +22,43 @@ export interface AppContainerHeaderProps {
 }
 
 const AppContainerHeader: React.FC<AppContainerHeaderProps> = ({
-  tabs,
+  tabs = [],
   selectedKey,
   onTabChange,
+
   showSearch = true,
   showAdd = true,
   showMore = true,
+
   onSearch,
   onAdd
 }) => {
+  const hasTabs = tabs.length > 0
   const hasActions = showSearch || showAdd || showMore
 
   return (
     <Surface
       variant="transparent"
-      className="flex items-center gap-4 p-4"
+      className="flex items-center"
       data-vx="container-header">
       <div className="flex-1" />
 
-      <div className="flex justify-center">
-        <ContainerTabs
-          tabs={tabs}
-          selectedKey={selectedKey}
-          onSelectionChange={onTabChange}
-        />
-      </div>
+      {hasTabs && selectedKey && onTabChange && (
+        <div className="flex justify-center">
+          <ContainerTabs
+            tabs={tabs}
+            selectedKey={selectedKey}
+            onSelectionChange={onTabChange}
+          />
+        </div>
+      )}
 
       {hasActions && (
         <div className="flex flex-1 justify-end">
           <ContainerActions
-            showSearch={true}
-            showAdd={true}
-            showMore={true}
+            showSearch={showSearch}
+            showAdd={showAdd}
+            showMore={showMore}
             onSearch={onSearch}
             onAdd={onAdd}
           />

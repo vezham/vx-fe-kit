@@ -25,20 +25,8 @@ export const items: MenuItem[] = [
     title: 'Reports'
   },
   {
-    key: 'notifications',
-    icon: 'lucide:bell',
-    href: '/notifications',
-    title: 'Notifications'
-  },
-  {
     key: 'widgets',
     icon: 'lucide:layers',
     title: 'Widgets'
-  },
-  {
-    key: 'settings',
-    icon: 'lucide:settings',
-    href: '/settings',
-    title: 'Settings'
   }
 ]

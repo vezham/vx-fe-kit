@@ -19,6 +19,7 @@ const TodayIndexLazyRouteImport = createFileRoute('/today/')()
 const TagsIndexLazyRouteImport = createFileRoute('/tags/')()
 const SettingsIndexLazyRouteImport = createFileRoute('/settings/')()
 const ScheduledIndexLazyRouteImport = createFileRoute('/scheduled/')()
+const NotificationsIndexLazyRouteImport = createFileRoute('/notifications/')()
 const ListsIndexLazyRouteImport = createFileRoute('/lists/')()
 const FlaggedIndexLazyRouteImport = createFileRoute('/flagged/')()
 const CtaIndexLazyRouteImport = createFileRoute('/cta/')()
@@ -88,6 +89,13 @@ const ScheduledIndexLazyRoute = ScheduledIndexLazyRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any).lazy(() =>
   import('./routes/scheduled/index.lazy').then((d) => d.Route),
+)
+const NotificationsIndexLazyRoute = NotificationsIndexLazyRouteImport.update({
+  id: '/notifications/',
+  path: '/notifications/',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() =>
+  import('./routes/notifications/index.lazy').then((d) => d.Route),
 )
 const ListsIndexLazyRoute = ListsIndexLazyRouteImport.update({
   id: '/lists/',
@@ -207,6 +215,7 @@ export interface FileRoutesByFullPath {
   '/cta/': typeof CtaIndexLazyRoute
   '/flagged/': typeof FlaggedIndexLazyRoute
   '/lists/': typeof ListsIndexLazyRoute
+  '/notifications/': typeof NotificationsIndexLazyRoute
   '/scheduled/': typeof ScheduledIndexLazyRoute
   '/settings/': typeof SettingsIndexLazyRoute
   '/tags/': typeof TagsIndexLazyRoute
@@ -231,6 +240,7 @@ export interface FileRoutesByTo {
   '/cta': typeof CtaIndexLazyRoute
   '/flagged': typeof FlaggedIndexLazyRoute
   '/lists': typeof ListsIndexLazyRoute
+  '/notifications': typeof NotificationsIndexLazyRoute
   '/scheduled': typeof ScheduledIndexLazyRoute
   '/settings': typeof SettingsIndexLazyRoute
   '/tags': typeof TagsIndexLazyRoute
@@ -257,6 +267,7 @@ export interface FileRoutesById {
   '/cta/': typeof CtaIndexLazyRoute
   '/flagged/': typeof FlaggedIndexLazyRoute
   '/lists/': typeof ListsIndexLazyRoute
+  '/notifications/': typeof NotificationsIndexLazyRoute
   '/scheduled/': typeof ScheduledIndexLazyRoute
   '/settings/': typeof SettingsIndexLazyRoute
   '/tags/': typeof TagsIndexLazyRoute
@@ -284,6 +295,7 @@ export interface FileRouteTypes {
     | '/cta/'
     | '/flagged/'
     | '/lists/'
+    | '/notifications/'
     | '/scheduled/'
     | '/settings/'
     | '/tags/'
@@ -308,6 +320,7 @@ export interface FileRouteTypes {
     | '/cta'
     | '/flagged'
     | '/lists'
+    | '/notifications'
     | '/scheduled'
     | '/settings'
     | '/tags'
@@ -333,6 +346,7 @@ export interface FileRouteTypes {
     | '/cta/'
     | '/flagged/'
     | '/lists/'
+    | '/notifications/'
     | '/scheduled/'
     | '/settings/'
     | '/tags/'
@@ -359,6 +373,7 @@ export interface RootRouteChildren {
   CtaIndexLazyRoute: typeof CtaIndexLazyRoute
   FlaggedIndexLazyRoute: typeof FlaggedIndexLazyRoute
   ListsIndexLazyRoute: typeof ListsIndexLazyRoute
+  NotificationsIndexLazyRoute: typeof NotificationsIndexLazyRoute
   ScheduledIndexLazyRoute: typeof ScheduledIndexLazyRoute
   TagsIndexLazyRoute: typeof TagsIndexLazyRoute
   TodayIndexLazyRoute: typeof TodayIndexLazyRoute
@@ -418,6 +433,13 @@ declare module '@tanstack/react-router' {
       path: '/scheduled'
       fullPath: '/scheduled/'
       preLoaderRoute: typeof ScheduledIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/notifications/': {
+      id: '/notifications/'
+      path: '/notifications'
+      fullPath: '/notifications/'
+      preLoaderRoute: typeof NotificationsIndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/lists/': {
@@ -567,6 +589,7 @@ const rootRouteChildren: RootRouteChildren = {
   CtaIndexLazyRoute: CtaIndexLazyRoute,
   FlaggedIndexLazyRoute: FlaggedIndexLazyRoute,
   ListsIndexLazyRoute: ListsIndexLazyRoute,
+  NotificationsIndexLazyRoute: NotificationsIndexLazyRoute,
   ScheduledIndexLazyRoute: ScheduledIndexLazyRoute,
   TagsIndexLazyRoute: TagsIndexLazyRoute,
   TodayIndexLazyRoute: TodayIndexLazyRoute,

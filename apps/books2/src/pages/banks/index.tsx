@@ -13,7 +13,7 @@ const Bank = () => {
     { key: 'analytics', title: 'Analytics' }
   ]
   return (
-    <div>
+    <div className="p-6">
       <AppContainerHeader
         tabs={tabs}
         selectedKey={selected}

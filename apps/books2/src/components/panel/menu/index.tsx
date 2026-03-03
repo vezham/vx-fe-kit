@@ -26,7 +26,7 @@ const Menu: React.FC<MenuProps> = ({
       className={`${sidebarStyles.container} flex-1 flex-col items-center`}
       data-vx="menu">
       <ScrollShadow
-        className="overflow-y-auto"
+        className="h-[400px] overflow-y-auto"
         hideScrollBar
         orientation="vertical">
         <div className="flex flex-col">

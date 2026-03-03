@@ -10,14 +10,14 @@ export interface UserInfo {
 export interface FooterActionsProps {
   user: UserInfo
 
-  showAI?: boolean
+  showCTA?: boolean
   showControlCenter?: boolean
   showNotifications?: boolean
   showUserInfo?: boolean
 
   notificationCount?: number
 
-  onAIClick?: () => void
+  onCTA?: () => void
   onControlCenterClick?: () => void
   onNotificationsClick?: () => void
   onUserClick?: (user: UserInfo) => void

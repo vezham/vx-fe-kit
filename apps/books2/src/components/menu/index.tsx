@@ -118,7 +118,6 @@ const BottomNavbar: React.FC<BottomNavbarProps> = ({
               key={item.key}
               onClick={() => handleItemSelect(item)}
               className={getNavbarButtonClasses({
-                isSelected: selectedKey === item.key,
                 isDarkMode,
                 textColorClass
               })}>
@@ -126,7 +125,6 @@ const BottomNavbar: React.FC<BottomNavbarProps> = ({
                 <Icon
                   icon={item.icon}
                   className={getNavbarIconClasses({
-                    isSelected: selectedKey === item.key,
                     isDarkMode
                   })}
                 />
