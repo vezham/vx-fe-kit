@@ -3,8 +3,12 @@
   "version": "0.0.1",
   "private": true,
   "devDependencies": {
+    "@faker-js/faker": "^10.0.0",
     "@vx-oss/heroui-v2-shared-icons": "~2.1.11-beta.0",
     "@vx/start": "workspace:*",
-    "@vx/system-utils": "workspace:*"
+    "@vx/system-utils": "workspace:*",
+    "recharts": "^3.1.2",
+    "tailwind-variants": "^3.1.1",
+    "usehooks-ts": "^3.1.1"
   }
 }

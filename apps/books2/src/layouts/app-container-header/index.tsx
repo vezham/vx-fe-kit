@@ -26,7 +26,6 @@ const AppContainerHeader: React.FC<AppContainerHeaderProps> = ({
   selectedKey,
   onTabChange,
 
-  showSearch = true,
   showAdd = true,
   showMore = true,
 
@@ -34,7 +33,7 @@ const AppContainerHeader: React.FC<AppContainerHeaderProps> = ({
   onAdd
 }) => {
   const hasTabs = tabs.length > 0
-  const hasActions = showSearch || showAdd || showMore
+  const hasActions = showAdd || showMore
 
   return (
     <Surface
@@ -56,7 +55,6 @@ const AppContainerHeader: React.FC<AppContainerHeaderProps> = ({
       {hasActions && (
         <div className="flex flex-1 justify-end">
           <ContainerActions
-            showSearch={showSearch}
             showAdd={showAdd}
             showMore={showMore}
             onSearch={onSearch}

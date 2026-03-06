@@ -27,9 +27,8 @@ export default function Header({
         <Button
           isIconOnly
           variant="ghost"
-          size="sm"
           onPress={() => onAvatarClick?.(user)}
-          className="transition-transform duration-300 hover:scale-110">
+          className="h-12 w-12 transition-transform duration-300 hover:scale-110">
           <Avatar size="sm">
             {user.avatar && (
               <Avatar.Image src={user.avatar} alt={user.name} width={24} />
@@ -43,7 +42,7 @@ export default function Header({
             isIconOnly
             variant="ghost"
             onPress={onSearchClick}
-            className="transition-all duration-300 hover:scale-110">
+            className="h-12 w-12 transition-all duration-300 hover:scale-110">
             <Icon
               className="text-muted-500"
               icon="solar:magnifer-linear"
@@ -61,7 +60,7 @@ export default function Header({
               isIconOnly
               variant="ghost"
               onPress={onFavoritesClick}
-              className="transition-all duration-300 hover:scale-110">
+              className="h-12 w-12 transition-all duration-300 hover:scale-110">
               <Icon icon="solar:star-linear" width={24} />
             </Button>
           </Badge>
@@ -76,7 +75,7 @@ export default function Header({
               isIconOnly
               variant="ghost"
               onPress={onArchiveClick}
-              className="transition-all duration-300 hover:scale-110">
+              className="h-12 w-12 transition-all duration-300 hover:scale-110">
               <Icon icon="solar:archive-linear" width={24} />
             </Button>
           </Badge>

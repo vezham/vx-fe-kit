@@ -50,7 +50,6 @@ export default function MenuSM() {
         <Footer
           user={users}
           onCTA={() => navigate({ to: '/cta' })}
-          onControlCenterClick={() => navigate({ to: '/settings' })}
           onNotificationsClick={() => navigate({ to: '/notifications' })}
           showCTA
           showControlCenter
@@ -58,7 +57,6 @@ export default function MenuSM() {
           showUserInfo
         />
       </div>
-
       <div>
         <BottomNavbar
           items={menuItemsForBottomNavbar}

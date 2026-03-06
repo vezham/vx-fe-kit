@@ -13,12 +13,16 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRouteImport } from './routes/__root'
 
 const SettingsRouteLazyRouteImport = createFileRoute('/settings')()
+const ReportsRouteLazyRouteImport = createFileRoute('/reports')()
+const BooksRouteLazyRouteImport = createFileRoute('/books')()
+const BankRouteLazyRouteImport = createFileRoute('/bank')()
 const IndexLazyRouteImport = createFileRoute('/')()
 const SettingsIndexLazyRouteImport = createFileRoute('/settings/')()
 const ReportsIndexLazyRouteImport = createFileRoute('/reports/')()
 const NotificationsIndexLazyRouteImport = createFileRoute('/notifications/')()
 const CtaIndexLazyRouteImport = createFileRoute('/cta/')()
 const ChatIndexLazyRouteImport = createFileRoute('/chat/')()
+const BooksIndexLazyRouteImport = createFileRoute('/books/')()
 const BankIndexLazyRouteImport = createFileRoute('/bank/')()
 const SettingsWorkspaceIndexLazyRouteImport = createFileRoute(
   '/settings/workspace/',
@@ -34,8 +38,80 @@ const SettingsBillingIndexLazyRouteImport =
 const SettingsAutomationsIndexLazyRouteImport = createFileRoute(
   '/settings/automations/',
 )()
+const ReportsSalesIndexLazyRouteImport = createFileRoute('/reports/sales/')()
+const ReportsPurchaseIndexLazyRouteImport =
+  createFileRoute('/reports/purchase/')()
+const ReportsProfit_lossIndexLazyRouteImport = createFileRoute(
+  '/reports/profit_loss/',
+)()
+const ReportsOverviewIndexLazyRouteImport =
+  createFileRoute('/reports/overview/')()
+const ReportsInventoryIndexLazyRouteImport = createFileRoute(
+  '/reports/inventory/',
+)()
+const ReportsChart_of_accountsIndexLazyRouteImport = createFileRoute(
+  '/reports/chart_of_accounts/',
+)()
+const ReportsCashflowIndexLazyRouteImport =
+  createFileRoute('/reports/cashflow/')()
+const ReportsBalance_sheetIndexLazyRouteImport = createFileRoute(
+  '/reports/balance_sheet/',
+)()
 const CtaHelpSupportIndexLazyRouteImport =
   createFileRoute('/cta/help-support/')()
+const BooksSalesIndexLazyRouteImport = createFileRoute('/books/sales/')()
+const BooksPurchaseIndexLazyRouteImport = createFileRoute('/books/purchase/')()
+const BooksOverviewIndexLazyRouteImport = createFileRoute('/books/overview/')()
+const BankOverviewIndexLazyRouteImport = createFileRoute('/bank/overview/')()
+const BankAccountsIndexLazyRouteImport = createFileRoute('/bank/accounts/')()
+const BankAccountsAccountsIdRouteLazyRouteImport = createFileRoute(
+  '/bank/accounts/$accountsId',
+)()
+const ReportsSalesSales_reportIndexLazyRouteImport = createFileRoute(
+  '/reports/sales/sales_report/',
+)()
+const ReportsSalesSales_registerIndexLazyRouteImport = createFileRoute(
+  '/reports/sales/sales_register/',
+)()
+const ReportsSalesItemwise_reportIndexLazyRouteImport = createFileRoute(
+  '/reports/sales/itemwise_report/',
+)()
+const ReportsSalesCustomer_reportIndexLazyRouteImport = createFileRoute(
+  '/reports/sales/customer_report/',
+)()
+const ReportsPurchaseSupplier_reportsIndexLazyRouteImport = createFileRoute(
+  '/reports/purchase/supplier_reports/',
+)()
+const ReportsPurchasePurchaser_reportsIndexLazyRouteImport = createFileRoute(
+  '/reports/purchase/purchaser_reports/',
+)()
+const ReportsPurchasePurchase_reportsIndexLazyRouteImport = createFileRoute(
+  '/reports/purchase/purchase_reports/',
+)()
+const ReportsPurchaseItemwise_reportsIndexLazyRouteImport = createFileRoute(
+  '/reports/purchase/itemwise_reports/',
+)()
+const ReportsInventoryItemwise_reportIndexLazyRouteImport = createFileRoute(
+  '/reports/inventory/itemwise_report/',
+)()
+const ReportsInventoryItemssold_reportIndexLazyRouteImport = createFileRoute(
+  '/reports/inventory/itemssold_report/',
+)()
+const ReportsInventoryItempurchase_reportIndexLazyRouteImport = createFileRoute(
+  '/reports/inventory/itempurchase_report/',
+)()
+const BankAccountsAccountsIdIndexLazyRouteImport = createFileRoute(
+  '/bank/accounts/$accountsId/',
+)()
+const BankAccountsAccountsIdTransactionsIndexLazyRouteImport = createFileRoute(
+  '/bank/accounts/$accountsId/transactions/',
+)()
+const BankAccountsAccountsIdReconcilationIndexLazyRouteImport = createFileRoute(
+  '/bank/accounts/$accountsId/reconcilation/',
+)()
+const BankAccountsAccountsIdOverviewIndexLazyRouteImport = createFileRoute(
+  '/bank/accounts/$accountsId/overview/',
+)()
 
 const SettingsRouteLazyRoute = SettingsRouteLazyRouteImport.update({
   id: '/settings',
@@ -44,6 +120,21 @@ const SettingsRouteLazyRoute = SettingsRouteLazyRouteImport.update({
 } as any).lazy(() =>
   import('./routes/settings/route.lazy').then((d) => d.Route),
 )
+const ReportsRouteLazyRoute = ReportsRouteLazyRouteImport.update({
+  id: '/reports',
+  path: '/reports',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() => import('./routes/reports/route.lazy').then((d) => d.Route))
+const BooksRouteLazyRoute = BooksRouteLazyRouteImport.update({
+  id: '/books',
+  path: '/books',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() => import('./routes/books/route.lazy').then((d) => d.Route))
+const BankRouteLazyRoute = BankRouteLazyRouteImport.update({
+  id: '/bank',
+  path: '/bank',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() => import('./routes/bank/route.lazy').then((d) => d.Route))
 const IndexLazyRoute = IndexLazyRouteImport.update({
   id: '/',
   path: '/',
@@ -57,9 +148,9 @@ const SettingsIndexLazyRoute = SettingsIndexLazyRouteImport.update({
   import('./routes/settings/index.lazy').then((d) => d.Route),
 )
 const ReportsIndexLazyRoute = ReportsIndexLazyRouteImport.update({
-  id: '/reports/',
-  path: '/reports/',
-  getParentRoute: () => rootRouteImport,
+  id: '/',
+  path: '/',
+  getParentRoute: () => ReportsRouteLazyRoute,
 } as any).lazy(() => import('./routes/reports/index.lazy').then((d) => d.Route))
 const NotificationsIndexLazyRoute = NotificationsIndexLazyRouteImport.update({
   id: '/notifications/',
@@ -78,10 +169,15 @@ const ChatIndexLazyRoute = ChatIndexLazyRouteImport.update({
   path: '/chat/',
   getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/chat/index.lazy').then((d) => d.Route))
+const BooksIndexLazyRoute = BooksIndexLazyRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => BooksRouteLazyRoute,
+} as any).lazy(() => import('./routes/books/index.lazy').then((d) => d.Route))
 const BankIndexLazyRoute = BankIndexLazyRouteImport.update({
-  id: '/bank/',
-  path: '/bank/',
-  getParentRoute: () => rootRouteImport,
+  id: '/',
+  path: '/',
+  getParentRoute: () => BankRouteLazyRoute,
 } as any).lazy(() => import('./routes/bank/index.lazy').then((d) => d.Route))
 const SettingsWorkspaceIndexLazyRoute =
   SettingsWorkspaceIndexLazyRouteImport.update({
@@ -123,6 +219,71 @@ const SettingsAutomationsIndexLazyRoute =
   } as any).lazy(() =>
     import('./routes/settings/automations/index.lazy').then((d) => d.Route),
   )
+const ReportsSalesIndexLazyRoute = ReportsSalesIndexLazyRouteImport.update({
+  id: '/sales/',
+  path: '/sales/',
+  getParentRoute: () => ReportsRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/reports/sales/index.lazy').then((d) => d.Route),
+)
+const ReportsPurchaseIndexLazyRoute =
+  ReportsPurchaseIndexLazyRouteImport.update({
+    id: '/purchase/',
+    path: '/purchase/',
+    getParentRoute: () => ReportsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/reports/purchase/index.lazy').then((d) => d.Route),
+  )
+const ReportsProfit_lossIndexLazyRoute =
+  ReportsProfit_lossIndexLazyRouteImport.update({
+    id: '/profit_loss/',
+    path: '/profit_loss/',
+    getParentRoute: () => ReportsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/reports/profit_loss/index.lazy').then((d) => d.Route),
+  )
+const ReportsOverviewIndexLazyRoute =
+  ReportsOverviewIndexLazyRouteImport.update({
+    id: '/overview/',
+    path: '/overview/',
+    getParentRoute: () => ReportsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/reports/overview/index.lazy').then((d) => d.Route),
+  )
+const ReportsInventoryIndexLazyRoute =
+  ReportsInventoryIndexLazyRouteImport.update({
+    id: '/inventory/',
+    path: '/inventory/',
+    getParentRoute: () => ReportsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/reports/inventory/index.lazy').then((d) => d.Route),
+  )
+const ReportsChart_of_accountsIndexLazyRoute =
+  ReportsChart_of_accountsIndexLazyRouteImport.update({
+    id: '/chart_of_accounts/',
+    path: '/chart_of_accounts/',
+    getParentRoute: () => ReportsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/reports/chart_of_accounts/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const ReportsCashflowIndexLazyRoute =
+  ReportsCashflowIndexLazyRouteImport.update({
+    id: '/cashflow/',
+    path: '/cashflow/',
+    getParentRoute: () => ReportsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/reports/cashflow/index.lazy').then((d) => d.Route),
+  )
+const ReportsBalance_sheetIndexLazyRoute =
+  ReportsBalance_sheetIndexLazyRouteImport.update({
+    id: '/balance_sheet/',
+    path: '/balance_sheet/',
+    getParentRoute: () => ReportsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/reports/balance_sheet/index.lazy').then((d) => d.Route),
+  )
 const CtaHelpSupportIndexLazyRoute = CtaHelpSupportIndexLazyRouteImport.update({
   id: '/cta/help-support/',
   path: '/cta/help-support/',
@@ -130,113 +291,499 @@ const CtaHelpSupportIndexLazyRoute = CtaHelpSupportIndexLazyRouteImport.update({
 } as any).lazy(() =>
   import('./routes/cta/help-support/index.lazy').then((d) => d.Route),
 )
+const BooksSalesIndexLazyRoute = BooksSalesIndexLazyRouteImport.update({
+  id: '/sales/',
+  path: '/sales/',
+  getParentRoute: () => BooksRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/books/sales/index.lazy').then((d) => d.Route),
+)
+const BooksPurchaseIndexLazyRoute = BooksPurchaseIndexLazyRouteImport.update({
+  id: '/purchase/',
+  path: '/purchase/',
+  getParentRoute: () => BooksRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/books/purchase/index.lazy').then((d) => d.Route),
+)
+const BooksOverviewIndexLazyRoute = BooksOverviewIndexLazyRouteImport.update({
+  id: '/overview/',
+  path: '/overview/',
+  getParentRoute: () => BooksRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/books/overview/index.lazy').then((d) => d.Route),
+)
+const BankOverviewIndexLazyRoute = BankOverviewIndexLazyRouteImport.update({
+  id: '/overview/',
+  path: '/overview/',
+  getParentRoute: () => BankRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/bank/overview/index.lazy').then((d) => d.Route),
+)
+const BankAccountsIndexLazyRoute = BankAccountsIndexLazyRouteImport.update({
+  id: '/accounts/',
+  path: '/accounts/',
+  getParentRoute: () => BankRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/bank/accounts/index.lazy').then((d) => d.Route),
+)
+const BankAccountsAccountsIdRouteLazyRoute =
+  BankAccountsAccountsIdRouteLazyRouteImport.update({
+    id: '/accounts/$accountsId',
+    path: '/accounts/$accountsId',
+    getParentRoute: () => BankRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/bank/accounts/$accountsId/route.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const ReportsSalesSales_reportIndexLazyRoute =
+  ReportsSalesSales_reportIndexLazyRouteImport.update({
+    id: '/sales/sales_report/',
+    path: '/sales/sales_report/',
+    getParentRoute: () => ReportsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/reports/sales/sales_report/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const ReportsSalesSales_registerIndexLazyRoute =
+  ReportsSalesSales_registerIndexLazyRouteImport.update({
+    id: '/sales/sales_register/',
+    path: '/sales/sales_register/',
+    getParentRoute: () => ReportsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/reports/sales/sales_register/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const ReportsSalesItemwise_reportIndexLazyRoute =
+  ReportsSalesItemwise_reportIndexLazyRouteImport.update({
+    id: '/sales/itemwise_report/',
+    path: '/sales/itemwise_report/',
+    getParentRoute: () => ReportsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/reports/sales/itemwise_report/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const ReportsSalesCustomer_reportIndexLazyRoute =
+  ReportsSalesCustomer_reportIndexLazyRouteImport.update({
+    id: '/sales/customer_report/',
+    path: '/sales/customer_report/',
+    getParentRoute: () => ReportsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/reports/sales/customer_report/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const ReportsPurchaseSupplier_reportsIndexLazyRoute =
+  ReportsPurchaseSupplier_reportsIndexLazyRouteImport.update({
+    id: '/purchase/supplier_reports/',
+    path: '/purchase/supplier_reports/',
+    getParentRoute: () => ReportsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/reports/purchase/supplier_reports/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const ReportsPurchasePurchaser_reportsIndexLazyRoute =
+  ReportsPurchasePurchaser_reportsIndexLazyRouteImport.update({
+    id: '/purchase/purchaser_reports/',
+    path: '/purchase/purchaser_reports/',
+    getParentRoute: () => ReportsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/reports/purchase/purchaser_reports/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const ReportsPurchasePurchase_reportsIndexLazyRoute =
+  ReportsPurchasePurchase_reportsIndexLazyRouteImport.update({
+    id: '/purchase/purchase_reports/',
+    path: '/purchase/purchase_reports/',
+    getParentRoute: () => ReportsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/reports/purchase/purchase_reports/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const ReportsPurchaseItemwise_reportsIndexLazyRoute =
+  ReportsPurchaseItemwise_reportsIndexLazyRouteImport.update({
+    id: '/purchase/itemwise_reports/',
+    path: '/purchase/itemwise_reports/',
+    getParentRoute: () => ReportsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/reports/purchase/itemwise_reports/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const ReportsInventoryItemwise_reportIndexLazyRoute =
+  ReportsInventoryItemwise_reportIndexLazyRouteImport.update({
+    id: '/inventory/itemwise_report/',
+    path: '/inventory/itemwise_report/',
+    getParentRoute: () => ReportsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/reports/inventory/itemwise_report/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const ReportsInventoryItemssold_reportIndexLazyRoute =
+  ReportsInventoryItemssold_reportIndexLazyRouteImport.update({
+    id: '/inventory/itemssold_report/',
+    path: '/inventory/itemssold_report/',
+    getParentRoute: () => ReportsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/reports/inventory/itemssold_report/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const ReportsInventoryItempurchase_reportIndexLazyRoute =
+  ReportsInventoryItempurchase_reportIndexLazyRouteImport.update({
+    id: '/inventory/itempurchase_report/',
+    path: '/inventory/itempurchase_report/',
+    getParentRoute: () => ReportsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/reports/inventory/itempurchase_report/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const BankAccountsAccountsIdIndexLazyRoute =
+  BankAccountsAccountsIdIndexLazyRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => BankAccountsAccountsIdRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/bank/accounts/$accountsId/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const BankAccountsAccountsIdTransactionsIndexLazyRoute =
+  BankAccountsAccountsIdTransactionsIndexLazyRouteImport.update({
+    id: '/transactions/',
+    path: '/transactions/',
+    getParentRoute: () => BankAccountsAccountsIdRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/bank/accounts/$accountsId/transactions/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const BankAccountsAccountsIdReconcilationIndexLazyRoute =
+  BankAccountsAccountsIdReconcilationIndexLazyRouteImport.update({
+    id: '/reconcilation/',
+    path: '/reconcilation/',
+    getParentRoute: () => BankAccountsAccountsIdRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/bank/accounts/$accountsId/reconcilation/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const BankAccountsAccountsIdOverviewIndexLazyRoute =
+  BankAccountsAccountsIdOverviewIndexLazyRouteImport.update({
+    id: '/overview/',
+    path: '/overview/',
+    getParentRoute: () => BankAccountsAccountsIdRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/bank/accounts/$accountsId/overview/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
+  '/bank': typeof BankRouteLazyRouteWithChildren
+  '/books': typeof BooksRouteLazyRouteWithChildren
+  '/reports': typeof ReportsRouteLazyRouteWithChildren
   '/settings': typeof SettingsRouteLazyRouteWithChildren
   '/bank/': typeof BankIndexLazyRoute
+  '/books/': typeof BooksIndexLazyRoute
   '/chat/': typeof ChatIndexLazyRoute
   '/cta/': typeof CtaIndexLazyRoute
   '/notifications/': typeof NotificationsIndexLazyRoute
   '/reports/': typeof ReportsIndexLazyRoute
   '/settings/': typeof SettingsIndexLazyRoute
+  '/bank/accounts/$accountsId': typeof BankAccountsAccountsIdRouteLazyRouteWithChildren
+  '/bank/accounts/': typeof BankAccountsIndexLazyRoute
+  '/bank/overview/': typeof BankOverviewIndexLazyRoute
+  '/books/overview/': typeof BooksOverviewIndexLazyRoute
+  '/books/purchase/': typeof BooksPurchaseIndexLazyRoute
+  '/books/sales/': typeof BooksSalesIndexLazyRoute
   '/cta/help-support/': typeof CtaHelpSupportIndexLazyRoute
+  '/reports/balance_sheet/': typeof ReportsBalance_sheetIndexLazyRoute
+  '/reports/cashflow/': typeof ReportsCashflowIndexLazyRoute
+  '/reports/chart_of_accounts/': typeof ReportsChart_of_accountsIndexLazyRoute
+  '/reports/inventory/': typeof ReportsInventoryIndexLazyRoute
+  '/reports/overview/': typeof ReportsOverviewIndexLazyRoute
+  '/reports/profit_loss/': typeof ReportsProfit_lossIndexLazyRoute
+  '/reports/purchase/': typeof ReportsPurchaseIndexLazyRoute
+  '/reports/sales/': typeof ReportsSalesIndexLazyRoute
   '/settings/automations/': typeof SettingsAutomationsIndexLazyRoute
   '/settings/billing/': typeof SettingsBillingIndexLazyRoute
   '/settings/integrations/': typeof SettingsIntegrationsIndexLazyRoute
   '/settings/security/': typeof SettingsSecurityIndexLazyRoute
   '/settings/workspace/': typeof SettingsWorkspaceIndexLazyRoute
+  '/bank/accounts/$accountsId/': typeof BankAccountsAccountsIdIndexLazyRoute
+  '/reports/inventory/itempurchase_report/': typeof ReportsInventoryItempurchase_reportIndexLazyRoute
+  '/reports/inventory/itemssold_report/': typeof ReportsInventoryItemssold_reportIndexLazyRoute
+  '/reports/inventory/itemwise_report/': typeof ReportsInventoryItemwise_reportIndexLazyRoute
+  '/reports/purchase/itemwise_reports/': typeof ReportsPurchaseItemwise_reportsIndexLazyRoute
+  '/reports/purchase/purchase_reports/': typeof ReportsPurchasePurchase_reportsIndexLazyRoute
+  '/reports/purchase/purchaser_reports/': typeof ReportsPurchasePurchaser_reportsIndexLazyRoute
+  '/reports/purchase/supplier_reports/': typeof ReportsPurchaseSupplier_reportsIndexLazyRoute
+  '/reports/sales/customer_report/': typeof ReportsSalesCustomer_reportIndexLazyRoute
+  '/reports/sales/itemwise_report/': typeof ReportsSalesItemwise_reportIndexLazyRoute
+  '/reports/sales/sales_register/': typeof ReportsSalesSales_registerIndexLazyRoute
+  '/reports/sales/sales_report/': typeof ReportsSalesSales_reportIndexLazyRoute
+  '/bank/accounts/$accountsId/overview/': typeof BankAccountsAccountsIdOverviewIndexLazyRoute
+  '/bank/accounts/$accountsId/reconcilation/': typeof BankAccountsAccountsIdReconcilationIndexLazyRoute
+  '/bank/accounts/$accountsId/transactions/': typeof BankAccountsAccountsIdTransactionsIndexLazyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
   '/bank': typeof BankIndexLazyRoute
+  '/books': typeof BooksIndexLazyRoute
   '/chat': typeof ChatIndexLazyRoute
   '/cta': typeof CtaIndexLazyRoute
   '/notifications': typeof NotificationsIndexLazyRoute
   '/reports': typeof ReportsIndexLazyRoute
   '/settings': typeof SettingsIndexLazyRoute
+  '/bank/accounts': typeof BankAccountsIndexLazyRoute
+  '/bank/overview': typeof BankOverviewIndexLazyRoute
+  '/books/overview': typeof BooksOverviewIndexLazyRoute
+  '/books/purchase': typeof BooksPurchaseIndexLazyRoute
+  '/books/sales': typeof BooksSalesIndexLazyRoute
   '/cta/help-support': typeof CtaHelpSupportIndexLazyRoute
+  '/reports/balance_sheet': typeof ReportsBalance_sheetIndexLazyRoute
+  '/reports/cashflow': typeof ReportsCashflowIndexLazyRoute
+  '/reports/chart_of_accounts': typeof ReportsChart_of_accountsIndexLazyRoute
+  '/reports/inventory': typeof ReportsInventoryIndexLazyRoute
+  '/reports/overview': typeof ReportsOverviewIndexLazyRoute
+  '/reports/profit_loss': typeof ReportsProfit_lossIndexLazyRoute
+  '/reports/purchase': typeof ReportsPurchaseIndexLazyRoute
+  '/reports/sales': typeof ReportsSalesIndexLazyRoute
   '/settings/automations': typeof SettingsAutomationsIndexLazyRoute
   '/settings/billing': typeof SettingsBillingIndexLazyRoute
   '/settings/integrations': typeof SettingsIntegrationsIndexLazyRoute
   '/settings/security': typeof SettingsSecurityIndexLazyRoute
   '/settings/workspace': typeof SettingsWorkspaceIndexLazyRoute
+  '/bank/accounts/$accountsId': typeof BankAccountsAccountsIdIndexLazyRoute
+  '/reports/inventory/itempurchase_report': typeof ReportsInventoryItempurchase_reportIndexLazyRoute
+  '/reports/inventory/itemssold_report': typeof ReportsInventoryItemssold_reportIndexLazyRoute
+  '/reports/inventory/itemwise_report': typeof ReportsInventoryItemwise_reportIndexLazyRoute
+  '/reports/purchase/itemwise_reports': typeof ReportsPurchaseItemwise_reportsIndexLazyRoute
+  '/reports/purchase/purchase_reports': typeof ReportsPurchasePurchase_reportsIndexLazyRoute
+  '/reports/purchase/purchaser_reports': typeof ReportsPurchasePurchaser_reportsIndexLazyRoute
+  '/reports/purchase/supplier_reports': typeof ReportsPurchaseSupplier_reportsIndexLazyRoute
+  '/reports/sales/customer_report': typeof ReportsSalesCustomer_reportIndexLazyRoute
+  '/reports/sales/itemwise_report': typeof ReportsSalesItemwise_reportIndexLazyRoute
+  '/reports/sales/sales_register': typeof ReportsSalesSales_registerIndexLazyRoute
+  '/reports/sales/sales_report': typeof ReportsSalesSales_reportIndexLazyRoute
+  '/bank/accounts/$accountsId/overview': typeof BankAccountsAccountsIdOverviewIndexLazyRoute
+  '/bank/accounts/$accountsId/reconcilation': typeof BankAccountsAccountsIdReconcilationIndexLazyRoute
+  '/bank/accounts/$accountsId/transactions': typeof BankAccountsAccountsIdTransactionsIndexLazyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexLazyRoute
+  '/bank': typeof BankRouteLazyRouteWithChildren
+  '/books': typeof BooksRouteLazyRouteWithChildren
+  '/reports': typeof ReportsRouteLazyRouteWithChildren
   '/settings': typeof SettingsRouteLazyRouteWithChildren
   '/bank/': typeof BankIndexLazyRoute
+  '/books/': typeof BooksIndexLazyRoute
   '/chat/': typeof ChatIndexLazyRoute
   '/cta/': typeof CtaIndexLazyRoute
   '/notifications/': typeof NotificationsIndexLazyRoute
   '/reports/': typeof ReportsIndexLazyRoute
   '/settings/': typeof SettingsIndexLazyRoute
+  '/bank/accounts/$accountsId': typeof BankAccountsAccountsIdRouteLazyRouteWithChildren
+  '/bank/accounts/': typeof BankAccountsIndexLazyRoute
+  '/bank/overview/': typeof BankOverviewIndexLazyRoute
+  '/books/overview/': typeof BooksOverviewIndexLazyRoute
+  '/books/purchase/': typeof BooksPurchaseIndexLazyRoute
+  '/books/sales/': typeof BooksSalesIndexLazyRoute
   '/cta/help-support/': typeof CtaHelpSupportIndexLazyRoute
+  '/reports/balance_sheet/': typeof ReportsBalance_sheetIndexLazyRoute
+  '/reports/cashflow/': typeof ReportsCashflowIndexLazyRoute
+  '/reports/chart_of_accounts/': typeof ReportsChart_of_accountsIndexLazyRoute
+  '/reports/inventory/': typeof ReportsInventoryIndexLazyRoute
+  '/reports/overview/': typeof ReportsOverviewIndexLazyRoute
+  '/reports/profit_loss/': typeof ReportsProfit_lossIndexLazyRoute
+  '/reports/purchase/': typeof ReportsPurchaseIndexLazyRoute
+  '/reports/sales/': typeof ReportsSalesIndexLazyRoute
   '/settings/automations/': typeof SettingsAutomationsIndexLazyRoute
   '/settings/billing/': typeof SettingsBillingIndexLazyRoute
   '/settings/integrations/': typeof SettingsIntegrationsIndexLazyRoute
   '/settings/security/': typeof SettingsSecurityIndexLazyRoute
   '/settings/workspace/': typeof SettingsWorkspaceIndexLazyRoute
+  '/bank/accounts/$accountsId/': typeof BankAccountsAccountsIdIndexLazyRoute
+  '/reports/inventory/itempurchase_report/': typeof ReportsInventoryItempurchase_reportIndexLazyRoute
+  '/reports/inventory/itemssold_report/': typeof ReportsInventoryItemssold_reportIndexLazyRoute
+  '/reports/inventory/itemwise_report/': typeof ReportsInventoryItemwise_reportIndexLazyRoute
+  '/reports/purchase/itemwise_reports/': typeof ReportsPurchaseItemwise_reportsIndexLazyRoute
+  '/reports/purchase/purchase_reports/': typeof ReportsPurchasePurchase_reportsIndexLazyRoute
+  '/reports/purchase/purchaser_reports/': typeof ReportsPurchasePurchaser_reportsIndexLazyRoute
+  '/reports/purchase/supplier_reports/': typeof ReportsPurchaseSupplier_reportsIndexLazyRoute
+  '/reports/sales/customer_report/': typeof ReportsSalesCustomer_reportIndexLazyRoute
+  '/reports/sales/itemwise_report/': typeof ReportsSalesItemwise_reportIndexLazyRoute
+  '/reports/sales/sales_register/': typeof ReportsSalesSales_registerIndexLazyRoute
+  '/reports/sales/sales_report/': typeof ReportsSalesSales_reportIndexLazyRoute
+  '/bank/accounts/$accountsId/overview/': typeof BankAccountsAccountsIdOverviewIndexLazyRoute
+  '/bank/accounts/$accountsId/reconcilation/': typeof BankAccountsAccountsIdReconcilationIndexLazyRoute
+  '/bank/accounts/$accountsId/transactions/': typeof BankAccountsAccountsIdTransactionsIndexLazyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/bank'
+    | '/books'
+    | '/reports'
     | '/settings'
     | '/bank/'
+    | '/books/'
     | '/chat/'
     | '/cta/'
     | '/notifications/'
     | '/reports/'
     | '/settings/'
+    | '/bank/accounts/$accountsId'
+    | '/bank/accounts/'
+    | '/bank/overview/'
+    | '/books/overview/'
+    | '/books/purchase/'
+    | '/books/sales/'
     | '/cta/help-support/'
+    | '/reports/balance_sheet/'
+    | '/reports/cashflow/'
+    | '/reports/chart_of_accounts/'
+    | '/reports/inventory/'
+    | '/reports/overview/'
+    | '/reports/profit_loss/'
+    | '/reports/purchase/'
+    | '/reports/sales/'
     | '/settings/automations/'
     | '/settings/billing/'
     | '/settings/integrations/'
     | '/settings/security/'
     | '/settings/workspace/'
+    | '/bank/accounts/$accountsId/'
+    | '/reports/inventory/itempurchase_report/'
+    | '/reports/inventory/itemssold_report/'
+    | '/reports/inventory/itemwise_report/'
+    | '/reports/purchase/itemwise_reports/'
+    | '/reports/purchase/purchase_reports/'
+    | '/reports/purchase/purchaser_reports/'
+    | '/reports/purchase/supplier_reports/'
+    | '/reports/sales/customer_report/'
+    | '/reports/sales/itemwise_report/'
+    | '/reports/sales/sales_register/'
+    | '/reports/sales/sales_report/'
+    | '/bank/accounts/$accountsId/overview/'
+    | '/bank/accounts/$accountsId/reconcilation/'
+    | '/bank/accounts/$accountsId/transactions/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/bank'
+    | '/books'
     | '/chat'
     | '/cta'
     | '/notifications'
     | '/reports'
     | '/settings'
+    | '/bank/accounts'
+    | '/bank/overview'
+    | '/books/overview'
+    | '/books/purchase'
+    | '/books/sales'
     | '/cta/help-support'
+    | '/reports/balance_sheet'
+    | '/reports/cashflow'
+    | '/reports/chart_of_accounts'
+    | '/reports/inventory'
+    | '/reports/overview'
+    | '/reports/profit_loss'
+    | '/reports/purchase'
+    | '/reports/sales'
     | '/settings/automations'
     | '/settings/billing'
     | '/settings/integrations'
     | '/settings/security'
     | '/settings/workspace'
+    | '/bank/accounts/$accountsId'
+    | '/reports/inventory/itempurchase_report'
+    | '/reports/inventory/itemssold_report'
+    | '/reports/inventory/itemwise_report'
+    | '/reports/purchase/itemwise_reports'
+    | '/reports/purchase/purchase_reports'
+    | '/reports/purchase/purchaser_reports'
+    | '/reports/purchase/supplier_reports'
+    | '/reports/sales/customer_report'
+    | '/reports/sales/itemwise_report'
+    | '/reports/sales/sales_register'
+    | '/reports/sales/sales_report'
+    | '/bank/accounts/$accountsId/overview'
+    | '/bank/accounts/$accountsId/reconcilation'
+    | '/bank/accounts/$accountsId/transactions'
   id:
     | '__root__'
     | '/'
+    | '/bank'
+    | '/books'
+    | '/reports'
     | '/settings'
     | '/bank/'
+    | '/books/'
     | '/chat/'
     | '/cta/'
     | '/notifications/'
     | '/reports/'
     | '/settings/'
+    | '/bank/accounts/$accountsId'
+    | '/bank/accounts/'
+    | '/bank/overview/'
+    | '/books/overview/'
+    | '/books/purchase/'
+    | '/books/sales/'
     | '/cta/help-support/'
+    | '/reports/balance_sheet/'
+    | '/reports/cashflow/'
+    | '/reports/chart_of_accounts/'
+    | '/reports/inventory/'
+    | '/reports/overview/'
+    | '/reports/profit_loss/'
+    | '/reports/purchase/'
+    | '/reports/sales/'
     | '/settings/automations/'
     | '/settings/billing/'
     | '/settings/integrations/'
     | '/settings/security/'
     | '/settings/workspace/'
+    | '/bank/accounts/$accountsId/'
+    | '/reports/inventory/itempurchase_report/'
+    | '/reports/inventory/itemssold_report/'
+    | '/reports/inventory/itemwise_report/'
+    | '/reports/purchase/itemwise_reports/'
+    | '/reports/purchase/purchase_reports/'
+    | '/reports/purchase/purchaser_reports/'
+    | '/reports/purchase/supplier_reports/'
+    | '/reports/sales/customer_report/'
+    | '/reports/sales/itemwise_report/'
+    | '/reports/sales/sales_register/'
+    | '/reports/sales/sales_report/'
+    | '/bank/accounts/$accountsId/overview/'
+    | '/bank/accounts/$accountsId/reconcilation/'
+    | '/bank/accounts/$accountsId/transactions/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
+  BankRouteLazyRoute: typeof BankRouteLazyRouteWithChildren
+  BooksRouteLazyRoute: typeof BooksRouteLazyRouteWithChildren
+  ReportsRouteLazyRoute: typeof ReportsRouteLazyRouteWithChildren
   SettingsRouteLazyRoute: typeof SettingsRouteLazyRouteWithChildren
-  BankIndexLazyRoute: typeof BankIndexLazyRoute
   ChatIndexLazyRoute: typeof ChatIndexLazyRoute
   CtaIndexLazyRoute: typeof CtaIndexLazyRoute
   NotificationsIndexLazyRoute: typeof NotificationsIndexLazyRoute
-  ReportsIndexLazyRoute: typeof ReportsIndexLazyRoute
   CtaHelpSupportIndexLazyRoute: typeof CtaHelpSupportIndexLazyRoute
 }
 
@@ -247,6 +794,27 @@ declare module '@tanstack/react-router' {
       path: '/settings'
       fullPath: '/settings'
       preLoaderRoute: typeof SettingsRouteLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reports': {
+      id: '/reports'
+      path: '/reports'
+      fullPath: '/reports'
+      preLoaderRoute: typeof ReportsRouteLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/books': {
+      id: '/books'
+      path: '/books'
+      fullPath: '/books'
+      preLoaderRoute: typeof BooksRouteLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/bank': {
+      id: '/bank'
+      path: '/bank'
+      fullPath: '/bank'
+      preLoaderRoute: typeof BankRouteLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -265,10 +833,10 @@ declare module '@tanstack/react-router' {
     }
     '/reports/': {
       id: '/reports/'
-      path: '/reports'
+      path: '/'
       fullPath: '/reports/'
       preLoaderRoute: typeof ReportsIndexLazyRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof ReportsRouteLazyRoute
     }
     '/notifications/': {
       id: '/notifications/'
@@ -291,12 +859,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ChatIndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/books/': {
+      id: '/books/'
+      path: '/'
+      fullPath: '/books/'
+      preLoaderRoute: typeof BooksIndexLazyRouteImport
+      parentRoute: typeof BooksRouteLazyRoute
+    }
     '/bank/': {
       id: '/bank/'
-      path: '/bank'
+      path: '/'
       fullPath: '/bank/'
       preLoaderRoute: typeof BankIndexLazyRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof BankRouteLazyRoute
     }
     '/settings/workspace/': {
       id: '/settings/workspace/'
@@ -333,6 +908,62 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SettingsAutomationsIndexLazyRouteImport
       parentRoute: typeof SettingsRouteLazyRoute
     }
+    '/reports/sales/': {
+      id: '/reports/sales/'
+      path: '/sales'
+      fullPath: '/reports/sales/'
+      preLoaderRoute: typeof ReportsSalesIndexLazyRouteImport
+      parentRoute: typeof ReportsRouteLazyRoute
+    }
+    '/reports/purchase/': {
+      id: '/reports/purchase/'
+      path: '/purchase'
+      fullPath: '/reports/purchase/'
+      preLoaderRoute: typeof ReportsPurchaseIndexLazyRouteImport
+      parentRoute: typeof ReportsRouteLazyRoute
+    }
+    '/reports/profit_loss/': {
+      id: '/reports/profit_loss/'
+      path: '/profit_loss'
+      fullPath: '/reports/profit_loss/'
+      preLoaderRoute: typeof ReportsProfit_lossIndexLazyRouteImport
+      parentRoute: typeof ReportsRouteLazyRoute
+    }
+    '/reports/overview/': {
+      id: '/reports/overview/'
+      path: '/overview'
+      fullPath: '/reports/overview/'
+      preLoaderRoute: typeof ReportsOverviewIndexLazyRouteImport
+      parentRoute: typeof ReportsRouteLazyRoute
+    }
+    '/reports/inventory/': {
+      id: '/reports/inventory/'
+      path: '/inventory'
+      fullPath: '/reports/inventory/'
+      preLoaderRoute: typeof ReportsInventoryIndexLazyRouteImport
+      parentRoute: typeof ReportsRouteLazyRoute
+    }
+    '/reports/chart_of_accounts/': {
+      id: '/reports/chart_of_accounts/'
+      path: '/chart_of_accounts'
+      fullPath: '/reports/chart_of_accounts/'
+      preLoaderRoute: typeof ReportsChart_of_accountsIndexLazyRouteImport
+      parentRoute: typeof ReportsRouteLazyRoute
+    }
+    '/reports/cashflow/': {
+      id: '/reports/cashflow/'
+      path: '/cashflow'
+      fullPath: '/reports/cashflow/'
+      preLoaderRoute: typeof ReportsCashflowIndexLazyRouteImport
+      parentRoute: typeof ReportsRouteLazyRoute
+    }
+    '/reports/balance_sheet/': {
+      id: '/reports/balance_sheet/'
+      path: '/balance_sheet'
+      fullPath: '/reports/balance_sheet/'
+      preLoaderRoute: typeof ReportsBalance_sheetIndexLazyRouteImport
+      parentRoute: typeof ReportsRouteLazyRoute
+    }
     '/cta/help-support/': {
       id: '/cta/help-support/'
       path: '/cta/help-support'
@@ -340,8 +971,276 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CtaHelpSupportIndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/books/sales/': {
+      id: '/books/sales/'
+      path: '/sales'
+      fullPath: '/books/sales/'
+      preLoaderRoute: typeof BooksSalesIndexLazyRouteImport
+      parentRoute: typeof BooksRouteLazyRoute
+    }
+    '/books/purchase/': {
+      id: '/books/purchase/'
+      path: '/purchase'
+      fullPath: '/books/purchase/'
+      preLoaderRoute: typeof BooksPurchaseIndexLazyRouteImport
+      parentRoute: typeof BooksRouteLazyRoute
+    }
+    '/books/overview/': {
+      id: '/books/overview/'
+      path: '/overview'
+      fullPath: '/books/overview/'
+      preLoaderRoute: typeof BooksOverviewIndexLazyRouteImport
+      parentRoute: typeof BooksRouteLazyRoute
+    }
+    '/bank/overview/': {
+      id: '/bank/overview/'
+      path: '/overview'
+      fullPath: '/bank/overview/'
+      preLoaderRoute: typeof BankOverviewIndexLazyRouteImport
+      parentRoute: typeof BankRouteLazyRoute
+    }
+    '/bank/accounts/': {
+      id: '/bank/accounts/'
+      path: '/accounts'
+      fullPath: '/bank/accounts/'
+      preLoaderRoute: typeof BankAccountsIndexLazyRouteImport
+      parentRoute: typeof BankRouteLazyRoute
+    }
+    '/bank/accounts/$accountsId': {
+      id: '/bank/accounts/$accountsId'
+      path: '/accounts/$accountsId'
+      fullPath: '/bank/accounts/$accountsId'
+      preLoaderRoute: typeof BankAccountsAccountsIdRouteLazyRouteImport
+      parentRoute: typeof BankRouteLazyRoute
+    }
+    '/reports/sales/sales_report/': {
+      id: '/reports/sales/sales_report/'
+      path: '/sales/sales_report'
+      fullPath: '/reports/sales/sales_report/'
+      preLoaderRoute: typeof ReportsSalesSales_reportIndexLazyRouteImport
+      parentRoute: typeof ReportsRouteLazyRoute
+    }
+    '/reports/sales/sales_register/': {
+      id: '/reports/sales/sales_register/'
+      path: '/sales/sales_register'
+      fullPath: '/reports/sales/sales_register/'
+      preLoaderRoute: typeof ReportsSalesSales_registerIndexLazyRouteImport
+      parentRoute: typeof ReportsRouteLazyRoute
+    }
+    '/reports/sales/itemwise_report/': {
+      id: '/reports/sales/itemwise_report/'
+      path: '/sales/itemwise_report'
+      fullPath: '/reports/sales/itemwise_report/'
+      preLoaderRoute: typeof ReportsSalesItemwise_reportIndexLazyRouteImport
+      parentRoute: typeof ReportsRouteLazyRoute
+    }
+    '/reports/sales/customer_report/': {
+      id: '/reports/sales/customer_report/'
+      path: '/sales/customer_report'
+      fullPath: '/reports/sales/customer_report/'
+      preLoaderRoute: typeof ReportsSalesCustomer_reportIndexLazyRouteImport
+      parentRoute: typeof ReportsRouteLazyRoute
+    }
+    '/reports/purchase/supplier_reports/': {
+      id: '/reports/purchase/supplier_reports/'
+      path: '/purchase/supplier_reports'
+      fullPath: '/reports/purchase/supplier_reports/'
+      preLoaderRoute: typeof ReportsPurchaseSupplier_reportsIndexLazyRouteImport
+      parentRoute: typeof ReportsRouteLazyRoute
+    }
+    '/reports/purchase/purchaser_reports/': {
+      id: '/reports/purchase/purchaser_reports/'
+      path: '/purchase/purchaser_reports'
+      fullPath: '/reports/purchase/purchaser_reports/'
+      preLoaderRoute: typeof ReportsPurchasePurchaser_reportsIndexLazyRouteImport
+      parentRoute: typeof ReportsRouteLazyRoute
+    }
+    '/reports/purchase/purchase_reports/': {
+      id: '/reports/purchase/purchase_reports/'
+      path: '/purchase/purchase_reports'
+      fullPath: '/reports/purchase/purchase_reports/'
+      preLoaderRoute: typeof ReportsPurchasePurchase_reportsIndexLazyRouteImport
+      parentRoute: typeof ReportsRouteLazyRoute
+    }
+    '/reports/purchase/itemwise_reports/': {
+      id: '/reports/purchase/itemwise_reports/'
+      path: '/purchase/itemwise_reports'
+      fullPath: '/reports/purchase/itemwise_reports/'
+      preLoaderRoute: typeof ReportsPurchaseItemwise_reportsIndexLazyRouteImport
+      parentRoute: typeof ReportsRouteLazyRoute
+    }
+    '/reports/inventory/itemwise_report/': {
+      id: '/reports/inventory/itemwise_report/'
+      path: '/inventory/itemwise_report'
+      fullPath: '/reports/inventory/itemwise_report/'
+      preLoaderRoute: typeof ReportsInventoryItemwise_reportIndexLazyRouteImport
+      parentRoute: typeof ReportsRouteLazyRoute
+    }
+    '/reports/inventory/itemssold_report/': {
+      id: '/reports/inventory/itemssold_report/'
+      path: '/inventory/itemssold_report'
+      fullPath: '/reports/inventory/itemssold_report/'
+      preLoaderRoute: typeof ReportsInventoryItemssold_reportIndexLazyRouteImport
+      parentRoute: typeof ReportsRouteLazyRoute
+    }
+    '/reports/inventory/itempurchase_report/': {
+      id: '/reports/inventory/itempurchase_report/'
+      path: '/inventory/itempurchase_report'
+      fullPath: '/reports/inventory/itempurchase_report/'
+      preLoaderRoute: typeof ReportsInventoryItempurchase_reportIndexLazyRouteImport
+      parentRoute: typeof ReportsRouteLazyRoute
+    }
+    '/bank/accounts/$accountsId/': {
+      id: '/bank/accounts/$accountsId/'
+      path: '/'
+      fullPath: '/bank/accounts/$accountsId/'
+      preLoaderRoute: typeof BankAccountsAccountsIdIndexLazyRouteImport
+      parentRoute: typeof BankAccountsAccountsIdRouteLazyRoute
+    }
+    '/bank/accounts/$accountsId/transactions/': {
+      id: '/bank/accounts/$accountsId/transactions/'
+      path: '/transactions'
+      fullPath: '/bank/accounts/$accountsId/transactions/'
+      preLoaderRoute: typeof BankAccountsAccountsIdTransactionsIndexLazyRouteImport
+      parentRoute: typeof BankAccountsAccountsIdRouteLazyRoute
+    }
+    '/bank/accounts/$accountsId/reconcilation/': {
+      id: '/bank/accounts/$accountsId/reconcilation/'
+      path: '/reconcilation'
+      fullPath: '/bank/accounts/$accountsId/reconcilation/'
+      preLoaderRoute: typeof BankAccountsAccountsIdReconcilationIndexLazyRouteImport
+      parentRoute: typeof BankAccountsAccountsIdRouteLazyRoute
+    }
+    '/bank/accounts/$accountsId/overview/': {
+      id: '/bank/accounts/$accountsId/overview/'
+      path: '/overview'
+      fullPath: '/bank/accounts/$accountsId/overview/'
+      preLoaderRoute: typeof BankAccountsAccountsIdOverviewIndexLazyRouteImport
+      parentRoute: typeof BankAccountsAccountsIdRouteLazyRoute
+    }
   }
 }
+
+interface BankAccountsAccountsIdRouteLazyRouteChildren {
+  BankAccountsAccountsIdIndexLazyRoute: typeof BankAccountsAccountsIdIndexLazyRoute
+  BankAccountsAccountsIdOverviewIndexLazyRoute: typeof BankAccountsAccountsIdOverviewIndexLazyRoute
+  BankAccountsAccountsIdReconcilationIndexLazyRoute: typeof BankAccountsAccountsIdReconcilationIndexLazyRoute
+  BankAccountsAccountsIdTransactionsIndexLazyRoute: typeof BankAccountsAccountsIdTransactionsIndexLazyRoute
+}
+
+const BankAccountsAccountsIdRouteLazyRouteChildren: BankAccountsAccountsIdRouteLazyRouteChildren =
+  {
+    BankAccountsAccountsIdIndexLazyRoute: BankAccountsAccountsIdIndexLazyRoute,
+    BankAccountsAccountsIdOverviewIndexLazyRoute:
+      BankAccountsAccountsIdOverviewIndexLazyRoute,
+    BankAccountsAccountsIdReconcilationIndexLazyRoute:
+      BankAccountsAccountsIdReconcilationIndexLazyRoute,
+    BankAccountsAccountsIdTransactionsIndexLazyRoute:
+      BankAccountsAccountsIdTransactionsIndexLazyRoute,
+  }
+
+const BankAccountsAccountsIdRouteLazyRouteWithChildren =
+  BankAccountsAccountsIdRouteLazyRoute._addFileChildren(
+    BankAccountsAccountsIdRouteLazyRouteChildren,
+  )
+
+interface BankRouteLazyRouteChildren {
+  BankIndexLazyRoute: typeof BankIndexLazyRoute
+  BankAccountsAccountsIdRouteLazyRoute: typeof BankAccountsAccountsIdRouteLazyRouteWithChildren
+  BankAccountsIndexLazyRoute: typeof BankAccountsIndexLazyRoute
+  BankOverviewIndexLazyRoute: typeof BankOverviewIndexLazyRoute
+}
+
+const BankRouteLazyRouteChildren: BankRouteLazyRouteChildren = {
+  BankIndexLazyRoute: BankIndexLazyRoute,
+  BankAccountsAccountsIdRouteLazyRoute:
+    BankAccountsAccountsIdRouteLazyRouteWithChildren,
+  BankAccountsIndexLazyRoute: BankAccountsIndexLazyRoute,
+  BankOverviewIndexLazyRoute: BankOverviewIndexLazyRoute,
+}
+
+const BankRouteLazyRouteWithChildren = BankRouteLazyRoute._addFileChildren(
+  BankRouteLazyRouteChildren,
+)
+
+interface BooksRouteLazyRouteChildren {
+  BooksIndexLazyRoute: typeof BooksIndexLazyRoute
+  BooksOverviewIndexLazyRoute: typeof BooksOverviewIndexLazyRoute
+  BooksPurchaseIndexLazyRoute: typeof BooksPurchaseIndexLazyRoute
+  BooksSalesIndexLazyRoute: typeof BooksSalesIndexLazyRoute
+}
+
+const BooksRouteLazyRouteChildren: BooksRouteLazyRouteChildren = {
+  BooksIndexLazyRoute: BooksIndexLazyRoute,
+  BooksOverviewIndexLazyRoute: BooksOverviewIndexLazyRoute,
+  BooksPurchaseIndexLazyRoute: BooksPurchaseIndexLazyRoute,
+  BooksSalesIndexLazyRoute: BooksSalesIndexLazyRoute,
+}
+
+const BooksRouteLazyRouteWithChildren = BooksRouteLazyRoute._addFileChildren(
+  BooksRouteLazyRouteChildren,
+)
+
+interface ReportsRouteLazyRouteChildren {
+  ReportsIndexLazyRoute: typeof ReportsIndexLazyRoute
+  ReportsBalance_sheetIndexLazyRoute: typeof ReportsBalance_sheetIndexLazyRoute
+  ReportsCashflowIndexLazyRoute: typeof ReportsCashflowIndexLazyRoute
+  ReportsChart_of_accountsIndexLazyRoute: typeof ReportsChart_of_accountsIndexLazyRoute
+  ReportsInventoryIndexLazyRoute: typeof ReportsInventoryIndexLazyRoute
+  ReportsOverviewIndexLazyRoute: typeof ReportsOverviewIndexLazyRoute
+  ReportsProfit_lossIndexLazyRoute: typeof ReportsProfit_lossIndexLazyRoute
+  ReportsPurchaseIndexLazyRoute: typeof ReportsPurchaseIndexLazyRoute
+  ReportsSalesIndexLazyRoute: typeof ReportsSalesIndexLazyRoute
+  ReportsInventoryItempurchase_reportIndexLazyRoute: typeof ReportsInventoryItempurchase_reportIndexLazyRoute
+  ReportsInventoryItemssold_reportIndexLazyRoute: typeof ReportsInventoryItemssold_reportIndexLazyRoute
+  ReportsInventoryItemwise_reportIndexLazyRoute: typeof ReportsInventoryItemwise_reportIndexLazyRoute
+  ReportsPurchaseItemwise_reportsIndexLazyRoute: typeof ReportsPurchaseItemwise_reportsIndexLazyRoute
+  ReportsPurchasePurchase_reportsIndexLazyRoute: typeof ReportsPurchasePurchase_reportsIndexLazyRoute
+  ReportsPurchasePurchaser_reportsIndexLazyRoute: typeof ReportsPurchasePurchaser_reportsIndexLazyRoute
+  ReportsPurchaseSupplier_reportsIndexLazyRoute: typeof ReportsPurchaseSupplier_reportsIndexLazyRoute
+  ReportsSalesCustomer_reportIndexLazyRoute: typeof ReportsSalesCustomer_reportIndexLazyRoute
+  ReportsSalesItemwise_reportIndexLazyRoute: typeof ReportsSalesItemwise_reportIndexLazyRoute
+  ReportsSalesSales_registerIndexLazyRoute: typeof ReportsSalesSales_registerIndexLazyRoute
+  ReportsSalesSales_reportIndexLazyRoute: typeof ReportsSalesSales_reportIndexLazyRoute
+}
+
+const ReportsRouteLazyRouteChildren: ReportsRouteLazyRouteChildren = {
+  ReportsIndexLazyRoute: ReportsIndexLazyRoute,
+  ReportsBalance_sheetIndexLazyRoute: ReportsBalance_sheetIndexLazyRoute,
+  ReportsCashflowIndexLazyRoute: ReportsCashflowIndexLazyRoute,
+  ReportsChart_of_accountsIndexLazyRoute:
+    ReportsChart_of_accountsIndexLazyRoute,
+  ReportsInventoryIndexLazyRoute: ReportsInventoryIndexLazyRoute,
+  ReportsOverviewIndexLazyRoute: ReportsOverviewIndexLazyRoute,
+  ReportsProfit_lossIndexLazyRoute: ReportsProfit_lossIndexLazyRoute,
+  ReportsPurchaseIndexLazyRoute: ReportsPurchaseIndexLazyRoute,
+  ReportsSalesIndexLazyRoute: ReportsSalesIndexLazyRoute,
+  ReportsInventoryItempurchase_reportIndexLazyRoute:
+    ReportsInventoryItempurchase_reportIndexLazyRoute,
+  ReportsInventoryItemssold_reportIndexLazyRoute:
+    ReportsInventoryItemssold_reportIndexLazyRoute,
+  ReportsInventoryItemwise_reportIndexLazyRoute:
+    ReportsInventoryItemwise_reportIndexLazyRoute,
+  ReportsPurchaseItemwise_reportsIndexLazyRoute:
+    ReportsPurchaseItemwise_reportsIndexLazyRoute,
+  ReportsPurchasePurchase_reportsIndexLazyRoute:
+    ReportsPurchasePurchase_reportsIndexLazyRoute,
+  ReportsPurchasePurchaser_reportsIndexLazyRoute:
+    ReportsPurchasePurchaser_reportsIndexLazyRoute,
+  ReportsPurchaseSupplier_reportsIndexLazyRoute:
+    ReportsPurchaseSupplier_reportsIndexLazyRoute,
+  ReportsSalesCustomer_reportIndexLazyRoute:
+    ReportsSalesCustomer_reportIndexLazyRoute,
+  ReportsSalesItemwise_reportIndexLazyRoute:
+    ReportsSalesItemwise_reportIndexLazyRoute,
+  ReportsSalesSales_registerIndexLazyRoute:
+    ReportsSalesSales_registerIndexLazyRoute,
+  ReportsSalesSales_reportIndexLazyRoute:
+    ReportsSalesSales_reportIndexLazyRoute,
+}
+
+const ReportsRouteLazyRouteWithChildren =
+  ReportsRouteLazyRoute._addFileChildren(ReportsRouteLazyRouteChildren)
 
 interface SettingsRouteLazyRouteChildren {
   SettingsIndexLazyRoute: typeof SettingsIndexLazyRoute
@@ -366,12 +1265,13 @@ const SettingsRouteLazyRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
+  BankRouteLazyRoute: BankRouteLazyRouteWithChildren,
+  BooksRouteLazyRoute: BooksRouteLazyRouteWithChildren,
+  ReportsRouteLazyRoute: ReportsRouteLazyRouteWithChildren,
   SettingsRouteLazyRoute: SettingsRouteLazyRouteWithChildren,
-  BankIndexLazyRoute: BankIndexLazyRoute,
   ChatIndexLazyRoute: ChatIndexLazyRoute,
   CtaIndexLazyRoute: CtaIndexLazyRoute,
   NotificationsIndexLazyRoute: NotificationsIndexLazyRoute,
-  ReportsIndexLazyRoute: ReportsIndexLazyRoute,
   CtaHelpSupportIndexLazyRoute: CtaHelpSupportIndexLazyRoute,
 }
 export const routeTree = rootRouteImport

@@ -1,9 +1,16 @@
 'use client'
 
 import { Icon } from '@iconify/react'
+import { useNavigate } from '@tanstack/react-router'
 import { useMemo, useState } from 'react'
 
-import { Avatar, InputGroup, ScrollShadow, Surface } from '@vezham/react/v3'
+import {
+  Avatar,
+  Button,
+  InputGroup,
+  ScrollShadow,
+  Surface
+} from '@vezham/react/v3'
 
 type MailItem = {
   id: string
@@ -17,7 +24,7 @@ type MailItem = {
 }
 
 type Props = {
-  onItemClick?: () => void
+  onItemClick?: (id: string) => void
 }
 
 const initialData: MailItem[] = [
@@ -146,9 +153,10 @@ const initialData: MailItem[] = [
   }
 ]
 
-export default function MailSidebar({ onItemClick }: Props) {
+export default function BankSidebar({ onItemClick }: Props) {
   const [mails, setMails] = useState(initialData)
   const [search, setSearch] = useState('')
+  const navigate = useNavigate()
 
   const filtered = useMemo(() => {
     if (!search.trim()) return mails
@@ -167,7 +175,24 @@ export default function MailSidebar({ onItemClick }: Props) {
   }
 
   return (
-    <Surface className="my-6 flex h-screen flex-col" variant="transparent">
+    <Surface className="flex h-screen flex-col" variant="transparent">
+      <div className="mb-4 flex justify-between">
+        <div>
+          <Button variant="primary" size="sm">
+            <Icon icon="mdi:plus" width={24} />
+            New
+          </Button>
+        </div>
+        <div className="flex gap-2">
+          <Button variant="ghost" size="sm">
+            <Icon icon="lucide:search" className="text-default-400" />
+          </Button>
+          <Button variant="ghost" size="sm" isIconOnly>
+            <Icon icon="mdi:dots-vertical" width={20} />
+          </Button>
+        </div>
+      </div>
+
       <InputGroup
         value={search}
         onChange={e => setSearch(e.target.value)}
@@ -183,7 +208,14 @@ export default function MailSidebar({ onItemClick }: Props) {
           {filtered.map(mail => (
             <Surface
               key={mail.id}
-              onClick={onItemClick}
+              onClick={() => {
+                onItemClick?.(mail.id)
+
+                navigate({
+                  to: '/bank/accounts/$accountsId/overview',
+                  params: { accountsId: mail.id }
+                })
+              }}
               variant="tertiary"
               className="hover:bg-content2 flex items-start gap-4 rounded-xl p-3 transition">
               <Avatar size="md">
@@ -218,9 +250,7 @@ export default function MailSidebar({ onItemClick }: Props) {
             </Surface>
           ))}
           {filtered.length === 0 && (
-            <div className="text-default-400 py-8 text-center">
-              No results found
-            </div>
+            <div className="text-default-400 text-center">No results found</div>
           )}
         </div>
       </ScrollShadow>

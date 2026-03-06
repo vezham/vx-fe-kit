@@ -23,7 +23,7 @@ export const ContainerActions: React.FC<ContainerActionsProps> = ({
           isIconOnly
           variant="tertiary"
           size="sm"
-          className="shadow-md"
+          className="hidden shadow-md md:flex"
           onPress={() => onSearch?.('')}>
           <Icon icon="mdi:magnify" width={24} />
         </Button>

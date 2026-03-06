@@ -21,12 +21,6 @@ const Menu: React.FC<MenuProps> = ({
   }
 
   return (
-    // <Surface
-    //   variant="transparent"
-    //   className={`${sidebarStyles.container} flex-1 flex-col items-center justify-center`}
-    //   data-vx="menu">
-
-    // </Surface>
     <ScrollShadow className="flex-1" hideScrollBar orientation="vertical">
       <div className="flex min-h-full flex-col">
         {items.map(item => (

@@ -25,13 +25,13 @@ export default function Footer({
         variant="transparent"
         className={`flex items-end justify-center gap-2 ${className ?? ''}`}
         data-vx="footer">
-        <div className="hidden flex-row items-center gap-3 min-[500px]:flex md:flex-col">
+        <div className="hidden flex-row items-center min-[500px]:flex md:flex-col">
           {showCTA && (
             <Button
               isIconOnly
               variant="ghost"
               onPress={onCTA}
-              className="transition-all duration-300 hover:scale-110">
+              className="h-12 w-12 transition-all duration-300 hover:scale-110">
               <Icon icon="solar:question-circle-linear" width={48} />
             </Button>
           )}
@@ -41,7 +41,7 @@ export default function Footer({
               isIconOnly
               variant="ghost"
               onPress={onControlCenterClick}
-              className="transition-all duration-300 hover:scale-110">
+              className="h-12 w-12 transition-all duration-300 hover:scale-110">
               <Icon icon="solar:settings-linear" width={24} />
             </Button>
           )}
@@ -55,7 +55,7 @@ export default function Footer({
                 isIconOnly
                 variant="ghost"
                 onPress={onNotificationsClick}
-                className="transition-all duration-300 hover:scale-110">
+                className="h-12 w-12 transition-all duration-300 hover:scale-110">
                 <Icon icon="solar:bell-linear" width={24} />
               </Button>
             </Badge>
@@ -66,14 +66,14 @@ export default function Footer({
               isIconOnly
               variant="ghost"
               onPress={() => onUserClick?.(user)}
-              className="transition-transform duration-300 hover:scale-110">
+              className="h-12 w-12 transition-transform duration-300 hover:scale-110">
               <Badge
                 isInvisible={!user.isOnline}
                 content=""
                 placement="bottom-right"
                 classNames={{
                   badge:
-                    'bg-success w-3 h-3 min-w-0 p-0 border-2 border-background'
+                    'bg-success w-3 h-3 min-w-0 p-0 border-2 border-background '
                 }}>
                 <Avatar size="sm">
                   <Avatar.Image src={user.avatar} alt={user.name} />
@@ -86,14 +86,14 @@ export default function Footer({
           )}
         </div>
 
-        <div className="flex items-center gap-3 min-[500px]:hidden">
+        <div className="flex items-center min-[500px]:hidden">
           <Dropdown placement="right-end">
             <Dropdown.Trigger>
               <Button
                 isIconOnly
                 size="md"
                 variant="ghost"
-                className="transition-all duration-300 hover:scale-110">
+                className="h-12 w-12 transition-all duration-300 hover:scale-110">
                 <Icon icon="solar:menu-dots-linear" width={24} />
               </Button>
             </Dropdown.Trigger>
@@ -138,7 +138,7 @@ export default function Footer({
               isIconOnly
               variant="ghost"
               onPress={() => onUserClick?.(user)}
-              className="transition-transform duration-300 hover:scale-110">
+              className="h-12 w-12 transition-transform duration-300 hover:scale-110">
               <Badge
                 isInvisible={!user.isOnline}
                 content=""

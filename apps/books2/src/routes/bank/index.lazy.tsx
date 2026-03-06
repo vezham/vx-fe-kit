@@ -1,15 +1,16 @@
-import { createLazyFileRoute } from '@tanstack/react-router'
+import { createLazyFileRoute, useNavigate } from '@tanstack/react-router'
+import { useEffect } from 'react'
 
-import Bank from '../../pages/banks'
+const BankIndex = () => {
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    navigate({ to: '/bank/overview', replace: true })
+  }, [navigate])
+
+  return null
+}
 
 export const Route = createLazyFileRoute('/bank/')({
-  component: RouteComponent
+  component: BankIndex
 })
-
-function RouteComponent() {
-  return (
-    <div>
-      <Bank />
-    </div>
-  )
-}

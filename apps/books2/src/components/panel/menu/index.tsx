@@ -2,7 +2,7 @@ import { Icon } from '@iconify/react'
 import { useNavigate } from '@tanstack/react-router'
 import React from 'react'
 
-import { ScrollShadow, Separator, Surface } from '@vezham/react/v3'
+import { ScrollShadow } from '@vezham/react/v3'
 
 import { MenuProps } from './types'
 import { sidebarStyles } from './variant'
@@ -21,37 +21,32 @@ const Menu: React.FC<MenuProps> = ({
   }
 
   return (
-    <Surface
-      variant="transparent"
-      className={`${sidebarStyles.container} flex-1 flex-col items-center`}
-      data-vx="menu">
-      <ScrollShadow
-        className="h-[400px] overflow-y-auto"
-        hideScrollBar
-        orientation="vertical">
-        <div className="flex flex-col">
-          {items.map(item => (
-            <div
-              key={item.key}
-              onClick={() => handleSelect(item.key, item.href)}
-              className="cursor-pointer">
-              <div className="flex flex-col items-center gap-1 py-2">
-                <Icon
-                  icon={item.icon || ''}
-                  width={24}
-                  className={`${iconClassName} ${
-                    selectedKey === item.key ? sidebarStyles.icon.selected : ''
-                  }`}
-                />
-                <span className="text-tiny w-full truncate text-center">
-                  {item.title}
-                </span>
-              </div>
+    <ScrollShadow
+      className="flex-1 overflow-y-auto"
+      hideScrollBar
+      orientation="vertical">
+      <div className="flex flex-col gap-6">
+        {items.map(item => (
+          <div
+            key={item.key}
+            onClick={() => handleSelect(item.key, item.href)}
+            className="cursor-pointer">
+            <div className="flex flex-col items-center">
+              <Icon
+                icon={item.icon || ''}
+                width={24}
+                className={`${iconClassName} ${
+                  selectedKey === item.key ? sidebarStyles.icon.selected : ''
+                }`}
+              />
+              <span className="text-medium w-full truncate text-center">
+                {item.title}
+              </span>
             </div>
-          ))}
-        </div>
-      </ScrollShadow>
-    </Surface>
+          </div>
+        ))}
+      </div>
+    </ScrollShadow>
   )
 }
 
