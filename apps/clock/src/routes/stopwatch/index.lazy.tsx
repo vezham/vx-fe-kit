@@ -1,7 +1,7 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
 
-import { StopWatch } from '../../pages/stopwatch'
+import Stopwatch from '../../pages/stopwatch'
 
 export const Route = createLazyFileRoute('/stopwatch/')({
-  component: () => <StopWatch />
+  component: () => <Stopwatch />
 })

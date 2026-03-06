@@ -38,7 +38,10 @@ const WorldClockURL = () => {
       onAdd: () => {
         setEditingClock(null)
         onOpen()
-      }
+      },
+      showSearch: true,
+      showAdd: true,
+      onSearch: v => console.log('search', v)
     })
 
     return () => {

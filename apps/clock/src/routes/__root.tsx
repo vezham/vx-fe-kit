@@ -53,6 +53,9 @@ function RootComponent() {
           tabs={tabs}
           selectedKey={selectedKey}
           onTabChange={handleTabChange}
+          showSearch={headerActions.showSearch}
+          showAdd={headerActions.showAdd}
+          showMore={headerActions.showMore}
           onAdd={headerActions.onAdd}
           onSearch={headerActions.onSearch}
         />
