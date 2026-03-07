@@ -221,7 +221,10 @@ export default function BankSidebar({ onItemClick, onDataChange }: Props) {
         </InputGroup.Prefix>
         <InputGroup.Input placeholder="Search...." />
       </InputGroup>
-      <ScrollShadow hideScrollBar className="flex-1 overflow-y-auto">
+      <ScrollShadow
+        hideScrollBar
+        orientation="vertical"
+        className="flex-1 overflow-y-auto">
         <div className="flex flex-col gap-2">
           {filtered.map(mail => (
             <Surface

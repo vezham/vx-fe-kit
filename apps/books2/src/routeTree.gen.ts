@@ -14,6 +14,7 @@ import { Route as rootRouteImport } from './routes/__root'
 
 const SettingsRouteLazyRouteImport = createFileRoute('/settings')()
 const ReportsRouteLazyRouteImport = createFileRoute('/reports')()
+const BooksSettingsRouteLazyRouteImport = createFileRoute('/books-settings')()
 const BooksRouteLazyRouteImport = createFileRoute('/books')()
 const BankRouteLazyRouteImport = createFileRoute('/bank')()
 const IndexLazyRouteImport = createFileRoute('/')()
@@ -23,6 +24,7 @@ const NotificationsIndexLazyRouteImport = createFileRoute('/notifications/')()
 const CtaIndexLazyRouteImport = createFileRoute('/cta/')()
 const ChatIndexLazyRouteImport = createFileRoute('/chat/')()
 const BooksIndexLazyRouteImport = createFileRoute('/books/')()
+const BooksSettingsIndexLazyRouteImport = createFileRoute('/books-settings/')()
 const BankIndexLazyRouteImport = createFileRoute('/bank/')()
 const SettingsWorkspaceIndexLazyRouteImport = createFileRoute(
   '/settings/workspace/',
@@ -62,8 +64,23 @@ const CtaHelpSupportIndexLazyRouteImport =
 const BooksSalesIndexLazyRouteImport = createFileRoute('/books/sales/')()
 const BooksPurchaseIndexLazyRouteImport = createFileRoute('/books/purchase/')()
 const BooksOverviewIndexLazyRouteImport = createFileRoute('/books/overview/')()
+const BooksSettingsTeamIndexLazyRouteImport = createFileRoute(
+  '/books-settings/team/',
+)()
+const BooksSettingsNotificationsIndexLazyRouteImport = createFileRoute(
+  '/books-settings/notifications/',
+)()
+const BooksSettingsCompanyIndexLazyRouteImport = createFileRoute(
+  '/books-settings/company/',
+)()
+const BooksSettingsAccountIndexLazyRouteImport = createFileRoute(
+  '/books-settings/account/',
+)()
 const BankOverviewIndexLazyRouteImport = createFileRoute('/bank/overview/')()
 const BankAccountsIndexLazyRouteImport = createFileRoute('/bank/accounts/')()
+const BooksSettingsIntegrationsIndeLazyRouteImport = createFileRoute(
+  '/books-settings/integrations/inde',
+)()
 const BankAccountsAccountsIdRouteLazyRouteImport = createFileRoute(
   '/bank/accounts/$accountsId',
 )()
@@ -125,6 +142,13 @@ const ReportsRouteLazyRoute = ReportsRouteLazyRouteImport.update({
   path: '/reports',
   getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/reports/route.lazy').then((d) => d.Route))
+const BooksSettingsRouteLazyRoute = BooksSettingsRouteLazyRouteImport.update({
+  id: '/books-settings',
+  path: '/books-settings',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() =>
+  import('./routes/books-settings/route.lazy').then((d) => d.Route),
+)
 const BooksRouteLazyRoute = BooksRouteLazyRouteImport.update({
   id: '/books',
   path: '/books',
@@ -174,6 +198,13 @@ const BooksIndexLazyRoute = BooksIndexLazyRouteImport.update({
   path: '/',
   getParentRoute: () => BooksRouteLazyRoute,
 } as any).lazy(() => import('./routes/books/index.lazy').then((d) => d.Route))
+const BooksSettingsIndexLazyRoute = BooksSettingsIndexLazyRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => BooksSettingsRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/books-settings/index.lazy').then((d) => d.Route),
+)
 const BankIndexLazyRoute = BankIndexLazyRouteImport.update({
   id: '/',
   path: '/',
@@ -312,6 +343,40 @@ const BooksOverviewIndexLazyRoute = BooksOverviewIndexLazyRouteImport.update({
 } as any).lazy(() =>
   import('./routes/books/overview/index.lazy').then((d) => d.Route),
 )
+const BooksSettingsTeamIndexLazyRoute =
+  BooksSettingsTeamIndexLazyRouteImport.update({
+    id: '/team/',
+    path: '/team/',
+    getParentRoute: () => BooksSettingsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/books-settings/team/index.lazy').then((d) => d.Route),
+  )
+const BooksSettingsNotificationsIndexLazyRoute =
+  BooksSettingsNotificationsIndexLazyRouteImport.update({
+    id: '/notifications/',
+    path: '/notifications/',
+    getParentRoute: () => BooksSettingsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/books-settings/notifications/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const BooksSettingsCompanyIndexLazyRoute =
+  BooksSettingsCompanyIndexLazyRouteImport.update({
+    id: '/company/',
+    path: '/company/',
+    getParentRoute: () => BooksSettingsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/books-settings/company/index.lazy').then((d) => d.Route),
+  )
+const BooksSettingsAccountIndexLazyRoute =
+  BooksSettingsAccountIndexLazyRouteImport.update({
+    id: '/account/',
+    path: '/account/',
+    getParentRoute: () => BooksSettingsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/books-settings/account/index.lazy').then((d) => d.Route),
+  )
 const BankOverviewIndexLazyRoute = BankOverviewIndexLazyRouteImport.update({
   id: '/overview/',
   path: '/overview/',
@@ -326,6 +391,16 @@ const BankAccountsIndexLazyRoute = BankAccountsIndexLazyRouteImport.update({
 } as any).lazy(() =>
   import('./routes/bank/accounts/index.lazy').then((d) => d.Route),
 )
+const BooksSettingsIntegrationsIndeLazyRoute =
+  BooksSettingsIntegrationsIndeLazyRouteImport.update({
+    id: '/integrations/inde',
+    path: '/integrations/inde',
+    getParentRoute: () => BooksSettingsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/books-settings/integrations/inde.lazy').then(
+      (d) => d.Route,
+    ),
+  )
 const BankAccountsAccountsIdRouteLazyRoute =
   BankAccountsAccountsIdRouteLazyRouteImport.update({
     id: '/accounts/$accountsId',
@@ -491,9 +566,11 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
   '/bank': typeof BankRouteLazyRouteWithChildren
   '/books': typeof BooksRouteLazyRouteWithChildren
+  '/books-settings': typeof BooksSettingsRouteLazyRouteWithChildren
   '/reports': typeof ReportsRouteLazyRouteWithChildren
   '/settings': typeof SettingsRouteLazyRouteWithChildren
   '/bank/': typeof BankIndexLazyRoute
+  '/books-settings/': typeof BooksSettingsIndexLazyRoute
   '/books/': typeof BooksIndexLazyRoute
   '/chat/': typeof ChatIndexLazyRoute
   '/cta/': typeof CtaIndexLazyRoute
@@ -501,8 +578,13 @@ export interface FileRoutesByFullPath {
   '/reports/': typeof ReportsIndexLazyRoute
   '/settings/': typeof SettingsIndexLazyRoute
   '/bank/accounts/$accountsId': typeof BankAccountsAccountsIdRouteLazyRouteWithChildren
+  '/books-settings/integrations/inde': typeof BooksSettingsIntegrationsIndeLazyRoute
   '/bank/accounts/': typeof BankAccountsIndexLazyRoute
   '/bank/overview/': typeof BankOverviewIndexLazyRoute
+  '/books-settings/account/': typeof BooksSettingsAccountIndexLazyRoute
+  '/books-settings/company/': typeof BooksSettingsCompanyIndexLazyRoute
+  '/books-settings/notifications/': typeof BooksSettingsNotificationsIndexLazyRoute
+  '/books-settings/team/': typeof BooksSettingsTeamIndexLazyRoute
   '/books/overview/': typeof BooksOverviewIndexLazyRoute
   '/books/purchase/': typeof BooksPurchaseIndexLazyRoute
   '/books/sales/': typeof BooksSalesIndexLazyRoute
@@ -539,14 +621,20 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
   '/bank': typeof BankIndexLazyRoute
+  '/books-settings': typeof BooksSettingsIndexLazyRoute
   '/books': typeof BooksIndexLazyRoute
   '/chat': typeof ChatIndexLazyRoute
   '/cta': typeof CtaIndexLazyRoute
   '/notifications': typeof NotificationsIndexLazyRoute
   '/reports': typeof ReportsIndexLazyRoute
   '/settings': typeof SettingsIndexLazyRoute
+  '/books-settings/integrations/inde': typeof BooksSettingsIntegrationsIndeLazyRoute
   '/bank/accounts': typeof BankAccountsIndexLazyRoute
   '/bank/overview': typeof BankOverviewIndexLazyRoute
+  '/books-settings/account': typeof BooksSettingsAccountIndexLazyRoute
+  '/books-settings/company': typeof BooksSettingsCompanyIndexLazyRoute
+  '/books-settings/notifications': typeof BooksSettingsNotificationsIndexLazyRoute
+  '/books-settings/team': typeof BooksSettingsTeamIndexLazyRoute
   '/books/overview': typeof BooksOverviewIndexLazyRoute
   '/books/purchase': typeof BooksPurchaseIndexLazyRoute
   '/books/sales': typeof BooksSalesIndexLazyRoute
@@ -585,9 +673,11 @@ export interface FileRoutesById {
   '/': typeof IndexLazyRoute
   '/bank': typeof BankRouteLazyRouteWithChildren
   '/books': typeof BooksRouteLazyRouteWithChildren
+  '/books-settings': typeof BooksSettingsRouteLazyRouteWithChildren
   '/reports': typeof ReportsRouteLazyRouteWithChildren
   '/settings': typeof SettingsRouteLazyRouteWithChildren
   '/bank/': typeof BankIndexLazyRoute
+  '/books-settings/': typeof BooksSettingsIndexLazyRoute
   '/books/': typeof BooksIndexLazyRoute
   '/chat/': typeof ChatIndexLazyRoute
   '/cta/': typeof CtaIndexLazyRoute
@@ -595,8 +685,13 @@ export interface FileRoutesById {
   '/reports/': typeof ReportsIndexLazyRoute
   '/settings/': typeof SettingsIndexLazyRoute
   '/bank/accounts/$accountsId': typeof BankAccountsAccountsIdRouteLazyRouteWithChildren
+  '/books-settings/integrations/inde': typeof BooksSettingsIntegrationsIndeLazyRoute
   '/bank/accounts/': typeof BankAccountsIndexLazyRoute
   '/bank/overview/': typeof BankOverviewIndexLazyRoute
+  '/books-settings/account/': typeof BooksSettingsAccountIndexLazyRoute
+  '/books-settings/company/': typeof BooksSettingsCompanyIndexLazyRoute
+  '/books-settings/notifications/': typeof BooksSettingsNotificationsIndexLazyRoute
+  '/books-settings/team/': typeof BooksSettingsTeamIndexLazyRoute
   '/books/overview/': typeof BooksOverviewIndexLazyRoute
   '/books/purchase/': typeof BooksPurchaseIndexLazyRoute
   '/books/sales/': typeof BooksSalesIndexLazyRoute
@@ -636,9 +731,11 @@ export interface FileRouteTypes {
     | '/'
     | '/bank'
     | '/books'
+    | '/books-settings'
     | '/reports'
     | '/settings'
     | '/bank/'
+    | '/books-settings/'
     | '/books/'
     | '/chat/'
     | '/cta/'
@@ -646,8 +743,13 @@ export interface FileRouteTypes {
     | '/reports/'
     | '/settings/'
     | '/bank/accounts/$accountsId'
+    | '/books-settings/integrations/inde'
     | '/bank/accounts/'
     | '/bank/overview/'
+    | '/books-settings/account/'
+    | '/books-settings/company/'
+    | '/books-settings/notifications/'
+    | '/books-settings/team/'
     | '/books/overview/'
     | '/books/purchase/'
     | '/books/sales/'
@@ -684,14 +786,20 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/bank'
+    | '/books-settings'
     | '/books'
     | '/chat'
     | '/cta'
     | '/notifications'
     | '/reports'
     | '/settings'
+    | '/books-settings/integrations/inde'
     | '/bank/accounts'
     | '/bank/overview'
+    | '/books-settings/account'
+    | '/books-settings/company'
+    | '/books-settings/notifications'
+    | '/books-settings/team'
     | '/books/overview'
     | '/books/purchase'
     | '/books/sales'
@@ -729,9 +837,11 @@ export interface FileRouteTypes {
     | '/'
     | '/bank'
     | '/books'
+    | '/books-settings'
     | '/reports'
     | '/settings'
     | '/bank/'
+    | '/books-settings/'
     | '/books/'
     | '/chat/'
     | '/cta/'
@@ -739,8 +849,13 @@ export interface FileRouteTypes {
     | '/reports/'
     | '/settings/'
     | '/bank/accounts/$accountsId'
+    | '/books-settings/integrations/inde'
     | '/bank/accounts/'
     | '/bank/overview/'
+    | '/books-settings/account/'
+    | '/books-settings/company/'
+    | '/books-settings/notifications/'
+    | '/books-settings/team/'
     | '/books/overview/'
     | '/books/purchase/'
     | '/books/sales/'
@@ -779,6 +894,7 @@ export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
   BankRouteLazyRoute: typeof BankRouteLazyRouteWithChildren
   BooksRouteLazyRoute: typeof BooksRouteLazyRouteWithChildren
+  BooksSettingsRouteLazyRoute: typeof BooksSettingsRouteLazyRouteWithChildren
   ReportsRouteLazyRoute: typeof ReportsRouteLazyRouteWithChildren
   SettingsRouteLazyRoute: typeof SettingsRouteLazyRouteWithChildren
   ChatIndexLazyRoute: typeof ChatIndexLazyRoute
@@ -801,6 +917,13 @@ declare module '@tanstack/react-router' {
       path: '/reports'
       fullPath: '/reports'
       preLoaderRoute: typeof ReportsRouteLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/books-settings': {
+      id: '/books-settings'
+      path: '/books-settings'
+      fullPath: '/books-settings'
+      preLoaderRoute: typeof BooksSettingsRouteLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/books': {
@@ -865,6 +988,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/books/'
       preLoaderRoute: typeof BooksIndexLazyRouteImport
       parentRoute: typeof BooksRouteLazyRoute
+    }
+    '/books-settings/': {
+      id: '/books-settings/'
+      path: '/'
+      fullPath: '/books-settings/'
+      preLoaderRoute: typeof BooksSettingsIndexLazyRouteImport
+      parentRoute: typeof BooksSettingsRouteLazyRoute
     }
     '/bank/': {
       id: '/bank/'
@@ -992,6 +1122,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BooksOverviewIndexLazyRouteImport
       parentRoute: typeof BooksRouteLazyRoute
     }
+    '/books-settings/team/': {
+      id: '/books-settings/team/'
+      path: '/team'
+      fullPath: '/books-settings/team/'
+      preLoaderRoute: typeof BooksSettingsTeamIndexLazyRouteImport
+      parentRoute: typeof BooksSettingsRouteLazyRoute
+    }
+    '/books-settings/notifications/': {
+      id: '/books-settings/notifications/'
+      path: '/notifications'
+      fullPath: '/books-settings/notifications/'
+      preLoaderRoute: typeof BooksSettingsNotificationsIndexLazyRouteImport
+      parentRoute: typeof BooksSettingsRouteLazyRoute
+    }
+    '/books-settings/company/': {
+      id: '/books-settings/company/'
+      path: '/company'
+      fullPath: '/books-settings/company/'
+      preLoaderRoute: typeof BooksSettingsCompanyIndexLazyRouteImport
+      parentRoute: typeof BooksSettingsRouteLazyRoute
+    }
+    '/books-settings/account/': {
+      id: '/books-settings/account/'
+      path: '/account'
+      fullPath: '/books-settings/account/'
+      preLoaderRoute: typeof BooksSettingsAccountIndexLazyRouteImport
+      parentRoute: typeof BooksSettingsRouteLazyRoute
+    }
     '/bank/overview/': {
       id: '/bank/overview/'
       path: '/overview'
@@ -1005,6 +1163,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/bank/accounts/'
       preLoaderRoute: typeof BankAccountsIndexLazyRouteImport
       parentRoute: typeof BankRouteLazyRoute
+    }
+    '/books-settings/integrations/inde': {
+      id: '/books-settings/integrations/inde'
+      path: '/integrations/inde'
+      fullPath: '/books-settings/integrations/inde'
+      preLoaderRoute: typeof BooksSettingsIntegrationsIndeLazyRouteImport
+      parentRoute: typeof BooksSettingsRouteLazyRoute
     }
     '/bank/accounts/$accountsId': {
       id: '/bank/accounts/$accountsId'
@@ -1181,6 +1346,32 @@ const BooksRouteLazyRouteWithChildren = BooksRouteLazyRoute._addFileChildren(
   BooksRouteLazyRouteChildren,
 )
 
+interface BooksSettingsRouteLazyRouteChildren {
+  BooksSettingsIndexLazyRoute: typeof BooksSettingsIndexLazyRoute
+  BooksSettingsIntegrationsIndeLazyRoute: typeof BooksSettingsIntegrationsIndeLazyRoute
+  BooksSettingsAccountIndexLazyRoute: typeof BooksSettingsAccountIndexLazyRoute
+  BooksSettingsCompanyIndexLazyRoute: typeof BooksSettingsCompanyIndexLazyRoute
+  BooksSettingsNotificationsIndexLazyRoute: typeof BooksSettingsNotificationsIndexLazyRoute
+  BooksSettingsTeamIndexLazyRoute: typeof BooksSettingsTeamIndexLazyRoute
+}
+
+const BooksSettingsRouteLazyRouteChildren: BooksSettingsRouteLazyRouteChildren =
+  {
+    BooksSettingsIndexLazyRoute: BooksSettingsIndexLazyRoute,
+    BooksSettingsIntegrationsIndeLazyRoute:
+      BooksSettingsIntegrationsIndeLazyRoute,
+    BooksSettingsAccountIndexLazyRoute: BooksSettingsAccountIndexLazyRoute,
+    BooksSettingsCompanyIndexLazyRoute: BooksSettingsCompanyIndexLazyRoute,
+    BooksSettingsNotificationsIndexLazyRoute:
+      BooksSettingsNotificationsIndexLazyRoute,
+    BooksSettingsTeamIndexLazyRoute: BooksSettingsTeamIndexLazyRoute,
+  }
+
+const BooksSettingsRouteLazyRouteWithChildren =
+  BooksSettingsRouteLazyRoute._addFileChildren(
+    BooksSettingsRouteLazyRouteChildren,
+  )
+
 interface ReportsRouteLazyRouteChildren {
   ReportsIndexLazyRoute: typeof ReportsIndexLazyRoute
   ReportsBalance_sheetIndexLazyRoute: typeof ReportsBalance_sheetIndexLazyRoute
@@ -1267,6 +1458,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
   BankRouteLazyRoute: BankRouteLazyRouteWithChildren,
   BooksRouteLazyRoute: BooksRouteLazyRouteWithChildren,
+  BooksSettingsRouteLazyRoute: BooksSettingsRouteLazyRouteWithChildren,
   ReportsRouteLazyRoute: ReportsRouteLazyRouteWithChildren,
   SettingsRouteLazyRoute: SettingsRouteLazyRouteWithChildren,
   ChatIndexLazyRoute: ChatIndexLazyRoute,

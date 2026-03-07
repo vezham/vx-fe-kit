@@ -23,7 +23,7 @@ export const items: MenuItem[] = [
   {
     key: 'settings',
     icon: 'lucide:layers',
-    href: '/settings',
+    href: '/books-settings',
     title: 'Settings'
   },
   {
