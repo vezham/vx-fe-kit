@@ -5,7 +5,7 @@ const BankIndex = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    navigate({ to: '/bank/overview', replace: true })
+    navigate({ to: '/bank/accounts', replace: true })
   }, [navigate])
 
   return null

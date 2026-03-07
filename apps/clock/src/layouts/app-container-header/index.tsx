@@ -12,8 +12,6 @@ export interface AppContainerHeaderProps {
   tabs: ContainerTabItem[]
   selectedKey: string
   onTabChange: (key: string) => void
-
-  /* Action Controls */
   showSearch?: boolean
   showAdd?: boolean
   showMore?: boolean

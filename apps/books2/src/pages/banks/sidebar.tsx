@@ -1,8 +1,8 @@
 'use client'
 
 import { Icon } from '@iconify/react'
-import { useNavigate } from '@tanstack/react-router'
-import { useMemo, useState } from 'react'
+import { useNavigate, useRouterState } from '@tanstack/react-router'
+import { useEffect, useMemo, useState } from 'react'
 
 import {
   Avatar,
@@ -25,6 +25,7 @@ type MailItem = {
 
 type Props = {
   onItemClick?: (id: string) => void
+  onDataChange?: (ids: string[]) => void
 }
 
 const initialData: MailItem[] = [
@@ -116,7 +117,15 @@ const initialData: MailItem[] = [
     unread: true
   },
   {
-    id: '7',
+    id: '11',
+    name: 'Olivia Wang',
+    subject: 'Office Holiday Party Details',
+    avatar: 'https://i.pravatar.cc/150?img=1',
+    preview: 'Hello all, I’m happy to announce the...',
+    time: 'Dec 12'
+  },
+  {
+    id: '12',
     name: 'James Smith',
     subject: 'Client Presentation Prep',
     avatar: 'https://i.pravatar.cc/150?img=1',
@@ -125,7 +134,7 @@ const initialData: MailItem[] = [
     starred: true
   },
   {
-    id: '8',
+    id: '13',
     name: 'Sophia Martinez',
     subject: 'Annual Performance Review Schedule',
     avatar: 'https://i.pravatar.cc/150?img=1',
@@ -134,7 +143,7 @@ const initialData: MailItem[] = [
     unread: true
   },
   {
-    id: '9',
+    id: '14',
     name: 'William Johnson',
     subject: 'New Training Program Launch',
     avatar: 'https://i.pravatar.cc/150?img=1',
@@ -143,7 +152,7 @@ const initialData: MailItem[] = [
     unread: true
   },
   {
-    id: '10',
+    id: '15',
     name: 'Emily Davis',
     subject: 'Team Building Retreat',
     avatar: 'https://i.pravatar.cc/150?img=1',
@@ -153,7 +162,7 @@ const initialData: MailItem[] = [
   }
 ]
 
-export default function BankSidebar({ onItemClick }: Props) {
+export default function BankSidebar({ onItemClick, onDataChange }: Props) {
   const [mails, setMails] = useState(initialData)
   const [search, setSearch] = useState('')
   const navigate = useNavigate()
@@ -168,30 +177,39 @@ export default function BankSidebar({ onItemClick }: Props) {
     )
   }, [search, mails])
 
+  useEffect(() => {
+    onDataChange?.(filtered.map(i => i.id))
+  }, [filtered])
+
   const toggleStar = (id: string) => {
     setMails(prev =>
       prev.map(m => (m.id === id ? { ...m, starred: !m.starred } : m))
     )
   }
-
+  const { location } = useRouterState()
+  const isAccountsPage = location.pathname === '/bank/accounts'
   return (
     <Surface className="flex h-screen flex-col" variant="transparent">
-      <div className="mb-4 flex justify-between">
-        <div>
-          <Button variant="primary" size="sm">
-            <Icon icon="mdi:plus" width={24} />
-            New
-          </Button>
+      {isAccountsPage && (
+        <div className="mb-4 flex justify-between">
+          <div>
+            <Button variant="primary" size="sm">
+              <Icon icon="mdi:plus" width={20} />
+              New
+            </Button>
+          </div>
+
+          <div className="flex gap-2">
+            <Button variant="ghost" size="sm">
+              <Icon icon="lucide:search" className="text-default-400" />
+            </Button>
+
+            <Button variant="ghost" size="sm" isIconOnly>
+              <Icon icon="mdi:dots-vertical" width={20} />
+            </Button>
+          </div>
         </div>
-        <div className="flex gap-2">
-          <Button variant="ghost" size="sm">
-            <Icon icon="lucide:search" className="text-default-400" />
-          </Button>
-          <Button variant="ghost" size="sm" isIconOnly>
-            <Icon icon="mdi:dots-vertical" width={20} />
-          </Button>
-        </div>
-      </div>
+      )}
 
       <InputGroup
         value={search}

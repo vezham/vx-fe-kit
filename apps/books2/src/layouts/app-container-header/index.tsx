@@ -25,7 +25,7 @@ const AppContainerHeader: React.FC<AppContainerHeaderProps> = ({
   tabs = [],
   selectedKey,
   onTabChange,
-
+  showSearch = true,
   showAdd = true,
   showMore = true,
 
@@ -54,11 +54,54 @@ const AppContainerHeader: React.FC<AppContainerHeaderProps> = ({
 
       {hasActions && (
         <div className="flex flex-1 justify-end">
-          <ContainerActions
+          {/* <ContainerActions
             showAdd={showAdd}
             showMore={showMore}
             onSearch={onSearch}
             onAdd={onAdd}
+          /> */}
+
+          <ContainerActions
+            actions={[
+              {
+                key: 'search',
+                icon: 'mdi:magnify',
+                visible: showSearch,
+                onPress: () => onSearch?.('')
+              },
+              {
+                key: 'add',
+                icon: 'mdi:plus',
+                visible: showAdd,
+                onPress: onAdd
+              },
+              {
+                key: 'more',
+                icon: 'mdi:dots-horizontal',
+                type: 'dropdown',
+                visible: showMore,
+                items: [
+                  ...(showAdd
+                    ? [
+                        {
+                          key: 'add',
+                          label: 'Add',
+                          onPress: onAdd
+                        }
+                      ]
+                    : []),
+                  {
+                    key: 'export',
+                    label: 'Export',
+                    onPress: () => console.log('export')
+                  },
+                  {
+                    key: 'download',
+                    label: 'Download'
+                  }
+                ]
+              }
+            ]}
           />
         </div>
       )}

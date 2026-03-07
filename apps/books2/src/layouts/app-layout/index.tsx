@@ -42,7 +42,7 @@ const AppLayout = ({ children }: { children: React.ReactNode }) => {
     <Surface
       variant="transparent"
       data-vx="app-layout"
-      className="bg-background h-screen w-full md:flex">
+      className="bg-background min-h-screen w-full md:flex">
       <MenuLayout />
       {children}
     </Surface>
