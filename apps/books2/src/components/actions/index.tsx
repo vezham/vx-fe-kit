@@ -191,20 +191,12 @@ export const HeaderActions: React.FC<HeaderProps> = ({
     <Surface
       variant="transparent"
       className="flex items-center justify-between py-2">
-      {/* LEFT SIDE */}
       <div className="flex items-center gap-2">
-        {showBack && (
-          <Button isIconOnly size="sm" variant="ghost" onPress={onBack}>
-            <Icon icon="mdi:arrow-left" width={20} />
-          </Button>
-        )}
-
         {showClose && (
           <Button isIconOnly size="sm" variant="ghost" onPress={onClose}>
             <Icon icon="mdi:close" width={20} />
           </Button>
         )}
-
         {visibleActions.map(action => (
           <Button
             key={action.key}
@@ -217,7 +209,6 @@ export const HeaderActions: React.FC<HeaderProps> = ({
         ))}
       </div>
 
-      {/* RIGHT SIDE */}
       {total > 0 && (
         <div className="flex items-center gap-3">
           <span className="text-default-500 text-sm">

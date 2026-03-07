@@ -2,7 +2,6 @@ import {
   Outlet,
   createLazyFileRoute,
   useNavigate,
-  useParams,
   useRouterState
 } from '@tanstack/react-router'
 import { useState } from 'react'
@@ -39,7 +38,6 @@ function RouteComponent() {
   const handleTabChange = (key: string) => {
     const tab = tabs.find(t => t.key === key)
     if (!tab) return
-
     navigate({ to: tab.href })
   }
 
@@ -52,8 +50,8 @@ function RouteComponent() {
   }
 
   return (
-    <Surface variant="secondary" className="flex h-screen w-full flex-col p-4">
-      <Surface variant="transparent" className="p-5">
+    <Surface className="bg-background flex h-screen w-full min-w-0 flex-col p-4">
+      <Surface variant="transparent" className="p-3">
         <AppContainerHeader
           tabs={tabs}
           selectedKey={selected}
@@ -63,7 +61,7 @@ function RouteComponent() {
       </Surface>
       <div className="flex flex-1 gap-4 overflow-hidden">
         <div
-          className={`w-full md:w-[320px] md:min-w-[320px] ${showSidebarMobile ? 'block' : 'hidden'} md:block`}>
+          className={`w-full min-w-0 md:w-[320px] md:min-w-[320px] ${showSidebarMobile ? 'block' : 'hidden'} md:block`}>
           <Sidebar>
             <BookSidebar
               onItemClick={() => {
@@ -73,7 +71,7 @@ function RouteComponent() {
           </Sidebar>
         </div>
         <div
-          className={`flex w-full flex-1 flex-col overflow-hidden ${showSidebarMobile ? 'hidden md:flex' : 'flex'} `}>
+          className={`flex min-w-0 flex-1 flex-col overflow-hidden ${showSidebarMobile ? 'hidden md:flex' : 'flex'}`}>
           <HeaderActions
             showBack
             showClose
@@ -86,7 +84,7 @@ function RouteComponent() {
               }
             ]}
           />
-          <Surface className="flex-1 overflow-auto">
+          <Surface className="flex-1 overflow-auto p-4">
             <Outlet />
           </Surface>
         </div>

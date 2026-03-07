@@ -16,20 +16,22 @@ export const longMenuItems: SidebarItem[] = [
     title: 'Books'
   },
   {
-    key: 'inventory',
-    icon: 'lucide:package',
-    title: 'Inventory'
-  },
-  {
     key: 'reports',
     icon: 'lucide:bar-chart-2',
     href: '/reports',
     title: 'Reports'
   },
+
   {
-    key: 'widgets',
+    key: 'settings',
     icon: 'lucide:layers',
-    title: 'Widgets'
+    href: '/settings',
+    title: 'Settings'
+  },
+  {
+    key: 'inventory',
+    icon: 'lucide:package',
+    title: 'Inventory'
   }
 ]
 
@@ -47,19 +49,21 @@ export const items: SidebarItem[] = [
     title: 'Books'
   },
   {
-    key: 'inventory',
-    icon: 'lucide:package',
-    title: 'Inventory'
-  },
-  {
     key: 'reports',
     icon: 'lucide:bar-chart-2',
     href: '/reports',
     title: 'Reports'
   },
+
   {
-    key: 'widgets',
+    key: 'settings',
     icon: 'lucide:layers',
-    title: 'Widgets'
+    href: '/settings',
+    title: 'Settings'
+  },
+  {
+    key: 'inventory',
+    icon: 'lucide:package',
+    title: 'Inventory'
   }
 ]

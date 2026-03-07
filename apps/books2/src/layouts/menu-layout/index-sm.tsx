@@ -50,7 +50,7 @@ export default function MenuSM() {
         <Footer
           user={users}
           onCTA={() => navigate({ to: '/cta' })}
-          onControlCenterClick={() => navigate({ to: '/settings' })}
+          onControlCenterClick={() => navigate({ to: '/settings1' })}
           onNotificationsClick={() => navigate({ to: '/notifications' })}
           showCTA
           showControlCenter

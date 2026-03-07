@@ -22,19 +22,19 @@ export const sectionItems: SidebarItem[] = [
     items: [
       {
         key: 'chartofaccounts',
-        href: '/reports/chart_of_accounts/',
+        href: '/reports/chart-of-accounts/',
         icon: 'solar:widget-2-outline',
         title: 'Chart of Accounts'
       },
       {
         key: 'journal_entries',
-        href: '/reports/journal_entries',
+        href: '/reports/journal-entries',
         title: 'Journal Entries',
         icon: 'solar:pie-chart-2-outline'
       },
       {
         key: 'general_ledger',
-        href: '/reports/general_ledger',
+        href: '/reports/general-ledger',
         title: 'General Ledger',
         icon: 'solar:pie-chart-2-outline'
       },
@@ -47,13 +47,13 @@ export const sectionItems: SidebarItem[] = [
 
       {
         key: 'profit_loss',
-        href: '/reports/profit_loss/',
+        href: '/reports/profit-loss/',
         title: 'Profit & Loss',
         icon: 'solar:pie-chart-2-outline'
       },
       {
         key: 'balancesheet',
-        href: '/reports/balance_sheet',
+        href: '/reports/balance-sheet',
         icon: 'solar:chart-outline',
         title: 'Balance Sheet'
       },

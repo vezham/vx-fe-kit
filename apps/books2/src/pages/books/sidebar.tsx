@@ -175,7 +175,9 @@ export default function BookSidebar({ onItemClick }: Props) {
   }
 
   return (
-    <Surface className="flex h-screen flex-col" variant="transparent">
+    <Surface
+      className="flex h-screen flex-col pt-4 pr-4 pb-4"
+      variant="transparent">
       <InputGroup
         value={search}
         onChange={e => setSearch(e.target.value)}

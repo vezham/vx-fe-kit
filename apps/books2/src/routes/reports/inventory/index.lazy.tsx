@@ -1,17 +1,16 @@
-import { Outlet, createLazyFileRoute } from '@tanstack/react-router'
+import { createLazyFileRoute, useNavigate } from '@tanstack/react-router'
+import { useEffect } from 'react'
 
-import { Surface } from '@vezham/react/v3'
+const SalesIndex = () => {
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    navigate({ to: '/reports/inventory/itemwise-reports', replace: true })
+  }, [navigate])
+
+  return null
+}
 
 export const Route = createLazyFileRoute('/reports/inventory/')({
-  component: RouteComponent
+  component: SalesIndex
 })
-
-function RouteComponent() {
-  return (
-    <Surface className="flex h-full flex-col overflow-hidden">
-      <Surface className="flex-1 overflow-auto p-4">
-        <Outlet />
-      </Surface>
-    </Surface>
-  )
-}

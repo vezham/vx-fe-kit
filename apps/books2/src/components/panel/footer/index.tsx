@@ -42,7 +42,7 @@ export default function Footer({
               variant="ghost"
               onPress={onControlCenterClick}
               className="h-12 w-12 transition-all duration-300 hover:scale-110">
-              <Icon icon="solar:settings-linear" width={24} />
+              <Icon icon="solar:settings-linear" width={48} />
             </Button>
           )}
 
@@ -56,7 +56,7 @@ export default function Footer({
                 variant="ghost"
                 onPress={onNotificationsClick}
                 className="h-12 w-12 transition-all duration-300 hover:scale-110">
-                <Icon icon="solar:bell-linear" width={24} />
+                <Icon icon="solar:bell-linear" width={48} />
               </Button>
             </Badge>
           )}
@@ -94,7 +94,7 @@ export default function Footer({
                 size="md"
                 variant="ghost"
                 className="h-12 w-12 transition-all duration-300 hover:scale-110">
-                <Icon icon="solar:menu-dots-linear" width={24} />
+                <Icon icon="solar:menu-dots-linear" width={48} />
               </Button>
             </Dropdown.Trigger>
 
@@ -102,7 +102,7 @@ export default function Footer({
               <Dropdown.Menu aria-label="More actions">
                 {showControlCenter && (
                   <Dropdown.Item key="control" onPress={onControlCenterClick}>
-                    <Icon icon="solar:settings-linear" width={24} />
+                    <Icon icon="solar:settings-linear" width={48} />
                     Control Center
                   </Dropdown.Item>
                 )}
@@ -120,13 +120,13 @@ export default function Footer({
                         />
                       )
                     }>
-                    <Icon icon="solar:bell-linear" width={24} /> Notifications
+                    <Icon icon="solar:bell-linear" width={48} /> Notifications
                   </Dropdown.Item>
                 )}
 
                 {showCTA && (
                   <Dropdown.Item key="help" onPress={onCTA}>
-                    <Icon icon="solar:question-circle-linear" width={24} /> Help
+                    <Icon icon="solar:question-circle-linear" width={48} /> Help
                   </Dropdown.Item>
                 )}
               </Dropdown.Menu>

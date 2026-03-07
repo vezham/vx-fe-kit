@@ -7,7 +7,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebar, children }) => {
   return (
     <aside>
       <div>
-        <div className="w-full flex-1 md:w-72">{children}</div>
+        <div className="w-full flex-1">{children}</div>
       </div>
     </aside>
   )

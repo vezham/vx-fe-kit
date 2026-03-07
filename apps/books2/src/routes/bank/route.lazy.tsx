@@ -31,37 +31,23 @@ function RouteComponent() {
 
   const isAccountPage = location.pathname.startsWith('/bank/accounts/')
 
-  const mainTabs = [
-    { key: 'overview', title: 'Overview', href: '/bank/overview' },
-    { key: 'accounts', title: 'Accounts', href: '/bank/accounts' }
-  ]
-
   const accountTabs = [
     { key: 'overview', title: 'Overview' },
     { key: 'transactions', title: 'Transactions' },
     { key: 'reconcilation', title: 'Reconcilation' }
   ]
 
-  const tabs = isAccountPage ? accountTabs : mainTabs
+  const tabs = isAccountPage ? accountTabs : []
 
-  const selected = isAccountPage
-    ? (location.pathname.split('/').pop() ?? 'overview')
-    : location.pathname.startsWith('/bank/accounts')
-      ? 'accounts'
-      : 'overview'
+  const selected = location.pathname.split('/').pop() ?? 'overview'
 
   const handleTabChange = (key: string) => {
-    if (isAccountPage) {
-      navigate({
-        to: `/bank/accounts/$accountsId/${key}`,
-        params: { accountsId }
-      })
-    } else {
-      const tab = mainTabs.find(t => t.key === key)
-      if (!tab) return
+    if (!isAccountPage) return
 
-      navigate({ to: tab.href })
-    }
+    navigate({
+      to: `/bank/accounts/$accountsId/${key}`,
+      params: { accountsId }
+    })
   }
 
   const goPrev = () => {
@@ -84,7 +70,7 @@ function RouteComponent() {
 
   return (
     <div className="flex h-screen w-full flex-col p-4">
-      <Surface variant="transparent" className="p-5">
+      <Surface variant="transparent" className="p-3">
         <AppContainerHeader
           tabs={tabs}
           selectedKey={selected}
@@ -95,7 +81,9 @@ function RouteComponent() {
 
       <div className="flex flex-1 gap-4 overflow-hidden">
         <div
-          className={`w-full md:w-[320px] md:min-w-[320px] ${isAccountPage ? 'hidden md:block' : 'block'} `}>
+          className={`w-full md:w-[320px] md:min-w-[320px] ${
+            isAccountPage ? 'hidden md:block' : 'block'
+          }`}>
           <Sidebar>
             <BankSidebar
               onDataChange={setIds}
@@ -110,7 +98,9 @@ function RouteComponent() {
         </div>
 
         <div
-          className={`flex w-full flex-1 flex-col overflow-hidden ${!isAccountPage ? 'hidden md:flex' : 'flex'} `}>
+          className={`flex w-full flex-1 flex-col overflow-hidden ${
+            !isAccountPage ? 'hidden md:flex' : 'flex'
+          }`}>
           {isAccountPage && (
             <HeaderActions
               showBack
@@ -130,7 +120,7 @@ function RouteComponent() {
             />
           )}
 
-          <Surface className="flex-1 overflow-auto">
+          <Surface className="flex-1 overflow-auto p-4">
             <Outlet />
           </Surface>
         </div>
