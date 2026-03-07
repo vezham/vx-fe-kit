@@ -60,15 +60,11 @@ import {
 
 import { Surface } from '@vezham/react/v3'
 
-import { HeaderActions } from '../../../../components/actions'
-
 export const Route = createLazyFileRoute('/bank/accounts/$accountsId')({
   component: RouteComponent
 })
 
 function RouteComponent() {
-  const navigate = useNavigate()
-
   return (
     <>
       <Surface className="flex h-full flex-col overflow-auto">

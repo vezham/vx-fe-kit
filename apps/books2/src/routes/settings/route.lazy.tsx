@@ -6,7 +6,7 @@ export const Route = createLazyFileRoute('/settings')({
 
 function SettingsComponent() {
   return (
-    <>
+    <div className="flex-col">
       <div className="flex items-center border-b">
         <h2 className="p-2 text-xl">Settings</h2>
       </div>
@@ -34,6 +34,6 @@ function SettingsComponent() {
       </div>
       <hr />
       <Outlet />
-    </>
+    </div>
   )
 }

@@ -43,32 +43,6 @@ function RouteComponent() {
     navigate({ to: tab.href })
   }
 
-  const params = useParams({ strict: false })
-
-  const accountsId = params?.accountsId
-
-  const [ids, setIds] = useState<string[]>([])
-
-  const currentIndex = ids.findIndex(i => i === accountsId)
-
-  const goPrev = () => {
-    if (currentIndex <= 0) return
-
-    navigate({
-      to: '/bank/accounts/$accountsId/overview',
-      params: { accountsId: ids[currentIndex - 1] }
-    })
-  }
-
-  const goNext = () => {
-    if (currentIndex === ids.length - 1) return
-
-    navigate({
-      to: '/bank/accounts/$accountsId/overview',
-      params: { accountsId: ids[currentIndex + 1] }
-    })
-  }
-
   const goBack = () => {
     setShowSidebarMobile(true)
   }
@@ -103,10 +77,6 @@ function RouteComponent() {
           <HeaderActions
             showBack
             showClose
-            currentIndex={currentIndex}
-            total={ids.length}
-            onPrev={goPrev}
-            onNext={goNext}
             onBack={goBack}
             onClose={goClose}
             actions={[
