@@ -114,7 +114,7 @@ export const ContainerActions: React.FC<ContainerActionsProps> = ({
           isIconOnly
           variant="tertiary"
           size="md"
-          className="shadow-md"
+          className="hidden shadow-md md:flex"
           onPress={searchAction.onPress}>
           <Icon icon={searchAction.icon!} width={24} />
         </Button>
@@ -126,7 +126,7 @@ export const ContainerActions: React.FC<ContainerActionsProps> = ({
             <Button
               isIconOnly
               size="md"
-              variant="tertiary"
+              variant="primary"
               className="rounded-none"
               onPress={addAction.onPress}>
               <Icon icon={addAction.icon!} width={24} />
@@ -151,7 +151,7 @@ export const ContainerActions: React.FC<ContainerActionsProps> = ({
                 <Button
                   isIconOnly
                   size="md"
-                  variant="tertiary"
+                  variant="primary"
                   className="rounded-none">
                   <Icon icon={moreAction.icon!} width={24} />
                 </Button>

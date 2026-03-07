@@ -193,11 +193,6 @@ export default function BookSidebar({ onItemClick }: Props) {
               key={mail.id}
               onClick={() => {
                 onItemClick?.(mail.id)
-
-                navigate({
-                  to: '/bank/accounts/$accountsId/overview',
-                  params: { accountsId: mail.id }
-                })
               }}
               variant="tertiary"
               className="hover:bg-content2 flex items-start gap-4 rounded-xl p-3 transition">

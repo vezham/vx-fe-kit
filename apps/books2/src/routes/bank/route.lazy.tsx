@@ -25,17 +25,11 @@ function RouteComponent() {
 
   const accountsId = params?.accountsId
 
-  /* Sidebar list state */
   const [ids, setIds] = useState<string[]>([])
 
   const currentIndex = ids.findIndex(i => i === accountsId)
 
-  /* Detect account detail page */
   const isAccountPage = location.pathname.startsWith('/bank/accounts/')
-
-  /* ---------------------- */
-  /* Tabs */
-  /* ---------------------- */
 
   const mainTabs = [
     { key: 'overview', title: 'Overview', href: '/bank/overview' },
@@ -69,10 +63,6 @@ function RouteComponent() {
       navigate({ to: tab.href })
     }
   }
-
-  /* ---------------------- */
-  /* Prev / Next Navigation */
-  /* ---------------------- */
 
   const goPrev = () => {
     if (currentIndex <= 0) return
