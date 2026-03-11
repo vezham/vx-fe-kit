@@ -22,7 +22,7 @@ export default function MenuMD() {
     id: '1',
     name: 'Slack',
     avatar:
-      'https://toppng.com/uploads/preview/slack-new-logo-icon-11609376883z32jbkf8kg.png'
+      'https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg'
   }
 
   const users = {
@@ -47,13 +47,13 @@ export default function MenuMD() {
       />
       <Footer
         user={users}
-        onCTA={() => navigate({ to: '/cta' })}
-        onControlCenterClick={() => navigate({ to: '/settings1' })}
-        onNotificationsClick={() => navigate({ to: '/notifications' })}
         showCTA
         showControlCenter
         showNotifications
         showUserInfo
+        onCTA={() => navigate({ to: '/cta/help-support' })}
+        onControlCenterClick={() => navigate({ to: '/settings' })}
+        onNotificationsClick={() => navigate({ to: '/notifications' })}
         onUserClick={() => setOpenSettings(true)}
       />
       <UserInfoModal
