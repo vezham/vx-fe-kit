@@ -9,7 +9,7 @@ export const sidebarStyles = {
     selected: 'bg-default/20 text-primary'
   },
   icon: {
-    base: 'text-default-500',
+    base: '',
     selected: 'text-black'
   }
 }

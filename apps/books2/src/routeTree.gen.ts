@@ -15,6 +15,7 @@ import { Route as rootRouteImport } from './routes/__root'
 const Settings1RouteLazyRouteImport = createFileRoute('/settings1')()
 const SettingsRouteLazyRouteImport = createFileRoute('/settings')()
 const ReportsRouteLazyRouteImport = createFileRoute('/reports')()
+const InventoryRouteLazyRouteImport = createFileRoute('/inventory')()
 const BooksRouteLazyRouteImport = createFileRoute('/books')()
 const BankRouteLazyRouteImport = createFileRoute('/bank')()
 const IndexLazyRouteImport = createFileRoute('/')()
@@ -22,6 +23,7 @@ const Settings1IndexLazyRouteImport = createFileRoute('/settings1/')()
 const SettingsIndexLazyRouteImport = createFileRoute('/settings/')()
 const ReportsIndexLazyRouteImport = createFileRoute('/reports/')()
 const NotificationsIndexLazyRouteImport = createFileRoute('/notifications/')()
+const InventoryIndexLazyRouteImport = createFileRoute('/inventory/')()
 const CtaIndexLazyRouteImport = createFileRoute('/cta/')()
 const ChatIndexLazyRouteImport = createFileRoute('/chat/')()
 const BooksIndexLazyRouteImport = createFileRoute('/books/')()
@@ -151,6 +153,13 @@ const ReportsRouteLazyRoute = ReportsRouteLazyRouteImport.update({
   path: '/reports',
   getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/reports/route.lazy').then((d) => d.Route))
+const InventoryRouteLazyRoute = InventoryRouteLazyRouteImport.update({
+  id: '/inventory',
+  path: '/inventory',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() =>
+  import('./routes/inventory/route.lazy').then((d) => d.Route),
+)
 const BooksRouteLazyRoute = BooksRouteLazyRouteImport.update({
   id: '/books',
   path: '/books',
@@ -191,6 +200,13 @@ const NotificationsIndexLazyRoute = NotificationsIndexLazyRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any).lazy(() =>
   import('./routes/notifications/index.lazy').then((d) => d.Route),
+)
+const InventoryIndexLazyRoute = InventoryIndexLazyRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => InventoryRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/inventory/index.lazy').then((d) => d.Route),
 )
 const CtaIndexLazyRoute = CtaIndexLazyRouteImport.update({
   id: '/cta/',
@@ -586,6 +602,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
   '/bank': typeof BankRouteLazyRouteWithChildren
   '/books': typeof BooksRouteLazyRouteWithChildren
+  '/inventory': typeof InventoryRouteLazyRouteWithChildren
   '/reports': typeof ReportsRouteLazyRouteWithChildren
   '/settings': typeof SettingsRouteLazyRouteWithChildren
   '/settings1': typeof Settings1RouteLazyRouteWithChildren
@@ -596,6 +613,7 @@ export interface FileRoutesByFullPath {
   '/books/': typeof BooksIndexLazyRoute
   '/chat/': typeof ChatIndexLazyRoute
   '/cta/': typeof CtaIndexLazyRoute
+  '/inventory/': typeof InventoryIndexLazyRoute
   '/notifications/': typeof NotificationsIndexLazyRoute
   '/reports/': typeof ReportsIndexLazyRoute
   '/settings/': typeof SettingsIndexLazyRoute
@@ -647,6 +665,7 @@ export interface FileRoutesByTo {
   '/books': typeof BooksIndexLazyRoute
   '/chat': typeof ChatIndexLazyRoute
   '/cta': typeof CtaIndexLazyRoute
+  '/inventory': typeof InventoryIndexLazyRoute
   '/notifications': typeof NotificationsIndexLazyRoute
   '/reports': typeof ReportsIndexLazyRoute
   '/settings': typeof SettingsIndexLazyRoute
@@ -696,6 +715,7 @@ export interface FileRoutesById {
   '/': typeof IndexLazyRoute
   '/bank': typeof BankRouteLazyRouteWithChildren
   '/books': typeof BooksRouteLazyRouteWithChildren
+  '/inventory': typeof InventoryRouteLazyRouteWithChildren
   '/reports': typeof ReportsRouteLazyRouteWithChildren
   '/settings': typeof SettingsRouteLazyRouteWithChildren
   '/settings1': typeof Settings1RouteLazyRouteWithChildren
@@ -706,6 +726,7 @@ export interface FileRoutesById {
   '/books/': typeof BooksIndexLazyRoute
   '/chat/': typeof ChatIndexLazyRoute
   '/cta/': typeof CtaIndexLazyRoute
+  '/inventory/': typeof InventoryIndexLazyRoute
   '/notifications/': typeof NotificationsIndexLazyRoute
   '/reports/': typeof ReportsIndexLazyRoute
   '/settings/': typeof SettingsIndexLazyRoute
@@ -757,6 +778,7 @@ export interface FileRouteTypes {
     | '/'
     | '/bank'
     | '/books'
+    | '/inventory'
     | '/reports'
     | '/settings'
     | '/settings1'
@@ -767,6 +789,7 @@ export interface FileRouteTypes {
     | '/books/'
     | '/chat/'
     | '/cta/'
+    | '/inventory/'
     | '/notifications/'
     | '/reports/'
     | '/settings/'
@@ -818,6 +841,7 @@ export interface FileRouteTypes {
     | '/books'
     | '/chat'
     | '/cta'
+    | '/inventory'
     | '/notifications'
     | '/reports'
     | '/settings'
@@ -866,6 +890,7 @@ export interface FileRouteTypes {
     | '/'
     | '/bank'
     | '/books'
+    | '/inventory'
     | '/reports'
     | '/settings'
     | '/settings1'
@@ -876,6 +901,7 @@ export interface FileRouteTypes {
     | '/books/'
     | '/chat/'
     | '/cta/'
+    | '/inventory/'
     | '/notifications/'
     | '/reports/'
     | '/settings/'
@@ -926,6 +952,7 @@ export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
   BankRouteLazyRoute: typeof BankRouteLazyRouteWithChildren
   BooksRouteLazyRoute: typeof BooksRouteLazyRouteWithChildren
+  InventoryRouteLazyRoute: typeof InventoryRouteLazyRouteWithChildren
   ReportsRouteLazyRoute: typeof ReportsRouteLazyRouteWithChildren
   SettingsRouteLazyRoute: typeof SettingsRouteLazyRouteWithChildren
   Settings1RouteLazyRoute: typeof Settings1RouteLazyRouteWithChildren
@@ -956,6 +983,13 @@ declare module '@tanstack/react-router' {
       path: '/reports'
       fullPath: '/reports'
       preLoaderRoute: typeof ReportsRouteLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/inventory': {
+      id: '/inventory'
+      path: '/inventory'
+      fullPath: '/inventory'
+      preLoaderRoute: typeof InventoryRouteLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/books': {
@@ -1006,6 +1040,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/notifications/'
       preLoaderRoute: typeof NotificationsIndexLazyRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/inventory/': {
+      id: '/inventory/'
+      path: '/'
+      fullPath: '/inventory/'
+      preLoaderRoute: typeof InventoryIndexLazyRouteImport
+      parentRoute: typeof InventoryRouteLazyRoute
     }
     '/cta/': {
       id: '/cta/'
@@ -1399,6 +1440,17 @@ const BooksRouteLazyRouteWithChildren = BooksRouteLazyRoute._addFileChildren(
   BooksRouteLazyRouteChildren,
 )
 
+interface InventoryRouteLazyRouteChildren {
+  InventoryIndexLazyRoute: typeof InventoryIndexLazyRoute
+}
+
+const InventoryRouteLazyRouteChildren: InventoryRouteLazyRouteChildren = {
+  InventoryIndexLazyRoute: InventoryIndexLazyRoute,
+}
+
+const InventoryRouteLazyRouteWithChildren =
+  InventoryRouteLazyRoute._addFileChildren(InventoryRouteLazyRouteChildren)
+
 interface ReportsInventoryRouteLazyRouteChildren {
   ReportsInventoryIndexLazyRoute: typeof ReportsInventoryIndexLazyRoute
   ReportsInventoryItempurchaseReportsIndexLazyRoute: typeof ReportsInventoryItempurchaseReportsIndexLazyRoute
@@ -1545,6 +1597,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
   BankRouteLazyRoute: BankRouteLazyRouteWithChildren,
   BooksRouteLazyRoute: BooksRouteLazyRouteWithChildren,
+  InventoryRouteLazyRoute: InventoryRouteLazyRouteWithChildren,
   ReportsRouteLazyRoute: ReportsRouteLazyRouteWithChildren,
   SettingsRouteLazyRoute: SettingsRouteLazyRouteWithChildren,
   Settings1RouteLazyRoute: Settings1RouteLazyRouteWithChildren,

@@ -46,10 +46,10 @@ export const getNavbarButtonClasses = ({
       'flex flex-col items-center px-3 text-xs font-medium transition-colors duration-200 focus:outline-none',
       isSelected
         ? isDarkMode
-          ? 'font-bold text-blue-400'
-          : 'font-bold text-blue-600'
+          ? 'text-foreground font-medium'
+          : 'text-foreground font-medium'
         : textColorClass,
-      'hover:text-blue-500'
+      'hover:text-foreground'
     ) ?? ''
   )
 }
@@ -66,12 +66,12 @@ export const getNavbarIconClasses = ({
       'h-4 w-4',
       isSelected
         ? isDarkMode
-          ? 'text-blue-400'
-          : 'text-blue-600'
+          ? 'text-foreground'
+          : 'text-foreground'
         : isDarkMode
-          ? 'text-gray-400'
-          : 'text-gray-500',
-      'group-hover:text-blue-500'
+          ? 'text-muted'
+          : 'text-muted',
+      'group-hover:text-foreground'
     ) ?? ''
   )
 }

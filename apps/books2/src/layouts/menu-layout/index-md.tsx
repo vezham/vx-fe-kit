@@ -38,6 +38,7 @@ export default function MenuMD() {
       data-vx="menu-layout">
       <Header user={user} showSearch showFavorites showArchive />
       <Menu
+        collapsed={false}
         items={items}
         selectedKey={selectedKey}
         onSelect={handleItemSelect}

@@ -5,6 +5,7 @@ export type MenuItem = {
   title: string
   href?: string
   icon?: string
+  iconActive?: string
   endContent?: ReactNode
 }
 
@@ -13,4 +14,8 @@ export type MenuProps = {
   selectedKey?: string
   onSelect?: (key: string) => void
   iconClassName?: string
+}
+
+export type Props = MenuProps & {
+  collapsed?: boolean
 }

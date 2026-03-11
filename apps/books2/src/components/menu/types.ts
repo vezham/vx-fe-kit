@@ -9,6 +9,7 @@ export type SidebarItem = {
   title: string
   href?: string
   icon?: string
+  iconActive?: string
   startContent?: ReactNode
   endContent?: ReactNode
   items?: SidebarItem[]
