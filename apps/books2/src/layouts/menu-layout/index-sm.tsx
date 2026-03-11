@@ -1,15 +1,17 @@
 import { useNavigate } from '@tanstack/react-router'
-import React from 'react'
+import React, { useState } from 'react'
 
 import { Surface } from '@vezham/react/v3'
 
 import { BottomNavbar } from '../../components/menu'
 import { longMenuItems } from '../../components/menu/sidebar-items'
 import Footer from '../../components/panel/footer'
+import UserInfoModal from '../../components/panel/footer/modal'
 import Header from '../../components/panel/header'
 
 export default function MenuSM() {
   const [selectedKey, setSelectedKey] = React.useState(longMenuItems[0]?.key)
+  const [openSettings, setOpenSettings] = useState(false)
 
   const handleItemSelect = (key: string) => {
     setSelectedKey(key)
@@ -56,6 +58,11 @@ export default function MenuSM() {
           showControlCenter
           showNotifications
           showUserInfo
+          onUserClick={() => setOpenSettings(true)}
+        />
+        <UserInfoModal
+          open={openSettings}
+          onClose={() => setOpenSettings(false)}
         />
       </div>
       <div>

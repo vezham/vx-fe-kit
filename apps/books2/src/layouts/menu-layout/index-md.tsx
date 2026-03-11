@@ -1,15 +1,17 @@
 import { useNavigate } from '@tanstack/react-router'
-import React from 'react'
+import React, { useState } from 'react'
 
 import { Surface } from '@vezham/react/v3'
 
 import Footer from '../../components/panel/footer'
+import UserInfoModal from '../../components/panel/footer/modal'
 import Header from '../../components/panel/header'
 import { Menu } from '../../components/panel/menu'
 import { items } from '../../components/panel/menu/sidebar-items'
 
 export default function MenuMD() {
   const [selectedKey, setSelectedKey] = React.useState(items[0]?.key)
+  const [openSettings, setOpenSettings] = useState(false)
   const navigate = useNavigate()
 
   const handleItemSelect = (key: string) => {
@@ -52,6 +54,11 @@ export default function MenuMD() {
         showControlCenter
         showNotifications
         showUserInfo
+        onUserClick={() => setOpenSettings(true)}
+      />
+      <UserInfoModal
+        open={openSettings}
+        onClose={() => setOpenSettings(false)}
       />
     </Surface>
   )
