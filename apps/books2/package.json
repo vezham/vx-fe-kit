@@ -7,6 +7,8 @@
     "@vx-oss/heroui-v2-shared-icons": "~2.1.11-beta.0",
     "@vx/start": "workspace:*",
     "@vx/system-utils": "workspace:*",
+    "date-fns": "^2.30.0",
+    "pigeon-maps": "^0.21.3",
     "recharts": "^3.1.2",
     "tailwind-variants": "^3.1.1",
     "usehooks-ts": "^3.1.1"

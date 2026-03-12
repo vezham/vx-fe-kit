@@ -4,8 +4,11 @@ import React, { useState } from 'react'
 import { Surface } from '@vezham/react/v3'
 
 import Footer from '../../components/panel/footer'
+import ControlCenterDrawer from '../../components/panel/footer/drawer'
 import UserInfoModal from '../../components/panel/footer/modal'
 import Header from '../../components/panel/header'
+import ArchiveDrawer from '../../components/panel/header/archived/drawer'
+import FavoritesDrawer from '../../components/panel/header/favourites/drawer'
 import { Menu } from '../../components/panel/menu'
 import { items } from '../../components/panel/menu/sidebar-items'
 
@@ -13,6 +16,9 @@ export default function MenuMD() {
   const [selectedKey, setSelectedKey] = React.useState(items[0]?.key)
   const [openSettings, setOpenSettings] = useState(false)
   const navigate = useNavigate()
+  const [drawerOpen, setDrawerOpen] = useState(false)
+  const [favoritesOpen, setFavoritesOpen] = useState(false)
+  const [archiveOpen, setArchiveOpen] = useState(false)
 
   const handleItemSelect = (key: string) => {
     setSelectedKey(key)
@@ -38,7 +44,14 @@ export default function MenuMD() {
       variant="transparent"
       className="border-default-300 flex h-screen w-[106px] flex-col gap-6 px-4 pt-4 pb-6"
       data-vx="menu-layout">
-      <Header user={user} showSearch showFavorites showArchive />
+      <Header
+        user={user}
+        showSearch
+        showFavorites
+        showArchive
+        onFavoritesClick={() => setFavoritesOpen(true)}
+        onArchiveClick={() => setArchiveOpen(true)}
+      />
       <Menu
         collapsed={false}
         items={items}
@@ -52,13 +65,26 @@ export default function MenuMD() {
         showNotifications
         showUserInfo
         onCTA={() => navigate({ to: '/cta/help-support' })}
-        onControlCenterClick={() => navigate({ to: '/settings' })}
+        onControlCenterClick={() => setDrawerOpen(true)}
         onNotificationsClick={() => navigate({ to: '/notifications' })}
         onUserClick={() => setOpenSettings(true)}
       />
       <UserInfoModal
         open={openSettings}
         onClose={() => setOpenSettings(false)}
+      />
+      <ControlCenterDrawer
+        isOpen={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+      />
+      <FavoritesDrawer
+        isOpen={favoritesOpen}
+        onClose={() => setFavoritesOpen(false)}
+      />
+
+      <ArchiveDrawer
+        isOpen={archiveOpen}
+        onClose={() => setArchiveOpen(false)}
       />
     </Surface>
   )

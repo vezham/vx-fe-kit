@@ -19,6 +19,7 @@ const InventoryRouteLazyRouteImport = createFileRoute('/inventory')()
 const BooksRouteLazyRouteImport = createFileRoute('/books')()
 const BankRouteLazyRouteImport = createFileRoute('/bank')()
 const IndexLazyRouteImport = createFileRoute('/')()
+const WidgetsIndexLazyRouteImport = createFileRoute('/widgets/')()
 const Settings1IndexLazyRouteImport = createFileRoute('/settings1/')()
 const SettingsIndexLazyRouteImport = createFileRoute('/settings/')()
 const ReportsIndexLazyRouteImport = createFileRoute('/reports/')()
@@ -175,6 +176,11 @@ const IndexLazyRoute = IndexLazyRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+const WidgetsIndexLazyRoute = WidgetsIndexLazyRouteImport.update({
+  id: '/widgets/',
+  path: '/widgets/',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() => import('./routes/widgets/index.lazy').then((d) => d.Route))
 const Settings1IndexLazyRoute = Settings1IndexLazyRouteImport.update({
   id: '/',
   path: '/',
@@ -618,6 +624,7 @@ export interface FileRoutesByFullPath {
   '/reports/': typeof ReportsIndexLazyRoute
   '/settings/': typeof SettingsIndexLazyRoute
   '/settings1/': typeof Settings1IndexLazyRoute
+  '/widgets/': typeof WidgetsIndexLazyRoute
   '/bank/accounts/$accountsId': typeof BankAccountsAccountsIdRouteLazyRouteWithChildren
   '/settings/integrations/inde': typeof SettingsIntegrationsIndeLazyRoute
   '/bank/accounts/': typeof BankAccountsIndexLazyRoute
@@ -670,6 +677,7 @@ export interface FileRoutesByTo {
   '/reports': typeof ReportsIndexLazyRoute
   '/settings': typeof SettingsIndexLazyRoute
   '/settings1': typeof Settings1IndexLazyRoute
+  '/widgets': typeof WidgetsIndexLazyRoute
   '/settings/integrations/inde': typeof SettingsIntegrationsIndeLazyRoute
   '/bank/accounts': typeof BankAccountsIndexLazyRoute
   '/bank/overview': typeof BankOverviewIndexLazyRoute
@@ -731,6 +739,7 @@ export interface FileRoutesById {
   '/reports/': typeof ReportsIndexLazyRoute
   '/settings/': typeof SettingsIndexLazyRoute
   '/settings1/': typeof Settings1IndexLazyRoute
+  '/widgets/': typeof WidgetsIndexLazyRoute
   '/bank/accounts/$accountsId': typeof BankAccountsAccountsIdRouteLazyRouteWithChildren
   '/settings/integrations/inde': typeof SettingsIntegrationsIndeLazyRoute
   '/bank/accounts/': typeof BankAccountsIndexLazyRoute
@@ -794,6 +803,7 @@ export interface FileRouteTypes {
     | '/reports/'
     | '/settings/'
     | '/settings1/'
+    | '/widgets/'
     | '/bank/accounts/$accountsId'
     | '/settings/integrations/inde'
     | '/bank/accounts/'
@@ -846,6 +856,7 @@ export interface FileRouteTypes {
     | '/reports'
     | '/settings'
     | '/settings1'
+    | '/widgets'
     | '/settings/integrations/inde'
     | '/bank/accounts'
     | '/bank/overview'
@@ -906,6 +917,7 @@ export interface FileRouteTypes {
     | '/reports/'
     | '/settings/'
     | '/settings1/'
+    | '/widgets/'
     | '/bank/accounts/$accountsId'
     | '/settings/integrations/inde'
     | '/bank/accounts/'
@@ -959,6 +971,7 @@ export interface RootRouteChildren {
   ChatIndexLazyRoute: typeof ChatIndexLazyRoute
   CtaIndexLazyRoute: typeof CtaIndexLazyRoute
   NotificationsIndexLazyRoute: typeof NotificationsIndexLazyRoute
+  WidgetsIndexLazyRoute: typeof WidgetsIndexLazyRoute
   CtaHelpSupportIndexLazyRoute: typeof CtaHelpSupportIndexLazyRoute
 }
 
@@ -1011,6 +1024,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/widgets/': {
+      id: '/widgets/'
+      path: '/widgets'
+      fullPath: '/widgets/'
+      preLoaderRoute: typeof WidgetsIndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/settings1/': {
@@ -1604,6 +1624,7 @@ const rootRouteChildren: RootRouteChildren = {
   ChatIndexLazyRoute: ChatIndexLazyRoute,
   CtaIndexLazyRoute: CtaIndexLazyRoute,
   NotificationsIndexLazyRoute: NotificationsIndexLazyRoute,
+  WidgetsIndexLazyRoute: WidgetsIndexLazyRoute,
   CtaHelpSupportIndexLazyRoute: CtaHelpSupportIndexLazyRoute,
 }
 export const routeTree = rootRouteImport

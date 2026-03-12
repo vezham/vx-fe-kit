@@ -12,6 +12,7 @@ import Header from '../../components/panel/header'
 export default function MenuSM() {
   const [selectedKey, setSelectedKey] = React.useState(longMenuItems[0]?.key)
   const [openSettings, setOpenSettings] = useState(false)
+  const [drawerOpen, setDrawerOpen] = useState(false)
 
   const handleItemSelect = (key: string) => {
     setSelectedKey(key)
@@ -51,8 +52,8 @@ export default function MenuSM() {
         />
         <Footer
           user={users}
-          onCTA={() => navigate({ to: '/cta' })}
-          onControlCenterClick={() => navigate({ to: '/settings1' })}
+          onCTA={() => navigate({ to: '/cta/help-support' })}
+          onControlCenterClick={() => setDrawerOpen(true)}
           onNotificationsClick={() => navigate({ to: '/notifications' })}
           showCTA
           showControlCenter

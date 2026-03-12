@@ -33,9 +33,8 @@ export default function Header({
     <>
       <Surface
         variant="transparent"
-        className={`flex flex-row items-center gap-2 md:flex-col ${className ?? ''}`}
+        className={`flex flex-row items-center gap-6 md:flex-col ${className ?? ''}`}
         data-vx="header">
-        {/* MAIN MENU */}
         <Popover open={open} onOpenChange={setOpen} placement="right-start">
           <Popover.Trigger>
             <Button
@@ -53,8 +52,6 @@ export default function Header({
                   {user.name?.[0]?.toUpperCase()}
                 </Avatar.Fallback>
               </Avatar>
-
-              {/* Dropdown Arrow */}
               <Icon
                 icon="solar:alt-arrow-down-linear"
                 width={12}
@@ -64,142 +61,111 @@ export default function Header({
           </Popover.Trigger>
 
           <Popover.Content className="w-72 p-2" placement="bottom">
-            {/* BACK */}
             <button
               className="hover:bg-background w-full rounded-md px-3 py-2 text-left text-sm"
               onClick={() => setOpen(false)}>
+              {' '}
               Back to home
             </button>
-
             <Separator className="my-2" />
-
             <MenuItem
               icon="solar:magnifer-linear"
               label="Actions..."
               shortcut="⌘ K"
             />
-
             <Separator className="my-2" />
-
-            {/* FILE SUBMENU */}
             <Popover open={submenu === 'file'}>
               <Popover.Trigger
-                onMouseEnter={() => setSubmenu('file')}
+                onMouseOver={() => setSubmenu('file')}
                 onMouseLeave={() => setSubmenu(null)}>
                 <div>
                   <MenuItem label="File" icon="solar:folder-linear" hasSub />
                 </div>
               </Popover.Trigger>
-
               <Popover.Content
                 placement="right top"
                 className="ml-2 w-72 p-2"
-                onMouseEnter={() => setSubmenu('file')}
+                onMouseOver={() => setSubmenu('file')}
                 onMouseLeave={() => setSubmenu(null)}>
                 <MenuItem label="New" hasSub />
-
                 <Separator className="my-2" />
-
                 <MenuItem
                   icon="solar:gallery-linear"
                   label="Place image..."
                   shortcut="⇧ ⌘ K"
                 />
-
                 <Separator className="my-2" />
-
                 <MenuItem label="Save local copy..." />
                 <MenuItem label="Save to version history..." shortcut="⌥ ⌘ S" />
                 <MenuItem label="Show version history" />
-
                 <Separator className="my-2" />
-
                 <MenuItem label="Export..." shortcut="⇧ ⌘ E" />
                 <MenuItem label="Export frames to PDF..." />
-
                 <Separator className="my-2" />
-
                 <MenuItem label="Create branch..." />
               </Popover.Content>
             </Popover>
-
             <MenuItem label="Edit" hasSub />
             <MenuItem label="View" hasSub />
             <MenuItem label="Object" hasSub />
             <MenuItem label="Text" hasSub />
             <MenuItem label="Arrange" hasSub />
             <MenuItem label="Vector" hasSub />
-
             <Separator className="my-2" />
-
             <MenuItem label="Plugins" hasSub />
             <MenuItem label="Widgets" hasSub />
             <MenuItem label="Preferences" hasSub />
             <MenuItem label="Libraries" />
-
             <Separator className="my-2" />
-
             <MenuItem label="Open in desktop app" />
             <MenuItem label="Help and account" hasSub />
           </Popover.Content>
         </Popover>
 
-        {/* SEARCH */}
         {showSearch && (
           <Tooltip delay={0}>
-            <Button
-              isIconOnly
-              variant="ghost"
-              onPress={onSearchClick}
-              className="h-12 w-12 transition-all hover:scale-110">
-              <Icon icon="solar:magnifer-linear" width={24} />
-            </Button>
-
+            <Icon
+              className="text-muted"
+              icon="solar:magnifer-linear"
+              width={24}
+              onClick={onSearchClick}
+            />
             <Tooltip.Content placement="right">Search</Tooltip.Content>
           </Tooltip>
         )}
-
-        {/* FAVORITES */}
         {showFavorites && (
           <Tooltip delay={0}>
             <Badge
               content={favoritesCount}
               isInvisible={favoritesCount === 0}
               color="danger">
-              <Button
-                isIconOnly
-                variant="ghost"
-                onPress={onFavoritesClick}
-                className="h-12 w-12 transition-all hover:scale-110">
-                <Icon icon="solar:star-linear" width={24} />
-              </Button>
+              <Icon
+                className="text-muted"
+                icon="solar:star-linear"
+                width={24}
+                onClick={onFavoritesClick}
+              />
             </Badge>
-
             <Tooltip.Content placement="right">Favorites</Tooltip.Content>
           </Tooltip>
         )}
-
-        {/* ARCHIVE */}
         {showArchive && (
           <Tooltip delay={0}>
             <Badge
               content={archiveCount}
               isInvisible={archiveCount === 0}
               color="primary">
-              <Button
-                isIconOnly
-                variant="ghost"
-                onPress={onArchiveClick}
-                className="h-12 w-12 transition-all hover:scale-110">
-                <Icon icon="solar:archive-linear" width={24} />
-              </Button>
+              <Icon
+                className="text-muted"
+                icon="solar:archive-linear"
+                width={24}
+                onClick={onArchiveClick}
+              />
             </Badge>
-
             <Tooltip.Content placement="right">Archived</Tooltip.Content>
           </Tooltip>
         )}
       </Surface>
-
       <Separator className="hidden md:block" />
     </>
   )
@@ -212,13 +178,10 @@ function MenuItem({ icon, label, shortcut, hasSub }: any) {
         {icon && (
           <Icon icon={icon} width={18} className="text-muted-foreground" />
         )}
-
         <span>{label}</span>
       </div>
-
       <div className="text-muted-foreground flex items-center gap-2">
         {shortcut && <span className="text-xs">{shortcut}</span>}
-
         {hasSub && <Icon icon="solar:alt-arrow-right-linear" width={16} />}
       </div>
     </div>

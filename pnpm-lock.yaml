@@ -270,6 +270,12 @@ importers:
       '@vx/system-utils':
         specifier: workspace:*
         version: link:../../packages/vx/system-utils
+      date-fns:
+        specifier: ^2.30.0
+        version: 2.30.0
+      pigeon-maps:
+        specifier: ^0.21.3
+        version: 0.21.6(react@19.0.0)
       recharts:
         specifier: ^3.1.2
         version: 3.7.0(@types/react@19.0.0)(react-dom@19.0.0(react@19.0.0))(react-is@18.3.1)(react@19.0.0)(redux@5.0.1)
