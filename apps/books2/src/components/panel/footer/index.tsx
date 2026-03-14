@@ -14,12 +14,12 @@ import { FooterActionsProps } from './types'
 
 export default function Footer({
   user,
-  showCTA = false,
+  showAI = false,
   showControlCenter = false,
   showNotifications = false,
   showUserInfo = true,
   notificationCount = 0,
-  onCTA,
+  onAI,
   onControlCenterClick,
   onNotificationsClick,
   onUserClick,
@@ -33,14 +33,14 @@ export default function Footer({
         data-vx="footer"
         className={`${className ?? ''}`}>
         <div className="hidden flex-row items-center gap-6 min-[500px]:flex md:flex-col">
-          {showCTA && (
+          {showAI && (
             <Tooltip delay={0}>
               <Tooltip.Trigger>
                 <Icon
                   className="text-muted"
                   icon="solar:question-circle-linear"
                   width={24}
-                  onClick={onCTA}
+                  onClick={onAI}
                 />
               </Tooltip.Trigger>
               <Tooltip.Content placement="right">Help</Tooltip.Content>

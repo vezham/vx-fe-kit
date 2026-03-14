@@ -4,8 +4,9 @@ import React, { useState } from 'react'
 import { Surface } from '@vezham/react/v3'
 
 import Footer from '../../components/panel/footer'
-import ControlCenterDrawer from '../../components/panel/footer/drawer'
-import UserInfoModal from '../../components/panel/footer/modal'
+import AIDrawer from '../../components/panel/footer/ai/drawer'
+import ControlCenterDrawer from '../../components/panel/footer/control-center/drawer'
+import NotificationDrawer from '../../components/panel/footer/notification/drawer'
 import Header from '../../components/panel/header'
 import ArchiveDrawer from '../../components/panel/header/archived/drawer'
 import FavoritesDrawer from '../../components/panel/header/favourites/drawer'
@@ -16,7 +17,9 @@ export default function MenuMD() {
   const [selectedKey, setSelectedKey] = React.useState(items[0]?.key)
   const [openSettings, setOpenSettings] = useState(false)
   const navigate = useNavigate()
-  const [drawerOpen, setDrawerOpen] = useState(false)
+  const [aiOpen, setAIOpen] = useState(false)
+  const [notificationsOpen, setNotificationsOpen] = useState(false)
+  const [controlsOpen, setControlsOpen] = useState(false)
   const [favoritesOpen, setFavoritesOpen] = useState(false)
   const [archiveOpen, setArchiveOpen] = useState(false)
 
@@ -60,23 +63,31 @@ export default function MenuMD() {
       />
       <Footer
         user={users}
-        showCTA
+        showAI
         showControlCenter
         showNotifications
         showUserInfo
-        onCTA={() => navigate({ to: '/cta/help-support' })}
-        onControlCenterClick={() => setDrawerOpen(true)}
-        onNotificationsClick={() => navigate({ to: '/notifications' })}
-        onUserClick={() => setOpenSettings(true)}
+        onAI={() => setAIOpen(true)}
+        onControlCenterClick={() => setControlsOpen(true)}
+        onNotificationsClick={() => setNotificationsOpen(true)}
+        // onAI={() => navigate({ to: '/cta/help-support' })}
+        // onNotificationsClick={() => navigate({ to: '/notifications' })}
+        // onUserClick={() => setOpenSettings(true)}
       />
-      <UserInfoModal
+      {/* <UserInfoModal
         open={openSettings}
         onClose={() => setOpenSettings(false)}
-      />
+      /> */}
+      <AIDrawer isOpen={aiOpen} onClose={() => setAIOpen(false)} />
       <ControlCenterDrawer
-        isOpen={drawerOpen}
-        onClose={() => setDrawerOpen(false)}
+        isOpen={controlsOpen}
+        onClose={() => setControlsOpen(false)}
       />
+      <NotificationDrawer
+        isOpen={notificationsOpen}
+        onClose={() => setNotificationsOpen(false)}
+      />
+
       <FavoritesDrawer
         isOpen={favoritesOpen}
         onClose={() => setFavoritesOpen(false)}

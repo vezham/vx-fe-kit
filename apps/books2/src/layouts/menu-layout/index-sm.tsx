@@ -52,10 +52,10 @@ export default function MenuSM() {
         />
         <Footer
           user={users}
-          onCTA={() => navigate({ to: '/cta/help-support' })}
+          onAI={() => navigate({ to: '/cta/help-support' })}
           onControlCenterClick={() => setDrawerOpen(true)}
           onNotificationsClick={() => navigate({ to: '/notifications' })}
-          showCTA
+          showAI
           showControlCenter
           showNotifications
           showUserInfo
