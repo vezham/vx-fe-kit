@@ -27,6 +27,7 @@ export function MailApp({ isOpen, onClose }: MailAppProps) {
 
   return (
     <AppView
+      showBack
       isOpen={isOpen}
       onClose={handleBack}
       title={selectedEmail ? 'Email' : 'Mail'}>

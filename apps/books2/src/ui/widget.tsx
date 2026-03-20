@@ -100,13 +100,13 @@ const widgetVariants = tv({
   base: 'border-default-200 relative flex flex-col rounded-3xl border border-2 whitespace-nowrap shadow-md',
   variants: {
     size: {
-      sm: 'size-36',
-      md: 'h-36 w-64',
-      lg: 'size-64'
+      sm: 'size-48',
+      md: 'h-48 w-96',
+      lg: 'size-96'
     },
     design: {
-      default: 'p-6',
-      mumbai: 'p-4'
+      default: 'p-4',
+      mumbai: 'p-2'
     },
     variant: {
       default: 'text-foreground',

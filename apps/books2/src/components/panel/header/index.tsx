@@ -33,7 +33,7 @@ export default function Header({
     <>
       <Surface
         variant="transparent"
-        className={`flex flex-row items-center gap-6 md:flex-col ${className ?? ''}`}
+        className={`flex flex-row items-center gap-3 md:flex-col md:gap-6 ${className ?? ''}`}
         data-vx="header">
         <Popover open={open} onOpenChange={setOpen} placement="right-start">
           <Popover.Trigger>

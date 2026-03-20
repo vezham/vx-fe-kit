@@ -6,13 +6,22 @@ import { Surface } from '@vezham/react/v3'
 import { BottomNavbar } from '../../components/menu'
 import { longMenuItems } from '../../components/menu/sidebar-items'
 import Footer from '../../components/panel/footer'
+import AIDrawer from '../../components/panel/footer/ai/drawer'
+import ControlCenterDrawer from '../../components/panel/footer/control-center/drawer'
 import UserInfoModal from '../../components/panel/footer/modal'
+import NotificationDrawer from '../../components/panel/footer/notification/drawer'
 import Header from '../../components/panel/header'
+import ArchiveDrawer from '../../components/panel/header/archived/drawer'
+import FavoritesDrawer from '../../components/panel/header/favorites/drawer'
 
 export default function MenuSM() {
   const [selectedKey, setSelectedKey] = React.useState(longMenuItems[0]?.key)
   const [openSettings, setOpenSettings] = useState(false)
-  const [drawerOpen, setDrawerOpen] = useState(false)
+  const [aiOpen, setAIOpen] = useState(false)
+  const [notificationsOpen, setNotificationsOpen] = useState(false)
+  const [controlsOpen, setControlsOpen] = useState(false)
+  const [favoritesOpen, setFavoritesOpen] = useState(false)
+  const [archiveOpen, setArchiveOpen] = useState(false)
 
   const handleItemSelect = (key: string) => {
     setSelectedKey(key)
@@ -47,14 +56,14 @@ export default function MenuSM() {
           showArchive
           onAvatarClick={user => console.log('Avatar clicked:', user)}
           onSearchClick={() => console.log('Search clicked')}
-          onFavoritesClick={() => console.log('Favorites clicked')}
-          onArchiveClick={() => console.log('Archive clicked')}
+          onFavoritesClick={() => setFavoritesOpen(true)}
+          onArchiveClick={() => setArchiveOpen(true)}
         />
         <Footer
           user={users}
-          onAI={() => navigate({ to: '/cta/help-support' })}
-          onControlCenterClick={() => setDrawerOpen(true)}
-          onNotificationsClick={() => navigate({ to: '/notifications' })}
+          onAI={() => setAIOpen(true)}
+          onControlCenterClick={() => setControlsOpen(true)}
+          onNotificationsClick={() => setNotificationsOpen(true)}
           showAI
           showControlCenter
           showNotifications
@@ -64,6 +73,25 @@ export default function MenuSM() {
         <UserInfoModal
           open={openSettings}
           onClose={() => setOpenSettings(false)}
+        />
+        <AIDrawer isOpen={aiOpen} onClose={() => setAIOpen(false)} />
+        <ControlCenterDrawer
+          isOpen={controlsOpen}
+          onClose={() => setControlsOpen(false)}
+        />
+        <NotificationDrawer
+          isOpen={notificationsOpen}
+          onClose={() => setNotificationsOpen(false)}
+        />
+
+        <FavoritesDrawer
+          isOpen={favoritesOpen}
+          onClose={() => setFavoritesOpen(false)}
+        />
+
+        <ArchiveDrawer
+          isOpen={archiveOpen}
+          onClose={() => setArchiveOpen(false)}
         />
       </div>
       <div>

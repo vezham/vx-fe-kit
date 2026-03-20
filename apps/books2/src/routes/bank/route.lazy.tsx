@@ -120,7 +120,7 @@ function RouteComponent() {
             />
           )}
 
-          <Surface className="flex-1 overflow-auto p-4">
+          <Surface className="flex-1 overflow-auto rounded-xl p-4">
             <Outlet />
           </Surface>
         </div>

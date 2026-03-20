@@ -10,7 +10,7 @@ import Settings from '../../pages/widgets/settings/settings'
 
 export default function WidgetsGrid() {
   return (
-    <div className="grid gap-6 p-4">
+    <div className="grid gap-6">
       <Phone />
       <Messages />
       <Mail />

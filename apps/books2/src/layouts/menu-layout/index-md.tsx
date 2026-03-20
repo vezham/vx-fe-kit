@@ -6,10 +6,11 @@ import { Surface } from '@vezham/react/v3'
 import Footer from '../../components/panel/footer'
 import AIDrawer from '../../components/panel/footer/ai/drawer'
 import ControlCenterDrawer from '../../components/panel/footer/control-center/drawer'
+import UserInfoModal from '../../components/panel/footer/modal'
 import NotificationDrawer from '../../components/panel/footer/notification/drawer'
 import Header from '../../components/panel/header'
 import ArchiveDrawer from '../../components/panel/header/archived/drawer'
-import FavoritesDrawer from '../../components/panel/header/favourites/drawer'
+import FavoritesDrawer from '../../components/panel/header/favorites/drawer'
 import { Menu } from '../../components/panel/menu'
 import { items } from '../../components/panel/menu/sidebar-items'
 
@@ -72,12 +73,12 @@ export default function MenuMD() {
         onNotificationsClick={() => setNotificationsOpen(true)}
         // onAI={() => navigate({ to: '/cta/help-support' })}
         // onNotificationsClick={() => navigate({ to: '/notifications' })}
-        // onUserClick={() => setOpenSettings(true)}
+        onUserClick={() => setOpenSettings(true)}
       />
-      {/* <UserInfoModal
+      <UserInfoModal
         open={openSettings}
         onClose={() => setOpenSettings(false)}
-      /> */}
+      />
       <AIDrawer isOpen={aiOpen} onClose={() => setAIOpen(false)} />
       <ControlCenterDrawer
         isOpen={controlsOpen}
