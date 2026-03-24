@@ -1,18 +1,24 @@
 'use client'
 
 import { Icon } from '@iconify/react'
+import { useState } from 'react'
 
 import { Button, Surface } from '@vezham/react/v3'
 
-import SettingsSidebar from './sidebar'
+import SettingsSidebar, { findItemById } from './sidebar'
 
-type Props = {
-  open: boolean
-  onClose: () => void
+export type User = {
+  name?: string
+  avatarUrl?: string
 }
 
-export default function UserInfoModal({ open, onClose }: Props) {
+export default function UserInfoModal({ open, onClose, user }: any) {
+  const [active, setActive] = useState('account')
+
   if (!open) return null
+
+  const item = findItemById(active)
+  const Component = item?.component
 
   return (
     <div
@@ -29,9 +35,11 @@ export default function UserInfoModal({ open, onClose }: Props) {
           <Icon icon="solar:close-circle-linear" width={22} />
         </Button>
 
-        <SettingsSidebar />
+        <SettingsSidebar active={active} onSelect={setActive} user={user} />
 
-        <div className="flex-1 p-6">Content here</div>
+        <div className="flex-1 overflow-auto p-6">
+          {Component ? <Component /> : <div>Select a setting</div>}
+        </div>
       </Surface>
     </div>
   )

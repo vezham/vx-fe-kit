@@ -2,7 +2,13 @@ import { Icon } from '@iconify/react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
 
-import { Drawer, DrawerBody, DrawerContent } from '@vezham/react/v2'
+import {
+  Drawer,
+  DrawerBody,
+  DrawerContent,
+  DrawerFooter
+} from '@vezham/react/v2'
+import { Chip } from '@vezham/react/v3'
 
 type View = 'main' | 'airdrop' | 'wifi'
 
@@ -26,7 +32,6 @@ export default function AIDrawer({ isOpen, onClose }: AIDrawerProps) {
         base: 'bg-transparent border-none shadow-none max-w-[320px] md:translate-x-[106px]'
       }}>
       <DrawerContent className="flex justify-end bg-black/5 pb-4 shadow-xl backdrop-blur-sm">
-        {/* Floating Panel */}
         <motion.div
           initial={{ y: 80, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -113,12 +118,13 @@ export default function AIDrawer({ isOpen, onClose }: AIDrawerProps) {
             </AnimatePresence>
           </div>
         </motion.div>
+        <DrawerFooter className="flex items-center justify-center">
+          <Chip className="cursor-pointer">Edit Controls</Chip>
+        </DrawerFooter>
       </DrawerContent>
     </Drawer>
   )
 }
-
-/* ================= COMPONENTS ================= */
 
 function Control({
   icon,

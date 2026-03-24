@@ -6,6 +6,7 @@ import { ThemeProvider } from '../common/context'
 // import { Loading, ErrorPage, NotFound } from '@vezham/templates'
 
 import { routeTree } from '../routeTree.gen'
+import { UserProvider } from '../store/users/useUserStore'
 import './global.css'
 
 // @vx/NOTE: Create a new router instance
@@ -26,8 +27,10 @@ declare module '@tanstack/react-router' {
 
 defineConfig({
   children: (
-    <ThemeProvider>
-      <RouterProvider router={router} />{' '}
-    </ThemeProvider>
+    <UserProvider>
+      <ThemeProvider>
+        <RouterProvider router={router} />
+      </ThemeProvider>
+    </UserProvider>
   )
 })

@@ -9,6 +9,7 @@ import {
   DrawerHeader,
   ScrollShadow
 } from '@vezham/react/v2'
+import { Chip } from '@vezham/react/v3'
 
 import WidgetsGrid from '../../../../pages/widgets'
 
@@ -41,13 +42,13 @@ export default function NotificationDrawer({
             <WidgetsGrid />
           </ScrollShadow>
         </DrawerBody>
-        <DrawerFooter>
-          <Button
-            fullWidth
+        <DrawerFooter className="flex items-center justify-center">
+          <Chip
+            className="cursor-pointer"
             variant="bordered"
-            onPress={() => navigate({ to: '/widgets' })}>
+            onClick={() => navigate({ to: '/widgets' })}>
             Edit Widgets
-          </Button>
+          </Chip>
         </DrawerFooter>
       </DrawerContent>
     </Drawer>

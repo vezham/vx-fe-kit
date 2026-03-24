@@ -14,7 +14,7 @@ import {
 import { HeaderActionsProps } from './types'
 
 export default function Header({
-  user,
+  users,
   showSearch = false,
   showFavorites = false,
   showArchive = false,
@@ -42,14 +42,14 @@ export default function Header({
               className="flex h-12 items-center gap-2 px-2 transition-transform duration-300"
               onPress={() => {
                 setOpen(!open)
-                onAvatarClick?.(user)
+                onAvatarClick?.(users)
               }}>
               <Avatar className="h-6 w-6">
-                {user.avatar && (
-                  <Avatar.Image src={user.avatar} alt={user.name} />
+                {users.avatar && (
+                  <Avatar.Image src={users.avatar} alt={users.name} />
                 )}
                 <Avatar.Fallback>
-                  {user.name?.[0]?.toUpperCase()}
+                  {users.name?.[0]?.toUpperCase()}
                 </Avatar.Fallback>
               </Avatar>
               <Icon

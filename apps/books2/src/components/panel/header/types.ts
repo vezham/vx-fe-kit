@@ -7,7 +7,7 @@ export interface User {
 }
 
 export interface HeaderActionsProps {
-  user: User
+  users: User
 
   showSearch?: boolean
   showFavorites?: boolean

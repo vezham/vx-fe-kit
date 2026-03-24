@@ -4,7 +4,7 @@ import { Widget, WidgetContent } from '../../../ui/widget'
 const Messages = () => {
   return (
     <>
-      <Widget size="lg">
+      <Widget size="md">
         <WidgetContent>
           <div className="flex w-full flex-col">
             <MessagesApp isOpen={true} />

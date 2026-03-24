@@ -8,11 +8,12 @@ import { longMenuItems } from '../../components/menu/sidebar-items'
 import Footer from '../../components/panel/footer'
 import AIDrawer from '../../components/panel/footer/ai/drawer'
 import ControlCenterDrawer from '../../components/panel/footer/control-center/drawer'
-import UserInfoModal from '../../components/panel/footer/modal'
 import NotificationDrawer from '../../components/panel/footer/notification/drawer'
+import UserInfoModal from '../../components/panel/footer/preferences/modal'
 import Header from '../../components/panel/header'
 import ArchiveDrawer from '../../components/panel/header/archived/drawer'
 import FavoritesDrawer from '../../components/panel/header/favorites/drawer'
+import { useUser } from '../../store/users/useUserStore'
 
 export default function MenuSM() {
   const [selectedKey, setSelectedKey] = React.useState(longMenuItems[0]?.key)
@@ -29,28 +30,21 @@ export default function MenuSM() {
 
   const menuItemsForBottomNavbar = longMenuItems
 
-  const user = {
+  const users = {
     id: '1',
     name: 'Slack',
     avatar:
       'https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue.jpg'
   }
 
-  const users = {
-    id: '1',
-    name: 'Slack',
-    avatar:
-      'https://png.pngtree.com/png-clipart/20231019/original/pngtree-user-profile-avatar-png-image_13369990.png',
-    isOnline: true
-  }
-
+  const { user } = useUser()
   const navigate = useNavigate()
 
   return (
     <Surface variant="transparent" className={`flex flex-1 flex-col`}>
       <div className={`sticky top-0 z-50 flex justify-between p-3 shadow-md`}>
         <Header
-          user={user}
+          users={users}
           showSearch
           showFavorites
           showArchive
@@ -60,14 +54,21 @@ export default function MenuSM() {
           onArchiveClick={() => setArchiveOpen(true)}
         />
         <Footer
-          user={users}
-          onAI={() => setAIOpen(true)}
-          onControlCenterClick={() => setControlsOpen(true)}
-          onNotificationsClick={() => setNotificationsOpen(true)}
+          user={{
+            id: user?.id ?? '', // ✅ REQUIRED FIX
+            name: user
+              ? `${user.firstName ?? ''} ${user.lastName ?? ''}`.trim()
+              : '',
+            avatar: user?.avatar,
+            isOnline: user?.isOnline
+          }}
           showAI
           showControlCenter
           showNotifications
           showUserInfo
+          onAI={() => setAIOpen(true)}
+          onControlCenterClick={() => setControlsOpen(true)}
+          onNotificationsClick={() => setNotificationsOpen(true)}
           onUserClick={() => setOpenSettings(true)}
         />
         <UserInfoModal
