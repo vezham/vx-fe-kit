@@ -148,36 +148,33 @@ export default function Footer({
             <Dropdown open={isDropdownOpen} onOpenChange={setIsDropdownOpen}>
               <Tooltip delay={0}>
                 <Tooltip.Trigger asChild>
-                  <div>
-                    <Dropdown.Trigger>
-                      <div className="relative">
-                        <StatusIndicator />
+                  <Dropdown.Trigger asChild>
+                    <div className="relative cursor-pointer">
+                      <StatusIndicator />
 
-                        <Button
-                          isIconOnly
-                          variant="ghost"
-                          className="h-12 w-12 rounded-xl">
-                          <Badge
-                            content={
-                              <span className="text-[10px] leading-none">
-                                {currentStatus?.icon}
-                              </span>
-                            }
-                            placement="bottom-right"
-                            classNames={{
-                              badge: `flex items-center justify-center w-4 h-4 border-2 border-background text-white`
-                            }}>
-                            <Avatar size="sm" className="rounded-xl">
-                              <Avatar.Image src={user?.avatar} />
-                              <Avatar.Fallback>
-                                {user?.name?.[0]}
-                              </Avatar.Fallback>
-                            </Avatar>
-                          </Badge>
-                        </Button>
-                      </div>
-                    </Dropdown.Trigger>
-                  </div>
+                      <Button
+                        isIconOnly
+                        variant="ghost"
+                        className="h-12 w-12 rounded-xl">
+                        <Badge
+                          content={
+                            <span className="text-[10px] leading-none">
+                              {currentStatus?.icon}
+                            </span>
+                          }
+                          placement="bottom-right"
+                          classNames={{
+                            badge:
+                              'flex items-center justify-center w-4 h-4 border-2 border-background text-white'
+                          }}>
+                          <Avatar size="sm" className="rounded-xl">
+                            <Avatar.Image src={user?.avatar} />
+                            <Avatar.Fallback>{user?.name?.[0]}</Avatar.Fallback>
+                          </Avatar>
+                        </Badge>
+                      </Button>
+                    </div>
+                  </Dropdown.Trigger>
                 </Tooltip.Trigger>
 
                 <Tooltip.Content placement="right">
@@ -187,7 +184,6 @@ export default function Footer({
 
               <Dropdown.Popover placement="right">
                 <Dropdown.Menu>
-                  {/* USER HEADER */}
                   <Dropdown.Item className="p-0">
                     <div className="flex items-center gap-3 px-3 py-2">
                       <Avatar size="sm">
@@ -206,16 +202,13 @@ export default function Footer({
                       </div>
                     </div>
                   </Dropdown.Item>
-
                   <Separator />
-
-                  {/* STATUS SELECT */}
                   <Dropdown.Item className="mt-2 p-0">
                     <Select
                       className="w-full"
                       value={userStatus}
                       onChange={v => setUserStatus(v as UserStatus)}>
-                      <Select.Trigger className="h-8">
+                      <Select.Trigger className="h-8 border-none bg-transparent shadow-none ring-0 outline-none focus:ring-0 focus:outline-none">
                         <Select.Value />
                         <Select.Indicator />
                       </Select.Trigger>
@@ -232,24 +225,32 @@ export default function Footer({
                     </Select>
                   </Dropdown.Item>
 
-                  {/* CUSTOM STATUS */}
-                  <Dropdown.Item className="mt-2 p-0">
+                  <Dropdown.Item className="my-1 p-0">
                     <Select
-                      className="w-full"
+                      className="w-full border-none shadow-none"
                       selectedKeys={selectedStatus ? [selectedStatus.id] : []}
                       open={isStatusOpen}
                       onOpenChange={setIsStatusOpen}
-                      onSelectionChange={keys => {
-                        const status = suggestedStatuses.find(
-                          s => s.id === keys
-                        )
+                      onSelectionChange={key => {
+                        if (key === 'clear') {
+                          setSelectedStatus(null)
+                          setSelectedTiming(null)
+                          setIsStatusOpen(false)
+                          return
+                        }
+
+                        const status = suggestedStatuses.find(s => s.id === key)
+
                         if (status) {
                           setSelectedStatus(status)
-                          setSelectedTiming(null)
+                          const defaultTiming = timingOptions.find(
+                            t => t.id === '15min'
+                          )
+                          setSelectedTiming(defaultTiming)
                           setIsStatusOpen(false)
                         }
                       }}>
-                      <Select.Trigger className="flex w-full items-center justify-between px-3 py-2">
+                      <Select.Trigger className="flex w-full items-center justify-between border-none bg-transparent px-3 py-2 shadow-none ring-0 outline-none focus:ring-0 focus:outline-none">
                         <Select.Value>
                           {selectedStatus
                             ? `${selectedStatus.emoji} ${selectedStatus.label}`
@@ -265,28 +266,37 @@ export default function Footer({
                               {s.emoji} {s.label}
                             </ListBox.Item>
                           ))}
+                          <ListBox.Item key="clear" id="clear">
+                            <div className="text-danger flex items-center gap-2">
+                              <Icon
+                                icon="mdi:close-circle"
+                                className="text-danger text-base"
+                              />
+                              Clear status
+                            </div>
+                          </ListBox.Item>
                         </ListBox>
                       </Select.Popover>
                     </Select>
                   </Dropdown.Item>
 
-                  {/* TIMING */}
                   {selectedStatus && (
-                    <Dropdown.Item className="my-2 p-0">
+                    <Dropdown.Item className="my-1 p-0">
                       <Select
                         className="w-full"
                         selectedKeys={selectedTiming ? [selectedTiming.id] : []}
                         open={isTimingOpen}
                         onOpenChange={setIsTimingOpen}
-                        onSelectionChange={keys => {
-                          const timing = timingOptions.find(t => t.id === keys)
+                        onSelectionChange={key => {
+                          const timing = timingOptions.find(t => t.id === key)
+
                           if (timing) {
                             setSelectedTiming(timing)
                             setIsTimingOpen(false)
                             setIsDropdownOpen(false)
                           }
                         }}>
-                        <Select.Trigger className="flex w-full items-center justify-between px-3 py-2">
+                        <Select.Trigger className="flex w-full items-center justify-between border-none bg-transparent px-3 py-2 shadow-none ring-0 outline-none focus:ring-0 focus:outline-none">
                           <Select.Value>
                             {selectedTiming
                               ? selectedTiming.label
@@ -308,11 +318,6 @@ export default function Footer({
                     </Dropdown.Item>
                   )}
 
-                  <Dropdown.Item className="mt-2">
-                    <Icon icon="solar:user-linear" width={20} />
-                    Profile
-                  </Dropdown.Item>
-
                   <Dropdown.Item onPress={() => onUserClick?.(user)}>
                     <Icon icon="solar:settings-linear" width={20} />
                     Preferences
@@ -320,7 +325,7 @@ export default function Footer({
 
                   <Separator />
 
-                  <Dropdown.Item onPress={clearUser}>
+                  <Dropdown.Item onPress={clearUser} className="text-danger">
                     <Icon icon="solar:logout-2-linear" width={20} />
                     Logout
                   </Dropdown.Item>
@@ -448,7 +453,7 @@ export default function Footer({
                       className="w-full"
                       value={userStatus}
                       onChange={v => setUserStatus(v as UserStatus)}>
-                      <Select.Trigger className="h-8">
+                      <Select.Trigger className="h-8 border-none bg-transparent shadow-none ring-0 outline-none focus:ring-0 focus:outline-none">
                         <Select.Value />
                         <Select.Indicator />
                       </Select.Trigger>
@@ -465,24 +470,35 @@ export default function Footer({
                     </Select>
                   </Dropdown.Item>
 
-                  {/* CUSTOM STATUS */}
                   <Dropdown.Item className="mt-2 p-0">
                     <Select
                       className="w-full"
                       selectedKeys={selectedStatus ? [selectedStatus.id] : []}
                       open={isStatusOpen}
                       onOpenChange={setIsStatusOpen}
-                      onSelectionChange={keys => {
-                        const status = suggestedStatuses.find(
-                          s => s.id === keys
-                        )
+                      onSelectionChange={key => {
+                        // ✅ CLEAR STATUS OPTION
+                        if (key === 'clear') {
+                          setSelectedStatus(null)
+                          setSelectedTiming(null)
+                          setIsStatusOpen(false)
+                          return
+                        }
+
+                        const status = suggestedStatuses.find(s => s.id === key)
+
                         if (status) {
                           setSelectedStatus(status)
-                          setSelectedTiming(null)
+
+                          const defaultTiming = timingOptions.find(
+                            t => t.id === '15min'
+                          )
+                          setSelectedTiming(defaultTiming)
+
                           setIsStatusOpen(false)
                         }
                       }}>
-                      <Select.Trigger className="flex w-full items-center justify-between px-3 py-2">
+                      <Select.Trigger className="flex w-full items-center justify-between border-none bg-transparent px-3 py-2 shadow-none ring-0 outline-none focus:ring-0 focus:outline-none">
                         <Select.Value>
                           {selectedStatus
                             ? `${selectedStatus.emoji} ${selectedStatus.label}`
@@ -498,12 +514,20 @@ export default function Footer({
                               {s.emoji} {s.label}
                             </ListBox.Item>
                           ))}
+                          <ListBox.Item key="clear" id="clear">
+                            <div className="text-danger flex items-center gap-2">
+                              <Icon
+                                icon="mdi:close-circle"
+                                className="text-danger text-base"
+                              />
+                              Clear status
+                            </div>
+                          </ListBox.Item>
                         </ListBox>
                       </Select.Popover>
                     </Select>
                   </Dropdown.Item>
 
-                  {/* TIMING */}
                   {selectedStatus && (
                     <Dropdown.Item className="my-2 p-0">
                       <Select
@@ -511,15 +535,16 @@ export default function Footer({
                         selectedKeys={selectedTiming ? [selectedTiming.id] : []}
                         open={isTimingOpen}
                         onOpenChange={setIsTimingOpen}
-                        onSelectionChange={keys => {
-                          const timing = timingOptions.find(t => t.id === keys)
+                        onSelectionChange={key => {
+                          const timing = timingOptions.find(t => t.id === key)
+
                           if (timing) {
                             setSelectedTiming(timing)
                             setIsTimingOpen(false)
                             setIsDropdownOpen(false)
                           }
                         }}>
-                        <Select.Trigger className="flex w-full items-center justify-between px-3 py-2">
+                        <Select.Trigger className="outline-no flex w-full items-center justify-between border-none bg-transparent px-3 py-2 shadow-none ring-0 focus:ring-0 focus:outline-none">
                           <Select.Value>
                             {selectedTiming
                               ? selectedTiming.label
@@ -541,11 +566,6 @@ export default function Footer({
                     </Dropdown.Item>
                   )}
 
-                  <Dropdown.Item className="mt-2">
-                    <Icon icon="solar:user-linear" width={20} />
-                    Profile
-                  </Dropdown.Item>
-
                   <Dropdown.Item onPress={() => onUserClick?.(user)}>
                     <Icon icon="solar:settings-linear" width={20} />
                     Preferences
@@ -553,7 +573,7 @@ export default function Footer({
 
                   <Separator />
 
-                  <Dropdown.Item onPress={clearUser}>
+                  <Dropdown.Item onPress={clearUser} className="text-danger">
                     <Icon icon="solar:logout-2-linear" width={20} />
                     Logout
                   </Dropdown.Item>
