@@ -35,7 +35,7 @@ export default function Header({
         variant="transparent"
         className={`flex flex-row items-center gap-3 md:flex-col md:gap-6 ${className ?? ''}`}
         data-vx="header">
-        <Popover open={open} onOpenChange={setOpen} placement="right-start">
+        <Popover isOpen={open} onOpenChange={setOpen} placement="right-start">
           <Popover.Trigger>
             <Button
               variant="ghost"
@@ -60,7 +60,7 @@ export default function Header({
             </Button>
           </Popover.Trigger>
 
-          <Popover.Content className="w-72 p-2" placement="bottom">
+          <Popover.Content className="p-2" placement="bottom">
             <button
               className="hover:bg-background w-full rounded-md px-3 py-2 text-left text-sm"
               onClick={() => setOpen(false)}>
@@ -84,7 +84,7 @@ export default function Header({
               </Popover.Trigger>
               <Popover.Content
                 placement="right top"
-                className="ml-2 w-72 p-2"
+                className="ml-2 p-2"
                 onMouseOver={() => setSubmenu('file')}
                 onMouseLeave={() => setSubmenu(null)}>
                 <MenuItem label="New" hasSub />
@@ -111,11 +111,7 @@ export default function Header({
             <MenuItem label="Text" hasSub />
             <MenuItem label="Arrange" hasSub />
             <MenuItem label="Vector" hasSub />
-            <Separator className="my-2" />
-            <MenuItem label="Plugins" hasSub />
-            <MenuItem label="Widgets" hasSub />
-            <MenuItem label="Preferences" hasSub />
-            <MenuItem label="Libraries" />
+
             <Separator className="my-2" />
             <MenuItem label="Open in desktop app" />
             <MenuItem label="Help and account" hasSub />

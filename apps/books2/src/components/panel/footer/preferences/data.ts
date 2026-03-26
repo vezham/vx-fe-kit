@@ -54,12 +54,11 @@ export const settingsSidebar: SidebarSection[] = [
         id: 'privacy',
         label: 'Data & Privacy',
         icon: 'solar:shield-check-linear',
-
+        component: Privacy,
         children: [
           {
             id: 'privacy-data',
-            label: 'How Discord Uses Your Data',
-            component: Privacy
+            label: 'How Discord Uses Your Data'
           },
           {
             id: 'privacy-request',
@@ -94,23 +93,23 @@ export const settingsSidebar: SidebarSection[] = [
         icon: 'solar:devices-linear',
         children: [
           {
-            id: 'overview',
+            id: 'notifications-overview',
             label: 'Overview'
           },
           {
-            id: 'sounds',
+            id: 'notifications-sounds',
             label: 'Sounds'
           },
           {
-            id: 'badges',
+            id: 'notifications-badges',
             label: 'Badges'
           },
           {
-            id: 'email',
+            id: 'notifications-email',
             label: 'Email'
           },
           {
-            id: 'advanced',
+            id: 'notifications-advanced',
             label: 'Advanced'
           }
         ]
@@ -147,11 +146,11 @@ export const settingsSidebar: SidebarSection[] = [
         icon: 'solar:wallet-linear',
         children: [
           {
-            id: 'payment-methods',
+            id: 'billing-payment-methods',
             label: 'Payment Methods'
           },
           {
-            id: 'transaction-history',
+            id: 'billing-transaction-history',
             label: 'Transaction History'
           }
         ]
@@ -168,23 +167,23 @@ export const settingsSidebar: SidebarSection[] = [
         icon: 'solar:palette-linear',
         children: [
           {
-            id: 'theme',
+            id: 'appearance-theme',
             label: 'Theme'
           },
           {
-            id: 'in-app-icon',
+            id: 'appearance-in-appicon',
             label: 'In-app Icon'
           },
           {
-            id: 'ui-density',
+            id: 'appearance-ui-density',
             label: 'UI Density'
           },
           {
-            id: 'message-spacing',
+            id: 'appearance-message-spacing',
             label: 'Message Spacing'
           },
           {
-            id: 'scaling',
+            id: 'appearance-scaling',
             label: 'Scaling'
           }
         ]
@@ -195,27 +194,27 @@ export const settingsSidebar: SidebarSection[] = [
         icon: 'solar:videocamera-linear',
         children: [
           {
-            id: 'colors',
+            id: 'accessibility-colors',
             label: 'Colors & Saturation'
           },
           {
-            id: 'profile',
+            id: 'accessibility-profile',
             label: 'Profile Colors'
           },
           {
-            id: 'contrast',
+            id: 'accessibility-contrast',
             label: 'Contrast'
           },
           {
-            id: 'reduced-motion',
+            id: 'accessibility-reducedmotion',
             label: 'Reduced Motion'
           },
           {
-            id: 'chat-input',
+            id: 'accessibility-chatinput',
             label: 'Chat Input'
           },
           {
-            id: 'text-to-speech',
+            id: 'accessbility-textspeech',
             label: 'Text Speech'
           }
         ]
@@ -226,23 +225,23 @@ export const settingsSidebar: SidebarSection[] = [
         icon: 'solar:videocamera-linear',
         children: [
           {
-            id: 'camera',
+            id: 'voicevideo-camera',
             label: 'Camera'
           },
           {
-            id: 'streaming',
+            id: 'voicevideo-streaming',
             label: 'Streaming'
           },
           {
-            id: 'sounds',
+            id: 'voicevideo-sounds',
             label: 'Sounds'
           },
           {
-            id: 'sound-board',
+            id: 'voicevideo-soundboard',
             label: 'Soundboard'
           },
           {
-            id: 'advanced',
+            id: 'voicevideo-advanced',
             label: 'Advanced'
           }
         ]
@@ -253,27 +252,27 @@ export const settingsSidebar: SidebarSection[] = [
         icon: 'solar:chat-round-dots-linear',
         children: [
           {
-            id: 'media',
+            id: 'chat-media',
             label: 'Media'
           },
           {
-            id: 'embeds',
+            id: 'chat-embeds',
             label: 'Embeds and Link Previews'
           },
           {
-            id: 'emoji',
+            id: 'chat-emoji',
             label: 'Emoji'
           },
           {
-            id: 'stickers',
+            id: 'chat-stickers',
             label: 'Stickers'
           },
           {
-            id: 'text-box',
+            id: 'chat-textbox',
             label: 'Text box'
           },
           {
-            id: 'threads',
+            id: 'chat-threads',
             label: 'Threads'
           }
         ]
@@ -305,7 +304,7 @@ export const settingsSidebar: SidebarSection[] = [
     title: 'ACTIVITY SETTINGS',
     items: [
       {
-        id: 'privacy',
+        id: 'activity',
         label: 'Activity Privacy',
         icon: 'solar:palette-linear',
         children: [
@@ -314,11 +313,11 @@ export const settingsSidebar: SidebarSection[] = [
             label: 'Activity Sharing'
           },
           {
-            id: 'servers',
+            id: 'activity-servers',
             label: 'Servers I Share With'
           },
           {
-            id: 'games',
+            id: 'activity-games',
             label: 'Who Can Join My Games'
           }
         ]

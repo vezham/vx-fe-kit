@@ -145,7 +145,7 @@ export default function Footer({
           )}
 
           {showUserInfo && (
-            <Dropdown open={isDropdownOpen} onOpenChange={setIsDropdownOpen}>
+            <Dropdown isOpen={isDropdownOpen} onOpenChange={setIsDropdownOpen}>
               <Tooltip delay={0}>
                 <Tooltip.Trigger asChild>
                   <Dropdown.Trigger asChild>
@@ -183,25 +183,24 @@ export default function Footer({
               </Tooltip>
 
               <Dropdown.Popover placement="right">
-                <Dropdown.Menu>
-                  <Dropdown.Item className="p-0">
-                    <div className="flex items-center gap-3 px-3 py-2">
-                      <Avatar size="sm">
-                        <Avatar.Image src={user?.avatar} />
-                        <Avatar.Fallback>{user?.name?.[0]}</Avatar.Fallback>
-                      </Avatar>
+                <div className="flex items-center gap-3 px-3 py-2">
+                  <Avatar size="sm">
+                    <Avatar.Image src={user?.avatar} />
+                    <Avatar.Fallback>{user?.name?.[0]}</Avatar.Fallback>
+                  </Avatar>
 
-                      <div>
-                        <div className="font-medium">{user?.name}</div>
-                        <div className="text-muted flex items-center gap-1 text-xs">
-                          <span
-                            className={`h-2 w-2 rounded-full ${currentStatus?.color}`}
-                          />
-                          {currentStatus?.label}
-                        </div>
-                      </div>
+                  <div>
+                    <div className="font-medium">{user?.name}</div>
+                    <div className="text-muted flex items-center gap-1 text-xs">
+                      <span
+                        className={`h-2 w-2 rounded-full ${currentStatus?.color}`}
+                      />
+                      {currentStatus?.label}
                     </div>
-                  </Dropdown.Item>
+                  </div>
+                </div>
+
+                <Dropdown.Menu>
                   <Separator />
                   <Dropdown.Item className="mt-2 p-0">
                     <Select
@@ -318,6 +317,8 @@ export default function Footer({
                     </Dropdown.Item>
                   )}
 
+                  <Separator />
+
                   <Dropdown.Item onPress={() => onUserClick?.(user)}>
                     <Icon icon="solar:settings-linear" width={20} />
                     Preferences
@@ -424,26 +425,25 @@ export default function Footer({
               </Tooltip>
 
               <Dropdown.Popover>
+                <div className="flex items-center gap-3 px-3 py-2">
+                  <Avatar size="sm">
+                    <Avatar.Image src={user?.avatar} />
+                    <Avatar.Fallback>{user?.name?.[0]}</Avatar.Fallback>
+                  </Avatar>
+
+                  <div>
+                    <div className="font-medium">{user?.name}</div>
+                    <div className="text-muted flex items-center gap-1 text-xs">
+                      <span
+                        className={`h-2 w-2 rounded-full ${currentStatus?.color}`}
+                      />
+                      {currentStatus?.label}
+                    </div>
+                  </div>
+                </div>
+
                 <Dropdown.Menu>
                   {/* USER HEADER */}
-                  <Dropdown.Item className="p-0">
-                    <div className="flex items-center gap-3 px-3 py-2">
-                      <Avatar size="sm">
-                        <Avatar.Image src={user?.avatar} />
-                        <Avatar.Fallback>{user?.name?.[0]}</Avatar.Fallback>
-                      </Avatar>
-
-                      <div>
-                        <div className="font-medium">{user?.name}</div>
-                        <div className="text-muted flex items-center gap-1 text-xs">
-                          <span
-                            className={`h-2 w-2 rounded-full ${currentStatus?.color}`}
-                          />
-                          {currentStatus?.label}
-                        </div>
-                      </div>
-                    </div>
-                  </Dropdown.Item>
 
                   <Separator />
 

@@ -1,7 +1,7 @@
 'use client'
 
 import { Icon } from '@iconify/react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { ScrollShadow } from '@vezham/react/v3'
 
@@ -18,7 +18,6 @@ export default function SettingsSidebar({ active, onSelect }: Props) {
   const { user } = useUser()
 
   const names = user ? `${user.firstName} ${user.lastName}` : 'Guest'
-
   const avatar = user?.avatar
 
   const toggleGroup = (id: string) => {
@@ -27,13 +26,26 @@ export default function SettingsSidebar({ active, onSelect }: Props) {
     )
   }
 
+  // ✅ Auto open parent when child active
+  useEffect(() => {
+    for (const section of settingsSidebar) {
+      for (const item of section.items) {
+        if (item.children?.some(c => c.id === active)) {
+          setOpenGroups(prev =>
+            prev.includes(item.id) ? prev : [...prev, item.id]
+          )
+        }
+      }
+    }
+  }, [active])
+
   const renderItem = (item: SidebarItem, level = 0) => {
     const hasChildren = item.children?.length
     const isOpen = openGroups.includes(item.id)
+    const isChildActive =
+      item.children?.some(c => c.id === active) || active.startsWith(item.id)
 
     if (item.id === 'profiles') {
-      const name = names || 'Krishna Prasad'
-
       const initials = names
         .split(' ')
         .map(n => n[0])
@@ -51,7 +63,6 @@ export default function SettingsSidebar({ active, onSelect }: Props) {
             {avatar ? (
               <img
                 src={avatar}
-                alt={name}
                 className="h-10 w-10 rounded-full object-cover"
               />
             ) : (
@@ -73,18 +84,36 @@ export default function SettingsSidebar({ active, onSelect }: Props) {
       <div key={item.id}>
         <button
           onClick={() => {
-            if (hasChildren) toggleGroup(item.id)
-            else onSelect(item.id)
+            if (hasChildren) {
+              toggleGroup(item.id)
+            }
+
+            onSelect(item.id)
+
+            const el = document.getElementById(item.id)
+            el?.scrollIntoView({ behavior: 'smooth', block: 'start' })
           }}
           className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm ${
-            active === item.id
+            active === item.id || isChildActive
               ? 'bg-default-100 font-medium'
               : 'hover:bg-default-50'
           }`}
           style={{ paddingLeft: 12 + level * 16 }}>
           <div className="flex items-center gap-2">
             {item.icon && <Icon icon={item.icon} width={18} />}
-            {item.label}
+
+            <span
+              className={`${
+                active === item.id
+                  ? 'text-foreground font-medium'
+                  : isChildActive
+                    ? 'text-foreground'
+                    : level > 0
+                      ? 'text-default-400'
+                      : 'text-default-600'
+              }`}>
+              {item.label}
+            </span>
           </div>
 
           {hasChildren && (
@@ -133,7 +162,6 @@ export function findItemById(id: string) {
   for (const section of settingsSidebar) {
     for (const item of section.items) {
       if (item.id === id) return item
-
       if (item.children) {
         const found = item.children.find(c => c.id === id)
         if (found) return found

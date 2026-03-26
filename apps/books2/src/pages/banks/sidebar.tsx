@@ -189,9 +189,7 @@ export default function BankSidebar({ onItemClick, onDataChange }: Props) {
   const { location } = useRouterState()
   const isAccountsPage = location.pathname === '/bank/accounts'
   return (
-    <Surface
-      className="flex h-screen flex-col pt-4 pr-4 pb-4"
-      variant="transparent">
+    <Surface className="flex h-screen flex-col pt-4 pb-4" variant="transparent">
       {isAccountsPage && (
         <div className="mb-4 flex justify-between">
           <div>
