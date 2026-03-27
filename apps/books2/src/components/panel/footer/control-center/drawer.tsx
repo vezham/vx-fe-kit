@@ -29,7 +29,8 @@ export default function AIDrawer({ isOpen, onClose }: AIDrawerProps) {
       isOpen={isOpen}
       onClose={onClose}
       classNames={{
-        base: 'bg-transparent border-none shadow-none max-w-[320px] md:translate-x-[106px]'
+        base: 'bg-transparent border-none shadow-none max-w-[320px] md:translate-x-[106px] z-[10]',
+        wrapper: 'z-[10]'
       }}>
       <DrawerContent className="flex justify-end bg-black/5 pb-4 shadow-xl backdrop-blur-sm">
         <motion.div

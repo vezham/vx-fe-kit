@@ -31,7 +31,9 @@ export default function NotificationDrawer({
       isOpen={isOpen}
       onClose={onClose}
       classNames={{
-        base: 'bg-transparent border-none shadow-none rounded-none max-w-[440px] md:translate-x-[106px]'
+        base: 'bg-transparent z-[10] border-none shadow-none rounded-none max-w-[440px] md:translate-x-[106px] ',
+
+        wrapper: 'z-[10]'
       }}>
       <DrawerContent className="border border-white/20 bg-black/5 shadow-xl backdrop-blur-lg">
         <DrawerHeader className="flex items-center justify-between text-white/90">

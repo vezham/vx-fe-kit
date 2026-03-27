@@ -18,7 +18,8 @@ export default function FavoritesDrawer({
       isOpen={isOpen}
       onClose={onClose}
       classNames={{
-        base: 'bg-transparent border-none rounded-none shadow-none max-w-[320px] md:translate-x-[106px]'
+        base: 'bg-transparent border-none rounded-none shadow-none max-w-[320px] md:translate-x-[106px] z-[10]',
+        wrapper: 'z-[10]'
       }}>
       <DrawerContent className="border border-white/20 bg-black/5 shadow-xl backdrop-blur-sm">
         <DrawerBody className="flex h-full flex-col items-center justify-center gap-4 text-center">

@@ -41,7 +41,7 @@ export default function MenuMD() {
   return (
     <Surface
       variant="transparent"
-      className="border-default-300 flex h-screen w-[106px] flex-col gap-6 px-4 pt-4 pb-6"
+      className="border-default-300 sticky top-0 left-0 z-[50] flex h-screen w-[106px] flex-col gap-6 px-4 pt-4 pb-6"
       data-vx="menu-layout">
       <Header
         users={users}
