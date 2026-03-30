@@ -88,6 +88,12 @@
     },
     {
       "path": "./apps/books2"
+    },
+    {
+      "path": "./apps/contact2-e2e"
+    },
+    {
+      "path": "./apps/contact2"
     }
   ]
 }
