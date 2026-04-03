@@ -9,15 +9,6 @@ export const layoutTva = tv({
     desktopContactListSurface:
       'flex flex-col border-r transition-all duration-300',
     desktopContentArea: 'bg-default-50 flex flex-1 flex-col overflow-hidden',
-    mobileHeader: 'border-b bg-white p-4',
-    mobileHeaderTop: 'flex items-center justify-between',
-    mobileHeaderLeft: 'flex items-center gap-2',
-    mobileHeaderTitle: 'text-xl font-semibold',
-    mobileHeaderActions: 'flex gap-1',
-    mobileSearchWrapper: 'mt-3',
-    mobileChipContainer:
-      'sticky top-0 z-10 flex gap-2 overflow-x-auto border-b bg-white p-3',
-    mobileContactListContainer: 'h-full overflow-y-auto',
     drawerContainer: 'h-full p-4',
     drawerHeader: 'mb-4 flex items-center justify-between border-b pb-2',
     drawerTitle: 'text-lg font-semibold'
@@ -36,6 +27,34 @@ export const layoutTva = tv({
   }
 })
 
+// Mobile Layout variants
+export const mobileLayoutTva = tv({
+  slots: {
+    container: 'flex h-screen w-full flex-col overflow-hidden bg-white',
+    header: 'border-b bg-white p-4',
+    headerTop: 'flex items-center justify-between',
+    headerLeft: 'flex items-center gap-2',
+    headerTitle: 'text-xl font-semibold',
+    headerActions: 'flex gap-1',
+    searchWrapper: 'mt-3',
+    chipContainer:
+      'sticky top-0 z-10 flex gap-2 overflow-x-auto border-b bg-white p-3',
+    contactListContainer: 'h-full overflow-y-auto pb-20',
+    contentArea: 'flex-1 overflow-hidden',
+    drawerContainer: 'h-full p-4',
+    drawerHeader: 'mb-4 flex items-center justify-between border-b pb-2',
+    drawerTitle: 'text-lg font-semibold'
+  },
+  variants: {
+    variant: {
+      default: {}
+    }
+  },
+  defaultVariants: {
+    variant: 'default'
+  }
+})
+
 // Contact form variants
 export const contactFormTva = tv({
   slots: {
@@ -50,7 +69,7 @@ export const contactFormTva = tv({
     fullWidthInput: 'w-full',
     buttonRow: 'flex justify-center gap-3',
     cancelButton: 'bg-white/20 backdrop-blur-sm',
-    sectionTitle: 'mb-3 font-semibold',
+    sectionTitle: 'font-semibold',
     phoneRow: 'flex flex-col gap-2 md:flex-row',
     flexInput: 'flex-1',
     addressContainer: 'space-y-3',
@@ -174,21 +193,6 @@ export const sidebarTva = tv({
   }
 })
 
-// Button variants
-export const buttonTva = tv({
-  base: '',
-  variants: {
-    variant: {
-      ghost: '',
-      tertiary: '',
-      primary: ''
-    },
-    isIconOnly: {
-      true: ''
-    }
-  }
-})
-
 // Icon variants
 export const iconTva = tv({
   base: '',
@@ -224,6 +228,9 @@ export const chipTva = tv({
     color: {
       primary: '',
       default: ''
+    },
+    size: {
+      sm: ''
     }
   }
 })
@@ -280,6 +287,25 @@ export const drawerTva = tv({
   }
 })
 
+// Button variants
+export const buttonTva = tv({
+  base: '',
+  variants: {
+    variant: {
+      ghost: '',
+      tertiary: '',
+      primary: ''
+    },
+    isIconOnly: {
+      true: ''
+    }
+  }
+})
+
 export type LayoutVariants = typeof layoutTva
+export type MobileLayoutVariants = typeof mobileLayoutTva
 export type ContactFormVariants = typeof contactFormTva
 export type ContactDetailVariants = typeof contactDetailTva
+export type DesktopLayoutVariants = typeof desktopLayoutTva
+export type ContactListVariants = typeof contactListTva
+export type SidebarVariants = typeof sidebarTva

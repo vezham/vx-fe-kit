@@ -303,11 +303,11 @@ export const ContactForm = memo(
     isMobile
   }: ContactFormProps) => {
     const styles = contactFormTva()
-    const iconStyles = iconTva()
+    const iconStyles = iconTva
     const selectStyles = selectTva()
     const inputStyles = inputTva()
-    const datePickerStyles = datePickerTva()
-    const textareaStyles = textareaTva()
+    const datePickerStyles = datePickerTva
+    const textareaStyles = textareaTva
 
     const [state, setState] = useState<ContactFormState>({
       selectedGroup: editFormData.group || 'iCloud',

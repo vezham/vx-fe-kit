@@ -163,7 +163,7 @@ export const DesktopLayout = memo(
   }: DesktopLayoutProps) => {
     const layoutStyles = layoutTva({ sidebarOpen })
     const desktopStyles = desktopLayoutTva()
-    const iconStyles = iconTva()
+    const iconStyles = iconTva
     const surfaceStyles = surfaceTva()
     const inputStyles = inputTva()
 

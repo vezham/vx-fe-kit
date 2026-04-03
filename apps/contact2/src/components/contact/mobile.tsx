@@ -197,14 +197,7 @@ import { Button, Chip, Input } from '@vezham/react/v3'
 import { ContactForm } from './add'
 import { ContactDetail } from './details'
 import { GroupItem, MobileLayoutProps } from './types'
-import {
-  chipTva,
-  drawerTva,
-  iconTva,
-  inputTva,
-  layoutTva,
-  mobileLayoutTva
-} from './variant'
+import { chipTva, iconTva, mobileLayoutTva } from './variant'
 
 export const MobileLayout = memo(
   ({
@@ -230,12 +223,9 @@ export const MobileLayout = memo(
     ContactList,
     isMobile
   }: MobileLayoutProps) => {
-    const layoutStyles = layoutTva()
-    const mobileStyles = mobileLayoutTva()
-    const iconStyles = iconTva()
-    const chipStyles = chipTva()
-    const inputStyles = inputTva()
-    const drawerStyles = drawerTva()
+    const styles = mobileLayoutTva()
+    const iconStyles = iconTva
+    const chipStyles = chipTva
 
     const groups: GroupItem[] = [
       { id: 'all', label: 'All Contacts' },
@@ -245,10 +235,10 @@ export const MobileLayout = memo(
     ]
 
     return (
-      <div className={layoutStyles.mobileContainer()}>
-        <div className={mobileStyles.mobileHeader()}>
-          <div className={mobileStyles.mobileHeaderTop()}>
-            <div className={mobileStyles.mobileHeaderLeft()}>
+      <div className={styles.container()}>
+        <div className={styles.header()}>
+          <div className={styles.headerTop()}>
+            <div className={styles.headerLeft()}>
               {!showMobileContacts && !isEditing && (
                 <Button
                   isIconOnly
@@ -268,7 +258,7 @@ export const MobileLayout = memo(
                   />
                 </Button>
               )}
-              <h1 className={mobileStyles.mobileHeaderTitle()}>
+              <h1 className={styles.headerTitle()}>
                 {isEditing
                   ? store.selectedId
                     ? 'Edit Contact'
@@ -278,7 +268,7 @@ export const MobileLayout = memo(
                     : store.selected?.name || 'Contact'}
               </h1>
             </div>
-            <div className={mobileStyles.mobileHeaderActions()}>
+            <div className={styles.headerActions()}>
               {showMobileContacts && !isEditing && (
                 <>
                   <Button
@@ -314,7 +304,7 @@ export const MobileLayout = memo(
           </div>
 
           {showMobileContacts && !isEditing && (
-            <div className={mobileStyles.mobileSearchWrapper()}>
+            <div className={styles.searchWrapper()}>
               <Input
                 placeholder="Search All iCloud..."
                 value={search}
@@ -331,7 +321,7 @@ export const MobileLayout = memo(
           )}
         </div>
 
-        <div className="flex-1 overflow-hidden">
+        <div className={styles.contentArea()}>
           {isEditing ? (
             <ContactForm
               editFormData={editFormData}
@@ -342,7 +332,7 @@ export const MobileLayout = memo(
             />
           ) : showMobileContacts ? (
             <div className="h-full overflow-y-auto">
-              <div className={mobileStyles.mobileChipContainer()}>
+              <div className={styles.chipContainer()}>
                 {groups.map(group => (
                   <Chip
                     key={group.id}
@@ -361,9 +351,7 @@ export const MobileLayout = memo(
                   </Chip>
                 ))}
               </div>
-              <ContactList
-                className={mobileStyles.mobileContactListContainer()}
-              />
+              <ContactList className={styles.contactListContainer()} />
             </div>
           ) : (
             <ContactDetail
@@ -381,9 +369,9 @@ export const MobileLayout = memo(
           onOpenChange={setSidebarOpen}
           side="left"
           size="sm">
-          <div className={layoutStyles.drawerContainer()}>
-            <div className={layoutStyles.drawerHeader()}>
-              <h2 className={layoutStyles.drawerTitle()}>Groups</h2>
+          <div className={styles.drawerContainer()}>
+            <div className={styles.drawerHeader()}>
+              <h2 className={styles.drawerTitle()}>Groups</h2>
               <Button
                 isIconOnly
                 variant="tertiary"

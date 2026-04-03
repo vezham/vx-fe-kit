@@ -316,7 +316,7 @@ export default function ContactsApp() {
   const contactListStyles = contactListTva()
   const sidebarStyles = sidebarTva()
   const iconStyles = iconTva()
-  const chipStyles = chipTva()
+  const chipStyles = chipTva
 
   useEffect(() => {
     if (isMobile && store.selectedId) {

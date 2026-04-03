@@ -202,7 +202,7 @@ export const ContactDetail = memo(
     handleEdit
   }: ContactDetailProps) => {
     const styles = contactDetailTva()
-    const iconStyles = iconTva()
+    const iconStyles = iconTva
     const buttonStyles = buttonTva()
 
     if (!selected) return null
