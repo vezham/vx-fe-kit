@@ -26,6 +26,7 @@ export default function SettingsSidebar({ active, onSelect }: Props) {
     )
   }
 
+  // ✅ Auto open parent when child active
   useEffect(() => {
     for (const section of settingsSidebar) {
       for (const item of section.items) {
@@ -54,7 +55,7 @@ export default function SettingsSidebar({ active, onSelect }: Props) {
 
       return (
         <div key={item.id} className="px-2">
-          <Button
+          <button
             onClick={() => onSelect(item.id)}
             className={`flex w-full items-center gap-3 rounded-xl p-3 ${
               active === item.id ? 'bg-default-100' : 'hover:bg-default-50'
@@ -74,14 +75,14 @@ export default function SettingsSidebar({ active, onSelect }: Props) {
               <span className="text-sm font-medium">{names}</span>
               <span className="text-default-500 text-xs">Edit Profile</span>
             </div>
-          </Button>
+          </button>
         </div>
       )
     }
 
     return (
       <div key={item.id}>
-        <Button
+        <button
           onClick={() => {
             if (hasChildren) {
               toggleGroup(item.id)
@@ -125,7 +126,7 @@ export default function SettingsSidebar({ active, onSelect }: Props) {
               width={16}
             />
           )}
-        </Button>
+        </button>
 
         {hasChildren && isOpen && (
           <div className="mt-1 space-y-1">
