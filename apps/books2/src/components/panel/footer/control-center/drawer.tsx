@@ -8,7 +8,7 @@ import {
   DrawerContent,
   DrawerFooter
 } from '@vezham/react/v2'
-import { Chip } from '@vezham/react/v3'
+import { Button, Chip } from '@vezham/react/v3'
 
 type View = 'main' | 'airdrop' | 'wifi'
 
@@ -157,10 +157,10 @@ function Control({
 function Header({ title, onBack }: { title: string; onBack: () => void }) {
   return (
     <div className="flex items-center gap-2">
-      <button onClick={onBack}>
+      <Button onClick={onBack}>
         <Icon icon="solar:alt-arrow-left-linear" width={20} />
-      </button>
-      <h3 className="font-semibold">{title}</h3>
+      </Button>
+      <div className="font-semibold">{title}</div>
     </div>
   )
 }

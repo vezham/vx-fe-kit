@@ -83,7 +83,6 @@ export default function UserInfoModal({ open, onClose, user }: any) {
   }, [open])
 
   if (!open) return null
-
   const item = findItemById(active)
   const Component = item?.component
 
@@ -101,9 +100,7 @@ export default function UserInfoModal({ open, onClose, user }: any) {
           onPress={onClose}>
           <Icon icon="solar:close-circle-linear" width={22} />
         </Button>
-
         <SettingsSidebar active={active} onSelect={setActive} />
-
         <div className="flex-1 overflow-auto p-6">
           {Component ? (
             <Component ref={contentRef} />

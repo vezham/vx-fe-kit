@@ -9,7 +9,7 @@ import { useState } from 'react'
 import { Surface } from '@vezham/react/v3'
 
 import { HeaderActions } from '../../components/actions'
-import Sidebar from '../../components/sidebar'
+import {Sidebar} from '../../components/sidebar'
 import AppContainerHeader from '../../layouts/app-container-header'
 import BookSidebar from '../../pages/books/sidebar'
 

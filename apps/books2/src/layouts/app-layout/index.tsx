@@ -1,11 +1,8 @@
-import { Icon } from '@iconify/react'
 import { useMatchRoute, useNavigate } from '@tanstack/react-router'
 import React, { useState } from 'react'
 
-import { Button } from '@vezham/react/v2'
 import { Surface } from '@vezham/react/v3'
 
-import Sidebar from '../../components/sidebar'
 import BankSidebar from '../../pages/banks/sidebar'
 import MenuLayout from '../menu-layout'
 

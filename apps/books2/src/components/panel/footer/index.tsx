@@ -8,7 +8,6 @@ import {
   Avatar,
   Button,
   Dropdown,
-  Label,
   ListBox,
   Select,
   Separator,
@@ -93,13 +92,14 @@ export default function Footer({
       </div>
     )
   }
+
   return (
     <>
       <Separator className="hidden md:block" />
 
       <Surface variant="transparent" className={className}>
-        {/* DESKTOP */}
         <div className="hidden flex-row items-center justify-center gap-3 min-[500px]:flex md:flex-col md:gap-6">
+
           {showAI && (
             <Tooltip delay={0}>
               <Tooltip.Trigger>
@@ -336,7 +336,6 @@ export default function Footer({
           )}
         </div>
 
-        {/* MOBILE */}
         <div className="flex items-center gap-3 min-[500px]:hidden">
           <Dropdown>
             <Dropdown.Trigger>
@@ -349,6 +348,7 @@ export default function Footer({
 
             <Dropdown.Popover>
               <Dropdown.Menu>
+
                 {showControlCenter && (
                   <Dropdown.Item onPress={onControlCenterClick}>
                     <Icon icon="solar:settings-linear" width={24} />
@@ -379,6 +379,7 @@ export default function Footer({
                     Help
                   </Dropdown.Item>
                 )}
+
               </Dropdown.Menu>
             </Dropdown.Popover>
           </Dropdown>
@@ -391,7 +392,6 @@ export default function Footer({
                     <Dropdown.Trigger>
                       <div className="relative">
                         <StatusIndicator />
-
                         <Button
                           isIconOnly
                           variant="ghost"
@@ -443,11 +443,7 @@ export default function Footer({
                 </div>
 
                 <Dropdown.Menu>
-                  {/* USER HEADER */}
-
                   <Separator />
-
-                  {/* STATUS SELECT */}
                   <Dropdown.Item className="mt-2 p-0">
                     <Select
                       className="w-full"

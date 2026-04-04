@@ -175,12 +175,14 @@ export default function AccountsSidebar({ onItemClick }: Props) {
   return (
     <Surface className="flex h-screen flex-col" variant="transparent">
       <div className="mb-4 flex justify-between">
+
         <div>
           <Button variant="primary" size="sm">
             <Icon icon="mdi:plus" width={24} />
             New
           </Button>
         </div>
+
         <div className="flex gap-2">
           <Button variant="ghost" size="sm">
             <Icon icon="lucide:search" className="text-default-400" />
@@ -201,6 +203,7 @@ export default function AccountsSidebar({ onItemClick }: Props) {
         </InputGroup.Prefix>
         <InputGroup.Input placeholder="Search...." />
       </InputGroup>
+
       <ScrollShadow hideScrollBar className="flex-1 overflow-y-auto">
         <div className="flex flex-col gap-2">
           {filtered.map(mail => (
@@ -245,6 +248,7 @@ export default function AccountsSidebar({ onItemClick }: Props) {
           )}
         </div>
       </ScrollShadow>
+      
     </Surface>
   )
 }

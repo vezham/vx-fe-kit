@@ -4,6 +4,7 @@
   "private": true,
   "devDependencies": {
     "@faker-js/faker": "^10.0.0",
+    "@vezham/react-utils": "^0.3.3",
     "@vx-oss/heroui-v2-shared-icons": "~2.1.11-beta.0",
     "@vx/start": "workspace:*",
     "@vx/system-utils": "workspace:*",

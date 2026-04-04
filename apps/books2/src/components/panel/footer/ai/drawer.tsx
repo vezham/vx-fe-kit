@@ -26,7 +26,7 @@ export default function AIDrawer({ isOpen, onClose }: AIDrawerProps) {
             className="text-muted-foreground"
           />
 
-          <h2 className="text-xl font-semibold">Chats empty</h2>
+          <div className="text-xl font-semibold">Chats empty</div>
 
           <p className="text-muted-foreground max-w-[220px]">
             No chats will appear here.

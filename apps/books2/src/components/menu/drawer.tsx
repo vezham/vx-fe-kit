@@ -20,6 +20,7 @@ import {
   getDrawerGridItemInnerClasses,
   getDrawerHeaderClasses
 } from './variant'
+import { Button } from '@vezham/react/v3'
 
 const MenuDrawer = ({
   items,
@@ -50,17 +51,17 @@ const MenuDrawer = ({
       }}>
       <DrawerContent className={getDrawerContentClasses({ isDarkMode })}>
         <DrawerHeader className={getDrawerHeaderClasses({ isDarkMode })}>
-          <button
+          <Button
             onClick={onClose}
             className={getDrawerCloseButtonClasses({ isDarkMode })}>
             <Icon icon="lucide:x" className="h-4 w-4" />
-          </button>
+          </Button>
         </DrawerHeader>
 
         <DrawerBody className={getDrawerBodyClasses()}>
           <div className={getDrawerGridClasses()}>
             {items.map(item => (
-              <button
+              <Button
                 key={item.key}
                 onClick={() => {
                   onItemSelect(item)
@@ -77,7 +78,7 @@ const MenuDrawer = ({
                   {item.icon && <Icon icon={item.icon} className="h-6 w-6" />}
                   <span className="text-center">{item.title}</span>
                 </div>
-              </button>
+              </Button>
             ))}
           </div>
         </DrawerBody>

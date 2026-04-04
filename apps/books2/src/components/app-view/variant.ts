@@ -1,0 +1,41 @@
+import { VariantProps, tv } from '@vezham/react-utils'
+
+const tva = tv({
+    slots: {
+        base: 'pointer-events-auto absolute inset-0 overflow-hidden rounded-[45px] bg-white/30',
+        container: 'flex h-full flex-col',
+        header: 'relative flex items-center border-b border-white/10 p-4 pt-6',
+        backButton: 'absolute left-4',
+        title: 'flex-1 text-center text-lg',
+        content: 'flex-1 overflow-hidden'
+    },
+    variants: {
+        variant: {
+            default: '',
+            modal: '',
+            drawer: ''
+        },
+        size: {
+            sm: '',
+            md: '',
+            lg: '',
+            full: ''
+        },
+        animation: {
+            spring: '',
+            fade: '',
+            slide: ''
+        }
+    },
+    defaultVariants: {
+        variant: 'default',
+        size: 'md',
+        animation: 'spring'
+    }
+})
+
+type tvProps = VariantProps<typeof tva>
+type tvSlots = keyof ReturnType<typeof tva>
+
+export { tva }
+export type { tvProps, tvSlots }
