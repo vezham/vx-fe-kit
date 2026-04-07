@@ -2,7 +2,6 @@ import { Icon } from '@iconify/react'
 import { useState } from 'react'
 
 import { Badge } from '@vezham/react/v2'
-
 import {
   Avatar,
   Button,
@@ -37,7 +36,6 @@ export default function Header({
         className={`flex flex-row items-center gap-3 md:flex-col md:gap-6 ${className ?? ''}`}
         data-vx="header">
         <Popover isOpen={open} onOpenChange={setOpen} placement="right-start">
-
           <Popover.Trigger>
             <Button
               variant="ghost"
@@ -65,10 +63,16 @@ export default function Header({
           <Popover.Content className="p-2" placement="bottom">
             <Button
               className="hover:bg-background w-full rounded-md px-3 py-2 text-left text-sm"
-              onClick={() => setOpen(false)}> Back to home
+              onClick={() => setOpen(false)}>
+              {' '}
+              Back to home
             </Button>
             <Separator className="my-2" />
-            <MenuItem icon="solar:magnifer-linear" label="Actions..." shortcut="⌘ K" />
+            <MenuItem
+              icon="solar:magnifer-linear"
+              label="Actions..."
+              shortcut="⌘ K"
+            />
             <Separator className="my-2" />
             <Popover open={submenu === 'file'}>
               <Popover.Trigger
@@ -85,7 +89,11 @@ export default function Header({
                 onMouseLeave={() => setSubmenu(null)}>
                 <MenuItem label="New" hasSub />
                 <Separator className="my-2" />
-                <MenuItem icon="solar:gallery-linear" label="Place image..." shortcut="⇧ ⌘ K"  />
+                <MenuItem
+                  icon="solar:gallery-linear"
+                  label="Place image..."
+                  shortcut="⇧ ⌘ K"
+                />
                 <Separator className="my-2" />
                 <MenuItem label="Save local copy..." />
                 <MenuItem label="Save to version history..." shortcut="⌥ ⌘ S" />
@@ -157,7 +165,6 @@ export default function Header({
       </Surface>
 
       <Separator className="hidden md:block" />
-
     </>
   )
 }
@@ -165,7 +172,6 @@ export default function Header({
 function MenuItem({ icon, label, shortcut, hasSub }: any) {
   return (
     <div className="hover:bg-background flex cursor-pointer items-center justify-between rounded-md px-3 py-2 text-sm">
-
       <div className="flex items-center gap-2">
         {icon && (
           <Icon icon={icon} width={18} className="text-muted-foreground" />

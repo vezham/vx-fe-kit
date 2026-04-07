@@ -175,7 +175,6 @@ export default function AccountsSidebar({ onItemClick }: Props) {
   return (
     <Surface className="flex h-screen flex-col" variant="transparent">
       <div className="mb-4 flex justify-between">
-
         <div>
           <Button variant="primary" size="sm">
             <Icon icon="mdi:plus" width={24} />
@@ -248,7 +247,6 @@ export default function AccountsSidebar({ onItemClick }: Props) {
           )}
         </div>
       </ScrollShadow>
-      
     </Surface>
   )
 }

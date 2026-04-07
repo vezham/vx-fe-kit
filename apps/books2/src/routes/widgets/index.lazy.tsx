@@ -16,7 +16,7 @@ export const Route = createLazyFileRoute('/widgets/')({
 
 function RouteComponent() {
   return (
-    <div className="grid grid-cols-2 gap-6">
+    <div className="flex flex-wrap gap-6">
       <Phone />
       <Messages />
       <Mail />

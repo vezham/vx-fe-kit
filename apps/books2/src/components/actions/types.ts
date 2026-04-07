@@ -11,36 +11,26 @@
 //     onPress?: () => void
 //   }[]
 // }
-
 // export interface ContainerActionsProps {
 //   actions: ContainerActionItem[]
 // }
-
 // export type HeaderAction = {
 //   key: string
 //   icon: string
 //   onClick?: () => void
 //   visible?: boolean
 // }
-
 // export type HeaderProps = {
 //   showBack?: boolean
 //   onBack?: () => void
-
 //   showClose?: boolean
 //   onClose?: () => void
-
 //   actions?: HeaderAction[]
-
 //   currentIndex?: number
 //   total?: number
-
 //   onPrev?: () => void
 //   onNext?: () => void
 // }
-
-
-
 import { ReactNode } from 'react'
 
 import { ReactRef, useDOMRef } from '@vezham/react-utils'

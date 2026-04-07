@@ -99,7 +99,6 @@ export default function Footer({
 
       <Surface variant="transparent" className={className}>
         <div className="hidden flex-row items-center justify-center gap-3 min-[500px]:flex md:flex-col md:gap-6">
-
           {showAI && (
             <Tooltip delay={0}>
               <Tooltip.Trigger>
@@ -348,7 +347,6 @@ export default function Footer({
 
             <Dropdown.Popover>
               <Dropdown.Menu>
-
                 {showControlCenter && (
                   <Dropdown.Item onPress={onControlCenterClick}>
                     <Icon icon="solar:settings-linear" width={24} />
@@ -379,7 +377,6 @@ export default function Footer({
                     Help
                   </Dropdown.Item>
                 )}
-
               </Dropdown.Menu>
             </Dropdown.Popover>
           </Dropdown>

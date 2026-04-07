@@ -1,4 +1,3 @@
-
 export const sidebarFooterVariants = {
   container: (isCompact: boolean) =>
     isCompact

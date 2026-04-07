@@ -113,39 +113,34 @@ const BottomNavbar: React.FC<BottomNavbarProps> = ({
           isDarkMode
         })} justify-between`}>
         <div className={getNavbarMenuContainerClasses({ isDarkMode })}>
-{mainItems.map(item => {
-  const isActive = selectedKey === item.key
+          {mainItems.map(item => {
+            const isActive = selectedKey === item.key
 
-  const iconName = isActive
-    ? item.iconActive || item.icon
-    : item.icon
+            const iconName = isActive ? item.iconActive || item.icon : item.icon
 
-  return (
-    <button
-      key={item.key}
-      onClick={() => handleItemSelect(item)}
-      className={getNavbarButtonClasses({
-        isSelected: isActive,
-        isDarkMode,
-        textColorClass
-      })}
-    >
-      {iconName && (
-        <Icon
-          icon={iconName}
-          className={getNavbarIconClasses({
-            isSelected: isActive,
-            isDarkMode
+            return (
+              <button
+                key={item.key}
+                onClick={() => handleItemSelect(item)}
+                className={getNavbarButtonClasses({
+                  isSelected: isActive,
+                  isDarkMode,
+                  textColorClass
+                })}>
+                {iconName && (
+                  <Icon
+                    icon={iconName}
+                    className={getNavbarIconClasses({
+                      isSelected: isActive,
+                      isDarkMode
+                    })}
+                  />
+                )}
+
+                <span className="mt-1 transition-colors">{item.title}</span>
+              </button>
+            )
           })}
-        />
-      )}
-
-      <span className="mt-1 transition-colors">
-        {item.title}
-      </span>
-    </button>
-  )
-})}
 
           {showMoreButton && (
             <button

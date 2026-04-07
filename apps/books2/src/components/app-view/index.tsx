@@ -1,11 +1,22 @@
-import { forwardRef } from '@vezham/react-utils'
 import { Icon } from '@iconify/react'
 import { AnimatePresence, motion } from 'framer-motion'
+
+import { forwardRef } from '@vezham/react-utils'
 
 import { Props, useProps } from './types'
 
 const AppView = forwardRef<'div', Props>((props, ref) => {
-  const { Component, slots, classNames, isOpen, onClose, title, showBack, children, getBaseProps } = useProps({
+  const {
+    Component,
+    slots,
+    classNames,
+    isOpen,
+    onClose,
+    title,
+    showBack,
+    children,
+    getBaseProps
+  } = useProps({
     ...props,
     ref
   })
@@ -34,13 +45,15 @@ const AppView = forwardRef<'div', Props>((props, ref) => {
                   <motion.button
                     onClick={onClose}
                     whileTap={{ scale: 0.9 }}
-                    className={slots.backButton({ class: classNames?.backButton })}>
+                    className={slots.backButton({
+                      class: classNames?.backButton
+                    })}>
                     <Icon icon="lucide:chevron-left" className="h-5 w-5" />
                   </motion.button>
                 )}
-              <div className={slots.title({ class: classNames?.title })}>
+                <div className={slots.title({ class: classNames?.title })}>
                   {title}
-              </div>
+                </div>
               </div>
               <div className={slots.content({ class: classNames?.content })}>
                 {children}

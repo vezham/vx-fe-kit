@@ -109,7 +109,7 @@ const widgetVariants = tv({
       mumbai: 'p-2'
     },
     variant: {
-      default: 'text-foreground',
+      default: 'text-foreground bg-white/30',
       secondary: 'bg-secondary text-secondary-foreground'
     }
   },

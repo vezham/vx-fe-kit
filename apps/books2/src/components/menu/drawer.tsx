@@ -9,6 +9,7 @@ import {
   DrawerContent,
   DrawerHeader
 } from '@vezham/react/v2'
+import { Button } from '@vezham/react/v3'
 
 import { MenuDrawerProps } from './types'
 import {
@@ -20,7 +21,6 @@ import {
   getDrawerGridItemInnerClasses,
   getDrawerHeaderClasses
 } from './variant'
-import { Button } from '@vezham/react/v3'
 
 const MenuDrawer = ({
   items,

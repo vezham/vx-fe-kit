@@ -31,7 +31,7 @@ export default function NotificationDrawer({
       isOpen={isOpen}
       onClose={onClose}
       classNames={{
-        base: 'bg-transparent z-[10] border-none shadow-none rounded-none max-w-[440px] md:translate-x-[106px] ',
+        base: 'bg-transparent z-[10] border-none shadow-none rounded-none max-w-[440px] md:translate-x-[106px] py-3',
 
         wrapper: 'z-[10]'
       }}>

@@ -12,7 +12,7 @@ import { ScrollShadow } from '@vezham/react/v2'
 import { Surface } from '@vezham/react/v3'
 
 import { HeaderActions } from '../../components/actions'
-import {Sidebar} from '../../components/sidebar'
+import { Sidebar } from '../../components/sidebar'
 import AppContainerHeader from '../../layouts/app-container-header'
 import { sectionItems } from '../../pages/reports/sidebar/items'
 import ReportsSidebar from '../../pages/reports/sidebar/sidebar'
