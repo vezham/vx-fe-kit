@@ -16,6 +16,12 @@
     },
     {
       "path": "./apps_internals/playground"
+    },
+    {
+      "path": "./apps/school-e2e"
+    },
+    {
+      "path": "./apps/school"
     }
   ]
 }

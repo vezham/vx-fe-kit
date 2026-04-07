@@ -1,0 +1,56 @@
+import { useNavigate } from '@tanstack/react-router'
+
+import {
+  Drawer,
+  DrawerBody,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  ScrollShadow
+} from '@vezham/react/v2'
+import { Chip } from '@vezham/react/v3'
+
+interface NotificationDrawerProps {
+  isOpen: boolean
+  onClose: () => void
+}
+
+export default function NotificationDrawer({
+  isOpen,
+  onClose
+}: NotificationDrawerProps) {
+  const navigate = useNavigate()
+
+  return (
+    <Drawer
+      backdrop="transparent"
+      placement="left"
+      isOpen={isOpen}
+      onClose={onClose}
+      classNames={{
+        base: 'bg-transparent z-[10] border-none shadow-none rounded-none max-w-[320px] md:translate-x-[106px]',
+        wrapper: 'z-[10]'
+      }}>
+      <DrawerContent className="border border-white/20 bg-black/5 shadow-xl backdrop-blur-lg">
+        <DrawerHeader className="flex items-center justify-between text-white/90">
+          <span className="text-lg font-semibold">Notification Center</span>
+        </DrawerHeader>
+        <DrawerBody className="overflow-y-auto">
+          <ScrollShadow>
+            <div className="text-xl font-semibold">Notifications empty</div>
+            <div className="text-muted-foreground max-w-[220px]">
+              No notifications will appear here.
+            </div>
+          </ScrollShadow>
+        </DrawerBody>
+        <DrawerFooter className="flex items-center justify-center">
+          <Chip
+            className="cursor-pointer"
+            onClick={() => navigate({ to: '/widgets' })}>
+            Edit
+          </Chip>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
+  )
+}

@@ -1,0 +1,19 @@
+{
+  "name": "school",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/school/src",
+  "targets": {
+    "config-local-hostile": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/school",
+        "commands": [
+          "sudo pnpm exec hostile set localhost school.vezham.local && sudo pnpm exec hostile set localhost school.mock.vezham.local"
+        ],
+        "parallel": false
+      }
+    }
+  },
+  "tags": ["category:app"]
+}

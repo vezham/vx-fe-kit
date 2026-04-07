@@ -1,0 +1,28 @@
+import React from 'react'
+
+import { Tabs } from '@vezham/react/v3'
+
+import CustomTabs from '../../../tabs'
+
+const index = () => {
+  const tabs = [
+    {
+      id: 'discord',
+      label: 'Discord',
+      content: <p>View your project overview and recent activity.</p>
+    },
+    {
+      id: 'games',
+      label: 'Connected Games',
+      content: <p>Track your metrics and analyze performance data.</p>
+    }
+  ]
+
+  return (
+    <div>
+      <CustomTabs tabs={tabs} />
+    </div>
+  )
+}
+
+export default index
