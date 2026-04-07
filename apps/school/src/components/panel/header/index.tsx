@@ -60,8 +60,9 @@ export default function Header({
             </Button>
           </Popover.Trigger>
 
-          <Popover.Content className="p-2" placement="bottom">
+          <Popover.Content className="rounded-xl p-2" placement="bottom">
             <Button
+              variant="ghost"
               className="hover:bg-background w-full rounded-md px-3 py-2 text-left text-sm"
               onClick={() => setOpen(false)}>
               {' '}
@@ -109,7 +110,7 @@ export default function Header({
         {showSearch && (
           <Tooltip delay={0}>
             <Icon
-              className="text-muted"
+              className="text-muted cursor-pointer"
               icon="solar:magnifer-linear"
               width={24}
               onClick={onSearchClick}
@@ -125,7 +126,7 @@ export default function Header({
               isInvisible={favoritesCount === 0}
               color="danger">
               <Icon
-                className="text-muted"
+                className="text-muted cursor-pointer"
                 icon="solar:star-linear"
                 width={24}
                 onClick={onFavoritesClick}
@@ -142,7 +143,7 @@ export default function Header({
               isInvisible={archiveCount === 0}
               color="primary">
               <Icon
-                className="text-muted"
+                className="text-muted cursor-pointer"
                 icon="solar:archive-linear"
                 width={24}
                 onClick={onArchiveClick}

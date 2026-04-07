@@ -53,7 +53,7 @@ export default function MenuSM() {
         />
         <Footer
           user={{
-            id: user?.id ?? '', // ✅ REQUIRED FIX
+            id: user?.id ?? '',
             name: user
               ? `${user.firstName ?? ''} ${user.lastName ?? ''}`.trim()
               : '',

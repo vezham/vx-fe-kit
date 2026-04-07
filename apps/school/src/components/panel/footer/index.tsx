@@ -14,6 +14,7 @@ import {
 } from '@vezham/react/v3'
 
 import { useUser } from '../../../store/users/useUserStore'
+import UserInfoModal from './preferences/modal'
 import { FooterActionsProps } from './types'
 
 type UserStatus = 'active' | 'away' | 'idle' | 'busy' | 'dnd'
@@ -43,6 +44,7 @@ export default function Footer({
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const [userStatus, setUserStatus] = useState<UserStatus>('active')
+  const [isModalOpen, setIsModalOpen] = useState(false)
   const currentStatus = STATUS_OPTIONS.find(s => s.id === userStatus)
 
   const [selectedStatus, setSelectedStatus] = useState<any>(null)
@@ -89,6 +91,15 @@ export default function Footer({
         </div>
       </div>
     )
+  }
+
+  const handleUserInfoClick = () => {
+    setIsModalOpen(true)
+    setIsDropdownOpen(false)
+  }
+
+  const handleModalClose = () => {
+    setIsModalOpen(false)
   }
 
   return (
@@ -176,7 +187,9 @@ export default function Footer({
                 </Tooltip.Content>
               </Tooltip>
               <Dropdown.Popover placement="right">
-                <div className="flex items-center gap-3 px-3 py-2">
+                <div
+                  className="hover:bg-default-100 flex cursor-pointer items-center gap-3 rounded-lg px-3 py-2 transition-colors"
+                  onClick={handleUserInfoClick}>
                   <Avatar size="sm">
                     <Avatar.Image src={user?.avatar} />
                     <Avatar.Fallback>{user?.name?.[0]}</Avatar.Fallback>
@@ -398,7 +411,9 @@ export default function Footer({
                 </Tooltip.Content>
               </Tooltip>
               <Dropdown.Popover>
-                <div className="flex items-center gap-3 px-3 py-2">
+                <div
+                  className="hover:bg-default-100 flex cursor-pointer items-center gap-3 rounded-lg px-3 py-2 transition-colors"
+                  onClick={handleUserInfoClick}>
                   <Avatar size="sm">
                     <Avatar.Image src={user?.avatar} />
                     <Avatar.Fallback>{user?.name?.[0]}</Avatar.Fallback>
@@ -443,7 +458,6 @@ export default function Footer({
                       open={isStatusOpen}
                       onOpenChange={setIsStatusOpen}
                       onSelectionChange={key => {
-                        // ✅ CLEAR STATUS OPTION
                         if (key === 'clear') {
                           setSelectedStatus(null)
                           setSelectedTiming(null)
@@ -541,6 +555,13 @@ export default function Footer({
           )}
         </div>
       </Surface>
+
+      <UserInfoModal
+        open={isModalOpen}
+        onClose={handleModalClose}
+        user={user}
+        defaultActiveTab="profiles"
+      />
     </>
   )
 }
