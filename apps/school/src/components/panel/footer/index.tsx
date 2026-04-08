@@ -93,7 +93,7 @@ export default function Footer({
     )
   }
 
-  const handleUserInfoClick = () => {
+  const onCurrentUserClick = () => {
     setIsModalOpen(true)
     setIsDropdownOpen(false)
   }
@@ -189,7 +189,7 @@ export default function Footer({
               <Dropdown.Popover placement="right">
                 <div
                   className="hover:bg-default-100 flex cursor-pointer items-center gap-3 rounded-lg px-3 py-2 transition-colors"
-                  onClick={handleUserInfoClick}>
+                  onClick={onCurrentUserClick}>
                   <Avatar size="sm">
                     <Avatar.Image src={user?.avatar} />
                     <Avatar.Fallback>{user?.name?.[0]}</Avatar.Fallback>
@@ -413,7 +413,7 @@ export default function Footer({
               <Dropdown.Popover>
                 <div
                   className="hover:bg-default-100 flex cursor-pointer items-center gap-3 rounded-lg px-3 py-2 transition-colors"
-                  onClick={handleUserInfoClick}>
+                  onClick={onCurrentUserClick}>
                   <Avatar size="sm">
                     <Avatar.Image src={user?.avatar} />
                     <Avatar.Fallback>{user?.name?.[0]}</Avatar.Fallback>

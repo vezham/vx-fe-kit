@@ -22,8 +22,8 @@ export default function Header({
   archiveCount = 0,
   onAvatarClick,
   onSearchClick,
-  onFavoritesClick,
-  onArchiveClick,
+  onBookMarksClick,
+  onDiskClick,
   className
 }: HeaderActionsProps) {
   const [submenu, setSubmenu] = useState<string | null>(null)
@@ -129,7 +129,7 @@ export default function Header({
                 className="text-muted cursor-pointer"
                 icon="solar:star-linear"
                 width={24}
-                onClick={onFavoritesClick}
+                onClick={onBookMarksClick}
               />
             </Badge>
             <Tooltip.Content placement="right">Favorites</Tooltip.Content>
@@ -146,7 +146,7 @@ export default function Header({
                 className="text-muted cursor-pointer"
                 icon="solar:archive-linear"
                 width={24}
-                onClick={onArchiveClick}
+                onClick={onDiskClick}
               />
             </Badge>
             <Tooltip.Content placement="right">Archived</Tooltip.Content>

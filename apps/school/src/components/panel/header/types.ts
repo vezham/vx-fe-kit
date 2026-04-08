@@ -18,8 +18,8 @@ export interface HeaderActionsProps {
 
   onAvatarClick?: (user: User) => void
   onSearchClick?: () => void
-  onFavoritesClick?: () => void
-  onArchiveClick?: () => void
+  onBookMarksClick?: () => void
+  onDiskClick?: () => void
 
   className?: string
 }

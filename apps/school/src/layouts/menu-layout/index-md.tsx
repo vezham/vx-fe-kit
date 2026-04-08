@@ -6,11 +6,11 @@ import { Surface } from '@vezham/react/v3'
 import Footer from '../../components/panel/footer'
 import AIDrawer from '../../components/panel/footer/ai/drawer'
 import ControlCenterDrawer from '../../components/panel/footer/control-center/drawer'
-import NotificationDrawer from '../../components/panel/footer/notification/drawer'
+import NotificationDrawer from '../../components/panel/footer/notification-center/drawer'
 import UserInfoModal from '../../components/panel/footer/preferences/modal'
 import Header from '../../components/panel/header'
-import ArchiveDrawer from '../../components/panel/header/archived/drawer'
-import FavoritesDrawer from '../../components/panel/header/favorites/drawer'
+import FavoritesDrawer from '../../components/panel/header/bookmarks/drawer'
+import ArchiveDrawer from '../../components/panel/header/disk/drawer'
 import { Menu } from '../../components/panel/menu'
 import { items } from '../../components/panel/menu/sidebar-items'
 import { useUser } from '../../store/users/useUserStore'
@@ -48,8 +48,8 @@ export default function MenuMD() {
         showSearch
         showFavorites
         showArchive
-        onFavoritesClick={() => setFavoritesOpen(true)}
-        onArchiveClick={() => setArchiveOpen(true)}
+        onBookMarksClick={() => setFavoritesOpen(true)}
+        onDiskClick={() => setArchiveOpen(true)}
       />
       <Menu
         collapsed={false}

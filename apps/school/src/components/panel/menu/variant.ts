@@ -47,15 +47,15 @@ const tva = tv({
     },
     spacing: {
       compact: {
-        container: 'gap-4',
+        container: 'gap-2',
         item: 'mb-0'
       },
       normal: {
-        container: 'gap-6',
+        container: 'gap-4',
         item: 'mb-1'
       },
       spacious: {
-        container: 'gap-8',
+        container: 'gap-6',
         item: 'mb-2'
       }
     },

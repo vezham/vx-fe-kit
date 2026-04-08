@@ -11,7 +11,7 @@ export default function AIDrawer({ isOpen, onClose }: AIDrawerProps) {
   return (
     <Drawer
       backdrop="transparent"
-      placement="bottom"
+      placement="left"
       isOpen={isOpen}
       onClose={onClose}
       classNames={{

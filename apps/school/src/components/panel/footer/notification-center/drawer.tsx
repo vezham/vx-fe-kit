@@ -10,6 +10,8 @@ import {
 } from '@vezham/react/v2'
 import { Chip } from '@vezham/react/v3'
 
+import WidgetsGrid from '../../../../pages/widgets'
+
 interface NotificationDrawerProps {
   isOpen: boolean
   onClose: () => void
@@ -28,7 +30,7 @@ export default function NotificationDrawer({
       isOpen={isOpen}
       onClose={onClose}
       classNames={{
-        base: 'bg-transparent z-[10] border-none shadow-none rounded-none max-w-[320px] md:translate-x-[106px]',
+        base: 'bg-transparent z-[10] border-none shadow-none rounded-none max-w-[440px] md:translate-x-[106px]',
         wrapper: 'z-[10]'
       }}>
       <DrawerContent className="border border-white/20 bg-black/5 shadow-xl backdrop-blur-lg">
@@ -37,10 +39,7 @@ export default function NotificationDrawer({
         </DrawerHeader>
         <DrawerBody className="overflow-y-auto">
           <ScrollShadow>
-            <div className="text-xl font-semibold">Notifications empty</div>
-            <div className="text-muted-foreground max-w-[220px]">
-              No notifications will appear here.
-            </div>
+            <WidgetsGrid />
           </ScrollShadow>
         </DrawerBody>
         <DrawerFooter className="flex items-center justify-center">
