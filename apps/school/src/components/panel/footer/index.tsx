@@ -104,7 +104,7 @@ export default function Footer({
 
   return (
     <>
-      <Separator className="hidden md:block" />
+      <Separator className="hidden md:mb-4 md:block" />
       <Surface variant="transparent" className={className}>
         <div className="hidden flex-row items-center justify-center gap-3 min-[500px]:flex md:flex-col md:gap-6">
           {showAI && (

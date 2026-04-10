@@ -17,6 +17,7 @@ const Menu = forwardRef<'div', Props>((props, ref) => {
     getTooltipTriggerProps,
     getTooltipContentProps,
     getLabelProps,
+    getAlignProps,
     items,
     selectedKey,
     collapsed
@@ -35,7 +36,7 @@ const Menu = forwardRef<'div', Props>((props, ref) => {
 
             return (
               <div key={item.key} {...getItemProps({ item, isActive })}>
-                <div className="flex flex-col items-center">
+                <div {...getAlignProps()}>
                   <Tooltip delay={0}>
                     <Tooltip.Trigger {...getTooltipTriggerProps()}>
                       <div {...getIconWrapperProps()}>

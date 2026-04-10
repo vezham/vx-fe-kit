@@ -154,7 +154,7 @@ export default function Header({
         )}
       </Surface>
 
-      <Separator className="hidden md:block" />
+      <Separator className="hidden md:mt-4 md:block" />
     </>
   )
 }

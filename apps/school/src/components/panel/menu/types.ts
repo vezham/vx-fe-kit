@@ -74,6 +74,10 @@ const useProps = (originalProps: Props) => {
     className: slots.container({ class: classNames?.container })
   })
 
+  const getAlignProps: PropGetter = () => ({
+    className: slots.align({ class: classNames?.align })
+  })
+
   const getItemProps: PropGetter = ({
     item,
     isActive
@@ -137,6 +141,7 @@ const useProps = (originalProps: Props) => {
     getTooltipTriggerProps,
     getTooltipContentProps,
     getLabelProps,
+    getAlignProps,
     items,
     selectedKey,
     collapsed,
