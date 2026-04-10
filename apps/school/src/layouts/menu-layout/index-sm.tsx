@@ -6,13 +6,13 @@ import { Surface } from '@vezham/react/v3'
 import { BottomNavbar } from '../../components/menu'
 import { longMenuItems } from '../../components/menu/sidebar-items'
 import Footer from '../../components/panel/footer'
-import AIDrawer from '../../components/panel/footer/ai/drawer'
-import ControlCenterDrawer from '../../components/panel/footer/control-center/drawer'
-import NotificationDrawer from '../../components/panel/footer/notification-center/drawer'
+import { AIDrawer } from '../../components/panel/footer/ai'
+import { ControlCenterDrawer } from '../../components/panel/footer/control-center'
+import { NotificationDrawer } from '../../components/panel/footer/notification-center'
 import UserInfoModal from '../../components/panel/footer/preferences/modal'
 import Header from '../../components/panel/header'
-import FavoritesDrawer from '../../components/panel/header/bookmarks/drawer'
-import ArchiveDrawer from '../../components/panel/header/disk/drawer'
+import { BookmarksDrawer } from '../../components/panel/header/bookmarks'
+import { DiskDrawer } from '../../components/panel/header/disc'
 import { useUser } from '../../store/users/useUserStore'
 
 export default function MenuSM() {
@@ -21,7 +21,7 @@ export default function MenuSM() {
   const [aiOpen, setAIOpen] = useState(false)
   const [notificationsOpen, setNotificationsOpen] = useState(false)
   const [controlsOpen, setControlsOpen] = useState(false)
-  const [favoritesOpen, setFavoritesOpen] = useState(false)
+  const [bookmarksOpen, setBookmarksOpen] = useState(false)
   const [archiveOpen, setArchiveOpen] = useState(false)
 
   const handleItemSelect = (key: string) => {
@@ -39,36 +39,42 @@ export default function MenuSM() {
   const navigate = useNavigate()
 
   return (
-    <Surface variant="transparent" className={`flex flex-1 flex-col`}>
-      <div className={`sticky top-0 z-50 flex justify-between p-3 shadow-md`}>
-        <Header
-          users={users}
-          showSearch
-          showFavorites
-          showArchive
-          onAvatarClick={user => console.log('Avatar clicked:', user)}
-          onSearchClick={() => console.log('Search clicked')}
-          onFavoritesClick={() => setFavoritesOpen(true)}
-          onArchiveClick={() => setArchiveOpen(true)}
-        />
-        <Footer
-          user={{
-            id: user?.id ?? '',
-            name: user
-              ? `${user.firstName ?? ''} ${user.lastName ?? ''}`.trim()
-              : '',
-            avatar: user?.avatar,
-            isOnline: user?.isOnline
-          }}
-          showAI
-          showControlCenter
-          showNotifications
-          showUserInfo
-          onAI={() => setAIOpen(true)}
-          onControlCenterClick={() => setControlsOpen(true)}
-          onNotificationsClick={() => setNotificationsOpen(true)}
-          onUserClick={() => setOpenSettings(true)}
-        />
+    <Surface variant="transparent" className="flex flex-1 flex-col">
+      <div className="sticky top-0 z-50 w-full shadow-md">
+        <div className="flex w-full items-center justify-between px-3 py-2">
+          <Header
+            className="flex-shrink-0"
+            users={users}
+            showSearch
+            showFavorites
+            showArchive
+            onAvatarClick={user => console.log('Avatar clicked:', user)}
+            onSearchClick={() => console.log('Search clicked')}
+            onBookMarksClick={() => setBookmarksOpen(true)}
+            onDiskClick={() => setArchiveOpen(true)}
+          />
+
+          <Footer
+            className="ml-auto flex-shrink-0"
+            user={{
+              id: user?.id ?? '',
+              name: user
+                ? `${user.firstName ?? ''} ${user.lastName ?? ''}`.trim()
+                : '',
+              avatar: user?.avatar,
+              isOnline: user?.isOnline
+            }}
+            showAI
+            showControlCenter
+            showNotifications
+            showUserInfo
+            onAI={() => setAIOpen(true)}
+            onControlCenterClick={() => setControlsOpen(true)}
+            onNotificationsClick={() => setNotificationsOpen(true)}
+            onUserClick={() => setOpenSettings(true)}
+          />
+        </div>
+
         <UserInfoModal
           open={openSettings}
           onClose={() => setOpenSettings(false)}
@@ -82,17 +88,16 @@ export default function MenuSM() {
           isOpen={notificationsOpen}
           onClose={() => setNotificationsOpen(false)}
         />
-
-        <FavoritesDrawer
-          isOpen={favoritesOpen}
-          onClose={() => setFavoritesOpen(false)}
+        <BookmarksDrawer
+          isOpen={bookmarksOpen}
+          onClose={() => setBookmarksOpen(false)}
         />
-
-        <ArchiveDrawer
+        <DiskDrawer
           isOpen={archiveOpen}
           onClose={() => setArchiveOpen(false)}
         />
       </div>
+
       <div>
         <BottomNavbar
           items={longMenuItems}

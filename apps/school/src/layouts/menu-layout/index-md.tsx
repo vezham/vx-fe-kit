@@ -4,13 +4,13 @@ import React, { useState } from 'react'
 import { Surface } from '@vezham/react/v3'
 
 import Footer from '../../components/panel/footer'
-import AIDrawer from '../../components/panel/footer/ai/drawer'
-import ControlCenterDrawer from '../../components/panel/footer/control-center/drawer'
-import NotificationDrawer from '../../components/panel/footer/notification-center/drawer'
+import { AIDrawer } from '../../components/panel/footer/ai'
+import { ControlCenterDrawer } from '../../components/panel/footer/control-center'
+import { NotificationDrawer } from '../../components/panel/footer/notification-center'
 import UserInfoModal from '../../components/panel/footer/preferences/modal'
 import Header from '../../components/panel/header'
-import FavoritesDrawer from '../../components/panel/header/bookmarks/drawer'
-import ArchiveDrawer from '../../components/panel/header/disk/drawer'
+import { BookmarksDrawer } from '../../components/panel/header/bookmarks'
+import { DiskDrawer } from '../../components/panel/header/disc'
 import { Menu } from '../../components/panel/menu'
 import { items } from '../../components/panel/menu/sidebar-items'
 import { useUser } from '../../store/users/useUserStore'
@@ -22,7 +22,7 @@ export default function MenuMD() {
   const [aiOpen, setAIOpen] = useState(false)
   const [notificationsOpen, setNotificationsOpen] = useState(false)
   const [controlsOpen, setControlsOpen] = useState(false)
-  const [favoritesOpen, setFavoritesOpen] = useState(false)
+  const [bookmarksOpen, setBookmarksOpen] = useState(false)
   const [archiveOpen, setArchiveOpen] = useState(false)
 
   const handleItemSelect = (key: string) => {
@@ -43,20 +43,23 @@ export default function MenuMD() {
       variant="transparent"
       className="border-default-300 sticky top-0 left-0 z-[50] flex h-screen w-[106px] flex-col gap-6 px-4 pt-4 pb-6"
       data-vx="menu-layout">
+      {/* Top */}
       <Header
         users={users}
         showSearch
         showFavorites
         showArchive
-        onBookMarksClick={() => setFavoritesOpen(true)}
+        onBookMarksClick={() => setBookmarksOpen(true)}
         onDiskClick={() => setArchiveOpen(true)}
       />
+
       <Menu
         collapsed={false}
         items={items}
         selectedKey={selectedKey}
         onSelect={handleItemSelect}
       />
+
       <Footer
         user={{
           id: user?.id ?? '',
@@ -75,6 +78,8 @@ export default function MenuMD() {
         onNotificationsClick={() => setNotificationsOpen(true)}
         onUserClick={() => setOpenSettings(true)}
       />
+
+      {/* Modals */}
       <UserInfoModal
         open={openSettings}
         onClose={() => setOpenSettings(false)}
@@ -88,16 +93,11 @@ export default function MenuMD() {
         isOpen={notificationsOpen}
         onClose={() => setNotificationsOpen(false)}
       />
-
-      <FavoritesDrawer
-        isOpen={favoritesOpen}
-        onClose={() => setFavoritesOpen(false)}
+      <BookmarksDrawer
+        isOpen={bookmarksOpen}
+        onClose={() => setBookmarksOpen(false)}
       />
-
-      <ArchiveDrawer
-        isOpen={archiveOpen}
-        onClose={() => setArchiveOpen(false)}
-      />
+      <DiskDrawer isOpen={archiveOpen} onClose={() => setArchiveOpen(false)} />
     </Surface>
   )
 }

@@ -2,9 +2,9 @@ import { VariantProps, tv } from '@vezham/react-utils'
 
 const tva = tv({
   slots: {
-    base: 'flex h-full min-h-0 flex-col overflow-hidden',
+    base: 'flex min-h-0 flex-col overflow-hidden',
     scroll: 'flex min-h-0 flex-1 flex-col overflow-y-auto',
-    container: 'flex flex-col gap-2 pb-2',
+    container: 'flex flex-col',
     item: 'cursor-pointer',
     icon_wrapper: 'flex h-[28px] w-[28px] items-center justify-center',
     icon: 'text-muted transition-colors',
