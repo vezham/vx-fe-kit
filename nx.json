@@ -76,6 +76,27 @@
       "cache": true,
       "dependsOn": ["^build"],
       "inputs": ["production", "^production"]
+    },
+    "hosts:setup": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "NAME=${name:-{projectName}} && sudo pnpm exec hostile set localhost $NAME.vezham.local && sudo pnpm exec hostile set localhost $NAME.mock.vezham.local"
+      }
+    },
+    "routes:tanstack": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "tsr generate"
+      }
+    },
+    "routes:tanstack:watch": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "tsr watch"
+      }
     }
   },
   "generators": {
