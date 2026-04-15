@@ -13,7 +13,7 @@ const widgetVariants = tv({
     },
     design: {
       default: 'p-4',
-      mumbai: 'p-2'
+      mumbai: 'p-4'
     },
     variant: {
       default: 'text-foreground bg-white/30',

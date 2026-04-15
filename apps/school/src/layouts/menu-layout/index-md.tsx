@@ -39,30 +39,27 @@ export default function MenuMD() {
   const { user } = useUser()
 
   return (
-    <Surface
-      variant="transparent"
-      className="border-default-300 sticky top-0 left-0 z-[50] flex h-screen w-[106px] flex-col gap-6 px-4 pt-4 pb-6">
-      <div className="shrink-0">
+    <>
+      <Surface
+        variant="transparent"
+        className="border-default-300 sticky top-0 left-0 z-[50] flex h-screen w-[106px] flex-col gap-6 px-4 pt-4 pb-6"
+        data-vx="menu-layout">
         <Header
           users={users}
           showSearch
-          showFavorites
-          showArchive
+          showBookamarks
+          showDisk
           onBookMarksClick={() => setBookmarksOpen(true)}
           onDiskClick={() => setArchiveOpen(true)}
         />
-      </div>
 
-      <div className="min-h-0 flex-1">
         <Menu
           collapsed={false}
           items={items}
           selectedKey={selectedKey}
           onSelect={handleItemSelect}
         />
-      </div>
 
-      <div className="shrink-0">
         <Footer
           user={{
             id: user?.id ?? '',
@@ -81,7 +78,25 @@ export default function MenuMD() {
           onNotificationsClick={() => setNotificationsOpen(true)}
           onUserClick={() => setOpenSettings(true)}
         />
-      </div>
-    </Surface>
+      </Surface>
+      <UserInfoModal
+        open={openSettings}
+        onClose={() => setOpenSettings(false)}
+      />
+      <AIDrawer isOpen={aiOpen} onClose={() => setAIOpen(false)} />
+      <ControlCenterDrawer
+        isOpen={controlsOpen}
+        onClose={() => setControlsOpen(false)}
+      />
+      <NotificationDrawer
+        isOpen={notificationsOpen}
+        onClose={() => setNotificationsOpen(false)}
+      />
+      <BookmarksDrawer
+        isOpen={bookmarksOpen}
+        onClose={() => setBookmarksOpen(false)}
+      />
+      <DiskDrawer isOpen={archiveOpen} onClose={() => setArchiveOpen(false)} />
+    </>
   )
 }

@@ -5,21 +5,21 @@ const tva = tv({
   slots: {
     drawer_dialog:
       'border-default-200 max-w-[440px] border-r bg-black/5 backdrop-blur-sm md:translate-x-[106px]',
-    tabs: 'mt-6 mb-4',
+    tabs: '',
     tabs_list_container: '',
-    tabs_list: 'w-full bg-black/5',
+    tabs_list: 'w-fit',
     tab_archive: 'flex-1 justify-center',
     tab_trash: 'flex-1 justify-center',
     tab_indicator: '',
 
     container: 'flex h-full flex-col',
 
-    search_input: 'mb-3 w-full',
+    search_input: 'w-full',
     search_input_wrapper: 'bg-default-100/50',
     search_icon: 'text-default-400',
 
-    actions_bar: 'mb-3 flex justify-end',
-    actions_bar_with_gap: 'mb-3 flex justify-end gap-2',
+    actions_bar: 'text-muted mb-2 flex justify-end',
+    actions_bar_with_gap: 'text-muted mb-2 flex justify-end gap-2',
 
     clear_all_button: '',
     restore_all_button: '',

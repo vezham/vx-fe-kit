@@ -18,7 +18,7 @@ export const sampleArchiveItems: ArchiveItem[] = [
   },
   {
     id: 'a3',
-    title: "Unlock your team's best work...",
+    title: "Unlock your team's best work Unlock your team's best work",
     url: 'jira.atlassian.com',
     archivedDate: '2026-04-09',
     favicon: 'https://www.google.com/s2/favicons?domain=atlassian.com&sz=32'

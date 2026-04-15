@@ -19,7 +19,7 @@ const tva = tv({
 
     // Footer slots
     drawer_footer: 'flex items-center justify-center',
-    chip: 'cursor-pointer'
+    chip: 'cursor-pointer bg-white'
   },
   variants: {
     variant: {

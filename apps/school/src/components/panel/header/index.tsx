@@ -16,8 +16,8 @@ import { HeaderActionsProps } from './types'
 export default function Header({
   users,
   showSearch = false,
-  showFavorites = false,
-  showArchive = false,
+  showBookamarks = false,
+  showDisk = false,
   favoritesCount = 0,
   archiveCount = 0,
   onAvatarClick,
@@ -119,42 +119,46 @@ export default function Header({
           </Tooltip>
         )}
 
-        {showFavorites && (
+        {showBookamarks && (
           <Tooltip delay={0}>
-            <Badge
-              content={favoritesCount}
-              isInvisible={favoritesCount === 0}
-              color="danger">
-              <Icon
-                className="text-muted cursor-pointer"
-                icon="solar:star-linear"
-                width={24}
-                onClick={onBookMarksClick}
-              />
-            </Badge>
-            <Tooltip.Content placement="right">Favorites</Tooltip.Content>
+            <Tooltip.Trigger>
+              <Badge
+                content={favoritesCount}
+                isInvisible={favoritesCount === 0}
+                color="danger">
+                <Icon
+                  className="text-muted cursor-pointer"
+                  icon="solar:star-linear"
+                  width={24}
+                  onClick={onBookMarksClick}
+                />
+              </Badge>
+            </Tooltip.Trigger>
+            <Tooltip.Content placement="right">Bookmarks</Tooltip.Content>
           </Tooltip>
         )}
 
-        {showArchive && (
+        {showDisk && (
           <Tooltip delay={0}>
-            <Badge
-              content={archiveCount}
-              isInvisible={archiveCount === 0}
-              color="primary">
-              <Icon
-                className="text-muted cursor-pointer"
-                icon="solar:archive-linear"
-                width={24}
-                onClick={onDiskClick}
-              />
-            </Badge>
-            <Tooltip.Content placement="right">Archived</Tooltip.Content>
+            <Tooltip.Trigger>
+              <Badge
+                content={archiveCount}
+                isInvisible={archiveCount === 0}
+                color="primary">
+                <Icon
+                  className="text-muted cursor-pointer"
+                  icon="solar:archive-linear"
+                  width={24}
+                  onClick={onDiskClick}
+                />
+              </Badge>
+            </Tooltip.Trigger>
+            <Tooltip.Content placement="right">Disk</Tooltip.Content>
           </Tooltip>
         )}
       </Surface>
 
-      <Separator className="hidden md:mt-4 md:block" />
+      <Separator className="hidden md:block" />
     </>
   )
 }

@@ -207,7 +207,6 @@ const BookmarksDrawer = forwardRef<'div', Props>((props, ref) => {
         </Avatar>
         <div {...getBookmarkContentProps()}>
           <p {...getBookmarkNameProps(bookmark.name)} />
-          <p {...getBookmarkUrlProps(bookmark.url)} />
         </div>
         <Icon {...getBookmarkArrowProps()} />
       </button>
@@ -226,7 +225,7 @@ const BookmarksDrawer = forwardRef<'div', Props>((props, ref) => {
     }
 
     return (
-      <Accordion {...getFolderAccordionProps()}>
+      <Accordion hideSeparator {...getFolderAccordionProps()}>
         {Object.entries(bookmarksByFolder).map(([folder, items]) => (
           <Accordion.Item key={folder} {...getFolderItemProps()}>
             <Accordion.Heading {...getFolderHeadingProps()}>
@@ -258,8 +257,7 @@ const BookmarksDrawer = forwardRef<'div', Props>((props, ref) => {
         <Drawer.Content placement={placement}>
           <Drawer.Dialog {...getDrawerDialogProps()}>
             <Drawer.CloseTrigger />
-
-            <Drawer.Body {...getDrawerBodyProps()}>
+            <Drawer.Header>
               <div {...getSearchContainerProps()}>
                 <Input
                   {...getSearchInputProps()}
@@ -267,7 +265,9 @@ const BookmarksDrawer = forwardRef<'div', Props>((props, ref) => {
                   onChange={e => setSearchQuery(e.target.value)}
                 />
               </div>
+            </Drawer.Header>
 
+            <Drawer.Body {...getDrawerBodyProps()}>
               <ScrollShadow {...getScrollShadowProps()}>
                 {!hasFavorites && !hasBookmarks ? (
                   <div {...getEmptyContainerProps()}>
@@ -313,15 +313,6 @@ const BookmarksDrawer = forwardRef<'div', Props>((props, ref) => {
 
                     {hasFolderBookmarks && (
                       <section {...getSectionProps()}>
-                        <div {...getSectionHeaderProps()}>
-                          <Icon
-                            {...getSectionIconProps(
-                              'solar:folder-bold',
-                              'text-primary'
-                            )}
-                          />
-                          <h3 {...getSectionTitleProps('Folders')} />
-                        </div>
                         {renderFolderBookmarks()}
                       </section>
                     )}

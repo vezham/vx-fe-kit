@@ -4,7 +4,7 @@ import { VariantProps } from '@vezham/react/v3'
 const tva = tv({
   slots: {
     drawer_base:
-      'max-w-[380px] border-none bg-transparent shadow-none md:translate-x-[106px]',
+      'max-w-[440px] rounded-none border-none bg-transparent shadow-none md:translate-x-[106px]',
     drawer_wrapper: 'z-[20]',
     drawer_content:
       'flex justify-end bg-black/5 p-4 shadow-xl backdrop-blur-sm',
@@ -15,33 +15,33 @@ const tva = tv({
     main_grid: 'grid grid-cols-2 gap-4',
     main_grid_left: 'space-y-4',
 
-    tile: 'flex cursor-pointer items-center gap-3 rounded-2xl bg-white/10 p-4 backdrop-blur-md transition hover:bg-white/20',
+    tile: 'flex cursor-pointer items-center gap-3 rounded-full bg-white/10 p-4 backdrop-blur-md transition hover:bg-white/20',
     tile_icon_wrapper:
-      'flex h-10 w-10 items-center justify-center rounded-full bg-white/20',
-    tile_icon: '',
-    tile_label: 'text-sm font-semibold',
-    tile_sub: 'text-xs text-white/60',
+      'flex h-10 w-10 items-center justify-center rounded-full bg-white',
+    tile_icon: 'text-primary',
+    tile_label: 'text-default-500 text-sm font-semibold',
+    tile_sub: 'text-default-400 text-xs',
 
     media_tile:
       'flex flex-col justify-between rounded-2xl bg-white/10 p-4 backdrop-blur-md',
-    media_tile_status: 'text-sm text-white/60',
+    media_tile_status: 'text-default-400 text-sm',
     media_tile_controls: 'mt-6 flex items-center justify-center gap-4',
-    media_tile_icon: '',
+    media_tile_icon: 'text-primary',
 
     circle_action:
-      'flex items-center gap-3 rounded-2xl bg-white/10 p-4 backdrop-blur-md',
+      'flex items-center gap-3 rounded-full bg-white/10 p-4 backdrop-blur-md',
     circle_action_center: 'justify-center',
     circle_action_large: 'flex-1',
     circle_action_icon_wrapper:
-      'flex h-10 w-10 items-center justify-center rounded-full bg-white/20',
-    circle_action_icon: '',
-    circle_action_label: 'text-sm font-semibold',
-    circle_action_sub: 'text-xs text-white/60',
+      'flex h-10 w-10 items-center justify-center rounded-full bg-white',
+    circle_action_icon: 'text-primary',
+    circle_action_label: 'text-default-500 text-sm font-semibold',
+    circle_action_sub: 'text-default-400 text-xs',
 
     slider: 'rounded-2xl bg-white/10 p-4 backdrop-blur-md',
     slider_header: 'mb-2 flex items-center gap-2 text-sm',
-    slider_icon: '',
-    slider_label: '',
+    slider_icon: 'text-white',
+    slider_label: 'text-default-500',
     slider_track: 'h-1 w-full rounded-full bg-white/20',
     slider_progress: 'h-1 rounded-full bg-white',
 
@@ -55,7 +55,7 @@ const tva = tv({
       'cursor-pointer rounded-xl bg-white/10 p-3 transition hover:bg-white/20',
 
     drawer_footer: 'mt-4 flex justify-center',
-    chip: 'cursor-pointer rounded-full px-4 py-2 text-sm'
+    chip: 'cursor-pointer rounded-full bg-white px-4 py-2 text-sm'
   },
   variants: {
     variant: {
@@ -102,7 +102,7 @@ const tva = tv({
         tile_sub: 'text-[10px]'
       },
       md: {
-        drawer_base: 'max-w-[380px] md:translate-x-[106px]',
+        drawer_base: 'max-w-[440px] md:translate-x-[106px]',
         tile: 'p-4',
         tile_icon_wrapper: 'h-10 w-10',
         tile_icon: 'w-5',

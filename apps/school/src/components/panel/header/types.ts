@@ -10,8 +10,8 @@ export interface HeaderActionsProps {
   users: User
 
   showSearch?: boolean
-  showFavorites?: boolean
-  showArchive?: boolean
+  showBookamarks?: boolean
+  showDisk?: boolean
 
   favoritesCount?: number
   archiveCount?: number

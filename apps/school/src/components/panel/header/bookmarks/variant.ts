@@ -7,7 +7,7 @@ const tva = tv({
       'border-default-200 max-w-[440px] border-r bg-black/5 backdrop-blur-sm md:translate-x-[106px]',
 
     drawer_body: '',
-    search_container: 'my-6',
+    search_container: 'mt-6',
     search_input: 'w-full',
     search_input_wrapper: 'bg-default-100/50',
     search_icon: 'text-default-400',
@@ -20,13 +20,12 @@ const tva = tv({
     empty_title: 'text-xl font-semibold',
     empty_description: 'text-default-500 max-w-[220px]',
 
-    content_container: 'space-y-6 pb-6',
+    content_container: 'space-y-2 pb-6',
 
     section: '',
-    section_header: 'mb-3 flex items-center gap-2',
+    section_header: 'my-6 flex items-center gap-2',
     section_icon: '',
-    section_title:
-      'text-default-500 text-sm font-semibold tracking-wider uppercase',
+    section_title: 'text-default-500 text-sm tracking-wider uppercase',
 
     favorites_grid: 'flex flex-wrap gap-3',
     favorite_item:
@@ -49,7 +48,7 @@ const tva = tv({
     bookmark_avatar: 'shrink-0',
     bookmark_avatar_fallback: 'bg-default-500 text-white',
     bookmark_content: 'flex-1 text-left',
-    bookmark_name: 'text-sm font-medium',
+    bookmark_name: 'text-sm text-black',
     bookmark_url: 'text-default-500 text-xs',
     bookmark_arrow: 'text-default-400',
 
@@ -60,8 +59,8 @@ const tva = tv({
     folder_trigger: 'py-2',
     folder_trigger_content: 'flex items-center gap-2',
     folder_icon: '',
-    folder_name: 'font-medium',
-    folder_count: 'text-default-400 ml-2 text-xs',
+    folder_name: 'text-black',
+    folder_count: 'text-default-400 text-xs',
     folder_indicator: '',
     folder_panel: '',
     folder_body: 'space-y-1 px-0 pb-2'
@@ -114,7 +113,7 @@ const tva = tv({
         favorite_name: 'text-xs',
         bookmark_name: 'text-sm',
         bookmark_url: 'text-xs',
-        folder_name: 'text-base'
+        folder_name: ''
       },
       lg: {
         drawer_dialog: 'max-w-[560px]',

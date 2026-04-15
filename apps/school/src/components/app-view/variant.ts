@@ -4,7 +4,7 @@ const tva = tv({
   slots: {
     base: 'pointer-events-auto absolute inset-0 overflow-hidden rounded-3xl',
     container: 'flex h-full flex-col',
-    header: 'relative flex items-center border-b border-white/10 p-4 pt-6',
+    header: 'relative flex items-center border-b border-white/10 p-2 pt-4',
     backButton: 'absolute left-4',
     title: 'flex-1 text-center text-lg',
     content: 'flex-1 overflow-hidden'

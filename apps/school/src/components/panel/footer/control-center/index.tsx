@@ -102,10 +102,7 @@ const ControlCenterDrawer = forwardRef<'div', Props>((props, ref) => {
                           onClick: () => handleViewChange('wifi')
                         })}>
                         <div {...getTileIconWrapperProps()}>
-                          <Icon
-                            icon={''}
-                            {...getTileIconProps('solar:wifi-router-bold')}
-                          />
+                          <Icon {...getTileIconProps('mdi:wifi')} />
                         </div>
                         <div>
                           <div {...getTileLabelProps('Wi-Fi')} />
@@ -147,17 +144,14 @@ const ControlCenterDrawer = forwardRef<'div', Props>((props, ref) => {
                       <div {...getMediaTileStatusProps()} />
                       <div {...getMediaTileControlsProps()}>
                         <Icon
-                          icon={''}
-                          {...getMediaTileIconProps('solar:rewind-bold', 22)}
+                          {...getMediaTileIconProps('mdi:skip-previous', 22)}
                         />
+
                         <Icon
                           icon={''}
                           {...getMediaTileIconProps('solar:play-bold', 28)}
                         />
-                        <Icon
-                          icon={''}
-                          {...getMediaTileIconProps('solar:forward-bold', 22)}
-                        />
+                        <Icon {...getMediaTileIconProps('mdi:skip-next', 22)} />
                       </div>
                     </div>
                   </div>

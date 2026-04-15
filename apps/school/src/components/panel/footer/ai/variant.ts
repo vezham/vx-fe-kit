@@ -2,7 +2,7 @@ import { VariantProps, tv } from '@vezham/react-utils'
 
 const tva = tv({
   slots: {
-    base: 'z-[10] max-w-[320px] rounded-none border-none bg-transparent shadow-none md:translate-x-[106px]',
+    base: 'z-[10] max-w-[440px] rounded-none border-none bg-transparent shadow-none md:translate-x-[106px]',
     wrapper: 'z-[10]',
     content: 'border border-white/20 bg-black/5 shadow-xl backdrop-blur-sm',
     body: 'flex h-full flex-col items-center justify-center gap-4 text-center',
@@ -59,13 +59,13 @@ const tva = tv({
         description: 'max-w-[180px] text-xs'
       },
       md: {
-        base: 'max-w-[320px] md:translate-x-[106px]',
+        base: 'max-w-[440px] md:translate-x-[106px]',
         icon: 'w-16',
         title: 'text-xl',
         description: 'max-w-[220px] text-sm'
       },
       lg: {
-        base: 'max-w-[400px] md:translate-x-[133px]',
+        base: 'max-w-[480px] md:translate-x-[133px]',
         icon: 'w-20',
         title: 'text-2xl',
         description: 'max-w-[280px] text-base'

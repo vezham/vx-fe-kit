@@ -70,7 +70,7 @@ const NotificationDrawer = forwardRef<'div', Props>((props, ref) => {
           </DrawerBody>
 
           <DrawerFooter {...getDrawerFooterProps()}>
-            <Chip {...getChipProps()} onClick={handleEdit}>
+            <Chip variant="primary" {...getChipProps()} onClick={handleEdit}>
               Edit
             </Chip>
           </DrawerFooter>

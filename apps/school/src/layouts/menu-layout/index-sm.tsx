@@ -46,8 +46,8 @@ export default function MenuSM() {
             className="flex-shrink-0"
             users={users}
             showSearch
-            showFavorites
-            showArchive
+            showBookamarks
+            showDisk
             onAvatarClick={user => console.log('Avatar clicked:', user)}
             onSearchClick={() => console.log('Search clicked')}
             onBookMarksClick={() => setBookmarksOpen(true)}
