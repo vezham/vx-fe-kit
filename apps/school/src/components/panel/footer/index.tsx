@@ -220,7 +220,7 @@ export default function Footer({
                         <ListBox>
                           {STATUS_OPTIONS.map(s => (
                             <ListBox.Item key={s.id} id={s.id}>
-                              {s.icon} {s.label}
+                              {s.icon} &nbsp; {s.label}
                             </ListBox.Item>
                           ))}
                         </ListBox>
