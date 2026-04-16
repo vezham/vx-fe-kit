@@ -132,7 +132,7 @@ const useProps = (originalProps: Props) => {
   // Search input getters
   const getSearchInputProps: PropGetter = (isArchive: boolean) => ({
     className: slots.search_input({ class: classNames?.search_input }),
-    placeholder: isArchive ? 'Search archive...' : 'Search trash...',
+    placeholder: isArchive ? 'Search' : 'Search',
     variant: 'bordered' as const,
     classNames: {
       inputWrapper: slots.search_input_wrapper({

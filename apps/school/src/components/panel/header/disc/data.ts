@@ -3,14 +3,14 @@ import { ArchiveItem, TrashItem } from './types'
 export const sampleArchiveItems: ArchiveItem[] = [
   {
     id: 'a1',
-    title: 'HeroUI v3 (Previous...',
+    title: 'HeroUI v3 (Previous',
     url: 'heroui.com',
     archivedDate: '2026-04-09',
     favicon: 'https://www.google.com/s2/favicons?domain=heroui.com&sz=32'
   },
   {
     id: 'a2',
-    title: 'Home | Vezham School',
+    title: 'Home | Vezham School | School-OS | (HeroUI',
     url: 'school.vezham.local:3001/#',
     archivedDate: '2026-04-09',
     favicon:
@@ -18,7 +18,7 @@ export const sampleArchiveItems: ArchiveItem[] = [
   },
   {
     id: 'a3',
-    title: "Unlock your team's best work Unlock your team's best work",
+    title: "Unlock your team's best work ",
     url: 'jira.atlassian.com',
     archivedDate: '2026-04-09',
     favicon: 'https://www.google.com/s2/favicons?domain=atlassian.com&sz=32'
@@ -95,7 +95,7 @@ export const sampleArchiveItems: ArchiveItem[] = [
 export const sampleTrashItems: TrashItem[] = [
   {
     id: 't1',
-    title: 'Untitled',
+    title: 'Untitled folder so just demo testing purpose',
     url: '#',
     deletedDate: '2026-04-09',
     favicon: 'https://www.google.com/s2/favicons?domain=example.com&sz=32'
