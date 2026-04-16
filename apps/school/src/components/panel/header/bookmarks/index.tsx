@@ -35,7 +35,9 @@
 //     getSectionIconProps,
 //     getSectionTitleProps,
 //     getFavoritesGridProps,
+//     getFavorites2GridProps,
 //     getFavoriteItemProps,
+//     getFavorite2ItemsProps,
 //     getFavoriteBackgroundImageProps,
 //     getFavoriteBackgroundGradientProps,
 //     getFavoriteOverlayProps,
@@ -52,7 +54,7 @@
 //     getBookmarkContentProps,
 //     getBookmarkNameProps,
 //     getBookmarkUrlProps,
-//     getBookmarkArrowProps,
+//     getBookmarkDeleteButtonProps,
 //     getFolderAccordionProps,
 //     getFolderItemProps,
 //     getFolderHeadingProps,
@@ -84,6 +86,9 @@
 //     useState<FavoriteItem[]>(sampleFavorites)
 //   const [internalBookmarks, setInternalBookmarks] =
 //     useState<BookmarkItem[]>(sampleBookmarks)
+//   const [hoveredBookmarkId, setHoveredBookmarkId] = useState<string | null>(
+//     null
+//   )
 
 //   const favorites = externalFavorites || internalFavorites
 //   const bookmarks = externalBookmarks || internalBookmarks
@@ -138,6 +143,15 @@
 //     }
 //   }
 
+//   const handleBookmarkDelete = (item: BookmarkItem, e: React.MouseEvent) => {
+//     e.stopPropagation()
+//     if (onBookmarkDelete) {
+//       onBookmarkDelete(item.id, item)
+//     } else {
+//       setInternalBookmarks(prev => prev.filter(b => b.id !== item.id))
+//     }
+//   }
+
 //   const renderFavoriteItems = () => {
 //     if (renderFavoriteItem) {
 //       return filteredFavorites.map(item => (
@@ -151,35 +165,68 @@
 //     }
 
 //     return filteredFavorites.map(item => (
-//       <button
-//         key={item.id}
-//         {...getFavoriteItemProps()}
-//         onClick={() => handleFavoriteClick(item.url, item)}>
-//         {item.backgroundImage ? (
-//           <img
-//             {...getFavoriteBackgroundImageProps(
-//               item.backgroundImage,
-//               item.name
-//             )}
-//           />
-//         ) : (
-//           <div {...getFavoriteBackgroundGradientProps()} />
-//         )}
-//         <div {...getFavoriteOverlayProps()} />
+//       <>
+//         <button
+//           key={item.id}
+//           {...getFavoriteItemProps()}
+//           onClick={() => handleFavoriteClick(item.url, item)}>
+//           {item.backgroundImage ? (
+//             <img
+//               {...getFavoriteBackgroundImageProps(
+//                 item.backgroundImage,
+//                 item.name
+//               )}
+//             />
+//           ) : (
+//             <div {...getFavoriteBackgroundGradientProps()} />
+//           )}
+//           <div {...getFavoriteOverlayProps()} />
 
-//         <div {...getFavoriteAvatarContainerProps()}>
-//           <Avatar {...getFavoriteAvatarProps()}>
-//             {item.avatar && <Avatar.Image src={item.avatar} alt={item.name} />}
-//             <Avatar.Fallback {...getFavoriteAvatarFallbackProps(item.name)}>
-//               <Icon {...getFavoriteAvatarIconProps()} />
-//             </Avatar.Fallback>
-//           </Avatar>
-//         </div>
+//           <div {...getFavoriteAvatarContainerProps()}>
+//             <Avatar {...getFavoriteAvatarProps()}>
+//               {item.avatar && <Avatar.Image src={item.avatar} alt={item.name} />}
+//               <Avatar.Fallback {...getFavoriteAvatarFallbackProps(item.name)}>
+//                 <Icon {...getFavoriteAvatarIconProps()} />
+//               </Avatar.Fallback>
+//             </Avatar>
+//           </div>
 
-//         <div {...getFavoriteContentProps()}>
-//           <p {...getFavoriteNameProps(item.name)} />
-//         </div>
-//       </button>
+//           <div {...getFavoriteContentProps()}>
+//             <p {...getFavoriteNameProps(item.name)} />
+//           </div>
+//         </button>
+
+//         <button
+//           key={item.id}
+//           {...getFavorite2ItemsProps()}
+//           onClick={() => handleFavoriteClick(item.url, item)}>
+//           {item.backgroundImage ? (
+//             <img
+//               {...getFavoriteBackgroundImageProps(
+//                 item.backgroundImage,
+//                 item.name
+//               )}
+//             />
+//           ) : (
+//             <div {...getFavoriteBackgroundGradientProps()} />
+//           )}
+//           <div {...getFavoriteOverlayProps()} />
+
+//           <div {...getFavoriteAvatarContainerProps()}>
+//             <Avatar {...getFavoriteAvatarProps()}>
+//               {item.avatar && <Avatar.Image src={item.avatar} alt={item.name} />}
+//               <Avatar.Fallback {...getFavoriteAvatarFallbackProps(item.name)}>
+//                 <Icon {...getFavoriteAvatarIconProps()} />
+//               </Avatar.Fallback>
+//             </Avatar>
+//           </div>
+
+//           <div {...getFavoriteContentProps()}>
+//             <p {...getFavoriteNameProps(item.name)} />
+//           </div>
+//         </button>
+//       </>
+
 //     ))
 //   }
 
@@ -196,22 +243,44 @@
 //     }
 
 //     return items.map(bookmark => (
-//       <Button
-//         variant='ghost'
+//       <div
 //         key={bookmark.id}
 //         {...getBookmarkItemProps()}
-//         onClick={() => handleBookmarkClick(bookmark.url, bookmark)}>
+//         onClick={() => handleBookmarkClick(bookmark.url, bookmark)}
+//         onMouseEnter={() => setHoveredBookmarkId(bookmark.id)}
+//         onMouseLeave={() => setHoveredBookmarkId(null)}
+//         className="group hover:bg-default-100 relative flex cursor-pointer items-center gap-3 rounded-lg px-3 py-2 transition-colors"
+//         role="button"
+//         tabIndex={0}
+//         onKeyDown={e => {
+//           if (e.key === 'Enter' || e.key === ' ') {
+//             e.preventDefault()
+//             handleBookmarkClick(bookmark.url, bookmark)
+//           }
+//         }}>
 //         <Avatar {...getBookmarkAvatarProps()}>
 //           {bookmark.avatar && (
 //             <Avatar.Image src={bookmark.avatar} alt={bookmark.name} />
 //           )}
 //           <Avatar.Fallback {...getBookmarkAvatarFallbackProps(bookmark.name)} />
 //         </Avatar>
-//         <div {...getBookmarkContentProps()}>
+
+//         <div {...getBookmarkContentProps()} className="flex-1">
 //           <p {...getBookmarkNameProps(bookmark.name)} />
 //         </div>
-//         <Icon {...getBookmarkArrowProps()} />
-//       </Button>
+
+//         <Button
+//           isIconOnly
+//           size="sm"
+//           variant="light"
+//           className={`opacity-0 transition-opacity duration-200 group-hover:opacity-100 ${
+//             hoveredBookmarkId === bookmark.id ? 'opacity-100' : ''
+//           }`}
+//           {...getBookmarkDeleteButtonProps?.()}
+//           onClick={e => handleBookmarkDelete(bookmark, e)}>
+//           <Icon icon="solar:trash-bin-trash-linear" width={18} />
+//         </Button>
+//       </div>
 //     ))
 //   }
 
@@ -292,26 +361,29 @@
 //                         </div>
 //                         <div {...getFavoritesGridProps()}>
 //                           {renderFavoriteItems()}
-//                         </div>
+//                           </div>
+//                           <div {...getFavorites2GridProps()}>
+//                             {renderFavoriteItems()}
+//                           </div>
 //                       </section>
 //                     )}
 
-//                     {hasSingleBookmarks && (
-//                       <section {...getSectionProps()}>
-//                         <div {...getSectionHeaderProps()}>
-//                           <Icon
-//                             {...getSectionIconProps(
-//                               'solar:bookmark-bold',
-//                               'text-primary'
-//                             )}
-//                           />
-//                           <h3 {...getSectionTitleProps('Bookmarks')} />
-//                         </div>
+//                     <section {...getSectionProps()}>
+//                       <div {...getSectionHeaderProps()}>
+//                         <Icon
+//                           {...getSectionIconProps(
+//                             'solar:bookmark-bold',
+//                             'text-primary'
+//                           )}
+//                         />
+//                         <h3 {...getSectionTitleProps('Bookmarks')} />
+//                       </div>
+//                       {hasSingleBookmarks && (
 //                         <div {...getBookmarksListProps()}>
 //                           {renderBookmarkItems(singleBookmarks)}
 //                         </div>
-//                       </section>
-//                     )}
+//                       )}
+//                     </section>
 
 //                     {hasFolderBookmarks && (
 //                       <section {...getSectionProps()}>
@@ -389,7 +461,9 @@ import { BookmarkItem, FavoriteItem, Props, useProps } from './types'
 //     getSectionIconProps,
 //     getSectionTitleProps,
 //     getFavoritesGridProps,
+//     getFavorites2GridProps,
 //     getFavoriteItemProps,
+//     getFavorite2ItemsProps,
 //     getFavoriteBackgroundImageProps,
 //     getFavoriteBackgroundGradientProps,
 //     getFavoriteOverlayProps,
@@ -406,7 +480,7 @@ import { BookmarkItem, FavoriteItem, Props, useProps } from './types'
 //     getBookmarkContentProps,
 //     getBookmarkNameProps,
 //     getBookmarkUrlProps,
-//     getBookmarkArrowProps,
+//     getBookmarkDeleteButtonProps,
 //     getFolderAccordionProps,
 //     getFolderItemProps,
 //     getFolderHeadingProps,
@@ -438,6 +512,9 @@ import { BookmarkItem, FavoriteItem, Props, useProps } from './types'
 //     useState<FavoriteItem[]>(sampleFavorites)
 //   const [internalBookmarks, setInternalBookmarks] =
 //     useState<BookmarkItem[]>(sampleBookmarks)
+//   const [hoveredBookmarkId, setHoveredBookmarkId] = useState<string | null>(
+//     null
+//   )
 
 //   const favorites = externalFavorites || internalFavorites
 //   const bookmarks = externalBookmarks || internalBookmarks
@@ -492,6 +569,15 @@ import { BookmarkItem, FavoriteItem, Props, useProps } from './types'
 //     }
 //   }
 
+//   const handleBookmarkDelete = (item: BookmarkItem, e: React.MouseEvent) => {
+//     e.stopPropagation()
+//     if (onBookmarkDelete) {
+//       onBookmarkDelete(item.id, item)
+//     } else {
+//       setInternalBookmarks(prev => prev.filter(b => b.id !== item.id))
+//     }
+//   }
+
 //   const renderFavoriteItems = () => {
 //     if (renderFavoriteItem) {
 //       return filteredFavorites.map(item => (
@@ -505,35 +591,68 @@ import { BookmarkItem, FavoriteItem, Props, useProps } from './types'
 //     }
 
 //     return filteredFavorites.map(item => (
-//       <button
-//         key={item.id}
-//         {...getFavoriteItemProps()}
-//         onClick={() => handleFavoriteClick(item.url, item)}>
-//         {item.backgroundImage ? (
-//           <img
-//             {...getFavoriteBackgroundImageProps(
-//               item.backgroundImage,
-//               item.name
-//             )}
-//           />
-//         ) : (
-//           <div {...getFavoriteBackgroundGradientProps()} />
-//         )}
-//         <div {...getFavoriteOverlayProps()} />
+//       <>
+//         <button
+//           key={item.id}
+//           {...getFavoriteItemProps()}
+//           onClick={() => handleFavoriteClick(item.url, item)}>
+//           {item.backgroundImage ? (
+//             <img
+//               {...getFavoriteBackgroundImageProps(
+//                 item.backgroundImage,
+//                 item.name
+//               )}
+//             />
+//           ) : (
+//             <div {...getFavoriteBackgroundGradientProps()} />
+//           )}
+//           <div {...getFavoriteOverlayProps()} />
 
-//         <div {...getFavoriteAvatarContainerProps()}>
-//           <Avatar {...getFavoriteAvatarProps()}>
-//             {item.avatar && <Avatar.Image src={item.avatar} alt={item.name} />}
-//             <Avatar.Fallback {...getFavoriteAvatarFallbackProps(item.name)}>
-//               <Icon {...getFavoriteAvatarIconProps()} />
-//             </Avatar.Fallback>
-//           </Avatar>
-//         </div>
+//           <div {...getFavoriteAvatarContainerProps()}>
+//             <Avatar {...getFavoriteAvatarProps()}>
+//               {item.avatar && <Avatar.Image src={item.avatar} alt={item.name} />}
+//               <Avatar.Fallback {...getFavoriteAvatarFallbackProps(item.name)}>
+//                 <Icon {...getFavoriteAvatarIconProps()} />
+//               </Avatar.Fallback>
+//             </Avatar>
+//           </div>
 
-//         <div {...getFavoriteContentProps()}>
-//           <p {...getFavoriteNameProps(item.name)} />
-//         </div>
-//       </button>
+//           <div {...getFavoriteContentProps()}>
+//             <p {...getFavoriteNameProps(item.name)} />
+//           </div>
+//         </button>
+
+//         <button
+//           key={item.id}
+//           {...getFavorite2ItemsProps()}
+//           onClick={() => handleFavoriteClick(item.url, item)}>
+//           {item.backgroundImage ? (
+//             <img
+//               {...getFavoriteBackgroundImageProps(
+//                 item.backgroundImage,
+//                 item.name
+//               )}
+//             />
+//           ) : (
+//             <div {...getFavoriteBackgroundGradientProps()} />
+//           )}
+//           <div {...getFavoriteOverlayProps()} />
+
+//           <div {...getFavoriteAvatarContainerProps()}>
+//             <Avatar {...getFavoriteAvatarProps()}>
+//               {item.avatar && <Avatar.Image src={item.avatar} alt={item.name} />}
+//               <Avatar.Fallback {...getFavoriteAvatarFallbackProps(item.name)}>
+//                 <Icon {...getFavoriteAvatarIconProps()} />
+//               </Avatar.Fallback>
+//             </Avatar>
+//           </div>
+
+//           <div {...getFavoriteContentProps()}>
+//             <p {...getFavoriteNameProps(item.name)} />
+//           </div>
+//         </button>
+//       </>
+
 //     ))
 //   }
 
@@ -550,22 +669,44 @@ import { BookmarkItem, FavoriteItem, Props, useProps } from './types'
 //     }
 
 //     return items.map(bookmark => (
-//       <Button
-//         variant='ghost'
+//       <div
 //         key={bookmark.id}
 //         {...getBookmarkItemProps()}
-//         onClick={() => handleBookmarkClick(bookmark.url, bookmark)}>
+//         onClick={() => handleBookmarkClick(bookmark.url, bookmark)}
+//         onMouseEnter={() => setHoveredBookmarkId(bookmark.id)}
+//         onMouseLeave={() => setHoveredBookmarkId(null)}
+//         className="group hover:bg-default-100 relative flex cursor-pointer items-center gap-3 rounded-lg px-3 py-2 transition-colors"
+//         role="button"
+//         tabIndex={0}
+//         onKeyDown={e => {
+//           if (e.key === 'Enter' || e.key === ' ') {
+//             e.preventDefault()
+//             handleBookmarkClick(bookmark.url, bookmark)
+//           }
+//         }}>
 //         <Avatar {...getBookmarkAvatarProps()}>
 //           {bookmark.avatar && (
 //             <Avatar.Image src={bookmark.avatar} alt={bookmark.name} />
 //           )}
 //           <Avatar.Fallback {...getBookmarkAvatarFallbackProps(bookmark.name)} />
 //         </Avatar>
-//         <div {...getBookmarkContentProps()}>
+
+//         <div {...getBookmarkContentProps()} className="flex-1">
 //           <p {...getBookmarkNameProps(bookmark.name)} />
 //         </div>
-//         <Icon {...getBookmarkArrowProps()} />
-//       </Button>
+
+//         <Button
+//           isIconOnly
+//           size="sm"
+//           variant="light"
+//           className={`opacity-0 transition-opacity duration-200 group-hover:opacity-100 ${
+//             hoveredBookmarkId === bookmark.id ? 'opacity-100' : ''
+//           }`}
+//           {...getBookmarkDeleteButtonProps?.()}
+//           onClick={e => handleBookmarkDelete(bookmark, e)}>
+//           <Icon icon="solar:trash-bin-trash-linear" width={18} />
+//         </Button>
+//       </div>
 //     ))
 //   }
 
@@ -646,26 +787,29 @@ import { BookmarkItem, FavoriteItem, Props, useProps } from './types'
 //                         </div>
 //                         <div {...getFavoritesGridProps()}>
 //                           {renderFavoriteItems()}
-//                         </div>
+//                           </div>
+//                           <div {...getFavorites2GridProps()}>
+//                             {renderFavoriteItems()}
+//                           </div>
 //                       </section>
 //                     )}
 
-//                     {hasSingleBookmarks && (
-//                       <section {...getSectionProps()}>
-//                         <div {...getSectionHeaderProps()}>
-//                           <Icon
-//                             {...getSectionIconProps(
-//                               'solar:bookmark-bold',
-//                               'text-primary'
-//                             )}
-//                           />
-//                           <h3 {...getSectionTitleProps('Bookmarks')} />
-//                         </div>
+//                     <section {...getSectionProps()}>
+//                       <div {...getSectionHeaderProps()}>
+//                         <Icon
+//                           {...getSectionIconProps(
+//                             'solar:bookmark-bold',
+//                             'text-primary'
+//                           )}
+//                         />
+//                         <h3 {...getSectionTitleProps('Bookmarks')} />
+//                       </div>
+//                       {hasSingleBookmarks && (
 //                         <div {...getBookmarksListProps()}>
 //                           {renderBookmarkItems(singleBookmarks)}
 //                         </div>
-//                       </section>
-//                     )}
+//                       )}
+//                     </section>
 
 //                     {hasFolderBookmarks && (
 //                       <section {...getSectionProps()}>
@@ -705,7 +849,9 @@ const BookmarksDrawer = forwardRef<'div', Props>((props, ref) => {
     getSectionIconProps,
     getSectionTitleProps,
     getFavoritesGridProps,
+    getFavorites2GridProps,
     getFavoriteItemProps,
+    getFavorite2ItemsProps,
     getFavoriteBackgroundImageProps,
     getFavoriteBackgroundGradientProps,
     getFavoriteOverlayProps,
@@ -821,7 +967,7 @@ const BookmarksDrawer = forwardRef<'div', Props>((props, ref) => {
     }
   }
 
-  const renderFavoriteItems = () => {
+  const renderFavoriteItemsForGrid1 = () => {
     if (renderFavoriteItem) {
       return filteredFavorites.map(item => (
         <React.Fragment key={item.id}>
@@ -837,6 +983,51 @@ const BookmarksDrawer = forwardRef<'div', Props>((props, ref) => {
       <button
         key={item.id}
         {...getFavoriteItemProps()}
+        onClick={() => handleFavoriteClick(item.url, item)}>
+        {item.backgroundImage ? (
+          <img
+            {...getFavoriteBackgroundImageProps(
+              item.backgroundImage,
+              item.name
+            )}
+          />
+        ) : (
+          <div {...getFavoriteBackgroundGradientProps()} />
+        )}
+        <div {...getFavoriteOverlayProps()} />
+
+        <div {...getFavoriteAvatarContainerProps()}>
+          <Avatar {...getFavoriteAvatarProps()}>
+            {item.avatar && <Avatar.Image src={item.avatar} alt={item.name} />}
+            <Avatar.Fallback {...getFavoriteAvatarFallbackProps(item.name)}>
+              <Icon {...getFavoriteAvatarIconProps()} />
+            </Avatar.Fallback>
+          </Avatar>
+        </div>
+
+        <div {...getFavoriteContentProps()}>
+          <p {...getFavoriteNameProps(item.name)} />
+        </div>
+      </button>
+    ))
+  }
+
+  const renderFavoriteItemsForGrid2 = () => {
+    if (renderFavoriteItem) {
+      return filteredFavorites.map(item => (
+        <React.Fragment key={item.id}>
+          {renderFavoriteItem({
+            item,
+            onItemClick: url => handleFavoriteClick(url, item)
+          })}
+        </React.Fragment>
+      ))
+    }
+
+    return filteredFavorites.map(item => (
+      <button
+        key={item.id}
+        {...getFavorite2ItemsProps()}
         onClick={() => handleFavoriteClick(item.url, item)}>
         {item.backgroundImage ? (
           <img
@@ -903,6 +1094,13 @@ const BookmarksDrawer = forwardRef<'div', Props>((props, ref) => {
 
         <div {...getBookmarkContentProps()} className="flex-1">
           <p {...getBookmarkNameProps(bookmark.name)} />
+          {bookmark.url && (
+            <p
+              {...getBookmarkUrlProps(bookmark.url)}
+              className="text-default-500 truncate text-xs">
+              {bookmark.url}
+            </p>
+          )}
         </div>
 
         <Button
@@ -985,20 +1183,41 @@ const BookmarksDrawer = forwardRef<'div', Props>((props, ref) => {
                 ) : (
                   <div {...getContentContainerProps()}>
                     {hasFavorites && (
-                      <section {...getSectionProps()}>
-                        <div {...getSectionHeaderProps()}>
-                          <Icon
-                            {...getSectionIconProps(
-                              'solar:star-bold',
-                              'text-warning'
-                            )}
-                          />
-                          <h3 {...getSectionTitleProps('Favorites')} />
-                        </div>
-                        <div {...getFavoritesGridProps()}>
-                          {renderFavoriteItems()}
-                        </div>
-                      </section>
+                      <>
+                        {/* Grid 1: Flex Wrap (Multiple Rows) */}
+                        <section {...getSectionProps()}>
+                          <div {...getSectionHeaderProps()}>
+                            <Icon
+                              {...getSectionIconProps(
+                                'solar:star-bold',
+                                'text-warning'
+                              )}
+                            />
+                            <h3 {...getSectionTitleProps('Favorites (Grid)')} />
+                          </div>
+                          <div {...getFavoritesGridProps()}>
+                            {renderFavoriteItemsForGrid1()}
+                          </div>
+                        </section>
+
+                        {/* Grid 2: Horizontal Scroll (Single Row) */}
+                        <section {...getSectionProps()}>
+                          <div {...getSectionHeaderProps()}>
+                            <Icon
+                              {...getSectionIconProps(
+                                'solar:star-bold',
+                                'text-warning'
+                              )}
+                            />
+                            <h3
+                              {...getSectionTitleProps('Favorites (Scroll)')}
+                            />
+                          </div>
+                          <div {...getFavorites2GridProps()}>
+                            {renderFavoriteItemsForGrid2()}
+                          </div>
+                        </section>
+                      </>
                     )}
 
                     <section {...getSectionProps()}>

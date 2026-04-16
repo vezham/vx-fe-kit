@@ -168,10 +168,17 @@ const useProps = (originalProps: Props) => {
     className: slots.favorites_grid({ class: classNames?.favorites_grid })
   })
 
+  const getFavorites2GridProps: PropGetter = () => ({
+    className: slots.favorites_grid2({ class: classNames?.favorites_grid2 })
+  })
+
   const getFavoriteItemProps: PropGetter = () => ({
     className: slots.favorite_item({ class: classNames?.favorite_item })
   })
 
+  const getFavorite2ItemsProps: PropGetter = () => ({
+    className: slots.favorite_item2({ class: classNames?.favorite_item2 })
+  })
   const getFavoriteBackgroundImageProps: PropGetter = (
     src: string,
     alt: string
@@ -342,6 +349,8 @@ const useProps = (originalProps: Props) => {
     getSectionTitleProps,
     getFavoritesGridProps,
     getFavoriteItemProps,
+    getFavorites2GridProps,
+    getFavorite2ItemsProps,
     getFavoriteBackgroundImageProps,
     getFavoriteBackgroundGradientProps,
     getFavoriteOverlayProps,
