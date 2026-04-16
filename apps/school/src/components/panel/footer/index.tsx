@@ -5,6 +5,7 @@ import { Badge } from '@vezham/react/v2'
 import {
   Avatar,
   Button,
+  Chip,
   Dropdown,
   ListBox,
   Select,
@@ -19,12 +20,50 @@ import { FooterActionsProps } from './types'
 
 type UserStatus = 'active' | 'away' | 'idle' | 'busy' | 'dnd'
 
+// const STATUS_OPTIONS = [
+//   { id: 'active', label: 'Available', icon: '🟢', color: 'bg-success' },
+//   { id: 'away', label: 'Away', icon: '🌙', color: 'bg-warning' },
+//   { id: 'idle', label: 'Idle', icon: '💤', color: 'bg-primary' },
+//   { id: 'busy', label: 'Busy', icon: '🔴', color: 'bg-danger' },
+//   { id: 'dnd', label: 'Do not disturb', icon: '⛔', color: 'bg-muted' }
+// ]
+
 const STATUS_OPTIONS = [
-  { id: 'active', label: 'Available', icon: '🟢', color: 'bg-success' },
-  { id: 'away', label: 'Away', icon: '🌙', color: 'bg-warning' },
-  { id: 'idle', label: 'Idle', icon: '💤', color: 'bg-primary' },
-  { id: 'busy', label: 'Busy', icon: '🔴', color: 'bg-danger' },
-  { id: 'dnd', label: 'Do not disturb', icon: '⛔', color: 'bg-muted' }
+  {
+    id: 'active',
+    label: 'Available',
+    icon: '🟢',
+    color: 'bg-success',
+    chipColor: 'success'
+  },
+  {
+    id: 'away',
+    label: 'Away',
+    icon: '🌙',
+    color: 'bg-warning',
+    chipColor: 'warning'
+  },
+  {
+    id: 'idle',
+    label: 'Idle',
+    icon: '💤',
+    color: 'bg-primary',
+    chipColor: 'primary'
+  },
+  {
+    id: 'busy',
+    label: 'Busy',
+    icon: '🔴',
+    color: 'bg-danger',
+    chipColor: 'danger'
+  },
+  {
+    id: 'dnd',
+    label: 'Do not disturb',
+    icon: '⛔',
+    color: 'bg-muted',
+    chipColor: 'secondary'
+  } // or 'tertiary'
 ]
 
 export default function Footer({
@@ -224,6 +263,23 @@ export default function Footer({
                             </ListBox.Item>
                           ))}
                         </ListBox>
+                        {/* <ListBox>
+                          {STATUS_OPTIONS.map(s => (
+                            <ListBox.Item key={s.id} id={s.id}>
+                              <Chip
+                                color={s.chipColor as any}
+                                size="sm"
+                             
+                                classNames={{
+                                  content: "flex items-center gap-2"
+                                }}
+                              >
+                                <div className={`h-2 w-2 rounded-full bg-${s.chipColor}`} />
+                                <Chip.Label>{s.label}</Chip.Label>
+                              </Chip>
+                            </ListBox.Item>
+                          ))}
+                        </ListBox> */}
                       </Select.Popover>
                     </Select>
                   </Dropdown.Item>
