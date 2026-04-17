@@ -20,9 +20,14 @@
 //     section_header: 'my-6 flex items-center gap-2',
 //     section_icon: '',
 //     section_title: 'text-default-500 text-sm tracking-wider uppercase',
+//     // Grid 1: Flex wrap (multiple rows)
 //     favorites_grid: 'flex flex-wrap gap-3',
 //     favorite_item:
-//       'group relative flex aspect-square w-[calc(23%-5px)] cursor-pointer flex-col overflow-hidden rounded-2xl transition-transform hover:scale-[1.02] active:scale-[0.98]',
+//       'group relative flex aspect-square w-[calc(30%-5px)] cursor-pointer flex-col overflow-hidden rounded-2xl transition-transform hover:scale-[1.02] active:scale-[0.98]',
+//     // Grid 2: Horizontal scroll (single row)
+//     favorites_grid2: 'flex flex-nowrap gap-3 overflow-x-auto pb-2',
+//     favorite_item2:
+//       'group relative flex aspect-square w-[120px] shrink-0 cursor-pointer flex-col overflow-hidden rounded-2xl transition-transform hover:scale-[1.02] active:scale-[0.98]',
 //     favorite_background_image: 'absolute inset-0 h-full w-full object-cover',
 //     favorite_background_gradient:
 //       'from-default-200 to-default-300 absolute inset-0 bg-gradient-to-br',
@@ -90,6 +95,7 @@
 //         empty_title: 'text-lg',
 //         empty_description: 'max-w-[180px] text-xs',
 //         favorite_item: 'w-[calc(23%-5px)]',
+//         favorite_item2: 'w-[100px]',
 //         favorite_name: 'text-[10px]',
 //         bookmark_name: 'text-xs',
 //         bookmark_url: 'text-[10px]',
@@ -101,6 +107,7 @@
 //         empty_title: 'text-xl',
 //         empty_description: 'max-w-[220px] text-sm',
 //         favorite_item: 'w-[calc(23%-5px)]',
+//         favorite_item2: 'w-[120px]',
 //         favorite_name: 'text-xs',
 //         bookmark_name: 'text-sm',
 //         bookmark_url: 'text-xs',
@@ -112,6 +119,7 @@
 //         empty_title: 'text-2xl',
 //         empty_description: 'max-w-[280px] text-base',
 //         favorite_item: 'w-[calc(23%-5px)]',
+//         favorite_item2: 'w-[140px]',
 //         favorite_name: 'text-sm',
 //         bookmark_name: 'text-base',
 //         bookmark_url: 'text-sm',
@@ -139,17 +147,6 @@
 //       lg: {
 //         drawer_dialog: 'backdrop-blur-lg'
 //       }
-//     },
-//     gridColumns: {
-//       small: {
-//         favorite_item: 'w-[calc(23%-5px)]'
-//       },
-//       medium: {
-//         favorite_item: 'w-[calc(30%-5px)]'
-//       },
-//       large: {
-//         favorite_item: 'w-[calc(45%-5px)]'
-//       }
 //     }
 //   },
 //   compoundVariants: [
@@ -170,8 +167,7 @@
 //     variant: 'default',
 //     size: 'md',
 //     placement: 'left',
-//     blur: 'sm',
-//     gridColumns: 'medium'
+//     blur: 'sm'
 //   }
 // })
 // type tvProps = VariantProps<typeof tva>
@@ -210,12 +206,12 @@ const tva = tv({
     // Grid 1: Flex wrap (multiple rows)
     favorites_grid: 'flex flex-wrap gap-3',
     favorite_item:
-      'group relative flex aspect-square w-[calc(30%-5px)] cursor-pointer flex-col overflow-hidden rounded-2xl transition-transform hover:scale-[1.02] active:scale-[0.98]',
+      'group relative flex aspect-square w-[calc(30%-5px)] cursor-grab flex-col overflow-hidden rounded-2xl transition-transform hover:scale-[1.02] active:scale-[0.98] active:cursor-grabbing',
 
     // Grid 2: Horizontal scroll (single row)
     favorites_grid2: 'flex flex-nowrap gap-3 overflow-x-auto pb-2',
     favorite_item2:
-      'group relative flex aspect-square w-[120px] shrink-0 cursor-pointer flex-col overflow-hidden rounded-2xl transition-transform hover:scale-[1.02] active:scale-[0.98]',
+      'group relative flex aspect-square w-[120px] shrink-0 cursor-grab flex-col overflow-hidden rounded-2xl transition-transform hover:scale-[1.02] active:scale-[0.98] active:cursor-grabbing',
 
     favorite_background_image: 'absolute inset-0 h-full w-full object-cover',
     favorite_background_gradient:
@@ -231,19 +227,20 @@ const tva = tv({
 
     bookmarks_list: 'space-y-1',
     bookmark_item:
-      'hover:bg-default-100 flex w-full cursor-pointer items-center gap-3 rounded-lg px-3 py-2 transition-colors',
+      'hover:bg-default-100 flex w-full cursor-grab items-center gap-3 rounded-lg px-3 py-2 transition-colors active:cursor-grabbing',
     bookmark_avatar: 'shrink-0',
     bookmark_avatar_fallback: 'bg-default-500 text-white',
     bookmark_content: 'flex-1 text-left',
     bookmark_name: 'text-sm text-black',
     bookmark_url: 'text-default-500 text-xs',
     bookmark_arrow: 'text-default-400',
+    bookmark_delete_button: 'opacity-0 group-hover:opacity-100',
 
-    folder_section: '',
+    folder_section: 'mt-6',
     folder_accordion: 'px-0',
     folder_item: 'border-default-200 border-b px-0',
     folder_heading: '',
-    folder_trigger: 'py-2',
+    folder_trigger: 'cursor-grab py-2 active:cursor-grabbing',
     folder_trigger_content: 'flex items-center gap-2',
     folder_icon: '',
     folder_name: 'text-black',
