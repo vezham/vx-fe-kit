@@ -114,13 +114,5 @@ export const sampleBookmarks: BookmarkItem[] = [
     url: '#',
     avatar:
       'https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/black.jpg'
-  },
-  {
-    id: 'b4',
-    name: 'Figma Design System',
-    url: 'https://figma.com/design/7otXAQPcV',
-    avatar:
-      'https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/purple.jpg',
-    folder: 'Design'
   }
 ]
