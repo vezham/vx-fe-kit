@@ -12,12 +12,6 @@
       "path": "./packages/vx/system-utils"
     },
     {
-      "path": "./apps_internals/playground-e2e"
-    },
-    {
-      "path": "./apps_internals/playground"
-    },
-    {
       "path": "./apps/school-e2e"
     },
     {
