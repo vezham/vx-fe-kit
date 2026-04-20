@@ -1,10 +1,13 @@
 import { Icon } from '@iconify/react'
-import { useState } from 'react'
+import { useHotkey } from '@tanstack/react-hotkeys'
+import { useCallback, useState } from 'react'
 
 import { Badge } from '@vezham/react/v2'
 import {
+  Alert,
   Avatar,
   Button,
+  CloseButton,
   Popover,
   Separator,
   Surface,
@@ -28,6 +31,18 @@ export default function Header({
 }: HeaderActionsProps) {
   const [submenu, setSubmenu] = useState<string | null>(null)
   const [open, setOpen] = useState(false)
+
+  const [showAlert, setShowAlert] = useState(false)
+
+  const handleSearch = useCallback(() => {
+    onSearchClick?.()
+    setShowAlert(true)
+    setTimeout(() => setShowAlert(false), 2000)
+  }, [onSearchClick])
+
+  useHotkey('Control+K', () => {
+    handleSearch()
+  })
 
   return (
     <>
@@ -110,14 +125,32 @@ export default function Header({
 
         {showSearch && (
           <Tooltip delay={0}>
-            <Icon
-              className="text-muted cursor-pointer"
-              icon="solar:magnifer-linear"
-              width={24}
-              onClick={onSearchClick}
-            />
-            <Tooltip.Content placement="right">Search</Tooltip.Content>
+            <Tooltip.Trigger asChild>
+              <span>
+                <Icon
+                  className="text-muted cursor-pointer"
+                  icon="solar:magnifer-linear"
+                  width={24}
+                  onClick={handleSearch}
+                />
+              </span>
+            </Tooltip.Trigger>
+            <Tooltip.Content placement="right">
+              Search (Ctrl + K)
+            </Tooltip.Content>
           </Tooltip>
+        )}
+
+        {showAlert && (
+          <div className="fixed top-4 right-4 z-[9999] w-[320px]">
+            <Alert status="success">
+              <Alert.Indicator />
+              <Alert.Content>
+                <Alert.Title>Search triggered</Alert.Title>
+              </Alert.Content>
+              <CloseButton onClick={() => setShowAlert(false)} />
+            </Alert>
+          </div>
         )}
 
         {showBookamarks && (
