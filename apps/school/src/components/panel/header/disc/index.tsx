@@ -430,7 +430,6 @@ const DiskDrawer = forwardRef<'div', Props>((props, ref) => {
             <Drawer.CloseTrigger />
             <Drawer.Header>
               <Tabs
-                variant="secondary"
                 {...getTabsProps()}
                 selectedKey={activeTab}
                 onSelectionChange={key => setActiveTab(key as string)}>
@@ -470,7 +469,8 @@ const DiskDrawer = forwardRef<'div', Props>((props, ref) => {
                       key={action.type}
                       {...action.props}
                       onPress={action.onPress}
-                      startContent={<Icon icon={action.icon} width={16} />}>
+                      startContent={<Icon icon={action.icon} width={16} />}
+                      className="transition-all hover:underline">
                       {action.label}
                     </Button>
                   ))}

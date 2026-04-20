@@ -137,7 +137,7 @@ export const sampleTrashItems: TrashItem[] = [
   },
   {
     id: 't7',
-    title: 'Download - Presentation.pptx',
+    title: 'Download - Presentation.pptx - share the pdf',
     url: 'downloads.example.com/preso',
     deletedDate: '2026-04-05',
     favicon: 'https://www.google.com/s2/favicons?domain=example.com&sz=32'

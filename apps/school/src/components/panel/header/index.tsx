@@ -73,6 +73,7 @@ export default function Header({
             <Separator className="my-2" />
             <Popover open={submenu === 'file'}>
               <Popover.Trigger
+                className="w-full"
                 onMouseOver={() => setSubmenu('file')}
                 onMouseLeave={() => setSubmenu(null)}>
                 <div>
