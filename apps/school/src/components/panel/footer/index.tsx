@@ -1,11 +1,10 @@
 import { Icon } from '@iconify/react'
 import { useState } from 'react'
 
-import { Badge } from '@vezham/react/v2'
 import {
   Avatar,
+  Badge,
   Button,
-  Chip,
   Dropdown,
   ListBox,
   Select,
@@ -20,51 +19,16 @@ import { FooterActionsProps } from './types'
 
 type UserStatus = 'active' | 'away' | 'idle' | 'busy' | 'dnd'
 
-// const STATUS_OPTIONS = [
-//   { id: 'active', label: 'Available', icon: '🟢', color: 'bg-success' },
-//   { id: 'away', label: 'Away', icon: '🌙', color: 'bg-warning' },
-//   { id: 'idle', label: 'Idle', icon: '💤', color: 'bg-primary' },
-//   { id: 'busy', label: 'Busy', icon: '🔴', color: 'bg-danger' },
-//   { id: 'dnd', label: 'Do not disturb', icon: '⛔', color: 'bg-muted' }
-// ]
-
 const STATUS_OPTIONS = [
-  {
-    id: 'active',
-    label: 'Available',
-    icon: '🟢',
-    color: 'bg-success',
-    chipColor: 'success'
-  },
-  {
-    id: 'away',
-    label: 'Away',
-    icon: '🌙',
-    color: 'bg-warning',
-    chipColor: 'warning'
-  },
-  {
-    id: 'idle',
-    label: 'Idle',
-    icon: '💤',
-    color: 'bg-primary',
-    chipColor: 'primary'
-  },
-  {
-    id: 'busy',
-    label: 'Busy',
-    icon: '🔴',
-    color: 'bg-danger',
-    chipColor: 'danger'
-  },
-  {
-    id: 'dnd',
-    label: 'Do not disturb',
-    icon: '⛔',
-    color: 'bg-muted',
-    chipColor: 'secondary'
-  } // or 'tertiary'
+  { id: 'active', label: 'Available', icon: '🟢', color: 'bg-success' },
+  { id: 'away', label: 'Away', icon: '🌙', color: 'bg-warning' },
+  { id: 'idle', label: 'Idle', icon: '💤', color: 'bg-primary' },
+  { id: 'busy', label: 'Busy', icon: '🔴', color: 'bg-danger' },
+  { id: 'dnd', label: 'Do not disturb', icon: '⛔', color: 'bg-muted' }
 ]
+
+const isColorStatus = (status?: UserStatus) =>
+  status === 'active' || status === 'away' || status === 'busy'
 
 export default function Footer({
   user,
@@ -81,9 +45,9 @@ export default function Footer({
 }: FooterActionsProps) {
   const { clearUser } = useUser()
 
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const [userStatus, setUserStatus] = useState<UserStatus>('active')
   const [isModalOpen, setIsModalOpen] = useState(false)
+
   const currentStatus = STATUS_OPTIONS.find(s => s.id === userStatus)
 
   const [selectedStatus, setSelectedStatus] = useState<any>(null)
@@ -109,6 +73,24 @@ export default function Footer({
     { id: 'forever', label: 'Forever' }
   ]
 
+  const renderStatusVisual = (status: any) => {
+    if (!status) return null
+    return isColorStatus(status.id) ? (
+      <span className={`h-2 w-2 rounded-full ${status.color}`} />
+    ) : (
+      <span className="text-xs">{status.icon}</span>
+    )
+  }
+
+  const renderBadgeContent = () => {
+    if (!currentStatus) return null
+    return isColorStatus(userStatus) ? (
+      <span className={`h-2 w-2 rounded-full ${currentStatus.color}`} />
+    ) : (
+      <span className="text-[10px]">{currentStatus.icon}</span>
+    )
+  }
+
   const getStatusDisplayText = () => {
     if (!selectedStatus) return ''
     if (!selectedTiming)
@@ -118,34 +100,20 @@ export default function Footer({
 
   const tooltipText = selectedStatus
     ? getStatusDisplayText()
-    : `${user?.name} -  ${currentStatus?.icon} ${currentStatus?.label}`
+    : `${user?.name} - ${currentStatus?.icon} ${currentStatus?.label}`
 
-  const StatusIndicator = () => {
-    if (!selectedStatus) return null
-
-    return (
-      <div className="absolute -top-3 left-3 z-[-1] md:-top-4">
-        <div className="bg-background border-default-200 flex h-6 min-w-[24px] items-center justify-center rounded-t-lg border px-1 text-sm shadow-md">
-          {selectedStatus.emoji}
-        </div>
-      </div>
-    )
-  }
-
-  const onCurrentUserClick = () => {
+  const onCurrentUserClick = (e: React.MouseEvent) => {
+    e.stopPropagation()
     setIsModalOpen(true)
-    setIsDropdownOpen(false)
-  }
-
-  const handleModalClose = () => {
-    setIsModalOpen(false)
   }
 
   return (
     <>
       <Separator className="hidden md:block" />
+
       <Surface variant="transparent" className={className}>
         <div className="hidden flex-row items-center justify-center gap-3 min-[500px]:flex md:flex-col md:gap-6">
+          {/* AI */}
           {showAI && (
             <Tooltip delay={0}>
               <Tooltip.Trigger>
@@ -160,6 +128,7 @@ export default function Footer({
             </Tooltip>
           )}
 
+          {/* Control Center */}
           {showControlCenter && (
             <Tooltip delay={0}>
               <Tooltip.Trigger>
@@ -176,6 +145,7 @@ export default function Footer({
             </Tooltip>
           )}
 
+          {/* Notifications */}
           {showNotifications && (
             <Tooltip delay={0}>
               <Tooltip.Trigger>
@@ -190,67 +160,65 @@ export default function Footer({
             </Tooltip>
           )}
 
+          {/* USER */}
           {showUserInfo && (
-            <Dropdown isOpen={isDropdownOpen} onOpenChange={setIsDropdownOpen}>
+            <Dropdown>
               <Tooltip delay={0}>
-                <Tooltip.Trigger asChild>
-                  <Dropdown.Trigger asChild>
-                    <div className="relative cursor-pointer">
-                      <StatusIndicator />
-                      <Button
-                        isIconOnly
-                        variant="ghost"
-                        className="h-12 w-12 rounded-xl">
+                <Tooltip.Trigger>
+                  <Dropdown.Trigger>
+                    <Button
+                      isIconOnly
+                      variant="ghost"
+                      className="h-12 w-12 rounded-xl">
+                      <Badge.Anchor>
+                        <Avatar size="sm" className="rounded-xl">
+                          <Avatar.Image src={user?.avatar} />
+                          <Avatar.Fallback>{user?.name?.[0]}</Avatar.Fallback>
+                        </Avatar>
+
                         <Badge
-                          content={
-                            <span className="text-[10px] leading-none">
-                              {currentStatus?.icon}
-                            </span>
-                          }
                           placement="bottom-right"
-                          classNames={{
-                            badge:
-                              'flex items-center justify-center w-4 h-4 border-2 border-background text-white'
-                          }}>
-                          <Avatar size="sm" className="rounded-xl">
-                            <Avatar.Image src={user?.avatar} />
-                            <Avatar.Fallback>{user?.name?.[0]}</Avatar.Fallback>
-                          </Avatar>
+                          size="sm"
+                          className="border-background flex items-center justify-center border">
+                          {renderBadgeContent()}
                         </Badge>
-                      </Button>
-                    </div>
+                      </Badge.Anchor>
+                    </Button>
                   </Dropdown.Trigger>
                 </Tooltip.Trigger>
+
                 <Tooltip.Content placement="right">
                   {tooltipText}
                 </Tooltip.Content>
               </Tooltip>
+
               <Dropdown.Popover placement="right">
                 <div
-                  className="hover:bg-default-100 flex cursor-pointer items-center gap-3 rounded-lg px-3 py-2 transition-colors"
+                  className="hover:bg-default-100 flex cursor-pointer items-center gap-3 rounded-lg px-3 py-2"
                   onClick={onCurrentUserClick}>
                   <Avatar size="sm">
                     <Avatar.Image src={user?.avatar} />
                     <Avatar.Fallback>{user?.name?.[0]}</Avatar.Fallback>
                   </Avatar>
+
                   <div>
                     <div className="font-medium">{user?.name}</div>
                     <div className="text-muted flex items-center gap-1 text-xs">
-                      <span
-                        className={`h-2 w-2 rounded-full ${currentStatus?.color}`}
-                      />
+                      {renderStatusVisual(currentStatus)}
                       {currentStatus?.label}
                     </div>
                   </div>
                 </div>
+
                 <Dropdown.Menu>
                   <Separator />
-                  <Dropdown.Item className="mt-2 p-0">
+
+                  <Dropdown.Item className="mt-2 w-full p-0" variant="text">
                     <Select
                       className="w-full"
                       value={userStatus}
                       onChange={v => setUserStatus(v as UserStatus)}>
-                      <Select.Trigger className="h-8 border-none bg-transparent shadow-none ring-0 outline-none focus:ring-0 focus:outline-none">
+                      <Select.Trigger className="h-8 border-none bg-transparent shadow-none">
                         <Select.Value />
                         <Select.Indicator />
                       </Select.Trigger>
@@ -259,31 +227,18 @@ export default function Footer({
                         <ListBox>
                           {STATUS_OPTIONS.map(s => (
                             <ListBox.Item key={s.id} id={s.id}>
-                              {s.icon} &nbsp; {s.label}
+                              <div className="flex items-center gap-2">
+                                {renderStatusVisual(s)}
+                                {s.label}
+                              </div>
                             </ListBox.Item>
                           ))}
                         </ListBox>
-                        {/* <ListBox>
-                          {STATUS_OPTIONS.map(s => (
-                            <ListBox.Item key={s.id} id={s.id}>
-                              <Chip
-                                color={s.chipColor as any}
-                                size="sm"
-                             
-                                classNames={{
-                                  content: "flex items-center gap-2"
-                                }}
-                              >
-                                <div className={`h-2 w-2 rounded-full bg-${s.chipColor}`} />
-                                <Chip.Label>{s.label}</Chip.Label>
-                              </Chip>
-                            </ListBox.Item>
-                          ))}
-                        </ListBox> */}
                       </Select.Popover>
                     </Select>
                   </Dropdown.Item>
-                  <Dropdown.Item className="my-1 p-0">
+
+                  <Dropdown.Item className="p-0">
                     <Select
                       className="w-full border-none shadow-none"
                       selectedKeys={selectedStatus ? [selectedStatus.id] : []}
@@ -335,7 +290,7 @@ export default function Footer({
                     </Select>
                   </Dropdown.Item>
                   {selectedStatus && (
-                    <Dropdown.Item className="my-1 p-0">
+                    <Dropdown.Item className="my-1 p-0" variant="text">
                       <Select
                         className="w-full"
                         selectedKeys={selectedTiming ? [selectedTiming.id] : []}
@@ -371,12 +326,16 @@ export default function Footer({
                       </Select>
                     </Dropdown.Item>
                   )}
+
                   <Separator />
+
                   <Dropdown.Item onPress={() => onUserClick?.(user)}>
                     <Icon icon="solar:settings-linear" width={20} />
                     Preferences
                   </Dropdown.Item>
+
                   <Separator />
+
                   <Dropdown.Item onPress={clearUser} className="text-danger">
                     <Icon icon="solar:logout-2-linear" width={20} />
                     Logout
@@ -428,65 +387,57 @@ export default function Footer({
               </Dropdown.Menu>
             </Dropdown.Popover>
           </Dropdown>
+
           {showUserInfo && (
-            <Dropdown open={isDropdownOpen} onOpenChange={setIsDropdownOpen}>
+            <Dropdown>
               <Tooltip delay={0}>
-                <Tooltip.Trigger asChild>
-                  <div>
-                    <Dropdown.Trigger>
-                      <div className="relative">
-                        <StatusIndicator />
-                        <Button
-                          isIconOnly
-                          variant="ghost"
-                          className="h-12 w-12 rounded-xl">
-                          <Badge
-                            content={
-                              <span className="text-[10px] leading-none">
-                                {currentStatus?.icon}
-                              </span>
-                            }
-                            placement="bottom-right"
-                            classNames={{
-                              badge: `flex items-center justify-center w-4 h-4 border-2 border-background text-white`
-                            }}>
-                            <Avatar size="sm" className="rounded-xl">
-                              <Avatar.Image src={user?.avatar} />
-                              <Avatar.Fallback>
-                                {user?.name?.[0]}
-                              </Avatar.Fallback>
-                            </Avatar>
-                          </Badge>
-                        </Button>
-                      </div>
-                    </Dropdown.Trigger>
-                  </div>
+                <Tooltip.Trigger>
+                  <Dropdown.Trigger>
+                    <Button
+                      isIconOnly
+                      variant="ghost"
+                      className="h-12 w-12 rounded-xl">
+                      <Badge.Anchor>
+                        <Avatar size="sm" className="rounded-xl">
+                          <Avatar.Image src={user?.avatar} />
+                          <Avatar.Fallback>{user?.name?.[0]}</Avatar.Fallback>
+                        </Avatar>
+
+                        <Badge
+                          placement="bottom-right"
+                          size="sm"
+                          className="border-background flex items-center justify-center border">
+                          {renderBadgeContent()}
+                        </Badge>
+                      </Badge.Anchor>
+                    </Button>
+                  </Dropdown.Trigger>
                 </Tooltip.Trigger>
+
                 <Tooltip.Content placement="right">
                   {tooltipText}
                 </Tooltip.Content>
               </Tooltip>
               <Dropdown.Popover>
                 <div
-                  className="hover:bg-default-100 flex cursor-pointer items-center gap-3 rounded-lg px-3 py-2 transition-colors"
+                  className="hover:bg-default-100 flex cursor-pointer items-center gap-3 rounded-lg px-3 py-2"
                   onClick={onCurrentUserClick}>
                   <Avatar size="sm">
                     <Avatar.Image src={user?.avatar} />
                     <Avatar.Fallback>{user?.name?.[0]}</Avatar.Fallback>
                   </Avatar>
+
                   <div>
                     <div className="font-medium">{user?.name}</div>
                     <div className="text-muted flex items-center gap-1 text-xs">
-                      <span
-                        className={`h-2 w-2 rounded-full ${currentStatus?.color}`}
-                      />
+                      {renderStatusVisual(currentStatus)}
                       {currentStatus?.label}
                     </div>
                   </div>
                 </div>
                 <Dropdown.Menu>
                   <Separator />
-                  <Dropdown.Item className="mt-2 p-0">
+                  <Dropdown.Item className="mt-2 p-0" variant="text">
                     <Select
                       className="w-full"
                       value={userStatus}
@@ -500,14 +451,17 @@ export default function Footer({
                         <ListBox>
                           {STATUS_OPTIONS.map(s => (
                             <ListBox.Item key={s.id} id={s.id}>
-                              {s.icon} {s.label}
+                              <div className="flex items-center gap-2">
+                                {renderStatusVisual(s)}
+                                {s.label}
+                              </div>
                             </ListBox.Item>
                           ))}
                         </ListBox>
                       </Select.Popover>
                     </Select>
                   </Dropdown.Item>
-                  <Dropdown.Item className="mt-2 p-0">
+                  <Dropdown.Item className="mt-2 p-0" variant="text">
                     <Select
                       className="w-full"
                       selectedKeys={selectedStatus ? [selectedStatus.id] : []}
@@ -523,12 +477,10 @@ export default function Footer({
                         const status = suggestedStatuses.find(s => s.id === key)
                         if (status) {
                           setSelectedStatus(status)
-
                           const defaultTiming = timingOptions.find(
                             t => t.id === '15min'
                           )
                           setSelectedTiming(defaultTiming)
-
                           setIsStatusOpen(false)
                         }
                       }}>
@@ -561,7 +513,7 @@ export default function Footer({
                     </Select>
                   </Dropdown.Item>
                   {selectedStatus && (
-                    <Dropdown.Item className="my-2 p-0">
+                    <Dropdown.Item className="my-2 p-0" variant="text">
                       <Select
                         className="w-full"
                         selectedKeys={selectedTiming ? [selectedTiming.id] : []}
@@ -611,9 +563,10 @@ export default function Footer({
           )}
         </div>
       </Surface>
+
       <UserInfoModal
         open={isModalOpen}
-        onClose={handleModalClose}
+        onClose={() => setIsModalOpen(false)}
         user={user}
         defaultActiveTab="profiles"
       />
