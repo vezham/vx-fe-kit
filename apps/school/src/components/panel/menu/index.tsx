@@ -1,7 +1,73 @@
+// import { Icon } from '@iconify/react'
+// import { forwardRef } from '@vezham/react-utils'
+// import { ScrollShadow, Tooltip } from '@vezham/react/v3'
+// import { Props, useProps } from './types'
+// const Menu = forwardRef<'div', Props>((props, ref) => {
+//   const {
+//     Component,
+//     getBaseProps,
+//     getScrollProps,
+//     getContainerProps,
+//     getItemProps,
+//     getIconWrapperProps,
+//     getIconProps,
+//     getTooltipTriggerProps,
+//     getTooltipContentProps,
+//     getLabelProps,
+//     getAlignProps,
+//     items,
+//     selectedKey,
+//     collapsed
+//   } = useProps({
+//     ...props,
+//     ref
+//   })
+//   return (
+//     <Component {...getBaseProps()}>
+//       <ScrollShadow {...getScrollProps()}>
+//         <div {...getContainerProps()}>
+//           {items.map(item => {
+//             const isActive = selectedKey === item.key
+//             const iconName = isActive ? item.iconActive || item.icon : item.icon
+//             return (
+//               <div key={item.key} {...getItemProps({ item, isActive })}>
+//                 <div {...getAlignProps()}>
+//                   <Tooltip delay={0}>
+//                     <Tooltip.Trigger {...getTooltipTriggerProps()}>
+//                       <div {...getIconWrapperProps()}>
+//                         <Icon
+//                           icon={iconName}
+//                           width={24}
+//                           {...getIconProps({ isActive })}
+//                         />
+//                       </div>
+//                     </Tooltip.Trigger>
+//                     {collapsed && (
+//                       <Tooltip.Content {...getTooltipContentProps()}>
+//                         {item.title}
+//                       </Tooltip.Content>
+//                     )}
+//                   </Tooltip>
+//                   {!collapsed && (
+//                     <div {...getLabelProps({ isActive })}>{item.title}</div>
+//                   )}
+//                 </div>
+//               </div>
+//             )
+//           })}
+//         </div>
+//       </ScrollShadow>
+//     </Component>
+//   )
+// })
+// Menu.displayName = 'Menu'
+// export { Menu }
 import { Icon } from '@iconify/react'
+import { useState } from 'react'
 
 import { forwardRef } from '@vezham/react-utils'
-import { ScrollShadow, Tooltip } from '@vezham/react/v3'
+import { cn } from '@vezham/react-utils'
+import { Button, Drawer, ScrollShadow, Tooltip } from '@vezham/react/v3'
 
 import { Props, useProps } from './types'
 
@@ -20,51 +86,161 @@ const Menu = forwardRef<'div', Props>((props, ref) => {
     getAlignProps,
     items,
     selectedKey,
-    collapsed
+    collapsed,
+    onSelect
   } = useProps({
     ...props,
     ref
   })
 
-  return (
-    <Component {...getBaseProps()}>
-      <ScrollShadow {...getScrollProps()}>
-        <div {...getContainerProps()}>
-          {items.map(item => {
-            const isActive = selectedKey === item.key
-            const iconName = isActive ? item.iconActive || item.icon : item.icon
+  const [drawerOpen, setDrawerOpen] = useState(false)
+  const [currentSubmenu, setCurrentSubmenu] = useState<any[]>([])
+  const [currentTitle, setCurrentTitle] = useState('')
+  const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set())
 
-            return (
-              <div key={item.key} {...getItemProps({ item, isActive })}>
-                <div {...getAlignProps()}>
-                  <Tooltip delay={0}>
-                    <Tooltip.Trigger {...getTooltipTriggerProps()}>
-                      <div {...getIconWrapperProps()}>
-                        <Icon
-                          icon={iconName}
-                          width={24}
-                          {...getIconProps({ isActive })}
-                        />
-                      </div>
-                    </Tooltip.Trigger>
+  const handleItemClick = (item: any) => {
+    if (item.submenu && item.submenu.length > 0) {
+      // Open drawer with submenu
+      setCurrentSubmenu(item.submenu)
+      setCurrentTitle(item.title)
+      setExpandedItems(new Set())
+      setDrawerOpen(true)
+    } else if (item.href) {
+      onSelect?.(item.key)
+      setDrawerOpen(false)
+      // Navigate logic here
+    }
+  }
 
-                    {collapsed && (
-                      <Tooltip.Content {...getTooltipContentProps()}>
-                        {item.title}
-                      </Tooltip.Content>
-                    )}
-                  </Tooltip>
+  const toggleExpand = (key: string, e: React.MouseEvent) => {
+    e.stopPropagation()
+    const newExpanded = new Set(expandedItems)
+    if (newExpanded.has(key)) {
+      newExpanded.delete(key)
+    } else {
+      newExpanded.add(key)
+    }
+    setExpandedItems(newExpanded)
+  }
 
-                  {!collapsed && (
-                    <div {...getLabelProps({ isActive })}>{item.title}</div>
-                  )}
-                </div>
-              </div>
-            )
-          })}
+  const renderSubMenuItem = (item: any, depth: number) => {
+    const hasSubmenu = item.submenu && item.submenu.length > 0
+    const isExpanded = expandedItems.has(item.key)
+    const paddingLeft = 12 + depth * 16
+
+    return (
+      <div key={item.key}>
+        <div
+          onClick={e => {
+            if (hasSubmenu) {
+              toggleExpand(item.key, e)
+            } else if (item.href) {
+              onSelect?.(item.key)
+              setDrawerOpen(false)
+              // Navigate logic here
+            }
+          }}
+          className={cn(
+            'flex cursor-pointer items-center gap-3 rounded-lg px-4 py-2.5 transition-all duration-200',
+            'hover:bg-default-100',
+            !hasSubmenu &&
+              selectedKey === item.key &&
+              'bg-primary/10 text-primary'
+          )}
+          style={{ paddingLeft: `${paddingLeft}px` }}>
+          {item.icon && (
+            <Icon icon={item.icon} width={18} className="text-default-600" />
+          )}
+          <span className="flex-1 text-sm font-medium">{item.title}</span>
+          {hasSubmenu && (
+            <Icon
+              icon={isExpanded ? 'lucide:chevron-down' : 'lucide:chevron-right'}
+              width={16}
+              className="text-default-400 transition-transform duration-200"
+            />
+          )}
         </div>
-      </ScrollShadow>
-    </Component>
+
+        {hasSubmenu && isExpanded && (
+          <div className="mt-1">
+            {item.submenu.map((subItem: any) =>
+              renderSubMenuItem(subItem, depth + 1)
+            )}
+          </div>
+        )}
+      </div>
+    )
+  }
+
+  return (
+    <>
+      <Component {...getBaseProps()}>
+        <ScrollShadow {...getScrollProps()}>
+          <div {...getContainerProps()}>
+            {items.map(item => {
+              const isActive = selectedKey === item.key
+              const iconName = isActive
+                ? item.iconActive || item.icon
+                : item.icon
+              const hasSubmenu = item.submenu && item.submenu.length > 0
+
+              return (
+                <div key={item.key} {...getItemProps({ item, isActive })}>
+                  <div {...getAlignProps()}>
+                    <Tooltip delay={0}>
+                      <Tooltip.Trigger {...getTooltipTriggerProps()}>
+                        <div
+                          {...getIconWrapperProps()}
+                          onClick={() => handleItemClick(item)}>
+                          <Icon
+                            icon={iconName}
+                            width={24}
+                            {...getIconProps({ isActive })}
+                          />
+                        </div>
+                      </Tooltip.Trigger>
+
+                      {collapsed && (
+                        <Tooltip.Content {...getTooltipContentProps()}>
+                          {item.title}
+                        </Tooltip.Content>
+                      )}
+                    </Tooltip>
+
+                    {!collapsed && (
+                      <div
+                        {...getLabelProps({ isActive })}
+                        onClick={() => handleItemClick(item)}>
+                        {item.title}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </ScrollShadow>
+      </Component>
+
+      {/* Submenu Drawer */}
+      <Drawer isOpen={drawerOpen} onOpenChange={setDrawerOpen}>
+        <Drawer.Content placement="left">
+          <Drawer.Dialog className="bg-black/5 backdrop-blur-sm md:translate-x-[106px]">
+            <Drawer.CloseTrigger />
+            <div className="border-default-200 flex items-center justify-between border-b p-4">
+              <Drawer.Header className="text-lg font-semibold">
+                {currentTitle}
+              </Drawer.Header>
+            </div>
+            <Drawer.Body className="p-2">
+              <div className="space-y-1">
+                {currentSubmenu.map(item => renderSubMenuItem(item, 0))}
+              </div>
+            </Drawer.Body>
+          </Drawer.Dialog>
+        </Drawer.Content>
+      </Drawer>
+    </>
   )
 })
 
