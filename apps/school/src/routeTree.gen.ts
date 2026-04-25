@@ -12,12 +12,20 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRouteImport } from './routes/__root'
 
+const AcademicRouteLazyRouteImport = createFileRoute('/academic')()
 const IndexLazyRouteImport = createFileRoute('/')()
 const ReportsIndexLazyRouteImport = createFileRoute('/reports/')()
 const OperationsIndexLazyRouteImport = createFileRoute('/operations/')()
 const ChannelsIndexLazyRouteImport = createFileRoute('/channels/')()
 const AcademicIndexLazyRouteImport = createFileRoute('/academic/')()
 
+const AcademicRouteLazyRoute = AcademicRouteLazyRouteImport.update({
+  id: '/academic',
+  path: '/academic',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() =>
+  import('./routes/academic/route.lazy').then((d) => d.Route),
+)
 const IndexLazyRoute = IndexLazyRouteImport.update({
   id: '/',
   path: '/',
@@ -43,16 +51,17 @@ const ChannelsIndexLazyRoute = ChannelsIndexLazyRouteImport.update({
   import('./routes/channels/index.lazy').then((d) => d.Route),
 )
 const AcademicIndexLazyRoute = AcademicIndexLazyRouteImport.update({
-  id: '/academic/',
-  path: '/academic/',
-  getParentRoute: () => rootRouteImport,
+  id: '/',
+  path: '/',
+  getParentRoute: () => AcademicRouteLazyRoute,
 } as any).lazy(() =>
   import('./routes/academic/index.lazy').then((d) => d.Route),
 )
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
-  '/academic': typeof AcademicIndexLazyRoute
+  '/academic': typeof AcademicRouteLazyRouteWithChildren
+  '/academic/': typeof AcademicIndexLazyRoute
   '/channels': typeof ChannelsIndexLazyRoute
   '/operations': typeof OperationsIndexLazyRoute
   '/reports': typeof ReportsIndexLazyRoute
@@ -67,6 +76,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexLazyRoute
+  '/academic': typeof AcademicRouteLazyRouteWithChildren
   '/academic/': typeof AcademicIndexLazyRoute
   '/channels/': typeof ChannelsIndexLazyRoute
   '/operations/': typeof OperationsIndexLazyRoute
@@ -74,12 +84,19 @@ export interface FileRoutesById {
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/academic' | '/channels' | '/operations' | '/reports'
+  fullPaths:
+    | '/'
+    | '/academic'
+    | '/academic/'
+    | '/channels'
+    | '/operations'
+    | '/reports'
   fileRoutesByTo: FileRoutesByTo
   to: '/' | '/academic' | '/channels' | '/operations' | '/reports'
   id:
     | '__root__'
     | '/'
+    | '/academic'
     | '/academic/'
     | '/channels/'
     | '/operations/'
@@ -88,7 +105,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
-  AcademicIndexLazyRoute: typeof AcademicIndexLazyRoute
+  AcademicRouteLazyRoute: typeof AcademicRouteLazyRouteWithChildren
   ChannelsIndexLazyRoute: typeof ChannelsIndexLazyRoute
   OperationsIndexLazyRoute: typeof OperationsIndexLazyRoute
   ReportsIndexLazyRoute: typeof ReportsIndexLazyRoute
@@ -96,6 +113,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/academic': {
+      id: '/academic'
+      path: '/academic'
+      fullPath: '/academic'
+      preLoaderRoute: typeof AcademicRouteLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -126,17 +150,28 @@ declare module '@tanstack/react-router' {
     }
     '/academic/': {
       id: '/academic/'
-      path: '/academic'
-      fullPath: '/academic'
+      path: '/'
+      fullPath: '/academic/'
       preLoaderRoute: typeof AcademicIndexLazyRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AcademicRouteLazyRoute
     }
   }
 }
 
+interface AcademicRouteLazyRouteChildren {
+  AcademicIndexLazyRoute: typeof AcademicIndexLazyRoute
+}
+
+const AcademicRouteLazyRouteChildren: AcademicRouteLazyRouteChildren = {
+  AcademicIndexLazyRoute: AcademicIndexLazyRoute,
+}
+
+const AcademicRouteLazyRouteWithChildren =
+  AcademicRouteLazyRoute._addFileChildren(AcademicRouteLazyRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
-  AcademicIndexLazyRoute: AcademicIndexLazyRoute,
+  AcademicRouteLazyRoute: AcademicRouteLazyRouteWithChildren,
   ChannelsIndexLazyRoute: ChannelsIndexLazyRoute,
   OperationsIndexLazyRoute: OperationsIndexLazyRoute,
   ReportsIndexLazyRoute: ReportsIndexLazyRoute,

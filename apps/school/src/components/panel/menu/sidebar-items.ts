@@ -58,57 +58,22 @@ export const items: MenuItem[] = [
     icon: 'lucide:graduation-cap',
     iconActive: 'solar:graduation-cap-bold',
     title: 'Academic',
+    href: '/academic',
     submenu: [
       {
         key: 'classes',
         icon: 'lucide:book-open',
-        title: 'Classes',
-        submenu: [
-          {
-            key: 'all-classes',
-            title: 'All Classes',
-            href: '/academic/classes/all'
-          },
-          {
-            key: 'schedule',
-            title: 'Schedule',
-            href: '/academic/classes/schedule'
-          }
-        ]
+        title: 'Classes'
       },
       {
         key: 'class-room',
         icon: 'lucide:layout-grid',
-        title: 'Class Room',
-        submenu: [
-          {
-            key: 'class-routine',
-            title: 'Class Routine',
-            href: '/academic/class-room/routine'
-          },
-          {
-            key: 'section',
-            title: 'Section',
-            href: '/academic/class-room/section'
-          }
-        ]
+        title: 'Class Room'
       },
       {
         key: 'subject',
         icon: 'lucide:book',
-        title: 'Subject',
-        submenu: [
-          {
-            key: 'syllabus',
-            title: 'Syllabus',
-            href: '/academic/subject/syllabus'
-          },
-          {
-            key: 'time-table',
-            title: 'Time Table',
-            href: '/academic/subject/time-table'
-          }
-        ]
+        title: 'Subject'
       },
       {
         key: 'home-work',
@@ -119,14 +84,7 @@ export const items: MenuItem[] = [
       {
         key: 'examinations',
         icon: 'lucide:file-text',
-        title: 'Examinations',
-        submenu: [
-          {
-            key: 'reasons',
-            title: 'Reasons',
-            href: '/academic/examinations/reasons'
-          }
-        ]
+        title: 'Examinations'
       }
     ]
   },
