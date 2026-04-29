@@ -27,7 +27,8 @@ export default function Header({
   onSearchClick,
   onBookMarksClick,
   onDiskClick,
-  className
+  className,
+  hideSeparator = false
 }: HeaderActionsProps) {
   const [submenu, setSubmenu] = useState<string | null>(null)
   const [open, setOpen] = useState(false)
@@ -193,7 +194,7 @@ export default function Header({
         )}
       </Surface>
 
-      <Separator className="hidden md:block" />
+      {!hideSeparator && <Separator className="hidden md:block" />}
     </>
   )
 }

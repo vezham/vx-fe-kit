@@ -1,9 +1,21 @@
 'use client'
 
+import { Envelope } from '@gravity-ui/icons'
 import { Icon } from '@iconify/react'
+import { useNavigate } from '@tanstack/react-router'
 import { useMemo, useState } from 'react'
 
-import { Button, Dropdown, Input, Kbd, Label, Tabs } from '@vezham/react/v3'
+import {
+  Button,
+  Dropdown,
+  Input,
+  InputGroup,
+  Kbd,
+  Label,
+  SearchField,
+  Tabs,
+  TextField
+} from '@vezham/react/v3'
 
 export interface ActionItem {
   key: string
@@ -17,6 +29,7 @@ export interface ActionItem {
 export interface TabItem {
   key: string
   title: string
+  href: string
   icon?: string
   isDisabled?: boolean
 }
@@ -24,45 +37,45 @@ export interface TabItem {
 export interface DynamicHeaderProps {
   tabs: TabItem[]
   activeTab: string
-  onTabChange: (tabKey: string) => void
-
-  actions?: ActionItem[]
-
+  rightActions?: ActionItem[]
   showSearch?: boolean
   onSearch?: (value: string, pageKey: string) => void
-
   leftActions?: ActionItem[]
 }
 
 export default function DynamicHeader({
   tabs,
   activeTab,
-  onTabChange,
-  actions = [],
+
+  rightActions = [],
   showSearch = true,
   onSearch,
   leftActions = []
 }: DynamicHeaderProps) {
   const [search, setSearch] = useState('')
-
+  const navigate = useNavigate()
   const handleSearch = (val: string) => {
     setSearch(val)
     onSearch?.(val, activeTab)
   }
 
-  const visibleActions = useMemo(() => {
-    return actions.filter(a => !a.isVisible || a.isVisible(activeTab))
-  }, [actions, activeTab])
+  const visibleRightActions = useMemo(() => {
+    return rightActions.filter(a => !a.isVisible || a.isVisible(activeTab))
+  }, [rightActions, activeTab])
 
   const visibleLeftActions = useMemo(() => {
     return leftActions.filter(a => !a.isVisible || a.isVisible(activeTab))
   }, [leftActions, activeTab])
 
-  const createAction = visibleActions.find(
-    a => a.key === 'create' || a.label.toLowerCase().includes('create')
+  const createAction = visibleRightActions.find(
+    a =>
+      a.key === 'add' ||
+      a.key === 'create' ||
+      a.label.toLowerCase().includes('create') ||
+      a.label.toLowerCase().includes('add')
   )
 
-  const otherActions = visibleActions.filter(a => a !== createAction)
+  const otherActions = visibleRightActions.filter(a => a !== createAction)
 
   return (
     <div className="bg-background flex w-full flex-col gap-3 border-b px-4 py-3">
@@ -73,52 +86,63 @@ export default function DynamicHeader({
               key={action.key}
               onPress={() => action.onAction?.(activeTab)}
               size="sm"
-              variant="light">
+              variant="ghost">
               {action.icon && <Icon icon={action.icon} />}
             </Button>
           ))}
         </div>
-        <div className="flex flex-1 items-center justify-center gap-2">
-          {tabs.length > 0 && (
-            <Tabs
-              selectedKey={activeTab}
-              onSelectionChange={k => onTabChange(String(k))}>
-              <Tabs.ListContainer>
-                <Tabs.List aria-label="Navigation Tabs">
-                  {tabs.map(tab => (
-                    <Tabs.Tab key={tab.key} isDisabled={tab.isDisabled}>
-                      <div className="flex items-center gap-2 px-2 py-1">
-                        {tab.icon && (
-                          <Icon icon={tab.icon} className="h-4 w-4" />
-                        )}
-                        {tab.title}
-                      </div>
-                      <Tabs.Indicator />
+        <div className="flex flex-1 justify-center">
+          <div className="flex w-[275px] overflow-x-auto rounded-full p-1 sm:max-w-[300px]">
+            <Tabs selectedKey={activeTab}>
+              <Tabs.List className="flex gap-1">
+                {tabs.map(tab => {
+                  const isActive = activeTab === tab.key
+
+                  return (
+                    <Tabs.Tab
+                      key={tab.key}
+                      onClick={() => {
+                        if (tab.href) {
+                          navigate({ to: tab.href })
+                        }
+                      }}
+                      className={`flex cursor-pointer items-center gap-2 rounded-full px-4 py-2 whitespace-nowrap transition-all ${
+                        isActive
+                          ? 'text-foreground bg-white'
+                          : 'text-muted-foreground'
+                      } `}>
+                      {tab.icon && <Icon icon={tab.icon} className="h-4 w-4" />}
+                      <span className="text-sm font-medium">{tab.title}</span>
                     </Tabs.Tab>
-                  ))}
-                </Tabs.List>
-              </Tabs.ListContainer>
-              {tabs.map(tab => (
-                <Tabs.Panel key={tab.key} />
-              ))}
+                  )
+                })}
+              </Tabs.List>
             </Tabs>
-          )}
+          </div>
         </div>
 
         <div className="flex items-center gap-2">
           {showSearch && (
-            <Input
-              value={search}
-              onChange={e => handleSearch(e.target.value)}
-              placeholder="Search"
-              startContent={<Icon icon="lucide:search" className="h-4 w-4" />}
-            />
+            <TextField className="w-full max-w-[280px]" name="email">
+              <InputGroup>
+                <InputGroup.Prefix>
+                  <Icon
+                    icon="lucide:search"
+                    className="text-muted-foreground h-4 w-4"
+                  />
+                </InputGroup.Prefix>
+                <InputGroup.Input
+                  className="w-full max-w-[280px]"
+                  placeholder="Search"
+                />
+              </InputGroup>
+            </TextField>
           )}
 
           {otherActions.length > 0 && (
             <Dropdown>
               <Dropdown.Trigger>
-                <Button isIconOnly variant="light">
+                <Button isIconOnly variant="ghost">
                   <Icon icon="lucide:more-vertical" />
                 </Button>
               </Dropdown.Trigger>
@@ -128,7 +152,7 @@ export default function DynamicHeader({
                   {otherActions.map(action => (
                     <Dropdown.Item
                       key={action.key}
-                      onSelect={() => action.onAction?.(activeTab)}>
+                      onPress={() => action.onAction?.(activeTab)}>
                       <Label className="flex items-center gap-2">
                         {action.icon && <Icon icon={action.icon} />}
                         {action.label}

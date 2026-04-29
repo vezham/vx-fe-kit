@@ -1,5 +1,3 @@
-import React from 'react'
-
 export interface User {
   id: string
   name: string
@@ -22,4 +20,5 @@ export interface HeaderActionsProps {
   onDiskClick?: () => void
 
   className?: string
+  hideSeparator?: boolean
 }

@@ -163,7 +163,13 @@ type MenuItem = {
   icon?: string
   iconActive?: string
   endContent?: ReactNode
-  submenu?: SubMenuItem[]
+  submenu?: MenuItem[]
+}
+
+export type SubmenuState = {
+  isOpen: boolean
+  items: MenuItem[]
+  title: string
 }
 
 interface Props extends tvProps, HTMLHeroUIProps<'div'> {
@@ -173,6 +179,7 @@ interface Props extends tvProps, HTMLHeroUIProps<'div'> {
   selectedKey?: string
   onSelect?: (key: string) => void
   collapsed?: boolean
+  onSubmenuChange?: (state: SubmenuState) => void
 }
 
 const useProps = (originalProps: Props) => {
@@ -190,6 +197,7 @@ const useProps = (originalProps: Props) => {
     selectedKey,
     onSelect,
     collapsed = false,
+    onSubmenuChange,
     ...otherProps
   } = props
 
@@ -291,7 +299,8 @@ const useProps = (originalProps: Props) => {
     selectedKey,
     collapsed,
     onSelect,
-    handleSelect
+    handleSelect,
+    onSubmenuChange
   }
 }
 
