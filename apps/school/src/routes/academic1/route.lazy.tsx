@@ -38,7 +38,7 @@ type ActionItem = {
   icon: string
   onAction?: () => void
   isVisible?: (pageKey: string) => boolean
-  kind?: 'search' | 'menu' | 'primary'
+  kind?: 'search' | 'refresh' | 'menu' | 'primary'
 }
 
 type HeaderActionsConfig = {
@@ -176,15 +176,22 @@ function AcademicLayout() {
         tabs={activeTabs}
         activePageKey={activePageKey}
         actions={{ rightActions }}
-        onOpenSidebar={() => setIsSidebarOpen(true)}
+        sidebarCollapsed={collapsed}
+        onToggleSidebar={() => {
+          if (window.matchMedia('(min-width: 768px)').matches) {
+            setCollapsed(isCollapsed => !isCollapsed)
+          } else {
+            setIsSidebarOpen(true)
+          }
+        }}
       />
 
       <div className="flex min-h-0 flex-1">
         <aside
-          className={`border-default-200 bg-background hidden shrink-0 border-r transition-all duration-300 md:block ${
-            collapsed ? 'w-14' : 'w-64'
+          className={`border-default-200 bg-background hidden shrink-0 overflow-hidden border-r transition-all duration-300 md:block ${
+            collapsed ? 'w-0 border-r-0' : 'w-64'
           }`}>
-          <AcademicSidebar collapsed={collapsed} onToggle={setCollapsed} />
+          <AcademicSidebar collapsed={collapsed} />
         </aside>
 
         <main className="min-w-0 flex-1 overflow-auto p-4">
@@ -228,12 +235,14 @@ function AcademicHeader({
   tabs,
   activePageKey,
   actions,
-  onOpenSidebar
+  sidebarCollapsed,
+  onToggleSidebar
 }: {
   tabs: AcademicTab[]
   activePageKey: string
   actions?: HeaderActionsConfig
-  onOpenSidebar: () => void
+  sidebarCollapsed: boolean
+  onToggleSidebar: () => void
 }) {
   const resolvedLeftActions = mergeActions(
     defaultLeftActions,
@@ -252,6 +261,9 @@ function AcademicHeader({
   const primaryAction = visibleRightActions.find(
     action => action.kind === 'primary'
   )
+  const refreshAction = visibleRightActions.find(
+    action => action.kind === 'refresh'
+  )
   const menuActions = visibleRightActions.filter(
     action => action.kind === 'menu'
   )
@@ -262,10 +274,21 @@ function AcademicHeader({
         <div className="flex min-w-0 flex-1 items-center gap-1">
           <Button
             variant="ghost"
-            className="h-9 w-9 min-w-9 p-0 md:hidden"
-            aria-label="Open academic navigation"
-            onClick={onOpenSidebar}>
-            <Icon icon="lucide:menu" width={18} />
+            className="h-9 w-9 min-w-9 p-0"
+            aria-label={
+              sidebarCollapsed
+                ? 'Expand academic navigation'
+                : 'Collapse academic navigation'
+            }
+            onClick={onToggleSidebar}>
+            <Icon
+              icon={
+                sidebarCollapsed
+                  ? 'lucide:panel-left-open'
+                  : 'lucide:panel-left-close'
+              }
+              width={18}
+            />
           </Button>
 
           {resolvedLeftActions.map(action => (
@@ -312,6 +335,16 @@ function AcademicHeader({
             </>
           ) : null}
 
+          {refreshAction ? (
+            <Button
+              variant="ghost"
+              className="h-9 w-9 min-w-9 p-0"
+              aria-label={refreshAction.label}
+              onClick={refreshAction.onAction}>
+              <Icon icon={refreshAction.icon} width={18} />
+            </Button>
+          ) : null}
+
           {menuActions.length ? <MoreActions actions={menuActions} /> : null}
 
           {primaryAction ? (
@@ -348,14 +381,52 @@ function MoreActions({ actions }: { actions: ActionItem[] }) {
       </Dropdown.Trigger>
       <Dropdown.Popover>
         <Dropdown.Menu>
-          {actions.map(action => (
-            <Dropdown.Item key={action.key} onPress={action.onAction}>
-              <span className="flex items-center gap-2">
-                <Icon icon={action.icon} width={16} />
-                {action.label}
-              </span>
-            </Dropdown.Item>
-          ))}
+          {actions.map(action =>
+            action.key === 'export' ? (
+              <Dropdown.SubmenuTrigger key={action.key}>
+                <Dropdown.Item id={action.key} textValue={action.label}>
+                  <span className="flex items-center gap-2">
+                    <Icon icon={action.icon} width={16} />
+                    {action.label}
+                  </span>
+                  <Dropdown.SubmenuIndicator />
+                </Dropdown.Item>
+                <Dropdown.Popover>
+                  <Dropdown.Menu>
+                    <Dropdown.Item
+                      id="export-pdf"
+                      textValue="Export as PDF"
+                      onPress={action.onAction}>
+                      <span className="flex items-center gap-2">
+                        <Icon icon="lucide:file-text" width={16} />
+                        Export as PDF
+                      </span>
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      id="export-excel"
+                      textValue="Export as Excel"
+                      onPress={action.onAction}>
+                      <span className="flex items-center gap-2">
+                        <Icon icon="lucide:file-spreadsheet" width={16} />
+                        Export as Excel
+                      </span>
+                    </Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown.Popover>
+              </Dropdown.SubmenuTrigger>
+            ) : (
+              <Dropdown.Item
+                key={action.key}
+                id={action.key}
+                textValue={action.label}
+                onPress={action.onAction}>
+                <span className="flex items-center gap-2">
+                  <Icon icon={action.icon} width={16} />
+                  {action.label}
+                </span>
+              </Dropdown.Item>
+            )
+          )}
         </Dropdown.Menu>
       </Dropdown.Popover>
     </Dropdown>
@@ -366,10 +437,10 @@ function AcademicSidebar({
   collapsed,
   onToggle,
   onNavigate,
-  hideToggle = false
+  hideToggle = true
 }: {
   collapsed: boolean
-  onToggle: (collapsed: boolean) => void
+  onToggle?: (collapsed: boolean) => void
   onNavigate?: () => void
   hideToggle?: boolean
 }) {
@@ -386,7 +457,7 @@ function AcademicSidebar({
               ? 'Expand academic navigation'
               : 'Collapse academic navigation'
           }
-          onClick={() => onToggle(!collapsed)}>
+          onClick={() => onToggle?.(!collapsed)}>
           <Icon
             icon={collapsed ? 'lucide:chevron-right' : 'lucide:chevron-left'}
             width={18}
@@ -508,6 +579,13 @@ const defaultRightActions: ActionItem[] = [
     kind: 'menu'
   },
   {
+    key: 'print',
+    label: 'Print',
+    icon: 'lucide:printer',
+    kind: 'menu',
+    onAction: () => window.print()
+  },
+  {
     key: 'export',
     label: 'Export',
     icon: 'lucide:download',
@@ -517,7 +595,7 @@ const defaultRightActions: ActionItem[] = [
     key: 'refresh',
     label: 'Refresh',
     icon: 'lucide:refresh-cw',
-    kind: 'menu',
+    kind: 'refresh',
     onAction: () => window.location.reload()
   },
   {
@@ -541,12 +619,24 @@ const createLabelsByPageKey: Record<string, string> = {
   homework: 'Add Homework',
   exam: 'Add Exam',
   'exam-schedule': 'Add Exam Schedule',
-  grades: 'Add Grades',
-  'exam-attendance': 'Add Exam Attendance',
-  'exam-results': 'Add Exam Results'
+  grades: 'Add Grades'
 }
 
+const createExcludedPageKeys = new Set(['exam-attendance', 'exam-results'])
+
 function getPageRightActions(activePageKey: string): ActionItem[] {
+  if (createExcludedPageKeys.has(activePageKey)) {
+    return [
+      {
+        key: 'create',
+        label: 'Create',
+        icon: 'lucide:plus',
+        kind: 'primary',
+        isVisible: () => false
+      }
+    ]
+  }
+
   const label = createLabelsByPageKey[activePageKey]
 
   return label
