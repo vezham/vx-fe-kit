@@ -132,7 +132,6 @@
 // }
 // export { useProps }
 // export type { Props, MenuItem }
-import { useNavigate } from '@tanstack/react-router'
 import { ReactNode } from 'react'
 
 import {
@@ -172,7 +171,7 @@ export type SubmenuState = {
   title: string
 }
 
-interface Props extends tvProps, HTMLHeroUIProps<'div'> {
+interface Props extends tvProps, Omit<HTMLHeroUIProps<'div'>, 'onSelect'> {
   ref?: ReactRef<HTMLDivElement | null>
   classNames?: SlotsToClasses<tvSlots>
   items: MenuItem[]
@@ -184,7 +183,7 @@ interface Props extends tvProps, HTMLHeroUIProps<'div'> {
 
 const useProps = (originalProps: Props) => {
   const [props, variantProps] = mapPropsVariants(originalProps, tva.variantKeys)
-  const navigate = useNavigate()
+  const typedProps = props as Props
 
   const {
     as,
@@ -199,16 +198,11 @@ const useProps = (originalProps: Props) => {
     collapsed = false,
     onSubmenuChange,
     ...otherProps
-  } = props
+  } = typedProps
 
   const Component = as || 'div'
   const domRef = useDOMRef(ref)
   const slots = tva(variantProps)
-
-  const handleSelect = (key: string, href?: string) => {
-    onSelect?.(key)
-    if (href) navigate({ to: href })
-  }
 
   const getBaseProps: PropGetter = () => ({
     id,
@@ -231,18 +225,15 @@ const useProps = (originalProps: Props) => {
     className: slots.align({ class: classNames?.align })
   })
 
-  const getItemProps: PropGetter = ({
+  const getItemProps = ({
     item,
     isActive
   }: {
     item: MenuItem
     isActive: boolean
   }) => ({
-    onClick: () => handleSelect(item.key, item.href),
     className: slots.item({
-      class: cn(classNames?.item, {
-        [classNames?.item_selected || '']: isActive
-      })
+      class: classNames?.item
     }),
     'data-active': isActive,
     'data-key': item.key
@@ -252,11 +243,9 @@ const useProps = (originalProps: Props) => {
     className: slots.icon_wrapper({ class: classNames?.icon_wrapper })
   })
 
-  const getIconProps: PropGetter = ({ isActive }: { isActive: boolean }) => ({
+  const getIconProps = ({ isActive }: { isActive: boolean }) => ({
     className: slots.icon({
-      class: cn(classNames?.icon, {
-        [classNames?.icon_selected || '']: isActive
-      })
+      class: classNames?.icon
     }),
     'data-active': isActive
   })
@@ -270,11 +259,9 @@ const useProps = (originalProps: Props) => {
     className: slots.tooltip_content({ class: classNames?.tooltip_content })
   })
 
-  const getLabelProps: PropGetter = ({ isActive }: { isActive: boolean }) => ({
+  const getLabelProps = ({ isActive }: { isActive: boolean }) => ({
     className: slots.label({
-      class: cn(classNames?.label, {
-        [classNames?.label_selected || '']: isActive
-      })
+      class: classNames?.label
     }),
     'data-active': isActive
   })
@@ -299,7 +286,6 @@ const useProps = (originalProps: Props) => {
     selectedKey,
     collapsed,
     onSelect,
-    handleSelect,
     onSubmenuChange
   }
 }

@@ -169,7 +169,7 @@
 // app/components/panel/menu/index.tsx
 import { Icon } from '@iconify/react'
 import { useNavigate } from '@tanstack/react-router'
-import { useState } from 'react'
+import { type MouseEvent, useState } from 'react'
 
 import { forwardRef } from '@vezham/react-utils'
 import { cn } from '@vezham/react-utils'
@@ -217,6 +217,11 @@ const Menu = forwardRef<'div', Props>((props, ref) => {
       onSelect?.(item.key)
       navigate({ to: item.href })
     }
+  }
+
+  const handlePressItem = (item: any, event?: MouseEvent) => {
+    event?.stopPropagation()
+    handleItemClick(item)
   }
 
   const handleDrawerItemClick = (item: any) => {
@@ -292,7 +297,10 @@ const Menu = forwardRef<'div', Props>((props, ref) => {
               const iconName = isActive
                 ? item.iconActive || item.icon
                 : item.icon
-              const hasSubmenu = item.submenu && item.submenu.length > 0
+              const iconProps = getIconProps({ isActive }) as {
+                className?: string
+                'data-active'?: boolean
+              }
 
               return (
                 <div key={item.key} {...getItemProps({ item, isActive })}>
@@ -301,12 +309,15 @@ const Menu = forwardRef<'div', Props>((props, ref) => {
                       <Tooltip.Trigger {...getTooltipTriggerProps()}>
                         <div
                           {...getIconWrapperProps()}
-                          onClick={() => handleItemClick(item)}>
-                          <Icon
-                            icon={iconName}
-                            width={24}
-                            {...getIconProps({ isActive })}
-                          />
+                          onClick={event => handlePressItem(item, event)}>
+                          {iconName ? (
+                            <Icon
+                              icon={iconName}
+                              width={24}
+                              className={iconProps.className}
+                              data-active={iconProps['data-active']}
+                            />
+                          ) : null}
                         </div>
                       </Tooltip.Trigger>
 
@@ -320,7 +331,7 @@ const Menu = forwardRef<'div', Props>((props, ref) => {
                     {!collapsed && (
                       <div
                         {...getLabelProps({ isActive })}
-                        onClick={() => handleItemClick(item)}>
+                        onClick={event => handlePressItem(item, event)}>
                         {item.title}
                       </div>
                     )}

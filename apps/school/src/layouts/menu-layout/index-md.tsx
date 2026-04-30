@@ -1,7 +1,6 @@
-import { useNavigate } from '@tanstack/react-router'
-import React, { useState } from 'react'
+import { useLocation } from '@tanstack/react-router'
+import { useState } from 'react'
 
-import { cn } from '@vezham/react-utils'
 import { Surface } from '@vezham/react/v3'
 
 import Footer from '../../components/panel/footer'
@@ -17,18 +16,15 @@ import { items } from '../../components/panel/menu/sidebar-items'
 import { useUser } from '../../store/users/useUserStore'
 
 export default function MenuMD() {
-  const [selectedKey, setSelectedKey] = React.useState(items[0]?.key)
   const [openSettings, setOpenSettings] = useState(false)
-  const navigate = useNavigate()
+  const location = useLocation()
   const [aiOpen, setAIOpen] = useState(false)
   const [notificationsOpen, setNotificationsOpen] = useState(false)
   const [controlsOpen, setControlsOpen] = useState(false)
   const [bookmarksOpen, setBookmarksOpen] = useState(false)
   const [archiveOpen, setArchiveOpen] = useState(false)
 
-  const handleItemSelect = (key: string) => {
-    setSelectedKey(key)
-  }
+  const selectedKey = getSelectedMenuKey(location.pathname)
 
   const users = {
     id: '1',
@@ -54,12 +50,7 @@ export default function MenuMD() {
           onDiskClick={() => setArchiveOpen(true)}
         />
 
-        <Menu
-          collapsed={false}
-          items={items}
-          selectedKey={selectedKey}
-          onSelect={handleItemSelect}
-        />
+        <Menu collapsed={false} items={items} selectedKey={selectedKey} />
 
         <Footer
           user={{
@@ -100,4 +91,23 @@ export default function MenuMD() {
       <DiskDrawer isOpen={archiveOpen} onClose={() => setArchiveOpen(false)} />
     </>
   )
+}
+
+function getSelectedMenuKey(pathname: string) {
+  const activeItem = items
+    .flatMap(item => [item, ...(item.submenu ?? [])])
+    .filter(
+      item =>
+        item.href &&
+        (pathname === item.href || pathname.startsWith(`${item.href}/`))
+    )
+    .sort((a, b) => (b.href?.length ?? 0) - (a.href?.length ?? 0))[0]
+
+  const parentItem = items.find(
+    item =>
+      item.key === activeItem?.key ||
+      item.submenu?.some(subItem => subItem.key === activeItem?.key)
+  )
+
+  return parentItem?.key ?? items[0]?.key
 }
