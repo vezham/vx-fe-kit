@@ -1,9 +1,7 @@
-import { Outlet, createLazyFileRoute } from '@tanstack/react-router'
+import { createLazyFileRoute } from '@tanstack/react-router'
+
+import ClassesLayoutPage from '../../../pages/academic1/classes/layout'
 
 export const Route = createLazyFileRoute('/academic1/classes')({
-  component: ClassesLayout
+  component: ClassesLayoutPage
 })
-
-function ClassesLayout() {
-  return <Outlet />
-}

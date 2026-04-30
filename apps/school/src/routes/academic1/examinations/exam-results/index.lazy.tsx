@@ -1,20 +1,9 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
 
+import ExamResultsPage from '../../../../pages/academic1/examinations/exam-results'
+
 export const Route = createLazyFileRoute(
   '/academic1/examinations/exam-results/'
 )({
-  component: ExamResultsRoute
+  component: ExamResultsPage
 })
-
-function ExamResultsRoute() {
-  return <AcademicSection title="Exam Results" />
-}
-
-function AcademicSection({ title }: { title: string }) {
-  return (
-    <section className="space-y-2">
-      <p className="text-muted-foreground text-sm">Examinations</p>
-      <h1 className="text-2xl font-semibold">{title}</h1>
-    </section>
-  )
-}
