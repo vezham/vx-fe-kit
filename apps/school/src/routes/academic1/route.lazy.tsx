@@ -41,6 +41,11 @@ type ActionItem = {
   kind?: 'search' | 'menu' | 'primary'
 }
 
+type HeaderActionsConfig = {
+  leftActions?: ActionItem[]
+  rightActions?: ActionItem[]
+}
+
 const sidebarItems: AcademicMenuItem[] = [
   {
     key: 'classes',
@@ -170,7 +175,7 @@ function AcademicLayout() {
       <AcademicHeader
         tabs={activeTabs}
         activePageKey={activePageKey}
-        rightActions={rightActions}
+        actions={{ rightActions }}
         onOpenSidebar={() => setIsSidebarOpen(true)}
       />
 
@@ -222,18 +227,22 @@ function AcademicLayout() {
 function AcademicHeader({
   tabs,
   activePageKey,
-  leftActions,
-  rightActions,
+  actions,
   onOpenSidebar
 }: {
   tabs: AcademicTab[]
   activePageKey: string
-  leftActions?: ActionItem[]
-  rightActions?: ActionItem[]
+  actions?: HeaderActionsConfig
   onOpenSidebar: () => void
 }) {
-  const resolvedLeftActions = mergeActions(defaultLeftActions, leftActions)
-  const resolvedRightActions = mergeActions(defaultRightActions, rightActions)
+  const resolvedLeftActions = mergeActions(
+    defaultLeftActions,
+    actions?.leftActions
+  )
+  const resolvedRightActions = mergeActions(
+    defaultRightActions,
+    actions?.rightActions
+  )
   const visibleRightActions = resolvedRightActions.filter(
     action => !action.isVisible || action.isVisible(activePageKey)
   )
@@ -332,10 +341,9 @@ function MoreActions({ actions }: { actions: ActionItem[] }) {
       <Dropdown.Trigger>
         <Button
           variant="ghost"
-          className="h-9 min-w-9 px-0 md:px-3"
+          className="h-9 px-0 md:px-3"
           aria-label="More actions">
-          <Icon icon="lucide:more-horizontal" width={18} />
-          <span className="hidden md:inline">More</span>
+          <Icon icon="lucide:more-vertical" width={18} />
         </Button>
       </Dropdown.Trigger>
       <Dropdown.Popover>
@@ -412,16 +420,16 @@ function SidebarItem({
   return (
     <Link
       to={item.href}
-      className={`flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+      className={`flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors ${
         isActive
-          ? 'bg-primary/10 text-primary'
-          : 'text-muted-foreground hover:bg-default-100 hover:text-foreground'
+          ? 'bg-primary/10 text-primary text-lg font-medium active:scale-95'
+          : 'text-muted hover:bg-primary/5 hover:text-muted'
       }`}
       onClick={onNavigate}>
       <Icon
         icon={item.icon}
         width={18}
-        className={isActive ? 'text-primary' : 'text-muted-foreground'}
+        className={isActive ? 'text-primary' : 'text-muted'}
       />
       <span className={`min-w-0 truncate ${isActive ? 'font-bold' : ''}`}>
         {item.title}
@@ -440,7 +448,7 @@ function HeaderTabs({ tabs }: { tabs: AcademicTab[] }) {
   )?.key
 
   return (
-    <div className="w-full overflow-x-auto sm:max-w-full md:mx-0 md:max-w-[600px]">
+    <div className="scrollbar-hide w-full overflow-x-auto rounded-full sm:max-w-fit">
       <Tabs
         selectedKey={selectedKey}
         onSelectionChange={key => {
@@ -453,12 +461,12 @@ function HeaderTabs({ tabs }: { tabs: AcademicTab[] }) {
         <Tabs.ListContainer>
           <Tabs.List
             aria-label="Academic sub navigation"
-            className="flex min-w-max flex-nowrap *:shrink-0 *:whitespace-nowrap">
+            className="flex min-w-max flex-nowrap *:whitespace-nowrap">
             {tabs.map((tab, index) => (
               <Tabs.Tab
                 key={tab.key}
                 id={tab.key}
-                className="shrink-0 whitespace-nowrap">
+                className="whitespace-nowrap">
                 {index > 0 ? <Tabs.Separator /> : null}
                 {tab.title}
                 <Tabs.Indicator />
@@ -509,7 +517,8 @@ const defaultRightActions: ActionItem[] = [
     key: 'refresh',
     label: 'Refresh',
     icon: 'lucide:refresh-cw',
-    kind: 'menu'
+    kind: 'menu',
+    onAction: () => window.location.reload()
   },
   {
     key: 'create',
