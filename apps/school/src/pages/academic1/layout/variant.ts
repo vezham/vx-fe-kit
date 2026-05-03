@@ -36,7 +36,7 @@ const tva = tv({
     sidebar_item:
       'text-muted hover:bg-primary/5 hover:text-muted flex items-center gap-3 rounded-md px-3 py-2 text-sm font-normal transition-colors',
     sidebar_item_active:
-      'bg-primary/10 text-primary hover:bg-primary/10 hover:text-primary flex items-center gap-3 rounded-md px-3 py-2 text-sm font-semibold transition-colors active:scale-95',
+      'bg-primary/10 text-primary hover:bg-primary/10 hover:text-primary - colors active: scale - 95 flex items-center gap-3 rounded-md px-3 py-2 text-sm font-semibold transition',
     sidebar_icon: 'text-muted',
     sidebar_icon_active: 'text-primary',
     sidebar_label: 'min-w-0 truncate',

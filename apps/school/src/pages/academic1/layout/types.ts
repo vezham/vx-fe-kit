@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from '@tanstack/react-router'
 import { Key } from 'react'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import { ReactRef, useDOMRef } from '@vezham/react-utils'
 import {
@@ -123,6 +123,20 @@ const useProps = (originalProps: Props) => {
       setIsSidebarOpen(true)
     }
   }
+
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== '\\' || (!event.metaKey && !event.ctrlKey)) {
+        return
+      }
+
+      event.preventDefault()
+      onToggleSidebar()
+    }
+
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [])
 
   const onSidebarAction = (key: Key, onNavigate?: () => void) => {
     const item = sidebarItems.find(sidebarItem => sidebarItem.key === key)
@@ -449,10 +463,23 @@ function getPageRightActions(activePageKey: string): ActionItem[] {
           key: 'create',
           label,
           icon: 'lucide:plus',
-          kind: 'primary'
+          kind: 'primary',
+          onAction: () => dispatchCreateAction(activePageKey)
         }
       ]
     : []
+}
+
+function dispatchCreateAction(pageKey: string) {
+  const eventByPageKey: Record<string, string> = {
+    allclasses: 'academic:class:open',
+    schedule: 'academic:schedule:open'
+  }
+  const eventName = eventByPageKey[pageKey]
+
+  if (eventName) {
+    window.dispatchEvent(new CustomEvent(eventName))
+  }
 }
 
 function mergeActions(
