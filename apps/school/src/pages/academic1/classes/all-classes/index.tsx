@@ -19,247 +19,50 @@ import {
   SearchField,
   Select,
   type Selection,
-  SortDescriptor,
+  type SortDescriptor,
   Surface,
   Switch,
   Table,
-  Tooltip,
-  useOverlayState
+  Tooltip
 } from '@vezham/react/v3'
 
-type ClassStatus = 'Active' | 'Inactive'
-type DrawerMode = 'view' | 'edit' | 'create'
-type ToastState = {
-  message: string
-  status: 'success' | 'danger'
-}
-
-type ClassRow = {
-  id: string
-  className: string
-  section: string
-  students: number
-  subjects: number
-  status: ClassStatus
-  createdAt: string
-  viewedAt: string
-}
-
-type DatePresetKey =
-  | 'today'
-  | 'yesterday'
-  | 'last7'
-  | 'last30'
-  | 'thisYear'
-  | 'nextYear'
-  | 'custom'
-
-type DateRangeFilter = {
-  start: string
-  end: string
-}
-
-type PickerDateValue = {
-  toString(): string
-}
-
-type FilterDraft = {
-  className: string | null
-  section: string | null
-  status: ClassStatus | null
-}
-
-type ClassFormState = {
-  className: string
-  section: string
-  students: string
-  subjects: string
-  status: ClassStatus
-}
-
-type ClassFormErrors = Partial<
-  Record<'className' | 'section' | 'students' | 'subjects', string>
->
-
-const initialRows: ClassRow[] = [
-  {
-    id: 'C138038',
-    className: 'I',
-    section: 'A',
-    students: 30,
-    subjects: 3,
-    status: 'Active',
-    createdAt: '2026-05-01',
-    viewedAt: '2026-05-01'
-  },
-  {
-    id: 'C138037',
-    className: 'I',
-    section: 'B',
-    students: 25,
-    subjects: 3,
-    status: 'Active',
-    createdAt: '2026-04-30',
-    viewedAt: '2026-04-30'
-  },
-  {
-    id: 'C138036',
-    className: 'II',
-    section: 'A',
-    students: 40,
-    subjects: 3,
-    status: 'Active',
-    createdAt: '2026-04-29',
-    viewedAt: '2026-04-29'
-  },
-  {
-    id: 'C138035',
-    className: 'II',
-    section: 'B',
-    students: 35,
-    subjects: 3,
-    status: 'Active',
-    createdAt: '2026-04-26',
-    viewedAt: '2026-04-28'
-  },
-  {
-    id: 'C138034',
-    className: 'II',
-    section: 'C',
-    students: 25,
-    subjects: 3,
-    status: 'Inactive',
-    createdAt: '2026-04-21',
-    viewedAt: '2026-04-27'
-  },
-  {
-    id: 'C138033',
-    className: 'III',
-    section: 'A',
-    students: 30,
-    subjects: 3,
-    status: 'Active',
-    createdAt: '2026-04-20',
-    viewedAt: '2026-04-26'
-  },
-  {
-    id: 'C138032',
-    className: 'III',
-    section: 'B',
-    students: 25,
-    subjects: 5,
-    status: 'Active',
-    createdAt: '2026-04-15',
-    viewedAt: '2026-04-25'
-  },
-  {
-    id: 'C138031',
-    className: 'IV',
-    section: 'A',
-    students: 20,
-    subjects: 5,
-    status: 'Active',
-    createdAt: '2026-03-31',
-    viewedAt: '2026-04-24'
-  },
-  {
-    id: 'C138030',
-    className: 'IV',
-    section: 'B',
-    students: 30,
-    subjects: 5,
-    status: 'Inactive',
-    createdAt: '2026-01-12',
-    viewedAt: '2026-04-23'
-  },
-  {
-    id: 'C138029',
-    className: 'V',
-    section: 'A',
-    students: 35,
-    subjects: 5,
-    status: 'Active',
-    createdAt: '2025-12-20',
-    viewedAt: '2026-04-22'
-  },
-  {
-    id: 'C138028',
-    className: 'V',
-    section: 'B',
-    students: 32,
-    subjects: 5,
-    status: 'Active',
-    createdAt: '2026-04-02',
-    viewedAt: '2026-04-21'
-  },
-  {
-    id: 'C138027',
-    className: 'VI',
-    section: 'A',
-    students: 38,
-    subjects: 6,
-    status: 'Inactive',
-    createdAt: '2027-02-14',
-    viewedAt: '2026-04-20'
-  }
-]
-
-const dateOptions: { key: DatePresetKey; label: string }[] = [
-  { key: 'today', label: 'Today' },
-  { key: 'yesterday', label: 'Yesterday' },
-  { key: 'last7', label: 'Last 7 Days' },
-  { key: 'last30', label: 'Last 30 Days' },
-  { key: 'thisYear', label: 'This Year' },
-  { key: 'nextYear', label: 'Next Year' },
-  { key: 'custom', label: 'Custom Range' }
-]
-
-const sortOptions = [
-  {
-    key: 'ascending',
-    label: 'Ascending',
-    descriptor: {
-      column: 'className',
-      direction: 'ascending'
-    } satisfies SortDescriptor
-  },
-  {
-    key: 'descending',
-    label: 'Descending',
-    descriptor: {
-      column: 'className',
-      direction: 'descending'
-    } satisfies SortDescriptor
-  },
-  {
-    key: 'recentlyViewed',
-    label: 'Recently Viewed',
-    descriptor: {
-      column: 'viewedAt',
-      direction: 'descending'
-    } satisfies SortDescriptor
-  },
-  {
-    key: 'recentlyAdded',
-    label: 'Recently Added',
-    descriptor: {
-      column: 'createdAt',
-      direction: 'descending'
-    } satisfies SortDescriptor
-  }
-] as const
-
-const rowCountOptions = ['5', '10', '25', '50']
-const classOptions = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII']
-const sectionOptions = ['A', 'B', 'C', 'D']
-const statusOptions: ClassStatus[] = ['Active', 'Inactive']
-const emptyForm: ClassFormState = {
-  className: '',
-  section: '',
-  students: '',
-  subjects: '',
-  status: 'Active'
-}
+import {
+  classOptions,
+  dateOptions,
+  emptyForm,
+  initialRows,
+  rowCountOptions,
+  sectionOptions,
+  sortOptions,
+  statusOptions
+} from './data'
+import type {
+  ClassDetailSummaryProps,
+  ClassDetailsProps,
+  ClassDrawerProps,
+  ClassFormErrors,
+  ClassFormProps,
+  ClassFormState,
+  ClassRow,
+  ClassStatus,
+  CustomDateRangeValue,
+  DatePresetKey,
+  DateRangeFilter,
+  DetailLineProps,
+  DrawerMode,
+  DrawerQueryState,
+  FilterDraft,
+  FilterDropdownProps,
+  OpenDrawerOptions,
+  SortableHeaderProps,
+  ToastState
+} from './types'
+import { useDisclosure } from './types'
+import {
+  classNames,
+  getTableRowClassName,
+  hiddenTextareaStyles
+} from './variants'
 
 export default function AllClassesPage() {
   const [data, setData] = useState<ClassRow[]>(initialRows)
@@ -391,8 +194,7 @@ export default function AllClassesPage() {
 
     textarea.value = value
     textarea.setAttribute('readonly', '')
-    textarea.style.position = 'fixed'
-    textarea.style.opacity = '0'
+    Object.assign(textarea.style, hiddenTextareaStyles)
     document.body.appendChild(textarea)
     textarea.select()
     document.execCommand('copy')
@@ -400,10 +202,7 @@ export default function AllClassesPage() {
   }, [])
 
   const updateDrawerQuery = useCallback(
-    (
-      nextState: { id: string; mode: Exclude<DrawerMode, 'create'> } | null,
-      replace = false
-    ) => {
+    (nextState: DrawerQueryState | null, replace = false) => {
       const url = new URL(window.location.href)
 
       if (nextState) {
@@ -427,7 +226,7 @@ export default function AllClassesPage() {
     (
       nextMode: DrawerMode,
       row: ClassRow | null,
-      options: { syncUrl?: boolean; replaceUrl?: boolean } = {}
+      options: OpenDrawerOptions = {}
     ) => {
       setMode(nextMode)
       setActiveRowId(row?.id ?? null)
@@ -656,9 +455,7 @@ export default function AllClassesPage() {
     setIsDateDropdownOpen(false)
   }
 
-  const updateCustomDateRange = (
-    value: { start: PickerDateValue; end: PickerDateValue } | null
-  ) => {
+  const updateCustomDateRange = (value: CustomDateRangeValue | null) => {
     setDatePreset('custom')
     setPage(1)
 
@@ -814,15 +611,15 @@ export default function AllClassesPage() {
   }
 
   return (
-    <section className="space-y-4">
-      <Surface className="flex flex-col gap-4 p-4">
-        <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+    <section className={classNames.page}>
+      <Surface className={classNames.toolbar}>
+        <div className={classNames.headerRow}>
           <div>
-            <p className="text-muted text-sm">Classes</p>
-            <h1 className="text-2xl font-semibold">Classes List</h1>
+            <p className={classNames.mutedText}>Classes</p>
+            <h1 className={classNames.title}>Classes List</h1>
           </div>
 
-          <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap lg:justify-end">
+          <div className={classNames.toolbarActions}>
             <Dropdown
               isOpen={isDateDropdownOpen}
               onOpenChange={open => {
@@ -839,10 +636,10 @@ export default function AllClassesPage() {
                 </Button>
               </Dropdown.Trigger>
               <Dropdown.Popover>
-                <Surface className="w-[360px] p-2">
+                <Surface className={classNames.datePopover}>
                   {isCustomDateRangeOpen ? (
                     <div
-                      className="space-y-3"
+                      className={classNames.customDatePanel}
                       onClick={event => event.stopPropagation()}>
                       <Button
                         variant="ghost"
@@ -853,7 +650,7 @@ export default function AllClassesPage() {
                       <DateRangePicker
                         defaultOpen
                         aria-label="Class custom date range"
-                        className="w-full"
+                        className={classNames.fullWidth}
                         endName="endDate"
                         startName="startDate"
                         onChange={updateCustomDateRange}>
@@ -902,7 +699,7 @@ export default function AllClassesPage() {
                           id={option.key}
                           textValue={option.label}
                           onPress={() => updateDatePreset(option.key)}>
-                          <span className="flex w-full items-center justify-between">
+                          <span className={classNames.dateOptionLabel}>
                             {option.label}
                             {datePreset === option.key && (
                               <Icon icon="lucide:check" width={16} />
@@ -948,8 +745,8 @@ export default function AllClassesPage() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
-          <div className="flex items-center gap-2">
+        <div className={classNames.headerRow}>
+          <div className={classNames.rowsControls}>
             <Label>Rows per page</Label>
             <Select
               aria-label="Rows per page"
@@ -989,14 +786,14 @@ export default function AllClassesPage() {
         <Table.ScrollContainer>
           <Table.Content
             aria-label="All classes"
-            className="min-w-[960px]"
+            className={classNames.tableContent}
             selectedKeys={tableSelectedKeys}
             selectionMode="single"
             sortDescriptor={sortDescriptor}
             onSelectionChange={updateTableSelection}
             onSortChange={updateSortDescriptor}>
             <Table.Header>
-              <Table.Column className="w-12" />
+              <Table.Column className={classNames.selectionColumn} />
               <Table.Column allowsSorting isRowHeader id="id">
                 {({ sortDirection }) => (
                   <SortableHeader sortDirection={sortDirection}>
@@ -1055,11 +852,7 @@ export default function AllClassesPage() {
                   key={row.id}
                   id={row.id}
                   data-class-row-id={row.id}
-                  className={`hover:bg-primary/5 cursor-pointer transition-colors ${
-                    activeRowId === row.id
-                      ? 'bg-primary/10 ring-primary/20 ring-1 ring-inset'
-                      : ''
-                  }`}
+                  className={getTableRowClassName(activeRowId === row.id)}
                   onClick={() => openDrawer('view', row)}>
                   <Table.Cell>
                     <Checkbox
@@ -1090,7 +883,7 @@ export default function AllClassesPage() {
                   </Table.Cell>
                   <Table.Cell>
                     <div
-                      className="flex items-center gap-1"
+                      className={classNames.rowActions}
                       onClick={event => event.stopPropagation()}>
                       <Button
                         isIconOnly
@@ -1105,7 +898,7 @@ export default function AllClassesPage() {
                         variant="outline"
                         onPress={() => deleteClass(row.id)}>
                         <Icon
-                          className="text-danger"
+                          className={classNames.dangerIcon}
                           icon="lucide:trash-2"
                           width={16}
                         />
@@ -1126,7 +919,7 @@ export default function AllClassesPage() {
                               id="view"
                               textValue="View"
                               onPress={() => openDrawer('view', row)}>
-                              <span className="flex items-center gap-2">
+                              <span className={classNames.menuItemLabel}>
                                 <Icon icon="lucide:eye" width={16} />
                                 View
                               </span>
@@ -1205,7 +998,7 @@ export default function AllClassesPage() {
       />
 
       {toast && (
-        <div className="fixed top-10 left-1/2 z-[9999] w-[min(320px,calc(100vw-2rem))] -translate-x-1/2">
+        <div className={classNames.toast}>
           <Alert status={toast.status}>
             <Alert.Indicator />
             <Alert.Content>
@@ -1221,9 +1014,9 @@ export default function AllClassesPage() {
 
 function TableEmptyState() {
   return (
-    <div className="flex min-h-[220px] w-full flex-col items-center justify-center gap-4 py-12 text-center">
-      <Icon className="text-muted" icon="lucide:inbox" width={42} />
-      <p className="text-muted text-lg font-medium">No results found</p>
+    <div className={classNames.emptyState}>
+      <Icon className={classNames.emptyIcon} icon="lucide:inbox" width={42} />
+      <p className={classNames.emptyText}>No results found</p>
     </div>
   )
 }
@@ -1233,12 +1026,7 @@ function FilterDropdown({
   setDraftFilters,
   onApply,
   onReset
-}: {
-  draftFilters: FilterDraft
-  setDraftFilters: (filters: FilterDraft) => void
-  onApply: () => void
-  onReset: () => void
-}) {
+}: FilterDropdownProps) {
   return (
     <Dropdown>
       <Dropdown.Trigger>
@@ -1249,8 +1037,8 @@ function FilterDropdown({
         </Button>
       </Dropdown.Trigger>
       <Dropdown.Popover>
-        <Surface className="flex w-80 flex-col gap-4 p-4">
-          <h2 className="text-lg font-semibold">Filter</h2>
+        <Surface className={classNames.filterPanel}>
+          <h2 className={classNames.filterTitle}>Filter</h2>
           <Select
             fullWidth
             aria-label="Filter by class"
@@ -1335,7 +1123,7 @@ function FilterDropdown({
             </Select.Popover>
           </Select>
 
-          <div className="flex justify-end gap-2">
+          <div className={classNames.filterActions}>
             <Button variant="secondary" onPress={onReset}>
               Reset
             </Button>
@@ -1365,25 +1153,7 @@ function ClassDrawer({
   onGoPrevious,
   onOpenPage,
   onSave
-}: {
-  canGoNext: boolean
-  canGoPrevious: boolean
-  drawerState: ReturnType<typeof useDisclosure>
-  form: ClassFormState
-  formErrors: ClassFormErrors
-  mode: DrawerMode
-  row: ClassRow | null
-  onCancel: () => void
-  onClose: () => void
-  onCopyId: (row: ClassRow) => void
-  onCopyLink: (row: ClassRow) => void
-  onEdit: () => void
-  onFormChange: (field: keyof ClassFormState, value: string) => void
-  onGoNext: () => void
-  onGoPrevious: () => void
-  onOpenPage: (row: ClassRow) => void
-  onSave: () => void
-}) {
+}: ClassDrawerProps) {
   const isFormMode = mode === 'create' || mode === 'edit'
   const showNavigation = mode !== 'create'
   const drawerTitle = mode === 'create' ? 'Add Class' : row ? `#${row.id}` : ''
@@ -1392,10 +1162,10 @@ function ClassDrawer({
     <Drawer state={drawerState}>
       <Drawer.Backdrop variant="transparent">
         <Drawer.Content placement="right">
-          <Drawer.Dialog className="flex h-full w-full max-w-[420px] flex-col bg-black/5 backdrop-blur-2xl">
-            <Drawer.Header className="sticky top-0 z-10 border-b border-[#e8edf6] py-4">
-              <div className="flex w-full items-center justify-between gap-3">
-                <div className="flex min-w-0 items-center gap-2">
+          <Drawer.Dialog className={classNames.drawerDialog}>
+            <Drawer.Header className={classNames.drawerHeader}>
+              <div className={classNames.drawerHeaderRow}>
+                <div className={classNames.drawerTitleGroup}>
                   <Button
                     isIconOnly
                     aria-label="Close class drawer"
@@ -1403,9 +1173,7 @@ function ClassDrawer({
                     onPress={onClose}>
                     <Icon icon="lucide:chevrons-right" width={24} />
                   </Button>
-                  <span className="truncate text-lg font-semibold text-[#111827]">
-                    {drawerTitle}
-                  </span>
+                  <span className={classNames.drawerTitle}>{drawerTitle}</span>
                   {row && (
                     <Tooltip delay={0}>
                       <Tooltip.Trigger>
@@ -1422,7 +1190,7 @@ function ClassDrawer({
                   )}
                 </div>
 
-                <div className="flex shrink-0 items-center gap-2">
+                <div className={classNames.drawerActions}>
                   {row && (
                     <>
                       <Tooltip delay={0}>
@@ -1476,7 +1244,7 @@ function ClassDrawer({
               </div>
             </Drawer.Header>
 
-            <Drawer.Body className="flex-1 px-4 py-4">
+            <Drawer.Body className={classNames.drawerBody}>
               {isFormMode ? (
                 <ClassForm
                   form={form}
@@ -1490,9 +1258,9 @@ function ClassDrawer({
               )}
             </Drawer.Body>
 
-            <Drawer.Footer className="sticky bottom-0 border-t border-[#e8edf6] py-4">
+            <Drawer.Footer className={classNames.drawerFooter}>
               {isFormMode ? (
-                <div className="flex w-full justify-end gap-3">
+                <div className={classNames.drawerFormFooterActions}>
                   <Button variant="secondary" onPress={onCancel}>
                     Cancel
                   </Button>
@@ -1501,15 +1269,15 @@ function ClassDrawer({
                   </Button>
                 </div>
               ) : (
-                <div className="flex w-full gap-3">
+                <div className={classNames.drawerViewFooterActions}>
                   <Button
-                    className="flex-1"
+                    className={classNames.flexOne}
                     variant="secondary"
                     onPress={onEdit}>
                     <Icon icon="lucide:pencil" width={16} />
                     Edit
                   </Button>
-                  <Button className="flex-1" onPress={onClose}>
+                  <Button className={classNames.flexOne} onPress={onClose}>
                     Close
                   </Button>
                 </div>
@@ -1528,20 +1296,14 @@ function ClassForm({
   mode,
   row,
   onFormChange
-}: {
-  form: ClassFormState
-  formErrors: ClassFormErrors
-  mode: DrawerMode
-  row: ClassRow | null
-  onFormChange: (field: keyof ClassFormState, value: string) => void
-}) {
+}: ClassFormProps) {
   return (
-    <div className="space-y-6">
+    <div className={classNames.form}>
       {mode === 'edit' && row && <ClassDetailSummary row={row} />}
 
-      <div className="space-y-5">
-        <div className="space-y-2">
-          <Label className="font-bold text-[#111827]">Class Name</Label>
+      <div className={classNames.formFields}>
+        <div className={classNames.field}>
+          <Label className={classNames.fieldLabel}>Class Name</Label>
           <Input
             fullWidth
             aria-invalid={Boolean(formErrors.className)}
@@ -1550,7 +1312,7 @@ function ClassForm({
             onChange={event => onFormChange('className', event.target.value)}
           />
           {formErrors.className && (
-            <p className="text-danger text-sm">{formErrors.className}</p>
+            <p className={classNames.fieldError}>{formErrors.className}</p>
           )}
         </div>
 
@@ -1563,7 +1325,7 @@ function ClassForm({
           onChange={value =>
             onFormChange('section', value ? String(value) : '')
           }>
-          <Label className="font-bold text-[#111827]">Section</Label>
+          <Label className={classNames.fieldLabel}>Section</Label>
           <Select.Trigger>
             <Select.Value />
             <Select.Indicator />
@@ -1580,11 +1342,11 @@ function ClassForm({
           </Select.Popover>
         </Select>
         {formErrors.section && (
-          <p className="text-danger -mt-3 text-sm">{formErrors.section}</p>
+          <p className={classNames.selectError}>{formErrors.section}</p>
         )}
 
-        <div className="space-y-2">
-          <Label className="font-bold text-[#111827]">No of Students</Label>
+        <div className={classNames.field}>
+          <Label className={classNames.fieldLabel}>No of Students</Label>
           <Input
             fullWidth
             aria-invalid={Boolean(formErrors.students)}
@@ -1595,12 +1357,12 @@ function ClassForm({
             onChange={event => onFormChange('students', event.target.value)}
           />
           {formErrors.students && (
-            <p className="text-danger text-sm">{formErrors.students}</p>
+            <p className={classNames.fieldError}>{formErrors.students}</p>
           )}
         </div>
 
-        <div className="space-y-2">
-          <Label className="font-bold text-[#111827]">No of Subjects</Label>
+        <div className={classNames.field}>
+          <Label className={classNames.fieldLabel}>No of Subjects</Label>
           <Input
             fullWidth
             aria-invalid={Boolean(formErrors.subjects)}
@@ -1611,15 +1373,17 @@ function ClassForm({
             onChange={event => onFormChange('subjects', event.target.value)}
           />
           {formErrors.subjects && (
-            <p className="text-danger text-sm">{formErrors.subjects}</p>
+            <p className={classNames.fieldError}>{formErrors.subjects}</p>
           )}
         </div>
       </div>
 
-      <div className="flex items-center justify-between gap-6">
+      <div className={classNames.statusRow}>
         <div>
-          <div className="font-bold text-[#111827]">Status</div>
-          <div className="text-[#20242d]">Change the Status by toggle</div>
+          <div className={classNames.fieldLabel}>Status</div>
+          <div className={classNames.statusHelp}>
+            Change the Status by toggle
+          </div>
         </div>
         <Switch
           aria-label="Class status"
@@ -1636,28 +1400,28 @@ function ClassForm({
   )
 }
 
-function ClassDetails({ row }: { row: ClassRow | null }) {
+function ClassDetails({ row }: ClassDetailsProps) {
   if (!row) {
     return null
   }
 
   return (
-    <div className="space-y-8">
+    <div className={classNames.details}>
       <ClassDetailSummary row={row} />
     </div>
   )
 }
 
-function ClassDetailSummary({ row }: { row: ClassRow }) {
+function ClassDetailSummary({ row }: ClassDetailSummaryProps) {
   return (
-    <div className="space-y-6">
+    <div className={classNames.detailSummary}>
       <DetailLine label="Class" value={row.className} />
       <DetailLine label="Section" value={row.section} />
       <DetailLine label="Students" value={String(row.students)} />
       <DetailLine label="Subjects" value={String(row.subjects)} />
 
-      <div className="flex items-center gap-3">
-        <span className="text-xl font-bold text-[#111827]">Status:</span>
+      <div className={classNames.detailChipRow}>
+        <span className={classNames.detailHeading}>Status:</span>
         <Chip
           color={row.status === 'Active' ? 'success' : 'danger'}
           variant="soft">
@@ -1666,8 +1430,8 @@ function ClassDetailSummary({ row }: { row: ClassRow }) {
         </Chip>
       </div>
 
-      <div className="flex flex-wrap items-center gap-3">
-        <span className="text-xl font-bold text-[#111827]">Tags:</span>
+      <div className={classNames.detailTagsRow}>
+        <span className={classNames.detailHeading}>Tags:</span>
         {getClassTags(row).map(tag => (
           <Chip key={tag} variant="soft">
             <Chip.Label>{tag}</Chip.Label>
@@ -1678,22 +1442,16 @@ function ClassDetailSummary({ row }: { row: ClassRow }) {
   )
 }
 
-function DetailLine({ label, value }: { label: string; value: string }) {
+function DetailLine({ label, value }: DetailLineProps) {
   return (
-    <div className="flex gap-2 text-xl">
-      <span className="font-bold text-[#111827]">{label}:</span>
-      <span className="text-[#111827]">{value}</span>
+    <div className={classNames.detailLine}>
+      <span className={classNames.fieldLabel}>{label}:</span>
+      <span className={classNames.detailValue}>{value}</span>
     </div>
   )
 }
 
-function SortableHeader({
-  children,
-  sortDirection
-}: {
-  children: string
-  sortDirection?: SortDescriptor['direction']
-}) {
+function SortableHeader({ children, sortDirection }: SortableHeaderProps) {
   const icon =
     sortDirection === 'ascending'
       ? 'lucide:chevron-up'
@@ -1702,22 +1460,11 @@ function SortableHeader({
         : 'lucide:chevrons-up-down'
 
   return (
-    <span className="flex items-center gap-2">
+    <span className={classNames.sortableHeader}>
       {children}
       <Icon icon={icon} width={14} />
     </span>
   )
-}
-
-function useDisclosure() {
-  const state = useOverlayState()
-
-  return {
-    ...state,
-    onOpen: state.open,
-    onClose: state.close,
-    onOpenChange: state.setOpen
-  }
 }
 
 function getClassTags(row: ClassRow) {
