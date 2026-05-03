@@ -378,9 +378,7 @@ const useProps = (originalProps: Props) => {
       menuActions: visibleRightActions.filter(action => action.kind === 'menu'),
       sidebarToggle: {
         key: 'sidebar-toggle',
-        label: collapsed
-          ? 'Expand academic navigation'
-          : 'Collapse academic navigation',
+        label: collapsed ? 'Show Sidebar' : 'Hide Sidebar',
         icon: collapsed ? 'lucide:panel-left-open' : 'lucide:panel-left-close',
         onAction: onToggleSidebar
       },

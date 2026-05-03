@@ -2,10 +2,11 @@ import { Icon } from '@iconify/react'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import {
-  Avatar,
+  Alert,
   Button,
   Checkbox,
   Chip,
+  CloseButton,
   DateField,
   DateRangePicker,
   Drawer,
@@ -22,11 +23,16 @@ import {
   Surface,
   Switch,
   Table,
+  Tooltip,
   useOverlayState
 } from '@vezham/react/v3'
 
 type ClassStatus = 'Active' | 'Inactive'
 type DrawerMode = 'view' | 'edit' | 'create'
+type ToastState = {
+  message: string
+  status: 'success' | 'danger'
+}
 
 type ClassRow = {
   id: string
@@ -257,7 +263,6 @@ const emptyForm: ClassFormState = {
 
 export default function AllClassesPage() {
   const [data, setData] = useState<ClassRow[]>(initialRows)
-  const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set())
   const [searchQuery, setSearchQuery] = useState('')
   const [rowsPerPage, setRowsPerPage] = useState('10')
   const [page, setPage] = useState(1)
@@ -276,10 +281,11 @@ export default function AllClassesPage() {
     status: null
   })
   const [draftFilters, setDraftFilters] = useState<FilterDraft>(filters)
-  const [selectedRow, setSelectedRow] = useState<ClassRow | null>(null)
+  const [activeRowId, setActiveRowId] = useState<string | null>(null)
   const [mode, setMode] = useState<DrawerMode>('view')
   const [form, setForm] = useState<ClassFormState>(emptyForm)
   const [formErrors, setFormErrors] = useState<ClassFormErrors>({})
+  const [toast, setToast] = useState<ToastState | null>(null)
   const drawer = useDisclosure()
 
   const activeDateRange = useMemo(() => {
@@ -342,9 +348,17 @@ export default function AllClassesPage() {
     (currentPage - 1) * pageSize,
     currentPage * pageSize
   )
-  const selectedRowIndex = selectedRow
-    ? sortedRows.findIndex(row => row.id === selectedRow.id)
+  const selectedRow = useMemo(
+    () => data.find(row => row.id === activeRowId) ?? null,
+    [activeRowId, data]
+  )
+  const selectedRowIndex = activeRowId
+    ? sortedRows.findIndex(row => row.id === activeRowId)
     : -1
+  const tableSelectedKeys = useMemo<Selection>(
+    () => (activeRowId ? new Set([activeRowId]) : new Set()),
+    [activeRowId]
+  )
 
   const activeSortLabel =
     sortOptions.find(
@@ -360,21 +374,118 @@ export default function AllClassesPage() {
         : 'Custom Range'
       : formatDateRangeLabel(getPresetDateRange(datePreset))
 
+  const showToast = useCallback(
+    (message: string, status: ToastState['status'] = 'success') => {
+      setToast({ message, status })
+    },
+    []
+  )
+
+  const copyText = useCallback(async (value: string) => {
+    if (navigator.clipboard) {
+      await navigator.clipboard.writeText(value)
+      return
+    }
+
+    const textarea = document.createElement('textarea')
+
+    textarea.value = value
+    textarea.setAttribute('readonly', '')
+    textarea.style.position = 'fixed'
+    textarea.style.opacity = '0'
+    document.body.appendChild(textarea)
+    textarea.select()
+    document.execCommand('copy')
+    document.body.removeChild(textarea)
+  }, [])
+
+  const updateDrawerQuery = useCallback(
+    (
+      nextState: { id: string; mode: Exclude<DrawerMode, 'create'> } | null,
+      replace = false
+    ) => {
+      const url = new URL(window.location.href)
+
+      if (nextState) {
+        url.searchParams.set('id', nextState.id)
+        url.searchParams.set('mode', nextState.mode)
+      } else {
+        url.searchParams.delete('id')
+        url.searchParams.delete('mode')
+      }
+
+      window.history[replace ? 'replaceState' : 'pushState'](
+        null,
+        '',
+        `${url.pathname}${url.search}${url.hash}`
+      )
+    },
+    []
+  )
+
   const openDrawer = useCallback(
-    (nextMode: DrawerMode, row: ClassRow | null) => {
+    (
+      nextMode: DrawerMode,
+      row: ClassRow | null,
+      options: { syncUrl?: boolean; replaceUrl?: boolean } = {}
+    ) => {
       setMode(nextMode)
-      setSelectedRow(row)
+      setActiveRowId(row?.id ?? null)
       setForm(row ? rowToForm(row) : emptyForm)
       setFormErrors({})
       drawer.onOpen()
+
+      if (options.syncUrl !== false) {
+        updateDrawerQuery(
+          row && nextMode !== 'create' ? { id: row.id, mode: nextMode } : null,
+          options.replaceUrl
+        )
+      }
     },
-    [drawer]
+    [drawer, updateDrawerQuery]
+  )
+
+  const updateTableSelection = useCallback(
+    (keys: Selection) => {
+      if (keys === 'all') {
+        return
+      }
+
+      const nextId = Array.from(keys)[0]?.toString()
+
+      if (!nextId) {
+        setActiveRowId(null)
+        drawer.onClose()
+        updateDrawerQuery(null)
+        return
+      }
+
+      const row = data.find(item => item.id === nextId)
+
+      if (row) {
+        openDrawer('view', row)
+      }
+    },
+    [data, drawer, openDrawer, updateDrawerQuery]
   )
 
   const closeDrawer = useCallback(() => {
     setFormErrors({})
     drawer.onClose()
-  }, [drawer])
+    setActiveRowId(null)
+    updateDrawerQuery(null)
+  }, [drawer, updateDrawerQuery])
+
+  const setDrawerMode = useCallback(
+    (nextMode: Exclude<DrawerMode, 'create'>) => {
+      setMode(nextMode)
+
+      if (selectedRow) {
+        updateDrawerQuery({ id: selectedRow.id, mode: nextMode })
+      }
+    },
+    [selectedRow, updateDrawerQuery]
+  )
 
   const goToRowAt = useCallback(
     (index: number) => {
@@ -384,11 +495,15 @@ export default function AllClassesPage() {
         return
       }
 
-      setSelectedRow(nextRow)
+      setActiveRowId(nextRow.id)
       setForm(rowToForm(nextRow))
       setMode(currentMode => (currentMode === 'create' ? 'view' : currentMode))
+      updateDrawerQuery({
+        id: nextRow.id,
+        mode: mode === 'edit' ? 'edit' : 'view'
+      })
     },
-    [sortedRows]
+    [mode, sortedRows, updateDrawerQuery]
   )
 
   const goToNextRow = useCallback(() => {
@@ -415,6 +530,74 @@ export default function AllClassesPage() {
     window.addEventListener('academic:class:open', openAddClass)
     return () => window.removeEventListener('academic:class:open', openAddClass)
   }, [openDrawer])
+
+  useEffect(() => {
+    if (!toast) {
+      return
+    }
+
+    const timeoutId = window.setTimeout(() => setToast(null), 2200)
+
+    return () => window.clearTimeout(timeoutId)
+  }, [toast])
+
+  useEffect(() => {
+    const syncDrawerFromUrl = () => {
+      const params = new URLSearchParams(window.location.search)
+      const id = params.get('id')
+      const urlMode = params.get('mode')
+
+      if (!id || (urlMode !== 'view' && urlMode !== 'edit')) {
+        setActiveRowId(null)
+        drawer.onClose()
+        return
+      }
+
+      const row = data.find(item => item.id === id)
+
+      if (!row) {
+        setActiveRowId(null)
+        drawer.onClose()
+        return
+      }
+
+      setMode(urlMode)
+      setActiveRowId(row.id)
+      setForm(rowToForm(row))
+      setFormErrors({})
+      drawer.onOpen()
+    }
+
+    syncDrawerFromUrl()
+    window.addEventListener('popstate', syncDrawerFromUrl)
+
+    return () => window.removeEventListener('popstate', syncDrawerFromUrl)
+  }, [data])
+
+  useEffect(() => {
+    if (!activeRowId) {
+      return
+    }
+
+    const rowIndex = sortedRows.findIndex(row => row.id === activeRowId)
+
+    if (rowIndex < 0) {
+      return
+    }
+
+    const nextPage = Math.floor(rowIndex / pageSize) + 1
+
+    if (nextPage !== currentPage) {
+      setPage(nextPage)
+      return
+    }
+
+    window.requestAnimationFrame(() => {
+      document
+        .querySelector(`[data-class-row-id="${activeRowId}"]`)
+        ?.scrollIntoView({ block: 'nearest', inline: 'nearest' })
+    })
+  }, [activeRowId, currentPage, pageSize, sortedRows])
 
   useEffect(() => {
     if (!drawer.isOpen) {
@@ -551,7 +734,7 @@ export default function AllClassesPage() {
 
       setData(current => [newRow, ...current])
       setForm(emptyForm)
-      setSelectedRow(null)
+      setActiveRowId(null)
       setMode('view')
       setPage(1)
       closeDrawer()
@@ -574,40 +757,56 @@ export default function AllClassesPage() {
     setData(current =>
       current.map(row => (row.id === updatedRow.id ? updatedRow : row))
     )
-    setSelectedRow(updatedRow)
+    setActiveRowId(updatedRow.id)
     setMode('view')
+    updateDrawerQuery({ id: updatedRow.id, mode: 'view' })
   }
 
   const deleteClass = (rowId: string) => {
     setData(current => current.filter(row => row.id !== rowId))
-    setSelectedKeys(current => {
-      if (current === 'all') {
-        return current
-      }
 
-      const next = new Set(current)
-      next.delete(rowId)
-      return next
-    })
-
-    if (selectedRow?.id === rowId) {
-      setSelectedRow(null)
+    if (activeRowId === rowId) {
+      setActiveRowId(null)
       drawer.onClose()
+      updateDrawerQuery(null)
     }
+
+    showToast('Item deleted')
   }
 
-  const getClassUrl = (row: ClassRow) =>
-    `${window.location.origin}${window.location.pathname}#${row.id}`
+  const getClassUrl = (
+    row: ClassRow,
+    nextMode: Exclude<DrawerMode, 'create'> = 'view'
+  ) => {
+    const url = new URL(window.location.href)
+
+    url.searchParams.set('id', row.id)
+    url.searchParams.set('mode', nextMode)
+    url.hash = ''
+
+    return url.toString()
+  }
 
   const copyClassLink = (row: ClassRow) => {
-    const classUrl = getClassUrl(row)
+    const classUrl = getClassUrl(row, mode === 'edit' ? 'edit' : 'view')
 
-    if (navigator.clipboard) {
-      void navigator.clipboard.writeText(classUrl)
-      return
-    }
+    void copyText(classUrl)
+      .then(() => {
+        showToast('URL copied')
+      })
+      .catch(() => {
+        showToast('Unable to copy URL', 'danger')
+      })
+  }
 
-    window.location.hash = row.id
+  const copyClassId = (row: ClassRow) => {
+    void copyText(row.id)
+      .then(() => {
+        showToast('ID copied')
+      })
+      .catch(() => {
+        showToast('Unable to copy ID', 'danger')
+      })
   }
 
   const openClassPage = (row: ClassRow) => {
@@ -791,19 +990,13 @@ export default function AllClassesPage() {
           <Table.Content
             aria-label="All classes"
             className="min-w-[960px]"
-            selectedKeys={selectedKeys}
-            selectionMode="multiple"
+            selectedKeys={tableSelectedKeys}
+            selectionMode="single"
             sortDescriptor={sortDescriptor}
-            onSelectionChange={setSelectedKeys}
+            onSelectionChange={updateTableSelection}
             onSortChange={updateSortDescriptor}>
             <Table.Header>
-              <Table.Column>
-                <Checkbox aria-label="Select all classes" slot="selection">
-                  <Checkbox.Control>
-                    <Checkbox.Indicator />
-                  </Checkbox.Control>
-                </Checkbox>
-              </Table.Column>
+              <Table.Column className="w-12" />
               <Table.Column allowsSorting isRowHeader id="id">
                 {({ sortDirection }) => (
                   <SortableHeader sortDirection={sortDirection}>
@@ -856,12 +1049,17 @@ export default function AllClassesPage() {
               <Table.Column>Actions</Table.Column>
             </Table.Header>
 
-            <Table.Body>
+            <Table.Body renderEmptyState={() => <TableEmptyState />}>
               {paginatedRows.map(row => (
                 <Table.Row
                   key={row.id}
                   id={row.id}
-                  className="cursor-pointer"
+                  data-class-row-id={row.id}
+                  className={`hover:bg-primary/5 cursor-pointer transition-colors ${
+                    activeRowId === row.id
+                      ? 'bg-primary/10 ring-primary/20 ring-1 ring-inset'
+                      : ''
+                  }`}
                   onClick={() => openDrawer('view', row)}>
                   <Table.Cell>
                     <Checkbox
@@ -996,15 +1194,37 @@ export default function AllClassesPage() {
         row={selectedRow}
         onCancel={closeDrawer}
         onClose={closeDrawer}
+        onCopyId={copyClassId}
         onCopyLink={copyClassLink}
-        onEdit={() => setMode('edit')}
+        onEdit={() => setDrawerMode('edit')}
         onFormChange={updateForm}
         onGoNext={goToNextRow}
         onGoPrevious={goToPreviousRow}
         onOpenPage={openClassPage}
         onSave={saveClass}
       />
+
+      {toast && (
+        <div className="fixed top-10 left-1/2 z-[9999] w-[min(320px,calc(100vw-2rem))] -translate-x-1/2">
+          <Alert status={toast.status}>
+            <Alert.Indicator />
+            <Alert.Content>
+              <Alert.Title>{toast.message}</Alert.Title>
+            </Alert.Content>
+            <CloseButton onClick={() => setToast(null)} />
+          </Alert>
+        </div>
+      )}
     </section>
+  )
+}
+
+function TableEmptyState() {
+  return (
+    <div className="flex min-h-[220px] w-full flex-col items-center justify-center gap-4 py-12 text-center">
+      <Icon className="text-muted" icon="lucide:inbox" width={42} />
+      <p className="text-muted text-lg font-medium">No results found</p>
+    </div>
   )
 }
 
@@ -1137,6 +1357,7 @@ function ClassDrawer({
   row,
   onCancel,
   onClose,
+  onCopyId,
   onCopyLink,
   onEdit,
   onFormChange,
@@ -1154,6 +1375,7 @@ function ClassDrawer({
   row: ClassRow | null
   onCancel: () => void
   onClose: () => void
+  onCopyId: (row: ClassRow) => void
   onCopyLink: (row: ClassRow) => void
   onEdit: () => void
   onFormChange: (field: keyof ClassFormState, value: string) => void
@@ -1164,61 +1386,93 @@ function ClassDrawer({
 }) {
   const isFormMode = mode === 'create' || mode === 'edit'
   const showNavigation = mode !== 'create'
+  const drawerTitle = mode === 'create' ? 'Add Class' : row ? `#${row.id}` : ''
 
   return (
     <Drawer state={drawerState}>
       <Drawer.Backdrop variant="transparent">
         <Drawer.Content placement="right">
-          <Drawer.Dialog className="flex h-full w-full max-w-[420px] flex-col bg-white">
-            <Drawer.Header className="sticky top-0 z-10 border-b border-[#e8edf6] bg-white py-4">
+          <Drawer.Dialog className="flex h-full w-full max-w-[420px] flex-col bg-black/5 backdrop-blur-2xl">
+            <Drawer.Header className="sticky top-0 z-10 border-b border-[#e8edf6] py-4">
               <div className="flex w-full items-center justify-between gap-3">
-                <Button
-                  isIconOnly
-                  aria-label="Close class drawer"
-                  variant="ghost"
-                  onPress={onClose}>
-                  <Icon icon="lucide:chevrons-right" width={24} />
-                </Button>
+                <div className="flex min-w-0 items-center gap-2">
+                  <Button
+                    isIconOnly
+                    aria-label="Close class drawer"
+                    variant="ghost"
+                    onPress={onClose}>
+                    <Icon icon="lucide:chevrons-right" width={24} />
+                  </Button>
+                  <span className="truncate text-lg font-semibold text-[#111827]">
+                    {drawerTitle}
+                  </span>
+                  {row && (
+                    <Tooltip delay={0}>
+                      <Tooltip.Trigger>
+                        <Button
+                          isIconOnly
+                          aria-label={`Copy ID ${row.id}`}
+                          variant="ghost"
+                          onPress={() => onCopyId(row)}>
+                          <Icon icon="lucide:copy" width={16} />
+                        </Button>
+                      </Tooltip.Trigger>
+                      <Tooltip.Content>Copy ID</Tooltip.Content>
+                    </Tooltip>
+                  )}
+                </div>
 
-                <div className="flex min-w-0 flex-1 items-center gap-2">
+                <div className="flex shrink-0 items-center gap-2">
                   {row && (
                     <>
+                      <Tooltip delay={0}>
+                        <Tooltip.Trigger>
+                          <Button
+                            isIconOnly
+                            aria-label={`Copy URL for ${row.id}`}
+                            variant="secondary"
+                            onPress={() => onCopyLink(row)}>
+                            <Icon icon="lucide:link" width={16} />
+                          </Button>
+                        </Tooltip.Trigger>
+                        <Tooltip.Content>Copy URL</Tooltip.Content>
+                      </Tooltip>
+                      <Tooltip delay={0}>
+                        <Tooltip.Trigger>
+                          <Button
+                            isIconOnly
+                            aria-label={`Open ${row.id}`}
+                            variant="secondary"
+                            onPress={() => onOpenPage(row)}>
+                            <Icon icon="lucide:arrow-up-right" width={16} />
+                          </Button>
+                        </Tooltip.Trigger>
+                        <Tooltip.Content>Copy URL</Tooltip.Content>
+                      </Tooltip>
+                    </>
+                  )}
+
+                  {showNavigation && (
+                    <>
                       <Button
+                        isIconOnly
+                        aria-label="Next class"
+                        isDisabled={!canGoNext}
                         variant="secondary"
-                        onPress={() => onCopyLink(row)}>
-                        <Icon icon="lucide:copy" width={16} />
-                        Copy
+                        onPress={onGoNext}>
+                        <Icon icon="lucide:chevron-up" width={18} />
                       </Button>
                       <Button
+                        isIconOnly
+                        aria-label="Previous class"
+                        isDisabled={!canGoPrevious}
                         variant="secondary"
-                        onPress={() => onOpenPage(row)}>
-                        Open
-                        <Icon icon="lucide:arrow-up-right" width={16} />
+                        onPress={onGoPrevious}>
+                        <Icon icon="lucide:chevron-down" width={18} />
                       </Button>
                     </>
                   )}
                 </div>
-
-                {showNavigation && (
-                  <div className="flex items-center gap-2">
-                    <Button
-                      isIconOnly
-                      aria-label="Next class"
-                      isDisabled={!canGoNext}
-                      variant="secondary"
-                      onPress={onGoNext}>
-                      <Icon icon="lucide:chevron-up" width={18} />
-                    </Button>
-                    <Button
-                      isIconOnly
-                      aria-label="Previous class"
-                      isDisabled={!canGoPrevious}
-                      variant="secondary"
-                      onPress={onGoPrevious}>
-                      <Icon icon="lucide:chevron-down" width={18} />
-                    </Button>
-                  </div>
-                )}
               </div>
             </Drawer.Header>
 
@@ -1236,7 +1490,7 @@ function ClassDrawer({
               )}
             </Drawer.Body>
 
-            <Drawer.Footer className="sticky bottom-0 border-t border-[#e8edf6] bg-white py-4">
+            <Drawer.Footer className="sticky bottom-0 border-t border-[#e8edf6] py-4">
               {isFormMode ? (
                 <div className="flex w-full justify-end gap-3">
                   <Button variant="secondary" onPress={onCancel}>
@@ -1283,7 +1537,6 @@ function ClassForm({
 }) {
   return (
     <div className="space-y-6">
-      <ClassIdentityHeader form={form} mode={mode} row={row} />
       {mode === 'edit' && row && <ClassDetailSummary row={row} />}
 
       <div className="space-y-5">
@@ -1383,30 +1636,6 @@ function ClassForm({
   )
 }
 
-function ClassIdentityHeader({
-  form,
-  mode,
-  row
-}: {
-  form: ClassFormState
-  mode: DrawerMode
-  row: ClassRow | null
-}) {
-  const className = form.className || row?.className || 'New Class'
-  const section = form.section || row?.section || 'Section'
-  const identity = mode === 'create' ? 'create' : row?.id.toLowerCase()
-
-  return (
-    <div className="flex items-center gap-4">
-      <div className="min-w-0">
-        <Drawer.Header className="truncate text-2xl font-semibold text-[#111827]">
-          {className === 'New Class' ? 'Add Class' : `Class ${className}`}
-        </Drawer.Header>
-      </div>
-    </div>
-  )
-}
-
 function ClassDetails({ row }: { row: ClassRow | null }) {
   if (!row) {
     return null
@@ -1414,7 +1643,6 @@ function ClassDetails({ row }: { row: ClassRow | null }) {
 
   return (
     <div className="space-y-8">
-      <ClassIdentityHeader form={rowToForm(row)} mode="view" row={row} />
       <ClassDetailSummary row={row} />
     </div>
   )
@@ -1490,12 +1718,6 @@ function useDisclosure() {
     onClose: state.close,
     onOpenChange: state.setOpen
   }
-}
-
-function getClassInitials(className: string, section: string) {
-  return `${className.charAt(0) || 'C'}${section.charAt(0) || 'S'}`
-    .toUpperCase()
-    .slice(0, 2)
 }
 
 function getClassTags(row: ClassRow) {

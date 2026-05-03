@@ -27,7 +27,7 @@ const tva = tv({
     inline_icon: 'shrink-0',
     search_field: 'hidden w-56 md:block',
     search_icon: 'text-muted-foreground h-4 w-4',
-    primary_label: '!text-inherit',
+    primary_label: 'hidden !text-inherit md:inline',
     dropdown_label: 'flex items-center gap-2',
     sidebar: 'p-2',
     sidebar_collapsed: 'flex justify-center p-2',

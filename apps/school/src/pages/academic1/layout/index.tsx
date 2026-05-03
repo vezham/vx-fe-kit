@@ -1,5 +1,6 @@
 import { Icon } from '@iconify/react'
 import { Outlet } from '@tanstack/react-router'
+import { ReactNode } from 'react'
 
 import { forwardRef } from '@vezham/react-utils'
 import {
@@ -12,7 +13,8 @@ import {
   Separator,
   Surface,
   Tabs,
-  TextField
+  TextField,
+  Tooltip
 } from '@vezham/react/v3'
 
 import { Props, useProps } from './types'
@@ -63,14 +65,18 @@ const AcademicLayoutPage = forwardRef<'div', Props>((props, ref) => {
       <Surface {...getHeaderProps()}>
         <Surface {...getHeaderInnerProps()}>
           <Surface {...getHeaderLeftProps()}>
-            <Button {...getIconButtonProps(headerProps.sidebarToggle)}>
-              <Icon {...getButtonIconProps(headerProps.sidebarToggle.icon)} />
-            </Button>
+            <HeaderIconTooltip label={headerProps.sidebarToggle.label}>
+              <Button {...getIconButtonProps(headerProps.sidebarToggle)}>
+                <Icon {...getButtonIconProps(headerProps.sidebarToggle.icon)} />
+              </Button>
+            </HeaderIconTooltip>
 
             {headerProps.leftActions.map(action => (
-              <Button key={action.key} {...getIconButtonProps(action)}>
-                <Icon {...getButtonIconProps(action.icon)} />
-              </Button>
+              <HeaderIconTooltip key={action.key} label={action.label}>
+                <Button {...getIconButtonProps(action)}>
+                  <Icon {...getButtonIconProps(action.icon)} />
+                </Button>
+              </HeaderIconTooltip>
             ))}
 
             {activeTabs.length ? (
@@ -111,9 +117,13 @@ const AcademicLayoutPage = forwardRef<'div', Props>((props, ref) => {
             ) : null}
 
             {headerProps.refreshAction ? (
-              <Button {...getIconButtonProps(headerProps.refreshAction)}>
-                <Icon {...getButtonIconProps(headerProps.refreshAction.icon)} />
-              </Button>
+              <HeaderIconTooltip label={headerProps.refreshAction.label}>
+                <Button {...getIconButtonProps(headerProps.refreshAction)}>
+                  <Icon
+                    {...getButtonIconProps(headerProps.refreshAction.icon)}
+                  />
+                </Button>
+              </HeaderIconTooltip>
             ) : null}
 
             {headerProps.menuActions.length ? (
@@ -211,14 +221,16 @@ function MoreActions({
   return (
     <Dropdown>
       <Dropdown.Trigger>
-        <Button
-          {...getIconButtonProps({
-            key: 'more',
-            label: 'More actions',
-            icon: 'lucide:more-vertical'
-          })}>
-          <Icon {...getButtonIconProps('lucide:more-vertical')} />
-        </Button>
+        <HeaderIconTooltip label="More">
+          <Button
+            {...getIconButtonProps({
+              key: 'more',
+              label: 'More',
+              icon: 'lucide:more-vertical'
+            })}>
+            <Icon {...getButtonIconProps('lucide:more-vertical')} />
+          </Button>
+        </HeaderIconTooltip>
       </Dropdown.Trigger>
       <Dropdown.Popover>
         <Dropdown.Menu>
@@ -278,6 +290,21 @@ function MoreActions({
         </Dropdown.Menu>
       </Dropdown.Popover>
     </Dropdown>
+  )
+}
+
+function HeaderIconTooltip({
+  children,
+  label
+}: {
+  children: ReactNode
+  label: string
+}) {
+  return (
+    <Tooltip delay={0}>
+      <Tooltip.Trigger>{children}</Tooltip.Trigger>
+      <Tooltip.Content>{label}</Tooltip.Content>
+    </Tooltip>
   )
 }
 
