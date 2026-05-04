@@ -1,4 +1,5 @@
 import { Icon } from '@iconify/react'
+import { useHotkey } from '@tanstack/react-hotkeys'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import {
@@ -67,9 +68,9 @@ import {
 export default function AllClassesPage() {
   const [data, setData] = useState<ClassRow[]>(initialRows)
   const [searchQuery, setSearchQuery] = useState('')
-  const [rowsPerPage, setRowsPerPage] = useState('10')
+  const [rowsPerPage, setRowsPerPage] = useState('5')
   const [page, setPage] = useState(1)
-  const [datePreset, setDatePreset] = useState<DatePresetKey>('last7')
+  const [datePreset, setDatePreset] = useState<DatePresetKey>('last30')
   const [isDateDropdownOpen, setIsDateDropdownOpen] = useState(false)
   const [isCustomDateRangeOpen, setIsCustomDateRangeOpen] = useState(false)
   const [customDateRange, setCustomDateRange] =
@@ -398,44 +399,17 @@ export default function AllClassesPage() {
     })
   }, [activeRowId, currentPage, pageSize, sortedRows])
 
-  useEffect(() => {
-    if (!drawer.isOpen) {
-      return
-    }
+  useHotkey('Meta+/', () => closeDrawer(), {
+    enabled: drawer.isOpen
+  })
 
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (!event.metaKey) {
-        return
-      }
+  useHotkey('Meta+ArrowUp', () => goToNextRow(), {
+    enabled: drawer.isOpen && mode !== 'create'
+  })
 
-      if (mode === 'create') {
-        if (event.key === '/') {
-          event.preventDefault()
-          closeDrawer()
-        }
-
-        return
-      }
-
-      if (event.key === 'ArrowUp') {
-        event.preventDefault()
-        goToNextRow()
-      }
-
-      if (event.key === 'ArrowDown') {
-        event.preventDefault()
-        goToPreviousRow()
-      }
-
-      if (event.key === '/') {
-        event.preventDefault()
-        closeDrawer()
-      }
-    }
-
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [closeDrawer, drawer.isOpen, goToNextRow, goToPreviousRow, mode])
+  useHotkey('Meta+ArrowDown', () => goToPreviousRow(), {
+    enabled: drawer.isOpen && mode !== 'create'
+  })
 
   const updateDatePreset = (key: DatePresetKey) => {
     setDatePreset(key)

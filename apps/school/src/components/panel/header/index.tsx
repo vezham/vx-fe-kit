@@ -42,7 +42,7 @@ export default function Header({
     setTimeout(() => setShowAlert(false), 2000)
   }, [onSearchClick])
 
-  useHotkey('Control+K', () => {
+  useHotkey('Mod+K', () => {
     handleSearch()
   })
 

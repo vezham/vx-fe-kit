@@ -1,6 +1,7 @@
+import { useHotkey } from '@tanstack/react-hotkeys'
 import { useLocation, useNavigate } from '@tanstack/react-router'
 import { Key } from 'react'
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 
 import { ReactRef, useDOMRef } from '@vezham/react-utils'
 import {
@@ -116,27 +117,35 @@ const useProps = (originalProps: Props) => {
       location.pathname.startsWith(`${item.href}/`)
   }))
 
-  const onToggleSidebar = () => {
+  const onToggleSidebar = useCallback(() => {
     if (window.matchMedia('(min-width: 768px)').matches) {
       setCollapsed(isCollapsed => !isCollapsed)
     } else {
       setIsSidebarOpen(true)
     }
-  }
-
-  useEffect(() => {
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key !== '\\' || (!event.metaKey && !event.ctrlKey)) {
-        return
-      }
-
-      event.preventDefault()
-      onToggleSidebar()
-    }
-
-    window.addEventListener('keydown', onKeyDown)
-    return () => window.removeEventListener('keydown', onKeyDown)
   }, [])
+
+  const backAction = resolvedLeftActions.find(action => action.key === 'back')
+  const forwardAction = resolvedLeftActions.find(
+    action => action.key === 'forward'
+  )
+  const refreshAction = visibleRightActions.find(
+    action => action.kind === 'refresh'
+  )
+
+  useHotkey('Meta+ArrowLeft', () => backAction?.onAction?.(), {
+    enabled: Boolean(backAction?.onAction)
+  })
+
+  useHotkey('Meta+ArrowRight', () => forwardAction?.onAction?.(), {
+    enabled: Boolean(forwardAction?.onAction)
+  })
+
+  useHotkey('Meta+R', () => refreshAction?.onAction?.(), {
+    enabled: Boolean(refreshAction?.onAction)
+  })
+
+  useHotkey('Meta+\\', () => onToggleSidebar())
 
   const onSidebarAction = (key: Key, onNavigate?: () => void) => {
     const item = sidebarItems.find(sidebarItem => sidebarItem.key === key)
@@ -372,9 +381,7 @@ const useProps = (originalProps: Props) => {
       primaryAction: visibleRightActions.find(
         action => action.kind === 'primary'
       ),
-      refreshAction: visibleRightActions.find(
-        action => action.kind === 'refresh'
-      ),
+      refreshAction,
       menuActions: visibleRightActions.filter(action => action.kind === 'menu'),
       sidebarToggle: {
         key: 'sidebar-toggle',
