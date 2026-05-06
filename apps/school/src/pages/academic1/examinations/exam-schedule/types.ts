@@ -10,6 +10,9 @@ export type ToastState = {
 
 export type ClassRow = {
   id: string
+  classes: string
+  section: string
+  examName: string
   subject: string
   date: string
   starttime: string
@@ -21,6 +24,15 @@ export type ClassRow = {
   status: ClassStatus
   createdAt: string
   viewedAt: string
+}
+
+export type ExamScheduleItem = {
+  id: string
+  date: string
+  subject: string
+  classroom: string
+  maximum: string
+  minimum: string
 }
 
 export type DatePresetKey =
@@ -54,6 +66,9 @@ export type FilterDraft = {
 }
 
 export type ClassFormState = {
+  classes: string
+  section: string
+  examName: string
   subject: string
   date: string
   starttime: string
@@ -63,11 +78,15 @@ export type ClassFormState = {
   maximum: string
   minimum: string
   status: ClassStatus
+  scheduleRows: ExamScheduleItem[]
 }
 
 export type ClassFormErrors = Partial<
   Record<
     | 'subject'
+    | 'classes'
+    | 'section'
+    | 'examName'
     | 'date'
     | 'duration'
     | 'classroom'
@@ -75,7 +94,8 @@ export type ClassFormErrors = Partial<
     | 'minimum'
     | 'starttime'
     | 'endtime'
-    | 'status',
+    | 'status'
+    | 'scheduleRows',
     string
   >
 >
@@ -102,7 +122,10 @@ export type ClassDrawerProps = {
   onCopyId: (row: ClassRow) => void
   onCopyLink: (row: ClassRow) => void
   onEdit: () => void
-  onFormChange: (field: keyof ClassFormState, value: string) => void
+  onFormChange: <K extends keyof ClassFormState>(
+    field: K,
+    value: ClassFormState[K]
+  ) => void
   onGoNext: () => void
   onGoPrevious: () => void
   onOpenPage: (row: ClassRow) => void
@@ -114,7 +137,10 @@ export type ClassFormProps = {
   formErrors: ClassFormErrors
   mode: DrawerMode
   row: ClassRow | null
-  onFormChange: (field: keyof ClassFormState, value: string) => void
+  onFormChange: <K extends keyof ClassFormState>(
+    field: K,
+    value: ClassFormState[K]
+  ) => void
 }
 
 export type ClassDetailsProps = {

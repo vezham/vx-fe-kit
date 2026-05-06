@@ -12,6 +12,7 @@ import {
   DateRangePicker,
   Drawer,
   Dropdown,
+  Input,
   Label,
   ListBox,
   Pagination,
@@ -1530,63 +1531,35 @@ function ClassForm({
           )}
         </div>
 
-        <Select
-          fullWidth
-          aria-label="Start time"
-          aria-invalid={Boolean(formErrors.starttime)}
-          placeholder="Select start time"
-          value={form.starttime || null}
-          onChange={value =>
-            onFormChange('starttime', value ? String(value) : '')
-          }>
+        <div className={classNames.field}>
           <Label className={classNames.fieldLabel}>Start Time</Label>
-          <Select.Trigger>
-            <Select.Value />
-            <Select.Indicator />
-          </Select.Trigger>
-          <Select.Popover>
-            <ListBox>
-              {starttimeOptions.map(option => (
-                <ListBox.Item key={option} id={option} textValue={option}>
-                  {option}
-                  <ListBox.ItemIndicator />
-                </ListBox.Item>
-              ))}
-            </ListBox>
-          </Select.Popover>
-        </Select>
-        {formErrors.starttime && (
-          <p className={classNames.selectError}>{formErrors.starttime}</p>
-        )}
+          <Input
+            fullWidth
+            aria-label="Start time"
+            aria-invalid={Boolean(formErrors.starttime)}
+            type="time"
+            value={form.starttime}
+            onChange={event => onFormChange('starttime', event.target.value)}
+          />
+          {formErrors.starttime && (
+            <p className={classNames.fieldError}>{formErrors.starttime}</p>
+          )}
+        </div>
 
-        <Select
-          fullWidth
-          aria-label="End time"
-          aria-invalid={Boolean(formErrors.endtime)}
-          placeholder="Select end time"
-          value={form.endtime || null}
-          onChange={value =>
-            onFormChange('endtime', value ? String(value) : '')
-          }>
+        <div className={classNames.field}>
           <Label className={classNames.fieldLabel}>End Time</Label>
-          <Select.Trigger>
-            <Select.Value />
-            <Select.Indicator />
-          </Select.Trigger>
-          <Select.Popover>
-            <ListBox>
-              {endtimeOptions.map(option => (
-                <ListBox.Item key={option} id={option} textValue={option}>
-                  {option}
-                  <ListBox.ItemIndicator />
-                </ListBox.Item>
-              ))}
-            </ListBox>
-          </Select.Popover>
-        </Select>
-        {formErrors.endtime && (
-          <p className={classNames.selectError}>{formErrors.endtime}</p>
-        )}
+          <Input
+            fullWidth
+            aria-label="End time"
+            aria-invalid={Boolean(formErrors.endtime)}
+            type="time"
+            value={form.endtime}
+            onChange={event => onFormChange('endtime', event.target.value)}
+          />
+          {formErrors.endtime && (
+            <p className={classNames.fieldError}>{formErrors.endtime}</p>
+          )}
+        </div>
 
         <div className={classNames.field}>
           <Select

@@ -12,6 +12,7 @@ import {
   DateRangePicker,
   Drawer,
   Dropdown,
+  Input,
   Label,
   ListBox,
   Pagination,
@@ -28,9 +29,10 @@ import {
 import {
   classOptions,
   dateOptions,
-  dayOptions,
+  durationOptions,
   emptyForm,
   endtimeOptions,
+  examOptions,
   examdateOptions,
   initialRows,
   roomOptions,
@@ -38,7 +40,8 @@ import {
   sectionOptions,
   sortOptions,
   starttimeOptions,
-  statusOptions
+  statusOptions,
+  subjectOptions
 } from './data'
 import type {
   ClassDetailSummaryProps,
@@ -505,7 +508,10 @@ export default function AllClassesPage() {
     setPage(1)
   }
 
-  const updateForm = (field: keyof ClassFormState, value: string) => {
+  const updateForm = <K extends keyof ClassFormState>(
+    field: K,
+    value: ClassFormState[K]
+  ) => {
     setForm(current => ({ ...current, [field]: value }))
     setFormErrors(current => ({ ...current, [field]: undefined }))
   }
@@ -517,6 +523,9 @@ export default function AllClassesPage() {
     const subject = form.subject.trim()
     const duration = form.duration.trim()
     const classroom = form.classroom.trim()
+    const classes = form.classes.trim()
+    const section = form.section.trim()
+    const examName = form.examName.trim()
     const starttime = form.starttime
     const endtime = form.endtime
 
@@ -528,22 +537,31 @@ export default function AllClassesPage() {
     }
 
     if (mode === 'create') {
-      const newRow: ClassRow = {
-        id: createNextClassId(data),
-        date,
+      const now = toISODate(new Date())
+      const nextNumber =
+        Math.max(
+          0,
+          ...data.map(row => Number(row.id.replace(/\D/g, '')) || 0)
+        ) + 1
+      const newRows = form.scheduleRows.map((scheduleRow, index) => ({
+        id: `C${String(nextNumber + index).padStart(6, '0')}`,
+        classes,
+        section,
+        examName,
+        date: scheduleRow.date.trim(),
         duration,
-        subject,
-        maximum,
-        minimum,
-        classroom,
+        subject: scheduleRow.subject.trim(),
+        maximum: scheduleRow.maximum.trim(),
+        minimum: scheduleRow.minimum.trim(),
+        classroom: scheduleRow.classroom.trim(),
         starttime,
         endtime,
         status: form.status,
-        createdAt: toISODate(new Date()),
-        viewedAt: toISODate(new Date())
-      }
+        createdAt: now,
+        viewedAt: now
+      }))
 
-      setData(current => [newRow, ...current])
+      setData(current => [...newRows, ...current])
       setForm(emptyForm)
       setActiveRowId(null)
       setMode('view')
@@ -558,6 +576,9 @@ export default function AllClassesPage() {
 
     const updatedRow: ClassRow = {
       ...selectedRow,
+      classes,
+      section,
+      examName,
       date,
       maximum,
       subject,
@@ -1172,7 +1193,7 @@ function ClassDrawer({
   const isFormMode = mode === 'create' || mode === 'edit'
   const showNavigation = mode !== 'create'
   const drawerTitle =
-    mode === 'create' ? 'Add Schedule' : row ? `#${row.id}` : ''
+    mode === 'create' ? 'Add Exam Schedule' : row ? `#${row.id}` : ''
 
   return (
     <Drawer state={drawerState}>
@@ -1281,7 +1302,7 @@ function ClassDrawer({
                     Cancel
                   </Button>
                   <Button onPress={onSave}>
-                    {mode === 'create' ? 'Add Schedule' : 'Save'}
+                    {mode === 'create' ? 'Add Exam Schedule' : 'Save'}
                   </Button>
                 </div>
               ) : (
@@ -1313,48 +1334,61 @@ function ClassForm({
   row,
   onFormChange
 }: ClassFormProps) {
+  const scheduleRows = form.scheduleRows.length
+    ? form.scheduleRows
+    : emptyForm.scheduleRows
+
+  const updateScheduleRow = (
+    rowId: string,
+    field: keyof (typeof scheduleRows)[number],
+    value: string
+  ) => {
+    onFormChange(
+      'scheduleRows',
+      scheduleRows.map(scheduleRow =>
+        scheduleRow.id === rowId
+          ? { ...scheduleRow, [field]: value }
+          : scheduleRow
+      )
+    )
+  }
+
+  const addScheduleRow = () => {
+    onFormChange('scheduleRows', [
+      ...scheduleRows,
+      {
+        id: `schedule-row-${Date.now()}`,
+        date: '',
+        subject: '',
+        classroom: '',
+        maximum: '',
+        minimum: ''
+      }
+    ])
+  }
+
+  const deleteScheduleRow = (rowId: string) => {
+    if (scheduleRows.length === 1) {
+      return
+    }
+
+    onFormChange(
+      'scheduleRows',
+      scheduleRows.filter(scheduleRow => scheduleRow.id !== rowId)
+    )
+  }
+
   return (
     <div className={classNames.form}>
       {mode === 'edit' && row && <ClassDetailSummary row={row} />}
 
       <div className={classNames.formFields}>
-        <div className={classNames.field}>
+        <div className={classNames.scheduleTopGrid}>
           <Select
             fullWidth
-            aria-label="Teacher"
-            aria-invalid={Boolean(formErrors.teacher)}
-            placeholder="Select teacher"
-            value={form.teacher || null}
-            onChange={value =>
-              onFormChange('teacher', value ? String(value) : '')
-            }>
-            <Label className={classNames.fieldLabel}>Teacher</Label>
-            <Select.Trigger>
-              <Select.Value />
-              <Select.Indicator />
-            </Select.Trigger>
-            <Select.Popover>
-              <ListBox>
-                {teacherOptions.map(option => (
-                  <ListBox.Item key={option} id={option} textValue={option}>
-                    {option}
-                    <ListBox.ItemIndicator />
-                  </ListBox.Item>
-                ))}
-              </ListBox>
-            </Select.Popover>
-          </Select>
-          {formErrors.teacher && (
-            <p className={classNames.fieldError}>{formErrors.teacher}</p>
-          )}
-        </div>
-
-        <div className={classNames.field}>
-          <Select
-            fullWidth
-            aria-label="classes"
+            aria-label="Class"
             aria-invalid={Boolean(formErrors.classes)}
-            placeholder="Select classes"
+            placeholder="Select class"
             value={form.classes || null}
             onChange={value =>
               onFormChange('classes', value ? String(value) : '')
@@ -1378,12 +1412,10 @@ function ClassForm({
           {formErrors.classes && (
             <p className={classNames.fieldError}>{formErrors.classes}</p>
           )}
-        </div>
 
-        <div className={classNames.field}>
           <Select
             fullWidth
-            aria-label="section"
+            aria-label="Section"
             aria-invalid={Boolean(formErrors.section)}
             placeholder="Select section"
             value={form.section || null}
@@ -1409,113 +1441,24 @@ function ClassForm({
           {formErrors.section && (
             <p className={classNames.fieldError}>{formErrors.section}</p>
           )}
-        </div>
 
-        <div className={classNames.field}>
           <Select
             fullWidth
-            aria-label="day"
-            aria-invalid={Boolean(formErrors.day)}
-            placeholder="Select day"
-            value={form.day || null}
-            onChange={value => onFormChange('day', value ? String(value) : '')}>
-            <Label className={classNames.fieldLabel}>Day</Label>
-            <Select.Trigger>
-              <Select.Value />
-              <Select.Indicator />
-            </Select.Trigger>
-            <Select.Popover>
-              <ListBox>
-                {dayOptions.map(option => (
-                  <ListBox.Item key={option} id={option} textValue={option}>
-                    {option}
-                    <ListBox.ItemIndicator />
-                  </ListBox.Item>
-                ))}
-              </ListBox>
-            </Select.Popover>
-          </Select>
-          {formErrors.day && (
-            <p className={classNames.fieldError}>{formErrors.day}</p>
-          )}
-        </div>
-
-        <Select
-          fullWidth
-          aria-label="Start time"
-          aria-invalid={Boolean(formErrors.starttime)}
-          placeholder="Select start time"
-          value={form.starttime || null}
-          onChange={value =>
-            onFormChange('starttime', value ? String(value) : '')
-          }>
-          <Label className={classNames.fieldLabel}>Start Time</Label>
-          <Select.Trigger>
-            <Select.Value />
-            <Select.Indicator />
-          </Select.Trigger>
-          <Select.Popover>
-            <ListBox>
-              {starttimeOptions.map(option => (
-                <ListBox.Item key={option} id={option} textValue={option}>
-                  {option}
-                  <ListBox.ItemIndicator />
-                </ListBox.Item>
-              ))}
-            </ListBox>
-          </Select.Popover>
-        </Select>
-        {formErrors.starttime && (
-          <p className={classNames.selectError}>{formErrors.starttime}</p>
-        )}
-
-        <Select
-          fullWidth
-          aria-label="End time"
-          aria-invalid={Boolean(formErrors.endtime)}
-          placeholder="Select end time"
-          value={form.endtime || null}
-          onChange={value =>
-            onFormChange('endtime', value ? String(value) : '')
-          }>
-          <Label className={classNames.fieldLabel}>End Time</Label>
-          <Select.Trigger>
-            <Select.Value />
-            <Select.Indicator />
-          </Select.Trigger>
-          <Select.Popover>
-            <ListBox>
-              {endtimeOptions.map(option => (
-                <ListBox.Item key={option} id={option} textValue={option}>
-                  {option}
-                  <ListBox.ItemIndicator />
-                </ListBox.Item>
-              ))}
-            </ListBox>
-          </Select.Popover>
-        </Select>
-        {formErrors.endtime && (
-          <p className={classNames.selectError}>{formErrors.endtime}</p>
-        )}
-
-        <div className={classNames.field}>
-          <Select
-            fullWidth
-            aria-label="classroom"
-            aria-invalid={Boolean(formErrors.classroom)}
-            placeholder="Select classroom"
-            value={form.classroom || null}
+            aria-label="Exam name"
+            aria-invalid={Boolean(formErrors.examName)}
+            placeholder="Select exam name"
+            value={form.examName || null}
             onChange={value =>
-              onFormChange('classroom', value ? String(value) : '')
+              onFormChange('examName', value ? String(value) : '')
             }>
-            <Label className={classNames.fieldLabel}>Class Room</Label>
+            <Label className={classNames.fieldLabel}>Exam Name</Label>
             <Select.Trigger>
               <Select.Value />
               <Select.Indicator />
             </Select.Trigger>
             <Select.Popover>
               <ListBox>
-                {roomOptions.map(option => (
+                {examOptions.map(option => (
                   <ListBox.Item key={option} id={option} textValue={option}>
                     {option}
                     <ListBox.ItemIndicator />
@@ -1524,9 +1467,216 @@ function ClassForm({
               </ListBox>
             </Select.Popover>
           </Select>
-          {formErrors.classroom && (
-            <p className={classNames.fieldError}>{formErrors.classroom}</p>
+          {formErrors.examName && (
+            <p className={classNames.fieldError}>{formErrors.examName}</p>
           )}
+
+          <div className={classNames.field}>
+            <Label className={classNames.fieldLabel}>Start Time</Label>
+            <Input
+              fullWidth
+              aria-label="Start time"
+              aria-invalid={Boolean(formErrors.starttime)}
+              type="time"
+              value={form.starttime}
+              onChange={event => onFormChange('starttime', event.target.value)}
+            />
+            {formErrors.starttime && (
+              <p className={classNames.fieldError}>{formErrors.starttime}</p>
+            )}
+          </div>
+
+          <div className={classNames.field}>
+            <Label className={classNames.fieldLabel}>End Time</Label>
+            <Input
+              fullWidth
+              aria-label="End time"
+              aria-invalid={Boolean(formErrors.endtime)}
+              type="time"
+              value={form.endtime}
+              onChange={event => onFormChange('endtime', event.target.value)}
+            />
+            {formErrors.endtime && (
+              <p className={classNames.fieldError}>{formErrors.endtime}</p>
+            )}
+          </div>
+
+          <Select
+            fullWidth
+            aria-label="Duration"
+            aria-invalid={Boolean(formErrors.duration)}
+            placeholder="Select duration"
+            value={form.duration || null}
+            onChange={value =>
+              onFormChange('duration', value ? String(value) : '')
+            }>
+            <Label className={classNames.fieldLabel}>Duration(min)</Label>
+            <Select.Trigger>
+              <Select.Value />
+              <Select.Indicator />
+            </Select.Trigger>
+            <Select.Popover>
+              <ListBox>
+                {durationOptions.map(option => (
+                  <ListBox.Item key={option} id={option} textValue={option}>
+                    {option}
+                    <ListBox.ItemIndicator />
+                  </ListBox.Item>
+                ))}
+              </ListBox>
+            </Select.Popover>
+          </Select>
+          {formErrors.duration && (
+            <p className={classNames.fieldError}>{formErrors.duration}</p>
+          )}
+        </div>
+
+        <div className={classNames.scheduleRows}>
+          {scheduleRows.map((scheduleRow, index) => (
+            <div key={scheduleRow.id} className={classNames.scheduleRow}>
+              <Select
+                fullWidth
+                aria-label={`Exam date ${index + 1}`}
+                placeholder="Select"
+                value={scheduleRow.date || null}
+                onChange={value =>
+                  updateScheduleRow(
+                    scheduleRow.id,
+                    'date',
+                    value ? String(value) : ''
+                  )
+                }>
+                <Label className={classNames.fieldLabel}>Exam Date</Label>
+                <Select.Trigger>
+                  <Select.Value />
+                  <Select.Indicator />
+                </Select.Trigger>
+                <Select.Popover>
+                  <ListBox>
+                    {examdateOptions.map(option => (
+                      <ListBox.Item key={option} id={option} textValue={option}>
+                        {option}
+                        <ListBox.ItemIndicator />
+                      </ListBox.Item>
+                    ))}
+                  </ListBox>
+                </Select.Popover>
+              </Select>
+
+              <Select
+                fullWidth
+                aria-label={`Subject ${index + 1}`}
+                placeholder="Select"
+                value={scheduleRow.subject || null}
+                onChange={value =>
+                  updateScheduleRow(
+                    scheduleRow.id,
+                    'subject',
+                    value ? String(value) : ''
+                  )
+                }>
+                <Label className={classNames.fieldLabel}>Subject</Label>
+                <Select.Trigger>
+                  <Select.Value />
+                  <Select.Indicator />
+                </Select.Trigger>
+                <Select.Popover>
+                  <ListBox>
+                    {subjectOptions.map(option => (
+                      <ListBox.Item key={option} id={option} textValue={option}>
+                        {option}
+                        <ListBox.ItemIndicator />
+                      </ListBox.Item>
+                    ))}
+                  </ListBox>
+                </Select.Popover>
+              </Select>
+
+              <Select
+                fullWidth
+                aria-label={`Room number ${index + 1}`}
+                placeholder="Select"
+                value={scheduleRow.classroom || null}
+                onChange={value =>
+                  updateScheduleRow(
+                    scheduleRow.id,
+                    'classroom',
+                    value ? String(value) : ''
+                  )
+                }>
+                <Label className={classNames.fieldLabel}>Room No</Label>
+                <Select.Trigger>
+                  <Select.Value />
+                  <Select.Indicator />
+                </Select.Trigger>
+                <Select.Popover>
+                  <ListBox>
+                    {roomOptions.map(option => (
+                      <ListBox.Item key={option} id={option} textValue={option}>
+                        {option}
+                        <ListBox.ItemIndicator />
+                      </ListBox.Item>
+                    ))}
+                  </ListBox>
+                </Select.Popover>
+              </Select>
+
+              <div className={classNames.field}>
+                <Label className={classNames.fieldLabel}>Max Marks</Label>
+                <Input
+                  fullWidth
+                  aria-label={`Max marks ${index + 1}`}
+                  placeholder="Select"
+                  value={scheduleRow.maximum}
+                  onChange={event =>
+                    updateScheduleRow(
+                      scheduleRow.id,
+                      'maximum',
+                      event.target.value
+                    )
+                  }
+                />
+              </div>
+
+              <div className={classNames.field}>
+                <Label className={classNames.fieldLabel}>Min Marks</Label>
+                <Input
+                  fullWidth
+                  aria-label={`Min marks ${index + 1}`}
+                  placeholder="Select"
+                  value={scheduleRow.minimum}
+                  onChange={event =>
+                    updateScheduleRow(
+                      scheduleRow.id,
+                      'minimum',
+                      event.target.value
+                    )
+                  }
+                />
+              </div>
+
+              <Button
+                isIconOnly
+                aria-label={`Delete schedule row ${index + 1}`}
+                className={classNames.scheduleDeleteButton}
+                isDisabled={scheduleRows.length === 1}
+                variant="secondary"
+                onPress={() => deleteScheduleRow(scheduleRow.id)}>
+                <Icon icon="lucide:trash-2" width={18} />
+              </Button>
+            </div>
+          ))}
+        </div>
+
+        {formErrors.scheduleRows && (
+          <p className={classNames.fieldError}>{formErrors.scheduleRows}</p>
+        )}
+
+        <div>
+          <Button onPress={addScheduleRow}>
+            <Icon icon="lucide:plus-circle" width={16} />
+            Add New
+          </Button>
         </div>
       </div>
 
@@ -1581,11 +1731,15 @@ function ClassDetailSummary({ row }: ClassDetailSummaryProps) {
     <div className={classNames.detailSummary}>
       <DetailLine label="Class" value={row.classes} />
       <DetailLine label="Section" value={row.section} />
-      <DetailLine label="Teacher" value={row.teacher} />
-      <DetailLine label="Day" value={row.day} />
+      <DetailLine label="Exam Name" value={row.examName} />
+      <DetailLine label="Exam Date" value={row.date} />
+      <DetailLine label="Subject" value={row.subject} />
       <DetailLine label="Start Time" value={row.starttime} />
       <DetailLine label="End Time" value={row.endtime} />
-      <DetailLine label="Class Room" value={row.classroom} />
+      <DetailLine label="Duration" value={row.duration} />
+      <DetailLine label="Room No" value={row.classroom} />
+      <DetailLine label="Max Marks" value={row.maximum} />
+      <DetailLine label="Min Marks" value={row.minimum} />
 
       <div className={classNames.detailChipRow}>
         <span className={classNames.detailHeading}>Status:</span>
@@ -1637,11 +1791,10 @@ function SortableHeader({ children, sortDirection }: SortableHeaderProps) {
 function getClassTags(row: ClassRow) {
   return [
     `Grade ${row.classes}`,
-    `Grade ${row.section}`,
-    `Grade ${row.teacher}`,
-    `Grade ${row.subject}`,
-    `Grade ${row.day}`,
-    `Grade ${row.classroom}`,
+    `Section ${row.section}`,
+    row.examName,
+    row.subject,
+    `Room ${row.classroom}`,
     row.status
   ]
 }
@@ -1683,13 +1836,26 @@ function rowToForm(row: ClassRow): ClassFormState {
   return {
     classes: row.classes,
     section: row.section,
-    teacher: row.teacher,
+    examName: row.examName,
     subject: row.subject,
-    day: row.day,
+    date: row.date,
     starttime: row.starttime,
     endtime: row.endtime,
+    duration: row.duration,
     classroom: row.classroom,
-    status: row.status
+    maximum: row.maximum,
+    minimum: row.minimum,
+    status: row.status,
+    scheduleRows: [
+      {
+        id: `${row.id}-schedule`,
+        date: row.date,
+        subject: row.subject,
+        classroom: row.classroom,
+        maximum: row.maximum,
+        minimum: row.minimum
+      }
+    ]
   }
 }
 
@@ -1704,19 +1870,26 @@ function validateClassForm(form: ClassFormState) {
     errors.section = 'Section is required.'
   }
 
-  if (!form.teacher.trim()) {
-    errors.teacher = 'Teacher is required.'
+  if (!form.examName.trim()) {
+    errors.examName = 'Exam name is required.'
   }
 
-  if (!form.subject.trim()) {
-    errors.subject = 'Subject is required.'
+  if (!form.duration.trim()) {
+    errors.duration = 'Duration is required.'
   }
 
-  if (!form.day.trim()) {
-    errors.day = 'Day is required.'
-  }
-  if (!form.classroom.trim()) {
-    errors.classroom = 'Class Room is required.'
+  if (
+    !form.scheduleRows.length ||
+    form.scheduleRows.some(
+      scheduleRow =>
+        !scheduleRow.date.trim() ||
+        !scheduleRow.subject.trim() ||
+        !scheduleRow.classroom.trim() ||
+        !scheduleRow.maximum.trim() ||
+        !scheduleRow.minimum.trim()
+    )
+  ) {
+    errors.scheduleRows = 'Complete every exam schedule row.'
   }
 
   if (!form.starttime.trim()) {
@@ -1794,6 +1967,13 @@ function formatNumericDate(value: string) {
 }
 
 function parseTimeOption(value: string) {
+  const timeInputMatch = value.match(/^(\d{2}):(\d{2})$/)
+
+  if (timeInputMatch) {
+    const [, hourValue, minuteValue] = timeInputMatch
+    return Number(hourValue) * 60 + Number(minuteValue)
+  }
+
   const match = value.match(/^(\d{2})\.(\d{2})\s(AM|PM)$/)
 
   if (!match) {

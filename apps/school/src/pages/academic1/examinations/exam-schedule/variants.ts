@@ -28,7 +28,7 @@ export const classNames = {
   filterTitle: 'text-lg font-semibold',
   filterActions: 'flex justify-end gap-2',
   drawerDialog:
-    'flex h-full w-full max-w-[420px] flex-col bg-black/5 backdrop-blur-2xl',
+    'flex h-full w-full max-w-[960px] flex-col bg-black/5 backdrop-blur-2xl',
   drawerHeader: 'sticky top-0 z-10 border-b border-[#e8edf6] py-4',
   drawerHeaderRow: 'flex w-full items-center justify-between gap-3',
   drawerTitleGroup: 'flex min-w-0 items-center gap-2',
@@ -41,6 +41,11 @@ export const classNames = {
   flexOne: 'flex-1',
   form: 'space-y-6',
   formFields: 'space-y-5',
+  scheduleTopGrid: 'grid gap-5 md:grid-cols-2 xl:grid-cols-3',
+  scheduleRows: 'space-y-5 border-t border-[#e8edf6] pt-5',
+  scheduleRow:
+    'grid items-end gap-4 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_52px]',
+  scheduleDeleteButton: 'text-danger bg-danger/10 hover:bg-danger/15',
   field: 'space-y-2',
   fieldLabel: 'font-bold text-[#111827]',
   fieldError: 'text-danger text-sm',

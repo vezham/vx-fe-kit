@@ -10,6 +10,9 @@ import type {
 export const initialRows: ClassRow[] = [
   {
     id: 'RT167648',
+    classes: 'I',
+    section: 'A',
+    examName: 'Monthly Test',
     starttime: '09.30 AM',
     endtime: '10.45 PM',
     status: 'Active',
@@ -24,6 +27,9 @@ export const initialRows: ClassRow[] = [
   },
   {
     id: 'RT167647',
+    classes: 'I',
+    section: 'B',
+    examName: 'Monthly Test',
     starttime: '10.45 AM',
     endtime: '12.00 PM',
     status: 'Active',
@@ -38,6 +44,9 @@ export const initialRows: ClassRow[] = [
   },
   {
     id: 'RT167646',
+    classes: 'II',
+    section: 'A',
+    examName: 'Monthly Test',
     starttime: '12.00 AM',
     endtime: '01.15 PM',
     status: 'Active',
@@ -53,6 +62,9 @@ export const initialRows: ClassRow[] = [
   },
   {
     id: 'RT167645',
+    classes: 'II',
+    section: 'B',
+    examName: 'Unit Test',
     starttime: '01.15 PM',
     endtime: '02.30 PM',
     status: 'Active',
@@ -67,6 +79,9 @@ export const initialRows: ClassRow[] = [
   },
   {
     id: 'RT167644',
+    classes: 'II',
+    section: 'C',
+    examName: 'Unit Test',
     starttime: '02.30 PM',
     endtime: '03.45 PM',
     status: 'Inactive',
@@ -81,6 +96,9 @@ export const initialRows: ClassRow[] = [
   },
   {
     id: 'RT167643',
+    classes: 'III',
+    section: 'A',
+    examName: 'Unit Test',
 
     starttime: '03.45 PM',
     endtime: '05.00 PM',
@@ -96,6 +114,9 @@ export const initialRows: ClassRow[] = [
   },
   {
     id: 'RT167642',
+    classes: 'III',
+    section: 'B',
+    examName: 'Annual Exam',
 
     starttime: '09.30 AM',
     endtime: '10.45 PM',
@@ -111,6 +132,9 @@ export const initialRows: ClassRow[] = [
   },
   {
     id: 'RT167641',
+    classes: 'IV',
+    section: 'A',
+    examName: 'Annual Exam',
     starttime: '10.45 AM',
     endtime: '12.00 PM',
     status: 'Active',
@@ -125,6 +149,9 @@ export const initialRows: ClassRow[] = [
   },
   {
     id: 'RT167640',
+    classes: 'IV',
+    section: 'B',
+    examName: 'Annual Exam',
     starttime: '12.00 PM',
     endtime: '01.15 PM',
     status: 'Inactive',
@@ -139,6 +166,9 @@ export const initialRows: ClassRow[] = [
   },
   {
     id: 'RT167639',
+    classes: 'V',
+    section: 'A',
+    examName: 'Chapter Wise Test',
     starttime: '01.15 PM',
     endtime: '02.30 PM',
     status: 'Active',
@@ -153,6 +183,9 @@ export const initialRows: ClassRow[] = [
   },
   {
     id: 'RT167638',
+    classes: 'V',
+    section: 'B',
+    examName: 'Chapter Wise Test',
     starttime: '02.30 PM',
     endtime: '03.45 PM',
     status: 'Active',
@@ -167,6 +200,9 @@ export const initialRows: ClassRow[] = [
   },
   {
     id: 'RT167637',
+    classes: 'III',
+    section: 'A',
+    examName: 'Weekly Test',
 
     starttime: '03.45 PM',
     endtime: '05.00 PM',
@@ -230,13 +266,14 @@ export const sortOptions = [
 export const rowCountOptions = ['5', '10', '25', '50']
 export const classOptions = ['I', 'II', 'III', 'IV', 'V']
 export const sectionOptions = ['A', 'B', 'C', 'D', 'E']
-export const durationOptions = [
-  'Erickson',
-  'Joseph',
-  'James',
-  'Henry',
-  'Fathima'
+export const examOptions = [
+  'Weekly Test',
+  'Monthly Test',
+  'Unit Test',
+  'Annual Exam',
+  'Chapter Wise Test'
 ]
+export const durationOptions = ['30', '45', '60', '90', '120', '180']
 export const roomOptions = [
   '101',
   '102',
@@ -264,6 +301,18 @@ export const examdateOptions = [
   '15 May 2024',
   '16 May 2024'
 ]
+export const subjectOptions = [
+  'English',
+  'Math',
+  'Physics',
+  'Chemistry',
+  'Biology',
+  'Higher Math',
+  'Information Technology',
+  'Moral Education',
+  'Finance',
+  'Economics'
+]
 
 export const starttimeOptions = [
   '09.30 AM',
@@ -284,6 +333,9 @@ export const endtimeOptions = [
 export const statusOptions: ClassStatus[] = ['Active', 'Inactive']
 
 export const emptyForm: ClassFormState = {
+  classes: '',
+  section: '',
+  examName: '',
   subject: '',
   date: '',
   starttime: '',
@@ -292,5 +344,15 @@ export const emptyForm: ClassFormState = {
   classroom: '',
   maximum: '',
   minimum: '',
-  status: 'Active'
+  status: 'Active',
+  scheduleRows: [
+    {
+      id: 'schedule-row-1',
+      date: '',
+      subject: '',
+      classroom: '',
+      maximum: '',
+      minimum: ''
+    }
+  ]
 }
