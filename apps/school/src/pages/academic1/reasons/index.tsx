@@ -28,12 +28,12 @@ import {
 } from '@vezham/react/v3'
 
 import {
-  classOptions,
   dateOptions,
   emptyForm,
   initialRows,
+  reasonOptions,
+  roleOptions,
   rowCountOptions,
-  sectionOptions,
   sortOptions,
   statusOptions
 } from './data'
@@ -76,12 +76,12 @@ export default function AllClassesPage() {
   const [customDateRange, setCustomDateRange] =
     useState<DateRangeFilter | null>(null)
   const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
-    column: 'className',
+    column: 'type',
     direction: 'ascending'
   })
   const [filters, setFilters] = useState<FilterDraft>({
-    className: null,
-    section: null,
+    role: null,
+    reasons: null,
     status: null
   })
   const [draftFilters, setDraftFilters] = useState<FilterDraft>(filters)
@@ -107,8 +107,8 @@ export default function AllClassesPage() {
       const matchesQuery =
         !query ||
         row.id.toLowerCase().includes(query) ||
-        row.className.toLowerCase().includes(query) ||
-        row.section.toLowerCase().includes(query) ||
+        row.role.toLowerCase().includes(query) ||
+        row.reasons.toLowerCase().includes(query) ||
         row.status.toLowerCase().includes(query)
       const matchesDate =
         !activeDateRange ||
@@ -121,8 +121,8 @@ export default function AllClassesPage() {
       return (
         matchesQuery &&
         matchesDate &&
-        (!filters.className || row.className === filters.className) &&
-        (!filters.section || row.section === filters.section) &&
+        (!filters.role || row.role === filters.role) &&
+        (!filters.reasons || row.reasons === filters.reasons) &&
         (!filters.status || row.status === filters.status)
       )
     })
@@ -325,11 +325,11 @@ export default function AllClassesPage() {
   }, [goToRowAt, selectedRowIndex])
 
   useEffect(() => {
-    const openAddClass = () => openDrawer('create', null)
+    const openAddSchedule = () => openDrawer('create', null)
 
-    window.addEventListener('academic:allclasses:create', openAddClass)
+    window.addEventListener('academic:reasons:create', openAddSchedule)
     return () =>
-      window.removeEventListener('academic:allclasses:create', openAddClass)
+      window.removeEventListener('academic:reasons:create', openAddSchedule)
   }, [openDrawer])
 
   useEffect(() => {
@@ -463,7 +463,7 @@ export default function AllClassesPage() {
   }
 
   const resetFilters = () => {
-    const emptyFilters = { className: null, section: null, status: null }
+    const emptyFilters = { role: null, reasons: null, status: null }
 
     setDraftFilters(emptyFilters)
     setFilters(emptyFilters)
@@ -481,10 +481,9 @@ export default function AllClassesPage() {
   }
 
   const saveClass = () => {
-    const className = form.className.trim()
-    const section = form.section.trim()
-    const students = Number(form.students)
-    const subjects = Number(form.subjects)
+    const role = form.role.trim()
+    const reasons = form.reasons.trim()
+
     const errors = validateClassForm(form)
 
     if (Object.keys(errors).length) {
@@ -495,10 +494,8 @@ export default function AllClassesPage() {
     if (mode === 'create') {
       const newRow: ClassRow = {
         id: createNextClassId(data),
-        className,
-        section,
-        students,
-        subjects,
+        role,
+        reasons,
         status: form.status,
         createdAt: toISODate(new Date()),
         viewedAt: toISODate(new Date())
@@ -519,10 +516,8 @@ export default function AllClassesPage() {
 
     const updatedRow: ClassRow = {
       ...selectedRow,
-      className,
-      section,
-      students,
-      subjects,
+      role,
+      reasons,
       status: form.status
     }
 
@@ -590,8 +585,8 @@ export default function AllClassesPage() {
       <Surface className={classNames.toolbar}>
         <div className={classNames.headerRow}>
           <div>
-            <p className={classNames.mutedText}>Classes</p>
-            <h1 className={classNames.title}>Classes List</h1>
+            <p className={classNames.mutedText}>Academic</p>
+            <h1 className={classNames.title}>Academic Reasons</h1>
           </div>
 
           <div className={classNames.toolbarActions}>
@@ -624,7 +619,7 @@ export default function AllClassesPage() {
                       </Button>
                       <DateRangePicker
                         defaultOpen
-                        aria-label="Class custom date range"
+                        aria-label="Schedule custom date range"
                         className={classNames.fullWidth}
                         endName="endDate"
                         startName="startDate"
@@ -644,7 +639,7 @@ export default function AllClassesPage() {
                           </DateField.Suffix>
                         </DateField.Group>
                         <DateRangePicker.Popover>
-                          <RangeCalendar aria-label="Class custom date range">
+                          <RangeCalendar aria-label="Schedule custom date range">
                             <RangeCalendar.Header>
                               <RangeCalendar.Heading />
                               <RangeCalendar.NavButton slot="previous" />
@@ -704,7 +699,7 @@ export default function AllClassesPage() {
                 </Button>
               </Dropdown.Trigger>
               <Dropdown.Popover>
-                <Dropdown.Menu aria-label="Sort classes">
+                <Dropdown.Menu aria-label="Sort schedules">
                   {sortOptions.map(option => (
                     <Dropdown.Item
                       key={option.key}
@@ -745,7 +740,7 @@ export default function AllClassesPage() {
           </div>
 
           <SearchField
-            aria-label="Search classes"
+            aria-label="Search schedules"
             value={searchQuery}
             onChange={updateSearch}>
             <SearchField.Group>
@@ -760,7 +755,7 @@ export default function AllClassesPage() {
       <Table>
         <Table.ScrollContainer>
           <Table.Content
-            aria-label="All classes"
+            aria-label="Schedules"
             className={classNames.tableContent}
             selectedKeys={tableSelectedKeys}
             selectionMode="single"
@@ -769,49 +764,43 @@ export default function AllClassesPage() {
             onSortChange={updateSortDescriptor}>
             <Table.Header>
               <Table.Column className={classNames.selectionColumn} />
-              <Table.Column allowsSorting isRowHeader id="id">
+              {/* <Table.Column allowsSorting isRowHeader id="id">
                 {({ sortDirection }) => (
                   <SortableHeader sortDirection={sortDirection}>
                     ID
                   </SortableHeader>
                 )}
-              </Table.Column>
-              <Table.Column allowsSorting id="className">
+              </Table.Column> */}
+              <Table.Column allowsSorting id="classes">
                 {({ sortDirection }) => (
                   <SortableHeader sortDirection={sortDirection}>
-                    Class
+                    Role
                   </SortableHeader>
                 )}
               </Table.Column>
               <Table.Column allowsSorting id="section">
                 {({ sortDirection }) => (
                   <SortableHeader sortDirection={sortDirection}>
-                    Section
-                  </SortableHeader>
-                )}
-              </Table.Column>
-              <Table.Column allowsSorting id="students">
-                {({ sortDirection }) => (
-                  <SortableHeader sortDirection={sortDirection}>
-                    Students
-                  </SortableHeader>
-                )}
-              </Table.Column>
-              <Table.Column allowsSorting id="subjects">
-                {({ sortDirection }) => (
-                  <SortableHeader sortDirection={sortDirection}>
-                    Subjects
+                    Reasons
                   </SortableHeader>
                 )}
               </Table.Column>
 
-              <Table.Column allowsSorting id="status">
+              <Table.Column allowsSorting id="createdAt">
+                {({ sortDirection }) => (
+                  <SortableHeader sortDirection={sortDirection}>
+                    Created At
+                  </SortableHeader>
+                )}
+              </Table.Column>
+
+              {/* <Table.Column allowsSorting id="status">
                 {({ sortDirection }) => (
                   <SortableHeader sortDirection={sortDirection}>
                     Status
                   </SortableHeader>
                 )}
-              </Table.Column>
+              </Table.Column> */}
               <Table.Column>Actions</Table.Column>
             </Table.Header>
 
@@ -825,7 +814,7 @@ export default function AllClassesPage() {
                   onClick={() => openDrawer('view', row)}>
                   <Table.Cell>
                     <Checkbox
-                      aria-label={`Select class ${row.id}`}
+                      aria-label={`Select schedule ${row.id}`}
                       slot="selection"
                       onClick={event => event.stopPropagation()}>
                       <Checkbox.Control>
@@ -833,14 +822,12 @@ export default function AllClassesPage() {
                       </Checkbox.Control>
                     </Checkbox>
                   </Table.Cell>
-                  <Table.Cell>{row.id}</Table.Cell>
-                  <Table.Cell>{row.className}</Table.Cell>
-                  <Table.Cell>{row.section}</Table.Cell>
-                  <Table.Cell>{row.students}</Table.Cell>
-                  <Table.Cell>
-                    {row.subjects.toString().padStart(2, '0')}
-                  </Table.Cell>
-                  <Table.Cell>
+                  {/* <Table.Cell>{row.id}</Table.Cell> */}
+                  <Table.Cell>{row.role}</Table.Cell>
+                  <Table.Cell>{row.reasons}</Table.Cell>
+                  <Table.Cell>{formatDisplayDate(row.createdAt)}</Table.Cell>
+
+                  {/* <Table.Cell>
                     <Chip
                       color={row.status === 'Active' ? 'success' : 'danger'}
                       size="sm"
@@ -848,7 +835,7 @@ export default function AllClassesPage() {
                       <span aria-hidden="true">●</span>
                       <Chip.Label>{row.status}</Chip.Label>
                     </Chip>
-                  </Table.Cell>
+                  </Table.Cell> */}
                   <Table.Cell>
                     <div
                       className={classNames.rowActions}
@@ -1009,23 +996,23 @@ function FilterDropdown({
           <h2 className={classNames.filterTitle}>Filter</h2>
           <Select
             fullWidth
-            aria-label="Filter by class"
-            placeholder="Select class"
-            value={draftFilters.className}
+            aria-label="Filter by role"
+            placeholder="Select Role"
+            value={draftFilters.role}
             onChange={value =>
               setDraftFilters({
                 ...draftFilters,
-                className: value ? String(value) : null
+                role: value ? String(value) : null
               })
             }>
-            <Label>Class</Label>
+            <Label>Role </Label>
             <Select.Trigger>
               <Select.Value />
               <Select.Indicator />
             </Select.Trigger>
             <Select.Popover>
               <ListBox>
-                {classOptions.map(option => (
+                {roleOptions.map(option => (
                   <ListBox.Item key={option} id={option} textValue={option}>
                     {option}
                     <ListBox.ItemIndicator />
@@ -1034,54 +1021,25 @@ function FilterDropdown({
               </ListBox>
             </Select.Popover>
           </Select>
-
           <Select
             fullWidth
-            aria-label="Filter by section"
-            placeholder="Select section"
-            value={draftFilters.section}
+            aria-label="Filter by reasons"
+            placeholder="Select reasons"
+            value={draftFilters.reasons}
             onChange={value =>
               setDraftFilters({
                 ...draftFilters,
-                section: value ? String(value) : null
+                reasons: value ? String(value) : null
               })
             }>
-            <Label>Section</Label>
+            <Label>Reason </Label>
             <Select.Trigger>
               <Select.Value />
               <Select.Indicator />
             </Select.Trigger>
             <Select.Popover>
               <ListBox>
-                {sectionOptions.map(option => (
-                  <ListBox.Item key={option} id={option} textValue={option}>
-                    {option}
-                    <ListBox.ItemIndicator />
-                  </ListBox.Item>
-                ))}
-              </ListBox>
-            </Select.Popover>
-          </Select>
-
-          <Select
-            fullWidth
-            aria-label="Filter by status"
-            placeholder="Select status"
-            value={draftFilters.status}
-            onChange={value =>
-              setDraftFilters({
-                ...draftFilters,
-                status: value ? (String(value) as ClassStatus) : null
-              })
-            }>
-            <Label>Status</Label>
-            <Select.Trigger>
-              <Select.Value />
-              <Select.Indicator />
-            </Select.Trigger>
-            <Select.Popover>
-              <ListBox>
-                {statusOptions.map(option => (
+                {reasonOptions.map(option => (
                   <ListBox.Item key={option} id={option} textValue={option}>
                     {option}
                     <ListBox.ItemIndicator />
@@ -1124,7 +1082,8 @@ function ClassDrawer({
 }: ClassDrawerProps) {
   const isFormMode = mode === 'create' || mode === 'edit'
   const showNavigation = mode !== 'create'
-  const drawerTitle = mode === 'create' ? 'Add Class' : row ? `#${row.id}` : ''
+  const drawerTitle =
+    mode === 'create' ? 'Add Reactions' : row ? `#${row.id}` : ''
 
   return (
     <Drawer state={drawerState}>
@@ -1136,7 +1095,7 @@ function ClassDrawer({
                 <div className={classNames.drawerTitleGroup}>
                   <Button
                     isIconOnly
-                    aria-label="Close class drawer"
+                    aria-label="Close schedule drawer"
                     variant="ghost"
                     onPress={onClose}>
                     <Icon icon="lucide:chevrons-right" width={24} />
@@ -1192,7 +1151,7 @@ function ClassDrawer({
                     <>
                       <Button
                         isIconOnly
-                        aria-label="Next class"
+                        aria-label="Next schedule"
                         isDisabled={!canGoNext}
                         variant="secondary"
                         onPress={onGoNext}>
@@ -1200,7 +1159,7 @@ function ClassDrawer({
                       </Button>
                       <Button
                         isIconOnly
-                        aria-label="Previous class"
+                        aria-label="Previous schedule"
                         isDisabled={!canGoPrevious}
                         variant="secondary"
                         onPress={onGoPrevious}>
@@ -1233,7 +1192,7 @@ function ClassDrawer({
                     Cancel
                   </Button>
                   <Button onPress={onSave}>
-                    {mode === 'create' ? 'Add Class' : 'Save'}
+                    {mode === 'create' ? 'Add Reactions' : 'Save'}
                   </Button>
                 </div>
               ) : (
@@ -1271,80 +1230,45 @@ function ClassForm({
 
       <div className={classNames.formFields}>
         <div className={classNames.field}>
-          <Label className={classNames.fieldLabel}>Class Name</Label>
+          <Label className={classNames.fieldLabel}>Name</Label>
           <Input
             fullWidth
-            aria-invalid={Boolean(formErrors.className)}
-            placeholder="Enter class name"
-            value={form.className}
-            onChange={event => onFormChange('className', event.target.value)}
+            aria-invalid={Boolean(formErrors.name)}
+            placeholder="Enter name"
+            value={form.name}
+            onChange={event => onFormChange('name', event.target.value)}
           />
-          {formErrors.className && (
-            <p className={classNames.fieldError}>{formErrors.className}</p>
-          )}
-        </div>
-
-        <Select
-          fullWidth
-          aria-label="Section"
-          aria-invalid={Boolean(formErrors.section)}
-          placeholder="Select section"
-          value={form.section || null}
-          onChange={value =>
-            onFormChange('section', value ? String(value) : '')
-          }>
-          <Label className={classNames.fieldLabel}>Section</Label>
-          <Select.Trigger>
-            <Select.Value />
-            <Select.Indicator />
-          </Select.Trigger>
-          <Select.Popover>
-            <ListBox>
-              {sectionOptions.map(option => (
-                <ListBox.Item key={option} id={option} textValue={option}>
-                  {option}
-                  <ListBox.ItemIndicator />
-                </ListBox.Item>
-              ))}
-            </ListBox>
-          </Select.Popover>
-        </Select>
-        {formErrors.section && (
-          <p className={classNames.selectError}>{formErrors.section}</p>
-        )}
-
-        <div className={classNames.field}>
-          <Label className={classNames.fieldLabel}>No of Students</Label>
-          <Input
-            fullWidth
-            aria-invalid={Boolean(formErrors.students)}
-            min={0}
-            placeholder="Enter students"
-            type="number"
-            value={form.students}
-            onChange={event => onFormChange('students', event.target.value)}
-          />
-          {formErrors.students && (
-            <p className={classNames.fieldError}>{formErrors.students}</p>
-          )}
-        </div>
-
-        <div className={classNames.field}>
-          <Label className={classNames.fieldLabel}>No of Subjects</Label>
-          <Input
-            fullWidth
-            aria-invalid={Boolean(formErrors.subjects)}
-            min={0}
-            placeholder="Enter subjects"
-            type="number"
-            value={form.subjects}
-            onChange={event => onFormChange('subjects', event.target.value)}
-          />
-          {formErrors.subjects && (
-            <p className={classNames.fieldError}>{formErrors.subjects}</p>
+          {formErrors.name && (
+            <p className={classNames.fieldError}>{formErrors.name}</p>
           )}
         </div>
       </div>
+      <Select
+        fullWidth
+        aria-label="Role"
+        aria-invalid={Boolean(formErrors.role)}
+        placeholder="Select role"
+        value={form.role || null}
+        onChange={value => onFormChange('role', value ? String(value) : '')}>
+        <Label className={classNames.fieldLabel}>Role</Label>
+        <Select.Trigger>
+          <Select.Value />
+          <Select.Indicator />
+        </Select.Trigger>
+        <Select.Popover>
+          <ListBox>
+            {roleOptions.map(option => (
+              <ListBox.Item key={option} id={option} textValue={option}>
+                {option}
+                <ListBox.ItemIndicator />
+              </ListBox.Item>
+            ))}
+          </ListBox>
+        </Select.Popover>
+      </Select>
+      {formErrors.role && (
+        <p className={classNames.selectError}>{formErrors.role}</p>
+      )}
 
       <div className={classNames.statusRow}>
         <div>
@@ -1364,6 +1288,9 @@ function ClassForm({
           </Switch.Control>
         </Switch>
       </div>
+      {formErrors.status && (
+        <p className={classNames.selectError}>{formErrors.status}</p>
+      )}
     </div>
   )
 }
@@ -1383,10 +1310,7 @@ function ClassDetails({ row }: ClassDetailsProps) {
 function ClassDetailSummary({ row }: ClassDetailSummaryProps) {
   return (
     <div className={classNames.detailSummary}>
-      <DetailLine label="Class" value={row.className} />
-      <DetailLine label="Section" value={row.section} />
-      <DetailLine label="Students" value={String(row.students)} />
-      <DetailLine label="Subjects" value={String(row.subjects)} />
+      <DetailLine label="Section Role" value={row.role} />
 
       <div className={classNames.detailChipRow}>
         <span className={classNames.detailHeading}>Status:</span>
@@ -1436,7 +1360,7 @@ function SortableHeader({ children, sortDirection }: SortableHeaderProps) {
 }
 
 function getClassTags(row: ClassRow) {
-  return [`Grade ${row.className}`, `Section ${row.section}`, row.status]
+  return [`Grade ${row.role}`, `Grade ${row.reasons}`, row.status]
 }
 
 function getPresetDateRange(preset: Exclude<DatePresetKey, 'custom'>) {
@@ -1474,33 +1398,21 @@ function isISODateInRange(date: string, start: string, end: string) {
 
 function rowToForm(row: ClassRow): ClassFormState {
   return {
-    className: row.className,
-    section: row.section,
-    students: String(row.students),
-    subjects: String(row.subjects),
-    status: row.status
+    status: row.status,
+    role: row.role,
+    reasons: row.reasons
   }
 }
 
 function validateClassForm(form: ClassFormState) {
   const errors: ClassFormErrors = {}
-  const students = Number(form.students)
-  const subjects = Number(form.subjects)
 
-  if (!form.className.trim()) {
-    errors.className = 'Class name is required.'
+  if (!form.role.trim()) {
+    errors.role = 'Section Role is required.'
   }
 
-  if (!form.section.trim()) {
-    errors.section = 'Section is required.'
-  }
-
-  if (!form.students.trim() || !Number.isFinite(students) || students < 0) {
-    errors.students = 'No of students is required.'
-  }
-
-  if (!form.subjects.trim() || !Number.isFinite(subjects) || subjects < 0) {
-    errors.subjects = 'No of subjects is required.'
+  if (!form.status) {
+    errors.status = 'Status is required.'
   }
 
   return errors
@@ -1555,6 +1467,22 @@ function formatNumericDate(value: string) {
     month: '2-digit',
     year: 'numeric'
   }).format(date)
+}
+
+function parseTimeOption(value: string) {
+  const match = value.match(/^(\d{2})\.(\d{2})\s(AM|PM)$/)
+
+  if (!match) {
+    return 0
+  }
+
+  const [, hourValue, minuteValue, period] = match
+  const hour = Number(hourValue)
+  const minute = Number(minuteValue)
+  const normalizedHour =
+    period === 'PM' ? (hour === 12 ? 12 : hour + 12) : hour === 12 ? 0 : hour
+
+  return normalizedHour * 60 + minute
 }
 
 function getPaginationSummary(page: number, pageSize: number, total: number) {

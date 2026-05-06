@@ -476,15 +476,7 @@ function getPageRightActions(activePageKey: string): ActionItem[] {
 }
 
 function dispatchCreateAction(pageKey: string) {
-  const eventByPageKey: Record<string, string> = {
-    allclasses: 'academic:class:open',
-    schedule: 'academic:schedule:open'
-  }
-  const eventName = eventByPageKey[pageKey]
-
-  if (eventName) {
-    window.dispatchEvent(new CustomEvent(eventName))
-  }
+  window.dispatchEvent(new CustomEvent(`academic:${pageKey}:create`))
 }
 
 function mergeActions(

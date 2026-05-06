@@ -42,7 +42,7 @@ export const classNames = {
   form: 'space-y-6',
   formFields: 'space-y-5',
   field: 'space-y-2',
-  fieldLabel: 'font-bold text-[#111827]',
+  fieldLabel: 'font-bold text-[#111827] ',
   fieldError: 'text-danger text-sm',
   selectError: 'text-danger -mt-3 text-sm',
   statusRow: 'flex items-center justify-between gap-6',

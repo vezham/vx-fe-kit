@@ -21,6 +21,7 @@ import {
   type Selection,
   type SortDescriptor,
   Surface,
+  Switch,
   Table,
   Tooltip
 } from '@vezham/react/v3'
@@ -323,9 +324,9 @@ export default function AllClassesPage() {
   useEffect(() => {
     const openAddSchedule = () => openDrawer('create', null)
 
-    window.addEventListener('academic:schedule:open', openAddSchedule)
+    window.addEventListener('academic:schedule:create', openAddSchedule)
     return () =>
-      window.removeEventListener('academic:schedule:open', openAddSchedule)
+      window.removeEventListener('academic:schedule:create', openAddSchedule)
   }, [openDrawer])
 
   useEffect(() => {
@@ -583,7 +584,7 @@ export default function AllClassesPage() {
       <Surface className={classNames.toolbar}>
         <div className={classNames.headerRow}>
           <div>
-            <p className={classNames.mutedText}>Schedule</p>
+            <p className={classNames.mutedText}>Classes</p>
             <h1 className={classNames.title}>Schedule List</h1>
           </div>
 
@@ -790,13 +791,7 @@ export default function AllClassesPage() {
                   </SortableHeader>
                 )}
               </Table.Column>
-              <Table.Column allowsSorting id="createdAt">
-                {({ sortDirection }) => (
-                  <SortableHeader sortDirection={sortDirection}>
-                    Created
-                  </SortableHeader>
-                )}
-              </Table.Column>
+
               <Table.Column allowsSorting id="status">
                 {({ sortDirection }) => (
                   <SortableHeader sortDirection={sortDirection}>
@@ -829,7 +824,6 @@ export default function AllClassesPage() {
                   <Table.Cell>{row.type}</Table.Cell>
                   <Table.Cell>{row.starttime}</Table.Cell>
                   <Table.Cell>{row.endtime}</Table.Cell>
-                  <Table.Cell>{formatDisplayDate(row.createdAt)}</Table.Cell>
                   <Table.Cell>
                     <Chip
                       color={row.status === 'Active' ? 'success' : 'danger'}
@@ -1324,31 +1318,22 @@ function ClassForm({
       </div>
 
       <div className={classNames.statusRow}>
-        <Select
-          fullWidth
-          aria-label="Status"
-          aria-invalid={Boolean(formErrors.status)}
-          placeholder="Select status"
-          value={form.status}
-          onChange={value =>
-            onFormChange('status', value ? String(value) : 'Active')
+        <div>
+          <div className={classNames.fieldLabel}>Status</div>
+          <div className={classNames.statusHelp}>
+            Change the Status by toggle
+          </div>
+        </div>
+        <Switch
+          aria-label="Class status"
+          isSelected={form.status === 'Inactive'}
+          onChange={isSelected =>
+            onFormChange('status', isSelected ? 'Inactive' : 'Active')
           }>
-          <Label className={classNames.fieldLabel}>Status</Label>
-          <Select.Trigger>
-            <Select.Value />
-            <Select.Indicator />
-          </Select.Trigger>
-          <Select.Popover>
-            <ListBox>
-              {statusOptions.map(option => (
-                <ListBox.Item key={option} id={option} textValue={option}>
-                  {option}
-                  <ListBox.ItemIndicator />
-                </ListBox.Item>
-              ))}
-            </ListBox>
-          </Select.Popover>
-        </Select>
+          <Switch.Control>
+            <Switch.Thumb />
+          </Switch.Control>
+        </Switch>
       </div>
       {formErrors.status && (
         <p className={classNames.selectError}>{formErrors.status}</p>

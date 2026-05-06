@@ -11,7 +11,7 @@ export const classNames = {
   fullWidth: 'w-full',
   dateOptionLabel: 'flex w-full items-center justify-between',
   rowsControls: 'flex items-center gap-2',
-  tableContent: 'min-w-[960px]',
+  tableContent: 'min-w-[1120px]',
   selectionColumn: 'w-12',
   tableRow: 'hover:bg-primary/5 cursor-pointer transition-colors',
   tableRowActive: 'bg-primary/10 ring-primary/20 ring-1 ring-inset',

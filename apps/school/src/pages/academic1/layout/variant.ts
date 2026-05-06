@@ -13,7 +13,7 @@ const tva = tv({
     shell: 'flex min-h-0 flex-1',
     separator: 'my-2',
     sidebar_rail:
-      'border-default-200 bg-background hidden w-64 shrink-0 overflow-hidden border-r transition-all duration-300 md:block',
+      'border-default-200 bg-background hidden w-56 shrink-0 overflow-hidden border-r transition-all duration-300 md:block',
     sidebar_rail_closed: 'w-0 border-r-0',
     content: 'min-w-0 flex-1 overflow-auto p-4',
     content_surface: 'min-h-full rounded-lg p-4 sm:p-5',

@@ -2,10 +2,10 @@ export const classNames = {
   page: 'space-y-4',
   toolbar: 'flex flex-col gap-4 p-4',
   headerRow:
-    'flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between',
+    'flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between',
   mutedText: 'text-muted text-sm',
   title: 'text-base font-semibold',
-  toolbarActions: 'flex flex-col gap-3 sm:flex-row sm:flex-wrap lg:justify-end',
+  toolbarActions: 'flex flex-col gap-2 sm:flex-row sm:flex-wrap lg:justify-end',
   datePopover: 'w-[360px] p-2',
   customDatePanel: 'space-y-3',
   fullWidth: 'w-full',
