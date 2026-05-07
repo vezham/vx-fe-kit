@@ -1668,13 +1668,17 @@ function ClassDetails({ row }: ClassDetailsProps) {
 function ClassDetailSummary({ row }: ClassDetailSummaryProps) {
   return (
     <div className={classNames.detailSummary}>
-      {/* <DetailLine label="Class" value={row.classes} />
-      <DetailLine label="Section" value={row.section} />
-      <DetailLine label="Teacher" value={row.teacher} />
-      <DetailLine label="Day" value={row.day} />
-      <DetailLine label="Start Time" value={row.starttime} />
-      <DetailLine label="End Time" value={row.endtime} />
-      <DetailLine label="Class Room" value={row.classroom} /> */}
+      <DetailLine label="Name" value={row.name} />
+      <DetailLine label="English" value={row.english} />
+      <DetailLine label="Spanish" value={row.spanish} />
+      <DetailLine label="Maths" value={row.maths} />
+      <DetailLine label="Computer" value={row.computer} />
+      <DetailLine label="Env Science" value={row.envscience} />
+      <DetailLine label="Physics" value={row.physics} />
+      <DetailLine label="Chemistry" value={row.chemistry} />
+      <DetailLine label="total" value={row.total} />
+      <DetailLine label="Percent" value={row.percent} />
+      <DetailLine label="Grade" value={row.grade} />
 
       <div className={classNames.detailChipRow}>
         <span className={classNames.detailHeading}>Result:</span>
@@ -1698,14 +1702,14 @@ function ClassDetailSummary({ row }: ClassDetailSummaryProps) {
   )
 }
 
-// function DetailLine({ label, value }: DetailLineProps) {
-//   return (
-//     <div className={classNames.detailLine}>
-//       <span className={classNames.fieldLabel}>{label}:</span>
-//       <span className={classNames.detailValue}>{value}</span>
-//     </div>
-//   )
-// }
+function DetailLine({ label, value }: DetailLineProps) {
+  return (
+    <div className={classNames.detailLine}>
+      <span className={classNames.fieldLabel}>{label}:</span>
+      <span className={classNames.detailValue}>{value}</span>
+    </div>
+  )
+}
 
 function SortableHeader({ children, sortDirection }: SortableHeaderProps) {
   const icon =

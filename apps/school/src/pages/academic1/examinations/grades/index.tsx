@@ -1391,10 +1391,10 @@ function ClassDetails({ row }: ClassDetailsProps) {
 function ClassDetailSummary({ row }: ClassDetailSummaryProps) {
   return (
     <div className={classNames.detailSummary}>
-      <DetailLine label=" Name" value={row.name} />
-      <DetailLine label=" Code" value={row.code} />
+      <DetailLine label=" Grade" value={row.grade} />
+      <DetailLine label=" Percentage" value={row.percentage} />
 
-      <DetailLine label="Type" value={row.type} />
+      <DetailLine label="Points" value={row.points} />
 
       <div className={classNames.detailChipRow}>
         <span className={classNames.detailHeading}>Status:</span>
