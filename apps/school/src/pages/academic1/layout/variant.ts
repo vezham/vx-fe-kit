@@ -4,7 +4,7 @@ const tva = tv({
   slots: {
     base: 'bg-background flex min-h-screen min-w-0 flex-1 flex-col',
     header:
-      'border-default-200 bg-background sticky top-0 z-30 border-b px-3 py-2 sm:px-4',
+      'border-default-200 bg-background sticky top-0 z-30 px-3 py-2 sm:px-4',
     header_inner: 'flex min-h-12 items-center justify-between gap-3',
     header_left: 'flex min-w-0 flex-1 items-center gap-1',
     header_tabs_desktop: 'hidden min-w-0 flex-1 sm:block',
@@ -13,8 +13,10 @@ const tva = tv({
     shell: 'flex min-h-0 flex-1',
     separator: 'my-2',
     sidebar_rail:
-      'border-default-200 bg-background hidden w-56 shrink-0 overflow-hidden border-r transition-all duration-300 md:block',
+      'bg-background hidden w-56 shrink-0 overflow-hidden transition-all duration-300 md:block',
     sidebar_rail_closed: 'w-0 border-r-0',
+    sidebar_rail_compact:
+      'border-default-200/60 w-16 overflow-visible border-r',
     content: 'min-w-0 flex-1 overflow-auto p-4',
     content_surface: 'min-h-full rounded-lg p-4 sm:p-5',
     drawer_dialog: 'bg-background w-[min(20rem,calc(100vw-2rem))]',
@@ -33,14 +35,35 @@ const tva = tv({
     sidebar_collapsed: 'flex justify-center p-2',
     sidebar_toggle: 'mb-2 h-9 w-9 min-w-9 p-0',
     sidebar_list: 'space-y-1',
+    sidebar_collapsed_list: 'flex flex-col items-center gap-1',
+    sidebar_item_wrap: 'group relative',
     sidebar_item:
-      'text-muted hover:bg-primary/5 hover:text-muted flex items-center gap-3 rounded-md px-3 py-2 text-sm font-normal transition-colors',
+      'text-muted hover:bg-default-100 hover:text-foreground flex items-center gap-3 rounded-full px-3 py-2 text-sm font-normal transition-colors duration-200',
     sidebar_item_active:
-      'bg-primary/10 text-primary hover:bg-primary/10 hover:text-primary - colors active: scale - 95 flex items-center gap-3 rounded-md px-3 py-2 text-sm font-semibold transition',
-    sidebar_icon: 'text-muted',
-    sidebar_icon_active: 'text-primary',
+      'bg-default-100 text-foreground hover:bg-default-100 hover:text-foreground flex items-center gap-3 rounded-full px-3 py-2 text-sm font-bold transition-colors duration-200',
+    sidebar_child_group: 'border-default-200 mt-1 ml-6 space-y-1 border-l pl-4',
+    sidebar_child_item:
+      'text-muted hover:bg-default-100 hover:text-foreground flex items-center gap-3 rounded-full px-3 py-2 text-sm font-normal transition-colors duration-200',
+    sidebar_child_item_active:
+      'bg-default-100 text-foreground hover:bg-default-100 hover:text-foreground flex items-center gap-3 rounded-full px-3 py-2 text-sm font-bold transition-colors duration-200',
+    sidebar_collapsed_item:
+      'text-muted hover:bg-primary/5 hover:text-primary flex h-10 w-10 items-center justify-center rounded-md transition-colors',
+    sidebar_collapsed_item_active:
+      'bg-primary/10 text-primary hover:bg-primary/10 flex h-10 w-10 items-center justify-center rounded-md transition-colors',
+    sidebar_flyout:
+      'bg-background border-default-200 invisible absolute top-0 left-full z-50 ml-2 min-w-64 rounded-lg border p-2 opacity-0 shadow-lg transition group-hover:visible group-hover:opacity-100',
+    sidebar_flyout_label:
+      'text-foreground flex items-center gap-3 rounded-md px-3 py-2 text-sm font-semibold',
+    sidebar_flyout_list: 'mt-1 space-y-1',
+    sidebar_flyout_item:
+      'text-muted hover:bg-default-100 hover:text-foreground flex items-center gap-3 rounded-full px-3 py-2 text-sm font-normal transition-colors',
+    sidebar_flyout_item_active:
+      'bg-default-100 text-primary hover:bg-default-100 hover:text-primary flex items-center gap-3 rounded-full px-3 py-2 text-sm font-bold transition-colors',
+    sidebar_disclosure_icon: 'text-muted ml-auto shrink-0',
+    sidebar_icon: 'text-muted shrink-0',
+    sidebar_icon_active: 'text-foreground shrink-0',
     sidebar_label: 'min-w-0 truncate',
-    sidebar_label_active: 'text-primary min-w-0 truncate font-bold',
+    sidebar_label_active: 'text-foreground min-w-0 truncate font-bold',
     tabs_scroller:
       'scrollbar-hide w-full overflow-x-auto rounded-full sm:max-w-fit',
     tabs_list: 'flex min-w-max flex-nowrap *:whitespace-nowrap',

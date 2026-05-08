@@ -12,6 +12,7 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRouteImport } from './routes/__root'
 
+const ReportsRouteLazyRouteImport = createFileRoute('/reports')()
 const Academic1RouteLazyRouteImport = createFileRoute('/academic1')()
 const AcademicRouteLazyRouteImport = createFileRoute('/academic')()
 const IndexLazyRouteImport = createFileRoute('/')()
@@ -25,6 +26,15 @@ const Academic1ExaminationsRouteLazyRouteImport = createFileRoute(
 )()
 const Academic1ClassesRouteLazyRouteImport =
   createFileRoute('/academic1/classes')()
+const ReportsStudentIndexLazyRouteImport =
+  createFileRoute('/reports/student/')()
+const ReportsLeaveIndexLazyRouteImport = createFileRoute('/reports/leave/')()
+const ReportsGradeIndexLazyRouteImport = createFileRoute('/reports/grade/')()
+const ReportsFeesIndexLazyRouteImport = createFileRoute('/reports/fees/')()
+const ReportsClassIndexLazyRouteImport = createFileRoute('/reports/class/')()
+const ReportsAttendanceIndexLazyRouteImport = createFileRoute(
+  '/reports/attendance/',
+)()
 const Academic1TimetableIndexLazyRouteImport = createFileRoute(
   '/academic1/timetable/',
 )()
@@ -76,6 +86,29 @@ const AcademicClassroutineIndexLazyRouteImport = createFileRoute(
 const AcademicClassroomIndexLazyRouteImport = createFileRoute(
   '/academic/classroom/',
 )()
+const ReportsAttendanceTeacherReportIndexLazyRouteImport = createFileRoute(
+  '/reports/attendance/teacher-report/',
+)()
+const ReportsAttendanceTeacherDayWiseIndexLazyRouteImport = createFileRoute(
+  '/reports/attendance/teacher-day-wise/',
+)()
+const ReportsAttendanceStudentsAttendanceTypeIndexLazyRouteImport =
+  createFileRoute('/reports/attendance/students-attendance-type/')()
+const ReportsAttendanceStudentDayWiseIndexLazyRouteImport = createFileRoute(
+  '/reports/attendance/student-day-wise/',
+)()
+const ReportsAttendanceStaffReportIndexLazyRouteImport = createFileRoute(
+  '/reports/attendance/staff-report/',
+)()
+const ReportsAttendanceStaffDayWiseIndexLazyRouteImport = createFileRoute(
+  '/reports/attendance/staff-day-wise/',
+)()
+const ReportsAttendanceDailyAttendanceIndexLazyRouteImport = createFileRoute(
+  '/reports/attendance/daily-attendance/',
+)()
+const ReportsAttendanceAttendanceReportIndexLazyRouteImport = createFileRoute(
+  '/reports/attendance/attendance-report/',
+)()
 const Academic1ExaminationsGradesIndexLazyRouteImport = createFileRoute(
   '/academic1/examinations/grades/',
 )()
@@ -104,6 +137,11 @@ const AcademicClassesAllclassesIndexLazyRouteImport = createFileRoute(
   '/academic/classes/allclasses/',
 )()
 
+const ReportsRouteLazyRoute = ReportsRouteLazyRouteImport.update({
+  id: '/reports',
+  path: '/reports',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() => import('./routes/reports/route.lazy').then((d) => d.Route))
 const Academic1RouteLazyRoute = Academic1RouteLazyRouteImport.update({
   id: '/academic1',
   path: '/academic1',
@@ -124,9 +162,9 @@ const IndexLazyRoute = IndexLazyRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
 const ReportsIndexLazyRoute = ReportsIndexLazyRouteImport.update({
-  id: '/reports/',
-  path: '/reports/',
-  getParentRoute: () => rootRouteImport,
+  id: '/',
+  path: '/',
+  getParentRoute: () => ReportsRouteLazyRoute,
 } as any).lazy(() => import('./routes/reports/index.lazy').then((d) => d.Route))
 const OperationsIndexLazyRoute = OperationsIndexLazyRouteImport.update({
   id: '/operations/',
@@ -171,6 +209,49 @@ const Academic1ClassesRouteLazyRoute =
     getParentRoute: () => Academic1RouteLazyRoute,
   } as any).lazy(() =>
     import('./routes/academic1/classes/route.lazy').then((d) => d.Route),
+  )
+const ReportsStudentIndexLazyRoute = ReportsStudentIndexLazyRouteImport.update({
+  id: '/student/',
+  path: '/student/',
+  getParentRoute: () => ReportsRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/reports/student/index.lazy').then((d) => d.Route),
+)
+const ReportsLeaveIndexLazyRoute = ReportsLeaveIndexLazyRouteImport.update({
+  id: '/leave/',
+  path: '/leave/',
+  getParentRoute: () => ReportsRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/reports/leave/index.lazy').then((d) => d.Route),
+)
+const ReportsGradeIndexLazyRoute = ReportsGradeIndexLazyRouteImport.update({
+  id: '/grade/',
+  path: '/grade/',
+  getParentRoute: () => ReportsRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/reports/grade/index.lazy').then((d) => d.Route),
+)
+const ReportsFeesIndexLazyRoute = ReportsFeesIndexLazyRouteImport.update({
+  id: '/fees/',
+  path: '/fees/',
+  getParentRoute: () => ReportsRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/reports/fees/index.lazy').then((d) => d.Route),
+)
+const ReportsClassIndexLazyRoute = ReportsClassIndexLazyRouteImport.update({
+  id: '/class/',
+  path: '/class/',
+  getParentRoute: () => ReportsRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/reports/class/index.lazy').then((d) => d.Route),
+)
+const ReportsAttendanceIndexLazyRoute =
+  ReportsAttendanceIndexLazyRouteImport.update({
+    id: '/attendance/',
+    path: '/attendance/',
+    getParentRoute: () => ReportsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/reports/attendance/index.lazy').then((d) => d.Route),
   )
 const Academic1TimetableIndexLazyRoute =
   Academic1TimetableIndexLazyRouteImport.update({
@@ -316,6 +397,86 @@ const AcademicClassroomIndexLazyRoute =
   } as any).lazy(() =>
     import('./routes/academic/classroom/index.lazy').then((d) => d.Route),
   )
+const ReportsAttendanceTeacherReportIndexLazyRoute =
+  ReportsAttendanceTeacherReportIndexLazyRouteImport.update({
+    id: '/attendance/teacher-report/',
+    path: '/attendance/teacher-report/',
+    getParentRoute: () => ReportsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/reports/attendance/teacher-report/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const ReportsAttendanceTeacherDayWiseIndexLazyRoute =
+  ReportsAttendanceTeacherDayWiseIndexLazyRouteImport.update({
+    id: '/attendance/teacher-day-wise/',
+    path: '/attendance/teacher-day-wise/',
+    getParentRoute: () => ReportsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/reports/attendance/teacher-day-wise/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const ReportsAttendanceStudentsAttendanceTypeIndexLazyRoute =
+  ReportsAttendanceStudentsAttendanceTypeIndexLazyRouteImport.update({
+    id: '/attendance/students-attendance-type/',
+    path: '/attendance/students-attendance-type/',
+    getParentRoute: () => ReportsRouteLazyRoute,
+  } as any).lazy(() =>
+    import(
+      './routes/reports/attendance/students-attendance-type/index.lazy'
+    ).then((d) => d.Route),
+  )
+const ReportsAttendanceStudentDayWiseIndexLazyRoute =
+  ReportsAttendanceStudentDayWiseIndexLazyRouteImport.update({
+    id: '/attendance/student-day-wise/',
+    path: '/attendance/student-day-wise/',
+    getParentRoute: () => ReportsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/reports/attendance/student-day-wise/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const ReportsAttendanceStaffReportIndexLazyRoute =
+  ReportsAttendanceStaffReportIndexLazyRouteImport.update({
+    id: '/attendance/staff-report/',
+    path: '/attendance/staff-report/',
+    getParentRoute: () => ReportsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/reports/attendance/staff-report/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const ReportsAttendanceStaffDayWiseIndexLazyRoute =
+  ReportsAttendanceStaffDayWiseIndexLazyRouteImport.update({
+    id: '/attendance/staff-day-wise/',
+    path: '/attendance/staff-day-wise/',
+    getParentRoute: () => ReportsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/reports/attendance/staff-day-wise/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const ReportsAttendanceDailyAttendanceIndexLazyRoute =
+  ReportsAttendanceDailyAttendanceIndexLazyRouteImport.update({
+    id: '/attendance/daily-attendance/',
+    path: '/attendance/daily-attendance/',
+    getParentRoute: () => ReportsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/reports/attendance/daily-attendance/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const ReportsAttendanceAttendanceReportIndexLazyRoute =
+  ReportsAttendanceAttendanceReportIndexLazyRouteImport.update({
+    id: '/attendance/attendance-report/',
+    path: '/attendance/attendance-report/',
+    getParentRoute: () => ReportsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/reports/attendance/attendance-report/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
 const Academic1ExaminationsGradesIndexLazyRoute =
   Academic1ExaminationsGradesIndexLazyRouteImport.update({
     id: '/grades/',
@@ -411,13 +572,14 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
   '/academic': typeof AcademicRouteLazyRouteWithChildren
   '/academic1': typeof Academic1RouteLazyRouteWithChildren
+  '/reports': typeof ReportsRouteLazyRouteWithChildren
   '/academic1/classes': typeof Academic1ClassesRouteLazyRouteWithChildren
   '/academic1/examinations': typeof Academic1ExaminationsRouteLazyRouteWithChildren
   '/academic/': typeof AcademicIndexLazyRoute
   '/academic1/': typeof Academic1IndexLazyRoute
   '/channels': typeof ChannelsIndexLazyRoute
   '/operations': typeof OperationsIndexLazyRoute
-  '/reports': typeof ReportsIndexLazyRoute
+  '/reports/': typeof ReportsIndexLazyRoute
   '/academic/classroom': typeof AcademicClassroomIndexLazyRoute
   '/academic/classroutine': typeof AcademicClassroutineIndexLazyRoute
   '/academic/homework': typeof AcademicHomeworkIndexLazyRoute
@@ -436,6 +598,12 @@ export interface FileRoutesByFullPath {
   '/academic1/subject': typeof Academic1SubjectIndexLazyRoute
   '/academic1/syllabus': typeof Academic1SyllabusIndexLazyRoute
   '/academic1/timetable': typeof Academic1TimetableIndexLazyRoute
+  '/reports/attendance': typeof ReportsAttendanceIndexLazyRoute
+  '/reports/class': typeof ReportsClassIndexLazyRoute
+  '/reports/fees': typeof ReportsFeesIndexLazyRoute
+  '/reports/grade': typeof ReportsGradeIndexLazyRoute
+  '/reports/leave': typeof ReportsLeaveIndexLazyRoute
+  '/reports/student': typeof ReportsStudentIndexLazyRoute
   '/academic/classes/allclasses': typeof AcademicClassesAllclassesIndexLazyRoute
   '/academic/classes/schedule': typeof AcademicClassesScheduleIndexLazyRoute
   '/academic1/classes/allclasses': typeof Academic1ClassesAllclassesIndexLazyRoute
@@ -445,6 +613,14 @@ export interface FileRoutesByFullPath {
   '/academic1/examinations/exam-schedule': typeof Academic1ExaminationsExamScheduleIndexLazyRoute
   '/academic1/examinations/exam': typeof Academic1ExaminationsExamIndexLazyRoute
   '/academic1/examinations/grades': typeof Academic1ExaminationsGradesIndexLazyRoute
+  '/reports/attendance/attendance-report': typeof ReportsAttendanceAttendanceReportIndexLazyRoute
+  '/reports/attendance/daily-attendance': typeof ReportsAttendanceDailyAttendanceIndexLazyRoute
+  '/reports/attendance/staff-day-wise': typeof ReportsAttendanceStaffDayWiseIndexLazyRoute
+  '/reports/attendance/staff-report': typeof ReportsAttendanceStaffReportIndexLazyRoute
+  '/reports/attendance/student-day-wise': typeof ReportsAttendanceStudentDayWiseIndexLazyRoute
+  '/reports/attendance/students-attendance-type': typeof ReportsAttendanceStudentsAttendanceTypeIndexLazyRoute
+  '/reports/attendance/teacher-day-wise': typeof ReportsAttendanceTeacherDayWiseIndexLazyRoute
+  '/reports/attendance/teacher-report': typeof ReportsAttendanceTeacherReportIndexLazyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
@@ -471,6 +647,12 @@ export interface FileRoutesByTo {
   '/academic1/subject': typeof Academic1SubjectIndexLazyRoute
   '/academic1/syllabus': typeof Academic1SyllabusIndexLazyRoute
   '/academic1/timetable': typeof Academic1TimetableIndexLazyRoute
+  '/reports/attendance': typeof ReportsAttendanceIndexLazyRoute
+  '/reports/class': typeof ReportsClassIndexLazyRoute
+  '/reports/fees': typeof ReportsFeesIndexLazyRoute
+  '/reports/grade': typeof ReportsGradeIndexLazyRoute
+  '/reports/leave': typeof ReportsLeaveIndexLazyRoute
+  '/reports/student': typeof ReportsStudentIndexLazyRoute
   '/academic/classes/allclasses': typeof AcademicClassesAllclassesIndexLazyRoute
   '/academic/classes/schedule': typeof AcademicClassesScheduleIndexLazyRoute
   '/academic1/classes/allclasses': typeof Academic1ClassesAllclassesIndexLazyRoute
@@ -480,12 +662,21 @@ export interface FileRoutesByTo {
   '/academic1/examinations/exam-schedule': typeof Academic1ExaminationsExamScheduleIndexLazyRoute
   '/academic1/examinations/exam': typeof Academic1ExaminationsExamIndexLazyRoute
   '/academic1/examinations/grades': typeof Academic1ExaminationsGradesIndexLazyRoute
+  '/reports/attendance/attendance-report': typeof ReportsAttendanceAttendanceReportIndexLazyRoute
+  '/reports/attendance/daily-attendance': typeof ReportsAttendanceDailyAttendanceIndexLazyRoute
+  '/reports/attendance/staff-day-wise': typeof ReportsAttendanceStaffDayWiseIndexLazyRoute
+  '/reports/attendance/staff-report': typeof ReportsAttendanceStaffReportIndexLazyRoute
+  '/reports/attendance/student-day-wise': typeof ReportsAttendanceStudentDayWiseIndexLazyRoute
+  '/reports/attendance/students-attendance-type': typeof ReportsAttendanceStudentsAttendanceTypeIndexLazyRoute
+  '/reports/attendance/teacher-day-wise': typeof ReportsAttendanceTeacherDayWiseIndexLazyRoute
+  '/reports/attendance/teacher-report': typeof ReportsAttendanceTeacherReportIndexLazyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexLazyRoute
   '/academic': typeof AcademicRouteLazyRouteWithChildren
   '/academic1': typeof Academic1RouteLazyRouteWithChildren
+  '/reports': typeof ReportsRouteLazyRouteWithChildren
   '/academic1/classes': typeof Academic1ClassesRouteLazyRouteWithChildren
   '/academic1/examinations': typeof Academic1ExaminationsRouteLazyRouteWithChildren
   '/academic/': typeof AcademicIndexLazyRoute
@@ -511,6 +702,12 @@ export interface FileRoutesById {
   '/academic1/subject/': typeof Academic1SubjectIndexLazyRoute
   '/academic1/syllabus/': typeof Academic1SyllabusIndexLazyRoute
   '/academic1/timetable/': typeof Academic1TimetableIndexLazyRoute
+  '/reports/attendance/': typeof ReportsAttendanceIndexLazyRoute
+  '/reports/class/': typeof ReportsClassIndexLazyRoute
+  '/reports/fees/': typeof ReportsFeesIndexLazyRoute
+  '/reports/grade/': typeof ReportsGradeIndexLazyRoute
+  '/reports/leave/': typeof ReportsLeaveIndexLazyRoute
+  '/reports/student/': typeof ReportsStudentIndexLazyRoute
   '/academic/classes/allclasses/': typeof AcademicClassesAllclassesIndexLazyRoute
   '/academic/classes/schedule/': typeof AcademicClassesScheduleIndexLazyRoute
   '/academic1/classes/allclasses/': typeof Academic1ClassesAllclassesIndexLazyRoute
@@ -520,6 +717,14 @@ export interface FileRoutesById {
   '/academic1/examinations/exam-schedule/': typeof Academic1ExaminationsExamScheduleIndexLazyRoute
   '/academic1/examinations/exam/': typeof Academic1ExaminationsExamIndexLazyRoute
   '/academic1/examinations/grades/': typeof Academic1ExaminationsGradesIndexLazyRoute
+  '/reports/attendance/attendance-report/': typeof ReportsAttendanceAttendanceReportIndexLazyRoute
+  '/reports/attendance/daily-attendance/': typeof ReportsAttendanceDailyAttendanceIndexLazyRoute
+  '/reports/attendance/staff-day-wise/': typeof ReportsAttendanceStaffDayWiseIndexLazyRoute
+  '/reports/attendance/staff-report/': typeof ReportsAttendanceStaffReportIndexLazyRoute
+  '/reports/attendance/student-day-wise/': typeof ReportsAttendanceStudentDayWiseIndexLazyRoute
+  '/reports/attendance/students-attendance-type/': typeof ReportsAttendanceStudentsAttendanceTypeIndexLazyRoute
+  '/reports/attendance/teacher-day-wise/': typeof ReportsAttendanceTeacherDayWiseIndexLazyRoute
+  '/reports/attendance/teacher-report/': typeof ReportsAttendanceTeacherReportIndexLazyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -527,13 +732,14 @@ export interface FileRouteTypes {
     | '/'
     | '/academic'
     | '/academic1'
+    | '/reports'
     | '/academic1/classes'
     | '/academic1/examinations'
     | '/academic/'
     | '/academic1/'
     | '/channels'
     | '/operations'
-    | '/reports'
+    | '/reports/'
     | '/academic/classroom'
     | '/academic/classroutine'
     | '/academic/homework'
@@ -552,6 +758,12 @@ export interface FileRouteTypes {
     | '/academic1/subject'
     | '/academic1/syllabus'
     | '/academic1/timetable'
+    | '/reports/attendance'
+    | '/reports/class'
+    | '/reports/fees'
+    | '/reports/grade'
+    | '/reports/leave'
+    | '/reports/student'
     | '/academic/classes/allclasses'
     | '/academic/classes/schedule'
     | '/academic1/classes/allclasses'
@@ -561,6 +773,14 @@ export interface FileRouteTypes {
     | '/academic1/examinations/exam-schedule'
     | '/academic1/examinations/exam'
     | '/academic1/examinations/grades'
+    | '/reports/attendance/attendance-report'
+    | '/reports/attendance/daily-attendance'
+    | '/reports/attendance/staff-day-wise'
+    | '/reports/attendance/staff-report'
+    | '/reports/attendance/student-day-wise'
+    | '/reports/attendance/students-attendance-type'
+    | '/reports/attendance/teacher-day-wise'
+    | '/reports/attendance/teacher-report'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -587,6 +807,12 @@ export interface FileRouteTypes {
     | '/academic1/subject'
     | '/academic1/syllabus'
     | '/academic1/timetable'
+    | '/reports/attendance'
+    | '/reports/class'
+    | '/reports/fees'
+    | '/reports/grade'
+    | '/reports/leave'
+    | '/reports/student'
     | '/academic/classes/allclasses'
     | '/academic/classes/schedule'
     | '/academic1/classes/allclasses'
@@ -596,11 +822,20 @@ export interface FileRouteTypes {
     | '/academic1/examinations/exam-schedule'
     | '/academic1/examinations/exam'
     | '/academic1/examinations/grades'
+    | '/reports/attendance/attendance-report'
+    | '/reports/attendance/daily-attendance'
+    | '/reports/attendance/staff-day-wise'
+    | '/reports/attendance/staff-report'
+    | '/reports/attendance/student-day-wise'
+    | '/reports/attendance/students-attendance-type'
+    | '/reports/attendance/teacher-day-wise'
+    | '/reports/attendance/teacher-report'
   id:
     | '__root__'
     | '/'
     | '/academic'
     | '/academic1'
+    | '/reports'
     | '/academic1/classes'
     | '/academic1/examinations'
     | '/academic/'
@@ -626,6 +861,12 @@ export interface FileRouteTypes {
     | '/academic1/subject/'
     | '/academic1/syllabus/'
     | '/academic1/timetable/'
+    | '/reports/attendance/'
+    | '/reports/class/'
+    | '/reports/fees/'
+    | '/reports/grade/'
+    | '/reports/leave/'
+    | '/reports/student/'
     | '/academic/classes/allclasses/'
     | '/academic/classes/schedule/'
     | '/academic1/classes/allclasses/'
@@ -635,19 +876,34 @@ export interface FileRouteTypes {
     | '/academic1/examinations/exam-schedule/'
     | '/academic1/examinations/exam/'
     | '/academic1/examinations/grades/'
+    | '/reports/attendance/attendance-report/'
+    | '/reports/attendance/daily-attendance/'
+    | '/reports/attendance/staff-day-wise/'
+    | '/reports/attendance/staff-report/'
+    | '/reports/attendance/student-day-wise/'
+    | '/reports/attendance/students-attendance-type/'
+    | '/reports/attendance/teacher-day-wise/'
+    | '/reports/attendance/teacher-report/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
   AcademicRouteLazyRoute: typeof AcademicRouteLazyRouteWithChildren
   Academic1RouteLazyRoute: typeof Academic1RouteLazyRouteWithChildren
+  ReportsRouteLazyRoute: typeof ReportsRouteLazyRouteWithChildren
   ChannelsIndexLazyRoute: typeof ChannelsIndexLazyRoute
   OperationsIndexLazyRoute: typeof OperationsIndexLazyRoute
-  ReportsIndexLazyRoute: typeof ReportsIndexLazyRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/reports': {
+      id: '/reports'
+      path: '/reports'
+      fullPath: '/reports'
+      preLoaderRoute: typeof ReportsRouteLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/academic1': {
       id: '/academic1'
       path: '/academic1'
@@ -671,10 +927,10 @@ declare module '@tanstack/react-router' {
     }
     '/reports/': {
       id: '/reports/'
-      path: '/reports'
-      fullPath: '/reports'
+      path: '/'
+      fullPath: '/reports/'
       preLoaderRoute: typeof ReportsIndexLazyRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof ReportsRouteLazyRoute
     }
     '/operations/': {
       id: '/operations/'
@@ -717,6 +973,48 @@ declare module '@tanstack/react-router' {
       fullPath: '/academic1/classes'
       preLoaderRoute: typeof Academic1ClassesRouteLazyRouteImport
       parentRoute: typeof Academic1RouteLazyRoute
+    }
+    '/reports/student/': {
+      id: '/reports/student/'
+      path: '/student'
+      fullPath: '/reports/student'
+      preLoaderRoute: typeof ReportsStudentIndexLazyRouteImport
+      parentRoute: typeof ReportsRouteLazyRoute
+    }
+    '/reports/leave/': {
+      id: '/reports/leave/'
+      path: '/leave'
+      fullPath: '/reports/leave'
+      preLoaderRoute: typeof ReportsLeaveIndexLazyRouteImport
+      parentRoute: typeof ReportsRouteLazyRoute
+    }
+    '/reports/grade/': {
+      id: '/reports/grade/'
+      path: '/grade'
+      fullPath: '/reports/grade'
+      preLoaderRoute: typeof ReportsGradeIndexLazyRouteImport
+      parentRoute: typeof ReportsRouteLazyRoute
+    }
+    '/reports/fees/': {
+      id: '/reports/fees/'
+      path: '/fees'
+      fullPath: '/reports/fees'
+      preLoaderRoute: typeof ReportsFeesIndexLazyRouteImport
+      parentRoute: typeof ReportsRouteLazyRoute
+    }
+    '/reports/class/': {
+      id: '/reports/class/'
+      path: '/class'
+      fullPath: '/reports/class'
+      preLoaderRoute: typeof ReportsClassIndexLazyRouteImport
+      parentRoute: typeof ReportsRouteLazyRoute
+    }
+    '/reports/attendance/': {
+      id: '/reports/attendance/'
+      path: '/attendance'
+      fullPath: '/reports/attendance'
+      preLoaderRoute: typeof ReportsAttendanceIndexLazyRouteImport
+      parentRoute: typeof ReportsRouteLazyRoute
     }
     '/academic1/timetable/': {
       id: '/academic1/timetable/'
@@ -843,6 +1141,62 @@ declare module '@tanstack/react-router' {
       fullPath: '/academic/classroom'
       preLoaderRoute: typeof AcademicClassroomIndexLazyRouteImport
       parentRoute: typeof AcademicRouteLazyRoute
+    }
+    '/reports/attendance/teacher-report/': {
+      id: '/reports/attendance/teacher-report/'
+      path: '/attendance/teacher-report'
+      fullPath: '/reports/attendance/teacher-report'
+      preLoaderRoute: typeof ReportsAttendanceTeacherReportIndexLazyRouteImport
+      parentRoute: typeof ReportsRouteLazyRoute
+    }
+    '/reports/attendance/teacher-day-wise/': {
+      id: '/reports/attendance/teacher-day-wise/'
+      path: '/attendance/teacher-day-wise'
+      fullPath: '/reports/attendance/teacher-day-wise'
+      preLoaderRoute: typeof ReportsAttendanceTeacherDayWiseIndexLazyRouteImport
+      parentRoute: typeof ReportsRouteLazyRoute
+    }
+    '/reports/attendance/students-attendance-type/': {
+      id: '/reports/attendance/students-attendance-type/'
+      path: '/attendance/students-attendance-type'
+      fullPath: '/reports/attendance/students-attendance-type'
+      preLoaderRoute: typeof ReportsAttendanceStudentsAttendanceTypeIndexLazyRouteImport
+      parentRoute: typeof ReportsRouteLazyRoute
+    }
+    '/reports/attendance/student-day-wise/': {
+      id: '/reports/attendance/student-day-wise/'
+      path: '/attendance/student-day-wise'
+      fullPath: '/reports/attendance/student-day-wise'
+      preLoaderRoute: typeof ReportsAttendanceStudentDayWiseIndexLazyRouteImport
+      parentRoute: typeof ReportsRouteLazyRoute
+    }
+    '/reports/attendance/staff-report/': {
+      id: '/reports/attendance/staff-report/'
+      path: '/attendance/staff-report'
+      fullPath: '/reports/attendance/staff-report'
+      preLoaderRoute: typeof ReportsAttendanceStaffReportIndexLazyRouteImport
+      parentRoute: typeof ReportsRouteLazyRoute
+    }
+    '/reports/attendance/staff-day-wise/': {
+      id: '/reports/attendance/staff-day-wise/'
+      path: '/attendance/staff-day-wise'
+      fullPath: '/reports/attendance/staff-day-wise'
+      preLoaderRoute: typeof ReportsAttendanceStaffDayWiseIndexLazyRouteImport
+      parentRoute: typeof ReportsRouteLazyRoute
+    }
+    '/reports/attendance/daily-attendance/': {
+      id: '/reports/attendance/daily-attendance/'
+      path: '/attendance/daily-attendance'
+      fullPath: '/reports/attendance/daily-attendance'
+      preLoaderRoute: typeof ReportsAttendanceDailyAttendanceIndexLazyRouteImport
+      parentRoute: typeof ReportsRouteLazyRoute
+    }
+    '/reports/attendance/attendance-report/': {
+      id: '/reports/attendance/attendance-report/'
+      path: '/attendance/attendance-report'
+      fullPath: '/reports/attendance/attendance-report'
+      preLoaderRoute: typeof ReportsAttendanceAttendanceReportIndexLazyRouteImport
+      parentRoute: typeof ReportsRouteLazyRoute
     }
     '/academic1/examinations/grades/': {
       id: '/academic1/examinations/grades/'
@@ -1023,13 +1377,60 @@ const Academic1RouteLazyRouteChildren: Academic1RouteLazyRouteChildren = {
 const Academic1RouteLazyRouteWithChildren =
   Academic1RouteLazyRoute._addFileChildren(Academic1RouteLazyRouteChildren)
 
+interface ReportsRouteLazyRouteChildren {
+  ReportsIndexLazyRoute: typeof ReportsIndexLazyRoute
+  ReportsAttendanceIndexLazyRoute: typeof ReportsAttendanceIndexLazyRoute
+  ReportsClassIndexLazyRoute: typeof ReportsClassIndexLazyRoute
+  ReportsFeesIndexLazyRoute: typeof ReportsFeesIndexLazyRoute
+  ReportsGradeIndexLazyRoute: typeof ReportsGradeIndexLazyRoute
+  ReportsLeaveIndexLazyRoute: typeof ReportsLeaveIndexLazyRoute
+  ReportsStudentIndexLazyRoute: typeof ReportsStudentIndexLazyRoute
+  ReportsAttendanceAttendanceReportIndexLazyRoute: typeof ReportsAttendanceAttendanceReportIndexLazyRoute
+  ReportsAttendanceDailyAttendanceIndexLazyRoute: typeof ReportsAttendanceDailyAttendanceIndexLazyRoute
+  ReportsAttendanceStaffDayWiseIndexLazyRoute: typeof ReportsAttendanceStaffDayWiseIndexLazyRoute
+  ReportsAttendanceStaffReportIndexLazyRoute: typeof ReportsAttendanceStaffReportIndexLazyRoute
+  ReportsAttendanceStudentDayWiseIndexLazyRoute: typeof ReportsAttendanceStudentDayWiseIndexLazyRoute
+  ReportsAttendanceStudentsAttendanceTypeIndexLazyRoute: typeof ReportsAttendanceStudentsAttendanceTypeIndexLazyRoute
+  ReportsAttendanceTeacherDayWiseIndexLazyRoute: typeof ReportsAttendanceTeacherDayWiseIndexLazyRoute
+  ReportsAttendanceTeacherReportIndexLazyRoute: typeof ReportsAttendanceTeacherReportIndexLazyRoute
+}
+
+const ReportsRouteLazyRouteChildren: ReportsRouteLazyRouteChildren = {
+  ReportsIndexLazyRoute: ReportsIndexLazyRoute,
+  ReportsAttendanceIndexLazyRoute: ReportsAttendanceIndexLazyRoute,
+  ReportsClassIndexLazyRoute: ReportsClassIndexLazyRoute,
+  ReportsFeesIndexLazyRoute: ReportsFeesIndexLazyRoute,
+  ReportsGradeIndexLazyRoute: ReportsGradeIndexLazyRoute,
+  ReportsLeaveIndexLazyRoute: ReportsLeaveIndexLazyRoute,
+  ReportsStudentIndexLazyRoute: ReportsStudentIndexLazyRoute,
+  ReportsAttendanceAttendanceReportIndexLazyRoute:
+    ReportsAttendanceAttendanceReportIndexLazyRoute,
+  ReportsAttendanceDailyAttendanceIndexLazyRoute:
+    ReportsAttendanceDailyAttendanceIndexLazyRoute,
+  ReportsAttendanceStaffDayWiseIndexLazyRoute:
+    ReportsAttendanceStaffDayWiseIndexLazyRoute,
+  ReportsAttendanceStaffReportIndexLazyRoute:
+    ReportsAttendanceStaffReportIndexLazyRoute,
+  ReportsAttendanceStudentDayWiseIndexLazyRoute:
+    ReportsAttendanceStudentDayWiseIndexLazyRoute,
+  ReportsAttendanceStudentsAttendanceTypeIndexLazyRoute:
+    ReportsAttendanceStudentsAttendanceTypeIndexLazyRoute,
+  ReportsAttendanceTeacherDayWiseIndexLazyRoute:
+    ReportsAttendanceTeacherDayWiseIndexLazyRoute,
+  ReportsAttendanceTeacherReportIndexLazyRoute:
+    ReportsAttendanceTeacherReportIndexLazyRoute,
+}
+
+const ReportsRouteLazyRouteWithChildren =
+  ReportsRouteLazyRoute._addFileChildren(ReportsRouteLazyRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
   AcademicRouteLazyRoute: AcademicRouteLazyRouteWithChildren,
   Academic1RouteLazyRoute: Academic1RouteLazyRouteWithChildren,
+  ReportsRouteLazyRoute: ReportsRouteLazyRouteWithChildren,
   ChannelsIndexLazyRoute: ChannelsIndexLazyRoute,
   OperationsIndexLazyRoute: OperationsIndexLazyRoute,
-  ReportsIndexLazyRoute: ReportsIndexLazyRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

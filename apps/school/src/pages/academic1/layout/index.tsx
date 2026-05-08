@@ -1,6 +1,6 @@
 import { Icon } from '@iconify/react'
 import { Outlet } from '@tanstack/react-router'
-import { ReactNode } from 'react'
+import { Fragment, ReactNode } from 'react'
 
 import { forwardRef } from '@vezham/react-utils'
 import {
@@ -23,6 +23,7 @@ const AcademicLayoutPage = forwardRef<'div', Props>((props, ref) => {
   const {
     Component,
     activeTabs,
+    layoutTitle,
     headerProps,
     sidebarProps,
     drawerProps,
@@ -48,9 +49,18 @@ const AcademicLayoutPage = forwardRef<'div', Props>((props, ref) => {
     getDropdownLabelProps,
     getSidebarProps,
     getSidebarListProps,
+    getSidebarItemWrapProps,
+    getSidebarChildGroupProps,
     getSidebarItemProps,
+    getCollapsedSidebarListProps,
+    getCollapsedSidebarItemProps,
+    getSidebarFlyoutProps,
+    getSidebarFlyoutLabelProps,
+    getSidebarFlyoutListProps,
+    getSidebarFlyoutItemProps,
     getSidebarIconProps,
     getSidebarLabelProps,
+    getSidebarDisclosureIconProps,
     getTabsScrollerProps,
     getSeparatorProps,
     getTabsListProps,
@@ -166,9 +176,18 @@ const AcademicLayoutPage = forwardRef<'div', Props>((props, ref) => {
             sidebarProps={sidebarProps}
             getSidebarProps={getSidebarProps}
             getSidebarListProps={getSidebarListProps}
+            getSidebarItemWrapProps={getSidebarItemWrapProps}
+            getSidebarChildGroupProps={getSidebarChildGroupProps}
             getSidebarItemProps={getSidebarItemProps}
+            getCollapsedSidebarListProps={getCollapsedSidebarListProps}
+            getCollapsedSidebarItemProps={getCollapsedSidebarItemProps}
+            getSidebarFlyoutProps={getSidebarFlyoutProps}
+            getSidebarFlyoutLabelProps={getSidebarFlyoutLabelProps}
+            getSidebarFlyoutListProps={getSidebarFlyoutListProps}
+            getSidebarFlyoutItemProps={getSidebarFlyoutItemProps}
             getSidebarIconProps={getSidebarIconProps}
             getSidebarLabelProps={getSidebarLabelProps}
+            getSidebarDisclosureIconProps={getSidebarDisclosureIconProps}
           />
         </Surface>
 
@@ -183,7 +202,9 @@ const AcademicLayoutPage = forwardRef<'div', Props>((props, ref) => {
         <Drawer.Content placement="left">
           <Drawer.Dialog {...drawerProps.dialog}>
             <Surface {...getDrawerHeaderProps()}>
-              <Drawer.Header {...getDrawerTitleProps()}>Academic</Drawer.Header>
+              <Drawer.Header {...getDrawerTitleProps()}>
+                {layoutTitle}
+              </Drawer.Header>
 
               <Button {...getIconButtonProps(drawerProps.closeAction)}>
                 <Icon {...getButtonIconProps(drawerProps.closeAction.icon)} />
@@ -195,9 +216,18 @@ const AcademicLayoutPage = forwardRef<'div', Props>((props, ref) => {
                 sidebarProps={drawerProps.sidebar}
                 getSidebarProps={getSidebarProps}
                 getSidebarListProps={getSidebarListProps}
+                getSidebarItemWrapProps={getSidebarItemWrapProps}
+                getSidebarChildGroupProps={getSidebarChildGroupProps}
                 getSidebarItemProps={getSidebarItemProps}
+                getCollapsedSidebarListProps={getCollapsedSidebarListProps}
+                getCollapsedSidebarItemProps={getCollapsedSidebarItemProps}
+                getSidebarFlyoutProps={getSidebarFlyoutProps}
+                getSidebarFlyoutLabelProps={getSidebarFlyoutLabelProps}
+                getSidebarFlyoutListProps={getSidebarFlyoutListProps}
+                getSidebarFlyoutItemProps={getSidebarFlyoutItemProps}
                 getSidebarIconProps={getSidebarIconProps}
                 getSidebarLabelProps={getSidebarLabelProps}
+                getSidebarDisclosureIconProps={getSidebarDisclosureIconProps}
               />
             </Drawer.Body>
           </Drawer.Dialog>
@@ -312,17 +342,35 @@ function AcademicSidebar({
   sidebarProps,
   getSidebarProps,
   getSidebarListProps,
+  getSidebarItemWrapProps,
+  getSidebarChildGroupProps,
   getSidebarItemProps,
+  getCollapsedSidebarListProps,
+  getCollapsedSidebarItemProps,
+  getSidebarFlyoutProps,
+  getSidebarFlyoutLabelProps,
+  getSidebarFlyoutListProps,
+  getSidebarFlyoutItemProps,
   getSidebarIconProps,
-  getSidebarLabelProps
+  getSidebarLabelProps,
+  getSidebarDisclosureIconProps
 }: Pick<
   ReturnType<typeof useProps>,
   | 'sidebarProps'
   | 'getSidebarProps'
   | 'getSidebarListProps'
+  | 'getSidebarItemWrapProps'
+  | 'getSidebarChildGroupProps'
   | 'getSidebarItemProps'
+  | 'getCollapsedSidebarListProps'
+  | 'getCollapsedSidebarItemProps'
+  | 'getSidebarFlyoutProps'
+  | 'getSidebarFlyoutLabelProps'
+  | 'getSidebarFlyoutListProps'
+  | 'getSidebarFlyoutItemProps'
   | 'getSidebarIconProps'
   | 'getSidebarLabelProps'
+  | 'getSidebarDisclosureIconProps'
 >) {
   return (
     <Surface {...getSidebarProps(sidebarProps)}>
@@ -332,17 +380,78 @@ function AcademicSidebar({
         </Button>
       ) : null}
 
+      {sidebarProps.collapsed && sidebarProps.collapsedMode === 'icons' ? (
+        <Surface {...getCollapsedSidebarListProps()}>
+          {sidebarProps.items.map(item => (
+            <Surface key={item.key} {...getSidebarItemWrapProps()}>
+              <Button {...getCollapsedSidebarItemProps(item)}>
+                <Icon {...getSidebarIconProps(item.icon, item.isActive)} />
+              </Button>
+
+              <Surface {...getSidebarFlyoutProps()}>
+                <Label {...getSidebarFlyoutLabelProps()}>
+                  <Icon {...getSidebarIconProps(item.icon, item.isActive)} />
+                  {item.title}
+                </Label>
+
+                {item.children?.length ? (
+                  <Surface {...getSidebarFlyoutListProps()}>
+                    {item.children.map(child => (
+                      <Button
+                        key={child.key}
+                        {...getSidebarFlyoutItemProps(child)}>
+                        <Icon
+                          {...getSidebarIconProps(child.icon, child.isActive)}
+                        />
+                        <Label {...getSidebarLabelProps(child.isActive)}>
+                          {child.title}
+                        </Label>
+                      </Button>
+                    ))}
+                  </Surface>
+                ) : null}
+              </Surface>
+            </Surface>
+          ))}
+        </Surface>
+      ) : null}
+
       {sidebarProps.collapsed ? null : (
         <ListBox {...getSidebarListProps(sidebarProps)}>
           {sidebarProps.items.map(item => (
-            <ListBox.Item
-              key={item.key}
-              {...getSidebarItemProps(item, sidebarProps)}>
-              <Icon {...getSidebarIconProps(item.icon, item.isActive)} />
-              <Label {...getSidebarLabelProps(item.isActive)}>
-                {item.title}
-              </Label>
-            </ListBox.Item>
+            <Fragment key={item.key}>
+              <ListBox.Item {...getSidebarItemProps(item, sidebarProps)}>
+                <Icon {...getSidebarIconProps(item.icon, item.isActive)} />
+                <Label {...getSidebarLabelProps(item.isActive)}>
+                  {item.title}
+                </Label>
+                {sidebarProps.renderChildrenInSidebar &&
+                item.children?.length ? (
+                  <Icon {...getSidebarDisclosureIconProps(item.isExpanded)} />
+                ) : null}
+              </ListBox.Item>
+
+              {sidebarProps.renderChildrenInSidebar &&
+              item.isExpanded &&
+              item.children?.length ? (
+                <ListBox.Section
+                  {...getSidebarChildGroupProps()}
+                  aria-label={item.title}>
+                  {item.children.map(child => (
+                    <ListBox.Item
+                      key={child.key}
+                      {...getSidebarItemProps(child, sidebarProps, true)}>
+                      <Icon
+                        {...getSidebarIconProps(child.icon, child.isActive)}
+                      />
+                      <Label {...getSidebarLabelProps(child.isActive)}>
+                        {child.title}
+                      </Label>
+                    </ListBox.Item>
+                  ))}
+                </ListBox.Section>
+              ) : null}
+            </Fragment>
           ))}
         </ListBox>
       )}

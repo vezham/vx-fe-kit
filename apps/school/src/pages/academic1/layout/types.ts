@@ -1,7 +1,7 @@
 import { useHotkey } from '@tanstack/react-hotkeys'
 import { useLocation, useNavigate } from '@tanstack/react-router'
 import { Key } from 'react'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { ReactRef, useDOMRef } from '@vezham/react-utils'
 import {
@@ -48,14 +48,30 @@ type HeaderActionsConfig = {
   rightActions?: ActionItem[]
 }
 
-type SidebarViewItem = AcademicMenuItem & {
+type LayoutConfig = {
+  title?: string
+  navigationLabel?: string
+  subNavigationLabel?: string
+  createEventPrefix?: string
+  collapsedSidebarMode?: SidebarProps['collapsedMode']
+  initialSidebarCollapsed?: boolean
+  renderChildrenInSidebar?: boolean
+  sidebarItems?: AcademicMenuItem[]
+}
+
+type SidebarViewItem = Omit<AcademicMenuItem, 'children'> & {
+  isExpanded: boolean
   isActive: boolean
+  children?: SidebarViewItem[]
 }
 
 type SidebarProps = {
   collapsed: boolean
+  collapsedMode: 'hidden' | 'icons'
   hideToggle: boolean
   items: SidebarViewItem[]
+  navigationLabel: string
+  renderChildrenInSidebar: boolean
   selectedKeys: Set<string>
   toggleIcon: string
   toggleButtonProps: {
@@ -71,24 +87,51 @@ interface Props extends tvProps, HTMLHeroUIProps<'div'> {
   ref?: ReactRef<HTMLDivElement | null>
   classNames?: SlotsToClasses<tvSlots>
   actions?: HeaderActionsConfig
+  layout?: LayoutConfig
 }
 
 const useProps = (originalProps: Props) => {
   const [props, variantProps] = mapPropsVariants(originalProps, tva.variantKeys)
 
-  const { as, id, ref, className, classNames, actions, ...otherProps } = props
+  const { as, id, ref, className, classNames, actions, layout, ...otherProps } =
+    props
 
   const Component = as || 'div'
   const domRef = useDOMRef(ref)
   const slots = tva(variantProps)
   const location = useLocation()
   const navigate = useNavigate()
+  const layoutConfig = {
+    title: 'Academic',
+    navigationLabel: 'Academic navigation',
+    subNavigationLabel: 'Academic sub navigation',
+    createEventPrefix: 'academic',
+    collapsedSidebarMode: 'hidden' as SidebarProps['collapsedMode'],
+    initialSidebarCollapsed: true,
+    renderChildrenInSidebar: false,
+    sidebarItems,
+    ...layout
+  }
+  const layoutSidebarItems = layoutConfig.sidebarItems
+  const activeParentKeys = useMemo(
+    () => getActiveParentKeys(location.pathname, layoutSidebarItems),
+    [layoutSidebarItems, location.pathname]
+  )
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
-  const [collapsed, setCollapsed] = useState(true)
-
-  const activeTabs = getActiveTabs(location.pathname)
-  const activePageKey = getActivePageKey(location.pathname)
-  const activeSidebarKey = getActiveSidebarKey(location.pathname)
+  const [collapsed, setCollapsed] = useState(
+    layoutConfig.initialSidebarCollapsed
+  )
+  const [expandedSidebarKeys, setExpandedSidebarKeys] = useState<Set<string>>(
+    () => new Set(activeParentKeys)
+  )
+  const activeTabs = layoutConfig.renderChildrenInSidebar
+    ? []
+    : getActiveTabs(location.pathname, layoutSidebarItems)
+  const activePageKey = getActivePageKey(location.pathname, layoutSidebarItems)
+  const activeSidebarKey = getActiveSidebarKey(
+    location.pathname,
+    layoutSidebarItems
+  )
   const selectedTabKey = activeTabs.find(
     tab =>
       location.pathname === tab.href ||
@@ -96,8 +139,8 @@ const useProps = (originalProps: Props) => {
   )?.key
 
   const rightActions = useMemo(
-    () => getPageRightActions(activePageKey),
-    [activePageKey]
+    () => getPageRightActions(activePageKey, layoutConfig.createEventPrefix),
+    [activePageKey, layoutConfig.createEventPrefix]
   )
   const resolvedLeftActions = mergeActions(
     defaultLeftActions,
@@ -110,12 +153,27 @@ const useProps = (originalProps: Props) => {
   const visibleRightActions = resolvedRightActions.filter(
     action => !action.isVisible || action.isVisible(activePageKey)
   )
-  const sidebarViewItems = sidebarItems.map(item => ({
-    ...item,
-    isActive:
-      location.pathname === item.href ||
-      location.pathname.startsWith(`${item.href}/`)
-  }))
+  const sidebarViewItems = createSidebarViewItems(
+    location.pathname,
+    layoutSidebarItems,
+    expandedSidebarKeys
+  )
+
+  useEffect(() => {
+    setExpandedSidebarKeys(currentKeys => {
+      const nextKeys = new Set(currentKeys)
+      let hasChanged = false
+
+      activeParentKeys.forEach(key => {
+        if (!nextKeys.has(key)) {
+          nextKeys.add(key)
+          hasChanged = true
+        }
+      })
+
+      return hasChanged ? nextKeys : currentKeys
+    })
+  }, [activeParentKeys])
 
   const onToggleSidebar = useCallback(() => {
     if (window.matchMedia('(min-width: 768px)').matches) {
@@ -148,9 +206,25 @@ const useProps = (originalProps: Props) => {
   useHotkey('Meta+\\', () => onToggleSidebar())
 
   const onSidebarAction = (key: Key, onNavigate?: () => void) => {
-    const item = sidebarItems.find(sidebarItem => sidebarItem.key === key)
+    const item = findSidebarItem(layoutSidebarItems, String(key))
 
     if (item) {
+      if (layoutConfig.renderChildrenInSidebar && item.children?.length) {
+        setExpandedSidebarKeys(currentKeys => {
+          const nextKeys = new Set(currentKeys)
+
+          if (nextKeys.has(item.key)) {
+            nextKeys.delete(item.key)
+          } else {
+            nextKeys.add(item.key)
+          }
+
+          return nextKeys
+        })
+
+        return
+      }
+
       navigate({ to: item.href })
       onNavigate?.()
     }
@@ -211,7 +285,10 @@ const useProps = (originalProps: Props) => {
     className: slots.sidebar_rail({
       class: cn(
         classNames?.sidebar_rail,
-        collapsed && slots.sidebar_rail_closed()
+        collapsed &&
+          (layoutConfig.collapsedSidebarMode === 'icons'
+            ? slots.sidebar_rail_compact()
+            : slots.sidebar_rail_closed())
       )
     })
   })
@@ -284,7 +361,7 @@ const useProps = (originalProps: Props) => {
   })
 
   const getSidebarListProps = (sidebar: SidebarProps) => ({
-    'aria-label': 'Academic navigation',
+    'aria-label': sidebar.navigationLabel,
     selectionMode: 'single' as const,
     selectedKeys: sidebar.selectedKeys,
     onAction: sidebar.onAction,
@@ -304,14 +381,81 @@ const useProps = (originalProps: Props) => {
 
   const getSidebarItemProps = (
     item: SidebarViewItem,
-    sidebar?: SidebarProps
+    sidebar?: SidebarProps,
+    isChild = false
   ) => ({
     id: item.key,
     textValue: item.title,
     onPress: () => sidebar?.onAction(item.key),
+    className: isChild
+      ? item.isActive
+        ? slots.sidebar_child_item_active({
+            class: classNames?.sidebar_child_item_active
+          })
+        : slots.sidebar_child_item({ class: classNames?.sidebar_child_item })
+      : item.isActive
+        ? slots.sidebar_item_active({ class: classNames?.sidebar_item_active })
+        : slots.sidebar_item({ class: classNames?.sidebar_item })
+  })
+
+  const getSidebarItemWrapProps: PropGetter = () => ({
+    variant: 'transparent' as const,
+    className: slots.sidebar_item_wrap({ class: classNames?.sidebar_item_wrap })
+  })
+
+  const getSidebarChildGroupProps: PropGetter = () => ({
+    className: slots.sidebar_child_group({
+      class: classNames?.sidebar_child_group
+    })
+  })
+
+  const getCollapsedSidebarListProps: PropGetter = () => ({
+    variant: 'transparent' as const,
+    className: slots.sidebar_collapsed_list({
+      class: classNames?.sidebar_collapsed_list
+    })
+  })
+
+  const getCollapsedSidebarItemProps = (item: SidebarViewItem) => ({
+    variant: 'ghost' as const,
+    isIconOnly: true,
+    'aria-label': item.title,
     className: item.isActive
-      ? slots.sidebar_item_active({ class: classNames?.sidebar_item_active })
-      : slots.sidebar_item({ class: classNames?.sidebar_item })
+      ? slots.sidebar_collapsed_item_active({
+          class: classNames?.sidebar_collapsed_item_active
+        })
+      : slots.sidebar_collapsed_item({
+          class: classNames?.sidebar_collapsed_item
+        }),
+    onPress: () => onSidebarAction(item.key)
+  })
+
+  const getSidebarFlyoutProps: PropGetter = () => ({
+    variant: 'transparent' as const,
+    className: slots.sidebar_flyout({ class: classNames?.sidebar_flyout })
+  })
+
+  const getSidebarFlyoutLabelProps: PropGetter = () => ({
+    className: slots.sidebar_flyout_label({
+      class: classNames?.sidebar_flyout_label
+    })
+  })
+
+  const getSidebarFlyoutListProps: PropGetter = () => ({
+    variant: 'transparent' as const,
+    className: slots.sidebar_flyout_list({
+      class: classNames?.sidebar_flyout_list
+    })
+  })
+
+  const getSidebarFlyoutItemProps = (item: SidebarViewItem) => ({
+    variant: 'ghost' as const,
+    className: item.isActive
+      ? slots.sidebar_flyout_item_active({
+          class: classNames?.sidebar_flyout_item_active
+        })
+      : slots.sidebar_flyout_item({ class: classNames?.sidebar_flyout_item }),
+    onPress: () => onSidebarAction(item.key)
   })
 
   const getSidebarIconProps = (icon: string, isActive: boolean) => ({
@@ -328,13 +472,21 @@ const useProps = (originalProps: Props) => {
       : slots.sidebar_label({ class: classNames?.sidebar_label })
   })
 
+  const getSidebarDisclosureIconProps = (isExpanded: boolean) => ({
+    icon: isExpanded ? 'lucide:chevron-down' : 'lucide:chevron-right',
+    width: 16,
+    className: slots.sidebar_disclosure_icon({
+      class: classNames?.sidebar_disclosure_icon
+    })
+  })
+
   const getTabsScrollerProps: PropGetter = () => ({
     variant: 'transparent' as const,
     className: slots.tabs_scroller({ class: classNames?.tabs_scroller })
   })
 
   const getTabsListProps: PropGetter = () => ({
-    'aria-label': 'Academic sub navigation',
+    'aria-label': layoutConfig.subNavigationLabel,
     className: slots.tabs_list({ class: classNames?.tabs_list })
   })
 
@@ -345,16 +497,19 @@ const useProps = (originalProps: Props) => {
 
   const sidebarProps: SidebarProps = {
     collapsed,
+    collapsedMode: layoutConfig.collapsedSidebarMode,
     hideToggle: true,
     items: sidebarViewItems,
+    navigationLabel: layoutConfig.navigationLabel,
+    renderChildrenInSidebar: layoutConfig.renderChildrenInSidebar,
     selectedKeys: new Set([activeSidebarKey]),
     toggleIcon: collapsed ? 'lucide:chevron-right' : 'lucide:chevron-left',
     toggleButtonProps: {
       variant: 'ghost' as const,
       className: slots.sidebar_toggle({ class: classNames?.sidebar_toggle }),
       'aria-label': collapsed
-        ? 'Expand academic navigation'
-        : 'Collapse academic navigation',
+        ? `Expand ${layoutConfig.navigationLabel}`
+        : `Collapse ${layoutConfig.navigationLabel}`,
       onPress: () => setCollapsed(isCollapsed => !isCollapsed)
     },
     onAction: key => onSidebarAction(key)
@@ -373,6 +528,7 @@ const useProps = (originalProps: Props) => {
     slots,
     classNames,
     activeTabs,
+    layoutTitle: layoutConfig.title,
     headerProps: {
       leftActions: resolvedLeftActions,
       searchAction: visibleRightActions.find(
@@ -409,7 +565,7 @@ const useProps = (originalProps: Props) => {
       },
       closeAction: {
         key: 'close-sidebar',
-        label: 'Close academic navigation',
+        label: `Close ${layoutConfig.navigationLabel}`,
         icon: 'lucide:x',
         onAction: () => setIsSidebarOpen(false)
       },
@@ -438,16 +594,28 @@ const useProps = (originalProps: Props) => {
     getDropdownLabelProps,
     getSidebarProps,
     getSidebarListProps,
+    getSidebarItemWrapProps,
+    getSidebarChildGroupProps,
     getSidebarItemProps,
+    getCollapsedSidebarListProps,
+    getCollapsedSidebarItemProps,
+    getSidebarFlyoutProps,
+    getSidebarFlyoutLabelProps,
+    getSidebarFlyoutListProps,
+    getSidebarFlyoutItemProps,
     getSidebarIconProps,
     getSidebarLabelProps,
+    getSidebarDisclosureIconProps,
     getTabsScrollerProps,
     getTabsListProps,
     getTabsTabProps
   }
 }
 
-function getPageRightActions(activePageKey: string): ActionItem[] {
+function getPageRightActions(
+  activePageKey: string,
+  createEventPrefix: string
+): ActionItem[] {
   if (createExcludedPageKeys.has(activePageKey)) {
     return [
       {
@@ -469,14 +637,14 @@ function getPageRightActions(activePageKey: string): ActionItem[] {
           label,
           icon: 'lucide:plus',
           kind: 'primary',
-          onAction: () => dispatchCreateAction(activePageKey)
+          onAction: () => dispatchCreateAction(activePageKey, createEventPrefix)
         }
       ]
     : []
 }
 
-function dispatchCreateAction(pageKey: string) {
-  window.dispatchEvent(new CustomEvent(`academic:${pageKey}:create`))
+function dispatchCreateAction(pageKey: string, prefix: string) {
+  window.dispatchEvent(new CustomEvent(`${prefix}:${pageKey}:create`))
 }
 
 function mergeActions(
@@ -499,8 +667,8 @@ function mergeActions(
   return Array.from(actionMap.values())
 }
 
-function getActiveTabs(pathname: string) {
-  const activeItem = sidebarItems.find(
+function getActiveTabs(pathname: string, items: AcademicMenuItem[]) {
+  const activeItem = items.find(
     item => pathname === item.href || pathname.startsWith(`${item.href}/`)
   )
 
@@ -513,11 +681,8 @@ function getActiveTabs(pathname: string) {
   )
 }
 
-function getActivePageKey(pathname: string) {
-  const allItems = sidebarItems.flatMap(item => [
-    item,
-    ...(item.children ?? [])
-  ])
+function getActivePageKey(pathname: string, items: AcademicMenuItem[]) {
+  const allItems = flattenSidebarItems(items)
   const activeItem = allItems
     .filter(
       item => pathname === item.href || pathname.startsWith(`${item.href}/`)
@@ -527,8 +692,8 @@ function getActivePageKey(pathname: string) {
   return activeItem?.key ?? 'academic1'
 }
 
-function getActiveSidebarKey(pathname: string) {
-  const activeItem = sidebarItems
+function getActiveSidebarKey(pathname: string, items: AcademicMenuItem[]) {
+  const activeItem = items
     .filter(
       item => pathname === item.href || pathname.startsWith(`${item.href}/`)
     )
@@ -537,12 +702,67 @@ function getActiveSidebarKey(pathname: string) {
   return activeItem?.key ?? ''
 }
 
+function createSidebarViewItems(
+  pathname: string,
+  items: AcademicMenuItem[],
+  expandedKeys: Set<string>
+): SidebarViewItem[] {
+  return items.map(item => {
+    const children = item.children
+      ? createSidebarViewItems(pathname, item.children, expandedKeys)
+      : undefined
+    const isActive =
+      pathname === item.href ||
+      pathname.startsWith(`${item.href}/`) ||
+      Boolean(children?.some(child => child.isActive))
+
+    return {
+      ...item,
+      children,
+      isExpanded: expandedKeys.has(item.key),
+      isActive
+    }
+  })
+}
+
+function getActiveParentKeys(pathname: string, items: AcademicMenuItem[]) {
+  const parentKeys: string[] = []
+
+  items.forEach(item => {
+    if (!item.children?.length) {
+      return
+    }
+
+    const hasActiveChild = item.children.some(
+      child => pathname === child.href || pathname.startsWith(`${child.href}/`)
+    )
+
+    if (hasActiveChild) {
+      parentKeys.push(item.key)
+    }
+  })
+
+  return parentKeys
+}
+
+function flattenSidebarItems(items: AcademicMenuItem[]): AcademicMenuItem[] {
+  return items.flatMap(item => [
+    item,
+    ...flattenSidebarItems(item.children ?? [])
+  ])
+}
+
+function findSidebarItem(items: AcademicMenuItem[], key: string) {
+  return flattenSidebarItems(items).find(item => item.key === key)
+}
+
 export { useProps }
 export type {
   ActionItem,
   AcademicMenuItem,
   AcademicTab,
   HeaderActionsConfig,
+  LayoutConfig,
   Props,
   SidebarProps,
   SidebarViewItem

@@ -78,7 +78,7 @@ export default function DynamicHeader({
   const otherActions = visibleRightActions.filter(a => a !== createAction)
 
   return (
-    <div className="bg-background flex w-full flex-col gap-3 border-b px-4 py-3">
+    <div className="bg-background flex w-full flex-col gap-3 px-4 py-3">
       <div className="flex gap-3">
         <div className="flex min-w-[120px] flex-shrink-0 items-center gap-2">
           {visibleLeftActions.map(action => (
