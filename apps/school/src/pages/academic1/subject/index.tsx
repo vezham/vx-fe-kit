@@ -86,6 +86,7 @@ export default function AllClassesPage() {
   })
   const [draftFilters, setDraftFilters] = useState<FilterDraft>(filters)
   const [activeRowId, setActiveRowId] = useState<string | null>(null)
+  const [selectedRowKeys, setSelectedRowKeys] = useState<Selection>(new Set())
   const [mode, setMode] = useState<DrawerMode>('view')
   const [form, setForm] = useState<ClassFormState>(emptyForm)
   const [formErrors, setFormErrors] = useState<ClassFormErrors>({})
@@ -161,10 +162,7 @@ export default function AllClassesPage() {
   const selectedRowIndex = activeRowId
     ? sortedRows.findIndex(row => row.id === activeRowId)
     : -1
-  const tableSelectedKeys = useMemo<Selection>(
-    () => (activeRowId ? new Set([activeRowId]) : new Set()),
-    [activeRowId]
-  )
+  const tableSelectedKeys = selectedRowKeys
 
   const activeSortLabel =
     sortOptions.find(
@@ -247,29 +245,9 @@ export default function AllClassesPage() {
     [drawer, updateDrawerQuery]
   )
 
-  const updateTableSelection = useCallback(
-    (keys: Selection) => {
-      if (keys === 'all') {
-        return
-      }
-
-      const nextId = Array.from(keys)[0]?.toString()
-
-      if (!nextId) {
-        setActiveRowId(null)
-        drawer.onClose()
-        updateDrawerQuery(null)
-        return
-      }
-
-      const row = data.find(item => item.id === nextId)
-
-      if (row) {
-        openDrawer('view', row)
-      }
-    },
-    [data, drawer, openDrawer, updateDrawerQuery]
-  )
+  const updateTableSelection = useCallback((keys: Selection) => {
+    setSelectedRowKeys(keys)
+  }, [])
 
   const closeDrawer = useCallback(() => {
     setFormErrors({})
@@ -763,7 +741,7 @@ export default function AllClassesPage() {
             aria-label="Schedules"
             className={classNames.tableContent}
             selectedKeys={tableSelectedKeys}
-            selectionMode="single"
+            selectionMode="multiple"
             sortDescriptor={sortDescriptor}
             onSelectionChange={updateTableSelection}
             onSortChange={updateSortDescriptor}>
@@ -1145,7 +1123,7 @@ function ClassDrawer({
                             <Icon icon="lucide:arrow-up-right" width={16} />
                           </Button>
                         </Tooltip.Trigger>
-                        <Tooltip.Content>Copy URL</Tooltip.Content>
+                        <Tooltip.Content>Open URL</Tooltip.Content>
                       </Tooltip>
                     </>
                   )}

@@ -6,7 +6,6 @@ import {
   Avatar,
   Button,
   Checkbox,
-  Chip,
   CloseButton,
   DateField,
   DateRangePicker,
@@ -22,10 +21,12 @@ import {
   type Selection,
   type SortDescriptor,
   Surface,
-  Table
+  Table,
+  Tooltip
 } from '@vezham/react/v3'
 
 import { dateOptions, rowCountOptions, statusLegend } from './data'
+import { leaveReportsConfig } from './data'
 import type {
   AttendancePageConfig,
   AttendanceStatus,
@@ -42,13 +43,17 @@ import type {
   ToastState
 } from './types'
 import { useDisclosure } from './types'
-import { classNames, getTableRowClassName } from './variants'
+import { classNames, getTableRowClassName } from './variant'
 
 type Props = {
   config: AttendancePageConfig
 }
 
-export default function AttendanceTablePage({ config }: Props) {
+export default function LeaveReportsPage() {
+  return <AttendanceTablePage config={leaveReportsConfig} />
+}
+
+function AttendanceTablePage({ config }: Props) {
   const [data, setData] = useState<ReportRow[]>(config.rows)
   const [searchQuery, setSearchQuery] = useState('')
   const [rowsPerPage, setRowsPerPage] = useState('10')
@@ -72,6 +77,7 @@ export default function AttendanceTablePage({ config }: Props) {
   const [filters, setFilters] = useState<FilterDraft>(emptyFilters)
   const [draftFilters, setDraftFilters] = useState<FilterDraft>(emptyFilters)
   const [activeRowId, setActiveRowId] = useState<string | null>(null)
+  const [selectedRowKeys, setSelectedRowKeys] = useState<Selection>(new Set())
   const [mode, setMode] = useState<DrawerMode>('view')
   const [form, setForm] = useState<FilterDraft>({})
   const [toast, setToast] = useState<ToastState | null>(null)
@@ -165,10 +171,7 @@ export default function AttendanceTablePage({ config }: Props) {
   const selectedRowIndex = activeRowId
     ? sortedRows.findIndex(row => row.id === activeRowId)
     : -1
-  const tableSelectedKeys = useMemo<Selection>(
-    () => (activeRowId ? new Set([activeRowId]) : new Set()),
-    [activeRowId]
-  )
+  const tableSelectedKeys = selectedRowKeys
   const activeSortLabel =
     config.sortOptions.find(
       option =>
@@ -203,6 +206,24 @@ export default function AttendanceTablePage({ config }: Props) {
     []
   )
 
+  const copyText = useCallback(async (value: string) => {
+    if (navigator.clipboard) {
+      await navigator.clipboard.writeText(value)
+      return
+    }
+
+    const textarea = document.createElement('textarea')
+
+    textarea.value = value
+    textarea.setAttribute('readonly', '')
+    textarea.style.position = 'fixed'
+    textarea.style.opacity = '0'
+    document.body.appendChild(textarea)
+    textarea.select()
+    document.execCommand('copy')
+    document.body.removeChild(textarea)
+  }, [])
+
   const openDrawer = useCallback(
     (nextMode: DrawerMode, row: ReportRow, replaceUrl = false) => {
       setMode(nextMode)
@@ -220,27 +241,9 @@ export default function AttendanceTablePage({ config }: Props) {
     updateDrawerQuery(null)
   }, [drawer, updateDrawerQuery])
 
-  const updateTableSelection = useCallback(
-    (keys: Selection) => {
-      if (keys === 'all') {
-        return
-      }
-
-      const nextId = Array.from(keys)[0]?.toString()
-
-      if (!nextId) {
-        closeDrawer()
-        return
-      }
-
-      const row = data.find(item => item.id === nextId)
-
-      if (row) {
-        openDrawer('view', row)
-      }
-    },
-    [closeDrawer, data, openDrawer]
-  )
+  const updateTableSelection = useCallback((keys: Selection) => {
+    setSelectedRowKeys(keys)
+  }, [])
 
   const goToRowAt = useCallback(
     (index: number) => {
@@ -359,6 +362,37 @@ export default function AttendanceTablePage({ config }: Props) {
     }
 
     setToast({ message: 'Item deleted', status: 'success' })
+  }
+
+  const getRowUrl = (
+    row: ReportRow,
+    nextMode: Exclude<DrawerMode, 'edit'> | DrawerMode = 'view'
+  ) => {
+    const url = new URL(window.location.href)
+
+    url.searchParams.set('id', row.id)
+    url.searchParams.set('mode', nextMode)
+    url.hash = ''
+
+    return url.toString()
+  }
+
+  const copyRowLink = (row: ReportRow) => {
+    void copyText(getRowUrl(row, mode))
+      .then(() => setToast({ message: 'URL copied', status: 'success' }))
+      .catch(() =>
+        setToast({ message: 'Unable to copy URL', status: 'danger' })
+      )
+  }
+
+  const copyRowId = (row: ReportRow) => {
+    void copyText(row.id)
+      .then(() => setToast({ message: 'ID copied', status: 'success' }))
+      .catch(() => setToast({ message: 'Unable to copy ID', status: 'danger' }))
+  }
+
+  const openRowPage = (row: ReportRow) => {
+    window.open(getRowUrl(row), '_blank', 'noopener,noreferrer')
   }
 
   return (
@@ -547,7 +581,7 @@ export default function AttendanceTablePage({ config }: Props) {
             aria-label={config.ariaLabel}
             className={classNames.tableContent}
             selectedKeys={tableSelectedKeys}
-            selectionMode="single"
+            selectionMode="multiple"
             sortDescriptor={sortDescriptor}
             style={{ minWidth: config.tableMinWidth }}
             onSelectionChange={updateTableSelection}
@@ -693,7 +727,6 @@ export default function AttendanceTablePage({ config }: Props) {
         form={form}
         mode={mode}
         row={selectedRow}
-        title={config.title}
         canGoNext={
           selectedRowIndex >= 0 && selectedRowIndex < sortedRows.length - 1
         }
@@ -709,6 +742,9 @@ export default function AttendanceTablePage({ config }: Props) {
           goToRowAt(Math.min(sortedRows.length - 1, selectedRowIndex + 1))
         }
         onGoPrevious={() => goToRowAt(Math.max(0, selectedRowIndex - 1))}
+        onCopyId={copyRowId}
+        onCopyLink={copyRowLink}
+        onOpenPage={openRowPage}
         onSave={saveRow}
       />
 
@@ -799,9 +835,7 @@ function StatusLegend() {
     <div className={classNames.legend}>
       {statusLegend.map(item => (
         <Button key={item.label} variant="outline">
-          <Chip color={getStatusColor(item.status)} size="sm" variant="primary">
-            <Icon icon={item.icon} width={12} />
-          </Chip>
+          <AttendanceMarker status={item.status} />
           {item.label}
         </Button>
       ))}
@@ -861,10 +895,10 @@ function PersonCell({ value }: { value: unknown }) {
 
 function StatusChip({ status }: { status: AttendanceStatus }) {
   return (
-    <Chip color={getStatusColor(status)} size="sm" variant="soft">
-      <span aria-hidden="true">.</span>
-      <Chip.Label>{status}</Chip.Label>
-    </Chip>
+    <span className={classNames.statusText}>
+      <AttendanceMarker status={status} />
+      {status}
+    </span>
   )
 }
 
@@ -904,7 +938,6 @@ function AttendanceDrawer({
   form,
   mode,
   row,
-  title,
   canGoNext,
   canGoPrevious,
   onCancel,
@@ -913,6 +946,9 @@ function AttendanceDrawer({
   onFormChange,
   onGoNext,
   onGoPrevious,
+  onCopyId,
+  onCopyLink,
+  onOpenPage,
   onSave
 }: {
   columns: ReportColumn[]
@@ -920,7 +956,6 @@ function AttendanceDrawer({
   form: FilterDraft
   mode: DrawerMode
   row: ReportRow | null
-  title: string
   canGoNext: boolean
   canGoPrevious: boolean
   onCancel: () => void
@@ -929,6 +964,9 @@ function AttendanceDrawer({
   onFormChange: (field: string, value: string) => void
   onGoNext: () => void
   onGoPrevious: () => void
+  onCopyId: (row: ReportRow) => void
+  onCopyLink: (row: ReportRow) => void
+  onOpenPage: (row: ReportRow) => void
   onSave: () => void
 }) {
   return (
@@ -941,10 +979,52 @@ function AttendanceDrawer({
                 <div className={classNames.drawerTitleGroup}>
                   <CloseButton onClick={onClose} />
                   <h2 className={classNames.drawerTitle}>
-                    {mode === 'edit' ? `Edit ${title}` : title}
+                    {row ? '#' + row.id : ''}
                   </h2>
+                  {row && (
+                    <Tooltip delay={0}>
+                      <Tooltip.Trigger>
+                        <Button
+                          isIconOnly
+                          aria-label={`Copy ID ${row.id}`}
+                          variant="ghost"
+                          onPress={() => onCopyId(row)}>
+                          <Icon icon="lucide:copy" width={16} />
+                        </Button>
+                      </Tooltip.Trigger>
+                      <Tooltip.Content>Copy ID</Tooltip.Content>
+                    </Tooltip>
+                  )}
                 </div>
                 <div className={classNames.drawerActions}>
+                  {row && (
+                    <>
+                      <Tooltip delay={0}>
+                        <Tooltip.Trigger>
+                          <Button
+                            isIconOnly
+                            aria-label={`Copy URL for ${row.id}`}
+                            variant="secondary"
+                            onPress={() => onCopyLink(row)}>
+                            <Icon icon="lucide:link" width={16} />
+                          </Button>
+                        </Tooltip.Trigger>
+                        <Tooltip.Content>Copy URL</Tooltip.Content>
+                      </Tooltip>
+                      <Tooltip delay={0}>
+                        <Tooltip.Trigger>
+                          <Button
+                            isIconOnly
+                            aria-label={`Open ${row.id}`}
+                            variant="secondary"
+                            onPress={() => onOpenPage(row)}>
+                            <Icon icon="lucide:arrow-up-right" width={16} />
+                          </Button>
+                        </Tooltip.Trigger>
+                        <Tooltip.Content>Open URL</Tooltip.Content>
+                      </Tooltip>
+                    </>
+                  )}
                   <Button
                     isIconOnly
                     aria-label="Previous row"
@@ -1088,28 +1168,6 @@ function formatISODate(value: string) {
 
 function isISODateInRange(value: string, start: string, end: string) {
   return value >= start && value <= end
-}
-
-function getStatusColor(
-  status: AttendanceStatus
-): 'danger' | 'default' | 'accent' | 'success' | 'warning' {
-  if (status === 'Absent') {
-    return 'danger'
-  }
-
-  if (status === 'Late') {
-    return 'warning'
-  }
-
-  if (status === 'Half Day' || status === 'Halfday') {
-    return 'default'
-  }
-
-  if (status === 'Holiday') {
-    return 'accent'
-  }
-
-  return 'success'
 }
 
 function getStatusHex(status: AttendanceStatus) {

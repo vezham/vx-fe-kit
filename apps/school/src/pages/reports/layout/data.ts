@@ -1,4 +1,4 @@
-import type { AcademicMenuItem } from '../../academic1/layout/types'
+import type { AcademicMenuItem, ActionItem } from './types'
 
 export const reportsSidebarItems: AcademicMenuItem[] = [
   {
@@ -88,3 +88,66 @@ export const reportsSidebarItems: AcademicMenuItem[] = [
     icon: 'lucide:receipt'
   }
 ]
+
+export const defaultLeftActions: ActionItem[] = [
+  {
+    key: 'back',
+    label: 'Back',
+    icon: 'lucide:arrow-left',
+    onAction: () => window.history.back()
+  },
+  {
+    key: 'forward',
+    label: 'Forward',
+    icon: 'lucide:arrow-right',
+    onAction: () => window.history.forward()
+  }
+]
+
+export const defaultRightActions: ActionItem[] = [
+  {
+    key: 'search',
+    label: 'Search',
+    icon: 'lucide:search',
+    kind: 'search'
+  },
+  {
+    key: 'import',
+    label: 'Import',
+    icon: 'lucide:upload',
+    kind: 'menu'
+  },
+  {
+    key: 'print',
+    label: 'Print',
+    icon: 'lucide:printer',
+    kind: 'menu',
+    onAction: () => window.print()
+  },
+  {
+    key: 'export',
+    label: 'Export',
+    icon: 'lucide:download',
+    kind: 'menu'
+  },
+  {
+    key: 'refresh',
+    label: 'Refresh',
+    icon: 'lucide:refresh-cw',
+    kind: 'refresh',
+    onAction: () => window.location.reload()
+  }
+]
+
+export const createLabelsByPageKey: Record<string, string> = {}
+
+export const createExcludedPageKeys = new Set([
+  'attendance-report',
+  'students-attendance-type',
+  'daily-attendance',
+  'student-day-wise',
+  'teacher-day-wise',
+  'staff-day-wise',
+  'teacher-report',
+  'staff-report'
+])

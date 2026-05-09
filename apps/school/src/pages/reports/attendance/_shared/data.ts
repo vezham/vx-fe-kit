@@ -84,7 +84,7 @@ export const staffPeople = [
   person('Willie', 'https://randomuser.me/api/portraits/men/36.jpg')
 ]
 
-export const dayColumns = Array.from({ length: 21 }, (_, index) => {
+export const dayColumns = Array.from({ length: 31 }, (_, index) => {
   const day = String(index + 1).padStart(2, '0')
   const weekDay = ['M', 'T', 'W', 'T', 'F', 'S', 'S'][index % 7]
 
@@ -445,10 +445,19 @@ export function makeSummaryRows(people: PersonValue[]): ReportRow[] {
     'Present',
     'Present',
     'Late',
+    'Late',
     'Holiday',
     'Holiday',
     'Present',
     'Present',
+    'Holiday',
+    'Present',
+    'Present',
+    'Present',
+    'Present',
+    'Absent',
+    'Present',
+    'Late',
     'Holiday',
     'Present',
     'Present',
@@ -472,9 +481,9 @@ export function makeSummaryRows(people: PersonValue[]): ReportRow[] {
     dayColumns.forEach((column, dayIndex) => {
       row[column.key] =
         index === 0
-          ? markers[dayIndex] === 'Absent'
+          ? markers[dayIndex % markers.length] === 'Absent'
             ? 'Present'
-            : markers[dayIndex]
+            : markers[dayIndex % markers.length]
           : markers[(dayIndex + index) % markers.length]
     })
 

@@ -26,7 +26,7 @@ import {
 } from '@vezham/react/v3'
 
 import { dateOptions, rowCountOptions, statusLegend } from './data'
-import { studentsAttendanceTypeConfig } from './data'
+import { classReportsConfig } from './data'
 import type {
   AttendancePageConfig,
   AttendanceStatus,
@@ -49,8 +49,8 @@ type Props = {
   config: AttendancePageConfig
 }
 
-export default function StudentsAttendanceTypePage() {
-  return <AttendanceTablePage config={studentsAttendanceTypeConfig} />
+export default function ClassReportsPage() {
+  return <AttendanceTablePage config={classReportsConfig} />
 }
 
 function AttendanceTablePage({ config }: Props) {
