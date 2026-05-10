@@ -9,6 +9,7 @@ import {
   FieldError,
   Input,
   Label,
+  Link,
   Separator,
   TextField,
   Tooltip
@@ -96,6 +97,11 @@ export default () => {
 
       <ButtonV3 children="Hello World :) - v3" />
       <Button children="Hello World :) - v2" variant="solid" color="success" />
+
+      <Link href="/pro">
+        Pro - Demo
+        <Link.Icon />
+      </Link>
 
       <Separator />
 

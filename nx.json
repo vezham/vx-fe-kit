@@ -50,7 +50,6 @@
       "plugin": "@nx/vite/plugin",
       "options": {
         "buildTargetName": "build",
-        "testTargetName": "test",
         "serveTargetName": "serve",
         "devTargetName": "dev",
         "previewTargetName": "preview",
@@ -66,7 +65,13 @@
         "targetName": "e2e"
       }
     },
-    "@vx-cli/react"
+    "@vx-cli/react",
+    {
+      "plugin": "@nx/vitest",
+      "options": {
+        "testTargetName": "test"
+      }
+    }
   ],
   "targetDefaults": {
     "test": {
@@ -180,5 +185,6 @@
     "releaseTag": {
       "pattern": "{version}"
     }
-  }
+  },
+  "analytics": false
 }
