@@ -1,7 +1,5 @@
 @import 'tailwindcss';
 @import '@vezham/styles';
-
-/* @import "@heroui/styles"; */
 @import '@heroui-pro/react/css';
 @import '@heroui-pro/react/themes/glass';
 

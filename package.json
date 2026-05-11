@@ -15,8 +15,8 @@
   },
   "dependencies": {
     "@heroui-pro/react": "1.0.0-beta.3",
-    "@heroui/react": "3.0.4",
-    "@heroui/styles": "3.0.4",
+    "@heroui/react": "npm:@vezham/react@0.4.3",
+    "@heroui/styles": "npm:@vezham/styles@0.4.3",
     "@number-flow/react": "^0.6.0",
     "embla-carousel": "^8.6.0",
     "embla-carousel-react": "^8.6.0",
@@ -69,8 +69,8 @@
     "@types/react": "19.0.0",
     "@types/react-dom": "19.0.0",
     "@types/yargs": "^17.0.33",
-    "@vezham/react": "0.4.0",
-    "@vezham/styles": "0.4.0",
+    "@vezham/react": "0.4.3",
+    "@vezham/styles": "0.4.3",
     "@vezham/use-logger": "0.3.3",
     "@vitejs/plugin-react": "^4.2.0",
     "@vitejs/plugin-react-swc": "^3.5.0",
@@ -124,6 +124,10 @@
       "heroui-pro",
       "@heroui-pro/react",
       "heroui-native-pro"
-    ]
+    ],
+    "overrides": {
+      "@heroui/react": "npm:@vezham/react",
+      "@heroui/styles": "npm:@vezham/styles"
+    }
   }
 }
