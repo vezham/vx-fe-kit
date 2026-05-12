@@ -22,7 +22,9 @@ export const classNames = {
   menuItemLabel: 'flex items-center gap-2',
   personCell: 'flex min-w-0 items-center gap-2',
   personAvatar: 'h-8 w-8 shrink-0',
-  personName: 'truncate',
+  personText: 'min-w-0',
+  personName: 'block truncate',
+  personDescription: 'block truncate text-xs text-[#4d5a76]',
   sortableHeader: 'flex items-center gap-1',
   emptyState:
     'flex min-h-[220px] w-full flex-col items-center justify-center gap-4 py-12 text-center',
@@ -31,12 +33,16 @@ export const classNames = {
   filterPanel: 'flex w-80 flex-col gap-4 p-4',
   filterTitle: 'text-lg font-semibold',
   filterActions: 'flex justify-end gap-2',
-  marker: 'mx-auto block h-4 w-2 rounded-full',
+  marker: 'mx-auto block h-4 w-1.5 rounded-full',
   statusText:
     'inline-flex items-center gap-2 text-sm font-medium text-[#26324d]',
+  badge:
+    'inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-xs font-semibold',
+  badgeDot: 'h-1 w-1 rounded-full',
+  gradeDanger: 'text-[#f12c58]',
   percentBadge:
     'inline-flex min-w-8 items-center justify-center rounded-md px-1.5 py-0.5 text-xs font-semibold text-white',
-  link: 'text-primary font-medium',
+  link: 'text-primary whitespace-pre-line font-medium',
   toast:
     'fixed top-10 left-1/2 z-[9999] w-[min(320px,calc(100vw-2rem))] -translate-x-1/2',
   drawerDialog:

@@ -5,6 +5,8 @@ export type DatePresetKey =
   | 'yesterday'
   | 'last7'
   | 'last30'
+  | 'thisYear'
+  | 'nextYear'
   | 'custom'
 
 export type PickerDateValue = {
@@ -34,12 +36,15 @@ export type ReportCellType =
   | 'link'
   | 'person'
   | 'status'
+  | 'badge'
+  | 'grade'
   | 'percent'
   | 'marker'
 
 export type PersonValue = {
   name: string
   avatar?: string
+  description?: string
 }
 
 export type ReportColumn = {
@@ -78,6 +83,7 @@ export type AttendancePageConfig = {
   initialSort: SortDescriptor
   tableMinWidth: number
   showStatusLegend?: boolean
+  actionLabel?: string
 }
 
 export type FilterDraft = Record<string, string | null>

@@ -6,6 +6,7 @@ import {
   Avatar,
   Button,
   Checkbox,
+  Chip,
   CloseButton,
   DateField,
   DateRangePicker,
@@ -431,7 +432,7 @@ function AttendanceTablePage({ config }: Props) {
                       </Button>
                       <DateRangePicker
                         defaultOpen
-                        aria-label={`${config.title} custom date range`}
+                        aria-label="Schedule custom date range"
                         className={classNames.fullWidth}
                         endName="endDate"
                         startName="startDate"
@@ -451,8 +452,7 @@ function AttendanceTablePage({ config }: Props) {
                           </DateField.Suffix>
                         </DateField.Group>
                         <DateRangePicker.Popover>
-                          <RangeCalendar
-                            aria-label={`${config.title} custom date range`}>
+                          <RangeCalendar aria-label="Schedule custom date range">
                             <RangeCalendar.Header>
                               <RangeCalendar.Heading />
                               <RangeCalendar.NavButton slot="previous" />
@@ -895,10 +895,10 @@ function PersonCell({ value }: { value: unknown }) {
 
 function StatusChip({ status }: { status: AttendanceStatus }) {
   return (
-    <span className={classNames.statusText}>
-      <AttendanceMarker status={status} />
-      {status}
-    </span>
+    <Chip color={getAttendanceChipColor(status)} size="sm" variant="soft">
+      <span aria-hidden="true">●</span>
+      <Chip.Label>{status}</Chip.Label>
+    </Chip>
   )
 }
 
@@ -1137,19 +1137,50 @@ function formToRow(
 }
 
 function getPresetDateRange(key: DatePresetKey): DateRangeFilter {
+  const today = new Date()
+  const currentYear = today.getFullYear()
+
   if (key === 'today') {
-    return { start: '2024-05-24', end: '2024-05-24' }
+    const value = toISODate(today)
+
+    return { start: value, end: value }
   }
 
   if (key === 'yesterday') {
-    return { start: '2024-05-23', end: '2024-05-23' }
+    const yesterday = new Date(today)
+    yesterday.setDate(today.getDate() - 1)
+    const value = toISODate(yesterday)
+
+    return { start: value, end: value }
   }
 
   if (key === 'last7') {
-    return { start: '2024-05-18', end: '2024-05-24' }
+    const start = new Date(today)
+    start.setDate(today.getDate() - 6)
+
+    return { start: toISODate(start), end: toISODate(today) }
   }
 
-  return { start: '2020-05-15', end: '2024-05-24' }
+  if (key === 'thisYear') {
+    return {
+      start: `${currentYear}-01-01`,
+      end: `${currentYear}-12-31`
+    }
+  }
+
+  if (key === 'nextYear') {
+    const nextYear = currentYear + 1
+
+    return {
+      start: `${nextYear}-01-01`,
+      end: `${nextYear}-12-31`
+    }
+  }
+
+  const start = new Date(today)
+  start.setDate(today.getDate() - 29)
+
+  return { start: toISODate(start), end: toISODate(today) }
 }
 
 function formatDateRangeLabel(range: DateRangeFilter) {
@@ -1168,6 +1199,24 @@ function formatISODate(value: string) {
 
 function isISODateInRange(value: string, start: string, end: string) {
   return value >= start && value <= end
+}
+
+function getAttendanceChipColor(
+  status: AttendanceStatus | string
+): 'danger' | 'default' | 'success' | 'warning' {
+  if (status === 'Absent') {
+    return 'danger'
+  }
+
+  if (status === 'Leave' || status === 'Late') {
+    return 'warning'
+  }
+
+  if (status === 'Holiday' || status === 'Half Day' || status === 'Halfday') {
+    return 'default'
+  }
+
+  return 'success'
 }
 
 function getStatusHex(status: AttendanceStatus) {
@@ -1231,5 +1280,9 @@ function getPaginationItems(totalPages: number) {
 }
 
 function toISODate(date: Date) {
-  return date.toISOString().slice(0, 10)
+  return [
+    date.getFullYear(),
+    String(date.getMonth() + 1).padStart(2, '0'),
+    String(date.getDate()).padStart(2, '0')
+  ].join('-')
 }

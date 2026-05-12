@@ -14,6 +14,8 @@ export const dateOptions: { key: DatePresetKey; label: string }[] = [
   { key: 'yesterday', label: 'Yesterday' },
   { key: 'last7', label: 'Last 7 Days' },
   { key: 'last30', label: 'Last 30 Days' },
+  { key: 'thisYear', label: 'This Year' },
+  { key: 'nextYear', label: 'Next Year' },
   { key: 'custom', label: 'Custom Range' }
 ]
 export const statusLegend: {
@@ -23,58 +25,91 @@ export const statusLegend: {
 }[] = []
 
 const columns: ReportColumn[] = [
+  { key: 'displayId', label: 'ID', allowsSorting: true },
   { key: 'className', label: 'Class', allowsSorting: true },
   { key: 'section', label: 'Section', allowsSorting: true },
-  { key: 'teacher', label: 'Class Teacher', allowsSorting: true },
-  { key: 'students', label: 'Students', allowsSorting: true },
-  { key: 'capacity', label: 'Capacity', allowsSorting: true },
-  { key: 'createdAt', label: 'Created Date', allowsSorting: true }
+  { key: 'students', label: 'No Of Students', allowsSorting: true }
 ]
 
 const rows: ReportRow[] = [
   {
     id: 'class-report-1',
+    displayId: '',
     className: 'I',
     section: 'A',
-    teacher: 'Teresa',
-    students: 38,
-    capacity: 42,
+    students: 30,
     createdAt: '2024-05-24'
   },
   {
     id: 'class-report-2',
-    className: 'II',
+    displayId: '',
+    className: 'I',
     section: 'B',
-    teacher: 'Daniel',
-    students: 35,
-    capacity: 40,
+    students: 25,
     createdAt: '2024-05-22'
   },
   {
     id: 'class-report-3',
-    className: 'III',
+    displayId: '',
+    className: 'II',
     section: 'A',
-    teacher: 'Hellana',
-    students: 41,
-    capacity: 45,
+    students: 40,
     createdAt: '2024-05-20'
   },
   {
     id: 'class-report-4',
-    className: 'IV',
-    section: 'C',
-    teacher: 'Morgan',
-    students: 32,
-    capacity: 38,
+    displayId: '',
+    className: 'II',
+    section: 'B',
+    students: 35,
     createdAt: '2024-05-18'
   },
   {
     id: 'class-report-5',
+    displayId: '',
+    className: 'II',
+    section: 'C',
+    students: 25,
+    createdAt: '2024-05-15'
+  },
+  {
+    id: 'class-report-6',
+    displayId: '',
+    className: 'III',
+    section: 'A',
+    students: 30,
+    createdAt: '2024-05-15'
+  },
+  {
+    id: 'class-report-7',
+    displayId: '',
+    className: 'III',
+    section: 'B',
+    students: 25,
+    createdAt: '2024-05-15'
+  },
+  {
+    id: 'class-report-8',
+    displayId: '',
+    className: 'IV',
+    section: 'A',
+    students: 20,
+    createdAt: '2024-05-15'
+  },
+  {
+    id: 'class-report-9',
+    displayId: '',
+    className: 'IV',
+    section: 'B',
+    students: 30,
+    createdAt: '2024-05-15'
+  },
+  {
+    id: 'class-report-10',
+    displayId: '',
     className: 'V',
     section: 'A',
-    teacher: 'Aaron',
-    students: 44,
-    capacity: 48,
+    students: 35,
     createdAt: '2024-05-15'
   }
 ]
@@ -90,7 +125,8 @@ export const classReportsConfig = makeConfig({
     option('section', 'Section', ['A', 'B', 'C'])
   ],
   initialColumn: 'className',
-  tableMinWidth: 960
+  tableMinWidth: 980,
+  actionLabel: 'View Details'
 })
 
 function makeConfig(config: {
@@ -103,6 +139,7 @@ function makeConfig(config: {
   initialColumn: string
   tableMinWidth: number
   showStatusLegend?: boolean
+  actionLabel?: string
 }): AttendancePageConfig {
   const initialSort = {
     column: config.initialColumn,
@@ -113,12 +150,20 @@ function makeConfig(config: {
     ...config,
     initialSort,
     sortOptions: [
-      { key: 'ascending', label: 'A-Z', descriptor: initialSort },
+      { key: 'ascending', label: 'Ascending', descriptor: initialSort },
       {
         key: 'descending',
-        label: 'Z-A',
+        label: 'Descending',
         descriptor: {
           column: config.initialColumn,
+          direction: 'descending'
+        } satisfies SortDescriptor
+      },
+      {
+        key: 'recentlyViewed',
+        label: 'Recently Viewed',
+        descriptor: {
+          column: 'viewedAt',
           direction: 'descending'
         } satisfies SortDescriptor
       },

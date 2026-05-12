@@ -14,6 +14,8 @@ export const dateOptions: { key: DatePresetKey; label: string }[] = [
   { key: 'yesterday', label: 'Yesterday' },
   { key: 'last7', label: 'Last 7 Days' },
   { key: 'last30', label: 'Last 30 Days' },
+  { key: 'thisYear', label: 'This Year' },
+  { key: 'nextYear', label: 'Next Year' },
   { key: 'custom', label: 'Custom Range' }
 ]
 export const statusLegend: {
@@ -23,58 +25,144 @@ export const statusLegend: {
 }[] = []
 
 const columns: ReportColumn[] = [
-  { key: 'receiptNo', label: 'Receipt No', allowsSorting: true, type: 'link' },
-  { key: 'student', label: 'Student Name', allowsSorting: true },
-  { key: 'className', label: 'Class', allowsSorting: true },
-  { key: 'amount', label: 'Amount', allowsSorting: true },
-  { key: 'status', label: 'Status', allowsSorting: true },
-  { key: 'createdAt', label: 'Created Date', allowsSorting: true }
+  {
+    key: 'feesGroup',
+    label: 'Fees Group',
+    allowsSorting: true,
+    type: 'link',
+    minWidth: 170
+  },
+  { key: 'feesCode', label: 'Fees Code', allowsSorting: true },
+  { key: 'dueDate', label: 'Due Date', allowsSorting: true },
+  { key: 'amount', label: 'Amount $', allowsSorting: true },
+  { key: 'status', label: 'Status', type: 'badge', allowsSorting: true },
+  { key: 'refId', label: 'Ref ID', allowsSorting: true },
+  { key: 'mode', label: 'Mode', allowsSorting: true },
+  { key: 'datePaid', label: 'Date Paid', allowsSorting: true },
+  { key: 'discount', label: 'Discount ($)', allowsSorting: true },
+  { key: 'fine', label: 'Fine ($)', allowsSorting: true },
+  { key: 'balance', label: 'Balance ($)', allowsSorting: true }
 ]
 
 const rows: ReportRow[] = [
   {
     id: 'fees-report-1',
-    receiptNo: 'RC1024',
-    student: 'Janet',
-    className: 'III',
-    amount: '$1,240',
+    feesGroup: 'Class 1 General\n(Admission Fees)',
+    feesCode: 'admission-fees',
+    dueDate: '25 Mar 2024',
+    amount: '2000',
     status: 'Paid',
+    refId: '#435454',
+    mode: 'Cash',
+    datePaid: '25 Jan 2024',
+    discount: '10%',
+    fine: '200',
+    balance: '0',
     createdAt: '2024-05-24'
   },
   {
     id: 'fees-report-2',
-    receiptNo: 'RC1023',
-    student: 'Veronica',
-    className: 'IV',
-    amount: '$980',
-    status: 'Pending',
+    feesGroup: 'Class 1 General\n(Mar month Fees)',
+    feesCode: 'mar-month-fees',
+    dueDate: '10 Apr 2024',
+    amount: '2500',
+    status: 'Paid',
+    refId: '#435453',
+    mode: 'Cash',
+    datePaid: '03 Apr 2024',
+    discount: '10%',
+    fine: '0',
+    balance: '0',
     createdAt: '2024-05-22'
   },
   {
     id: 'fees-report-3',
-    receiptNo: 'RC1022',
-    student: 'Kathleen',
-    className: 'II',
-    amount: '$1,120',
+    feesGroup: 'Class 1 General\n(Apr month Fees)',
+    feesCode: 'apr-month-fees',
+    dueDate: '10 May 2024',
+    amount: '2500',
     status: 'Paid',
+    refId: '#435453',
+    mode: 'Cash',
+    datePaid: '03 Apr 2024',
+    discount: '10%',
+    fine: '0',
+    balance: '0',
     createdAt: '2024-05-20'
   },
   {
     id: 'fees-report-4',
-    receiptNo: 'RC1021',
-    student: 'Joann',
-    className: 'I',
-    amount: '$760',
-    status: 'Overdue',
+    feesGroup: 'Class 1 General\n(May month Fees)',
+    feesCode: 'may-month-fees',
+    dueDate: '10 Jun 2024',
+    amount: '2500',
+    status: 'Paid',
+    refId: '#435451',
+    mode: 'Cash',
+    datePaid: '02 Jun 2024',
+    discount: '10%',
+    fine: '200',
+    balance: '0',
     createdAt: '2024-05-18'
   },
   {
     id: 'fees-report-5',
-    receiptNo: 'RC1020',
-    student: 'Lisa',
-    className: 'V',
-    amount: '$1,340',
+    feesGroup: 'Class 1 General\n(Jun month Fees)',
+    feesCode: 'jun-month-fees',
+    dueDate: '10 Jul 2024',
+    amount: '2500',
     status: 'Paid',
+    refId: '#435450',
+    mode: 'Cash',
+    datePaid: '05 Jul 2024',
+    discount: '10%',
+    fine: '200',
+    balance: '0',
+    createdAt: '2024-05-15'
+  },
+  {
+    id: 'fees-report-6',
+    feesGroup: 'Class 1 General\n(Jul month Fees)',
+    feesCode: 'jul-month-fees',
+    dueDate: '10 Aug 2024',
+    amount: '2500',
+    status: 'Paid',
+    refId: '#435449',
+    mode: 'Cash',
+    datePaid: '01 Aug 2024',
+    discount: '10%',
+    fine: '200',
+    balance: '0',
+    createdAt: '2024-05-15'
+  },
+  {
+    id: 'fees-report-7',
+    feesGroup: 'Class 1 General\n(Dec month Fees)',
+    feesCode: 'dec-month-fees',
+    dueDate: '10 Jan 2024',
+    amount: '2500',
+    status: 'Paid',
+    refId: '#435443',
+    mode: 'Cash',
+    datePaid: '05 Jan 2024',
+    discount: '10%',
+    fine: '0',
+    balance: '0',
+    createdAt: '2024-05-15'
+  },
+  {
+    id: 'fees-report-8',
+    feesGroup: 'Class 1 General\n(Jan month Fees)',
+    feesCode: 'jan-month-fees',
+    dueDate: '10 Feb 2024',
+    amount: '2000',
+    status: 'Paid',
+    refId: '#435443',
+    mode: 'Cash',
+    datePaid: '01 Feb 2024',
+    discount: '10%',
+    fine: '200',
+    balance: '0',
     createdAt: '2024-05-15'
   }
 ]
@@ -86,11 +174,15 @@ export const feesReportsConfig = makeConfig({
   columns,
   rows,
   filters: [
-    option('className', 'Class name', ['I', 'II', 'III', 'IV', 'V']),
-    option('status', 'Status', ['Paid', 'Pending', 'Overdue'])
+    option('feesCode', 'Fees code', [
+      'admission-fees',
+      'mar-month-fees',
+      'apr-month-fees'
+    ]),
+    option('status', 'Status', ['Paid'])
   ],
-  initialColumn: 'receiptNo',
-  tableMinWidth: 980
+  initialColumn: 'feesGroup',
+  tableMinWidth: 1450
 })
 
 function makeConfig(config: {
@@ -103,6 +195,7 @@ function makeConfig(config: {
   initialColumn: string
   tableMinWidth: number
   showStatusLegend?: boolean
+  actionLabel?: string
 }): AttendancePageConfig {
   const initialSort = {
     column: config.initialColumn,
@@ -113,12 +206,20 @@ function makeConfig(config: {
     ...config,
     initialSort,
     sortOptions: [
-      { key: 'ascending', label: 'A-Z', descriptor: initialSort },
+      { key: 'ascending', label: 'Ascending', descriptor: initialSort },
       {
         key: 'descending',
-        label: 'Z-A',
+        label: 'Descending',
         descriptor: {
           column: config.initialColumn,
+          direction: 'descending'
+        } satisfies SortDescriptor
+      },
+      {
+        key: 'recentlyViewed',
+        label: 'Recently Viewed',
+        descriptor: {
+          column: 'viewedAt',
           direction: 'descending'
         } satisfies SortDescriptor
       },

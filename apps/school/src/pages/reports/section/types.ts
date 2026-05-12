@@ -5,6 +5,8 @@ export type DatePresetKey =
   | 'yesterday'
   | 'last7'
   | 'last30'
+  | 'thisYear'
+  | 'nextYear'
   | 'custom'
 
 export type PickerDateValue = {

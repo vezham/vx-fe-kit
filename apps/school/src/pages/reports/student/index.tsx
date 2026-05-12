@@ -431,7 +431,7 @@ function AttendanceTablePage({ config }: Props) {
                       </Button>
                       <DateRangePicker
                         defaultOpen
-                        aria-label={`${config.title} custom date range`}
+                        aria-label="Schedule custom date range"
                         className={classNames.fullWidth}
                         endName="endDate"
                         startName="startDate"
@@ -451,8 +451,7 @@ function AttendanceTablePage({ config }: Props) {
                           </DateField.Suffix>
                         </DateField.Group>
                         <DateRangePicker.Popover>
-                          <RangeCalendar
-                            aria-label={`${config.title} custom date range`}>
+                          <RangeCalendar aria-label="Schedule custom date range">
                             <RangeCalendar.Header>
                               <RangeCalendar.Heading />
                               <RangeCalendar.NavButton slot="previous" />
@@ -858,6 +857,18 @@ function ReportCell({ column, row }: { column: ReportColumn; row: ReportRow }) {
     return <StatusChip status={String(value) as AttendanceStatus} />
   }
 
+  if (column.type === 'badge') {
+    return <StatusBadge value={String(value)} />
+  }
+
+  if (column.type === 'grade') {
+    return (
+      <span className={String(value) === 'F' ? classNames.gradeDanger : ''}>
+        {String(value)}
+      </span>
+    )
+  }
+
   if (column.type === 'percent') {
     const percent = Number(value)
 
@@ -888,8 +899,35 @@ function PersonCell({ value }: { value: unknown }) {
         )}
         <Avatar.Fallback>{getInitials(personValue.name)}</Avatar.Fallback>
       </Avatar>
-      <span className={classNames.personName}>{personValue.name}</span>
+      <span className={classNames.personText}>
+        <span className={classNames.personName}>{personValue.name}</span>
+        {personValue.description && (
+          <span className={classNames.personDescription}>
+            {personValue.description}
+          </span>
+        )}
+      </span>
     </div>
+  )
+}
+
+function StatusBadge({ value }: { value: string }) {
+  const isDanger =
+    value === 'Inactive' || value === 'Rejected' || value === 'Overdue'
+  const isWarning = value === 'Pending'
+  const color = isDanger ? '#f12c58' : isWarning ? '#d97706' : '#21bf32'
+  const background = isDanger ? '#ffe7ec' : isWarning ? '#fff4d6' : '#e9faea'
+
+  return (
+    <span
+      className={classNames.badge}
+      style={{ color, backgroundColor: background }}>
+      <span
+        className={classNames.badgeDot}
+        style={{ backgroundColor: color }}
+      />
+      {value}
+    </span>
   )
 }
 
@@ -1137,19 +1175,50 @@ function formToRow(
 }
 
 function getPresetDateRange(key: DatePresetKey): DateRangeFilter {
+  const today = new Date()
+  const currentYear = today.getFullYear()
+
   if (key === 'today') {
-    return { start: '2024-05-24', end: '2024-05-24' }
+    const value = toISODate(today)
+
+    return { start: value, end: value }
   }
 
   if (key === 'yesterday') {
-    return { start: '2024-05-23', end: '2024-05-23' }
+    const yesterday = new Date(today)
+    yesterday.setDate(today.getDate() - 1)
+    const value = toISODate(yesterday)
+
+    return { start: value, end: value }
   }
 
   if (key === 'last7') {
-    return { start: '2024-05-18', end: '2024-05-24' }
+    const start = new Date(today)
+    start.setDate(today.getDate() - 6)
+
+    return { start: toISODate(start), end: toISODate(today) }
   }
 
-  return { start: '2020-05-15', end: '2024-05-24' }
+  if (key === 'thisYear') {
+    return {
+      start: `${currentYear}-01-01`,
+      end: `${currentYear}-12-31`
+    }
+  }
+
+  if (key === 'nextYear') {
+    const nextYear = currentYear + 1
+
+    return {
+      start: `${nextYear}-01-01`,
+      end: `${nextYear}-12-31`
+    }
+  }
+
+  const start = new Date(today)
+  start.setDate(today.getDate() - 29)
+
+  return { start: toISODate(start), end: toISODate(today) }
 }
 
 function formatDateRangeLabel(range: DateRangeFilter) {
@@ -1231,5 +1300,9 @@ function getPaginationItems(totalPages: number) {
 }
 
 function toISODate(date: Date) {
-  return date.toISOString().slice(0, 10)
+  return [
+    date.getFullYear(),
+    String(date.getMonth() + 1).padStart(2, '0'),
+    String(date.getDate()).padStart(2, '0')
+  ].join('-')
 }

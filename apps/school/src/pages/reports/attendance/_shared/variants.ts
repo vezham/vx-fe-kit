@@ -31,8 +31,7 @@ export const classNames = {
   filterPanel: 'flex w-80 flex-col gap-4 p-4',
   filterTitle: 'text-lg font-semibold',
   filterActions: 'flex justify-end gap-2',
-  marker:
-    'mx-auto inline-flex h-6 min-w-6 items-center justify-center rounded-md px-1.5 text-xs font-semibold',
+  marker: 'mx-auto block h-4 w-1.5 rounded-full',
   percentBadge:
     'inline-flex min-w-8 items-center justify-center rounded-md px-1.5 py-0.5 text-xs font-semibold text-white',
   link: 'text-primary font-medium',

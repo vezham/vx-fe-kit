@@ -15,6 +15,8 @@ export const dateOptions: { key: DatePresetKey; label: string }[] = [
   { key: 'yesterday', label: 'Yesterday' },
   { key: 'last7', label: 'Last 7 Days' },
   { key: 'last30', label: 'Last 30 Days' },
+  { key: 'thisYear', label: 'This Year' },
+  { key: 'nextYear', label: 'Next Year' },
   { key: 'custom', label: 'Custom Range' }
 ]
 
@@ -378,16 +380,20 @@ function makeConfig(config: {
     ...config,
     initialSort,
     sortOptions: [
-      {
-        key: 'ascending',
-        label: 'A-Z',
-        descriptor: initialSort
-      },
+      { key: 'ascending', label: 'Ascending', descriptor: initialSort },
       {
         key: 'descending',
-        label: 'Z-A',
+        label: 'Descending',
         descriptor: {
           column: config.initialColumn,
+          direction: 'descending'
+        } satisfies SortDescriptor
+      },
+      {
+        key: 'recentlyViewed',
+        label: 'Recently Viewed',
+        descriptor: {
+          column: 'viewedAt',
           direction: 'descending'
         } satisfies SortDescriptor
       },

@@ -13,6 +13,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRouteImport } from './routes/__root'
 
 const ReportsRouteLazyRouteImport = createFileRoute('/reports')()
+const OperationsRouteLazyRouteImport = createFileRoute('/operations')()
 const Academic1RouteLazyRouteImport = createFileRoute('/academic1')()
 const AcademicRouteLazyRouteImport = createFileRoute('/academic')()
 const IndexLazyRouteImport = createFileRoute('/')()
@@ -142,6 +143,13 @@ const ReportsRouteLazyRoute = ReportsRouteLazyRouteImport.update({
   path: '/reports',
   getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/reports/route.lazy').then((d) => d.Route))
+const OperationsRouteLazyRoute = OperationsRouteLazyRouteImport.update({
+  id: '/operations',
+  path: '/operations',
+  getParentRoute: () => rootRouteImport,
+} as any).lazy(() =>
+  import('./routes/operations/route.lazy').then((d) => d.Route),
+)
 const Academic1RouteLazyRoute = Academic1RouteLazyRouteImport.update({
   id: '/academic1',
   path: '/academic1',
@@ -167,9 +175,9 @@ const ReportsIndexLazyRoute = ReportsIndexLazyRouteImport.update({
   getParentRoute: () => ReportsRouteLazyRoute,
 } as any).lazy(() => import('./routes/reports/index.lazy').then((d) => d.Route))
 const OperationsIndexLazyRoute = OperationsIndexLazyRouteImport.update({
-  id: '/operations/',
-  path: '/operations/',
-  getParentRoute: () => rootRouteImport,
+  id: '/',
+  path: '/',
+  getParentRoute: () => OperationsRouteLazyRoute,
 } as any).lazy(() =>
   import('./routes/operations/index.lazy').then((d) => d.Route),
 )
@@ -572,13 +580,14 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
   '/academic': typeof AcademicRouteLazyRouteWithChildren
   '/academic1': typeof Academic1RouteLazyRouteWithChildren
+  '/operations': typeof OperationsRouteLazyRouteWithChildren
   '/reports': typeof ReportsRouteLazyRouteWithChildren
   '/academic1/classes': typeof Academic1ClassesRouteLazyRouteWithChildren
   '/academic1/examinations': typeof Academic1ExaminationsRouteLazyRouteWithChildren
   '/academic/': typeof AcademicIndexLazyRoute
   '/academic1/': typeof Academic1IndexLazyRoute
   '/channels': typeof ChannelsIndexLazyRoute
-  '/operations': typeof OperationsIndexLazyRoute
+  '/operations/': typeof OperationsIndexLazyRoute
   '/reports/': typeof ReportsIndexLazyRoute
   '/academic/classroom': typeof AcademicClassroomIndexLazyRoute
   '/academic/classroutine': typeof AcademicClassroutineIndexLazyRoute
@@ -676,6 +685,7 @@ export interface FileRoutesById {
   '/': typeof IndexLazyRoute
   '/academic': typeof AcademicRouteLazyRouteWithChildren
   '/academic1': typeof Academic1RouteLazyRouteWithChildren
+  '/operations': typeof OperationsRouteLazyRouteWithChildren
   '/reports': typeof ReportsRouteLazyRouteWithChildren
   '/academic1/classes': typeof Academic1ClassesRouteLazyRouteWithChildren
   '/academic1/examinations': typeof Academic1ExaminationsRouteLazyRouteWithChildren
@@ -732,13 +742,14 @@ export interface FileRouteTypes {
     | '/'
     | '/academic'
     | '/academic1'
+    | '/operations'
     | '/reports'
     | '/academic1/classes'
     | '/academic1/examinations'
     | '/academic/'
     | '/academic1/'
     | '/channels'
-    | '/operations'
+    | '/operations/'
     | '/reports/'
     | '/academic/classroom'
     | '/academic/classroutine'
@@ -835,6 +846,7 @@ export interface FileRouteTypes {
     | '/'
     | '/academic'
     | '/academic1'
+    | '/operations'
     | '/reports'
     | '/academic1/classes'
     | '/academic1/examinations'
@@ -890,9 +902,9 @@ export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
   AcademicRouteLazyRoute: typeof AcademicRouteLazyRouteWithChildren
   Academic1RouteLazyRoute: typeof Academic1RouteLazyRouteWithChildren
+  OperationsRouteLazyRoute: typeof OperationsRouteLazyRouteWithChildren
   ReportsRouteLazyRoute: typeof ReportsRouteLazyRouteWithChildren
   ChannelsIndexLazyRoute: typeof ChannelsIndexLazyRoute
-  OperationsIndexLazyRoute: typeof OperationsIndexLazyRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -902,6 +914,13 @@ declare module '@tanstack/react-router' {
       path: '/reports'
       fullPath: '/reports'
       preLoaderRoute: typeof ReportsRouteLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/operations': {
+      id: '/operations'
+      path: '/operations'
+      fullPath: '/operations'
+      preLoaderRoute: typeof OperationsRouteLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/academic1': {
@@ -934,10 +953,10 @@ declare module '@tanstack/react-router' {
     }
     '/operations/': {
       id: '/operations/'
-      path: '/operations'
-      fullPath: '/operations'
+      path: '/'
+      fullPath: '/operations/'
       preLoaderRoute: typeof OperationsIndexLazyRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof OperationsRouteLazyRoute
     }
     '/channels/': {
       id: '/channels/'
@@ -1377,6 +1396,17 @@ const Academic1RouteLazyRouteChildren: Academic1RouteLazyRouteChildren = {
 const Academic1RouteLazyRouteWithChildren =
   Academic1RouteLazyRoute._addFileChildren(Academic1RouteLazyRouteChildren)
 
+interface OperationsRouteLazyRouteChildren {
+  OperationsIndexLazyRoute: typeof OperationsIndexLazyRoute
+}
+
+const OperationsRouteLazyRouteChildren: OperationsRouteLazyRouteChildren = {
+  OperationsIndexLazyRoute: OperationsIndexLazyRoute,
+}
+
+const OperationsRouteLazyRouteWithChildren =
+  OperationsRouteLazyRoute._addFileChildren(OperationsRouteLazyRouteChildren)
+
 interface ReportsRouteLazyRouteChildren {
   ReportsIndexLazyRoute: typeof ReportsIndexLazyRoute
   ReportsAttendanceIndexLazyRoute: typeof ReportsAttendanceIndexLazyRoute
@@ -1428,9 +1458,9 @@ const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
   AcademicRouteLazyRoute: AcademicRouteLazyRouteWithChildren,
   Academic1RouteLazyRoute: Academic1RouteLazyRouteWithChildren,
+  OperationsRouteLazyRoute: OperationsRouteLazyRouteWithChildren,
   ReportsRouteLazyRoute: ReportsRouteLazyRouteWithChildren,
   ChannelsIndexLazyRoute: ChannelsIndexLazyRoute,
-  OperationsIndexLazyRoute: OperationsIndexLazyRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
