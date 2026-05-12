@@ -41,7 +41,7 @@ env:
   NX_NO_CLOUD: true
   VX_NAME: '@vx/fe-kit'
   VX_SKIP: '@vx/fe-kit'
-  # HEROUI_AUTH_TOKEN: ${{ secrets.HEROUI_AUTH_TOKEN }}
+  HEROUI_AUTH_TOKEN: ${{ secrets.HEROUI_AUTH_TOKEN }}
 
 jobs:
   build:
