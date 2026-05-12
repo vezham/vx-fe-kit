@@ -16,6 +16,7 @@ import {
 } from '@vezham/react/v3'
 import { useLogger } from '@vezham/use-logger'
 
+import EmptyState from './empty-state'
 import Posts from './posts'
 
 const NAMESPACE = 'App/Home'
@@ -102,6 +103,10 @@ export default () => {
         Pro - Demo
         <Link.Icon />
       </Link>
+
+      <Separator />
+
+      <EmptyState />
 
       <Separator />
 
