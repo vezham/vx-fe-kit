@@ -16,7 +16,7 @@ import {
   createLabelsByPageKey,
   defaultLeftActions,
   defaultRightActions,
-  reportsSidebarItems
+  operationsSidebarItems
 } from './data'
 import { tvProps, tvSlots, tva } from './variant'
 
@@ -102,14 +102,14 @@ const useProps = (originalProps: Props) => {
   const location = useLocation()
   const navigate = useNavigate()
   const layoutConfig = {
-    title: 'Reports',
-    navigationLabel: 'Reports navigation',
-    subNavigationLabel: 'Reports sub navigation',
-    createEventPrefix: 'reports',
+    title: 'Operations',
+    navigationLabel: 'Operations navigation',
+    subNavigationLabel: 'Operations sub navigation',
+    createEventPrefix: 'operations',
     collapsedSidebarMode: 'hidden' as SidebarProps['collapsedMode'],
     initialSidebarCollapsed: false,
     renderChildrenInSidebar: true,
-    sidebarItems: reportsSidebarItems,
+    sidebarItems: operationsSidebarItems,
     ...layout
   }
   const layoutSidebarItems = layoutConfig.sidebarItems
@@ -689,7 +689,7 @@ function getActivePageKey(pathname: string, items: AcademicMenuItem[]) {
     )
     .sort((a, b) => b.href.length - a.href.length)[0]
 
-  return activeItem?.key ?? 'reports'
+  return activeItem?.key ?? 'operations'
 }
 
 function getActiveSidebarKey(pathname: string, items: AcademicMenuItem[]) {

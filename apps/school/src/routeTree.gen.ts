@@ -36,6 +36,20 @@ const ReportsClassIndexLazyRouteImport = createFileRoute('/reports/class/')()
 const ReportsAttendanceIndexLazyRouteImport = createFileRoute(
   '/reports/attendance/',
 )()
+const OperationsTransportIndexLazyRouteImport = createFileRoute(
+  '/operations/transport/',
+)()
+const OperationsSportsIndexLazyRouteImport = createFileRoute(
+  '/operations/sports/',
+)()
+const OperationsLibraryIndexLazyRouteImport = createFileRoute(
+  '/operations/library/',
+)()
+const OperationsHostelIndexLazyRouteImport = createFileRoute(
+  '/operations/hostel/',
+)()
+const OperationsFeesIndexLazyRouteImport =
+  createFileRoute('/operations/fees/')()
 const Academic1TimetableIndexLazyRouteImport = createFileRoute(
   '/academic1/timetable/',
 )()
@@ -109,6 +123,57 @@ const ReportsAttendanceDailyAttendanceIndexLazyRouteImport = createFileRoute(
 )()
 const ReportsAttendanceAttendanceReportIndexLazyRouteImport = createFileRoute(
   '/reports/attendance/attendance-report/',
+)()
+const OperationsTransportVehiclesIndexLazyRouteImport = createFileRoute(
+  '/operations/transport/vehicles/',
+)()
+const OperationsTransportVehicleDriversIndexLazyRouteImport = createFileRoute(
+  '/operations/transport/vehicle-drivers/',
+)()
+const OperationsTransportRoutesIndexLazyRouteImport = createFileRoute(
+  '/operations/transport/routes/',
+)()
+const OperationsTransportPickupPointsIndexLazyRouteImport = createFileRoute(
+  '/operations/transport/pickup-points/',
+)()
+const OperationsTransportAssignIndexLazyRouteImport = createFileRoute(
+  '/operations/transport/assign/',
+)()
+const OperationsLibraryReturnIndexLazyRouteImport = createFileRoute(
+  '/operations/library/return/',
+)()
+const OperationsLibraryMembersIndexLazyRouteImport = createFileRoute(
+  '/operations/library/members/',
+)()
+const OperationsLibraryIssueBookIndexLazyRouteImport = createFileRoute(
+  '/operations/library/issue-book/',
+)()
+const OperationsLibraryBooksIndexLazyRouteImport = createFileRoute(
+  '/operations/library/books/',
+)()
+const OperationsHostelRoomTypeIndexLazyRouteImport = createFileRoute(
+  '/operations/hostel/room-type/',
+)()
+const OperationsHostelHostelRoomIndexLazyRouteImport = createFileRoute(
+  '/operations/hostel/hostel-room/',
+)()
+const OperationsHostelHostelListIndexLazyRouteImport = createFileRoute(
+  '/operations/hostel/hostel-list/',
+)()
+const OperationsFeesFeesTypeIndexLazyRouteImport = createFileRoute(
+  '/operations/fees/fees-type/',
+)()
+const OperationsFeesFeesMasterIndexLazyRouteImport = createFileRoute(
+  '/operations/fees/fees-master/',
+)()
+const OperationsFeesFeesGroupIndexLazyRouteImport = createFileRoute(
+  '/operations/fees/fees-group/',
+)()
+const OperationsFeesFeesAssignIndexLazyRouteImport = createFileRoute(
+  '/operations/fees/fees-assign/',
+)()
+const OperationsFeesCollectFeesIndexLazyRouteImport = createFileRoute(
+  '/operations/fees/collect-fees/',
 )()
 const Academic1ExaminationsGradesIndexLazyRouteImport = createFileRoute(
   '/academic1/examinations/grades/',
@@ -261,6 +326,45 @@ const ReportsAttendanceIndexLazyRoute =
   } as any).lazy(() =>
     import('./routes/reports/attendance/index.lazy').then((d) => d.Route),
   )
+const OperationsTransportIndexLazyRoute =
+  OperationsTransportIndexLazyRouteImport.update({
+    id: '/transport/',
+    path: '/transport/',
+    getParentRoute: () => OperationsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/operations/transport/index.lazy').then((d) => d.Route),
+  )
+const OperationsSportsIndexLazyRoute =
+  OperationsSportsIndexLazyRouteImport.update({
+    id: '/sports/',
+    path: '/sports/',
+    getParentRoute: () => OperationsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/operations/sports/index.lazy').then((d) => d.Route),
+  )
+const OperationsLibraryIndexLazyRoute =
+  OperationsLibraryIndexLazyRouteImport.update({
+    id: '/library/',
+    path: '/library/',
+    getParentRoute: () => OperationsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/operations/library/index.lazy').then((d) => d.Route),
+  )
+const OperationsHostelIndexLazyRoute =
+  OperationsHostelIndexLazyRouteImport.update({
+    id: '/hostel/',
+    path: '/hostel/',
+    getParentRoute: () => OperationsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/operations/hostel/index.lazy').then((d) => d.Route),
+  )
+const OperationsFeesIndexLazyRoute = OperationsFeesIndexLazyRouteImport.update({
+  id: '/fees/',
+  path: '/fees/',
+  getParentRoute: () => OperationsRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/operations/fees/index.lazy').then((d) => d.Route),
+)
 const Academic1TimetableIndexLazyRoute =
   Academic1TimetableIndexLazyRouteImport.update({
     id: '/timetable/',
@@ -485,6 +589,174 @@ const ReportsAttendanceAttendanceReportIndexLazyRoute =
       (d) => d.Route,
     ),
   )
+const OperationsTransportVehiclesIndexLazyRoute =
+  OperationsTransportVehiclesIndexLazyRouteImport.update({
+    id: '/transport/vehicles/',
+    path: '/transport/vehicles/',
+    getParentRoute: () => OperationsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/operations/transport/vehicles/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const OperationsTransportVehicleDriversIndexLazyRoute =
+  OperationsTransportVehicleDriversIndexLazyRouteImport.update({
+    id: '/transport/vehicle-drivers/',
+    path: '/transport/vehicle-drivers/',
+    getParentRoute: () => OperationsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/operations/transport/vehicle-drivers/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const OperationsTransportRoutesIndexLazyRoute =
+  OperationsTransportRoutesIndexLazyRouteImport.update({
+    id: '/transport/routes/',
+    path: '/transport/routes/',
+    getParentRoute: () => OperationsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/operations/transport/routes/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const OperationsTransportPickupPointsIndexLazyRoute =
+  OperationsTransportPickupPointsIndexLazyRouteImport.update({
+    id: '/transport/pickup-points/',
+    path: '/transport/pickup-points/',
+    getParentRoute: () => OperationsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/operations/transport/pickup-points/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const OperationsTransportAssignIndexLazyRoute =
+  OperationsTransportAssignIndexLazyRouteImport.update({
+    id: '/transport/assign/',
+    path: '/transport/assign/',
+    getParentRoute: () => OperationsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/operations/transport/assign/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const OperationsLibraryReturnIndexLazyRoute =
+  OperationsLibraryReturnIndexLazyRouteImport.update({
+    id: '/library/return/',
+    path: '/library/return/',
+    getParentRoute: () => OperationsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/operations/library/return/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const OperationsLibraryMembersIndexLazyRoute =
+  OperationsLibraryMembersIndexLazyRouteImport.update({
+    id: '/library/members/',
+    path: '/library/members/',
+    getParentRoute: () => OperationsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/operations/library/members/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const OperationsLibraryIssueBookIndexLazyRoute =
+  OperationsLibraryIssueBookIndexLazyRouteImport.update({
+    id: '/library/issue-book/',
+    path: '/library/issue-book/',
+    getParentRoute: () => OperationsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/operations/library/issue-book/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const OperationsLibraryBooksIndexLazyRoute =
+  OperationsLibraryBooksIndexLazyRouteImport.update({
+    id: '/library/books/',
+    path: '/library/books/',
+    getParentRoute: () => OperationsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/operations/library/books/index.lazy').then((d) => d.Route),
+  )
+const OperationsHostelRoomTypeIndexLazyRoute =
+  OperationsHostelRoomTypeIndexLazyRouteImport.update({
+    id: '/hostel/room-type/',
+    path: '/hostel/room-type/',
+    getParentRoute: () => OperationsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/operations/hostel/room-type/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const OperationsHostelHostelRoomIndexLazyRoute =
+  OperationsHostelHostelRoomIndexLazyRouteImport.update({
+    id: '/hostel/hostel-room/',
+    path: '/hostel/hostel-room/',
+    getParentRoute: () => OperationsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/operations/hostel/hostel-room/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const OperationsHostelHostelListIndexLazyRoute =
+  OperationsHostelHostelListIndexLazyRouteImport.update({
+    id: '/hostel/hostel-list/',
+    path: '/hostel/hostel-list/',
+    getParentRoute: () => OperationsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/operations/hostel/hostel-list/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const OperationsFeesFeesTypeIndexLazyRoute =
+  OperationsFeesFeesTypeIndexLazyRouteImport.update({
+    id: '/fees/fees-type/',
+    path: '/fees/fees-type/',
+    getParentRoute: () => OperationsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/operations/fees/fees-type/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const OperationsFeesFeesMasterIndexLazyRoute =
+  OperationsFeesFeesMasterIndexLazyRouteImport.update({
+    id: '/fees/fees-master/',
+    path: '/fees/fees-master/',
+    getParentRoute: () => OperationsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/operations/fees/fees-master/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const OperationsFeesFeesGroupIndexLazyRoute =
+  OperationsFeesFeesGroupIndexLazyRouteImport.update({
+    id: '/fees/fees-group/',
+    path: '/fees/fees-group/',
+    getParentRoute: () => OperationsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/operations/fees/fees-group/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const OperationsFeesFeesAssignIndexLazyRoute =
+  OperationsFeesFeesAssignIndexLazyRouteImport.update({
+    id: '/fees/fees-assign/',
+    path: '/fees/fees-assign/',
+    getParentRoute: () => OperationsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/operations/fees/fees-assign/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const OperationsFeesCollectFeesIndexLazyRoute =
+  OperationsFeesCollectFeesIndexLazyRouteImport.update({
+    id: '/fees/collect-fees/',
+    path: '/fees/collect-fees/',
+    getParentRoute: () => OperationsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/operations/fees/collect-fees/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
 const Academic1ExaminationsGradesIndexLazyRoute =
   Academic1ExaminationsGradesIndexLazyRouteImport.update({
     id: '/grades/',
@@ -607,6 +879,11 @@ export interface FileRoutesByFullPath {
   '/academic1/subject': typeof Academic1SubjectIndexLazyRoute
   '/academic1/syllabus': typeof Academic1SyllabusIndexLazyRoute
   '/academic1/timetable': typeof Academic1TimetableIndexLazyRoute
+  '/operations/fees': typeof OperationsFeesIndexLazyRoute
+  '/operations/hostel': typeof OperationsHostelIndexLazyRoute
+  '/operations/library': typeof OperationsLibraryIndexLazyRoute
+  '/operations/sports': typeof OperationsSportsIndexLazyRoute
+  '/operations/transport': typeof OperationsTransportIndexLazyRoute
   '/reports/attendance': typeof ReportsAttendanceIndexLazyRoute
   '/reports/class': typeof ReportsClassIndexLazyRoute
   '/reports/fees': typeof ReportsFeesIndexLazyRoute
@@ -622,6 +899,23 @@ export interface FileRoutesByFullPath {
   '/academic1/examinations/exam-schedule': typeof Academic1ExaminationsExamScheduleIndexLazyRoute
   '/academic1/examinations/exam': typeof Academic1ExaminationsExamIndexLazyRoute
   '/academic1/examinations/grades': typeof Academic1ExaminationsGradesIndexLazyRoute
+  '/operations/fees/collect-fees': typeof OperationsFeesCollectFeesIndexLazyRoute
+  '/operations/fees/fees-assign': typeof OperationsFeesFeesAssignIndexLazyRoute
+  '/operations/fees/fees-group': typeof OperationsFeesFeesGroupIndexLazyRoute
+  '/operations/fees/fees-master': typeof OperationsFeesFeesMasterIndexLazyRoute
+  '/operations/fees/fees-type': typeof OperationsFeesFeesTypeIndexLazyRoute
+  '/operations/hostel/hostel-list': typeof OperationsHostelHostelListIndexLazyRoute
+  '/operations/hostel/hostel-room': typeof OperationsHostelHostelRoomIndexLazyRoute
+  '/operations/hostel/room-type': typeof OperationsHostelRoomTypeIndexLazyRoute
+  '/operations/library/books': typeof OperationsLibraryBooksIndexLazyRoute
+  '/operations/library/issue-book': typeof OperationsLibraryIssueBookIndexLazyRoute
+  '/operations/library/members': typeof OperationsLibraryMembersIndexLazyRoute
+  '/operations/library/return': typeof OperationsLibraryReturnIndexLazyRoute
+  '/operations/transport/assign': typeof OperationsTransportAssignIndexLazyRoute
+  '/operations/transport/pickup-points': typeof OperationsTransportPickupPointsIndexLazyRoute
+  '/operations/transport/routes': typeof OperationsTransportRoutesIndexLazyRoute
+  '/operations/transport/vehicle-drivers': typeof OperationsTransportVehicleDriversIndexLazyRoute
+  '/operations/transport/vehicles': typeof OperationsTransportVehiclesIndexLazyRoute
   '/reports/attendance/attendance-report': typeof ReportsAttendanceAttendanceReportIndexLazyRoute
   '/reports/attendance/daily-attendance': typeof ReportsAttendanceDailyAttendanceIndexLazyRoute
   '/reports/attendance/staff-day-wise': typeof ReportsAttendanceStaffDayWiseIndexLazyRoute
@@ -656,6 +950,11 @@ export interface FileRoutesByTo {
   '/academic1/subject': typeof Academic1SubjectIndexLazyRoute
   '/academic1/syllabus': typeof Academic1SyllabusIndexLazyRoute
   '/academic1/timetable': typeof Academic1TimetableIndexLazyRoute
+  '/operations/fees': typeof OperationsFeesIndexLazyRoute
+  '/operations/hostel': typeof OperationsHostelIndexLazyRoute
+  '/operations/library': typeof OperationsLibraryIndexLazyRoute
+  '/operations/sports': typeof OperationsSportsIndexLazyRoute
+  '/operations/transport': typeof OperationsTransportIndexLazyRoute
   '/reports/attendance': typeof ReportsAttendanceIndexLazyRoute
   '/reports/class': typeof ReportsClassIndexLazyRoute
   '/reports/fees': typeof ReportsFeesIndexLazyRoute
@@ -671,6 +970,23 @@ export interface FileRoutesByTo {
   '/academic1/examinations/exam-schedule': typeof Academic1ExaminationsExamScheduleIndexLazyRoute
   '/academic1/examinations/exam': typeof Academic1ExaminationsExamIndexLazyRoute
   '/academic1/examinations/grades': typeof Academic1ExaminationsGradesIndexLazyRoute
+  '/operations/fees/collect-fees': typeof OperationsFeesCollectFeesIndexLazyRoute
+  '/operations/fees/fees-assign': typeof OperationsFeesFeesAssignIndexLazyRoute
+  '/operations/fees/fees-group': typeof OperationsFeesFeesGroupIndexLazyRoute
+  '/operations/fees/fees-master': typeof OperationsFeesFeesMasterIndexLazyRoute
+  '/operations/fees/fees-type': typeof OperationsFeesFeesTypeIndexLazyRoute
+  '/operations/hostel/hostel-list': typeof OperationsHostelHostelListIndexLazyRoute
+  '/operations/hostel/hostel-room': typeof OperationsHostelHostelRoomIndexLazyRoute
+  '/operations/hostel/room-type': typeof OperationsHostelRoomTypeIndexLazyRoute
+  '/operations/library/books': typeof OperationsLibraryBooksIndexLazyRoute
+  '/operations/library/issue-book': typeof OperationsLibraryIssueBookIndexLazyRoute
+  '/operations/library/members': typeof OperationsLibraryMembersIndexLazyRoute
+  '/operations/library/return': typeof OperationsLibraryReturnIndexLazyRoute
+  '/operations/transport/assign': typeof OperationsTransportAssignIndexLazyRoute
+  '/operations/transport/pickup-points': typeof OperationsTransportPickupPointsIndexLazyRoute
+  '/operations/transport/routes': typeof OperationsTransportRoutesIndexLazyRoute
+  '/operations/transport/vehicle-drivers': typeof OperationsTransportVehicleDriversIndexLazyRoute
+  '/operations/transport/vehicles': typeof OperationsTransportVehiclesIndexLazyRoute
   '/reports/attendance/attendance-report': typeof ReportsAttendanceAttendanceReportIndexLazyRoute
   '/reports/attendance/daily-attendance': typeof ReportsAttendanceDailyAttendanceIndexLazyRoute
   '/reports/attendance/staff-day-wise': typeof ReportsAttendanceStaffDayWiseIndexLazyRoute
@@ -712,6 +1028,11 @@ export interface FileRoutesById {
   '/academic1/subject/': typeof Academic1SubjectIndexLazyRoute
   '/academic1/syllabus/': typeof Academic1SyllabusIndexLazyRoute
   '/academic1/timetable/': typeof Academic1TimetableIndexLazyRoute
+  '/operations/fees/': typeof OperationsFeesIndexLazyRoute
+  '/operations/hostel/': typeof OperationsHostelIndexLazyRoute
+  '/operations/library/': typeof OperationsLibraryIndexLazyRoute
+  '/operations/sports/': typeof OperationsSportsIndexLazyRoute
+  '/operations/transport/': typeof OperationsTransportIndexLazyRoute
   '/reports/attendance/': typeof ReportsAttendanceIndexLazyRoute
   '/reports/class/': typeof ReportsClassIndexLazyRoute
   '/reports/fees/': typeof ReportsFeesIndexLazyRoute
@@ -727,6 +1048,23 @@ export interface FileRoutesById {
   '/academic1/examinations/exam-schedule/': typeof Academic1ExaminationsExamScheduleIndexLazyRoute
   '/academic1/examinations/exam/': typeof Academic1ExaminationsExamIndexLazyRoute
   '/academic1/examinations/grades/': typeof Academic1ExaminationsGradesIndexLazyRoute
+  '/operations/fees/collect-fees/': typeof OperationsFeesCollectFeesIndexLazyRoute
+  '/operations/fees/fees-assign/': typeof OperationsFeesFeesAssignIndexLazyRoute
+  '/operations/fees/fees-group/': typeof OperationsFeesFeesGroupIndexLazyRoute
+  '/operations/fees/fees-master/': typeof OperationsFeesFeesMasterIndexLazyRoute
+  '/operations/fees/fees-type/': typeof OperationsFeesFeesTypeIndexLazyRoute
+  '/operations/hostel/hostel-list/': typeof OperationsHostelHostelListIndexLazyRoute
+  '/operations/hostel/hostel-room/': typeof OperationsHostelHostelRoomIndexLazyRoute
+  '/operations/hostel/room-type/': typeof OperationsHostelRoomTypeIndexLazyRoute
+  '/operations/library/books/': typeof OperationsLibraryBooksIndexLazyRoute
+  '/operations/library/issue-book/': typeof OperationsLibraryIssueBookIndexLazyRoute
+  '/operations/library/members/': typeof OperationsLibraryMembersIndexLazyRoute
+  '/operations/library/return/': typeof OperationsLibraryReturnIndexLazyRoute
+  '/operations/transport/assign/': typeof OperationsTransportAssignIndexLazyRoute
+  '/operations/transport/pickup-points/': typeof OperationsTransportPickupPointsIndexLazyRoute
+  '/operations/transport/routes/': typeof OperationsTransportRoutesIndexLazyRoute
+  '/operations/transport/vehicle-drivers/': typeof OperationsTransportVehicleDriversIndexLazyRoute
+  '/operations/transport/vehicles/': typeof OperationsTransportVehiclesIndexLazyRoute
   '/reports/attendance/attendance-report/': typeof ReportsAttendanceAttendanceReportIndexLazyRoute
   '/reports/attendance/daily-attendance/': typeof ReportsAttendanceDailyAttendanceIndexLazyRoute
   '/reports/attendance/staff-day-wise/': typeof ReportsAttendanceStaffDayWiseIndexLazyRoute
@@ -769,6 +1107,11 @@ export interface FileRouteTypes {
     | '/academic1/subject'
     | '/academic1/syllabus'
     | '/academic1/timetable'
+    | '/operations/fees'
+    | '/operations/hostel'
+    | '/operations/library'
+    | '/operations/sports'
+    | '/operations/transport'
     | '/reports/attendance'
     | '/reports/class'
     | '/reports/fees'
@@ -784,6 +1127,23 @@ export interface FileRouteTypes {
     | '/academic1/examinations/exam-schedule'
     | '/academic1/examinations/exam'
     | '/academic1/examinations/grades'
+    | '/operations/fees/collect-fees'
+    | '/operations/fees/fees-assign'
+    | '/operations/fees/fees-group'
+    | '/operations/fees/fees-master'
+    | '/operations/fees/fees-type'
+    | '/operations/hostel/hostel-list'
+    | '/operations/hostel/hostel-room'
+    | '/operations/hostel/room-type'
+    | '/operations/library/books'
+    | '/operations/library/issue-book'
+    | '/operations/library/members'
+    | '/operations/library/return'
+    | '/operations/transport/assign'
+    | '/operations/transport/pickup-points'
+    | '/operations/transport/routes'
+    | '/operations/transport/vehicle-drivers'
+    | '/operations/transport/vehicles'
     | '/reports/attendance/attendance-report'
     | '/reports/attendance/daily-attendance'
     | '/reports/attendance/staff-day-wise'
@@ -818,6 +1178,11 @@ export interface FileRouteTypes {
     | '/academic1/subject'
     | '/academic1/syllabus'
     | '/academic1/timetable'
+    | '/operations/fees'
+    | '/operations/hostel'
+    | '/operations/library'
+    | '/operations/sports'
+    | '/operations/transport'
     | '/reports/attendance'
     | '/reports/class'
     | '/reports/fees'
@@ -833,6 +1198,23 @@ export interface FileRouteTypes {
     | '/academic1/examinations/exam-schedule'
     | '/academic1/examinations/exam'
     | '/academic1/examinations/grades'
+    | '/operations/fees/collect-fees'
+    | '/operations/fees/fees-assign'
+    | '/operations/fees/fees-group'
+    | '/operations/fees/fees-master'
+    | '/operations/fees/fees-type'
+    | '/operations/hostel/hostel-list'
+    | '/operations/hostel/hostel-room'
+    | '/operations/hostel/room-type'
+    | '/operations/library/books'
+    | '/operations/library/issue-book'
+    | '/operations/library/members'
+    | '/operations/library/return'
+    | '/operations/transport/assign'
+    | '/operations/transport/pickup-points'
+    | '/operations/transport/routes'
+    | '/operations/transport/vehicle-drivers'
+    | '/operations/transport/vehicles'
     | '/reports/attendance/attendance-report'
     | '/reports/attendance/daily-attendance'
     | '/reports/attendance/staff-day-wise'
@@ -873,6 +1255,11 @@ export interface FileRouteTypes {
     | '/academic1/subject/'
     | '/academic1/syllabus/'
     | '/academic1/timetable/'
+    | '/operations/fees/'
+    | '/operations/hostel/'
+    | '/operations/library/'
+    | '/operations/sports/'
+    | '/operations/transport/'
     | '/reports/attendance/'
     | '/reports/class/'
     | '/reports/fees/'
@@ -888,6 +1275,23 @@ export interface FileRouteTypes {
     | '/academic1/examinations/exam-schedule/'
     | '/academic1/examinations/exam/'
     | '/academic1/examinations/grades/'
+    | '/operations/fees/collect-fees/'
+    | '/operations/fees/fees-assign/'
+    | '/operations/fees/fees-group/'
+    | '/operations/fees/fees-master/'
+    | '/operations/fees/fees-type/'
+    | '/operations/hostel/hostel-list/'
+    | '/operations/hostel/hostel-room/'
+    | '/operations/hostel/room-type/'
+    | '/operations/library/books/'
+    | '/operations/library/issue-book/'
+    | '/operations/library/members/'
+    | '/operations/library/return/'
+    | '/operations/transport/assign/'
+    | '/operations/transport/pickup-points/'
+    | '/operations/transport/routes/'
+    | '/operations/transport/vehicle-drivers/'
+    | '/operations/transport/vehicles/'
     | '/reports/attendance/attendance-report/'
     | '/reports/attendance/daily-attendance/'
     | '/reports/attendance/staff-day-wise/'
@@ -1034,6 +1438,41 @@ declare module '@tanstack/react-router' {
       fullPath: '/reports/attendance'
       preLoaderRoute: typeof ReportsAttendanceIndexLazyRouteImport
       parentRoute: typeof ReportsRouteLazyRoute
+    }
+    '/operations/transport/': {
+      id: '/operations/transport/'
+      path: '/transport'
+      fullPath: '/operations/transport'
+      preLoaderRoute: typeof OperationsTransportIndexLazyRouteImport
+      parentRoute: typeof OperationsRouteLazyRoute
+    }
+    '/operations/sports/': {
+      id: '/operations/sports/'
+      path: '/sports'
+      fullPath: '/operations/sports'
+      preLoaderRoute: typeof OperationsSportsIndexLazyRouteImport
+      parentRoute: typeof OperationsRouteLazyRoute
+    }
+    '/operations/library/': {
+      id: '/operations/library/'
+      path: '/library'
+      fullPath: '/operations/library'
+      preLoaderRoute: typeof OperationsLibraryIndexLazyRouteImport
+      parentRoute: typeof OperationsRouteLazyRoute
+    }
+    '/operations/hostel/': {
+      id: '/operations/hostel/'
+      path: '/hostel'
+      fullPath: '/operations/hostel'
+      preLoaderRoute: typeof OperationsHostelIndexLazyRouteImport
+      parentRoute: typeof OperationsRouteLazyRoute
+    }
+    '/operations/fees/': {
+      id: '/operations/fees/'
+      path: '/fees'
+      fullPath: '/operations/fees'
+      preLoaderRoute: typeof OperationsFeesIndexLazyRouteImport
+      parentRoute: typeof OperationsRouteLazyRoute
     }
     '/academic1/timetable/': {
       id: '/academic1/timetable/'
@@ -1217,6 +1656,125 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ReportsAttendanceAttendanceReportIndexLazyRouteImport
       parentRoute: typeof ReportsRouteLazyRoute
     }
+    '/operations/transport/vehicles/': {
+      id: '/operations/transport/vehicles/'
+      path: '/transport/vehicles'
+      fullPath: '/operations/transport/vehicles'
+      preLoaderRoute: typeof OperationsTransportVehiclesIndexLazyRouteImport
+      parentRoute: typeof OperationsRouteLazyRoute
+    }
+    '/operations/transport/vehicle-drivers/': {
+      id: '/operations/transport/vehicle-drivers/'
+      path: '/transport/vehicle-drivers'
+      fullPath: '/operations/transport/vehicle-drivers'
+      preLoaderRoute: typeof OperationsTransportVehicleDriversIndexLazyRouteImport
+      parentRoute: typeof OperationsRouteLazyRoute
+    }
+    '/operations/transport/routes/': {
+      id: '/operations/transport/routes/'
+      path: '/transport/routes'
+      fullPath: '/operations/transport/routes'
+      preLoaderRoute: typeof OperationsTransportRoutesIndexLazyRouteImport
+      parentRoute: typeof OperationsRouteLazyRoute
+    }
+    '/operations/transport/pickup-points/': {
+      id: '/operations/transport/pickup-points/'
+      path: '/transport/pickup-points'
+      fullPath: '/operations/transport/pickup-points'
+      preLoaderRoute: typeof OperationsTransportPickupPointsIndexLazyRouteImport
+      parentRoute: typeof OperationsRouteLazyRoute
+    }
+    '/operations/transport/assign/': {
+      id: '/operations/transport/assign/'
+      path: '/transport/assign'
+      fullPath: '/operations/transport/assign'
+      preLoaderRoute: typeof OperationsTransportAssignIndexLazyRouteImport
+      parentRoute: typeof OperationsRouteLazyRoute
+    }
+    '/operations/library/return/': {
+      id: '/operations/library/return/'
+      path: '/library/return'
+      fullPath: '/operations/library/return'
+      preLoaderRoute: typeof OperationsLibraryReturnIndexLazyRouteImport
+      parentRoute: typeof OperationsRouteLazyRoute
+    }
+    '/operations/library/members/': {
+      id: '/operations/library/members/'
+      path: '/library/members'
+      fullPath: '/operations/library/members'
+      preLoaderRoute: typeof OperationsLibraryMembersIndexLazyRouteImport
+      parentRoute: typeof OperationsRouteLazyRoute
+    }
+    '/operations/library/issue-book/': {
+      id: '/operations/library/issue-book/'
+      path: '/library/issue-book'
+      fullPath: '/operations/library/issue-book'
+      preLoaderRoute: typeof OperationsLibraryIssueBookIndexLazyRouteImport
+      parentRoute: typeof OperationsRouteLazyRoute
+    }
+    '/operations/library/books/': {
+      id: '/operations/library/books/'
+      path: '/library/books'
+      fullPath: '/operations/library/books'
+      preLoaderRoute: typeof OperationsLibraryBooksIndexLazyRouteImport
+      parentRoute: typeof OperationsRouteLazyRoute
+    }
+    '/operations/hostel/room-type/': {
+      id: '/operations/hostel/room-type/'
+      path: '/hostel/room-type'
+      fullPath: '/operations/hostel/room-type'
+      preLoaderRoute: typeof OperationsHostelRoomTypeIndexLazyRouteImport
+      parentRoute: typeof OperationsRouteLazyRoute
+    }
+    '/operations/hostel/hostel-room/': {
+      id: '/operations/hostel/hostel-room/'
+      path: '/hostel/hostel-room'
+      fullPath: '/operations/hostel/hostel-room'
+      preLoaderRoute: typeof OperationsHostelHostelRoomIndexLazyRouteImport
+      parentRoute: typeof OperationsRouteLazyRoute
+    }
+    '/operations/hostel/hostel-list/': {
+      id: '/operations/hostel/hostel-list/'
+      path: '/hostel/hostel-list'
+      fullPath: '/operations/hostel/hostel-list'
+      preLoaderRoute: typeof OperationsHostelHostelListIndexLazyRouteImport
+      parentRoute: typeof OperationsRouteLazyRoute
+    }
+    '/operations/fees/fees-type/': {
+      id: '/operations/fees/fees-type/'
+      path: '/fees/fees-type'
+      fullPath: '/operations/fees/fees-type'
+      preLoaderRoute: typeof OperationsFeesFeesTypeIndexLazyRouteImport
+      parentRoute: typeof OperationsRouteLazyRoute
+    }
+    '/operations/fees/fees-master/': {
+      id: '/operations/fees/fees-master/'
+      path: '/fees/fees-master'
+      fullPath: '/operations/fees/fees-master'
+      preLoaderRoute: typeof OperationsFeesFeesMasterIndexLazyRouteImport
+      parentRoute: typeof OperationsRouteLazyRoute
+    }
+    '/operations/fees/fees-group/': {
+      id: '/operations/fees/fees-group/'
+      path: '/fees/fees-group'
+      fullPath: '/operations/fees/fees-group'
+      preLoaderRoute: typeof OperationsFeesFeesGroupIndexLazyRouteImport
+      parentRoute: typeof OperationsRouteLazyRoute
+    }
+    '/operations/fees/fees-assign/': {
+      id: '/operations/fees/fees-assign/'
+      path: '/fees/fees-assign'
+      fullPath: '/operations/fees/fees-assign'
+      preLoaderRoute: typeof OperationsFeesFeesAssignIndexLazyRouteImport
+      parentRoute: typeof OperationsRouteLazyRoute
+    }
+    '/operations/fees/collect-fees/': {
+      id: '/operations/fees/collect-fees/'
+      path: '/fees/collect-fees'
+      fullPath: '/operations/fees/collect-fees'
+      preLoaderRoute: typeof OperationsFeesCollectFeesIndexLazyRouteImport
+      parentRoute: typeof OperationsRouteLazyRoute
+    }
     '/academic1/examinations/grades/': {
       id: '/academic1/examinations/grades/'
       path: '/grades'
@@ -1398,10 +1956,67 @@ const Academic1RouteLazyRouteWithChildren =
 
 interface OperationsRouteLazyRouteChildren {
   OperationsIndexLazyRoute: typeof OperationsIndexLazyRoute
+  OperationsFeesIndexLazyRoute: typeof OperationsFeesIndexLazyRoute
+  OperationsHostelIndexLazyRoute: typeof OperationsHostelIndexLazyRoute
+  OperationsLibraryIndexLazyRoute: typeof OperationsLibraryIndexLazyRoute
+  OperationsSportsIndexLazyRoute: typeof OperationsSportsIndexLazyRoute
+  OperationsTransportIndexLazyRoute: typeof OperationsTransportIndexLazyRoute
+  OperationsFeesCollectFeesIndexLazyRoute: typeof OperationsFeesCollectFeesIndexLazyRoute
+  OperationsFeesFeesAssignIndexLazyRoute: typeof OperationsFeesFeesAssignIndexLazyRoute
+  OperationsFeesFeesGroupIndexLazyRoute: typeof OperationsFeesFeesGroupIndexLazyRoute
+  OperationsFeesFeesMasterIndexLazyRoute: typeof OperationsFeesFeesMasterIndexLazyRoute
+  OperationsFeesFeesTypeIndexLazyRoute: typeof OperationsFeesFeesTypeIndexLazyRoute
+  OperationsHostelHostelListIndexLazyRoute: typeof OperationsHostelHostelListIndexLazyRoute
+  OperationsHostelHostelRoomIndexLazyRoute: typeof OperationsHostelHostelRoomIndexLazyRoute
+  OperationsHostelRoomTypeIndexLazyRoute: typeof OperationsHostelRoomTypeIndexLazyRoute
+  OperationsLibraryBooksIndexLazyRoute: typeof OperationsLibraryBooksIndexLazyRoute
+  OperationsLibraryIssueBookIndexLazyRoute: typeof OperationsLibraryIssueBookIndexLazyRoute
+  OperationsLibraryMembersIndexLazyRoute: typeof OperationsLibraryMembersIndexLazyRoute
+  OperationsLibraryReturnIndexLazyRoute: typeof OperationsLibraryReturnIndexLazyRoute
+  OperationsTransportAssignIndexLazyRoute: typeof OperationsTransportAssignIndexLazyRoute
+  OperationsTransportPickupPointsIndexLazyRoute: typeof OperationsTransportPickupPointsIndexLazyRoute
+  OperationsTransportRoutesIndexLazyRoute: typeof OperationsTransportRoutesIndexLazyRoute
+  OperationsTransportVehicleDriversIndexLazyRoute: typeof OperationsTransportVehicleDriversIndexLazyRoute
+  OperationsTransportVehiclesIndexLazyRoute: typeof OperationsTransportVehiclesIndexLazyRoute
 }
 
 const OperationsRouteLazyRouteChildren: OperationsRouteLazyRouteChildren = {
   OperationsIndexLazyRoute: OperationsIndexLazyRoute,
+  OperationsFeesIndexLazyRoute: OperationsFeesIndexLazyRoute,
+  OperationsHostelIndexLazyRoute: OperationsHostelIndexLazyRoute,
+  OperationsLibraryIndexLazyRoute: OperationsLibraryIndexLazyRoute,
+  OperationsSportsIndexLazyRoute: OperationsSportsIndexLazyRoute,
+  OperationsTransportIndexLazyRoute: OperationsTransportIndexLazyRoute,
+  OperationsFeesCollectFeesIndexLazyRoute:
+    OperationsFeesCollectFeesIndexLazyRoute,
+  OperationsFeesFeesAssignIndexLazyRoute:
+    OperationsFeesFeesAssignIndexLazyRoute,
+  OperationsFeesFeesGroupIndexLazyRoute: OperationsFeesFeesGroupIndexLazyRoute,
+  OperationsFeesFeesMasterIndexLazyRoute:
+    OperationsFeesFeesMasterIndexLazyRoute,
+  OperationsFeesFeesTypeIndexLazyRoute: OperationsFeesFeesTypeIndexLazyRoute,
+  OperationsHostelHostelListIndexLazyRoute:
+    OperationsHostelHostelListIndexLazyRoute,
+  OperationsHostelHostelRoomIndexLazyRoute:
+    OperationsHostelHostelRoomIndexLazyRoute,
+  OperationsHostelRoomTypeIndexLazyRoute:
+    OperationsHostelRoomTypeIndexLazyRoute,
+  OperationsLibraryBooksIndexLazyRoute: OperationsLibraryBooksIndexLazyRoute,
+  OperationsLibraryIssueBookIndexLazyRoute:
+    OperationsLibraryIssueBookIndexLazyRoute,
+  OperationsLibraryMembersIndexLazyRoute:
+    OperationsLibraryMembersIndexLazyRoute,
+  OperationsLibraryReturnIndexLazyRoute: OperationsLibraryReturnIndexLazyRoute,
+  OperationsTransportAssignIndexLazyRoute:
+    OperationsTransportAssignIndexLazyRoute,
+  OperationsTransportPickupPointsIndexLazyRoute:
+    OperationsTransportPickupPointsIndexLazyRoute,
+  OperationsTransportRoutesIndexLazyRoute:
+    OperationsTransportRoutesIndexLazyRoute,
+  OperationsTransportVehicleDriversIndexLazyRoute:
+    OperationsTransportVehicleDriversIndexLazyRoute,
+  OperationsTransportVehiclesIndexLazyRoute:
+    OperationsTransportVehiclesIndexLazyRoute,
 }
 
 const OperationsRouteLazyRouteWithChildren =

@@ -172,7 +172,7 @@ const OperationsLayoutPage = forwardRef<'div', Props>((props, ref) => {
 
       <Surface {...getShellProps()}>
         <Surface {...getSidebarRailProps()}>
-          <ReportsSidebar
+          <OperationsSidebar
             sidebarProps={sidebarProps}
             getSidebarProps={getSidebarProps}
             getSidebarListProps={getSidebarListProps}
@@ -212,7 +212,7 @@ const OperationsLayoutPage = forwardRef<'div', Props>((props, ref) => {
             </Surface>
             <Separator {...getSeparatorProps()} />
             <Drawer.Body {...getDrawerBodyProps()}>
-              <ReportsSidebar
+              <OperationsSidebar
                 sidebarProps={drawerProps.sidebar}
                 getSidebarProps={getSidebarProps}
                 getSidebarListProps={getSidebarListProps}
@@ -338,7 +338,7 @@ function HeaderIconTooltip({
   )
 }
 
-function ReportsSidebar({
+function OperationsSidebar({
   sidebarProps,
   getSidebarProps,
   getSidebarListProps,

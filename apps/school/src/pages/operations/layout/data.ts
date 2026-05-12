@@ -1,6 +1,6 @@
 import type { AcademicMenuItem, ActionItem } from './types'
 
-export const reportsSidebarItems: AcademicMenuItem[] = [
+export const operationsSidebarItems: AcademicMenuItem[] = [
   {
     key: 'fees',
     title: 'Fees Collections',
@@ -20,19 +20,19 @@ export const reportsSidebarItems: AcademicMenuItem[] = [
         icon: 'lucide:user-round-check'
       },
       {
-        key: 'daily-attendance',
+        key: 'fees-master',
         title: 'Fees Master',
         href: '/operations/fees/fees-master',
         icon: 'lucide:calendar-days'
       },
       {
-        key: 'student-day-wise',
+        key: 'fees-assign',
         title: 'Fees Assign',
         href: '/operations/fees/fees-assign',
         icon: 'lucide:user'
       },
       {
-        key: 'teacher-day-wise',
+        key: 'collect-fees',
         title: 'Collect Fees',
         href: '/operations/fees/collect-fees',
         icon: 'lucide:graduation-cap'
@@ -96,8 +96,8 @@ export const reportsSidebarItems: AcademicMenuItem[] = [
         icon: 'lucide:user-round-check'
       },
       {
-        key: 'hostel-type',
-        title: 'Hostel Type',
+        key: 'room-type',
+        title: 'Room Type',
         href: '/operations/hostel/room-type',
         icon: 'lucide:calendar-days'
       }
@@ -193,15 +193,25 @@ export const defaultRightActions: ActionItem[] = [
   }
 ]
 
-export const createLabelsByPageKey: Record<string, string> = {}
+export const createLabelsByPageKey: Record<string, string> = {
+  'fees-group': 'Add Fees Group',
+  'fees-type': 'Add Fees Type',
+  'fees-master': 'Add Fees Master',
+  'fees-assign': 'Assign New',
+  'collect-fees': 'Collect Fees',
+  members: 'Add Member',
+  books: 'Add Book',
+  'issue-book': 'Issue Book',
+  return: 'Return Book',
+  sports: 'Add Sport',
+  'hostel-list': 'Add Hostel',
+  'hostel-room': 'Add Hostel Rooms',
+  'room-type': 'Add Room Type',
+  routes: 'Add Route',
+  'pickup-points': 'Add Pickup Points',
+  'vehicle-drivers': 'Add Drivers',
+  vehicles: 'Add Vehicle',
+  assign: 'Assign New Vehicle'
+}
 
-export const createExcludedPageKeys = new Set([
-  'attendance-report',
-  'students-attendance-type',
-  'daily-attendance',
-  'student-day-wise',
-  'teacher-day-wise',
-  'staff-day-wise',
-  'teacher-report',
-  'staff-report'
-])
+export const createExcludedPageKeys = new Set<string>()
