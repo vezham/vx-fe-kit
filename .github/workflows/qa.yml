@@ -57,20 +57,12 @@ jobs:
       - name: 🟠 · 🧩 Setup Node & pnpm
         uses: vezham/vx-deployer/.github/actions/common/setup-install@timeline
 
-      - name: Install Linux runtime deps
-        shell: bash
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libsecret-1-0
-
       - name: Install dependencies
         shell: bash
         # env:
         #   HEROUI_AUTH_TOKEN: ${{ secrets.HEROUI_AUTH_TOKEN }}
         run: |
-          pnpm exec heroui-pro status
           pnpm exec heroui-pro install react --yes --skip-peers
-          pnpm exec heroui-pro status
 
       - name: 🔵 · 🏗️ Build
         # id: build
