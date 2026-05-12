@@ -56,14 +56,8 @@ jobs:
 
       - name: 🟠 · 🧩 Setup Node & pnpm
         uses: vezham/vx-deployer/.github/actions/common/setup-install@timeline
-
-      - name: Install dependencies
-        shell: bash
-        # env:
-        #   HEROUI_AUTH_TOKEN: ${{ secrets.HEROUI_AUTH_TOKEN }}
-        run: |
-          pnpm rebuild @heroui-pro/react
-          test -e node_modules/@heroui-pro/react/dist/css/index.css || find node_modules/@heroui-pro/react -maxdepth 4 -type f
+        with:
+          HEROUI_AUTH_TOKEN: ${{ secrets.HEROUI_AUTH_TOKEN }}
 
       - name: 🔵 · 🏗️ Build
         # id: build
