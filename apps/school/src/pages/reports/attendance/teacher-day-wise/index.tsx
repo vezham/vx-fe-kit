@@ -1,4 +1,5 @@
 import { Icon } from '@iconify/react'
+import { useHotkey } from '@tanstack/react-hotkeys'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import {
@@ -172,7 +173,10 @@ function AttendanceTablePage({ config }: Props) {
   const selectedRowIndex = activeRowId
     ? sortedRows.findIndex(row => row.id === activeRowId)
     : -1
-  const tableSelectedKeys = selectedRowKeys
+  const tableSelectedKeys = useMemo(
+    () => (activeRowId ? new Set([activeRowId]) : selectedRowKeys),
+    [activeRowId, selectedRowKeys]
+  )
   const activeSortLabel =
     config.sortOptions.find(
       option =>
@@ -242,6 +246,21 @@ function AttendanceTablePage({ config }: Props) {
     updateDrawerQuery(null)
   }, [drawer, updateDrawerQuery])
 
+  const toggleDrawer = useCallback(() => {
+    if (drawer.isOpen) {
+      closeDrawer()
+      return
+    }
+
+    const selectedKey = Array.from(selectedRowKeys)[0]
+    const selectedRow =
+      sortedRows.find(row => row.id === selectedKey) ?? sortedRows[0]
+
+    if (selectedRow) {
+      openDrawer('view', selectedRow, true)
+    }
+  }, [closeDrawer, drawer.isOpen, openDrawer, selectedRowKeys, sortedRows])
+
   const updateTableSelection = useCallback((keys: Selection) => {
     setSelectedRowKeys(keys)
   }, [])
@@ -256,6 +275,24 @@ function AttendanceTablePage({ config }: Props) {
     },
     [mode, openDrawer, sortedRows]
   )
+
+  const goToNextRow = useCallback(() => {
+    if (selectedRowIndex < 0) {
+      goToRowAt(0)
+      return
+    }
+
+    goToRowAt(Math.min(sortedRows.length - 1, selectedRowIndex + 1))
+  }, [goToRowAt, selectedRowIndex, sortedRows.length])
+
+  const goToPreviousRow = useCallback(() => {
+    if (selectedRowIndex < 0) {
+      goToRowAt(0)
+      return
+    }
+
+    goToRowAt(Math.max(0, selectedRowIndex - 1))
+  }, [goToRowAt, selectedRowIndex])
 
   useEffect(() => {
     const syncDrawerFromUrl = () => {
@@ -292,6 +329,41 @@ function AttendanceTablePage({ config }: Props) {
     return () => window.clearTimeout(timeoutId)
   }, [toast])
 
+  useEffect(() => {
+    if (!activeRowId) {
+      return
+    }
+
+    const rowIndex = sortedRows.findIndex(row => row.id === activeRowId)
+
+    if (rowIndex < 0) {
+      return
+    }
+
+    const nextPage = Math.floor(rowIndex / pageSize) + 1
+
+    if (nextPage !== currentPage) {
+      setPage(nextPage)
+      return
+    }
+
+    window.requestAnimationFrame(() => {
+      document
+        .querySelector(`[data-report-row-id="${activeRowId}"]`)
+        ?.scrollIntoView({ block: 'nearest', inline: 'nearest' })
+    })
+  }, [activeRowId, currentPage, pageSize, sortedRows])
+
+  useHotkey('Meta+/', () => toggleDrawer())
+
+  useHotkey('Meta+ArrowUp', () => goToPreviousRow(), {
+    enabled: drawer.isOpen
+  })
+
+  useHotkey('Meta+ArrowDown', () => goToNextRow(), {
+    enabled: drawer.isOpen
+  })
+
   const updateDatePreset = (key: DatePresetKey) => {
     setDatePreset(key)
     setPage(1)
@@ -299,6 +371,10 @@ function AttendanceTablePage({ config }: Props) {
     if (key === 'custom') {
       setIsCustomDateRangeOpen(true)
       setIsDateDropdownOpen(true)
+      window.setTimeout(() => {
+        setIsCustomDateRangeOpen(true)
+        setIsDateDropdownOpen(true)
+      }, 0)
       return
     }
 
@@ -350,6 +426,7 @@ function AttendanceTablePage({ config }: Props) {
       current.map(row => (row.id === updatedRow.id ? updatedRow : row))
     )
     setActiveRowId(updatedRow.id)
+    setForm(rowToForm(updatedRow, editableColumns))
     setMode('view')
     updateDrawerQuery({ id: updatedRow.id, mode: 'view' }, true)
     setToast({ message: 'Item updated', status: 'success' })
@@ -613,6 +690,7 @@ function AttendanceTablePage({ config }: Props) {
                 <Table.Row
                   key={row.id}
                   id={row.id}
+                  data-report-row-id={row.id}
                   className={getTableRowClassName(activeRowId === row.id)}
                   onClick={() => openDrawer('view', row)}>
                   <Table.Cell>
@@ -740,10 +818,8 @@ function AttendanceTablePage({ config }: Props) {
         onFormChange={(field, value) =>
           setForm(current => ({ ...current, [field]: value }))
         }
-        onGoNext={() =>
-          goToRowAt(Math.min(sortedRows.length - 1, selectedRowIndex + 1))
-        }
-        onGoPrevious={() => goToRowAt(Math.max(0, selectedRowIndex - 1))}
+        onGoNext={goToNextRow}
+        onGoPrevious={goToPreviousRow}
         onCopyId={copyRowId}
         onCopyLink={copyRowLink}
         onOpenPage={openRowPage}
@@ -979,9 +1055,20 @@ function AttendanceDrawer({
             <Drawer.Header className={classNames.drawerHeader}>
               <div className={classNames.drawerHeaderRow}>
                 <div className={classNames.drawerTitleGroup}>
-                  <CloseButton onClick={onClose} />
+                  <Tooltip delay={0}>
+                    <Tooltip.Trigger>
+                      <Button
+                        isIconOnly
+                        aria-label="Toggle drawer"
+                        variant="ghost"
+                        onPress={onClose}>
+                        <Icon icon="lucide:chevrons-right" width={24} />
+                      </Button>
+                    </Tooltip.Trigger>
+                    <Tooltip.Content>Toggle Drawer ⌘/</Tooltip.Content>
+                  </Tooltip>
                   <h2 className={classNames.drawerTitle}>
-                    {row ? '#' + row.id : ''}
+                    {row ? getDrawerTitle(row) : ''}
                   </h2>
                   {row && (
                     <Tooltip delay={0}>
@@ -994,7 +1081,7 @@ function AttendanceDrawer({
                           <Icon icon="lucide:copy" width={16} />
                         </Button>
                       </Tooltip.Trigger>
-                      <Tooltip.Content>Copy ID</Tooltip.Content>
+                      <Tooltip.Content>Copy</Tooltip.Content>
                     </Tooltip>
                   )}
                 </div>
@@ -1011,7 +1098,19 @@ function AttendanceDrawer({
                             <Icon icon="lucide:link" width={16} />
                           </Button>
                         </Tooltip.Trigger>
-                        <Tooltip.Content>Copy URL</Tooltip.Content>
+                        <Tooltip.Content>Copy clipboard</Tooltip.Content>
+                      </Tooltip>
+                      <Tooltip delay={0}>
+                        <Tooltip.Trigger>
+                          <Button
+                            isIconOnly
+                            aria-label={`Edit ${row.id}`}
+                            variant="secondary"
+                            onPress={onEdit}>
+                            <Icon icon="lucide:pencil" width={16} />
+                          </Button>
+                        </Tooltip.Trigger>
+                        <Tooltip.Content>Edit ⌘E</Tooltip.Content>
                       </Tooltip>
                       <Tooltip delay={0}>
                         <Tooltip.Trigger>
@@ -1023,26 +1122,36 @@ function AttendanceDrawer({
                             <Icon icon="lucide:arrow-up-right" width={16} />
                           </Button>
                         </Tooltip.Trigger>
-                        <Tooltip.Content>Open URL</Tooltip.Content>
+                        <Tooltip.Content>Open ↗</Tooltip.Content>
                       </Tooltip>
                     </>
                   )}
-                  <Button
-                    isIconOnly
-                    aria-label="Previous row"
-                    isDisabled={!canGoPrevious}
-                    variant="ghost"
-                    onPress={onGoPrevious}>
-                    <Icon icon="lucide:chevron-up" width={18} />
-                  </Button>
-                  <Button
-                    isIconOnly
-                    aria-label="Next row"
-                    isDisabled={!canGoNext}
-                    variant="ghost"
-                    onPress={onGoNext}>
-                    <Icon icon="lucide:chevron-down" width={18} />
-                  </Button>
+                  <Tooltip delay={0}>
+                    <Tooltip.Trigger>
+                      <Button
+                        isIconOnly
+                        aria-label="Previous row"
+                        isDisabled={!canGoPrevious}
+                        variant="ghost"
+                        onPress={onGoPrevious}>
+                        <Icon icon="lucide:chevron-up" width={18} />
+                      </Button>
+                    </Tooltip.Trigger>
+                    <Tooltip.Content>Previous ⌘↑</Tooltip.Content>
+                  </Tooltip>
+                  <Tooltip delay={0}>
+                    <Tooltip.Trigger>
+                      <Button
+                        isIconOnly
+                        aria-label="Next row"
+                        isDisabled={!canGoNext}
+                        variant="ghost"
+                        onPress={onGoNext}>
+                        <Icon icon="lucide:chevron-down" width={18} />
+                      </Button>
+                    </Tooltip.Trigger>
+                    <Tooltip.Content>Next ⌘↓</Tooltip.Content>
+                  </Tooltip>
                 </div>
               </div>
             </Drawer.Header>
@@ -1057,6 +1166,7 @@ function AttendanceDrawer({
                       </Label>
                       <Input
                         fullWidth
+                        placeholder={getInputPlaceholder(column)}
                         value={form[column.key] ?? ''}
                         onChange={event =>
                           onFormChange(column.key, event.target.value)
@@ -1106,6 +1216,52 @@ function AttendanceDrawer({
       </Drawer.Backdrop>
     </Drawer>
   )
+}
+
+function getDrawerTitle(row: ReportRow) {
+  const idValue =
+    getTextValue(row.displayId) ||
+    getTextValue(row.refId) ||
+    getTextValue(row.studentId) ||
+    getTextValue(row.admissionNo) ||
+    getTextValue(row.admissionNumber) ||
+    getTextValue(row.serialNo) ||
+    getTextValue(row.sNo) ||
+    getTextValue(row.id)
+  const nameValue =
+    getTextValue(row.name) ||
+    getTextValue(row.studentName) ||
+    getTextValue(row.staffName) ||
+    getTextValue(row.teacherName)
+
+  if (idValue) {
+    return idValue.startsWith('#') ? idValue : `#${idValue}`
+  }
+
+  return nameValue || '-'
+}
+
+function getInputPlaceholder(column: ReportColumn) {
+  const label = (column.label || column.key).toLowerCase()
+
+  if (column.type === 'status') return `Select ${label}`
+  if (label.includes('date')) return `Choose ${label}`
+  if (
+    label.includes('amount') ||
+    label.includes('balance') ||
+    label.includes('fine')
+  ) {
+    return `Enter ${label}`
+  }
+
+  return `Enter ${label}`
+}
+
+function getTextValue(value: unknown) {
+  if (isPersonValue(value)) return value.name
+  if (value === null || value === undefined) return ''
+
+  return String(value).trim().split('\n')[0]
 }
 
 function rowToForm(row: ReportRow, columns: ReportColumn[]): FilterDraft {

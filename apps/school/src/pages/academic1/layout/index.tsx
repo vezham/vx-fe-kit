@@ -347,7 +347,7 @@ function HeaderIconTooltip({
     <Tooltip delay={0}>
       <Tooltip.Trigger>{children}</Tooltip.Trigger>
       <Tooltip.Content>
-        <span className="flex flex-col gap-1">
+        <span className="flex items-center gap-2 whitespace-nowrap">
           <span>{label}</span>
           {shortcut ? (
             <span className="text-xs opacity-70">{shortcut}</span>

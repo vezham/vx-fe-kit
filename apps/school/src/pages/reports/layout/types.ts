@@ -203,7 +203,6 @@ const useProps = (originalProps: Props) => {
     enabled: Boolean(refreshAction?.onAction)
   })
 
-  useHotkey('Meta+\\', () => onToggleSidebar())
   useHotkey('Meta+S', () => onToggleSidebar())
 
   const onSidebarAction = (key: Key, onNavigate?: () => void) => {

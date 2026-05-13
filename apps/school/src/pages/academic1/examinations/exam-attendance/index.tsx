@@ -13,6 +13,7 @@ import {
   DateRangePicker,
   Drawer,
   Dropdown,
+  Input,
   Label,
   ListBox,
   Pagination,
@@ -64,6 +65,28 @@ import {
   getTableRowClassName,
   hiddenTextareaStyles
 } from './variants'
+
+const attendanceSubjectFields: {
+  key: keyof Pick<
+    AttendanceFormState,
+    | 'english'
+    | 'spanish'
+    | 'physics'
+    | 'chemistry'
+    | 'maths'
+    | 'computer'
+    | 'envscience'
+  >
+  label: string
+}[] = [
+  { key: 'english', label: 'English' },
+  { key: 'spanish', label: 'Spanish' },
+  { key: 'physics', label: 'Physics' },
+  { key: 'chemistry', label: 'Chemistry' },
+  { key: 'maths', label: 'Maths' },
+  { key: 'computer', label: 'Computer' },
+  { key: 'envscience', label: 'Env Science' }
+]
 
 export default function ExamAttendancePage() {
   const [data, setData] = useState<AttendanceRow[]>(initialRows)
@@ -184,7 +207,10 @@ export default function ExamAttendancePage() {
   const selectedRowIndex = activeRowId
     ? sortedRows.findIndex(row => row.id === activeRowId)
     : -1
-  const tableSelectedKeys = selectedRowKeys
+  const tableSelectedKeys = useMemo(
+    () => (activeRowId ? new Set([activeRowId]) : selectedRowKeys),
+    [activeRowId, selectedRowKeys]
+  )
 
   const activeSortLabel =
     sortOptions.find(
@@ -277,6 +303,24 @@ export default function ExamAttendancePage() {
     setActiveRowId(null)
     updateDrawerQuery(null)
   }, [drawer, updateDrawerQuery])
+
+  const toggleDrawer = useCallback(() => {
+    if (drawer.isOpen) {
+      closeDrawer()
+      return
+    }
+
+    const selectedKey = Array.from(selectedRowKeys)[0]
+    const selectedRow =
+      sortedRows.find(row => row.id === selectedKey) ?? sortedRows[0]
+
+    if (selectedRow) {
+      openDrawer('view', selectedRow, { replaceUrl: true })
+      return
+    }
+
+    openDrawer('create', null)
+  }, [closeDrawer, drawer.isOpen, openDrawer, selectedRowKeys, sortedRows])
 
   const setDrawerMode = useCallback(
     (nextMode: Exclude<DrawerMode, 'create'>) => {
@@ -408,9 +452,7 @@ export default function ExamAttendancePage() {
     })
   }, [activeRowId, currentPage, pageSize, sortedRows])
 
-  useHotkey('Meta+/', () => closeDrawer(), {
-    enabled: drawer.isOpen
-  })
+  useHotkey('Meta+/', () => toggleDrawer())
 
   useHotkey('Meta+ArrowUp', () => goToNextRow(), {
     enabled: drawer.isOpen && mode !== 'create'
@@ -557,6 +599,7 @@ export default function ExamAttendancePage() {
       current.map(row => (row.id === updatedRow.id ? updatedRow : row))
     )
     setActiveRowId(updatedRow.id)
+    setForm(rowToForm(updatedRow))
     setMode('view')
     updateDrawerQuery({ id: updatedRow.id, mode: 'view' })
   }
@@ -1241,7 +1284,7 @@ function AttendanceDrawer({
   const isFormMode = mode === 'create' || mode === 'edit'
   const showNavigation = mode !== 'create'
   const drawerTitle =
-    mode === 'create' ? 'Add Exam Attendance' : row ? `#${row.id}` : ''
+    mode === 'create' ? 'Add Exam Attendance' : row ? getDrawerTitle(row) : ''
 
   return (
     <Drawer state={drawerState}>
@@ -1251,13 +1294,18 @@ function AttendanceDrawer({
             <Drawer.Header className={classNames.drawerHeader}>
               <div className={classNames.drawerHeaderRow}>
                 <div className={classNames.drawerTitleGroup}>
-                  <Button
-                    isIconOnly
-                    aria-label="Close attendance drawer"
-                    variant="ghost"
-                    onPress={onClose}>
-                    <Icon icon="lucide:chevrons-right" width={24} />
-                  </Button>
+                  <Tooltip delay={0}>
+                    <Tooltip.Trigger>
+                      <Button
+                        isIconOnly
+                        aria-label="Toggle drawer"
+                        variant="ghost"
+                        onPress={onClose}>
+                        <Icon icon="lucide:chevrons-right" width={24} />
+                      </Button>
+                    </Tooltip.Trigger>
+                    <Tooltip.Content>Toggle Drawer ⌘/</Tooltip.Content>
+                  </Tooltip>
                   <span className={classNames.drawerTitle}>{drawerTitle}</span>
                   {row && (
                     <Tooltip delay={0}>
@@ -1270,7 +1318,7 @@ function AttendanceDrawer({
                           <Icon icon="lucide:copy" width={16} />
                         </Button>
                       </Tooltip.Trigger>
-                      <Tooltip.Content>Copy ID</Tooltip.Content>
+                      <Tooltip.Content>Copy ⌘C</Tooltip.Content>
                     </Tooltip>
                   )}
                 </div>
@@ -1288,7 +1336,19 @@ function AttendanceDrawer({
                             <Icon icon="lucide:link" width={16} />
                           </Button>
                         </Tooltip.Trigger>
-                        <Tooltip.Content>Copy URL</Tooltip.Content>
+                        <Tooltip.Content>Copy ⌘C</Tooltip.Content>
+                      </Tooltip>
+                      <Tooltip delay={0}>
+                        <Tooltip.Trigger>
+                          <Button
+                            isIconOnly
+                            aria-label={`Edit ${row.id}`}
+                            variant="secondary"
+                            onPress={onEdit}>
+                            <Icon icon="lucide:pencil" width={16} />
+                          </Button>
+                        </Tooltip.Trigger>
+                        <Tooltip.Content>Edit ⌘E</Tooltip.Content>
                       </Tooltip>
                       <Tooltip delay={0}>
                         <Tooltip.Trigger>
@@ -1300,7 +1360,7 @@ function AttendanceDrawer({
                             <Icon icon="lucide:arrow-up-right" width={16} />
                           </Button>
                         </Tooltip.Trigger>
-                        <Tooltip.Content>Open URL</Tooltip.Content>
+                        <Tooltip.Content>Open ↗</Tooltip.Content>
                       </Tooltip>
                     </>
                   )}
@@ -1375,10 +1435,90 @@ function AttendanceDrawer({
   )
 }
 
-function AttendanceForm({ mode, row }: AttendanceFormProps) {
+function AttendanceForm({
+  form,
+  formErrors,
+  onFormChange
+}: AttendanceFormProps) {
   return (
     <div className={classNames.form}>
-      {mode === 'edit' && row && <AttendanceDetailSummary row={row} />}
+      <div className={classNames.formFields}>
+        <div className={classNames.field}>
+          <Label className={classNames.fieldLabel}>Name</Label>
+          <Input
+            fullWidth
+            aria-invalid={Boolean(formErrors.name)}
+            placeholder="Enter name"
+            value={form.name}
+            onChange={event => onFormChange('name', event.target.value)}
+          />
+          {formErrors.name && (
+            <p className={classNames.fieldError}>{formErrors.name}</p>
+          )}
+        </div>
+
+        {attendanceSubjectFields.map(field => (
+          <AttendanceStatusSelect
+            key={field.key}
+            error={formErrors[field.key]}
+            field={field.key}
+            label={field.label}
+            value={form[field.key]}
+            onFormChange={onFormChange}
+          />
+        ))}
+
+        <AttendanceStatusSelect
+          error={formErrors.status}
+          field="status"
+          label="Status"
+          value={form.status}
+          onFormChange={onFormChange}
+        />
+      </div>
+    </div>
+  )
+}
+
+function AttendanceStatusSelect({
+  error,
+  field,
+  label,
+  value,
+  onFormChange
+}: {
+  error?: string
+  field: keyof AttendanceFormState
+  label: string
+  value: AttendanceStatus
+  onFormChange: (field: keyof AttendanceFormState, value: string) => void
+}) {
+  return (
+    <div className={classNames.field}>
+      <Label className={classNames.fieldLabel}>{label}</Label>
+      <Select
+        aria-invalid={Boolean(error)}
+        aria-label={label}
+        value={value}
+        onChange={nextValue =>
+          onFormChange(field, nextValue ? String(nextValue) : '')
+        }>
+        <Select.Trigger>
+          <Select.Value />
+          <Select.Indicator />
+        </Select.Trigger>
+        <Select.Popover>
+          <ListBox>
+            {statusOptions.map(option => (
+              <ListBox.Item key={option} id={option} textValue={option}>
+                {option}
+                <ListBox.ItemIndicator />
+              </ListBox.Item>
+            ))}
+          </ListBox>
+        </Select.Popover>
+      </Select>
+      {error && <p className={classNames.fieldError}>{error}</p>}
     </div>
   )
 }
@@ -1492,6 +1632,40 @@ function getPresetDateRange(preset: Exclude<DatePresetKey, 'custom'>) {
 
 function isISODateInRange(date: string, start: string, end: string) {
   return date >= start && date <= end
+}
+
+function getDrawerTitle(row: AttendanceRow) {
+  const values = row as Record<string, unknown>
+  const idValue =
+    getDrawerText(values.displayId) ||
+    getDrawerText(values.refId) ||
+    getDrawerText(values.studentId) ||
+    getDrawerText(values.admissionNo) ||
+    getDrawerText(values.admissionNumber) ||
+    getDrawerText(values.serialNo) ||
+    getDrawerText(values.sNo) ||
+    getDrawerText(values.id)
+  const nameValue =
+    getDrawerText(values.name) ||
+    getDrawerText(values.studentName) ||
+    getDrawerText(values.staffName) ||
+    getDrawerText(values.teacherName)
+
+  if (idValue) {
+    return idValue.startsWith('#') ? idValue : `#${idValue}`
+  }
+
+  return nameValue || '-'
+}
+
+function getDrawerText(value: unknown) {
+  if (value && typeof value === 'object' && 'name' in value) {
+    return String((value as { name?: unknown }).name ?? '').trim()
+  }
+
+  if (value === null || value === undefined) return ''
+
+  return String(value).trim().split('\n')[0]
 }
 
 function rowToForm(row: AttendanceRow): AttendanceFormState {

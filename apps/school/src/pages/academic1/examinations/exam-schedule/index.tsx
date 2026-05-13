@@ -180,7 +180,10 @@ export default function AllClassesPage() {
   const selectedRowIndex = activeRowId
     ? sortedRows.findIndex(row => row.id === activeRowId)
     : -1
-  const tableSelectedKeys = selectedRowKeys
+  const tableSelectedKeys = useMemo(
+    () => (activeRowId ? new Set([activeRowId]) : selectedRowKeys),
+    [activeRowId, selectedRowKeys]
+  )
 
   const activeSortLabel =
     sortOptions.find(
@@ -273,6 +276,24 @@ export default function AllClassesPage() {
     setActiveRowId(null)
     updateDrawerQuery(null)
   }, [drawer, updateDrawerQuery])
+
+  const toggleDrawer = useCallback(() => {
+    if (drawer.isOpen) {
+      closeDrawer()
+      return
+    }
+
+    const selectedKey = Array.from(selectedRowKeys)[0]
+    const selectedRow =
+      sortedRows.find(row => row.id === selectedKey) ?? sortedRows[0]
+
+    if (selectedRow) {
+      openDrawer('view', selectedRow, { replaceUrl: true })
+      return
+    }
+
+    openDrawer('create', null)
+  }, [closeDrawer, drawer.isOpen, openDrawer, selectedRowKeys, sortedRows])
 
   const setDrawerMode = useCallback(
     (nextMode: Exclude<DrawerMode, 'create'>) => {
@@ -401,9 +422,7 @@ export default function AllClassesPage() {
     })
   }, [activeRowId, currentPage, pageSize, sortedRows])
 
-  useHotkey('Meta+/', () => closeDrawer(), {
-    enabled: drawer.isOpen
-  })
+  useHotkey('Meta+/', () => toggleDrawer())
 
   useHotkey('Meta+ArrowUp', () => goToNextRow(), {
     enabled: drawer.isOpen && mode !== 'create'
@@ -572,6 +591,7 @@ export default function AllClassesPage() {
       current.map(row => (row.id === updatedRow.id ? updatedRow : row))
     )
     setActiveRowId(updatedRow.id)
+    setForm(rowToForm(updatedRow))
     setMode('view')
     updateDrawerQuery({ id: updatedRow.id, mode: 'view' })
   }
@@ -1171,7 +1191,7 @@ function ClassDrawer({
   const isFormMode = mode === 'create' || mode === 'edit'
   const showNavigation = mode !== 'create'
   const drawerTitle =
-    mode === 'create' ? 'Add Exam Schedule' : row ? `#${row.id}` : ''
+    mode === 'create' ? 'Add Exam Schedule' : row ? getDrawerTitle(row) : ''
 
   return (
     <Drawer state={drawerState}>
@@ -1181,13 +1201,18 @@ function ClassDrawer({
             <Drawer.Header className={classNames.drawerHeader}>
               <div className={classNames.drawerHeaderRow}>
                 <div className={classNames.drawerTitleGroup}>
-                  <Button
-                    isIconOnly
-                    aria-label="Close schedule drawer"
-                    variant="ghost"
-                    onPress={onClose}>
-                    <Icon icon="lucide:chevrons-right" width={24} />
-                  </Button>
+                  <Tooltip delay={0}>
+                    <Tooltip.Trigger>
+                      <Button
+                        isIconOnly
+                        aria-label="Toggle drawer"
+                        variant="ghost"
+                        onPress={onClose}>
+                        <Icon icon="lucide:chevrons-right" width={24} />
+                      </Button>
+                    </Tooltip.Trigger>
+                    <Tooltip.Content>Toggle Drawer ⌘/</Tooltip.Content>
+                  </Tooltip>
                   <span className={classNames.drawerTitle}>{drawerTitle}</span>
                   {row && (
                     <Tooltip delay={0}>
@@ -1200,7 +1225,7 @@ function ClassDrawer({
                           <Icon icon="lucide:copy" width={16} />
                         </Button>
                       </Tooltip.Trigger>
-                      <Tooltip.Content>Copy ID</Tooltip.Content>
+                      <Tooltip.Content>Copy ⌘C</Tooltip.Content>
                     </Tooltip>
                   )}
                 </div>
@@ -1218,7 +1243,19 @@ function ClassDrawer({
                             <Icon icon="lucide:link" width={16} />
                           </Button>
                         </Tooltip.Trigger>
-                        <Tooltip.Content>Copy URL</Tooltip.Content>
+                        <Tooltip.Content>Copy ⌘C</Tooltip.Content>
+                      </Tooltip>
+                      <Tooltip delay={0}>
+                        <Tooltip.Trigger>
+                          <Button
+                            isIconOnly
+                            aria-label={`Edit ${row.id}`}
+                            variant="secondary"
+                            onPress={onEdit}>
+                            <Icon icon="lucide:pencil" width={16} />
+                          </Button>
+                        </Tooltip.Trigger>
+                        <Tooltip.Content>Edit ⌘E</Tooltip.Content>
                       </Tooltip>
                       <Tooltip delay={0}>
                         <Tooltip.Trigger>
@@ -1230,7 +1267,7 @@ function ClassDrawer({
                             <Icon icon="lucide:arrow-up-right" width={16} />
                           </Button>
                         </Tooltip.Trigger>
-                        <Tooltip.Content>Open URL</Tooltip.Content>
+                        <Tooltip.Content>Open ↗</Tooltip.Content>
                       </Tooltip>
                     </>
                   )}
@@ -1305,13 +1342,7 @@ function ClassDrawer({
   )
 }
 
-function ClassForm({
-  form,
-  formErrors,
-  mode,
-  row,
-  onFormChange
-}: ClassFormProps) {
+function ClassForm({ form, formErrors, onFormChange }: ClassFormProps) {
   const scheduleRows = form.scheduleRows.length
     ? form.scheduleRows
     : emptyForm.scheduleRows
@@ -1358,8 +1389,6 @@ function ClassForm({
 
   return (
     <div className={classNames.form}>
-      {mode === 'edit' && row && <ClassDetailSummary row={row} />}
-
       <div className={classNames.formFields}>
         <div className={classNames.scheduleTopGrid}>
           <Select
@@ -1808,6 +1837,40 @@ function getPresetDateRange(preset: Exclude<DatePresetKey, 'custom'>) {
 
 function isISODateInRange(date: string, start: string, end: string) {
   return date >= start && date <= end
+}
+
+function getDrawerTitle(row: ClassRow) {
+  const values = row as Record<string, unknown>
+  const idValue =
+    getDrawerText(values.displayId) ||
+    getDrawerText(values.refId) ||
+    getDrawerText(values.studentId) ||
+    getDrawerText(values.admissionNo) ||
+    getDrawerText(values.admissionNumber) ||
+    getDrawerText(values.serialNo) ||
+    getDrawerText(values.sNo) ||
+    getDrawerText(values.id)
+  const nameValue =
+    getDrawerText(values.name) ||
+    getDrawerText(values.studentName) ||
+    getDrawerText(values.staffName) ||
+    getDrawerText(values.teacherName)
+
+  if (idValue) {
+    return idValue.startsWith('#') ? idValue : `#${idValue}`
+  }
+
+  return nameValue || '-'
+}
+
+function getDrawerText(value: unknown) {
+  if (value && typeof value === 'object' && 'name' in value) {
+    return String((value as { name?: unknown }).name ?? '').trim()
+  }
+
+  if (value === null || value === undefined) return ''
+
+  return String(value).trim().split('\n')[0]
 }
 
 function rowToForm(row: ClassRow): ClassFormState {

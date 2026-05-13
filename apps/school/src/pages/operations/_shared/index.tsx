@@ -1,4 +1,5 @@
 import { Icon } from '@iconify/react'
+import { useHotkey } from '@tanstack/react-hotkeys'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import {
@@ -21,7 +22,8 @@ import {
   type Selection,
   type SortDescriptor,
   Surface,
-  Table
+  Table,
+  Tooltip
 } from '@vezham/react/v3'
 
 import type {
@@ -55,6 +57,8 @@ export default function OperationsTablePage({
 }: {
   config: OperationPageConfig
 }) {
+  const sectionTitle = getOperationSectionTitle(config)
+  const pageSubtitle = getOperationPageSubtitle(config)
   const [data, setData] = useState<OperationRow[]>(config.rows)
   const [searchQuery, setSearchQuery] = useState('')
   const [rowsPerPage, setRowsPerPage] = useState('10')
@@ -171,6 +175,10 @@ export default function OperationsTablePage({
   const selectedRowIndex = activeRowId
     ? sortedRows.findIndex(row => row.id === activeRowId)
     : -1
+  const tableSelectedKeys = useMemo(
+    () => (activeRowId ? new Set([activeRowId]) : selectedRowKeys),
+    [activeRowId, selectedRowKeys]
+  )
   const activeSortLabel =
     sortOptions.find(
       option =>
@@ -183,6 +191,24 @@ export default function OperationsTablePage({
         ? formatDateRangeLabel(customDateRange)
         : 'Custom Range'
       : formatDateRangeLabel(getPresetDateRange(datePreset))
+
+  const copyText = useCallback(async (value: string) => {
+    if (navigator.clipboard) {
+      await navigator.clipboard.writeText(value)
+      return
+    }
+
+    const textarea = document.createElement('textarea')
+
+    textarea.value = value
+    textarea.setAttribute('readonly', '')
+    textarea.style.position = 'fixed'
+    textarea.style.opacity = '0'
+    document.body.appendChild(textarea)
+    textarea.select()
+    document.execCommand('copy')
+    document.body.removeChild(textarea)
+  }, [])
 
   const updateDatePreset = (key: DatePresetKey) => {
     setDatePreset(key)
@@ -242,6 +268,55 @@ export default function OperationsTablePage({
     setMode('view')
   }, [drawer])
 
+  const toggleDrawer = useCallback(() => {
+    if (drawer.isOpen) {
+      closeDrawer()
+      return
+    }
+
+    const selectedKey = Array.from(selectedRowKeys)[0]
+    const selectedRow =
+      sortedRows.find(row => row.id === selectedKey) ?? sortedRows[0]
+
+    if (selectedRow) {
+      openDrawer('view', selectedRow)
+      return
+    }
+
+    openDrawer('create')
+  }, [closeDrawer, drawer.isOpen, openDrawer, selectedRowKeys, sortedRows])
+
+  const goToRowAt = useCallback(
+    (index: number) => {
+      const nextRow = sortedRows[index]
+
+      if (!nextRow) {
+        return
+      }
+
+      openDrawer(mode === 'create' ? 'view' : mode, nextRow)
+    },
+    [mode, openDrawer, sortedRows]
+  )
+
+  const goToNextRow = useCallback(() => {
+    if (selectedRowIndex < 0) {
+      goToRowAt(0)
+      return
+    }
+
+    goToRowAt(Math.min(sortedRows.length - 1, selectedRowIndex + 1))
+  }, [goToRowAt, selectedRowIndex, sortedRows.length])
+
+  const goToPreviousRow = useCallback(() => {
+    if (selectedRowIndex < 0) {
+      goToRowAt(0)
+      return
+    }
+
+    goToRowAt(Math.max(0, selectedRowIndex - 1))
+  }, [goToRowAt, selectedRowIndex])
+
   useEffect(() => {
     const eventName = `operations:${config.key}:create`
     const onCreate = () => openDrawer('create')
@@ -260,6 +335,41 @@ export default function OperationsTablePage({
 
     return () => window.clearTimeout(timeoutId)
   }, [toast])
+
+  useEffect(() => {
+    if (!activeRowId) {
+      return
+    }
+
+    const rowIndex = sortedRows.findIndex(row => row.id === activeRowId)
+
+    if (rowIndex < 0) {
+      return
+    }
+
+    const nextPage = Math.floor(rowIndex / pageSize) + 1
+
+    if (nextPage !== currentPage) {
+      setPage(nextPage)
+      return
+    }
+
+    window.requestAnimationFrame(() => {
+      document
+        .querySelector(`[data-operation-row-id="${activeRowId}"]`)
+        ?.scrollIntoView({ block: 'nearest', inline: 'nearest' })
+    })
+  }, [activeRowId, currentPage, pageSize, sortedRows])
+
+  useHotkey('Meta+/', () => toggleDrawer())
+
+  useHotkey('Meta+ArrowUp', () => goToPreviousRow(), {
+    enabled: drawer.isOpen && mode !== 'create'
+  })
+
+  useHotkey('Meta+ArrowDown', () => goToNextRow(), {
+    enabled: drawer.isOpen && mode !== 'create'
+  })
 
   const saveRow = () => {
     if (mode === 'create') {
@@ -281,6 +391,7 @@ export default function OperationsTablePage({
       current.map(row => (row.id === updatedRow.id ? updatedRow : row))
     )
     setActiveRowId(updatedRow.id)
+    setForm(rowToForm(updatedRow, editableColumns))
     setMode('view')
     setToast({ message: `${config.pageTitle} updated`, status: 'success' })
   }
@@ -294,13 +405,40 @@ export default function OperationsTablePage({
     }
   }
 
+  const getRowUrl = (row: OperationRow) => {
+    const url = new URL(window.location.href)
+
+    url.searchParams.set('id', row.id)
+    url.hash = ''
+
+    return url.toString()
+  }
+
+  const copyRowLink = (row: OperationRow) => {
+    void copyText(getRowUrl(row))
+      .then(() => setToast({ message: 'URL copied', status: 'success' }))
+      .catch(() =>
+        setToast({ message: 'Unable to copy URL', status: 'danger' })
+      )
+  }
+
+  const copyRowId = (row: OperationRow) => {
+    void copyText(getDrawerTitle(row))
+      .then(() => setToast({ message: 'ID copied', status: 'success' }))
+      .catch(() => setToast({ message: 'Unable to copy ID', status: 'danger' }))
+  }
+
+  const openRowPage = (row: OperationRow) => {
+    window.open(getRowUrl(row), '_blank', 'noopener,noreferrer')
+  }
+
   return (
     <section className={classNames.page}>
       <Surface className={classNames.toolbar}>
         <div className={classNames.toolbarTop}>
-          <div>
-            <p className={classNames.mutedText}>{config.title}</p>
-            <h1 className={classNames.title}>{config.listTitle}</h1>
+          <div className={classNames.toolbarHead}>
+            <h1 className={classNames.title}>{sectionTitle}</h1>
+            <p className={classNames.mutedText}>{pageSubtitle}</p>
           </div>
 
           <div className={classNames.toolbarActions}>
@@ -489,7 +627,7 @@ export default function OperationsTablePage({
           <Table.Content
             aria-label={config.ariaLabel}
             className={classNames.tableContent}
-            selectedKeys={selectedRowKeys}
+            selectedKeys={tableSelectedKeys}
             selectionMode="multiple"
             sortDescriptor={sortDescriptor}
             style={{ minWidth: config.tableMinWidth }}
@@ -522,6 +660,7 @@ export default function OperationsTablePage({
                 <Table.Row
                   key={row.id}
                   id={row.id}
+                  data-operation-row-id={row.id}
                   className={getTableRowClassName(activeRowId === row.id)}
                   onClick={() => openDrawer('view', row)}>
                   <Table.Cell>
@@ -653,14 +792,11 @@ export default function OperationsTablePage({
         onFormChange={(field, value) =>
           setForm(current => ({ ...current, [field]: value }))
         }
-        onGoNext={() => {
-          const next = sortedRows[selectedRowIndex + 1]
-          if (next) openDrawer(mode, next)
-        }}
-        onGoPrevious={() => {
-          const previous = sortedRows[selectedRowIndex - 1]
-          if (previous) openDrawer(mode, previous)
-        }}
+        onGoNext={goToNextRow}
+        onGoPrevious={goToPreviousRow}
+        onCopyId={copyRowId}
+        onCopyLink={copyRowLink}
+        onOpenPage={openRowPage}
         onSave={saveRow}
       />
 
@@ -877,6 +1013,9 @@ function OperationsDrawer({
   onFormChange,
   onGoNext,
   onGoPrevious,
+  onCopyId,
+  onCopyLink,
+  onOpenPage,
   onSave
 }: {
   columns: OperationColumn[]
@@ -893,9 +1032,15 @@ function OperationsDrawer({
   onFormChange: (field: string, value: string) => void
   onGoNext: () => void
   onGoPrevious: () => void
+  onCopyId: (row: OperationRow) => void
+  onCopyLink: (row: OperationRow) => void
+  onOpenPage: (row: OperationRow) => void
   onSave: () => void
 }) {
   const isFormMode = mode === 'edit' || mode === 'create'
+  const showRecordActions = Boolean(row && mode !== 'create')
+  const drawerTitle =
+    mode === 'create' ? `Add ${title}` : row ? getDrawerTitle(row) : title
 
   return (
     <Drawer state={drawerState}>
@@ -905,32 +1050,105 @@ function OperationsDrawer({
             <Drawer.Header className={classNames.drawerHeader}>
               <div className={classNames.drawerHeaderRow}>
                 <div className={classNames.drawerTitleGroup}>
-                  <CloseButton onClick={onClose} />
-                  <h2 className={classNames.drawerTitle}>
-                    {mode === 'create'
-                      ? `Add ${title}`
-                      : row
-                        ? `#${row.id}`
-                        : title}
-                  </h2>
+                  <Tooltip delay={0}>
+                    <Tooltip.Trigger>
+                      <Button
+                        isIconOnly
+                        aria-label="Toggle drawer"
+                        variant="ghost"
+                        onPress={onClose}>
+                        <Icon icon="lucide:chevrons-right" width={24} />
+                      </Button>
+                    </Tooltip.Trigger>
+                    <Tooltip.Content>Toggle Drawer ⌘/</Tooltip.Content>
+                  </Tooltip>
+                  <span className={classNames.drawerTitle}>{drawerTitle}</span>
+                  {row && mode !== 'create' ? (
+                    <Tooltip delay={0}>
+                      <Tooltip.Trigger>
+                        <Button
+                          isIconOnly
+                          aria-label={`Copy ID ${drawerTitle}`}
+                          variant="ghost"
+                          onPress={() => onCopyId(row)}>
+                          <Icon icon="lucide:copy" width={16} />
+                        </Button>
+                      </Tooltip.Trigger>
+                      <Tooltip.Content>Copy</Tooltip.Content>
+                    </Tooltip>
+                  ) : null}
                 </div>
                 <div className={classNames.drawerActions}>
-                  <Button
-                    isIconOnly
-                    aria-label="Previous row"
-                    isDisabled={!canGoPrevious || mode === 'create'}
-                    variant="ghost"
-                    onPress={onGoPrevious}>
-                    <Icon icon="lucide:chevron-up" width={18} />
-                  </Button>
-                  <Button
-                    isIconOnly
-                    aria-label="Next row"
-                    isDisabled={!canGoNext || mode === 'create'}
-                    variant="ghost"
-                    onPress={onGoNext}>
-                    <Icon icon="lucide:chevron-down" width={18} />
-                  </Button>
+                  {showRecordActions ? (
+                    <>
+                      <Tooltip delay={0}>
+                        <Tooltip.Trigger>
+                          <Button
+                            isIconOnly
+                            aria-label={`Copy URL for ${drawerTitle}`}
+                            variant="secondary"
+                            onPress={() => row && onCopyLink(row)}>
+                            <Icon icon="lucide:link" width={16} />
+                          </Button>
+                        </Tooltip.Trigger>
+                        <Tooltip.Content>Copy clipboard</Tooltip.Content>
+                      </Tooltip>
+                      <Tooltip delay={0}>
+                        <Tooltip.Trigger>
+                          <Button
+                            isIconOnly
+                            aria-label={`Edit ${drawerTitle}`}
+                            variant="secondary"
+                            onPress={onEdit}>
+                            <Icon icon="lucide:pencil" width={16} />
+                          </Button>
+                        </Tooltip.Trigger>
+                        <Tooltip.Content>Edit ⌘E</Tooltip.Content>
+                      </Tooltip>
+                      <Tooltip delay={0}>
+                        <Tooltip.Trigger>
+                          <Button
+                            isIconOnly
+                            aria-label={`Open ${drawerTitle}`}
+                            variant="secondary"
+                            onPress={() => row && onOpenPage(row)}>
+                            <Icon icon="lucide:arrow-up-right" width={16} />
+                          </Button>
+                        </Tooltip.Trigger>
+                        <Tooltip.Content>Open ↗</Tooltip.Content>
+                      </Tooltip>
+                    </>
+                  ) : null}
+                  {showRecordActions ? (
+                    <>
+                      <Tooltip delay={0}>
+                        <Tooltip.Trigger>
+                          <Button
+                            isIconOnly
+                            aria-label="Previous row"
+                            isDisabled={!canGoPrevious}
+                            variant="secondary"
+                            onPress={onGoPrevious}>
+                            <Icon icon="lucide:chevron-up" width={18} />
+                          </Button>
+                        </Tooltip.Trigger>
+                        <Tooltip.Content>Previous ⌘↑</Tooltip.Content>
+                      </Tooltip>
+                      <Tooltip delay={0}>
+                        <Tooltip.Trigger>
+                          <Button
+                            isIconOnly
+                            aria-label="Next row"
+                            isDisabled={!canGoNext}
+                            variant="secondary"
+                            onPress={onGoNext}>
+                            <Icon icon="lucide:chevron-down" width={18} />
+                          </Button>
+                        </Tooltip.Trigger>
+                        <Tooltip.Content>Next ⌘↓</Tooltip.Content>
+                      </Tooltip>
+                    </>
+                  ) : null}
                 </div>
               </div>
             </Drawer.Header>
@@ -944,6 +1162,7 @@ function OperationsDrawer({
                       </Label>
                       <Input
                         fullWidth
+                        placeholder={getInputPlaceholder(column)}
                         value={form[column.key] ?? ''}
                         onChange={event =>
                           onFormChange(column.key, event.target.value)
@@ -1004,6 +1223,104 @@ function OperationsDrawer({
       </Drawer.Backdrop>
     </Drawer>
   )
+}
+
+function getDrawerTitle(row: OperationRow) {
+  const idValue =
+    getTextValue(row.displayId) ||
+    getTextValue(row.refId) ||
+    getTextValue(row.studentId) ||
+    getTextValue(row.admissionNo) ||
+    getTextValue(row.admissionNumber) ||
+    getTextValue(row.serialNo) ||
+    getTextValue(row.sNo) ||
+    getTextValue(row.id)
+  const nameValue =
+    getTextValue(row.name) ||
+    getTextValue(row.studentName) ||
+    getTextValue(row.staffName) ||
+    getTextValue(row.teacherName)
+
+  if (idValue) {
+    return idValue.startsWith('#') ? idValue : `#${idValue}`
+  }
+
+  return nameValue || '-'
+}
+
+function getOperationSectionTitle(config: OperationPageConfig) {
+  if (operationSectionTitles[config.key]) {
+    return operationSectionTitles[config.key]
+  }
+
+  return config.title
+}
+
+function getOperationPageSubtitle(config: OperationPageConfig) {
+  if (operationPageSubtitles[config.key]) {
+    return operationPageSubtitles[config.key]
+  }
+
+  return config.pageTitle
+}
+
+const operationSectionTitles: Record<string, string> = {
+  'fees-group': 'Fees Collection',
+  'fees-type': 'Fees Collection',
+  'fees-master': 'Fees Collection',
+  'fees-assign': 'Fees Collection',
+  'collect-fees': 'Fees Collection',
+  members: 'Library',
+  books: 'Library',
+  'issue-book': 'Library',
+  return: 'Library',
+  'hostel-list': 'Hostel',
+  'hostel-room': 'Hostel',
+  'room-type': 'Hostel',
+  routes: 'Transport',
+  'pickup-points': 'Transport',
+  'vehicle-drivers': 'Transport',
+  vehicles: 'Transport',
+  assign: 'Transport'
+}
+
+const operationPageSubtitles: Record<string, string> = {
+  'fees-group': 'Fees Group',
+  'fees-type': 'Fees Type',
+  'fees-master': 'Fees Master',
+  'fees-assign': 'Fees Assign',
+  'collect-fees': 'Collect Fees',
+  members: 'Library Members',
+  books: 'Books',
+  'issue-book': 'Issue Books',
+  return: 'Return Books',
+  sports: 'Sports',
+  'hostel-list': 'Hostel List',
+  'hostel-room': 'Hostel Room',
+  'room-type': 'Room Type',
+  routes: 'Routes',
+  'pickup-points': 'Pickup Points',
+  'vehicle-drivers': 'Drivers',
+  vehicles: 'Vehicles',
+  assign: 'Assign Vehicles'
+}
+
+function getInputPlaceholder(column: OperationColumn) {
+  const label = (column.label || column.key).toLowerCase()
+
+  if (column.type === 'status') return `Select ${label}`
+  if (label.includes('date')) return `Choose ${label}`
+  if (label.includes('amount') || label.includes('count'))
+    return `Enter ${label}`
+
+  return `Enter ${label}`
+}
+
+function getTextValue(value: unknown) {
+  if (isPersonValue(value)) return value.name
+  if (value === null || value === undefined) return ''
+
+  return String(value).trim().split('\n')[0]
 }
 
 function rowToForm(row: OperationRow, columns: OperationColumn[]): FilterDraft {

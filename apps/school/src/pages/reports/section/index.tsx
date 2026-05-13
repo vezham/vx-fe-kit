@@ -166,6 +166,10 @@ function AttendanceReportTable({ report }: { report: AttendanceReportConfig }) {
     if (key === 'custom') {
       setIsCustomDateRangeOpen(true)
       setIsDateDropdownOpen(true)
+      window.setTimeout(() => {
+        setIsCustomDateRangeOpen(true)
+        setIsDateDropdownOpen(true)
+      }, 0)
       return
     }
 

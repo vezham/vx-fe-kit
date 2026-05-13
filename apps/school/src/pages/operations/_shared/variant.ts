@@ -7,13 +7,13 @@ export const classNames = {
   breadcrumbCurrent: 'font-medium text-[#16233d]',
   topActions: 'flex flex-wrap items-center gap-2 lg:justify-end',
   exportButton: 'bg-[#e9edf5] text-[#4d5a76]',
-  toolbar: 'flex flex-col gap-4 p-4',
+  toolbar: 'flex flex-col gap-2 p-2',
   mutedText: 'text-muted text-sm',
   title: 'text-base font-semibold',
-  toolbarTop:
-    'flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between',
+  toolbarHead: 'flex flex-col w-max',
+  toolbarTop: 'flex flex-col lg:flex-row lg:items-center lg:justify-between',
   toolbarActions:
-    'flex w-full flex-col gap-3 sm:flex-row sm:flex-wrap lg:justify-end',
+    'flex  flex-col gap-3 sm:flex-row sm:flex-wrap lg:justify-end',
   datePopover: 'w-[360px] p-2',
   customDatePanel: 'space-y-3',
   dateOptionLabel: 'flex w-full items-center justify-between',

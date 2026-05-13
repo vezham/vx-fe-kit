@@ -107,7 +107,7 @@ const useProps = (originalProps: Props) => {
     subNavigationLabel: 'Academic sub navigation',
     createEventPrefix: 'academic',
     collapsedSidebarMode: 'hidden' as SidebarProps['collapsedMode'],
-    initialSidebarCollapsed: true,
+    initialSidebarCollapsed: false,
     renderChildrenInSidebar: false,
     sidebarItems,
     ...layout
@@ -203,7 +203,6 @@ const useProps = (originalProps: Props) => {
     enabled: Boolean(refreshAction?.onAction)
   })
 
-  useHotkey('Meta+\\', () => onToggleSidebar())
   useHotkey('Meta+S', () => onToggleSidebar())
 
   const onSidebarAction = (key: Key, onNavigate?: () => void) => {
