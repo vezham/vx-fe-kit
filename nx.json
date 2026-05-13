@@ -75,7 +75,10 @@
   ],
   "targetDefaults": {
     "test": {
-      "dependsOn": ["^build"]
+      "dependsOn": ["^build"],
+      "options": {
+        "command": "bash -lc 'vitest --config \"$(git rev-parse --show-toplevel)/vitest.config.ts\" --passWithNoTests'"
+      }
     },
     "@nx/js:tsc": {
       "cache": true,
