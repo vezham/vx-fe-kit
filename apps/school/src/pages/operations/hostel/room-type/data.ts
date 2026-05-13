@@ -124,7 +124,7 @@ export const roomTypeConfig = makeConfig({
     {
       key: 'roomType',
       label: 'Room Type',
-      values: ['One Bed', 'Two Bed', 'Three Bed', 'Four Bed', 'Five Bed']
+      values: ['One Bed', 'Two Bed', 'One Bed AC', 'Two Bed AC']
     }
   ],
   initialColumn: 'roomType',

@@ -165,6 +165,26 @@ export const feesTypeConfig = makeConfig({
   rows,
   filters: [
     {
+      key: 'id',
+      label: 'Id',
+      values: rows.map(row => row.displayId)
+    },
+    {
+      key: 'name',
+      label: 'Name',
+      values: ['Francis', 'James', 'Charles']
+    },
+    {
+      key: 'fees-group',
+      label: 'Fees Group',
+      values: rows.map(row => row.feesGroup)
+    },
+    {
+      key: 'fees-type',
+      label: 'Fees Type',
+      values: rows.map(row => row.feesType)
+    },
+    {
       key: 'status',
       label: 'Status',
       values: ['Active', 'Inactive']

@@ -205,9 +205,34 @@ export const assignVehicleConfig = makeConfig({
   rows,
   filters: [
     {
+      key: 'route',
+      label: 'Route',
+      values: rows.map(row => row.routeName)
+    },
+    {
+      key: 'pickup-points',
+      label: 'Pickup Points',
+      values: rows.map(row => row.pickupPoint)
+    },
+    {
+      key: 'vehicleno',
+      label: 'Vehicle No',
+      values: rows.map(row => row.vehicle)
+    },
+    {
+      key: 'driver',
+      label: 'Driver',
+      values: rows.map(row => row.driver?.name)
+    },
+    {
       key: 'status',
       label: 'Status',
       values: ['Active', 'Inactive']
+    },
+    {
+      key: 'more-filters',
+      label: 'More Filters',
+      values: ['ID', 'Route', 'Pickup Point', 'Driver', 'Vehicle', 'Status']
     }
   ],
   initialColumn: 'routeName',

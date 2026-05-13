@@ -165,9 +165,19 @@ export const hostelListConfig = makeConfig({
   rows,
   filters: [
     {
-      key: 'hostelType',
-      label: 'Hostel Type',
-      values: ['Boys', 'Girls']
+      key: 'name',
+      label: 'Name',
+      values: rows.map(row => row.name)
+    },
+    {
+      key: 'types',
+      label: 'Types',
+      values: rows.map(row => row.hostelType)
+    },
+    {
+      key: 'morefilters',
+      label: 'More Filters',
+      values: ['Hostel Name', 'Hostel Type', 'Address', 'InTake', 'Description']
     }
   ],
   initialColumn: 'hostelName',

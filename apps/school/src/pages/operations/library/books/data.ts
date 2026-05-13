@@ -250,9 +250,19 @@ export const booksConfig = makeConfig({
   rows,
   filters: [
     {
+      key: 'bookno',
+      label: 'Book No',
+      values: rows.map(row => row.bookNo)
+    },
+    {
       key: 'subject',
       label: 'Subject',
-      values: ['History', 'Science', 'Literary', 'Adventure', 'Gothic']
+      values: rows.map(row => row.subject)
+    },
+    {
+      key: 'morefilters',
+      label: 'More Filters',
+      values: ['ID', 'Book Name', 'Book No', 'Publisher', 'Author', 'Rack No']
     }
   ],
   initialColumn: 'bookName',

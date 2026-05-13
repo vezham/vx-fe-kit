@@ -205,9 +205,19 @@ export const vehicleDriversConfig = makeConfig({
   rows,
   filters: [
     {
+      key: 'driver',
+      label: 'Driver',
+      values: rows.map(row => row.driver?.name)
+    },
+    {
       key: 'status',
       label: 'Status',
       values: ['Active', 'Inactive']
+    },
+    {
+      key: 'more-filters',
+      label: 'More Filters',
+      values: ['Driver', 'Phone No', 'Driving License No', 'Address', 'Status']
     }
   ],
   initialColumn: 'driver',

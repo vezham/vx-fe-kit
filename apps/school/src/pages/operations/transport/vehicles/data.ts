@@ -273,9 +273,46 @@ export const vehiclesConfig = makeConfig({
   rows,
   filters: [
     {
+      key: 'vehicleno',
+      label: 'Vehicle No',
+      values: rows.map(row => row.vehicleNo)
+    },
+    {
+      key: 'model',
+      label: 'Model',
+      values: rows.map(row => row.vehicleModel)
+    },
+    {
+      key: 'name',
+      label: 'Name',
+      values: rows.map(row => row.driver?.name)
+    },
+    {
+      key: 'gps-device',
+      label: 'GPS Device',
+      values: rows.map(row => row.gpsDeviceId)
+    },
+    {
+      key: 'driver',
+      label: 'Driver',
+      values: rows.map(row => row.driver?.name)
+    },
+    {
       key: 'status',
       label: 'Status',
       values: ['Active', 'Inactive']
+    },
+    {
+      key: 'more-filters',
+      label: 'More Filters',
+      values: [
+        'ID',
+        'Vehicle No',
+        'Vehicle Model',
+        'Made of year',
+        'Registration No',
+        'Status'
+      ]
     }
   ],
   initialColumn: 'vehicleNo',

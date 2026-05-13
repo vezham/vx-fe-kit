@@ -199,9 +199,29 @@ export const feesMasterConfig = makeConfig({
   rows,
   filters: [
     {
+      key: 'id',
+      label: 'Id',
+      values: rows.map(row => row.displayId)
+    },
+    {
+      key: 'fees-group',
+      label: 'Fees Group',
+      values: rows.map(row => row.feesGroup)
+    },
+    {
+      key: 'fees-type',
+      label: 'Fees Type',
+      values: rows.map(row => row.feesType)
+    },
+    {
+      key: 'due-date',
+      label: 'Due Date',
+      values: rows.map(row => row.dueDate)
+    },
+    {
       key: 'fineType',
       label: 'Fine Type',
-      values: ['None', 'Percentage', 'Fixed']
+      values: rows.map(row => row.fineType)
     },
     {
       key: 'status',

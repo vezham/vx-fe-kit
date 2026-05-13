@@ -256,9 +256,39 @@ export const collectFeesConfig = makeConfig({
   rows,
   filters: [
     {
-      key: 'status',
-      label: 'Status',
-      values: ['Paid', 'Unpaid']
+      key: 'admissionno',
+      label: 'Admission No',
+      values: rows.map(row => row.admissionNo)
+    },
+    {
+      key: 'rollno',
+      label: 'Roll No',
+      values: rows.map(row => row.rollNo)
+    },
+    {
+      key: 'student',
+      label: 'Student',
+      values: rows.map(row => row.student?.name)
+    },
+    {
+      key: 'class',
+      label: 'Class',
+      values: rows.map(row => row.className)
+    },
+    {
+      key: 'section',
+      label: 'Section',
+      values: rows.map(row => row.section)
+    },
+    {
+      key: 'amount',
+      label: 'Amount',
+      values: rows.map(row => row.amount)
+    },
+    {
+      key: 'last-date',
+      label: 'Last Date',
+      values: rows.map(row => row.lastDate)
     }
   ],
   initialColumn: 'student',

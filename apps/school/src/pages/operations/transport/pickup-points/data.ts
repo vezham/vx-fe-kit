@@ -131,6 +131,11 @@ export const pickupPointsConfig = makeConfig({
   rows,
   filters: [
     {
+      key: 'pickup-points',
+      label: 'Pickup Points',
+      values: rows.map(row => row.pickupPoint)
+    },
+    {
       key: 'status',
       label: 'Status',
       values: ['Active', 'Inactive']

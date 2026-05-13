@@ -205,9 +205,19 @@ export const libraryMembersConfig = makeConfig({
   rows,
   filters: [
     {
-      key: 'cardNo',
+      key: 'member',
+      label: 'Member',
+      values: rows.map(row => row.member?.name)
+    },
+    {
+      key: 'cardno',
       label: 'Card No',
-      values: ['501', '502', '503', '504']
+      values: rows.map(row => row.cardNo)
+    },
+    {
+      key: 'morefilters',
+      label: 'More Filters',
+      values: ['Members', 'Card No', 'Email', 'Mobile', 'Date of Join']
     }
   ],
   initialColumn: 'member',

@@ -199,9 +199,19 @@ export const feesAssignConfig = makeConfig({
   rows,
   filters: [
     {
+      key: 'section',
+      label: 'Section',
+      values: rows.map(row => row.section)
+    },
+    {
+      key: 'category',
+      label: 'Category',
+      values: rows.map(row => row.category)
+    },
+    {
       key: 'gender',
       label: 'Gender',
-      values: ['Male', 'Female', 'Both']
+      values: rows.map(row => row.gender)
     }
   ],
   initialColumn: 'feesGroup',

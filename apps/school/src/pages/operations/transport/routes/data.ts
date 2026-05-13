@@ -131,6 +131,11 @@ export const routesConfig = makeConfig({
   rows,
   filters: [
     {
+      key: 'routes',
+      label: 'Routes',
+      values: rows.map(row => row.routeName)
+    },
+    {
       key: 'status',
       label: 'Status',
       values: ['Active', 'Inactive']

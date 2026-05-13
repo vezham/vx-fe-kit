@@ -222,9 +222,27 @@ export const returnBooksConfig = makeConfig({
   rows,
   filters: [
     {
-      key: 'bookReturned',
-      label: 'Book Returned',
-      values: ['0', '1', '2', '3', '4']
+      key: 'issuebook',
+      label: 'Issue Book',
+      values: rows.map(row => row.dateOfIssue)
+    },
+    {
+      key: 'name',
+      label: 'Name',
+      values: rows.map(row => row.issueTo?.name)
+    },
+    {
+      key: 'morefilters',
+      label: 'More Filters',
+      values: [
+        'ID',
+        'Date of Issue',
+        'Due Date',
+        'Issue To',
+        'Books Issued',
+        'Books Returned',
+        'Issue Remarks'
+      ]
     }
   ],
   initialColumn: 'issueTo',

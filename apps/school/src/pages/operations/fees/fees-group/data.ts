@@ -8,13 +8,6 @@ import type {
 
 const columns: OperationColumn[] = [
   {
-    key: 'displayId',
-    label: 'ID',
-    type: 'link',
-    allowsSorting: true,
-    minWidth: 120
-  },
-  {
     key: 'feesGroup',
     label: 'Fees Group',
     type: 'text',
@@ -130,6 +123,16 @@ export const feesGroupConfig = makeConfig({
   columns,
   rows,
   filters: [
+    {
+      key: 'id',
+      label: 'Id',
+      values: rows.map(row => row.displayId)
+    },
+    {
+      key: 'name',
+      label: 'Name',
+      values: ['Francis', 'James', 'Charles']
+    },
     {
       key: 'status',
       label: 'Status',

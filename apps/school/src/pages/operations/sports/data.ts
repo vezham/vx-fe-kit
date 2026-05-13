@@ -171,9 +171,19 @@ export const sportsConfig = makeConfig({
   rows,
   filters: [
     {
-      key: 'startedYear',
-      label: 'Started Year',
-      values: ['2004', '2005', '2006', '2007', '2008']
+      key: 'name',
+      label: 'Name',
+      values: rows.map(row => row.name)
+    },
+    {
+      key: 'coach',
+      label: 'Coach',
+      values: rows.map(row => row.coach?.name)
+    },
+    {
+      key: 'morefilters',
+      label: 'More Filters',
+      values: ['Name', 'Coach', 'Started Year', 'Action']
     }
   ],
   initialColumn: 'name',
