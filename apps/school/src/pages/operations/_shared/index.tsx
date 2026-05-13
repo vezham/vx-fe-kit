@@ -7,12 +7,15 @@ import {
   Button,
   Checkbox,
   CloseButton,
+  DateField,
+  DateRangePicker,
   Drawer,
   Dropdown,
   Input,
   Label,
   ListBox,
   Pagination,
+  RangeCalendar,
   SearchField,
   Select,
   type Selection,
@@ -22,6 +25,7 @@ import {
 } from '@vezham/react/v3'
 
 import type {
+  CustomDateRangeValue,
   DatePresetKey,
   DateRangeFilter,
   DrawerMode,
@@ -40,7 +44,10 @@ const dateOptions: { key: DatePresetKey; label: string }[] = [
   { key: 'today', label: 'Today' },
   { key: 'yesterday', label: 'Yesterday' },
   { key: 'last7', label: 'Last 7 Days' },
-  { key: 'last30', label: 'Last 30 Days' }
+  { key: 'last30', label: 'Last 30 Days' },
+  { key: 'thisYear', label: 'This Year' },
+  { key: 'nextYear', label: 'Next Year' },
+  { key: 'custom', label: 'Custom Range' }
 ]
 
 export default function OperationsTablePage({
@@ -53,6 +60,10 @@ export default function OperationsTablePage({
   const [rowsPerPage, setRowsPerPage] = useState('10')
   const [page, setPage] = useState(1)
   const [datePreset, setDatePreset] = useState<DatePresetKey>('last7')
+  const [isDateDropdownOpen, setIsDateDropdownOpen] = useState(false)
+  const [isCustomDateRangeOpen, setIsCustomDateRangeOpen] = useState(false)
+  const [customDateRange, setCustomDateRange] =
+    useState<DateRangeFilter | null>(null)
   const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>(
     config.initialSort
   )
@@ -76,8 +87,19 @@ export default function OperationsTablePage({
   } | null>(null)
   const drawer = useDisclosure()
 
-  const activeDateRange = getPresetDateRange(datePreset)
+  const activeDateRange = useMemo(() => {
+    if (datePreset === 'custom') {
+      return customDateRange
+    }
+
+    return getPresetDateRange(datePreset)
+  }, [customDateRange, datePreset])
+  const sortOptions = useMemo(() => getSortOptions(config), [config])
   const editableColumns = useMemo(
+    () => config.columns.filter(column => column.type !== 'button'),
+    [config.columns]
+  )
+  const tableColumns = useMemo(
     () => config.columns.filter(column => column.type !== 'button'),
     [config.columns]
   )
@@ -93,8 +115,8 @@ export default function OperationsTablePage({
         )
       const matchesDate = isISODateInRange(
         row.createdAt,
-        activeDateRange.start,
-        activeDateRange.end
+        activeDateRange?.start,
+        activeDateRange?.end
       )
       const matchesFilters = config.filters.every(filter => {
         const activeValue = filters[filter.key]
@@ -107,8 +129,7 @@ export default function OperationsTablePage({
       return matchesQuery && matchesDate && matchesFilters
     })
   }, [
-    activeDateRange.end,
-    activeDateRange.start,
+    activeDateRange,
     config.columns,
     config.filters,
     data,
@@ -151,11 +172,52 @@ export default function OperationsTablePage({
     ? sortedRows.findIndex(row => row.id === activeRowId)
     : -1
   const activeSortLabel =
-    config.sortOptions.find(
+    sortOptions.find(
       option =>
         option.descriptor.column === sortDescriptor.column &&
         option.descriptor.direction === sortDescriptor.direction
-    )?.label ?? 'A-Z'
+    )?.label ?? 'Ascending'
+  const activeDateLabel =
+    datePreset === 'custom'
+      ? customDateRange
+        ? formatDateRangeLabel(customDateRange)
+        : 'Custom Range'
+      : formatDateRangeLabel(getPresetDateRange(datePreset))
+
+  const updateDatePreset = (key: DatePresetKey) => {
+    setDatePreset(key)
+    setPage(1)
+
+    if (key === 'custom') {
+      setIsCustomDateRangeOpen(true)
+      setIsDateDropdownOpen(true)
+      window.setTimeout(() => {
+        setIsCustomDateRangeOpen(true)
+        setIsDateDropdownOpen(true)
+      }, 0)
+      return
+    }
+
+    setIsCustomDateRangeOpen(false)
+    setIsDateDropdownOpen(false)
+  }
+
+  const updateCustomDateRange = (value: CustomDateRangeValue | null) => {
+    setDatePreset('custom')
+    setPage(1)
+
+    if (!value?.start || !value?.end) {
+      setCustomDateRange(null)
+      return
+    }
+
+    setCustomDateRange({
+      start: String(value.start),
+      end: String(value.end)
+    })
+    setIsDateDropdownOpen(false)
+    setIsCustomDateRangeOpen(false)
+  }
 
   const openDrawer = useCallback(
     (nextMode: DrawerMode, row?: OperationRow) => {
@@ -234,70 +296,105 @@ export default function OperationsTablePage({
 
   return (
     <section className={classNames.page}>
-      <div className={classNames.pageHeader}>
-        <div>
-          <h1 className={classNames.heading}>{config.pageTitle}</h1>
-          <div className={classNames.breadcrumbs}>
-            {config.breadcrumb.map((item, index) => (
-              <span
-                key={item}
-                className={
-                  index === config.breadcrumb.length - 1
-                    ? classNames.breadcrumbCurrent
-                    : undefined
-                }>
-                {index > 0 ? <span aria-hidden="true">/</span> : null} {item}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        <div className={classNames.topActions}>
-          <Button isIconOnly aria-label="Refresh" variant="outline">
-            <Icon icon="lucide:refresh-cw" width={16} />
-          </Button>
-          <Button
-            isIconOnly
-            aria-label="Print"
-            variant="outline"
-            onPress={() => window.print()}>
-            <Icon icon="lucide:printer" width={16} />
-          </Button>
-          <Button className={classNames.exportButton} variant="secondary">
-            <Icon icon="lucide:file-down" width={16} />
-            Export
-            <Icon icon="lucide:chevron-down" width={16} />
-          </Button>
-          <Button onPress={() => openDrawer('create')}>
-            <Icon icon="lucide:plus-circle" width={16} />
-            {config.addLabel}
-          </Button>
-        </div>
-      </div>
-
       <Surface className={classNames.toolbar}>
         <div className={classNames.toolbarTop}>
-          <h2 className={classNames.title}>{config.listTitle}</h2>
+          <div>
+            <p className={classNames.mutedText}>{config.title}</p>
+            <h1 className={classNames.title}>{config.listTitle}</h1>
+          </div>
+
           <div className={classNames.toolbarActions}>
-            <Dropdown>
+            <Dropdown
+              isOpen={isDateDropdownOpen}
+              onOpenChange={open => {
+                setIsDateDropdownOpen(open)
+                if (!open) {
+                  setIsCustomDateRangeOpen(false)
+                }
+              }}>
               <Dropdown.Trigger>
                 <Button variant="outline">
                   <Icon icon="lucide:calendar-days" width={16} />
-                  {formatDateRangeLabel(activeDateRange)}
+                  {activeDateLabel}
+                  <Icon icon="lucide:chevron-down" width={16} />
                 </Button>
               </Dropdown.Trigger>
               <Dropdown.Popover>
-                <Dropdown.Menu aria-label="Date presets">
-                  {dateOptions.map(option => (
-                    <Dropdown.Item
-                      key={option.key}
-                      id={option.key}
-                      textValue={option.label}
-                      onPress={() => setDatePreset(option.key)}>
-                      {option.label}
-                    </Dropdown.Item>
-                  ))}
-                </Dropdown.Menu>
+                <Surface className={classNames.datePopover}>
+                  {isCustomDateRangeOpen ? (
+                    <div
+                      className={classNames.customDatePanel}
+                      onClick={event => event.stopPropagation()}>
+                      <Button
+                        variant="ghost"
+                        onPress={() => setIsCustomDateRangeOpen(false)}>
+                        <Icon icon="lucide:chevron-left" width={16} />
+                        Date presets
+                      </Button>
+                      <DateRangePicker
+                        defaultOpen
+                        aria-label={`${config.pageTitle} custom date range`}
+                        className={classNames.fullWidth}
+                        endName="endDate"
+                        startName="startDate"
+                        onChange={updateCustomDateRange}>
+                        <DateField.Group fullWidth>
+                          <DateField.Input slot="start">
+                            {segment => <DateField.Segment segment={segment} />}
+                          </DateField.Input>
+                          <DateRangePicker.RangeSeparator />
+                          <DateField.Input slot="end">
+                            {segment => <DateField.Segment segment={segment} />}
+                          </DateField.Input>
+                          <DateField.Suffix>
+                            <DateRangePicker.Trigger>
+                              <DateRangePicker.TriggerIndicator />
+                            </DateRangePicker.Trigger>
+                          </DateField.Suffix>
+                        </DateField.Group>
+                        <DateRangePicker.Popover>
+                          <RangeCalendar
+                            aria-label={`${config.pageTitle} custom date range`}>
+                            <RangeCalendar.Header>
+                              <RangeCalendar.Heading />
+                              <RangeCalendar.NavButton slot="previous" />
+                              <RangeCalendar.NavButton slot="next" />
+                            </RangeCalendar.Header>
+                            <RangeCalendar.Grid>
+                              <RangeCalendar.GridHeader>
+                                {day => (
+                                  <RangeCalendar.HeaderCell>
+                                    {day}
+                                  </RangeCalendar.HeaderCell>
+                                )}
+                              </RangeCalendar.GridHeader>
+                              <RangeCalendar.GridBody>
+                                {date => <RangeCalendar.Cell date={date} />}
+                              </RangeCalendar.GridBody>
+                            </RangeCalendar.Grid>
+                          </RangeCalendar>
+                        </DateRangePicker.Popover>
+                      </DateRangePicker>
+                    </div>
+                  ) : (
+                    <Dropdown.Menu aria-label="Date presets">
+                      {dateOptions.map(option => (
+                        <Dropdown.Item
+                          key={option.key}
+                          id={option.key}
+                          textValue={option.label}
+                          onPress={() => updateDatePreset(option.key)}>
+                          <span className={classNames.dateOptionLabel}>
+                            {option.label}
+                            {datePreset === option.key && (
+                              <Icon icon="lucide:check" width={16} />
+                            )}
+                          </span>
+                        </Dropdown.Item>
+                      ))}
+                    </Dropdown.Menu>
+                  )}
+                </Surface>
               </Dropdown.Popover>
             </Dropdown>
 
@@ -326,7 +423,7 @@ export default function OperationsTablePage({
               </Dropdown.Trigger>
               <Dropdown.Popover>
                 <Dropdown.Menu aria-label={`Sort ${config.pageTitle}`}>
-                  {config.sortOptions.map(option => (
+                  {sortOptions.map(option => (
                     <Dropdown.Item
                       key={option.key}
                       id={option.key}
@@ -385,134 +482,136 @@ export default function OperationsTablePage({
             </SearchField.Group>
           </SearchField>
         </div>
+      </Surface>
 
-        <Table>
-          <Table.ScrollContainer>
-            <Table.Content
-              aria-label={config.ariaLabel}
-              className={classNames.tableContent}
-              selectedKeys={selectedRowKeys}
-              selectionMode="multiple"
-              sortDescriptor={sortDescriptor}
-              style={{ minWidth: config.tableMinWidth }}
-              onSelectionChange={setSelectedRowKeys}
-              onSortChange={descriptor => {
-                setSortDescriptor(descriptor)
-                setPage(1)
-              }}>
-              <Table.Header>
-                <Table.Column className={classNames.selectionColumn} />
-                {config.columns.map(column => (
-                  <Table.Column
-                    key={column.key}
-                    allowsSorting={column.allowsSorting}
-                    id={column.key}
-                    isRowHeader={column.type === 'person'}
-                    style={{ minWidth: column.minWidth }}>
-                    {({ sortDirection }) => (
-                      <SortableHeader sortDirection={sortDirection}>
-                        {column.label}
-                      </SortableHeader>
-                    )}
-                  </Table.Column>
-                ))}
-                <Table.Column>Action</Table.Column>
-              </Table.Header>
+      <Table>
+        <Table.ScrollContainer>
+          <Table.Content
+            aria-label={config.ariaLabel}
+            className={classNames.tableContent}
+            selectedKeys={selectedRowKeys}
+            selectionMode="multiple"
+            sortDescriptor={sortDescriptor}
+            style={{ minWidth: config.tableMinWidth }}
+            onSelectionChange={setSelectedRowKeys}
+            onSortChange={descriptor => {
+              setSortDescriptor(descriptor)
+              setPage(1)
+            }}>
+            <Table.Header>
+              <Table.Column className={classNames.selectionColumn} />
+              {tableColumns.map(column => (
+                <Table.Column
+                  key={column.key}
+                  allowsSorting={column.allowsSorting}
+                  id={column.key}
+                  isRowHeader={column.type === 'person'}
+                  style={{ minWidth: column.minWidth }}>
+                  {({ sortDirection }) => (
+                    <SortableHeader sortDirection={sortDirection}>
+                      {column.label}
+                    </SortableHeader>
+                  )}
+                </Table.Column>
+              ))}
+              <Table.Column>Action</Table.Column>
+            </Table.Header>
 
-              <Table.Body renderEmptyState={() => <TableEmptyState />}>
-                {paginatedRows.map(row => (
-                  <Table.Row
-                    key={row.id}
-                    id={row.id}
-                    className={getTableRowClassName(activeRowId === row.id)}
-                    onClick={() => openDrawer('view', row)}>
-                    <Table.Cell>
-                      <Checkbox
-                        aria-label={`Select ${row.id}`}
-                        slot="selection"
-                        onClick={event => event.stopPropagation()}>
-                        <Checkbox.Control>
-                          <Checkbox.Indicator />
-                        </Checkbox.Control>
-                      </Checkbox>
+            <Table.Body renderEmptyState={() => <TableEmptyState />}>
+              {paginatedRows.map(row => (
+                <Table.Row
+                  key={row.id}
+                  id={row.id}
+                  className={getTableRowClassName(activeRowId === row.id)}
+                  onClick={() => openDrawer('view', row)}>
+                  <Table.Cell>
+                    <Checkbox
+                      aria-label={`Select ${row.id}`}
+                      slot="selection"
+                      onClick={event => event.stopPropagation()}>
+                      <Checkbox.Control>
+                        <Checkbox.Indicator />
+                      </Checkbox.Control>
+                    </Checkbox>
+                  </Table.Cell>
+                  {tableColumns.map(column => (
+                    <Table.Cell key={column.key}>
+                      <OperationCell
+                        column={column}
+                        row={row}
+                        onAction={() => openDrawer('view', row)}
+                      />
                     </Table.Cell>
-                    {config.columns.map(column => (
-                      <Table.Cell key={column.key}>
-                        <OperationCell
-                          column={column}
-                          row={row}
-                          onAction={() => openDrawer('view', row)}
+                  ))}
+                  <Table.Cell>
+                    <div
+                      className={classNames.rowActions}
+                      onClick={event => event.stopPropagation()}>
+                      <Button
+                        isIconOnly
+                        aria-label={`Edit ${row.id}`}
+                        variant="ghost"
+                        onPress={() => openDrawer('edit', row)}>
+                        <Icon icon="lucide:pencil" width={16} />
+                      </Button>
+                      <Button
+                        isIconOnly
+                        aria-label={`Delete ${row.id}`}
+                        variant="outline"
+                        onPress={() => deleteRow(row.id)}>
+                        <Icon
+                          className={classNames.dangerIcon}
+                          icon="lucide:trash-2"
+                          width={16}
                         />
-                      </Table.Cell>
-                    ))}
-                    <Table.Cell>
-                      <div
-                        className={classNames.rowActions}
-                        onClick={event => event.stopPropagation()}>
-                        <Dropdown>
-                          <Dropdown.Trigger>
-                            <Button
-                              isIconOnly
-                              aria-label={`More actions for ${row.id}`}
-                              variant="ghost">
-                              <Icon icon="lucide:more-vertical" width={18} />
-                            </Button>
-                          </Dropdown.Trigger>
-                          <Dropdown.Popover>
-                            <Dropdown.Menu aria-label={`Actions for ${row.id}`}>
-                              <Dropdown.Item
-                                id="view"
-                                textValue="View"
-                                onPress={() => openDrawer('view', row)}>
-                                <span className={classNames.menuItemLabel}>
-                                  <Icon icon="lucide:eye" width={16} />
-                                  View
-                                </span>
-                              </Dropdown.Item>
-                              <Dropdown.Item
-                                id="edit"
-                                textValue="Edit"
-                                onPress={() => openDrawer('edit', row)}>
-                                <span className={classNames.menuItemLabel}>
-                                  <Icon icon="lucide:pencil" width={16} />
-                                  Edit
-                                </span>
-                              </Dropdown.Item>
-                              <Dropdown.Item
-                                id="delete"
-                                textValue="Delete"
-                                onPress={() => deleteRow(row.id)}>
-                                <span className={classNames.menuItemLabel}>
-                                  <Icon
-                                    className={classNames.dangerIcon}
-                                    icon="lucide:trash-2"
-                                    width={16}
-                                  />
-                                  Delete
-                                </span>
-                              </Dropdown.Item>
-                            </Dropdown.Menu>
-                          </Dropdown.Popover>
-                        </Dropdown>
-                      </div>
-                    </Table.Cell>
-                  </Table.Row>
-                ))}
-              </Table.Body>
-            </Table.Content>
-          </Table.ScrollContainer>
+                      </Button>
+                      <Dropdown>
+                        <Dropdown.Trigger>
+                          <Button
+                            isIconOnly
+                            aria-label={`More actions for ${row.id}`}
+                            variant="ghost">
+                            <Icon icon="lucide:more-horizontal" width={18} />
+                          </Button>
+                        </Dropdown.Trigger>
+                        <Dropdown.Popover>
+                          <Dropdown.Menu aria-label={`Actions for ${row.id}`}>
+                            <Dropdown.Item
+                              id="view"
+                              textValue="View"
+                              onPress={() => openDrawer('view', row)}>
+                              <span className={classNames.menuItemLabel}>
+                                <Icon icon="lucide:eye" width={16} />
+                                View
+                              </span>
+                            </Dropdown.Item>
+                          </Dropdown.Menu>
+                        </Dropdown.Popover>
+                      </Dropdown>
+                    </div>
+                  </Table.Cell>
+                </Table.Row>
+              ))}
+            </Table.Body>
+          </Table.Content>
+        </Table.ScrollContainer>
 
-          <Table.Footer>
-            <Pagination>
-              <Pagination.Content>
-                <Pagination.Item>
-                  <Pagination.Previous
-                    isDisabled={currentPage <= 1}
-                    onPress={() => setPage(value => Math.max(1, value - 1))}>
-                    <span>Prev</span>
-                  </Pagination.Previous>
-                </Pagination.Item>
-                {getPaginationItems(totalPages).map(item => (
+        <Table.Footer className={classNames.paginationFooter}>
+          <Pagination>
+            <Pagination.Summary>
+              {getPaginationSummary(currentPage, pageSize, sortedRows.length)}
+            </Pagination.Summary>
+            <Pagination.Content>
+              <Pagination.Item>
+                <Pagination.Previous
+                  isDisabled={currentPage <= 1}
+                  onPress={() => setPage(value => Math.max(1, value - 1))}>
+                  <Pagination.PreviousIcon />
+                  <span>Prev</span>
+                </Pagination.Previous>
+              </Pagination.Item>
+              {Array.from({ length: totalPages }, (_, index) => index + 1).map(
+                item => (
                   <Pagination.Item key={item}>
                     <Pagination.Link
                       isActive={item === currentPage}
@@ -520,21 +619,22 @@ export default function OperationsTablePage({
                       {item}
                     </Pagination.Link>
                   </Pagination.Item>
-                ))}
-                <Pagination.Item>
-                  <Pagination.Next
-                    isDisabled={currentPage >= totalPages}
-                    onPress={() =>
-                      setPage(value => Math.min(totalPages, value + 1))
-                    }>
-                    <span>Next</span>
-                  </Pagination.Next>
-                </Pagination.Item>
-              </Pagination.Content>
-            </Pagination>
-          </Table.Footer>
-        </Table>
-      </Surface>
+                )
+              )}
+              <Pagination.Item>
+                <Pagination.Next
+                  isDisabled={currentPage >= totalPages}
+                  onPress={() =>
+                    setPage(value => Math.min(totalPages, value + 1))
+                  }>
+                  <span>Next</span>
+                  <Pagination.NextIcon />
+                </Pagination.Next>
+              </Pagination.Item>
+            </Pagination.Content>
+          </Pagination>
+        </Table.Footer>
+      </Table>
 
       <OperationsDrawer
         columns={editableColumns}
@@ -843,6 +943,7 @@ function OperationsDrawer({
                         {column.label || column.key}
                       </Label>
                       <Input
+                        fullWidth
                         value={form[column.key] ?? ''}
                         onChange={event =>
                           onFormChange(column.key, event.target.value)
@@ -961,19 +1062,117 @@ function formToNewRow(
 }
 
 function getPresetDateRange(key: DatePresetKey): DateRangeFilter {
-  if (key === 'today') return { start: '2026-05-11', end: '2026-05-11' }
-  if (key === 'yesterday') return { start: '2026-05-10', end: '2026-05-10' }
-  if (key === 'last30') return { start: '2026-04-12', end: '2026-05-11' }
+  const today = new Date()
+  const currentYear = today.getFullYear()
 
-  return { start: '2026-05-05', end: '2026-05-11' }
+  if (key === 'today') {
+    const value = toISODate(today)
+
+    return { start: value, end: value }
+  }
+
+  if (key === 'yesterday') {
+    const yesterday = new Date(today)
+    yesterday.setDate(today.getDate() - 1)
+    const value = toISODate(yesterday)
+
+    return { start: value, end: value }
+  }
+
+  if (key === 'last7') {
+    const start = new Date(today)
+    start.setDate(today.getDate() - 6)
+
+    return { start: toISODate(start), end: toISODate(today) }
+  }
+
+  if (key === 'thisYear') {
+    return {
+      start: `${currentYear}-01-01`,
+      end: `${currentYear}-12-31`
+    }
+  }
+
+  if (key === 'nextYear') {
+    const nextYear = currentYear + 1
+
+    return {
+      start: `${nextYear}-01-01`,
+      end: `${nextYear}-12-31`
+    }
+  }
+
+  const start = new Date(today)
+  start.setDate(today.getDate() - 29)
+
+  return { start: toISODate(start), end: toISODate(today) }
 }
 
 function formatDateRangeLabel(range: DateRangeFilter) {
-  return `${range.start.replace(/-/g, '/')} - ${range.end.replace(/-/g, '/')}`
+  return `${formatISODate(range.start)} - ${formatISODate(range.end)}`
 }
 
-function isISODateInRange(value: string, start: string, end: string) {
+function formatISODate(value: string) {
+  const date = new Date(`${value}T00:00:00`)
+
+  return new Intl.DateTimeFormat('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric'
+  }).format(date)
+}
+
+function isISODateInRange(value: string, start?: string, end?: string) {
+  if (!start || !end) {
+    return true
+  }
+
   return value >= start && value <= end
+}
+
+function toISODate(date: Date) {
+  return [
+    date.getFullYear(),
+    String(date.getMonth() + 1).padStart(2, '0'),
+    String(date.getDate()).padStart(2, '0')
+  ].join('-')
+}
+
+function getSortOptions(config: OperationPageConfig) {
+  return [
+    {
+      key: 'ascending',
+      label: 'Ascending',
+      descriptor: {
+        column: config.initialSort.column,
+        direction: 'ascending'
+      } satisfies SortDescriptor
+    },
+    {
+      key: 'descending',
+      label: 'Descending',
+      descriptor: {
+        column: config.initialSort.column,
+        direction: 'descending'
+      } satisfies SortDescriptor
+    },
+    {
+      key: 'recentlyViewed',
+      label: 'Recently Viewed',
+      descriptor: {
+        column: 'createdAt',
+        direction: 'ascending'
+      } satisfies SortDescriptor
+    },
+    {
+      key: 'recentlyAdded',
+      label: 'Recently Added',
+      descriptor: {
+        column: 'createdAt',
+        direction: 'descending'
+      } satisfies SortDescriptor
+    }
+  ]
 }
 
 function getInitials(name: string) {
@@ -1005,9 +1204,17 @@ function isPersonValue(value: unknown): value is PersonValue {
   return value !== null && typeof value === 'object' && 'name' in value
 }
 
-function getPaginationItems(totalPages: number) {
-  return Array.from(
-    { length: Math.min(totalPages, 2) },
-    (_, index) => index + 1
-  )
+function getPaginationSummary(
+  page: number,
+  pageSize: number,
+  totalItems: number
+) {
+  if (!totalItems) {
+    return 'Showing 0 entries'
+  }
+
+  const start = (page - 1) * pageSize + 1
+  const end = Math.min(page * pageSize, totalItems)
+
+  return `Showing ${start}-${end} of ${totalItems} entries`
 }

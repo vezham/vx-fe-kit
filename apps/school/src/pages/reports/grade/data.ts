@@ -69,7 +69,7 @@ const rows: ReportRow[] = [
     total: 644,
     percent: 92,
     grade: 'O',
-    createdAt: '2024-05-24'
+    createdAt: '2026-05-13'
   },
   {
     id: 'grade-report-2',
@@ -89,7 +89,7 @@ const rows: ReportRow[] = [
     total: 244,
     percent: 34,
     grade: 'F',
-    createdAt: '2024-05-22'
+    createdAt: '2026-05-12'
   },
   {
     id: 'grade-report-3',
@@ -109,7 +109,7 @@ const rows: ReportRow[] = [
     total: 558,
     percent: 79,
     grade: 'A',
-    createdAt: '2024-05-20'
+    createdAt: '2026-05-11'
   },
   {
     id: 'grade-report-4',
@@ -129,7 +129,7 @@ const rows: ReportRow[] = [
     total: 477,
     percent: 68,
     grade: 'B+',
-    createdAt: '2024-05-18'
+    createdAt: '2026-05-10'
   },
   {
     id: 'grade-report-5',
@@ -149,7 +149,7 @@ const rows: ReportRow[] = [
     total: 285,
     percent: 40,
     grade: 'F',
-    createdAt: '2024-05-15'
+    createdAt: '2026-05-09'
   },
   {
     id: 'grade-report-6',
@@ -169,7 +169,7 @@ const rows: ReportRow[] = [
     total: 408,
     percent: 58,
     grade: 'B',
-    createdAt: '2024-05-15'
+    createdAt: '2026-05-09'
   },
   {
     id: 'grade-report-7',
@@ -189,7 +189,7 @@ const rows: ReportRow[] = [
     total: 552,
     percent: 78,
     grade: 'A',
-    createdAt: '2024-05-15'
+    createdAt: '2026-05-09'
   },
   {
     id: 'grade-report-8',
@@ -209,7 +209,7 @@ const rows: ReportRow[] = [
     total: 317,
     percent: 45,
     grade: 'F',
-    createdAt: '2024-05-15'
+    createdAt: '2026-05-09'
   },
   {
     id: 'grade-report-9',
@@ -229,7 +229,7 @@ const rows: ReportRow[] = [
     total: 470,
     percent: 67,
     grade: 'B+',
-    createdAt: '2024-05-15'
+    createdAt: '2026-05-09'
   },
   {
     id: 'grade-report-10',
@@ -249,7 +249,7 @@ const rows: ReportRow[] = [
     total: 586,
     percent: 83,
     grade: 'A+',
-    createdAt: '2024-05-15'
+    createdAt: '2026-05-09'
   }
 ]
 

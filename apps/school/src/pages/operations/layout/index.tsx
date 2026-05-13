@@ -75,14 +75,19 @@ const OperationsLayoutPage = forwardRef<'div', Props>((props, ref) => {
       <Surface {...getHeaderProps()}>
         <Surface {...getHeaderInnerProps()}>
           <Surface {...getHeaderLeftProps()}>
-            <HeaderIconTooltip label={headerProps.sidebarToggle.label}>
+            <HeaderIconTooltip
+              label={headerProps.sidebarToggle.label}
+              shortcut="⌘ S">
               <Button {...getIconButtonProps(headerProps.sidebarToggle)}>
                 <Icon {...getButtonIconProps(headerProps.sidebarToggle.icon)} />
               </Button>
             </HeaderIconTooltip>
 
             {headerProps.leftActions.map(action => (
-              <HeaderIconTooltip key={action.key} label={action.label}>
+              <HeaderIconTooltip
+                key={action.key}
+                label={action.label}
+                shortcut={getActionShortcut(action.key)}>
                 <Button {...getIconButtonProps(action)}>
                   <Icon {...getButtonIconProps(action.icon)} />
                 </Button>
@@ -118,16 +123,22 @@ const OperationsLayoutPage = forwardRef<'div', Props>((props, ref) => {
                     />
                   </InputGroup>
                 </TextField>
-                <Button {...getIconButtonProps(headerProps.searchAction)}>
-                  <Icon
-                    {...getButtonIconProps(headerProps.searchAction.icon)}
-                  />
-                </Button>
+                <HeaderIconTooltip
+                  label={headerProps.searchAction.label}
+                  shortcut="⌘ K">
+                  <Button {...getIconButtonProps(headerProps.searchAction)}>
+                    <Icon
+                      {...getButtonIconProps(headerProps.searchAction.icon)}
+                    />
+                  </Button>
+                </HeaderIconTooltip>
               </>
             ) : null}
 
             {headerProps.refreshAction ? (
-              <HeaderIconTooltip label={headerProps.refreshAction.label}>
+              <HeaderIconTooltip
+                label={headerProps.refreshAction.label}
+                shortcut={getActionShortcut(headerProps.refreshAction.key)}>
                 <Button {...getIconButtonProps(headerProps.refreshAction)}>
                   <Icon
                     {...getButtonIconProps(headerProps.refreshAction.icon)}
@@ -325,17 +336,34 @@ function MoreActions({
 
 function HeaderIconTooltip({
   children,
-  label
+  label,
+  shortcut
 }: {
   children: ReactNode
   label: string
+  shortcut?: string
 }) {
   return (
     <Tooltip delay={0}>
       <Tooltip.Trigger>{children}</Tooltip.Trigger>
-      <Tooltip.Content>{label}</Tooltip.Content>
+      <Tooltip.Content>
+        <span className="flex flex-col gap-1">
+          <span>{label}</span>
+          {shortcut ? (
+            <span className="text-xs opacity-70">{shortcut}</span>
+          ) : null}
+        </span>
+      </Tooltip.Content>
     </Tooltip>
   )
+}
+
+function getActionShortcut(key: string) {
+  if (key === 'back') return '⌘ ←'
+  if (key === 'forward') return '⌘ →'
+  if (key === 'refresh') return '⌘ R'
+
+  return undefined
 }
 
 function OperationsSidebar({

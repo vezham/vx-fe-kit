@@ -58,7 +58,7 @@ const rows: ReportRow[] = [
     discount: '10%',
     fine: '200',
     balance: '0',
-    createdAt: '2024-05-24'
+    createdAt: '2026-05-13'
   },
   {
     id: 'fees-report-2',
@@ -73,7 +73,7 @@ const rows: ReportRow[] = [
     discount: '10%',
     fine: '0',
     balance: '0',
-    createdAt: '2024-05-22'
+    createdAt: '2026-05-12'
   },
   {
     id: 'fees-report-3',
@@ -88,7 +88,7 @@ const rows: ReportRow[] = [
     discount: '10%',
     fine: '0',
     balance: '0',
-    createdAt: '2024-05-20'
+    createdAt: '2026-05-11'
   },
   {
     id: 'fees-report-4',
@@ -103,7 +103,7 @@ const rows: ReportRow[] = [
     discount: '10%',
     fine: '200',
     balance: '0',
-    createdAt: '2024-05-18'
+    createdAt: '2026-05-10'
   },
   {
     id: 'fees-report-5',
@@ -118,7 +118,7 @@ const rows: ReportRow[] = [
     discount: '10%',
     fine: '200',
     balance: '0',
-    createdAt: '2024-05-15'
+    createdAt: '2026-05-09'
   },
   {
     id: 'fees-report-6',
@@ -133,7 +133,7 @@ const rows: ReportRow[] = [
     discount: '10%',
     fine: '200',
     balance: '0',
-    createdAt: '2024-05-15'
+    createdAt: '2026-05-09'
   },
   {
     id: 'fees-report-7',
@@ -148,7 +148,7 @@ const rows: ReportRow[] = [
     discount: '10%',
     fine: '0',
     balance: '0',
-    createdAt: '2024-05-15'
+    createdAt: '2026-05-09'
   },
   {
     id: 'fees-report-8',
@@ -163,7 +163,7 @@ const rows: ReportRow[] = [
     discount: '10%',
     fine: '200',
     balance: '0',
-    createdAt: '2024-05-15'
+    createdAt: '2026-05-09'
   }
 ]
 

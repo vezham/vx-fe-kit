@@ -48,13 +48,6 @@ const columns: OperationColumn[] = [
     type: 'text',
     allowsSorting: true,
     minWidth: 120
-  },
-  {
-    key: 'detailAction',
-    label: 'Action',
-    type: 'button',
-    allowsSorting: false,
-    minWidth: 120
   }
 ]
 const rows: OperationRow[] = [
@@ -70,8 +63,7 @@ const rows: OperationRow[] = [
       avatar: 'https://randomuser.me/api/portraits/men/20.jpg'
     },
     booksIssued: 1,
-    remarks: 'Book Issued',
-    detailAction: 'View Details'
+    remarks: 'Book Issued'
   },
   {
     id: 'issue-1',
@@ -85,8 +77,7 @@ const rows: OperationRow[] = [
       avatar: 'https://randomuser.me/api/portraits/women/21.jpg'
     },
     booksIssued: 5,
-    remarks: 'Book Issued',
-    detailAction: 'View Details'
+    remarks: 'Book Issued'
   },
   {
     id: 'issue-2',
@@ -100,8 +91,7 @@ const rows: OperationRow[] = [
       avatar: 'https://randomuser.me/api/portraits/men/22.jpg'
     },
     booksIssued: 4,
-    remarks: 'Book Issued',
-    detailAction: 'View Details'
+    remarks: 'Book Issued'
   },
   {
     id: 'issue-3',
@@ -115,8 +105,7 @@ const rows: OperationRow[] = [
       avatar: 'https://randomuser.me/api/portraits/women/23.jpg'
     },
     booksIssued: 3,
-    remarks: 'Book Issued',
-    detailAction: 'View Details'
+    remarks: 'Book Issued'
   },
   {
     id: 'issue-4',
@@ -130,8 +119,7 @@ const rows: OperationRow[] = [
       avatar: 'https://randomuser.me/api/portraits/men/24.jpg'
     },
     booksIssued: 6,
-    remarks: 'Book Issued',
-    detailAction: 'View Details'
+    remarks: 'Book Issued'
   },
   {
     id: 'issue-5',
@@ -145,8 +133,7 @@ const rows: OperationRow[] = [
       avatar: 'https://randomuser.me/api/portraits/women/25.jpg'
     },
     booksIssued: 4,
-    remarks: 'Book Issued',
-    detailAction: 'View Details'
+    remarks: 'Book Issued'
   },
   {
     id: 'issue-6',
@@ -160,8 +147,7 @@ const rows: OperationRow[] = [
       avatar: 'https://randomuser.me/api/portraits/men/26.jpg'
     },
     booksIssued: 5,
-    remarks: 'Book Issued',
-    detailAction: 'View Details'
+    remarks: 'Book Issued'
   },
   {
     id: 'issue-7',
@@ -175,8 +161,7 @@ const rows: OperationRow[] = [
       avatar: 'https://randomuser.me/api/portraits/women/27.jpg'
     },
     booksIssued: 3,
-    remarks: 'Book Issued',
-    detailAction: 'View Details'
+    remarks: 'Book Issued'
   },
   {
     id: 'issue-8',
@@ -190,8 +175,7 @@ const rows: OperationRow[] = [
       avatar: 'https://randomuser.me/api/portraits/men/28.jpg'
     },
     booksIssued: 6,
-    remarks: 'Book Issued',
-    detailAction: 'View Details'
+    remarks: 'Book Issued'
   },
   {
     id: 'issue-9',
@@ -205,8 +189,7 @@ const rows: OperationRow[] = [
       avatar: 'https://randomuser.me/api/portraits/women/29.jpg'
     },
     booksIssued: 2,
-    remarks: 'Book Issued',
-    detailAction: 'View Details'
+    remarks: 'Book Issued'
   }
 ]
 
@@ -244,10 +227,10 @@ function makeConfig(
     ...config,
     initialSort,
     sortOptions: [
-      { key: 'ascending', label: 'A-Z', descriptor: initialSort },
+      { key: 'ascending', label: 'Ascending', descriptor: initialSort },
       {
         key: 'descending',
-        label: 'Z-A',
+        label: 'Descending',
         descriptor: {
           column: config.initialColumn,
           direction: 'descending'

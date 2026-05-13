@@ -295,10 +295,10 @@ function makeConfig(
     ...config,
     initialSort,
     sortOptions: [
-      { key: 'ascending', label: 'A-Z', descriptor: initialSort },
+      { key: 'ascending', label: 'Ascending', descriptor: initialSort },
       {
         key: 'descending',
-        label: 'Z-A',
+        label: 'Descending',
         descriptor: {
           column: config.initialColumn,
           direction: 'descending'

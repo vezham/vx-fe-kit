@@ -204,6 +204,7 @@ const useProps = (originalProps: Props) => {
   })
 
   useHotkey('Meta+\\', () => onToggleSidebar())
+  useHotkey('Meta+S', () => onToggleSidebar())
 
   const onSidebarAction = (key: Key, onNavigate?: () => void) => {
     const item = findSidebarItem(layoutSidebarItems, String(key))

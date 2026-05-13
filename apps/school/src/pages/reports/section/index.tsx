@@ -151,7 +151,7 @@ function AttendanceReportTable({ report }: { report: AttendanceReportConfig }) {
       option =>
         option.descriptor.column === sortDescriptor.column &&
         option.descriptor.direction === sortDescriptor.direction
-    )?.label ?? 'A-Z'
+    )?.label ?? 'Ascending'
   const activeDateLabel =
     datePreset === 'custom'
       ? customDateRange
@@ -215,7 +215,10 @@ function AttendanceReportTable({ report }: { report: AttendanceReportConfig }) {
     <section className={classNames.page}>
       <Surface className={classNames.toolbar}>
         <div className={classNames.headerRow}>
-          <h1 className={classNames.title}>{report.title}</h1>
+          <div>
+            <p className={classNames.mutedText}>Reports</p>
+            <h1 className={classNames.title}>{report.title}</h1>
+          </div>
 
           <div className={classNames.toolbarActions}>
             <Dropdown
@@ -323,7 +326,7 @@ function AttendanceReportTable({ report }: { report: AttendanceReportConfig }) {
               <Dropdown.Trigger>
                 <Button variant="outline">
                   <Icon icon="lucide:arrow-up-down" width={16} />
-                  Sort By {activeSortLabel}
+                  Sort by {activeSortLabel}
                   <Icon icon="lucide:chevron-down" width={16} />
                 </Button>
               </Dropdown.Trigger>
@@ -426,32 +429,30 @@ function AttendanceReportTable({ report }: { report: AttendanceReportConfig }) {
           </Table.Content>
         </Table.ScrollContainer>
 
-        <Table.Footer>
+        <Table.Footer className={classNames.paginationFooter}>
           <Pagination>
+            <Pagination.Summary>
+              {getPaginationSummary(currentPage, pageSize, sortedRows.length)}
+            </Pagination.Summary>
             <Pagination.Content>
               <Pagination.Item>
                 <Pagination.Previous
                   isDisabled={currentPage <= 1}
                   onPress={() => setPage(value => Math.max(1, value - 1))}>
-                  <span>Pre</span>
+                  <Pagination.PreviousIcon />
+                  <span>Prev</span>
                 </Pagination.Previous>
               </Pagination.Item>
-              {getPaginationItems(totalPages).map(item => (
-                <Pagination.Item key={item}>
-                  <Pagination.Link
-                    isActive={item === currentPage}
-                    onPress={() => setPage(item)}>
-                    {item}
-                  </Pagination.Link>
-                </Pagination.Item>
-              ))}
-              {totalPages > 3 && <Pagination.Item>....</Pagination.Item>}
-              {totalPages > 3 && (
-                <Pagination.Item>
-                  <Pagination.Link onPress={() => setPage(totalPages)}>
-                    {totalPages}
-                  </Pagination.Link>
-                </Pagination.Item>
+              {Array.from({ length: totalPages }, (_, index) => index + 1).map(
+                item => (
+                  <Pagination.Item key={item}>
+                    <Pagination.Link
+                      isActive={item === currentPage}
+                      onPress={() => setPage(item)}>
+                      {item}
+                    </Pagination.Link>
+                  </Pagination.Item>
+                )
               )}
               <Pagination.Item>
                 <Pagination.Next
@@ -460,6 +461,7 @@ function AttendanceReportTable({ report }: { report: AttendanceReportConfig }) {
                     setPage(value => Math.min(totalPages, value + 1))
                   }>
                   <span>Next</span>
+                  <Pagination.NextIcon />
                 </Pagination.Next>
               </Pagination.Item>
             </Pagination.Content>
@@ -779,9 +781,17 @@ function getSortValue(value: unknown) {
   return value as string | number
 }
 
-function getPaginationItems(totalPages: number) {
-  return Array.from(
-    { length: Math.min(totalPages, 2) },
-    (_, index) => index + 1
-  )
+function getPaginationSummary(
+  page: number,
+  pageSize: number,
+  totalItems: number
+) {
+  if (!totalItems) {
+    return 'Showing 0 entries'
+  }
+
+  const start = (page - 1) * pageSize + 1
+  const end = Math.min(page * pageSize, totalItems)
+
+  return `Showing ${start}-${end} of ${totalItems} entries`
 }

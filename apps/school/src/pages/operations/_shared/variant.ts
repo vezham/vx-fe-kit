@@ -1,5 +1,5 @@
 export const classNames = {
-  page: 'space-y-5',
+  page: 'space-y-4',
   pageHeader:
     'flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between',
   heading: 'text-xl font-semibold text-[#16233d]',
@@ -7,18 +7,24 @@ export const classNames = {
   breadcrumbCurrent: 'font-medium text-[#16233d]',
   topActions: 'flex flex-wrap items-center gap-2 lg:justify-end',
   exportButton: 'bg-[#e9edf5] text-[#4d5a76]',
-  toolbar:
-    'flex flex-col overflow-hidden rounded-md border border-[#e8edf6] bg-white shadow-sm',
+  toolbar: 'flex flex-col gap-4 p-4',
+  mutedText: 'text-muted text-sm',
+  title: 'text-base font-semibold',
   toolbarTop:
-    'flex flex-col gap-3 border-b border-[#edf1f7] p-5 lg:flex-row lg:items-center lg:justify-between',
-  title: 'text-lg font-semibold text-[#16233d]',
-  toolbarActions: 'flex flex-col gap-3 sm:flex-row sm:flex-wrap lg:justify-end',
+    'flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between',
+  toolbarActions:
+    'flex w-full flex-col gap-3 sm:flex-row sm:flex-wrap lg:justify-end',
+  datePopover: 'w-[360px] p-2',
+  customDatePanel: 'space-y-3',
+  dateOptionLabel: 'flex w-full items-center justify-between',
+  fullWidth: 'w-full',
   controlsRow:
-    'flex flex-col gap-3 p-5 lg:flex-row lg:items-center lg:justify-between',
-  rowsControls: 'flex items-center gap-3 text-[#111827]',
+    'flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between',
+  rowsControls: 'flex items-center gap-2',
   controlsRight:
     'flex flex-col gap-3 sm:flex-row sm:items-center lg:justify-end',
   tableContent: 'text-[#4d5a76]',
+  paginationFooter: '',
   tableRow: 'hover:bg-primary/5 cursor-pointer transition-colors',
   tableRowActive: 'bg-primary/10 ring-primary/20 ring-1 ring-inset',
   selectionColumn: 'w-12',
@@ -47,7 +53,8 @@ export const classNames = {
   code: 'rounded bg-[#eef1f7] px-2 py-1 font-mono text-xs text-[#69758d]',
   toast:
     'fixed top-10 left-1/2 z-[9999] w-[min(320px,calc(100vw-2rem))] -translate-x-1/2',
-  drawerDialog: 'flex h-full w-full max-w-[430px] flex-col bg-white',
+  drawerDialog:
+    'flex h-full w-full max-w-[420px] flex-col bg-black/5 backdrop-blur-2xl',
   drawerHeader: 'sticky top-0 z-10 border-b border-[#e8edf6] py-4',
   drawerHeaderRow: 'flex w-full items-center justify-between gap-3',
   drawerTitleGroup: 'flex min-w-0 items-center gap-2',
@@ -58,7 +65,8 @@ export const classNames = {
   drawerFormFooterActions: 'flex w-full justify-end gap-3',
   drawerViewFooterActions: 'flex w-full gap-3',
   flexOne: 'flex-1',
-  form: 'space-y-5',
+  form: 'space-y-6',
+  formFields: 'space-y-5',
   field: 'space-y-2',
   fieldLabel: 'font-bold text-[#111827]',
   details: 'space-y-5',

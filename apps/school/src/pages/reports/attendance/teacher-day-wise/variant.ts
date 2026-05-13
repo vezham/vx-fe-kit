@@ -1,10 +1,12 @@
 export const classNames = {
   page: 'space-y-4',
   toolbar: 'flex flex-col gap-4 p-4',
+  mutedText: 'text-muted text-sm',
   headerRow:
     'flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between',
-  title: 'text-base font-semibold text-[#16233d]',
-  toolbarActions: 'flex flex-col gap-3 sm:flex-row sm:flex-wrap lg:justify-end',
+  title: 'text-base font-semibold',
+  toolbarActions:
+    'flex w-full flex-col gap-3 sm:flex-row sm:flex-wrap lg:justify-end',
   datePopover: 'w-[360px] p-2',
   customDatePanel: 'space-y-3',
   dateOptionLabel: 'flex w-full items-center justify-between',
@@ -14,6 +16,7 @@ export const classNames = {
     'flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center lg:justify-end',
   legend: 'flex flex-wrap items-center gap-1.5',
   tableContent: 'text-[#4d5a76]',
+  paginationFooter: '',
   tableRow: 'hover:bg-primary/5 cursor-pointer transition-colors',
   tableRowActive: 'bg-primary/10 ring-primary/20 ring-1 ring-inset',
   selectionColumn: 'w-12',

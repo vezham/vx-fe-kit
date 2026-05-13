@@ -55,13 +55,6 @@ const columns: OperationColumn[] = [
     type: 'text',
     allowsSorting: true,
     minWidth: 120
-  },
-  {
-    key: 'detailAction',
-    label: 'Action',
-    type: 'button',
-    allowsSorting: false,
-    minWidth: 120
   }
 ]
 const rows: OperationRow[] = [
@@ -78,8 +71,7 @@ const rows: OperationRow[] = [
     },
     booksIssued: 1,
     bookReturned: 0,
-    remarks: 'Book Issued',
-    detailAction: 'View Details'
+    remarks: 'Book Issued'
   },
   {
     id: 'return-1',
@@ -94,8 +86,7 @@ const rows: OperationRow[] = [
     },
     booksIssued: 5,
     bookReturned: 3,
-    remarks: 'Book Issued',
-    detailAction: 'View Details'
+    remarks: 'Book Issued'
   },
   {
     id: 'return-2',
@@ -110,8 +101,7 @@ const rows: OperationRow[] = [
     },
     booksIssued: 4,
     bookReturned: 2,
-    remarks: 'Book Issued',
-    detailAction: 'View Details'
+    remarks: 'Book Issued'
   },
   {
     id: 'return-3',
@@ -126,8 +116,7 @@ const rows: OperationRow[] = [
     },
     booksIssued: 3,
     bookReturned: 2,
-    remarks: 'Book Issued',
-    detailAction: 'View Details'
+    remarks: 'Book Issued'
   },
   {
     id: 'return-4',
@@ -142,8 +131,7 @@ const rows: OperationRow[] = [
     },
     booksIssued: 6,
     bookReturned: 4,
-    remarks: 'Book Issued',
-    detailAction: 'View Details'
+    remarks: 'Book Issued'
   },
   {
     id: 'return-5',
@@ -158,8 +146,7 @@ const rows: OperationRow[] = [
     },
     booksIssued: 4,
     bookReturned: 2,
-    remarks: 'Book Issued',
-    detailAction: 'View Details'
+    remarks: 'Book Issued'
   },
   {
     id: 'return-6',
@@ -174,8 +161,7 @@ const rows: OperationRow[] = [
     },
     booksIssued: 5,
     bookReturned: 3,
-    remarks: 'Book Issued',
-    detailAction: 'View Details'
+    remarks: 'Book Issued'
   },
   {
     id: 'return-7',
@@ -190,8 +176,7 @@ const rows: OperationRow[] = [
     },
     booksIssued: 3,
     bookReturned: 1,
-    remarks: 'Book Issued',
-    detailAction: 'View Details'
+    remarks: 'Book Issued'
   },
   {
     id: 'return-8',
@@ -206,8 +191,7 @@ const rows: OperationRow[] = [
     },
     booksIssued: 6,
     bookReturned: 4,
-    remarks: 'Book Issued',
-    detailAction: 'View Details'
+    remarks: 'Book Issued'
   },
   {
     id: 'return-9',
@@ -222,8 +206,7 @@ const rows: OperationRow[] = [
     },
     booksIssued: 2,
     bookReturned: 1,
-    remarks: 'Book Issued',
-    detailAction: 'View Details'
+    remarks: 'Book Issued'
   }
 ]
 
@@ -261,10 +244,10 @@ function makeConfig(
     ...config,
     initialSort,
     sortOptions: [
-      { key: 'ascending', label: 'A-Z', descriptor: initialSort },
+      { key: 'ascending', label: 'Ascending', descriptor: initialSort },
       {
         key: 'descending',
-        label: 'Z-A',
+        label: 'Descending',
         descriptor: {
           column: config.initialColumn,
           direction: 'descending'
