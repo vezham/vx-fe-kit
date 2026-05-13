@@ -1295,6 +1295,7 @@ const operationPageSubtitles: Record<string, string> = {
   'issue-book': 'Issue Books',
   return: 'Return Books',
   sports: 'Sports',
+  players: 'Players',
   'hostel-list': 'Hostel List',
   'hostel-room': 'Hostel Room',
   'room-type': 'Room Type',

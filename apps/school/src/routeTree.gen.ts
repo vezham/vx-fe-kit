@@ -42,6 +42,9 @@ const OperationsTransportIndexLazyRouteImport = createFileRoute(
 const OperationsSportsIndexLazyRouteImport = createFileRoute(
   '/operations/sports/',
 )()
+const OperationsPlayersIndexLazyRouteImport = createFileRoute(
+  '/operations/players/',
+)()
 const OperationsLibraryIndexLazyRouteImport = createFileRoute(
   '/operations/library/',
 )()
@@ -341,6 +344,14 @@ const OperationsSportsIndexLazyRoute =
     getParentRoute: () => OperationsRouteLazyRoute,
   } as any).lazy(() =>
     import('./routes/operations/sports/index.lazy').then((d) => d.Route),
+  )
+const OperationsPlayersIndexLazyRoute =
+  OperationsPlayersIndexLazyRouteImport.update({
+    id: '/players/',
+    path: '/players/',
+    getParentRoute: () => OperationsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/operations/players/index.lazy').then((d) => d.Route),
   )
 const OperationsLibraryIndexLazyRoute =
   OperationsLibraryIndexLazyRouteImport.update({
@@ -882,6 +893,7 @@ export interface FileRoutesByFullPath {
   '/operations/fees': typeof OperationsFeesIndexLazyRoute
   '/operations/hostel': typeof OperationsHostelIndexLazyRoute
   '/operations/library': typeof OperationsLibraryIndexLazyRoute
+  '/operations/players': typeof OperationsPlayersIndexLazyRoute
   '/operations/sports': typeof OperationsSportsIndexLazyRoute
   '/operations/transport': typeof OperationsTransportIndexLazyRoute
   '/reports/attendance': typeof ReportsAttendanceIndexLazyRoute
@@ -953,6 +965,7 @@ export interface FileRoutesByTo {
   '/operations/fees': typeof OperationsFeesIndexLazyRoute
   '/operations/hostel': typeof OperationsHostelIndexLazyRoute
   '/operations/library': typeof OperationsLibraryIndexLazyRoute
+  '/operations/players': typeof OperationsPlayersIndexLazyRoute
   '/operations/sports': typeof OperationsSportsIndexLazyRoute
   '/operations/transport': typeof OperationsTransportIndexLazyRoute
   '/reports/attendance': typeof ReportsAttendanceIndexLazyRoute
@@ -1031,6 +1044,7 @@ export interface FileRoutesById {
   '/operations/fees/': typeof OperationsFeesIndexLazyRoute
   '/operations/hostel/': typeof OperationsHostelIndexLazyRoute
   '/operations/library/': typeof OperationsLibraryIndexLazyRoute
+  '/operations/players/': typeof OperationsPlayersIndexLazyRoute
   '/operations/sports/': typeof OperationsSportsIndexLazyRoute
   '/operations/transport/': typeof OperationsTransportIndexLazyRoute
   '/reports/attendance/': typeof ReportsAttendanceIndexLazyRoute
@@ -1110,6 +1124,7 @@ export interface FileRouteTypes {
     | '/operations/fees'
     | '/operations/hostel'
     | '/operations/library'
+    | '/operations/players'
     | '/operations/sports'
     | '/operations/transport'
     | '/reports/attendance'
@@ -1181,6 +1196,7 @@ export interface FileRouteTypes {
     | '/operations/fees'
     | '/operations/hostel'
     | '/operations/library'
+    | '/operations/players'
     | '/operations/sports'
     | '/operations/transport'
     | '/reports/attendance'
@@ -1258,6 +1274,7 @@ export interface FileRouteTypes {
     | '/operations/fees/'
     | '/operations/hostel/'
     | '/operations/library/'
+    | '/operations/players/'
     | '/operations/sports/'
     | '/operations/transport/'
     | '/reports/attendance/'
@@ -1451,6 +1468,13 @@ declare module '@tanstack/react-router' {
       path: '/sports'
       fullPath: '/operations/sports'
       preLoaderRoute: typeof OperationsSportsIndexLazyRouteImport
+      parentRoute: typeof OperationsRouteLazyRoute
+    }
+    '/operations/players/': {
+      id: '/operations/players/'
+      path: '/players'
+      fullPath: '/operations/players'
+      preLoaderRoute: typeof OperationsPlayersIndexLazyRouteImport
       parentRoute: typeof OperationsRouteLazyRoute
     }
     '/operations/library/': {
@@ -1959,6 +1983,7 @@ interface OperationsRouteLazyRouteChildren {
   OperationsFeesIndexLazyRoute: typeof OperationsFeesIndexLazyRoute
   OperationsHostelIndexLazyRoute: typeof OperationsHostelIndexLazyRoute
   OperationsLibraryIndexLazyRoute: typeof OperationsLibraryIndexLazyRoute
+  OperationsPlayersIndexLazyRoute: typeof OperationsPlayersIndexLazyRoute
   OperationsSportsIndexLazyRoute: typeof OperationsSportsIndexLazyRoute
   OperationsTransportIndexLazyRoute: typeof OperationsTransportIndexLazyRoute
   OperationsFeesCollectFeesIndexLazyRoute: typeof OperationsFeesCollectFeesIndexLazyRoute
@@ -1985,6 +2010,7 @@ const OperationsRouteLazyRouteChildren: OperationsRouteLazyRouteChildren = {
   OperationsFeesIndexLazyRoute: OperationsFeesIndexLazyRoute,
   OperationsHostelIndexLazyRoute: OperationsHostelIndexLazyRoute,
   OperationsLibraryIndexLazyRoute: OperationsLibraryIndexLazyRoute,
+  OperationsPlayersIndexLazyRoute: OperationsPlayersIndexLazyRoute,
   OperationsSportsIndexLazyRoute: OperationsSportsIndexLazyRoute,
   OperationsTransportIndexLazyRoute: OperationsTransportIndexLazyRoute,
   OperationsFeesCollectFeesIndexLazyRoute:

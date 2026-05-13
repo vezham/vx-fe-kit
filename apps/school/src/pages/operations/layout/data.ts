@@ -78,6 +78,12 @@ export const operationsSidebarItems: AcademicMenuItem[] = [
     icon: 'lucide:users'
   },
   {
+    key: 'players',
+    title: 'Players',
+    href: '/operations/players',
+    icon: 'lucide:users'
+  },
+  {
     key: 'hostel',
     title: 'Hostel',
     href: '/operations/hostel',
@@ -204,6 +210,7 @@ export const createLabelsByPageKey: Record<string, string> = {
   'issue-book': 'Issue Book',
   return: 'Return Book',
   sports: 'Add Sport',
+  players: 'Add Players',
   'hostel-list': 'Add Hostel',
   'hostel-room': 'Add Hostel Rooms',
   'room-type': 'Add Room Type',
