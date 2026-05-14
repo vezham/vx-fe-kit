@@ -8,6 +8,13 @@ import type {
 
 const columns: OperationColumn[] = [
   {
+    key: 'displayId',
+    label: 'ID',
+    type: 'link',
+    allowsSorting: true,
+    minWidth: 120
+  },
+  {
     key: 'feesGroup',
     label: 'Fees Group',
     type: 'text',
@@ -57,7 +64,7 @@ const rows: OperationRow[] = [
   {
     id: 'fees-group-3',
     createdAt: '2026-05-08',
-    displayId: 'FG8048-1',
+    displayId: 'FG80479',
     feesGroup: 'Class 1 Lump Sum',
     description: 'The money that you pay to be taught',
     status: 'Active'
@@ -65,7 +72,7 @@ const rows: OperationRow[] = [
   {
     id: 'fees-group-4',
     createdAt: '2026-05-07',
-    displayId: 'FG8048-2',
+    displayId: 'FG80478',
     feesGroup: 'Class 1- I Installment',
     description: 'The money that you pay to be taught',
     status: 'Inactive'
@@ -73,7 +80,7 @@ const rows: OperationRow[] = [
   {
     id: 'fees-group-5',
     createdAt: '2026-05-06',
-    displayId: 'FG8048-3',
+    displayId: 'FG80477',
     feesGroup: 'Class 1-II Installment',
     description: 'The money that you pay to be taught',
     status: 'Active'
@@ -81,7 +88,7 @@ const rows: OperationRow[] = [
   {
     id: 'fees-group-6',
     createdAt: '2026-05-05',
-    displayId: 'FG8048-4',
+    displayId: 'FG80476',
     feesGroup: 'Class 1-III Installment',
     description: 'The money that you pay to be taught',
     status: 'Active'
@@ -89,7 +96,7 @@ const rows: OperationRow[] = [
   {
     id: 'fees-group-7',
     createdAt: '2026-05-11',
-    displayId: 'FG8048-5',
+    displayId: 'FG80475',
     feesGroup: 'Discount',
     description: 'The money that you pay to be taught',
     status: 'Inactive'
@@ -97,7 +104,7 @@ const rows: OperationRow[] = [
   {
     id: 'fees-group-8',
     createdAt: '2026-05-10',
-    displayId: 'FG8048-6',
+    displayId: 'FG80474',
     feesGroup: 'Class 3- I Installment',
     description: 'The money that you pay to be taught',
     status: 'Active'
@@ -105,7 +112,7 @@ const rows: OperationRow[] = [
   {
     id: 'fees-group-9',
     createdAt: '2026-05-09',
-    displayId: 'FG8048-7',
+    displayId: 'FG80473',
     feesGroup: 'Class 4- I Installment',
     description: 'The money that you pay to be taught',
     status: 'Active'
@@ -128,6 +135,7 @@ export const feesGroupConfig = makeConfig({
       label: 'Id',
       values: rows.map(row => row.displayId)
     },
+
     {
       key: 'name',
       label: 'Name',

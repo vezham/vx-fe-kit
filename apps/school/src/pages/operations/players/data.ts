@@ -160,13 +160,13 @@ const rows: OperationRow[] = [
 ]
 
 export const sportsConfig = makeConfig({
-  key: 'sports',
-  title: 'Sports',
-  pageTitle: 'Sports',
-  listTitle: 'Sports',
-  addLabel: 'Add Sport',
-  ariaLabel: 'Sports',
-  breadcrumb: ['Dashboard', 'Management', 'Sports'],
+  key: 'players',
+  title: 'Players',
+  pageTitle: 'Players',
+  listTitle: 'Players',
+  addLabel: 'Add Players',
+  ariaLabel: 'Players',
+  breadcrumb: ['Dashboard', 'Management', 'Players'],
   columns,
   rows,
   filters: [
