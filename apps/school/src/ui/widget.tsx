@@ -28,7 +28,8 @@ const widgetVariants = tv({
 })
 
 export interface WidgetProps
-  extends React.HTMLAttributes<HTMLDivElement>,
+  extends
+    React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof widgetVariants> {
   asChild?: boolean
 }
