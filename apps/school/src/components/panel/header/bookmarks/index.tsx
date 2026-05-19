@@ -475,9 +475,9 @@ const BookmarksDrawer = forwardRef<'div', Props>((props, ref) => {
               variant="ghost"
               className="text-default-600 shrink-0"
               onClick={handleBackToNormalView}>
-              <Icon icon="solar:arrow-left-linear" width={20} />
+              <Icon icon="solar:arrow-left-linear" width={16} />
             </Button>
-            <h2 className="text-xl font-semibold">Quick Access</h2>
+            <h2 className="text-xl font-semibold">All Favorites</h2>
           </div>
         </div>
         <div className="space-y-2">
@@ -486,7 +486,7 @@ const BookmarksDrawer = forwardRef<'div', Props>((props, ref) => {
               key={item.id}
               onClick={() => handleFavoriteClick(item.url, item)}
               className="hover:bg-default-100 focus-visible:ring-primary flex w-full cursor-pointer items-center gap-4 rounded-xl px-3 py-3 text-left transition-colors duration-200 outline-none focus-visible:ring-2">
-              <Avatar className="h-12 w-12 shrink-0">
+              <Avatar className="h-6 w-6 shrink-0">
                 {item.avatar ? (
                   <Avatar.Image src={item.avatar} alt={item.name} />
                 ) : item.backgroundImage ? (
@@ -496,7 +496,7 @@ const BookmarksDrawer = forwardRef<'div', Props>((props, ref) => {
                   <Icon icon="solar:star-bold" className="text-warning" />
                 </Avatar.Fallback>
               </Avatar>
-              <span className="min-w-0 flex-1 truncate text-base font-medium text-black">
+              <span className="font-base min-w-0 flex-1 truncate text-sm text-black">
                 {item.name}
               </span>
             </button>
@@ -611,12 +611,12 @@ const BookmarksDrawer = forwardRef<'div', Props>((props, ref) => {
                         {/* Grid: Flex Wrap with Full 2D Drag Drop */}
                         <section {...getSectionProps()}>
                           <div {...getSectionHeaderProps()}>
-                            <Icon
+                            {/* <Icon
                               {...getSectionIconProps(
                                 'solar:star-bold',
                                 'text-warning'
                               )}
-                            />
+                            /> */}
                             <h3 {...getSectionTitleProps('Favorites')} />
                           </div>
                           <DndContext
@@ -691,12 +691,12 @@ const BookmarksDrawer = forwardRef<'div', Props>((props, ref) => {
                         <section {...getSectionProps()}>
                           <div {...getSectionHeaderProps()}>
                             <div className="flex flex-1 items-center gap-2">
-                              <Icon
+                              {/* <Icon
                                 {...getSectionIconProps(
                                   'solar:star-bold',
                                   'text-warning'
                                 )}
-                              />
+                              /> */}
                               <h3 {...getSectionTitleProps('Quick Access')} />
                             </div>
                             <div className="flex items-center gap-2">
