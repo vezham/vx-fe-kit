@@ -27,6 +27,23 @@ export interface BookmarkItem {
   folder?: string
 }
 
+export interface BookmarkTreeItem {
+  id: string
+  title: string
+  kind: 'bookmark' | 'folder'
+  bookmark?: BookmarkItem
+  children?: BookmarkTreeItem[]
+}
+
+export type TreeKey = string | number
+export type TreeSelection = 'all' | Set<TreeKey>
+
+export interface BookmarkFileTreeNode {
+  key: TreeKey
+  value: BookmarkTreeItem
+  children?: BookmarkFileTreeNode[] | null
+}
+
 export interface FavoriteItemRendererProps {
   item: FavoriteItem
   onItemClick?: (url: string) => void
@@ -47,6 +64,9 @@ interface Props extends tvProps, HTMLHeroUIProps<'div'> {
   bookmarks?: BookmarkItem[]
   onFavoriteClick?: (url: string, item: FavoriteItem) => void
   onBookmarkClick?: (url: string, item: BookmarkItem) => void
+  onFavoritesReorder?: (newFavorites: FavoriteItem[]) => void
+  onBookmarksReorder?: (newBookmarks: BookmarkItem[]) => void
+  onFolderReorder?: (newBookmarks: BookmarkItem[]) => void
   renderFavoriteItem?: (props: FavoriteItemRendererProps) => ReactNode
   renderBookmarkItem?: (props: BookmarkItemRendererProps) => ReactNode
   renderFolderItem?: (
@@ -61,7 +81,6 @@ const useProps = (originalProps: Props) => {
 
   const {
     as,
-    id,
     ref,
     children,
     className,
@@ -73,10 +92,12 @@ const useProps = (originalProps: Props) => {
     bookmarks: externalBookmarks,
     onFavoriteClick,
     onBookmarkClick,
+    onFavoritesReorder,
+    onBookmarksReorder,
+    onFolderReorder,
     renderFavoriteItem,
     renderBookmarkItem,
-    renderFolderItem,
-    ...otherProps
+    renderFolderItem
   } = props
 
   const Component = as || 'div'
@@ -168,10 +189,17 @@ const useProps = (originalProps: Props) => {
     className: slots.favorites_grid({ class: classNames?.favorites_grid })
   })
 
+  const getFavorites2GridProps: PropGetter = () => ({
+    className: slots.favorites_grid2({ class: classNames?.favorites_grid2 })
+  })
+
   const getFavoriteItemProps: PropGetter = () => ({
     className: slots.favorite_item({ class: classNames?.favorite_item })
   })
 
+  const getFavorite2ItemsProps: PropGetter = () => ({
+    className: slots.favorite_item2({ class: classNames?.favorite_item2 })
+  })
   const getFavoriteBackgroundImageProps: PropGetter = (
     src: string,
     alt: string
@@ -268,6 +296,22 @@ const useProps = (originalProps: Props) => {
     className: slots.bookmark_arrow({ class: classNames?.bookmark_arrow })
   })
 
+  const getBookmarkDeleteButtonProps: PropGetter = () => ({
+    className: slots.bookmark_delete_button({
+      class: classNames?.bookmark_delete_button
+    })
+  })
+
+  const getFileTreeProps: PropGetter = () => ({
+    className: slots.file_tree({ class: classNames?.file_tree })
+  })
+
+  const getBookmarkTreeEmptyStateProps: PropGetter = () => ({
+    className: slots.bookmark_tree_empty_state({
+      class: classNames?.bookmark_tree_empty_state
+    })
+  })
+
   const getFolderAccordionProps: PropGetter = () => ({
     variant: 'light' as const,
     selectionMode: 'multiple' as const,
@@ -342,6 +386,8 @@ const useProps = (originalProps: Props) => {
     getSectionTitleProps,
     getFavoritesGridProps,
     getFavoriteItemProps,
+    getFavorites2GridProps,
+    getFavorite2ItemsProps,
     getFavoriteBackgroundImageProps,
     getFavoriteBackgroundGradientProps,
     getFavoriteOverlayProps,
@@ -359,6 +405,9 @@ const useProps = (originalProps: Props) => {
     getBookmarkNameProps,
     getBookmarkUrlProps,
     getBookmarkArrowProps,
+    getBookmarkDeleteButtonProps,
+    getFileTreeProps,
+    getBookmarkTreeEmptyStateProps,
     getFolderAccordionProps,
     getFolderItemProps,
     getFolderHeadingProps,
@@ -377,6 +426,9 @@ const useProps = (originalProps: Props) => {
     externalBookmarks,
     onFavoriteClick,
     onBookmarkClick,
+    onFavoritesReorder,
+    onBookmarksReorder,
+    onFolderReorder,
     renderFavoriteItem,
     renderBookmarkItem,
     renderFolderItem

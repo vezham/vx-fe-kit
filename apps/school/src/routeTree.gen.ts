@@ -546,9 +546,9 @@ const ReportsAttendanceStudentsAttendanceTypeIndexLazyRoute =
     path: '/attendance/students-attendance-type/',
     getParentRoute: () => ReportsRouteLazyRoute,
   } as any).lazy(() =>
-    import(
-      './routes/reports/attendance/students-attendance-type/index.lazy'
-    ).then((d) => d.Route),
+    import('./routes/reports/attendance/students-attendance-type/index.lazy').then(
+      (d) => d.Route,
+    ),
   )
 const ReportsAttendanceStudentDayWiseIndexLazyRoute =
   ReportsAttendanceStudentDayWiseIndexLazyRouteImport.update({
@@ -869,73 +869,73 @@ export interface FileRoutesByFullPath {
   '/academic1/examinations': typeof Academic1ExaminationsRouteLazyRouteWithChildren
   '/academic/': typeof AcademicIndexLazyRoute
   '/academic1/': typeof Academic1IndexLazyRoute
-  '/channels': typeof ChannelsIndexLazyRoute
+  '/channels/': typeof ChannelsIndexLazyRoute
   '/operations/': typeof OperationsIndexLazyRoute
   '/reports/': typeof ReportsIndexLazyRoute
-  '/academic/classroom': typeof AcademicClassroomIndexLazyRoute
-  '/academic/classroutine': typeof AcademicClassroutineIndexLazyRoute
-  '/academic/homework': typeof AcademicHomeworkIndexLazyRoute
-  '/academic/reasons': typeof AcademicReasonsIndexLazyRoute
-  '/academic/section': typeof AcademicSectionIndexLazyRoute
-  '/academic/subject': typeof AcademicSubjectIndexLazyRoute
-  '/academic/syllabus': typeof AcademicSyllabusIndexLazyRoute
-  '/academic/timetable': typeof AcademicTimetableIndexLazyRoute
+  '/academic/classroom/': typeof AcademicClassroomIndexLazyRoute
+  '/academic/classroutine/': typeof AcademicClassroutineIndexLazyRoute
+  '/academic/homework/': typeof AcademicHomeworkIndexLazyRoute
+  '/academic/reasons/': typeof AcademicReasonsIndexLazyRoute
+  '/academic/section/': typeof AcademicSectionIndexLazyRoute
+  '/academic/subject/': typeof AcademicSubjectIndexLazyRoute
+  '/academic/syllabus/': typeof AcademicSyllabusIndexLazyRoute
+  '/academic/timetable/': typeof AcademicTimetableIndexLazyRoute
   '/academic1/classes/': typeof Academic1ClassesIndexLazyRoute
-  '/academic1/classroom': typeof Academic1ClassroomIndexLazyRoute
-  '/academic1/classroutine': typeof Academic1ClassroutineIndexLazyRoute
+  '/academic1/classroom/': typeof Academic1ClassroomIndexLazyRoute
+  '/academic1/classroutine/': typeof Academic1ClassroutineIndexLazyRoute
   '/academic1/examinations/': typeof Academic1ExaminationsIndexLazyRoute
-  '/academic1/homework': typeof Academic1HomeworkIndexLazyRoute
-  '/academic1/reasons': typeof Academic1ReasonsIndexLazyRoute
-  '/academic1/section': typeof Academic1SectionIndexLazyRoute
-  '/academic1/subject': typeof Academic1SubjectIndexLazyRoute
-  '/academic1/syllabus': typeof Academic1SyllabusIndexLazyRoute
-  '/academic1/timetable': typeof Academic1TimetableIndexLazyRoute
-  '/operations/fees': typeof OperationsFeesIndexLazyRoute
-  '/operations/hostel': typeof OperationsHostelIndexLazyRoute
-  '/operations/library': typeof OperationsLibraryIndexLazyRoute
-  '/operations/players': typeof OperationsPlayersIndexLazyRoute
-  '/operations/sports': typeof OperationsSportsIndexLazyRoute
-  '/operations/transport': typeof OperationsTransportIndexLazyRoute
-  '/reports/attendance': typeof ReportsAttendanceIndexLazyRoute
-  '/reports/class': typeof ReportsClassIndexLazyRoute
-  '/reports/fees': typeof ReportsFeesIndexLazyRoute
-  '/reports/grade': typeof ReportsGradeIndexLazyRoute
-  '/reports/leave': typeof ReportsLeaveIndexLazyRoute
-  '/reports/student': typeof ReportsStudentIndexLazyRoute
-  '/academic/classes/allclasses': typeof AcademicClassesAllclassesIndexLazyRoute
-  '/academic/classes/schedule': typeof AcademicClassesScheduleIndexLazyRoute
-  '/academic1/classes/allclasses': typeof Academic1ClassesAllclassesIndexLazyRoute
-  '/academic1/classes/schedule': typeof Academic1ClassesScheduleIndexLazyRoute
-  '/academic1/examinations/exam-attendance': typeof Academic1ExaminationsExamAttendanceIndexLazyRoute
-  '/academic1/examinations/exam-results': typeof Academic1ExaminationsExamResultsIndexLazyRoute
-  '/academic1/examinations/exam-schedule': typeof Academic1ExaminationsExamScheduleIndexLazyRoute
-  '/academic1/examinations/exam': typeof Academic1ExaminationsExamIndexLazyRoute
-  '/academic1/examinations/grades': typeof Academic1ExaminationsGradesIndexLazyRoute
-  '/operations/fees/collect-fees': typeof OperationsFeesCollectFeesIndexLazyRoute
-  '/operations/fees/fees-assign': typeof OperationsFeesFeesAssignIndexLazyRoute
-  '/operations/fees/fees-group': typeof OperationsFeesFeesGroupIndexLazyRoute
-  '/operations/fees/fees-master': typeof OperationsFeesFeesMasterIndexLazyRoute
-  '/operations/fees/fees-type': typeof OperationsFeesFeesTypeIndexLazyRoute
-  '/operations/hostel/hostel-list': typeof OperationsHostelHostelListIndexLazyRoute
-  '/operations/hostel/hostel-room': typeof OperationsHostelHostelRoomIndexLazyRoute
-  '/operations/hostel/room-type': typeof OperationsHostelRoomTypeIndexLazyRoute
-  '/operations/library/books': typeof OperationsLibraryBooksIndexLazyRoute
-  '/operations/library/issue-book': typeof OperationsLibraryIssueBookIndexLazyRoute
-  '/operations/library/members': typeof OperationsLibraryMembersIndexLazyRoute
-  '/operations/library/return': typeof OperationsLibraryReturnIndexLazyRoute
-  '/operations/transport/assign': typeof OperationsTransportAssignIndexLazyRoute
-  '/operations/transport/pickup-points': typeof OperationsTransportPickupPointsIndexLazyRoute
-  '/operations/transport/routes': typeof OperationsTransportRoutesIndexLazyRoute
-  '/operations/transport/vehicle-drivers': typeof OperationsTransportVehicleDriversIndexLazyRoute
-  '/operations/transport/vehicles': typeof OperationsTransportVehiclesIndexLazyRoute
-  '/reports/attendance/attendance-report': typeof ReportsAttendanceAttendanceReportIndexLazyRoute
-  '/reports/attendance/daily-attendance': typeof ReportsAttendanceDailyAttendanceIndexLazyRoute
-  '/reports/attendance/staff-day-wise': typeof ReportsAttendanceStaffDayWiseIndexLazyRoute
-  '/reports/attendance/staff-report': typeof ReportsAttendanceStaffReportIndexLazyRoute
-  '/reports/attendance/student-day-wise': typeof ReportsAttendanceStudentDayWiseIndexLazyRoute
-  '/reports/attendance/students-attendance-type': typeof ReportsAttendanceStudentsAttendanceTypeIndexLazyRoute
-  '/reports/attendance/teacher-day-wise': typeof ReportsAttendanceTeacherDayWiseIndexLazyRoute
-  '/reports/attendance/teacher-report': typeof ReportsAttendanceTeacherReportIndexLazyRoute
+  '/academic1/homework/': typeof Academic1HomeworkIndexLazyRoute
+  '/academic1/reasons/': typeof Academic1ReasonsIndexLazyRoute
+  '/academic1/section/': typeof Academic1SectionIndexLazyRoute
+  '/academic1/subject/': typeof Academic1SubjectIndexLazyRoute
+  '/academic1/syllabus/': typeof Academic1SyllabusIndexLazyRoute
+  '/academic1/timetable/': typeof Academic1TimetableIndexLazyRoute
+  '/operations/fees/': typeof OperationsFeesIndexLazyRoute
+  '/operations/hostel/': typeof OperationsHostelIndexLazyRoute
+  '/operations/library/': typeof OperationsLibraryIndexLazyRoute
+  '/operations/players/': typeof OperationsPlayersIndexLazyRoute
+  '/operations/sports/': typeof OperationsSportsIndexLazyRoute
+  '/operations/transport/': typeof OperationsTransportIndexLazyRoute
+  '/reports/attendance/': typeof ReportsAttendanceIndexLazyRoute
+  '/reports/class/': typeof ReportsClassIndexLazyRoute
+  '/reports/fees/': typeof ReportsFeesIndexLazyRoute
+  '/reports/grade/': typeof ReportsGradeIndexLazyRoute
+  '/reports/leave/': typeof ReportsLeaveIndexLazyRoute
+  '/reports/student/': typeof ReportsStudentIndexLazyRoute
+  '/academic/classes/allclasses/': typeof AcademicClassesAllclassesIndexLazyRoute
+  '/academic/classes/schedule/': typeof AcademicClassesScheduleIndexLazyRoute
+  '/academic1/classes/allclasses/': typeof Academic1ClassesAllclassesIndexLazyRoute
+  '/academic1/classes/schedule/': typeof Academic1ClassesScheduleIndexLazyRoute
+  '/academic1/examinations/exam-attendance/': typeof Academic1ExaminationsExamAttendanceIndexLazyRoute
+  '/academic1/examinations/exam-results/': typeof Academic1ExaminationsExamResultsIndexLazyRoute
+  '/academic1/examinations/exam-schedule/': typeof Academic1ExaminationsExamScheduleIndexLazyRoute
+  '/academic1/examinations/exam/': typeof Academic1ExaminationsExamIndexLazyRoute
+  '/academic1/examinations/grades/': typeof Academic1ExaminationsGradesIndexLazyRoute
+  '/operations/fees/collect-fees/': typeof OperationsFeesCollectFeesIndexLazyRoute
+  '/operations/fees/fees-assign/': typeof OperationsFeesFeesAssignIndexLazyRoute
+  '/operations/fees/fees-group/': typeof OperationsFeesFeesGroupIndexLazyRoute
+  '/operations/fees/fees-master/': typeof OperationsFeesFeesMasterIndexLazyRoute
+  '/operations/fees/fees-type/': typeof OperationsFeesFeesTypeIndexLazyRoute
+  '/operations/hostel/hostel-list/': typeof OperationsHostelHostelListIndexLazyRoute
+  '/operations/hostel/hostel-room/': typeof OperationsHostelHostelRoomIndexLazyRoute
+  '/operations/hostel/room-type/': typeof OperationsHostelRoomTypeIndexLazyRoute
+  '/operations/library/books/': typeof OperationsLibraryBooksIndexLazyRoute
+  '/operations/library/issue-book/': typeof OperationsLibraryIssueBookIndexLazyRoute
+  '/operations/library/members/': typeof OperationsLibraryMembersIndexLazyRoute
+  '/operations/library/return/': typeof OperationsLibraryReturnIndexLazyRoute
+  '/operations/transport/assign/': typeof OperationsTransportAssignIndexLazyRoute
+  '/operations/transport/pickup-points/': typeof OperationsTransportPickupPointsIndexLazyRoute
+  '/operations/transport/routes/': typeof OperationsTransportRoutesIndexLazyRoute
+  '/operations/transport/vehicle-drivers/': typeof OperationsTransportVehicleDriversIndexLazyRoute
+  '/operations/transport/vehicles/': typeof OperationsTransportVehiclesIndexLazyRoute
+  '/reports/attendance/attendance-report/': typeof ReportsAttendanceAttendanceReportIndexLazyRoute
+  '/reports/attendance/daily-attendance/': typeof ReportsAttendanceDailyAttendanceIndexLazyRoute
+  '/reports/attendance/staff-day-wise/': typeof ReportsAttendanceStaffDayWiseIndexLazyRoute
+  '/reports/attendance/staff-report/': typeof ReportsAttendanceStaffReportIndexLazyRoute
+  '/reports/attendance/student-day-wise/': typeof ReportsAttendanceStudentDayWiseIndexLazyRoute
+  '/reports/attendance/students-attendance-type/': typeof ReportsAttendanceStudentsAttendanceTypeIndexLazyRoute
+  '/reports/attendance/teacher-day-wise/': typeof ReportsAttendanceTeacherDayWiseIndexLazyRoute
+  '/reports/attendance/teacher-report/': typeof ReportsAttendanceTeacherReportIndexLazyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
@@ -1100,73 +1100,73 @@ export interface FileRouteTypes {
     | '/academic1/examinations'
     | '/academic/'
     | '/academic1/'
-    | '/channels'
+    | '/channels/'
     | '/operations/'
     | '/reports/'
-    | '/academic/classroom'
-    | '/academic/classroutine'
-    | '/academic/homework'
-    | '/academic/reasons'
-    | '/academic/section'
-    | '/academic/subject'
-    | '/academic/syllabus'
-    | '/academic/timetable'
+    | '/academic/classroom/'
+    | '/academic/classroutine/'
+    | '/academic/homework/'
+    | '/academic/reasons/'
+    | '/academic/section/'
+    | '/academic/subject/'
+    | '/academic/syllabus/'
+    | '/academic/timetable/'
     | '/academic1/classes/'
-    | '/academic1/classroom'
-    | '/academic1/classroutine'
+    | '/academic1/classroom/'
+    | '/academic1/classroutine/'
     | '/academic1/examinations/'
-    | '/academic1/homework'
-    | '/academic1/reasons'
-    | '/academic1/section'
-    | '/academic1/subject'
-    | '/academic1/syllabus'
-    | '/academic1/timetable'
-    | '/operations/fees'
-    | '/operations/hostel'
-    | '/operations/library'
-    | '/operations/players'
-    | '/operations/sports'
-    | '/operations/transport'
-    | '/reports/attendance'
-    | '/reports/class'
-    | '/reports/fees'
-    | '/reports/grade'
-    | '/reports/leave'
-    | '/reports/student'
-    | '/academic/classes/allclasses'
-    | '/academic/classes/schedule'
-    | '/academic1/classes/allclasses'
-    | '/academic1/classes/schedule'
-    | '/academic1/examinations/exam-attendance'
-    | '/academic1/examinations/exam-results'
-    | '/academic1/examinations/exam-schedule'
-    | '/academic1/examinations/exam'
-    | '/academic1/examinations/grades'
-    | '/operations/fees/collect-fees'
-    | '/operations/fees/fees-assign'
-    | '/operations/fees/fees-group'
-    | '/operations/fees/fees-master'
-    | '/operations/fees/fees-type'
-    | '/operations/hostel/hostel-list'
-    | '/operations/hostel/hostel-room'
-    | '/operations/hostel/room-type'
-    | '/operations/library/books'
-    | '/operations/library/issue-book'
-    | '/operations/library/members'
-    | '/operations/library/return'
-    | '/operations/transport/assign'
-    | '/operations/transport/pickup-points'
-    | '/operations/transport/routes'
-    | '/operations/transport/vehicle-drivers'
-    | '/operations/transport/vehicles'
-    | '/reports/attendance/attendance-report'
-    | '/reports/attendance/daily-attendance'
-    | '/reports/attendance/staff-day-wise'
-    | '/reports/attendance/staff-report'
-    | '/reports/attendance/student-day-wise'
-    | '/reports/attendance/students-attendance-type'
-    | '/reports/attendance/teacher-day-wise'
-    | '/reports/attendance/teacher-report'
+    | '/academic1/homework/'
+    | '/academic1/reasons/'
+    | '/academic1/section/'
+    | '/academic1/subject/'
+    | '/academic1/syllabus/'
+    | '/academic1/timetable/'
+    | '/operations/fees/'
+    | '/operations/hostel/'
+    | '/operations/library/'
+    | '/operations/players/'
+    | '/operations/sports/'
+    | '/operations/transport/'
+    | '/reports/attendance/'
+    | '/reports/class/'
+    | '/reports/fees/'
+    | '/reports/grade/'
+    | '/reports/leave/'
+    | '/reports/student/'
+    | '/academic/classes/allclasses/'
+    | '/academic/classes/schedule/'
+    | '/academic1/classes/allclasses/'
+    | '/academic1/classes/schedule/'
+    | '/academic1/examinations/exam-attendance/'
+    | '/academic1/examinations/exam-results/'
+    | '/academic1/examinations/exam-schedule/'
+    | '/academic1/examinations/exam/'
+    | '/academic1/examinations/grades/'
+    | '/operations/fees/collect-fees/'
+    | '/operations/fees/fees-assign/'
+    | '/operations/fees/fees-group/'
+    | '/operations/fees/fees-master/'
+    | '/operations/fees/fees-type/'
+    | '/operations/hostel/hostel-list/'
+    | '/operations/hostel/hostel-room/'
+    | '/operations/hostel/room-type/'
+    | '/operations/library/books/'
+    | '/operations/library/issue-book/'
+    | '/operations/library/members/'
+    | '/operations/library/return/'
+    | '/operations/transport/assign/'
+    | '/operations/transport/pickup-points/'
+    | '/operations/transport/routes/'
+    | '/operations/transport/vehicle-drivers/'
+    | '/operations/transport/vehicles/'
+    | '/reports/attendance/attendance-report/'
+    | '/reports/attendance/daily-attendance/'
+    | '/reports/attendance/staff-day-wise/'
+    | '/reports/attendance/staff-report/'
+    | '/reports/attendance/student-day-wise/'
+    | '/reports/attendance/students-attendance-type/'
+    | '/reports/attendance/teacher-day-wise/'
+    | '/reports/attendance/teacher-report/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -1382,7 +1382,7 @@ declare module '@tanstack/react-router' {
     '/channels/': {
       id: '/channels/'
       path: '/channels'
-      fullPath: '/channels'
+      fullPath: '/channels/'
       preLoaderRoute: typeof ChannelsIndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
@@ -1417,126 +1417,126 @@ declare module '@tanstack/react-router' {
     '/reports/student/': {
       id: '/reports/student/'
       path: '/student'
-      fullPath: '/reports/student'
+      fullPath: '/reports/student/'
       preLoaderRoute: typeof ReportsStudentIndexLazyRouteImport
       parentRoute: typeof ReportsRouteLazyRoute
     }
     '/reports/leave/': {
       id: '/reports/leave/'
       path: '/leave'
-      fullPath: '/reports/leave'
+      fullPath: '/reports/leave/'
       preLoaderRoute: typeof ReportsLeaveIndexLazyRouteImport
       parentRoute: typeof ReportsRouteLazyRoute
     }
     '/reports/grade/': {
       id: '/reports/grade/'
       path: '/grade'
-      fullPath: '/reports/grade'
+      fullPath: '/reports/grade/'
       preLoaderRoute: typeof ReportsGradeIndexLazyRouteImport
       parentRoute: typeof ReportsRouteLazyRoute
     }
     '/reports/fees/': {
       id: '/reports/fees/'
       path: '/fees'
-      fullPath: '/reports/fees'
+      fullPath: '/reports/fees/'
       preLoaderRoute: typeof ReportsFeesIndexLazyRouteImport
       parentRoute: typeof ReportsRouteLazyRoute
     }
     '/reports/class/': {
       id: '/reports/class/'
       path: '/class'
-      fullPath: '/reports/class'
+      fullPath: '/reports/class/'
       preLoaderRoute: typeof ReportsClassIndexLazyRouteImport
       parentRoute: typeof ReportsRouteLazyRoute
     }
     '/reports/attendance/': {
       id: '/reports/attendance/'
       path: '/attendance'
-      fullPath: '/reports/attendance'
+      fullPath: '/reports/attendance/'
       preLoaderRoute: typeof ReportsAttendanceIndexLazyRouteImport
       parentRoute: typeof ReportsRouteLazyRoute
     }
     '/operations/transport/': {
       id: '/operations/transport/'
       path: '/transport'
-      fullPath: '/operations/transport'
+      fullPath: '/operations/transport/'
       preLoaderRoute: typeof OperationsTransportIndexLazyRouteImport
       parentRoute: typeof OperationsRouteLazyRoute
     }
     '/operations/sports/': {
       id: '/operations/sports/'
       path: '/sports'
-      fullPath: '/operations/sports'
+      fullPath: '/operations/sports/'
       preLoaderRoute: typeof OperationsSportsIndexLazyRouteImport
       parentRoute: typeof OperationsRouteLazyRoute
     }
     '/operations/players/': {
       id: '/operations/players/'
       path: '/players'
-      fullPath: '/operations/players'
+      fullPath: '/operations/players/'
       preLoaderRoute: typeof OperationsPlayersIndexLazyRouteImport
       parentRoute: typeof OperationsRouteLazyRoute
     }
     '/operations/library/': {
       id: '/operations/library/'
       path: '/library'
-      fullPath: '/operations/library'
+      fullPath: '/operations/library/'
       preLoaderRoute: typeof OperationsLibraryIndexLazyRouteImport
       parentRoute: typeof OperationsRouteLazyRoute
     }
     '/operations/hostel/': {
       id: '/operations/hostel/'
       path: '/hostel'
-      fullPath: '/operations/hostel'
+      fullPath: '/operations/hostel/'
       preLoaderRoute: typeof OperationsHostelIndexLazyRouteImport
       parentRoute: typeof OperationsRouteLazyRoute
     }
     '/operations/fees/': {
       id: '/operations/fees/'
       path: '/fees'
-      fullPath: '/operations/fees'
+      fullPath: '/operations/fees/'
       preLoaderRoute: typeof OperationsFeesIndexLazyRouteImport
       parentRoute: typeof OperationsRouteLazyRoute
     }
     '/academic1/timetable/': {
       id: '/academic1/timetable/'
       path: '/timetable'
-      fullPath: '/academic1/timetable'
+      fullPath: '/academic1/timetable/'
       preLoaderRoute: typeof Academic1TimetableIndexLazyRouteImport
       parentRoute: typeof Academic1RouteLazyRoute
     }
     '/academic1/syllabus/': {
       id: '/academic1/syllabus/'
       path: '/syllabus'
-      fullPath: '/academic1/syllabus'
+      fullPath: '/academic1/syllabus/'
       preLoaderRoute: typeof Academic1SyllabusIndexLazyRouteImport
       parentRoute: typeof Academic1RouteLazyRoute
     }
     '/academic1/subject/': {
       id: '/academic1/subject/'
       path: '/subject'
-      fullPath: '/academic1/subject'
+      fullPath: '/academic1/subject/'
       preLoaderRoute: typeof Academic1SubjectIndexLazyRouteImport
       parentRoute: typeof Academic1RouteLazyRoute
     }
     '/academic1/section/': {
       id: '/academic1/section/'
       path: '/section'
-      fullPath: '/academic1/section'
+      fullPath: '/academic1/section/'
       preLoaderRoute: typeof Academic1SectionIndexLazyRouteImport
       parentRoute: typeof Academic1RouteLazyRoute
     }
     '/academic1/reasons/': {
       id: '/academic1/reasons/'
       path: '/reasons'
-      fullPath: '/academic1/reasons'
+      fullPath: '/academic1/reasons/'
       preLoaderRoute: typeof Academic1ReasonsIndexLazyRouteImport
       parentRoute: typeof Academic1RouteLazyRoute
     }
     '/academic1/homework/': {
       id: '/academic1/homework/'
       path: '/homework'
-      fullPath: '/academic1/homework'
+      fullPath: '/academic1/homework/'
       preLoaderRoute: typeof Academic1HomeworkIndexLazyRouteImport
       parentRoute: typeof Academic1RouteLazyRoute
     }
@@ -1550,14 +1550,14 @@ declare module '@tanstack/react-router' {
     '/academic1/classroutine/': {
       id: '/academic1/classroutine/'
       path: '/classroutine'
-      fullPath: '/academic1/classroutine'
+      fullPath: '/academic1/classroutine/'
       preLoaderRoute: typeof Academic1ClassroutineIndexLazyRouteImport
       parentRoute: typeof Academic1RouteLazyRoute
     }
     '/academic1/classroom/': {
       id: '/academic1/classroom/'
       path: '/classroom'
-      fullPath: '/academic1/classroom'
+      fullPath: '/academic1/classroom/'
       preLoaderRoute: typeof Academic1ClassroomIndexLazyRouteImport
       parentRoute: typeof Academic1RouteLazyRoute
     }
@@ -1571,294 +1571,294 @@ declare module '@tanstack/react-router' {
     '/academic/timetable/': {
       id: '/academic/timetable/'
       path: '/timetable'
-      fullPath: '/academic/timetable'
+      fullPath: '/academic/timetable/'
       preLoaderRoute: typeof AcademicTimetableIndexLazyRouteImport
       parentRoute: typeof AcademicRouteLazyRoute
     }
     '/academic/syllabus/': {
       id: '/academic/syllabus/'
       path: '/syllabus'
-      fullPath: '/academic/syllabus'
+      fullPath: '/academic/syllabus/'
       preLoaderRoute: typeof AcademicSyllabusIndexLazyRouteImport
       parentRoute: typeof AcademicRouteLazyRoute
     }
     '/academic/subject/': {
       id: '/academic/subject/'
       path: '/subject'
-      fullPath: '/academic/subject'
+      fullPath: '/academic/subject/'
       preLoaderRoute: typeof AcademicSubjectIndexLazyRouteImport
       parentRoute: typeof AcademicRouteLazyRoute
     }
     '/academic/section/': {
       id: '/academic/section/'
       path: '/section'
-      fullPath: '/academic/section'
+      fullPath: '/academic/section/'
       preLoaderRoute: typeof AcademicSectionIndexLazyRouteImport
       parentRoute: typeof AcademicRouteLazyRoute
     }
     '/academic/reasons/': {
       id: '/academic/reasons/'
       path: '/reasons'
-      fullPath: '/academic/reasons'
+      fullPath: '/academic/reasons/'
       preLoaderRoute: typeof AcademicReasonsIndexLazyRouteImport
       parentRoute: typeof AcademicRouteLazyRoute
     }
     '/academic/homework/': {
       id: '/academic/homework/'
       path: '/homework'
-      fullPath: '/academic/homework'
+      fullPath: '/academic/homework/'
       preLoaderRoute: typeof AcademicHomeworkIndexLazyRouteImport
       parentRoute: typeof AcademicRouteLazyRoute
     }
     '/academic/classroutine/': {
       id: '/academic/classroutine/'
       path: '/classroutine'
-      fullPath: '/academic/classroutine'
+      fullPath: '/academic/classroutine/'
       preLoaderRoute: typeof AcademicClassroutineIndexLazyRouteImport
       parentRoute: typeof AcademicRouteLazyRoute
     }
     '/academic/classroom/': {
       id: '/academic/classroom/'
       path: '/classroom'
-      fullPath: '/academic/classroom'
+      fullPath: '/academic/classroom/'
       preLoaderRoute: typeof AcademicClassroomIndexLazyRouteImport
       parentRoute: typeof AcademicRouteLazyRoute
     }
     '/reports/attendance/teacher-report/': {
       id: '/reports/attendance/teacher-report/'
       path: '/attendance/teacher-report'
-      fullPath: '/reports/attendance/teacher-report'
+      fullPath: '/reports/attendance/teacher-report/'
       preLoaderRoute: typeof ReportsAttendanceTeacherReportIndexLazyRouteImport
       parentRoute: typeof ReportsRouteLazyRoute
     }
     '/reports/attendance/teacher-day-wise/': {
       id: '/reports/attendance/teacher-day-wise/'
       path: '/attendance/teacher-day-wise'
-      fullPath: '/reports/attendance/teacher-day-wise'
+      fullPath: '/reports/attendance/teacher-day-wise/'
       preLoaderRoute: typeof ReportsAttendanceTeacherDayWiseIndexLazyRouteImport
       parentRoute: typeof ReportsRouteLazyRoute
     }
     '/reports/attendance/students-attendance-type/': {
       id: '/reports/attendance/students-attendance-type/'
       path: '/attendance/students-attendance-type'
-      fullPath: '/reports/attendance/students-attendance-type'
+      fullPath: '/reports/attendance/students-attendance-type/'
       preLoaderRoute: typeof ReportsAttendanceStudentsAttendanceTypeIndexLazyRouteImport
       parentRoute: typeof ReportsRouteLazyRoute
     }
     '/reports/attendance/student-day-wise/': {
       id: '/reports/attendance/student-day-wise/'
       path: '/attendance/student-day-wise'
-      fullPath: '/reports/attendance/student-day-wise'
+      fullPath: '/reports/attendance/student-day-wise/'
       preLoaderRoute: typeof ReportsAttendanceStudentDayWiseIndexLazyRouteImport
       parentRoute: typeof ReportsRouteLazyRoute
     }
     '/reports/attendance/staff-report/': {
       id: '/reports/attendance/staff-report/'
       path: '/attendance/staff-report'
-      fullPath: '/reports/attendance/staff-report'
+      fullPath: '/reports/attendance/staff-report/'
       preLoaderRoute: typeof ReportsAttendanceStaffReportIndexLazyRouteImport
       parentRoute: typeof ReportsRouteLazyRoute
     }
     '/reports/attendance/staff-day-wise/': {
       id: '/reports/attendance/staff-day-wise/'
       path: '/attendance/staff-day-wise'
-      fullPath: '/reports/attendance/staff-day-wise'
+      fullPath: '/reports/attendance/staff-day-wise/'
       preLoaderRoute: typeof ReportsAttendanceStaffDayWiseIndexLazyRouteImport
       parentRoute: typeof ReportsRouteLazyRoute
     }
     '/reports/attendance/daily-attendance/': {
       id: '/reports/attendance/daily-attendance/'
       path: '/attendance/daily-attendance'
-      fullPath: '/reports/attendance/daily-attendance'
+      fullPath: '/reports/attendance/daily-attendance/'
       preLoaderRoute: typeof ReportsAttendanceDailyAttendanceIndexLazyRouteImport
       parentRoute: typeof ReportsRouteLazyRoute
     }
     '/reports/attendance/attendance-report/': {
       id: '/reports/attendance/attendance-report/'
       path: '/attendance/attendance-report'
-      fullPath: '/reports/attendance/attendance-report'
+      fullPath: '/reports/attendance/attendance-report/'
       preLoaderRoute: typeof ReportsAttendanceAttendanceReportIndexLazyRouteImport
       parentRoute: typeof ReportsRouteLazyRoute
     }
     '/operations/transport/vehicles/': {
       id: '/operations/transport/vehicles/'
       path: '/transport/vehicles'
-      fullPath: '/operations/transport/vehicles'
+      fullPath: '/operations/transport/vehicles/'
       preLoaderRoute: typeof OperationsTransportVehiclesIndexLazyRouteImport
       parentRoute: typeof OperationsRouteLazyRoute
     }
     '/operations/transport/vehicle-drivers/': {
       id: '/operations/transport/vehicle-drivers/'
       path: '/transport/vehicle-drivers'
-      fullPath: '/operations/transport/vehicle-drivers'
+      fullPath: '/operations/transport/vehicle-drivers/'
       preLoaderRoute: typeof OperationsTransportVehicleDriversIndexLazyRouteImport
       parentRoute: typeof OperationsRouteLazyRoute
     }
     '/operations/transport/routes/': {
       id: '/operations/transport/routes/'
       path: '/transport/routes'
-      fullPath: '/operations/transport/routes'
+      fullPath: '/operations/transport/routes/'
       preLoaderRoute: typeof OperationsTransportRoutesIndexLazyRouteImport
       parentRoute: typeof OperationsRouteLazyRoute
     }
     '/operations/transport/pickup-points/': {
       id: '/operations/transport/pickup-points/'
       path: '/transport/pickup-points'
-      fullPath: '/operations/transport/pickup-points'
+      fullPath: '/operations/transport/pickup-points/'
       preLoaderRoute: typeof OperationsTransportPickupPointsIndexLazyRouteImport
       parentRoute: typeof OperationsRouteLazyRoute
     }
     '/operations/transport/assign/': {
       id: '/operations/transport/assign/'
       path: '/transport/assign'
-      fullPath: '/operations/transport/assign'
+      fullPath: '/operations/transport/assign/'
       preLoaderRoute: typeof OperationsTransportAssignIndexLazyRouteImport
       parentRoute: typeof OperationsRouteLazyRoute
     }
     '/operations/library/return/': {
       id: '/operations/library/return/'
       path: '/library/return'
-      fullPath: '/operations/library/return'
+      fullPath: '/operations/library/return/'
       preLoaderRoute: typeof OperationsLibraryReturnIndexLazyRouteImport
       parentRoute: typeof OperationsRouteLazyRoute
     }
     '/operations/library/members/': {
       id: '/operations/library/members/'
       path: '/library/members'
-      fullPath: '/operations/library/members'
+      fullPath: '/operations/library/members/'
       preLoaderRoute: typeof OperationsLibraryMembersIndexLazyRouteImport
       parentRoute: typeof OperationsRouteLazyRoute
     }
     '/operations/library/issue-book/': {
       id: '/operations/library/issue-book/'
       path: '/library/issue-book'
-      fullPath: '/operations/library/issue-book'
+      fullPath: '/operations/library/issue-book/'
       preLoaderRoute: typeof OperationsLibraryIssueBookIndexLazyRouteImport
       parentRoute: typeof OperationsRouteLazyRoute
     }
     '/operations/library/books/': {
       id: '/operations/library/books/'
       path: '/library/books'
-      fullPath: '/operations/library/books'
+      fullPath: '/operations/library/books/'
       preLoaderRoute: typeof OperationsLibraryBooksIndexLazyRouteImport
       parentRoute: typeof OperationsRouteLazyRoute
     }
     '/operations/hostel/room-type/': {
       id: '/operations/hostel/room-type/'
       path: '/hostel/room-type'
-      fullPath: '/operations/hostel/room-type'
+      fullPath: '/operations/hostel/room-type/'
       preLoaderRoute: typeof OperationsHostelRoomTypeIndexLazyRouteImport
       parentRoute: typeof OperationsRouteLazyRoute
     }
     '/operations/hostel/hostel-room/': {
       id: '/operations/hostel/hostel-room/'
       path: '/hostel/hostel-room'
-      fullPath: '/operations/hostel/hostel-room'
+      fullPath: '/operations/hostel/hostel-room/'
       preLoaderRoute: typeof OperationsHostelHostelRoomIndexLazyRouteImport
       parentRoute: typeof OperationsRouteLazyRoute
     }
     '/operations/hostel/hostel-list/': {
       id: '/operations/hostel/hostel-list/'
       path: '/hostel/hostel-list'
-      fullPath: '/operations/hostel/hostel-list'
+      fullPath: '/operations/hostel/hostel-list/'
       preLoaderRoute: typeof OperationsHostelHostelListIndexLazyRouteImport
       parentRoute: typeof OperationsRouteLazyRoute
     }
     '/operations/fees/fees-type/': {
       id: '/operations/fees/fees-type/'
       path: '/fees/fees-type'
-      fullPath: '/operations/fees/fees-type'
+      fullPath: '/operations/fees/fees-type/'
       preLoaderRoute: typeof OperationsFeesFeesTypeIndexLazyRouteImport
       parentRoute: typeof OperationsRouteLazyRoute
     }
     '/operations/fees/fees-master/': {
       id: '/operations/fees/fees-master/'
       path: '/fees/fees-master'
-      fullPath: '/operations/fees/fees-master'
+      fullPath: '/operations/fees/fees-master/'
       preLoaderRoute: typeof OperationsFeesFeesMasterIndexLazyRouteImport
       parentRoute: typeof OperationsRouteLazyRoute
     }
     '/operations/fees/fees-group/': {
       id: '/operations/fees/fees-group/'
       path: '/fees/fees-group'
-      fullPath: '/operations/fees/fees-group'
+      fullPath: '/operations/fees/fees-group/'
       preLoaderRoute: typeof OperationsFeesFeesGroupIndexLazyRouteImport
       parentRoute: typeof OperationsRouteLazyRoute
     }
     '/operations/fees/fees-assign/': {
       id: '/operations/fees/fees-assign/'
       path: '/fees/fees-assign'
-      fullPath: '/operations/fees/fees-assign'
+      fullPath: '/operations/fees/fees-assign/'
       preLoaderRoute: typeof OperationsFeesFeesAssignIndexLazyRouteImport
       parentRoute: typeof OperationsRouteLazyRoute
     }
     '/operations/fees/collect-fees/': {
       id: '/operations/fees/collect-fees/'
       path: '/fees/collect-fees'
-      fullPath: '/operations/fees/collect-fees'
+      fullPath: '/operations/fees/collect-fees/'
       preLoaderRoute: typeof OperationsFeesCollectFeesIndexLazyRouteImport
       parentRoute: typeof OperationsRouteLazyRoute
     }
     '/academic1/examinations/grades/': {
       id: '/academic1/examinations/grades/'
       path: '/grades'
-      fullPath: '/academic1/examinations/grades'
+      fullPath: '/academic1/examinations/grades/'
       preLoaderRoute: typeof Academic1ExaminationsGradesIndexLazyRouteImport
       parentRoute: typeof Academic1ExaminationsRouteLazyRoute
     }
     '/academic1/examinations/exam/': {
       id: '/academic1/examinations/exam/'
       path: '/exam'
-      fullPath: '/academic1/examinations/exam'
+      fullPath: '/academic1/examinations/exam/'
       preLoaderRoute: typeof Academic1ExaminationsExamIndexLazyRouteImport
       parentRoute: typeof Academic1ExaminationsRouteLazyRoute
     }
     '/academic1/examinations/exam-schedule/': {
       id: '/academic1/examinations/exam-schedule/'
       path: '/exam-schedule'
-      fullPath: '/academic1/examinations/exam-schedule'
+      fullPath: '/academic1/examinations/exam-schedule/'
       preLoaderRoute: typeof Academic1ExaminationsExamScheduleIndexLazyRouteImport
       parentRoute: typeof Academic1ExaminationsRouteLazyRoute
     }
     '/academic1/examinations/exam-results/': {
       id: '/academic1/examinations/exam-results/'
       path: '/exam-results'
-      fullPath: '/academic1/examinations/exam-results'
+      fullPath: '/academic1/examinations/exam-results/'
       preLoaderRoute: typeof Academic1ExaminationsExamResultsIndexLazyRouteImport
       parentRoute: typeof Academic1ExaminationsRouteLazyRoute
     }
     '/academic1/examinations/exam-attendance/': {
       id: '/academic1/examinations/exam-attendance/'
       path: '/exam-attendance'
-      fullPath: '/academic1/examinations/exam-attendance'
+      fullPath: '/academic1/examinations/exam-attendance/'
       preLoaderRoute: typeof Academic1ExaminationsExamAttendanceIndexLazyRouteImport
       parentRoute: typeof Academic1ExaminationsRouteLazyRoute
     }
     '/academic1/classes/schedule/': {
       id: '/academic1/classes/schedule/'
       path: '/schedule'
-      fullPath: '/academic1/classes/schedule'
+      fullPath: '/academic1/classes/schedule/'
       preLoaderRoute: typeof Academic1ClassesScheduleIndexLazyRouteImport
       parentRoute: typeof Academic1ClassesRouteLazyRoute
     }
     '/academic1/classes/allclasses/': {
       id: '/academic1/classes/allclasses/'
       path: '/allclasses'
-      fullPath: '/academic1/classes/allclasses'
+      fullPath: '/academic1/classes/allclasses/'
       preLoaderRoute: typeof Academic1ClassesAllclassesIndexLazyRouteImport
       parentRoute: typeof Academic1ClassesRouteLazyRoute
     }
     '/academic/classes/schedule/': {
       id: '/academic/classes/schedule/'
       path: '/classes/schedule'
-      fullPath: '/academic/classes/schedule'
+      fullPath: '/academic/classes/schedule/'
       preLoaderRoute: typeof AcademicClassesScheduleIndexLazyRouteImport
       parentRoute: typeof AcademicRouteLazyRoute
     }
     '/academic/classes/allclasses/': {
       id: '/academic/classes/allclasses/'
       path: '/classes/allclasses'
-      fullPath: '/academic/classes/allclasses'
+      fullPath: '/academic/classes/allclasses/'
       preLoaderRoute: typeof AcademicClassesAllclassesIndexLazyRouteImport
       parentRoute: typeof AcademicRouteLazyRoute
     }
