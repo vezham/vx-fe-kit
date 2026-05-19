@@ -9,12 +9,14 @@ import {
   FieldError,
   Input,
   Label,
+  Link,
   Separator,
   TextField,
   Tooltip
 } from '@vezham/react/v3'
 import { useLogger } from '@vezham/use-logger'
 
+import EmptyState from './empty-state'
 import Posts from './posts'
 
 const NAMESPACE = 'App/Home'
@@ -96,6 +98,15 @@ export default () => {
 
       <ButtonV3 children="Hello World :) - v3" />
       <Button children="Hello World :) - v2" variant="solid" color="success" />
+
+      <Link href="/pro">
+        Pro - Demo
+        <Link.Icon />
+      </Link>
+
+      <Separator />
+
+      <EmptyState />
 
       <Separator />
 

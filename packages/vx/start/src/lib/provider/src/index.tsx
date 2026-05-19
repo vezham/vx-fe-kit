@@ -66,7 +66,6 @@ const Provider: FC<Props> = ({
   if (query) {
     template = (
       <QueryClientProvider client={queryClient}>
-        <ReactQueryDevtools />
         {__DEV__ ? <ReactQueryDevtools /> : null}
         {template}
       </QueryClientProvider>
