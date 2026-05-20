@@ -22,9 +22,13 @@ export interface FavoriteItem {
 export interface BookmarkItem {
   id: string
   name: string
-  url: string
+  url?: string
   avatar?: string
+  icon?: string
   folder?: string
+  folderPath?: string[]
+  kind?: 'bookmark' | 'folder'
+  children?: BookmarkItem[]
 }
 
 export interface BookmarkTreeItem {

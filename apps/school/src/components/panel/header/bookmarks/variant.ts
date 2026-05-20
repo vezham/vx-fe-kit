@@ -51,7 +51,7 @@ const tva = tv({
 
     bookmarks_list: 'space-y-1',
     bookmark_item:
-      'hover:bg-default-100 flex w-full cursor-grab items-center gap-3 rounded-lg px-3 py-2 transition-colors active:cursor-grabbing',
+      'hover:bg-default-100 flex w-full cursor-grab items-center gap-3 rounded-lg py-2 transition-colors active:cursor-grabbing',
     bookmark_avatar: 'shrink-0',
     bookmark_avatar_fallback: 'bg-default-500 text-white',
     bookmark_content: 'flex-1 text-left',
@@ -59,7 +59,8 @@ const tva = tv({
     bookmark_url: 'text-default-500 text-xs',
     bookmark_arrow: 'text-default-400',
     bookmark_delete_button: 'opacity-0 group-hover:opacity-100',
-    file_tree: 'max-h-[calc(100vh-96px)] w-full min-w-0',
+    file_tree:
+      'max-h-[calc(100vh-96px)] w-full min-w-0 gap-0.5 [--file-tree-indent:0.875rem] [--file-tree-item-px:0.25rem] [&_.file-tree__drag-handle]:w-4 [&_.file-tree__icon]:h-4 [&_.file-tree__icon]:w-4 [&_.file-tree__item-content]:min-h-7 [&_.file-tree__item-content]:min-w-0 [&_.file-tree__item-content]:gap-1.5 [&_.file-tree__item-content]:rounded-md [&_.file-tree__item-content]:py-1 [&_.file-tree__item-content]:ps-1.5 [&_.file-tree__item-content]:pe-1 [&_.file-tree__label]:flex [&_.file-tree__label]:min-w-0',
     bookmark_tree_empty_state: 'text-default-400 px-3 py-8 text-center text-sm',
 
     folder_section: 'mt-6',

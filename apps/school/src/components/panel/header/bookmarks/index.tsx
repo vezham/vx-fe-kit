@@ -19,8 +19,7 @@ import {
 import { FileCode, Folder, FolderOpen } from '@gravity-ui/icons'
 import { FileTree, useFileTreeDrag } from '@heroui-pro/react'
 import { Icon } from '@iconify/react'
-import { useEffect, useMemo, useState } from 'react'
-import React from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Collection } from 'react-aria-components/Collection'
 import { useTreeData } from 'react-aria-components/useTreeData'
 
@@ -30,7 +29,6 @@ import { Avatar, Button, Drawer, ScrollShadow } from '@vezham/react/v3'
 import { SortableFavoriteItem } from './SortableFavoriteItem'
 import { sampleBookmarks, sampleFavorites } from './data'
 import {
-  BookmarkFileTreeNode,
   BookmarkItem,
   BookmarkTreeItem,
   FavoriteItem,
@@ -41,16 +39,433 @@ import {
 const folderIcon = ({ isExpanded }: { isExpanded: boolean }) =>
   isExpanded ? <FolderOpen /> : <Folder />
 
-const serializeTree = (
-  items: Iterable<BookmarkFileTreeNode>
+const getUniqueTreeId = (baseId: string, counts: Map<string, number>) => {
+  const count = counts.get(baseId) ?? 0
+  counts.set(baseId, count + 1)
+
+  return count === 0 ? baseId : `${baseId}:${count + 1}`
+}
+
+const getFolderPathFromBookmark = (bookmark: BookmarkItem) => {
+  if (bookmark.folderPath?.length) {
+    return bookmark.folderPath
+  }
+
+  return bookmark.folder?.split('/').filter(Boolean) ?? []
+}
+
+const createBookmarkTreeNode = (
+  bookmark: BookmarkItem,
+  counts: Map<string, number>
+): BookmarkTreeItem => ({
+  id: getUniqueTreeId(`bookmark:${bookmark.id}`, counts),
+  title: bookmark.name,
+  kind: 'bookmark',
+  bookmark: {
+    ...bookmark,
+    kind: 'bookmark',
+    children: undefined
+  }
+})
+
+const bookmarksToTreeItems = (bookmarks: BookmarkItem[]) => {
+  const treeItems: BookmarkTreeItem[] = []
+  const folderByPath = new Map<string, BookmarkTreeItem>()
+  const idCounts = new Map<string, number>()
+
+  const ensureFolder = (path: string[]) => {
+    let children = treeItems
+    let currentFolder: BookmarkTreeItem | undefined
+    let currentPath: string[] = []
+
+    path.forEach(folderName => {
+      currentPath = [...currentPath, folderName]
+      const pathKey = currentPath.join('/')
+      const existingFolder = folderByPath.get(pathKey)
+
+      if (existingFolder) {
+        currentFolder = existingFolder
+        children = existingFolder.children ?? []
+        existingFolder.children = children
+        return
+      }
+
+      const folder: BookmarkTreeItem = {
+        id: getUniqueTreeId(`folder:${pathKey}`, idCounts),
+        title: folderName,
+        kind: 'folder',
+        children: []
+      }
+
+      children.push(folder)
+      folderByPath.set(pathKey, folder)
+      currentFolder = folder
+      children = folder.children ?? []
+    })
+
+    return currentFolder?.children ?? treeItems
+  }
+
+  const appendBookmark = (
+    bookmark: BookmarkItem,
+    parentPath: string[] = []
+  ) => {
+    const isFolder =
+      bookmark.kind === 'folder' || Boolean(bookmark.children?.length)
+
+    if (isFolder) {
+      const folderPath = [...parentPath, bookmark.name]
+      ensureFolder(folderPath)
+      bookmark.children?.forEach(child => appendBookmark(child, folderPath))
+
+      return
+    }
+
+    const folderPath = [...parentPath, ...getFolderPathFromBookmark(bookmark)]
+    const children = ensureFolder(folderPath)
+    children.push(createBookmarkTreeNode(bookmark, idCounts))
+  }
+
+  bookmarks.forEach(bookmark => appendBookmark(bookmark))
+
+  return treeItems
+}
+
+const getExpandableBookmarkKeys = (items: BookmarkTreeItem[]) => {
+  const keys: string[] = []
+
+  const collect = (item: BookmarkTreeItem) => {
+    if (item.kind === 'folder') {
+      keys.push(item.id)
+    }
+
+    item.children?.forEach(collect)
+  }
+
+  items.forEach(collect)
+
+  return keys
+}
+
+const removeTreeItem = (
+  items: BookmarkTreeItem[],
+  itemId: string
 ): BookmarkTreeItem[] =>
-  Array.from(items).map(item => ({
-    id: String(item.key),
-    title: item.value.title,
-    kind: item.value.kind,
-    bookmark: item.value.bookmark,
-    children: item.children ? serializeTree(item.children) : undefined
-  }))
+  items
+    .filter(item => item.id !== itemId)
+    .map(item => ({
+      ...item,
+      children: item.children
+        ? removeTreeItem(item.children, itemId)
+        : item.children
+    }))
+
+const dedupeTreeItems = (
+  items: BookmarkTreeItem[],
+  seen = new Set<string>()
+): BookmarkTreeItem[] =>
+  items.reduce<BookmarkTreeItem[]>((acc, item) => {
+    if (seen.has(item.id)) {
+      return acc
+    }
+
+    seen.add(item.id)
+    acc.push({
+      ...item,
+      children: item.children ? dedupeTreeItems(item.children, seen) : undefined
+    })
+
+    return acc
+  }, [])
+
+const collectTreeItemIds = (
+  items: BookmarkTreeItem[],
+  ids = new Set<string>()
+) => {
+  items.forEach(item => {
+    ids.add(item.id)
+
+    if (item.children) {
+      collectTreeItemIds(item.children, ids)
+    }
+  })
+
+  return ids
+}
+
+const getUniqueFolderGroupId = (targetId: string, existingIds: Set<string>) => {
+  const baseId = `folder:group:${targetId}`
+  let nextId = baseId
+  let index = 1
+
+  while (existingIds.has(nextId)) {
+    index += 1
+    nextId = `${baseId}:${index}`
+  }
+
+  existingIds.add(nextId)
+
+  return nextId
+}
+
+const getFolderTitleFromMovedItems = (movedItems: BookmarkTreeItem[]) => {
+  const movedFileName = movedItems[0]?.title.trim()
+
+  return movedFileName || 'New Folder'
+}
+
+const cloneTreeItem = (item: BookmarkTreeItem): BookmarkTreeItem => ({
+  ...item,
+  children: item.children?.map(cloneTreeItem)
+})
+
+const normalizeBookmarkGroups = (
+  items: BookmarkTreeItem[],
+  existingIds = collectTreeItemIds(items)
+): BookmarkTreeItem[] =>
+  items.map(item => {
+    const children = item.children
+      ? normalizeBookmarkGroups(item.children, existingIds)
+      : undefined
+
+    if (item.kind !== 'bookmark' || !children?.length) {
+      return {
+        ...item,
+        children
+      }
+    }
+
+    return {
+      id: getUniqueFolderGroupId(item.id, existingIds),
+      title: getFolderTitleFromMovedItems(children),
+      kind: 'folder',
+      children: [
+        {
+          ...item,
+          children: undefined
+        },
+        ...children
+      ]
+    }
+  })
+
+const findTreeItem = (
+  items: BookmarkTreeItem[],
+  itemId: string
+): BookmarkTreeItem | undefined => {
+  for (const item of items) {
+    if (item.id === itemId) {
+      return item
+    }
+
+    const childItem = item.children
+      ? findTreeItem(item.children, itemId)
+      : undefined
+
+    if (childItem) {
+      return childItem
+    }
+  }
+
+  return undefined
+}
+
+const removeTreeItems = (
+  items: BookmarkTreeItem[],
+  itemIds: Set<string>,
+  removedItems: BookmarkTreeItem[] = []
+): BookmarkTreeItem[] =>
+  items.reduce<BookmarkTreeItem[]>((acc, item) => {
+    if (itemIds.has(item.id)) {
+      removedItems.push(cloneTreeItem(item))
+      return acc
+    }
+
+    acc.push({
+      ...item,
+      children: item.children
+        ? removeTreeItems(item.children, itemIds, removedItems)
+        : item.children
+    })
+
+    return acc
+  }, [])
+
+const insertTreeItemsRelativeToTarget = (
+  items: BookmarkTreeItem[],
+  targetId: string,
+  movedItems: BookmarkTreeItem[],
+  placement: 'before' | 'after'
+): { inserted: boolean; items: BookmarkTreeItem[] } => {
+  let inserted = false
+
+  const nextItems = items.reduce<BookmarkTreeItem[]>((acc, item) => {
+    if (item.id === targetId) {
+      inserted = true
+
+      if (placement === 'before') {
+        acc.push(...movedItems, item)
+      } else {
+        acc.push(item, ...movedItems)
+      }
+
+      return acc
+    }
+
+    if (item.children?.length) {
+      const childResult = insertTreeItemsRelativeToTarget(
+        item.children,
+        targetId,
+        movedItems,
+        placement
+      )
+
+      inserted = inserted || childResult.inserted
+      acc.push({
+        ...item,
+        children: childResult.items
+      })
+
+      return acc
+    }
+
+    acc.push(item)
+
+    return acc
+  }, [])
+
+  return { inserted, items: nextItems }
+}
+
+const insertTreeItemsOnTarget = (
+  items: BookmarkTreeItem[],
+  targetId: string,
+  movedItems: BookmarkTreeItem[],
+  existingIds: Set<string>
+): {
+  inserted: boolean
+  expandedKey?: string
+  items: BookmarkTreeItem[]
+} => {
+  let expandedKey: string | undefined
+  let inserted = false
+
+  const nextItems = items.map(item => {
+    if (item.id === targetId) {
+      inserted = true
+
+      if (item.kind === 'folder') {
+        expandedKey = item.id
+
+        return {
+          ...item,
+          children: [...(item.children ?? []), ...movedItems]
+        }
+      }
+
+      const folderId = getUniqueFolderGroupId(item.id, existingIds)
+      expandedKey = folderId
+
+      return {
+        id: folderId,
+        title: getFolderTitleFromMovedItems(movedItems),
+        kind: 'folder' as const,
+        children: [
+          {
+            ...item,
+            children: undefined
+          },
+          ...movedItems
+        ]
+      }
+    }
+
+    if (!item.children?.length) {
+      return item
+    }
+
+    const childResult = insertTreeItemsOnTarget(
+      item.children,
+      targetId,
+      movedItems,
+      existingIds
+    )
+
+    if (childResult.inserted) {
+      inserted = true
+      expandedKey = childResult.expandedKey
+    }
+
+    return {
+      ...item,
+      children: childResult.items
+    }
+  })
+
+  return { expandedKey, inserted, items: nextItems }
+}
+
+const moveBookmarkTreeItems = (
+  items: BookmarkTreeItem[],
+  movedIds: string[],
+  targetId: string,
+  dropPosition: string
+): { expandedKey?: string; items: BookmarkTreeItem[] } => {
+  if (!movedIds.length || movedIds.includes(targetId)) {
+    return { items }
+  }
+
+  const movedIdSet = new Set(movedIds)
+  if (!findTreeItem(items, targetId)) {
+    return { items }
+  }
+
+  const movedItems: BookmarkTreeItem[] = []
+  const itemsWithoutMoved = removeTreeItems(items, movedIdSet, movedItems)
+
+  if (!movedItems.length || !findTreeItem(itemsWithoutMoved, targetId)) {
+    return { items }
+  }
+
+  if (dropPosition === 'on') {
+    const result = insertTreeItemsOnTarget(
+      itemsWithoutMoved,
+      targetId,
+      movedItems,
+      collectTreeItemIds([...itemsWithoutMoved, ...movedItems])
+    )
+
+    return result.inserted
+      ? {
+          expandedKey: result.expandedKey,
+          items: normalizeBookmarkGroups(result.items)
+        }
+      : { items }
+  }
+
+  const result = insertTreeItemsRelativeToTarget(
+    itemsWithoutMoved,
+    targetId,
+    movedItems,
+    dropPosition === 'after' ? 'after' : 'before'
+  )
+
+  return result.inserted
+    ? { items: normalizeBookmarkGroups(result.items) }
+    : { items }
+}
+
+const getBookmarkTreeSignature = (items: BookmarkTreeItem[]): string =>
+  items
+    .map(item =>
+      [
+        item.id,
+        item.kind,
+        item.title,
+        item.children ? getBookmarkTreeSignature(item.children) : ''
+      ].join(':')
+    )
+    .join('|')
 
 const getFavoriteIds = (items: FavoriteItem[]) => items.map(item => item.id)
 
@@ -82,7 +497,8 @@ interface BookmarkFileTreeProps {
   getFileTreeProps: PropGetter
   getBookmarkTreeEmptyStateProps: PropGetter
   onBookmarkClick: (item: BookmarkItem) => void
-  onTreeChange: (items: BookmarkTreeItem[]) => void
+  onBookmarkRemove: (id: string) => void
+  onTreeChange: (items: BookmarkTreeItem[], expandedKey?: string) => void
 }
 
 const BookmarkFileTree = ({
@@ -91,8 +507,23 @@ const BookmarkFileTree = ({
   getFileTreeProps,
   getBookmarkTreeEmptyStateProps,
   onBookmarkClick,
+  onBookmarkRemove,
   onTreeChange
 }: BookmarkFileTreeProps) => {
+  const [expandedKeys, setExpandedKeys] = useState<Set<string>>(
+    () => new Set(defaultExpandedKeys)
+  )
+
+  useEffect(() => {
+    setExpandedKeys(currentKeys => {
+      const nextKeys = new Set(currentKeys)
+
+      defaultExpandedKeys.forEach(key => nextKeys.add(key))
+
+      return nextKeys.size === currentKeys.size ? currentKeys : nextKeys
+    })
+  }, [defaultExpandedKeys])
+
   const bookmarkById = useMemo(() => {
     return items.reduce((acc, item) => {
       const collect = (node: BookmarkTreeItem) => {
@@ -116,21 +547,82 @@ const BookmarkFileTree = ({
 
   const { dragAndDropHooks } = useFileTreeDrag({
     tree,
-    onMove: () => {
-      onTreeChange(serializeTree(tree.items))
+    onMove: (keys, target) => {
+      const result = moveBookmarkTreeItems(
+        items,
+        [...keys].map(String),
+        String(target.key),
+        target.dropPosition
+      )
+
+      const { expandedKey } = result
+
+      if (expandedKey) {
+        setExpandedKeys(currentKeys => {
+          const nextKeys = new Set(currentKeys)
+          nextKeys.add(expandedKey)
+
+          return nextKeys
+        })
+      }
+
+      onTreeChange(result.items, result.expandedKey)
     }
   })
 
+  const renderBookmarkIcon = (item: BookmarkTreeItem) => {
+    if (item.kind === 'folder') {
+      return folderIcon
+    }
+
+    if (item.bookmark?.icon) {
+      return <Icon icon={item.bookmark.icon} />
+    }
+
+    if (item.bookmark?.avatar) {
+      return (
+        <Avatar className="h-5 w-5 shrink-0">
+          <Avatar.Image src={item.bookmark.avatar} alt={item.title} />
+          <Avatar.Fallback>
+            {item.title.charAt(0).toUpperCase()}
+          </Avatar.Fallback>
+        </Avatar>
+      )
+    }
+
+    return <FileCode />
+  }
+
+  const renderTitle = (item: (typeof tree.items)[number]) => (
+    <span className="group relative flex w-full min-w-0 flex-1 items-center pr-9">
+      <span className="min-w-0 flex-1 truncate overflow-hidden">
+        {item.value.title}
+      </span>
+      <Button
+        isIconOnly
+        aria-label={`Remove ${item.value.title}`}
+        size="sm"
+        variant="ghost"
+        className="text-danger absolute top-1/2 right-0 h-7 w-7 min-w-7 -translate-y-1/2 opacity-0 transition-opacity group-hover:opacity-100"
+        onClick={event => {
+          event.stopPropagation()
+          onBookmarkRemove(String(item.key))
+        }}>
+        <Icon icon="solar:trash-bin-trash-linear" width={16} />
+      </Button>
+    </span>
+  )
+
   const renderItem = (item: (typeof tree.items)[number]) => {
-    const hasChildren = !!item.children?.length
+    const isFolder = item.value.kind === 'folder'
 
     return (
       <FileTree.Item
-        icon={hasChildren ? folderIcon : <FileCode />}
+        icon={renderBookmarkIcon(item.value)}
         id={item.key}
         textValue={item.value.title}
-        title={item.value.title}>
-        {hasChildren && (
+        title={renderTitle(item)}>
+        {isFolder && (
           <Collection items={item.children ?? []}>{renderItem}</Collection>
         )}
       </FileTree.Item>
@@ -141,8 +633,8 @@ const BookmarkFileTree = ({
     <FileTree
       {...getFileTreeProps()}
       aria-label="Bookmarks file tree"
-      defaultExpandedKeys={defaultExpandedKeys}
       dragAndDropHooks={dragAndDropHooks}
+      expandedKeys={expandedKeys}
       items={tree.items}
       renderEmptyState={() => (
         <div {...getBookmarkTreeEmptyStateProps()}>No bookmarks</div>
@@ -154,6 +646,9 @@ const BookmarkFileTree = ({
         if (bookmark) {
           onBookmarkClick(bookmark)
         }
+      }}
+      onExpandedChange={keys => {
+        setExpandedKeys(new Set([...keys].map(String)))
       }}>
       {renderItem}
     </FileTree>
@@ -219,6 +714,9 @@ const BookmarksDrawer = forwardRef<'div', Props>((props, ref) => {
   const [quickAccessOrderIds, setQuickAccessOrderIds] = useState(() =>
     getFavoriteIds(sampleFavorites)
   )
+  const [bookmarkTreeItems, setBookmarkTreeItems] = useState(() =>
+    bookmarksToTreeItems(sampleBookmarks)
+  )
 
   const favorites = externalFavorites || internalFavorites
   const bookmarks = externalBookmarks || internalBookmarks
@@ -235,12 +733,20 @@ const BookmarksDrawer = forwardRef<'div', Props>((props, ref) => {
     })
   )
 
-  const filteredFavorites = favorites.filter(item =>
-    item.name.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredFavorites = useMemo(
+    () =>
+      favorites.filter(item =>
+        item.name.toLowerCase().includes(searchQuery.toLowerCase())
+      ),
+    [favorites, searchQuery]
   )
 
-  const filteredBookmarks = bookmarks.filter(item =>
-    item.name.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredBookmarks = useMemo(
+    () =>
+      bookmarks.filter(item =>
+        item.name.toLowerCase().includes(searchQuery.toLowerCase())
+      ),
+    [bookmarks, searchQuery]
   )
 
   useEffect(() => {
@@ -257,56 +763,21 @@ const BookmarksDrawer = forwardRef<'div', Props>((props, ref) => {
     })
   }, [favorites])
 
-  const bookmarkTreeItems = useMemo(() => {
-    const treeItems: BookmarkTreeItem[] = []
-    const folders = new Map<string, BookmarkTreeItem>()
+  useEffect(() => {
+    if (externalBookmarks) {
+      setBookmarkTreeItems(bookmarksToTreeItems(filteredBookmarks))
+    }
+  }, [externalBookmarks, filteredBookmarks])
 
-    filteredBookmarks.forEach(bookmark => {
-      const item: BookmarkTreeItem = {
-        id: bookmark.id,
-        title: bookmark.name,
-        kind: 'bookmark',
-        bookmark
-      }
+  const bookmarkTreeExpandedKeys = useMemo(
+    () => getExpandableBookmarkKeys(bookmarkTreeItems),
+    [bookmarkTreeItems]
+  )
 
-      if (!bookmark.folder) {
-        treeItems.push(item)
-        return
-      }
-
-      const folderId = `folder:${bookmark.folder}`
-      const existingFolder = folders.get(bookmark.folder)
-      const folder =
-        existingFolder ??
-        ({
-          id: folderId,
-          title: bookmark.folder,
-          kind: 'folder',
-          children: []
-        } satisfies BookmarkTreeItem)
-
-      folder.children?.push(item)
-
-      if (!existingFolder) {
-        folders.set(bookmark.folder, folder)
-        treeItems.push(folder)
-      }
-    })
-
-    return treeItems
-  }, [filteredBookmarks])
-
-  const bookmarkTreeExpandedKeys = useMemo(() => {
-    return bookmarkTreeItems
-      .filter(item => item.kind === 'folder')
-      .map(item => item.id)
-  }, [bookmarkTreeItems])
-
-  const bookmarkTreeKey = useMemo(() => {
-    return filteredBookmarks
-      .map(bookmark => `${bookmark.id}:${bookmark.folder ?? ''}`)
-      .join('|')
-  }, [filteredBookmarks])
+  const bookmarkTreeKey = useMemo(
+    () => getBookmarkTreeSignature(bookmarkTreeItems),
+    [bookmarkTreeItems]
+  )
 
   // Keep the draggable Favorites grid independent from Quick Access order.
   const gridFavorites = orderFavorites(filteredFavorites, favoriteGridOrderIds)
@@ -387,22 +858,25 @@ const BookmarksDrawer = forwardRef<'div', Props>((props, ref) => {
   }
 
   const handleBookmarkTreeClick = (item: BookmarkItem) => {
-    handleBookmarkClick(item.url, item)
+    handleBookmarkClick(item.url ?? '#', item)
   }
 
   const treeItemsToBookmarks = (items: BookmarkTreeItem[]) => {
     const nextBookmarks: BookmarkItem[] = []
 
-    const collect = (node: BookmarkTreeItem, folder?: string) => {
+    const collect = (node: BookmarkTreeItem, folderPath: string[] = []) => {
       if (node.kind === 'bookmark' && node.bookmark) {
         nextBookmarks.push({
           ...node.bookmark,
-          folder
+          folder: folderPath[folderPath.length - 1],
+          folderPath
         })
         return
       }
 
-      node.children?.forEach(child => collect(child, node.title))
+      node.children?.forEach(child =>
+        collect(child, [...folderPath, node.title])
+      )
     }
 
     items.forEach(item => collect(item))
@@ -411,7 +885,10 @@ const BookmarksDrawer = forwardRef<'div', Props>((props, ref) => {
   }
 
   const handleBookmarkTreeChange = (items: BookmarkTreeItem[]) => {
-    const nextBookmarks = treeItemsToBookmarks(items)
+    const nextItems = dedupeTreeItems(items)
+    const nextBookmarks = treeItemsToBookmarks(nextItems)
+
+    setBookmarkTreeItems(nextItems)
 
     if (!externalBookmarks) {
       setInternalBookmarks(nextBookmarks)
@@ -419,6 +896,10 @@ const BookmarksDrawer = forwardRef<'div', Props>((props, ref) => {
 
     onBookmarksReorder?.(nextBookmarks)
     onFolderReorder?.(nextBookmarks)
+  }
+
+  const handleBookmarkRemove = (id: string) => {
+    handleBookmarkTreeChange(removeTreeItem(bookmarkTreeItems, id))
   }
 
   const renderFavoriteItemsForGrid = () => {
@@ -519,66 +1000,59 @@ const BookmarksDrawer = forwardRef<'div', Props>((props, ref) => {
     }
 
     return (
-      <div className="flex flex-col">
-        <div className="flex flex-nowrap gap-3 overflow-x-auto pb-2">
-          {scrollFavorites.map(item => (
-            <div
-              key={item.id}
-              {...getFavorite2ItemsProps()}
-              onClick={() => handleFavoriteClick(item.url, item)}>
-              {item.backgroundImage ? (
-                <img
-                  {...getFavoriteBackgroundImageProps(
-                    item.backgroundImage,
-                    item.name
-                  )}
-                />
-              ) : (
-                <div {...getFavoriteBackgroundGradientProps()} />
-              )}
-              <div {...getFavoriteOverlayProps()} />
+      <div className="flex flex-nowrap gap-3 pb-2">
+        {scrollFavorites.map(item => (
+          <div
+            key={item.id}
+            {...getFavorite2ItemsProps()}
+            onClick={() => handleFavoriteClick(item.url, item)}>
+            {item.backgroundImage ? (
+              <img
+                {...getFavoriteBackgroundImageProps(
+                  item.backgroundImage,
+                  item.name
+                )}
+              />
+            ) : (
+              <div {...getFavoriteBackgroundGradientProps()} />
+            )}
+            <div {...getFavoriteOverlayProps()} />
 
-              <div {...getFavoriteAvatarContainerProps()}>
-                <Avatar {...getFavoriteAvatarProps()}>
-                  {item.avatar && (
-                    <Avatar.Image src={item.avatar} alt={item.name} />
-                  )}
-                  <Avatar.Fallback
-                    {...getFavoriteAvatarFallbackProps(item.name)}>
-                    <Icon {...getFavoriteAvatarIconProps()} />
-                  </Avatar.Fallback>
-                </Avatar>
-              </div>
+            <div {...getFavoriteAvatarContainerProps()}>
+              <Avatar {...getFavoriteAvatarProps()}>
+                {item.avatar && (
+                  <Avatar.Image src={item.avatar} alt={item.name} />
+                )}
+                <Avatar.Fallback {...getFavoriteAvatarFallbackProps(item.name)}>
+                  <Icon {...getFavoriteAvatarIconProps()} />
+                </Avatar.Fallback>
+              </Avatar>
+            </div>
 
-              <div {...getFavoriteContentProps()}>
-                <p {...getFavoriteNameProps(item.name)} />
+            <div {...getFavoriteContentProps()}>
+              <p {...getFavoriteNameProps(item.name)} />
+            </div>
+          </div>
+        ))}
+
+        {/* View All Tile */}
+        {hasMoreFavorites && (
+          <button
+            onClick={handleViewAllFavorites}
+            className="group bg-default-100 hover:bg-default-200 relative flex aspect-square w-[120px] shrink-0 cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98]">
+            <div className="flex flex-col items-center gap-2 p-4">
+              <Icon icon="solar:eye-bold" width={32} className="text-primary" />
+              <div className="text-center">
+                <p className="text-default-700 text-sm font-semibold">
+                  View All
+                </p>
+                <p className="text-default-500 text-xs">
+                  {quickAccessFavorites.length - 6} more
+                </p>
               </div>
             </div>
-          ))}
-
-          {/* View All Tile */}
-          {hasMoreFavorites && (
-            <button
-              onClick={handleViewAllFavorites}
-              className="group bg-default-100 hover:bg-default-200 relative flex aspect-square w-[120px] shrink-0 cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98]">
-              <div className="flex flex-col items-center gap-2 p-4">
-                <Icon
-                  icon="solar:eye-bold"
-                  width={32}
-                  className="text-primary"
-                />
-                <div className="text-center">
-                  <p className="text-default-700 text-sm font-semibold">
-                    View All
-                  </p>
-                  <p className="text-default-500 text-xs">
-                    {quickAccessFavorites.length - 6} more
-                  </p>
-                </div>
-              </div>
-            </button>
-          )}
-        </div>
+          </button>
+        )}
       </div>
     )
   }
@@ -587,177 +1061,186 @@ const BookmarksDrawer = forwardRef<'div', Props>((props, ref) => {
 
   return (
     <Component>
-      <Drawer isOpen={isOpen} onOpenChange={onClose}>
-        <Drawer.Content placement={placement}>
-          <Drawer.Dialog {...getDrawerDialogProps()}>
-            <Drawer.CloseTrigger />
+      <Drawer>
+        <Drawer.Backdrop
+          variant="transparent"
+          isOpen={isOpen}
+          onOpenChange={open => {
+            if (!open) onClose()
+          }}>
+          <Drawer.Content placement={placement}>
+            <Drawer.Dialog {...getDrawerDialogProps()}>
+              <Drawer.CloseTrigger />
 
-            <Drawer.Body {...getDrawerBodyProps()}>
-              <ScrollShadow {...getScrollShadowProps()}>
-                {showAllFavoritesMode ? (
-                  <div {...getContentContainerProps()}>
-                    {renderAllFavoritesFullView()}
-                  </div>
-                ) : !hasFavorites && !hasBookmarks ? (
-                  <div {...getEmptyContainerProps()}>
-                    <Icon {...getEmptyIconProps()} />
-                    <h2 {...getEmptyTitleProps()} />
-                    <p {...getEmptyDescriptionProps()} />
-                  </div>
-                ) : (
-                  <div {...getContentContainerProps()}>
-                    {hasFavorites && (
-                      <>
-                        {/* Grid: Flex Wrap with Full 2D Drag Drop */}
-                        <section {...getSectionProps()}>
-                          <div {...getSectionHeaderProps()}>
-                            {/* <Icon
+              <Drawer.Body {...getDrawerBodyProps()}>
+                <ScrollShadow {...getScrollShadowProps()}>
+                  {showAllFavoritesMode ? (
+                    <div {...getContentContainerProps()}>
+                      {renderAllFavoritesFullView()}
+                    </div>
+                  ) : !hasFavorites && !hasBookmarks ? (
+                    <div {...getEmptyContainerProps()}>
+                      <Icon {...getEmptyIconProps()} />
+                      <h2 {...getEmptyTitleProps()} />
+                      <p {...getEmptyDescriptionProps()} />
+                    </div>
+                  ) : (
+                    <div {...getContentContainerProps()}>
+                      {hasFavorites && (
+                        <>
+                          {/* Grid: Flex Wrap with Full 2D Drag Drop */}
+                          <section {...getSectionProps()}>
+                            <div {...getSectionHeaderProps()}>
+                              {/* <Icon
                               {...getSectionIconProps(
                                 'solar:star-bold',
                                 'text-warning'
                               )}
                             /> */}
-                            <h3 {...getSectionTitleProps('Favorites')} />
-                          </div>
-                          <DndContext
-                            sensors={sensors}
-                            collisionDetection={closestCenter}
-                            onDragStart={handleDragStart}
-                            onDragCancel={() => setActiveId(null)}
-                            onDragEnd={handleFavoriteDragEnd}>
-                            {renderFavoriteItemsForGrid()}
-                            <DragOverlay
-                              dropAnimation={{
-                                sideEffects: defaultDropAnimationSideEffects({
-                                  styles: {
-                                    active: {
-                                      opacity: '0.4'
+                              <h3 {...getSectionTitleProps('Favorites')} />
+                            </div>
+                            <DndContext
+                              sensors={sensors}
+                              collisionDetection={closestCenter}
+                              onDragStart={handleDragStart}
+                              onDragCancel={() => setActiveId(null)}
+                              onDragEnd={handleFavoriteDragEnd}>
+                              {renderFavoriteItemsForGrid()}
+                              <DragOverlay
+                                dropAnimation={{
+                                  sideEffects: defaultDropAnimationSideEffects({
+                                    styles: {
+                                      active: {
+                                        opacity: '0.4'
+                                      }
                                     }
-                                  }
-                                })
-                              }}>
-                              {activeFavorite && (
-                                <div
-                                  {...getFavoriteItemProps()}
-                                  style={{
-                                    opacity: 0.8,
-                                    cursor: 'grabbing'
-                                  }}>
-                                  {activeFavorite.backgroundImage ? (
-                                    <img
-                                      {...getFavoriteBackgroundImageProps(
-                                        activeFavorite.backgroundImage,
-                                        activeFavorite.name
-                                      )}
-                                    />
-                                  ) : (
-                                    <div
-                                      {...getFavoriteBackgroundGradientProps()}
-                                    />
-                                  )}
-                                  <div {...getFavoriteOverlayProps()} />
-                                  <div {...getFavoriteAvatarContainerProps()}>
-                                    <Avatar {...getFavoriteAvatarProps()}>
-                                      {activeFavorite.avatar && (
-                                        <Avatar.Image
-                                          src={activeFavorite.avatar}
-                                          alt={activeFavorite.name}
-                                        />
-                                      )}
-                                      <Avatar.Fallback
-                                        {...getFavoriteAvatarFallbackProps(
+                                  })
+                                }}>
+                                {activeFavorite && (
+                                  <div
+                                    {...getFavoriteItemProps()}
+                                    style={{
+                                      opacity: 0.8,
+                                      cursor: 'grabbing'
+                                    }}>
+                                    {activeFavorite.backgroundImage ? (
+                                      <img
+                                        {...getFavoriteBackgroundImageProps(
+                                          activeFavorite.backgroundImage,
                                           activeFavorite.name
-                                        )}>
-                                        <Icon
-                                          {...getFavoriteAvatarIconProps()}
-                                        />
-                                      </Avatar.Fallback>
-                                    </Avatar>
+                                        )}
+                                      />
+                                    ) : (
+                                      <div
+                                        {...getFavoriteBackgroundGradientProps()}
+                                      />
+                                    )}
+                                    <div {...getFavoriteOverlayProps()} />
+                                    <div {...getFavoriteAvatarContainerProps()}>
+                                      <Avatar {...getFavoriteAvatarProps()}>
+                                        {activeFavorite.avatar && (
+                                          <Avatar.Image
+                                            src={activeFavorite.avatar}
+                                            alt={activeFavorite.name}
+                                          />
+                                        )}
+                                        <Avatar.Fallback
+                                          {...getFavoriteAvatarFallbackProps(
+                                            activeFavorite.name
+                                          )}>
+                                          <Icon
+                                            {...getFavoriteAvatarIconProps()}
+                                          />
+                                        </Avatar.Fallback>
+                                      </Avatar>
+                                    </div>
+                                    <div {...getFavoriteContentProps()}>
+                                      <p
+                                        {...getFavoriteNameProps(
+                                          activeFavorite.name
+                                        )}
+                                      />
+                                    </div>
                                   </div>
-                                  <div {...getFavoriteContentProps()}>
-                                    <p
-                                      {...getFavoriteNameProps(
-                                        activeFavorite.name
-                                      )}
-                                    />
-                                  </div>
-                                </div>
-                              )}
-                            </DragOverlay>
-                          </DndContext>
-                        </section>
+                                )}
+                              </DragOverlay>
+                            </DndContext>
+                          </section>
 
-                        {/* Scroll: Horizontal Scroll with View All */}
-                        <section {...getSectionProps()}>
-                          <div {...getSectionHeaderProps()}>
-                            <div className="flex flex-1 items-center gap-2">
-                              {/* <Icon
+                          {/* Scroll: Horizontal Scroll with View All */}
+                          <section {...getSectionProps()}>
+                            <div {...getSectionHeaderProps()}>
+                              <div className="flex flex-1 items-center gap-2">
+                                {/* <Icon
                                 {...getSectionIconProps(
                                   'solar:star-bold',
                                   'text-warning'
                                 )}
                               /> */}
-                              <h3 {...getSectionTitleProps('Quick Access')} />
+                                <h3 {...getSectionTitleProps('Quick Access')} />
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <Button
+                                  isIconOnly
+                                  size="sm"
+                                  variant="ghost"
+                                  onClick={toggleScrollFavorites}
+                                  className="text-default-400">
+                                  <Icon
+                                    icon={
+                                      isScrollFavoritesOpen
+                                        ? 'solar:alt-arrow-up-linear'
+                                        : 'solar:alt-arrow-down-linear'
+                                    }
+                                    width={18}
+                                  />
+                                </Button>
+                              </div>
                             </div>
-                            <div className="flex items-center gap-2">
-                              <Button
-                                isIconOnly
-                                size="sm"
-                                variant="light"
-                                onClick={toggleScrollFavorites}
-                                className="text-default-400">
-                                <Icon
-                                  icon={
-                                    isScrollFavoritesOpen
-                                      ? 'solar:alt-arrow-up-linear'
-                                      : 'solar:alt-arrow-down-linear'
-                                  }
-                                  width={18}
-                                />
-                              </Button>
-                            </div>
-                          </div>
 
-                          {isScrollFavoritesOpen && (
-                            <ScrollShadow
-                              className="max-w-full overflow-x-auto pb-2"
-                              hideScrollBar={false}>
-                              {renderFavoriteItemsForScroll()}
-                            </ScrollShadow>
-                          )}
-                        </section>
-                      </>
-                    )}
-                    {hasBookmarks && (
-                      <section {...getSectionProps()}>
-                        <div {...getSectionHeaderProps()}>
-                          <Icon
-                            {...getSectionIconProps(
-                              'solar:bookmark-bold',
-                              'text-primary'
+                            {isScrollFavoritesOpen && (
+                              <ScrollShadow
+                                orientation="horizontal"
+                                className="max-w-full overflow-x-auto pb-2"
+                                hideScrollBar={false}>
+                                {renderFavoriteItemsForScroll()}
+                              </ScrollShadow>
                             )}
+                          </section>
+                        </>
+                      )}
+                      {hasBookmarks && (
+                        <section {...getSectionProps()}>
+                          <div {...getSectionHeaderProps()}>
+                            <Icon
+                              {...getSectionIconProps(
+                                'solar:bookmark-bold',
+                                'text-primary'
+                              )}
+                            />
+                            <h3 {...getSectionTitleProps('Bookmarks')} />
+                          </div>
+                          <BookmarkFileTree
+                            key={bookmarkTreeKey}
+                            items={bookmarkTreeItems}
+                            defaultExpandedKeys={bookmarkTreeExpandedKeys}
+                            getFileTreeProps={getFileTreeProps}
+                            getBookmarkTreeEmptyStateProps={
+                              getBookmarkTreeEmptyStateProps
+                            }
+                            onBookmarkClick={handleBookmarkTreeClick}
+                            onBookmarkRemove={handleBookmarkRemove}
+                            onTreeChange={handleBookmarkTreeChange}
                           />
-                          <h3 {...getSectionTitleProps('Bookmarks')} />
-                        </div>
-                        <BookmarkFileTree
-                          key={bookmarkTreeKey}
-                          items={bookmarkTreeItems}
-                          defaultExpandedKeys={bookmarkTreeExpandedKeys}
-                          getFileTreeProps={getFileTreeProps}
-                          getBookmarkTreeEmptyStateProps={
-                            getBookmarkTreeEmptyStateProps
-                          }
-                          onBookmarkClick={handleBookmarkTreeClick}
-                          onTreeChange={handleBookmarkTreeChange}
-                        />
-                      </section>
-                    )}
-                  </div>
-                )}
-              </ScrollShadow>
-            </Drawer.Body>
-          </Drawer.Dialog>
-        </Drawer.Content>
+                        </section>
+                      )}
+                    </div>
+                  )}
+                </ScrollShadow>
+              </Drawer.Body>
+            </Drawer.Dialog>
+          </Drawer.Content>
+        </Drawer.Backdrop>
       </Drawer>
     </Component>
   )

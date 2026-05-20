@@ -424,70 +424,77 @@ const DiskDrawer = forwardRef<'div', Props>((props, ref) => {
 
   return (
     <Component>
-      <Drawer isOpen={isOpen} onOpenChange={onClose}>
-        <Drawer.Content placement={placement}>
-          <Drawer.Dialog {...getDrawerDialogProps()}>
-            <Drawer.CloseTrigger />
-            <Drawer.Header>
-              <Tabs
-                variant="secondary"
-                {...getTabsProps()}
-                selectedKey={activeTab}
-                onSelectionChange={key => setActiveTab(key as string)}>
-                <Tabs.ListContainer {...getTabsListContainerProps()}>
-                  <Tabs.List {...getTabsListProps()}>
-                    <Tabs.Tab {...getTabArchiveProps()}>
-                      <Icon
-                        icon="solar:archive-linear"
-                        width={18}
-                        className="mr-2"
-                      />
-                      Archive
-                      <Tabs.Indicator {...getTabIndicatorProps()} />
-                    </Tabs.Tab>
-                    <Tabs.Tab {...getTabTrashProps()}>
-                      <Icon
-                        icon="solar:trash-bin-trash-linear"
-                        width={18}
-                        className="mr-2"
-                      />
-                      Trash
-                      <Tabs.Indicator {...getTabIndicatorProps()} />
-                    </Tabs.Tab>
-                  </Tabs.List>
-                </Tabs.ListContainer>
-              </Tabs>
-              <Input
-                {...currentTab.getSearchProps()}
-                value={currentTab.searchValue}
-                onChange={e => currentTab.setSearchValue(e.target.value)}
-              />
+      <Drawer>
+        <Drawer.Backdrop
+          variant="transparent"
+          isOpen={isOpen}
+          onOpenChange={open => {
+            if (!open) onClose()
+          }}>
+          <Drawer.Content placement={placement}>
+            <Drawer.Dialog {...getDrawerDialogProps()}>
+              <Drawer.CloseTrigger />
+              <Drawer.Header>
+                <Tabs
+                  variant="secondary"
+                  {...getTabsProps()}
+                  selectedKey={activeTab}
+                  onSelectionChange={key => setActiveTab(key as string)}>
+                  <Tabs.ListContainer {...getTabsListContainerProps()}>
+                    <Tabs.List {...getTabsListProps()}>
+                      <Tabs.Tab {...getTabArchiveProps()}>
+                        <Icon
+                          icon="solar:archive-linear"
+                          width={18}
+                          className="mr-2"
+                        />
+                        Archive
+                        <Tabs.Indicator {...getTabIndicatorProps()} />
+                      </Tabs.Tab>
+                      <Tabs.Tab {...getTabTrashProps()}>
+                        <Icon
+                          icon="solar:trash-bin-trash-linear"
+                          width={18}
+                          className="mr-2"
+                        />
+                        Trash
+                        <Tabs.Indicator {...getTabIndicatorProps()} />
+                      </Tabs.Tab>
+                    </Tabs.List>
+                  </Tabs.ListContainer>
+                </Tabs>
+                <Input
+                  {...currentTab.getSearchProps()}
+                  value={currentTab.searchValue}
+                  onChange={e => currentTab.setSearchValue(e.target.value)}
+                />
 
-              {currentTab.hasItems && currentTab.actions.length > 0 && (
-                <div {...getActionsBarProps(currentTab.key === 'trash')}>
-                  {currentTab.actions.map(action => (
-                    <Button
-                      key={action.type}
-                      {...action.props}
-                      onPress={action.onPress}
-                      startContent={<Icon icon={action.icon} width={16} />}>
-                      {action.label}
-                    </Button>
-                  ))}
+                {currentTab.hasItems && currentTab.actions.length > 0 && (
+                  <div {...getActionsBarProps(currentTab.key === 'trash')}>
+                    {currentTab.actions.map(action => (
+                      <Button
+                        key={action.type}
+                        {...action.props}
+                        onPress={action.onPress}
+                        startContent={<Icon icon={action.icon} width={16} />}>
+                        {action.label}
+                      </Button>
+                    ))}
+                  </div>
+                )}
+              </Drawer.Header>
+              <Drawer.Body>
+                <div {...getContainerProps()}>
+                  <ScrollShadow
+                    hideScrollBar={currentTab.key === 'archive'}
+                    className="h-full">
+                    {currentTab.renderContent()}
+                  </ScrollShadow>
                 </div>
-              )}
-            </Drawer.Header>
-            <Drawer.Body>
-              <div {...getContainerProps()}>
-                <ScrollShadow
-                  hideScrollBar={currentTab.key === 'archive'}
-                  className="h-full">
-                  {currentTab.renderContent()}
-                </ScrollShadow>
-              </div>
-            </Drawer.Body>
-          </Drawer.Dialog>
-        </Drawer.Content>
+              </Drawer.Body>
+            </Drawer.Dialog>
+          </Drawer.Content>
+        </Drawer.Backdrop>
       </Drawer>
     </Component>
   )
