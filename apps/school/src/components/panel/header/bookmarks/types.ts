@@ -25,6 +25,9 @@ export interface BookmarkItem {
   url?: string
   avatar?: string
   icon?: string
+  color?: string
+  visualType?: 'emoji' | 'icon'
+  emoji?: string
   folder?: string
   folderPath?: string[]
   kind?: 'bookmark' | 'folder'
@@ -35,6 +38,10 @@ export interface BookmarkTreeItem {
   id: string
   title: string
   kind: 'bookmark' | 'folder'
+  color?: string
+  visualType?: 'emoji' | 'icon'
+  emoji?: string
+  icon?: string
   bookmark?: BookmarkItem
   children?: BookmarkTreeItem[]
 }

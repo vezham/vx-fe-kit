@@ -1,5 +1,5 @@
 import { FolderOpen } from '@gravity-ui/icons'
-import { EmptyState } from '@heroui-pro/react'
+import { ContextMenu, EmptyState } from '@heroui-pro/react'
 
 import { Button } from '@vezham/react/v3'
 
@@ -22,6 +22,20 @@ export default () => {
           <Button variant="outline">Import Project</Button>
         </EmptyState.Content>
       </EmptyState>
+
+      <ContextMenu>
+        <ContextMenu.Trigger>
+          <div>Right click</div>
+        </ContextMenu.Trigger>
+
+        <ContextMenu.Popover>
+          <ContextMenu.Menu>
+            <ContextMenu.Item id="1" textValue="Test">
+              Test
+            </ContextMenu.Item>
+          </ContextMenu.Menu>
+        </ContextMenu.Popover>
+      </ContextMenu>
     </div>
   )
 }

@@ -1,3 +1,4 @@
+import { ContextMenu } from '@heroui-pro/react'
 import { Icon } from '@iconify/react'
 import { useHotkey } from '@tanstack/react-hotkeys'
 import { useCallback, useEffect, useMemo, useState } from 'react'
@@ -13,6 +14,7 @@ import {
   Drawer,
   Dropdown,
   Input,
+  Kbd,
   Label,
   ListBox,
   Pagination,
@@ -940,6 +942,77 @@ export default function AllClassesPage() {
           </Pagination>
         </Table.Footer>
       </Table>
+      <ContextMenu>
+        {/* <ContextMenu.Trigger className="block min-h-24">
+        <div className="min-h-24" onContextMenu={handleAreaContextMenu}>
+          <FileTree
+            {...getFileTreeProps()}
+            aria-label="Bookmarks file tree"
+            dragAndDropHooks={dragAndDropHooks}
+            expandedKeys={expandedKeys}
+            items={tree.items}
+            renderEmptyState={() => (
+              <div {...getBookmarkTreeEmptyStateProps()}>No bookmarks</div>
+            )}
+            selectedKeys={selectedKeys}
+            // selectionMode="single"
+            showGuideLines="hover"
+            onAction={key => {
+              const bookmark = bookmarkById.get(String(key))
+
+              if (bookmark) {
+                onBookmarkClick(bookmark)
+              }
+            }}
+            onExpandedChange={keys => {
+              setExpandedKeys(new Set([...keys].map(String)))
+            }}
+            onSelectionChange={handleSelectionChange}>
+            {renderItem}
+          </FileTree>
+        </div>
+      </ContextMenu.Trigger>
+      <ContextMenu.Popover>
+        <ContextMenu.Menu>{renderContextMenuItems()}</ContextMenu.Menu>
+      </ContextMenu.Popover> */}
+        <ContextMenu.Trigger>
+          <div className="border-border text-muted flex h-48 w-80 items-center justify-center rounded-xl border border-dashed text-sm select-none">
+            Right-click here
+          </div>
+        </ContextMenu.Trigger>
+        <ContextMenu.Popover>
+          <ContextMenu.Menu>
+            <ContextMenu.Item key="back" textValue="Back">
+              <div>Back</div>
+              <Kbd className="ms-auto" slot="keyboard" variant="light">
+                <Kbd.Abbr keyValue="command" />
+                <Kbd.Content>[</Kbd.Content>
+              </Kbd>
+            </ContextMenu.Item>
+            <ContextMenu.Item isDisabled key="forward" textValue="Forward">
+              <div>Forward</div>
+              <Kbd className="ms-auto" slot="keyboard" variant="light">
+                <Kbd.Abbr keyValue="command" />
+                <Kbd.Content>]</Kbd.Content>
+              </Kbd>
+            </ContextMenu.Item>
+            <ContextMenu.Item key="reload" textValue="Reload">
+              <div>Reload</div>
+              <Kbd className="ms-auto" slot="keyboard" variant="light">
+                <Kbd.Abbr keyValue="command" />
+                <Kbd.Content>R</Kbd.Content>
+              </Kbd>
+            </ContextMenu.Item>
+            <ContextMenu.Separator />
+            <ContextMenu.Item key="view-source" textValue="View Page Source">
+              <div>View Page Source</div>
+            </ContextMenu.Item>
+            <ContextMenu.Item key="inspect" textValue="Inspect">
+              <div>Inspect</div>
+            </ContextMenu.Item>
+          </ContextMenu.Menu>
+        </ContextMenu.Popover>
+      </ContextMenu>
 
       <ClassDrawer
         canGoNext={

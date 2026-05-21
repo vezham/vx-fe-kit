@@ -1,9 +1,7 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
 
-export const Route = createLazyFileRoute('/academic/classroutine/')({
-  component: RouteComponent
-})
+import ClassRoutinePage from '../../../pages/academic/class-routine'
 
-function RouteComponent() {
-  return <div>Hello "/academic/classroutine/"!</div>
-}
+export const Route = createLazyFileRoute('/academic/classroutine/')({
+  component: ClassRoutinePage
+})

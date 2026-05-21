@@ -1,11 +1,7 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
 
-import ScheduleListTable from '../../../../pages/academic/schedule/table'
+import SchedulePage from '../../../../pages/academic/classes/schedule'
 
 export const Route = createLazyFileRoute('/academic/classes/schedule/')({
-  component: RouteComponent
+  component: SchedulePage
 })
-
-function RouteComponent() {
-  return <ScheduleListTable />
-}

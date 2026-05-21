@@ -5,12 +5,12 @@ const ClassIndex = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    navigate({ to: '/academic1/examinations/exam', replace: true })
+    navigate({ to: '/academic/examinations/exam', replace: true })
   }, [navigate])
 
   return null
 }
 
-export const Route = createLazyFileRoute('/academic1/examinations/')({
+export const Route = createLazyFileRoute('/academic/examinations/')({
   component: ClassIndex
 })

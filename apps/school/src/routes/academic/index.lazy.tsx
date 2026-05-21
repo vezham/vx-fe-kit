@@ -1,16 +1,7 @@
-import { createLazyFileRoute, useNavigate } from '@tanstack/react-router'
-import { useEffect } from 'react'
+import { createLazyFileRoute } from '@tanstack/react-router'
 
-const ClassIndex = () => {
-  const navigate = useNavigate()
-
-  useEffect(() => {
-    navigate({ to: '/academic/classes/allclasses', replace: true })
-  }, [navigate])
-
-  return null
-}
+import AcademicDashboardPage from '../../pages/academic/dashboard'
 
 export const Route = createLazyFileRoute('/academic/')({
-  component: ClassIndex
+  component: AcademicDashboardPage
 })

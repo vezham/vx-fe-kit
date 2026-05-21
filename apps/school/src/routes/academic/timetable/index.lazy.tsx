@@ -1,9 +1,7 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
 
-export const Route = createLazyFileRoute('/academic/timetable/')({
-  component: RouteComponent
-})
+import TimeTablePage from '../../../pages/academic/timetable'
 
-function RouteComponent() {
-  return <div>Hello "/academic/timetable/"!</div>
-}
+export const Route = createLazyFileRoute('/academic/timetable/')({
+  component: TimeTablePage
+})
