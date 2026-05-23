@@ -34,7 +34,6 @@ import {
   Button,
   Drawer,
   Input,
-  Kbd,
   Label,
   Modal,
   Popover,
@@ -44,6 +43,7 @@ import {
   useOverlayState
 } from '@vezham/react/v3'
 
+import { ShortcutKey } from '../../../shortcut-key'
 import { SortableFavoriteItem } from './SortableFavoriteItem'
 import { sampleBookmarks, sampleFavorites } from './data'
 import {
@@ -1401,24 +1401,15 @@ const BookmarkFileTree = ({
         <ContextMenu.Menu>
           <ContextMenu.Item id="back" textValue="Back">
             <Label>Back</Label>
-            <Kbd className="ms-auto" slot="keyboard" variant="light">
-              <Kbd.Abbr keyValue="command" />
-              <Kbd.Content>[</Kbd.Content>
-            </Kbd>
+            <ShortcutKey className="ms-auto" shortcut="⌘ [" />
           </ContextMenu.Item>
           <ContextMenu.Item isDisabled id="forward" textValue="Forward">
             <Label>Forward</Label>
-            <Kbd className="ms-auto" slot="keyboard" variant="light">
-              <Kbd.Abbr keyValue="command" />
-              <Kbd.Content>]</Kbd.Content>
-            </Kbd>
+            <ShortcutKey className="ms-auto" shortcut="⌘ ]" />
           </ContextMenu.Item>
           <ContextMenu.Item id="reload" textValue="Reload">
             <Label>Reload</Label>
-            <Kbd className="ms-auto" slot="keyboard" variant="light">
-              <Kbd.Abbr keyValue="command" />
-              <Kbd.Content>R</Kbd.Content>
-            </Kbd>
+            <ShortcutKey className="ms-auto" shortcut="⌘ R" />
           </ContextMenu.Item>
           <ContextMenu.Separator />
           <ContextMenu.Item id="view-source" textValue="View Page Source">

@@ -10,12 +10,13 @@ import {
   Dropdown,
   Input,
   InputGroup,
-  Kbd,
   Label,
   SearchField,
   Tabs,
   TextField
 } from '@vezham/react/v3'
+
+import { ShortcutKey } from '../shortcut-key'
 
 export interface ActionItem {
   key: string
@@ -159,7 +160,10 @@ export default function DynamicHeader({
                       </Label>
 
                       {action.shortcut && (
-                        <Kbd slot="keyboard">{action.shortcut}</Kbd>
+                        <ShortcutKey
+                          className="ms-auto"
+                          shortcut={action.shortcut}
+                        />
                       )}
                     </Dropdown.Item>
                   ))}

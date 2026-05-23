@@ -14,14 +14,15 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@heroui-pro/react": "1.0.0-beta.3",
+    "@heroui-pro/react": "1.0.0-beta.4",
     "@heroui/react": "npm:@vezham/react@0.4.3",
     "@heroui/styles": "npm:@vezham/styles@0.4.3",
+    "@internationalized/date": "3.12.1",
     "@number-flow/react": "^0.6.0",
     "embla-carousel": "^8.6.0",
     "embla-carousel-react": "^8.6.0",
     "framer-motion": "^12.23.12",
-    "heroui-pro": "1.0.0-beta.3",
+    "heroui-pro": "latest",
     "motion": "^12.38.0",
     "react": "19.0.0",
     "react-aria-components": "^1.17.0",

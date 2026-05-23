@@ -14,6 +14,7 @@ import {
   Tooltip
 } from '@vezham/react/v3'
 
+import { ShortcutKey } from '../../shortcut-key'
 import { HeaderActionsProps } from './types'
 
 export default function Header({
@@ -209,7 +210,7 @@ function MenuItem({ icon, label, shortcut, hasSub }: any) {
         <span>{label}</span>
       </div>
       <div className="text-muted-foreground flex items-center gap-2">
-        {shortcut && <span className="text-xs">{shortcut}</span>}
+        {shortcut && <ShortcutKey shortcut={shortcut} />}
         {hasSub && <Icon icon="solar:alt-arrow-right-linear" width={16} />}
       </div>
     </div>

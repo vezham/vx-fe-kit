@@ -17,6 +17,7 @@ import {
   Tooltip
 } from '@vezham/react/v3'
 
+import { ShortcutKey } from '../../../components/shortcut-key'
 import { Props, useProps } from './types'
 
 const AcademicLayoutPage = forwardRef<'div', Props>((props, ref) => {
@@ -349,9 +350,7 @@ function HeaderIconTooltip({
       <Tooltip.Content>
         <span className="flex items-center gap-2 whitespace-nowrap">
           <span>{label}</span>
-          {shortcut ? (
-            <span className="text-xs opacity-70">{shortcut}</span>
-          ) : null}
+          {shortcut ? <ShortcutKey shortcut={shortcut} /> : null}
         </span>
       </Tooltip.Content>
     </Tooltip>

@@ -1,6 +1,7 @@
 /// <reference types='vitest' />
 import { tanstackRouter } from '@tanstack/router-plugin/vite'
 import react from '@vitejs/plugin-react-swc'
+import { resolve } from 'node:path'
 import { defineConfig } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
 
@@ -8,11 +9,26 @@ export default defineConfig(async () => {
   const tailwindcss = (await import('@tailwindcss/vite')).default
   const { env } = process
   const hostname = env.CI ? 'localhost' : env.HOST_NAME || 'localhost'
+  const herouiProEntry = resolve(
+    __dirname,
+    '../../node_modules/@heroui-pro/react/dist/index.js'
+  )
 
   return {
     envPrefix: ['V_'],
     root: __dirname,
     cacheDir: '../../node_modules/.vite/apps_internals/playground',
+    resolve: {
+      alias: [
+        {
+          find: /^@heroui-pro\/react$/,
+          replacement: herouiProEntry
+        }
+      ]
+    },
+    optimizeDeps: {
+      include: ['@heroui-pro/react']
+    },
     server: {
       port: Number(env.PORT),
       host: hostname

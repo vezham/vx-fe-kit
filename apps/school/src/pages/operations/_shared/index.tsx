@@ -26,6 +26,7 @@ import {
   Tooltip
 } from '@vezham/react/v3'
 
+import { ShortcutTooltipLabel } from '../../../components/shortcut-key'
 import type {
   CustomDateRangeValue,
   DatePresetKey,
@@ -63,7 +64,7 @@ export default function OperationsTablePage({
   const [searchQuery, setSearchQuery] = useState('')
   const [rowsPerPage, setRowsPerPage] = useState('10')
   const [page, setPage] = useState(1)
-  const [datePreset, setDatePreset] = useState<DatePresetKey>('last7')
+  const [datePreset, setDatePreset] = useState<DatePresetKey>('last30')
   const [isDateDropdownOpen, setIsDateDropdownOpen] = useState(false)
   const [isCustomDateRangeOpen, setIsCustomDateRangeOpen] = useState(false)
   const [customDateRange, setCustomDateRange] =
@@ -1060,7 +1061,12 @@ function OperationsDrawer({
                         <Icon icon="lucide:chevrons-right" width={24} />
                       </Button>
                     </Tooltip.Trigger>
-                    <Tooltip.Content>Toggle Drawer ⌘/</Tooltip.Content>
+                    <Tooltip.Content>
+                      <ShortcutTooltipLabel
+                        label="Toggle Drawer"
+                        shortcut="⌘ /"
+                      />
+                    </Tooltip.Content>
                   </Tooltip>
                   <span className={classNames.drawerTitle}>{drawerTitle}</span>
                   {row && mode !== 'create' ? (
@@ -1103,7 +1109,9 @@ function OperationsDrawer({
                             <Icon icon="lucide:pencil" width={16} />
                           </Button>
                         </Tooltip.Trigger>
-                        <Tooltip.Content>Edit ⌘E</Tooltip.Content>
+                        <Tooltip.Content>
+                          <ShortcutTooltipLabel label="Edit" shortcut="⌘ E" />
+                        </Tooltip.Content>
                       </Tooltip>
                       <Tooltip delay={0}>
                         <Tooltip.Trigger>
@@ -1132,7 +1140,12 @@ function OperationsDrawer({
                             <Icon icon="lucide:chevron-up" width={18} />
                           </Button>
                         </Tooltip.Trigger>
-                        <Tooltip.Content>Previous ⌘↑</Tooltip.Content>
+                        <Tooltip.Content>
+                          <ShortcutTooltipLabel
+                            label="Previous"
+                            shortcut="⌘ ↑"
+                          />
+                        </Tooltip.Content>
                       </Tooltip>
                       <Tooltip delay={0}>
                         <Tooltip.Trigger>
@@ -1145,7 +1158,9 @@ function OperationsDrawer({
                             <Icon icon="lucide:chevron-down" width={18} />
                           </Button>
                         </Tooltip.Trigger>
-                        <Tooltip.Content>Next ⌘↓</Tooltip.Content>
+                        <Tooltip.Content>
+                          <ShortcutTooltipLabel label="Next" shortcut="⌘ ↓" />
+                        </Tooltip.Content>
                       </Tooltip>
                     </>
                   ) : null}

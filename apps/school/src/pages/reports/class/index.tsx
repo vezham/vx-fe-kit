@@ -26,6 +26,7 @@ import {
   Tooltip
 } from '@vezham/react/v3'
 
+import { ShortcutTooltipLabel } from '../../../components/shortcut-key'
 import { dateOptions, rowCountOptions, statusLegend } from './data'
 import { classReportsConfig } from './data'
 import type {
@@ -1103,7 +1104,12 @@ function AttendanceDrawer({
                         <Icon icon="lucide:chevrons-right" width={24} />
                       </Button>
                     </Tooltip.Trigger>
-                    <Tooltip.Content>Toggle Drawer ⌘/</Tooltip.Content>
+                    <Tooltip.Content>
+                      <ShortcutTooltipLabel
+                        label="Toggle Drawer"
+                        shortcut="⌘ /"
+                      />
+                    </Tooltip.Content>
                   </Tooltip>
                   <h2 className={classNames.drawerTitle}>
                     {row ? getDrawerTitle(row) : ''}
@@ -1148,7 +1154,9 @@ function AttendanceDrawer({
                             <Icon icon="lucide:pencil" width={16} />
                           </Button>
                         </Tooltip.Trigger>
-                        <Tooltip.Content>Edit ⌘E</Tooltip.Content>
+                        <Tooltip.Content>
+                          <ShortcutTooltipLabel label="Edit" shortcut="⌘ E" />
+                        </Tooltip.Content>
                       </Tooltip>
                       <Tooltip delay={0}>
                         <Tooltip.Trigger>
@@ -1175,7 +1183,9 @@ function AttendanceDrawer({
                         <Icon icon="lucide:chevron-up" width={18} />
                       </Button>
                     </Tooltip.Trigger>
-                    <Tooltip.Content>Previous ⌘↑</Tooltip.Content>
+                    <Tooltip.Content>
+                      <ShortcutTooltipLabel label="Previous" shortcut="⌘ ↑" />
+                    </Tooltip.Content>
                   </Tooltip>
                   <Tooltip delay={0}>
                     <Tooltip.Trigger>
@@ -1188,7 +1198,9 @@ function AttendanceDrawer({
                         <Icon icon="lucide:chevron-down" width={18} />
                       </Button>
                     </Tooltip.Trigger>
-                    <Tooltip.Content>Next ⌘↓</Tooltip.Content>
+                    <Tooltip.Content>
+                      <ShortcutTooltipLabel label="Next" shortcut="⌘ ↓" />
+                    </Tooltip.Content>
                   </Tooltip>
                 </div>
               </div>

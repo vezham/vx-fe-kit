@@ -26,6 +26,7 @@ import {
   Tooltip
 } from '@vezham/react/v3'
 
+import { ShortcutTooltipLabel } from '../../../../components/shortcut-key'
 import {
   classOptions,
   dateOptions,
@@ -1211,7 +1212,12 @@ function ClassDrawer({
                         <Icon icon="lucide:chevrons-right" width={24} />
                       </Button>
                     </Tooltip.Trigger>
-                    <Tooltip.Content>Toggle Drawer ⌘/</Tooltip.Content>
+                    <Tooltip.Content>
+                      <ShortcutTooltipLabel
+                        label="Toggle Drawer"
+                        shortcut="⌘ /"
+                      />
+                    </Tooltip.Content>
                   </Tooltip>
                   <span className={classNames.drawerTitle}>{drawerTitle}</span>
                   {row && (
@@ -1225,7 +1231,9 @@ function ClassDrawer({
                           <Icon icon="lucide:copy" width={16} />
                         </Button>
                       </Tooltip.Trigger>
-                      <Tooltip.Content>Copy ⌘C</Tooltip.Content>
+                      <Tooltip.Content>
+                        <ShortcutTooltipLabel label="Copy" shortcut="⌘ C" />
+                      </Tooltip.Content>
                     </Tooltip>
                   )}
                 </div>
@@ -1243,7 +1251,9 @@ function ClassDrawer({
                             <Icon icon="lucide:link" width={16} />
                           </Button>
                         </Tooltip.Trigger>
-                        <Tooltip.Content>Copy ⌘C</Tooltip.Content>
+                        <Tooltip.Content>
+                          <ShortcutTooltipLabel label="Copy" shortcut="⌘ C" />
+                        </Tooltip.Content>
                       </Tooltip>
                       <Tooltip delay={0}>
                         <Tooltip.Trigger>
@@ -1255,7 +1265,9 @@ function ClassDrawer({
                             <Icon icon="lucide:pencil" width={16} />
                           </Button>
                         </Tooltip.Trigger>
-                        <Tooltip.Content>Edit ⌘E</Tooltip.Content>
+                        <Tooltip.Content>
+                          <ShortcutTooltipLabel label="Edit" shortcut="⌘ E" />
+                        </Tooltip.Content>
                       </Tooltip>
                       <Tooltip delay={0}>
                         <Tooltip.Trigger>
