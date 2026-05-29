@@ -1,10 +1,10 @@
 import { Icon } from '@iconify/react'
 import { useState } from 'react'
 
-import { Button } from '@vezham/react/v2'
+import { Button as ButtonV2 } from '@vezham/react-v2'
 import {
   Avatar,
-  Button as ButtonV3,
+  Button,
   Chip,
   FieldError,
   Input,
@@ -13,7 +13,7 @@ import {
   Separator,
   TextField,
   Tooltip
-} from '@vezham/react/v3'
+} from '@vezham/react-v3'
 import { useLogger } from '@vezham/use-logger'
 
 import EmptyState from './empty-state'
@@ -96,8 +96,12 @@ export default () => {
         <FieldError>Username must be at least 3 characters</FieldError>
       </TextField>
 
-      <ButtonV3 children="Hello World :) - v3" />
-      <Button children="Hello World :) - v2" variant="solid" color="success" />
+      <Button children="Hello World :) - v3" />
+      <ButtonV2
+        children="Hello World :) - v2"
+        variant="solid"
+        color="success"
+      />
 
       <Link href="/pro">
         Pro - Demo
