@@ -1,6 +1,6 @@
 import type { CalendarDateTime } from '@internationalized/date'
 
-import { useOverlayState } from '@vezham/react/v3'
+import { useOverlayState } from '@vezham/react-v3'
 
 export type TimetableView = 'day' | 'week' | 'month'
 

@@ -3,7 +3,7 @@ import { format } from 'date-fns'
 import { motion } from 'framer-motion'
 import React from 'react'
 
-import { Chip, ScrollShadow } from '@vezham/react/v2'
+import { Chip, ScrollShadow } from '@vezham/react-v2'
 
 import { AppView } from '../../../components/app-view'
 import { dates, events, today } from './data'

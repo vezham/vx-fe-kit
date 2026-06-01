@@ -1,16 +1,25 @@
 import { useLocation } from '@tanstack/react-router'
 import { useState } from 'react'
 
-import { Surface } from '@vezham/react/v3'
+import { Surface } from '@vezham/react-v3'
 
 import Footer from '../../components/panel/footer'
-import { AIDrawer } from '../../components/panel/footer/ai'
+import { aiPanel } from '../../components/panel/footer/ai'
 import { ControlCenterDrawer } from '../../components/panel/footer/control-center'
 import { NotificationDrawer } from '../../components/panel/footer/notification-center'
 import UserInfoModal from '../../components/panel/footer/preferences/modal'
 import Header from '../../components/panel/header'
 import { BookmarksDrawer } from '../../components/panel/header/bookmarks'
+import {
+  Bookmarks1Trigger,
+  bookmarks1Panel
+} from '../../components/panel/header/bookmarks1'
 import { DiskDrawer } from '../../components/panel/header/disc'
+import { Disc1Trigger, disc1Panel } from '../../components/panel/header/disc1'
+import {
+  InfoPanelContainer,
+  useInfoPanel
+} from '../../components/panel/info-panel'
 import { Menu } from '../../components/panel/menu'
 import { items } from '../../components/panel/menu/sidebar-items'
 import { useUser } from '../../store/users/useUserStore'
@@ -18,11 +27,11 @@ import { useUser } from '../../store/users/useUserStore'
 export default function MenuMD() {
   const [openSettings, setOpenSettings] = useState(false)
   const location = useLocation()
-  const [aiOpen, setAIOpen] = useState(false)
   const [notificationsOpen, setNotificationsOpen] = useState(false)
   const [controlsOpen, setControlsOpen] = useState(false)
   const [bookmarksOpen, setBookmarksOpen] = useState(false)
-  const [archiveOpen, setArchiveOpen] = useState(false)
+  const [diskOpen, setDiskOpen] = useState(false)
+  const { openInfoPanel } = useInfoPanel()
 
   const selectedKey = getSelectedMenuKey(location.pathname)
 
@@ -39,7 +48,7 @@ export default function MenuMD() {
     <>
       <Surface
         variant="transparent"
-        className="border-default-300 sticky top-0 left-0 z-[50] flex h-screen w-[106px] flex-col gap-6 px-4 pt-4 pb-6"
+        className="border-default-300 sticky top-0 left-0 z-[10] flex h-screen w-[106px] flex-col gap-6 px-4 pt-4 pb-6"
         data-vx="menu-layout">
         <Header
           users={users}
@@ -47,7 +56,13 @@ export default function MenuMD() {
           showBookamarks
           showDisk
           onBookMarksClick={() => setBookmarksOpen(true)}
-          onDiskClick={() => setArchiveOpen(true)}
+          onDiskClick={() => setDiskOpen(true)}
+          extraActions={
+            <>
+              <Bookmarks1Trigger />
+              <Disc1Trigger />
+            </>
+          }
         />
 
         <Menu collapsed={false} items={items} selectedKey={selectedKey} />
@@ -65,7 +80,7 @@ export default function MenuMD() {
           showControlCenter
           showNotifications
           showUserInfo
-          onAI={() => setAIOpen(true)}
+          onAI={() => openInfoPanel('ai')}
           onControlCenterClick={() => setControlsOpen(true)}
           onNotificationsClick={() => setNotificationsOpen(true)}
           onUserClick={() => setOpenSettings(true)}
@@ -75,7 +90,6 @@ export default function MenuMD() {
         open={openSettings}
         onClose={() => setOpenSettings(false)}
       />
-      <AIDrawer isOpen={aiOpen} onClose={() => setAIOpen(false)} />
       <ControlCenterDrawer
         isOpen={controlsOpen}
         onClose={() => setControlsOpen(false)}
@@ -88,7 +102,14 @@ export default function MenuMD() {
         isOpen={bookmarksOpen}
         onClose={() => setBookmarksOpen(false)}
       />
-      <DiskDrawer isOpen={archiveOpen} onClose={() => setArchiveOpen(false)} />
+      <DiskDrawer isOpen={diskOpen} onClose={() => setDiskOpen(false)} />
+      <InfoPanelContainer
+        panels={{
+          bookmarks1: bookmarks1Panel,
+          disc1: disc1Panel,
+          ai: aiPanel
+        }}
+      />
     </>
   )
 }

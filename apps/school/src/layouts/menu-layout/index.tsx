@@ -1,4 +1,4 @@
-import { useMediaQuery } from '@vezham/react/v3'
+import { useMediaQuery } from '@vezham/react-v3'
 
 import MenuMD from './index-md'
 import MenuSM from './index-sm'

@@ -3,7 +3,7 @@
 import { Icon } from '@iconify/react'
 import { useEffect, useState } from 'react'
 
-import { Button, ScrollShadow } from '@vezham/react/v3'
+import { Button, ScrollShadow } from '@vezham/react-v3'
 
 import { useUser } from '../../../../store/users/useUserStore'
 import { SidebarItem, settingsSidebar } from './data'

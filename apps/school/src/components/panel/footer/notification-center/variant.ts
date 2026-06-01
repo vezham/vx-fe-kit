@@ -4,8 +4,8 @@ const tva = tv({
   slots: {
     // Main Drawer slots
     drawer_base:
-      'z-[10] max-w-[440px] rounded-none border-none bg-transparent shadow-none md:translate-x-[106px]',
-    drawer_wrapper: 'z-[10]',
+      'z-[50] max-w-[440px] rounded-none border-none bg-transparent shadow-none md:translate-x-[106px]',
+    drawer_wrapper: 'z-[50]',
     drawer_content:
       'border border-white/20 bg-black/5 shadow-xl backdrop-blur-lg',
 

@@ -1,3 +1,5 @@
+import { ReactNode } from 'react'
+
 export interface User {
   id: string
   name: string
@@ -21,4 +23,5 @@ export interface HeaderActionsProps {
 
   className?: string
   hideSeparator?: boolean
+  extraActions?: ReactNode
 }

@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import { VariantProps, tv } from '@vezham/react-utils'
-import { Surface, cn } from '@vezham/react/v3'
+import { Surface, cn } from '@vezham/react-v3'
 
 const widgetVariants = tv({
   base: 'border-default-200 relative flex flex-col rounded-3xl border border-2 whitespace-nowrap shadow-md',
@@ -97,9 +97,9 @@ WidgetFooter.displayName = 'WidgetFooter'
 
 export {
   Widget,
-  WidgetHeader,
-  WidgetTitle,
   WidgetContent,
   WidgetFooter,
+  WidgetHeader,
+  WidgetTitle,
   widgetVariants
 }

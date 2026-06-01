@@ -25,11 +25,15 @@ import {
   Surface,
   Table,
   Tooltip
-} from '@vezham/react/v3'
+} from '@vezham/react-v3'
 
 import { ShortcutTooltipLabel } from '../../../../components/shortcut-key'
-import { dateOptions, rowCountOptions, statusLegend } from './data'
-import { teacherDayWiseConfig } from './data'
+import {
+  dateOptions,
+  rowCountOptions,
+  statusLegend,
+  teacherDayWiseConfig
+} from './data'
 import type {
   AttendancePageConfig,
   AttendanceStatus,

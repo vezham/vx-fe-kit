@@ -1,7 +1,7 @@
 import { Icon } from '@iconify/react'
 import { useEffect, useRef, useState } from 'react'
 
-import { Button, Surface } from '@vezham/react/v3'
+import { Button, Surface } from '@vezham/react-v3'
 
 import SettingsSidebar, { findItemById } from './sidebar'
 

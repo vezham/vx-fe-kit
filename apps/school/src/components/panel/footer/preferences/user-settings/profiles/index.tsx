@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 
-import { Button, Input, Tabs } from '@vezham/react/v3'
+import { Button, Input, Tabs } from '@vezham/react-v3'
 
 import { useUser } from '../../../../../../store/users/useUserStore'
 

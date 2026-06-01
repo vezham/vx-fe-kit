@@ -4,8 +4,8 @@ import { Icon } from '@iconify/react'
 import { useLocation, useNavigate } from '@tanstack/react-router'
 import React, { useEffect, useMemo, useState } from 'react'
 
-import { useDisclosure } from '@vezham/react/v2'
-import { Button } from '@vezham/react/v3'
+import { useDisclosure } from '@vezham/react-v2'
+import { Button } from '@vezham/react-v3'
 
 import MenuDrawer from './drawer'
 import { BottomNavbarProps, SidebarItem, SidebarItemType } from './types'

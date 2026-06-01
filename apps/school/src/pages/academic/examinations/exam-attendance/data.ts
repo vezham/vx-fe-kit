@@ -1,4 +1,4 @@
-import type { SortDescriptor } from '@vezham/react/v3'
+import type { SortDescriptor } from '@vezham/react-v3'
 
 import type {
   AttendanceFormState,

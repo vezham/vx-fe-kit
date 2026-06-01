@@ -1,6 +1,5 @@
 'use client'
 
-import { Envelope } from '@gravity-ui/icons'
 import { Icon } from '@iconify/react'
 import { useNavigate } from '@tanstack/react-router'
 import { useMemo, useState } from 'react'
@@ -8,13 +7,11 @@ import { useMemo, useState } from 'react'
 import {
   Button,
   Dropdown,
-  Input,
   InputGroup,
   Label,
-  SearchField,
   Tabs,
   TextField
-} from '@vezham/react/v3'
+} from '@vezham/react-v3'
 
 import { ShortcutKey } from '../shortcut-key'
 

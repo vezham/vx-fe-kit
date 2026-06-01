@@ -1,4 +1,4 @@
-import { useOverlayState } from '@vezham/react/v3'
+import { useOverlayState } from '@vezham/react-v3'
 
 export type ClassStatus = 'Pass' | 'Fail'
 export type DrawerMode = 'view' | 'edit' | 'create'

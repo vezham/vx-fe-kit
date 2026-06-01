@@ -1,5 +1,5 @@
 import { tv } from '@vezham/react-utils'
-import { VariantProps } from '@vezham/react/v3'
+import { VariantProps } from '@vezham/react-v3'
 
 const tva = tv({
   slots: {

@@ -1,4 +1,4 @@
-import { DateValue, useOverlayState } from '@vezham/react/v3'
+import { useOverlayState } from '@vezham/react-v3'
 
 export type ClassStatus = 'Active' | 'Inactive'
 export type DrawerMode = 'view' | 'edit' | 'create'

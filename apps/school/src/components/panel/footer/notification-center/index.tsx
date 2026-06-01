@@ -8,8 +8,8 @@ import {
   DrawerFooter,
   DrawerHeader,
   ScrollShadow
-} from '@vezham/react/v2'
-import { Chip } from '@vezham/react/v3'
+} from '@vezham/react-v2'
+import { Chip } from '@vezham/react-v3'
 
 import WidgetsGrid from '../../../../pages/widgets'
 import { Props, useProps } from './types'

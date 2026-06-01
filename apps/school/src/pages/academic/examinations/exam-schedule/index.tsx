@@ -24,7 +24,7 @@ import {
   Surface,
   Table,
   Tooltip
-} from '@vezham/react/v3'
+} from '@vezham/react-v3'
 
 import { ShortcutTooltipLabel } from '../../../../components/shortcut-key'
 import {
@@ -32,7 +32,6 @@ import {
   dateOptions,
   durationOptions,
   emptyForm,
-  endtimeOptions,
   examOptions,
   examdateOptions,
   initialRows,
@@ -40,7 +39,6 @@ import {
   rowCountOptions,
   sectionOptions,
   sortOptions,
-  starttimeOptions,
   statusOptions,
   subjectOptions
 } from './data'
@@ -52,7 +50,6 @@ import type {
   ClassFormProps,
   ClassFormState,
   ClassRow,
-  ClassStatus,
   CustomDateRangeValue,
   DatePresetKey,
   DateRangeFilter,

@@ -1,7 +1,3 @@
-import React from 'react'
-
-import { Tabs } from '@vezham/react/v3'
-
 import CustomTabs from '../../../tabs'
 
 const index = () => {

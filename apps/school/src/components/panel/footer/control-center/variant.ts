@@ -1,11 +1,11 @@
 import { tv } from '@vezham/react-utils'
-import { VariantProps } from '@vezham/react/v3'
+import { VariantProps } from '@vezham/react-v3'
 
 const tva = tv({
   slots: {
     drawer_base:
       'max-w-[440px] rounded-none border-none bg-transparent shadow-none md:translate-x-[106px]',
-    drawer_wrapper: 'z-[20]',
+    drawer_wrapper: 'z-[50]',
     drawer_content:
       'flex justify-end bg-black/5 p-4 shadow-xl backdrop-blur-sm',
 

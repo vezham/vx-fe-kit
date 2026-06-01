@@ -3,13 +3,8 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
 
 import { forwardRef } from '@vezham/react-utils'
-import {
-  Drawer,
-  DrawerBody,
-  DrawerContent,
-  DrawerFooter
-} from '@vezham/react/v2'
-import { Button, Chip } from '@vezham/react/v3'
+import { Drawer, DrawerContent, DrawerFooter } from '@vezham/react-v2'
+import { Button, Chip } from '@vezham/react-v3'
 
 import { Props, View, useProps } from './types'
 

@@ -24,11 +24,15 @@ import {
   Surface,
   Table,
   Tooltip
-} from '@vezham/react/v3'
+} from '@vezham/react-v3'
 
 import { ShortcutTooltipLabel } from '../../../components/shortcut-key'
-import { dateOptions, rowCountOptions, statusLegend } from './data'
-import { gradeReportsConfig } from './data'
+import {
+  dateOptions,
+  gradeReportsConfig,
+  rowCountOptions,
+  statusLegend
+} from './data'
 import type {
   AttendancePageConfig,
   AttendanceStatus,

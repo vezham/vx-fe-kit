@@ -1,6 +1,7 @@
 declare module '@heroui-pro/react' {
   import type { ComponentType, ReactNode } from 'react'
   export { Agenda, useAgenda } from '@heroui-pro/react/agenda'
+  export { Command } from '@heroui-pro/react/command'
 
   type ProProps = {
     children?: ReactNode

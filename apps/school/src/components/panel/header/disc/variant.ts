@@ -1,5 +1,5 @@
 // import { tv } from '@vezham/react-utils'
-// import { VariantProps } from '@vezham/react/v3'
+// import { VariantProps } from '@vezham/react-v3'
 // const tva = tv({
 //   slots: {
 //     drawer_dialog:
@@ -148,15 +148,15 @@
 // export { tva }
 // export type { tvProps, tvSlots }
 import { tv } from '@vezham/react-utils'
-import { VariantProps } from '@vezham/react/v3'
+import { VariantProps } from '@vezham/react-v3'
 
 const tva = tv({
   slots: {
     drawer_dialog:
       'border-default-200 max-w-[440px] border-r bg-black/5 backdrop-blur-sm md:translate-x-[106px]',
     tabs: '',
-    tabs_list_container: '',
-    tabs_list: 'w-fit',
+    tabs_list_container: 'w-full',
+    tabs_list: 'w-full',
     tab_archive: 'flex-1 justify-center',
     tab_trash: 'flex-1 justify-center',
     tab_indicator: '',
@@ -194,7 +194,7 @@ const tva = tv({
     item_url: 'text-default-500 truncate text-xs',
 
     item_actions:
-      'absolute top-1/2 right-2 flex -translate-y-1/2 items-center gap-1 rounded-md bg-inherit opacity-0 transition-opacity group-hover:opacity-100',
+      'absolute top-1/2 right-2 flex -translate-y-1/2 items-center rounded-md bg-inherit opacity-0 transition-opacity group-hover:opacity-100',
 
     unarchive_button: 'hover:bg-default-200 rounded-md p-1.5 transition-colors',
     restore_button: 'hover:bg-success-100 rounded-md p-1.5 transition-colors',

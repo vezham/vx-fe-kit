@@ -3,7 +3,7 @@ import { CSS } from '@dnd-kit/utilities'
 import { Icon } from '@iconify/react'
 import React from 'react'
 
-import { Avatar } from '@vezham/react/v3'
+import { Avatar } from '@vezham/react-v3'
 
 interface SortableFavoriteItemProps {
   id: string

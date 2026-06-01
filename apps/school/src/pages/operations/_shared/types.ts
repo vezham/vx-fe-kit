@@ -1,4 +1,4 @@
-import { type SortDescriptor, useOverlayState } from '@vezham/react/v3'
+import { type SortDescriptor, useOverlayState } from '@vezham/react-v3'
 
 export type DatePresetKey =
   | 'today'

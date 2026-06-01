@@ -2,7 +2,7 @@ import { Icon } from '@iconify/react'
 import { motion } from 'framer-motion'
 import React from 'react'
 
-import { Avatar, ScrollShadow } from '@vezham/react/v2'
+import { Avatar, ScrollShadow } from '@vezham/react-v2'
 
 import { AppView } from '../../../components/app-view'
 import { emails, listItemVariants } from './data'

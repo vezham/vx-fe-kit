@@ -25,7 +25,7 @@ import {
   Switch,
   Table,
   Tooltip
-} from '@vezham/react/v3'
+} from '@vezham/react-v3'
 
 import { ShortcutTooltipLabel } from '../../../components/shortcut-key'
 import {
@@ -33,14 +33,11 @@ import {
   dateOptions,
   dayOptions,
   emptyForm,
-  endtimeOptions,
   initialRows,
   roomOptions,
   rowCountOptions,
   sectionOptions,
   sortOptions,
-  starttimeOptions,
-  statusOptions,
   teacherOptions
 } from './data'
 import type {
@@ -51,7 +48,6 @@ import type {
   ClassFormProps,
   ClassFormState,
   ClassRow,
-  ClassStatus,
   CustomDateRangeValue,
   DatePresetKey,
   DateRangeFilter,

@@ -1,6 +1,6 @@
 'use client'
 
-import { Switch } from '@vezham/react/v3'
+import { Switch } from '@vezham/react-v3'
 
 const items = [
   {

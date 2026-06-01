@@ -41,7 +41,7 @@ import {
   Separator,
   Tabs,
   useOverlayState
-} from '@vezham/react/v3'
+} from '@vezham/react-v3'
 
 import { ShortcutKey } from '../../../shortcut-key'
 import { SortableFavoriteItem } from './SortableFavoriteItem'
@@ -1323,9 +1323,8 @@ const BookmarkFileTree = ({
       <Button
         isIconOnly
         aria-label={`Remove ${item.value.title}`}
-        size="sm"
-        variant="ghost"
-        className="text-danger absolute top-1/2 right-0 h-7 w-7 min-w-7 -translate-y-1/2 opacity-0 transition-opacity group-hover:opacity-100"
+        variant="tertiary"
+        className="text-danger text-danger absolute top-1/2 right-0 -translate-y-1/2 opacity-0 transition-opacity group-hover:opacity-100"
         onClick={event => {
           event.stopPropagation()
           if (item.value.kind === 'folder') {
@@ -1335,7 +1334,7 @@ const BookmarkFileTree = ({
 
           onBookmarkRemove(String(item.key))
         }}>
-        <Icon icon="solar:trash-bin-trash-linear" width={16} />
+        <Icon icon="solar:trash-bin-trash-linear" width={24} />
       </Button>
     </span>
   )
@@ -1360,7 +1359,7 @@ const BookmarkFileTree = ({
 
   return (
     <ContextMenu>
-      {/* <ContextMenu.Trigger className="block min-h-24">
+      <ContextMenu.Trigger className="block min-h-24">
         <div className="min-h-24" onContextMenu={handleAreaContextMenu}>
           <FileTree
             {...getFileTreeProps()}
@@ -1391,7 +1390,7 @@ const BookmarkFileTree = ({
       </ContextMenu.Trigger>
       <ContextMenu.Popover>
         <ContextMenu.Menu>{renderContextMenuItems()}</ContextMenu.Menu>
-      </ContextMenu.Popover> */}
+      </ContextMenu.Popover>
       <ContextMenu.Trigger>
         <div className="border-border text-muted flex h-48 w-80 items-center justify-center rounded-xl border border-dashed text-sm select-none">
           Right-click here
@@ -1424,7 +1423,7 @@ const BookmarkFileTree = ({
   )
 }
 
-const BookmarksDrawer = forwardRef<'div', Props>((props, ref) => {
+const BookmarksContent = forwardRef<'div', Props>((props, ref) => {
   const {
     Component,
     getDrawerDialogProps,
@@ -1449,9 +1448,6 @@ const BookmarksDrawer = forwardRef<'div', Props>((props, ref) => {
     getFavoriteNameProps,
     getFileTreeProps,
     getBookmarkTreeEmptyStateProps,
-    isOpen,
-    onClose,
-    placement,
     externalFavorites,
     externalBookmarks,
     onFavoriteClick,
@@ -1913,183 +1909,156 @@ const BookmarksDrawer = forwardRef<'div', Props>((props, ref) => {
 
   return (
     <Component>
-      <Drawer>
-        <Drawer.Backdrop
-          variant="transparent"
-          isOpen={isOpen}
-          onOpenChange={open => {
-            if (!open) onClose()
-          }}>
-          <Drawer.Content placement={placement}>
-            <Drawer.Dialog {...getDrawerDialogProps()}>
-              <Drawer.CloseTrigger />
-
-              <Drawer.Body {...getDrawerBodyProps()}>
-                <ScrollShadow {...getScrollShadowProps()}>
-                  {showAllFavoritesMode ? (
-                    <div {...getContentContainerProps()}>
-                      {renderAllFavoritesFullView()}
-                    </div>
-                  ) : (
-                    <div {...getContentContainerProps()}>
-                      {hasFavorites && (
-                        <>
-                          {/* Grid: Flex Wrap with Full 2D Drag Drop */}
-                          <section {...getSectionProps()}>
-                            <div {...getSectionHeaderProps()}>
-                              {/* <Icon
+      <ScrollShadow {...getScrollShadowProps()}>
+        {showAllFavoritesMode ? (
+          <div {...getContentContainerProps()}>
+            {renderAllFavoritesFullView()}
+          </div>
+        ) : (
+          <div {...getContentContainerProps()}>
+            {hasFavorites && (
+              <>
+                {/* Grid: Flex Wrap with Full 2D Drag Drop */}
+                <section {...getSectionProps()}>
+                  <div {...getSectionHeaderProps()}>
+                    {/* <Icon
                               {...getSectionIconProps(
                                 'solar:star-bold',
                                 'text-warning'
                               )}
                             /> */}
-                              <h3 {...getSectionTitleProps('Favorites')} />
-                            </div>
-                            <DndContext
-                              sensors={sensors}
-                              collisionDetection={closestCenter}
-                              onDragStart={handleDragStart}
-                              onDragCancel={() => setActiveId(null)}
-                              onDragEnd={handleFavoriteDragEnd}>
-                              {renderFavoriteItemsForGrid()}
-                              <DragOverlay
-                                dropAnimation={{
-                                  sideEffects: defaultDropAnimationSideEffects({
-                                    styles: {
-                                      active: {
-                                        opacity: '0.4'
-                                      }
-                                    }
-                                  })
-                                }}>
-                                {activeFavorite && (
-                                  <div
-                                    {...getFavoriteItemProps()}
-                                    style={{
-                                      opacity: 0.8,
-                                      cursor: 'grabbing'
-                                    }}>
-                                    {activeFavorite.backgroundImage ? (
-                                      <img
-                                        {...getFavoriteBackgroundImageProps(
-                                          activeFavorite.backgroundImage,
-                                          activeFavorite.name
-                                        )}
-                                      />
-                                    ) : (
-                                      <div
-                                        {...getFavoriteBackgroundGradientProps()}
-                                      />
-                                    )}
-                                    <div {...getFavoriteOverlayProps()} />
-                                    <div {...getFavoriteAvatarContainerProps()}>
-                                      <Avatar {...getFavoriteAvatarProps()}>
-                                        {activeFavorite.avatar && (
-                                          <Avatar.Image
-                                            src={activeFavorite.avatar}
-                                            alt={activeFavorite.name}
-                                          />
-                                        )}
-                                        <Avatar.Fallback
-                                          {...getFavoriteAvatarFallbackProps(
-                                            activeFavorite.name
-                                          )}>
-                                          <Icon
-                                            {...getFavoriteAvatarIconProps()}
-                                          />
-                                        </Avatar.Fallback>
-                                      </Avatar>
-                                    </div>
-                                    <div {...getFavoriteContentProps()}>
-                                      <p
-                                        {...getFavoriteNameProps(
-                                          activeFavorite.name
-                                        )}
-                                      />
-                                    </div>
-                                  </div>
-                                )}
-                              </DragOverlay>
-                            </DndContext>
-                          </section>
+                    <h3 {...getSectionTitleProps('Favorites')} />
+                  </div>
+                  <DndContext
+                    sensors={sensors}
+                    collisionDetection={closestCenter}
+                    onDragStart={handleDragStart}
+                    onDragCancel={() => setActiveId(null)}
+                    onDragEnd={handleFavoriteDragEnd}>
+                    {renderFavoriteItemsForGrid()}
+                    <DragOverlay
+                      dropAnimation={{
+                        sideEffects: defaultDropAnimationSideEffects({
+                          styles: {
+                            active: {
+                              opacity: '0.4'
+                            }
+                          }
+                        })
+                      }}>
+                      {activeFavorite && (
+                        <div
+                          {...getFavoriteItemProps()}
+                          style={{
+                            opacity: 0.8,
+                            cursor: 'grabbing'
+                          }}>
+                          {activeFavorite.backgroundImage ? (
+                            <img
+                              {...getFavoriteBackgroundImageProps(
+                                activeFavorite.backgroundImage,
+                                activeFavorite.name
+                              )}
+                            />
+                          ) : (
+                            <div {...getFavoriteBackgroundGradientProps()} />
+                          )}
+                          <div {...getFavoriteOverlayProps()} />
+                          <div {...getFavoriteAvatarContainerProps()}>
+                            <Avatar {...getFavoriteAvatarProps()}>
+                              {activeFavorite.avatar && (
+                                <Avatar.Image
+                                  src={activeFavorite.avatar}
+                                  alt={activeFavorite.name}
+                                />
+                              )}
+                              <Avatar.Fallback
+                                {...getFavoriteAvatarFallbackProps(
+                                  activeFavorite.name
+                                )}>
+                                <Icon {...getFavoriteAvatarIconProps()} />
+                              </Avatar.Fallback>
+                            </Avatar>
+                          </div>
+                          <div {...getFavoriteContentProps()}>
+                            <p {...getFavoriteNameProps(activeFavorite.name)} />
+                          </div>
+                        </div>
+                      )}
+                    </DragOverlay>
+                  </DndContext>
+                </section>
 
-                          {/* Scroll: Horizontal Scroll with View All */}
-                          <section {...getSectionProps()}>
-                            <div {...getSectionHeaderProps()}>
-                              <div className="flex flex-1 items-center gap-2">
-                                {/* <Icon
+                {/* Scroll: Horizontal Scroll with View All */}
+                <section {...getSectionProps()}>
+                  <div {...getSectionHeaderProps()}>
+                    <div className="flex flex-1 items-center gap-2">
+                      {/* <Icon
                                 {...getSectionIconProps(
                                   'solar:star-bold',
                                   'text-warning'
                                 )}
                               /> */}
-                                <h3 {...getSectionTitleProps('Quick Access')} />
-                              </div>
-                              <div className="flex items-center gap-2">
-                                <Button
-                                  isIconOnly
-                                  size="sm"
-                                  variant="ghost"
-                                  onClick={toggleScrollFavorites}
-                                  className="text-default-400">
-                                  <Icon
-                                    icon={
-                                      isScrollFavoritesOpen
-                                        ? 'solar:alt-arrow-up-linear'
-                                        : 'solar:alt-arrow-down-linear'
-                                    }
-                                    width={18}
-                                  />
-                                </Button>
-                              </div>
-                            </div>
-
-                            {isScrollFavoritesOpen && (
-                              <ScrollShadow
-                                orientation="horizontal"
-                                className="max-w-full overflow-x-auto pb-2"
-                                hideScrollBar={false}>
-                                {renderFavoriteItemsForScroll()}
-                              </ScrollShadow>
-                            )}
-                          </section>
-                        </>
-                      )}
-                      <section {...getSectionProps()}>
-                        <div {...getSectionHeaderProps()}>
-                          <Icon
-                            {...getSectionIconProps(
-                              'solar:bookmark-bold',
-                              'text-primary'
-                            )}
-                          />
-                          <h3 {...getSectionTitleProps('Bookmarks')} />
-                        </div>
-                        <BookmarkFileTree
-                          key={bookmarkTreeKey}
-                          items={bookmarkTreeItems}
-                          defaultExpandedKeys={bookmarkTreeExpandedKeys}
-                          getFileTreeProps={getFileTreeProps}
-                          getBookmarkTreeEmptyStateProps={
-                            getBookmarkTreeEmptyStateProps
-                          }
-                          onBookmarkClick={handleBookmarkTreeClick}
-                          onBookmarkRemove={handleBookmarkRemove}
-                          onFolderEdit={openEditFolderModal}
-                          onFolderDelete={handleBookmarkRemove}
-                          onNewFolder={openCreateFolderModal}
-                          onBookmarkMove={handleBookmarkMove}
-                          onTreeChange={handleBookmarkTreeChange}
-                        />
-                      </section>
+                      <h3 {...getSectionTitleProps('Quick Access')} />
                     </div>
+                    <div className="flex items-center gap-2">
+                      <Button
+                        isIconOnly
+                        size="sm"
+                        variant="ghost"
+                        onClick={toggleScrollFavorites}
+                        className="text-default-400">
+                        <Icon
+                          icon={
+                            isScrollFavoritesOpen
+                              ? 'solar:alt-arrow-up-linear'
+                              : 'solar:alt-arrow-down-linear'
+                          }
+                          width={18}
+                        />
+                      </Button>
+                    </div>
+                  </div>
+
+                  {isScrollFavoritesOpen && (
+                    <ScrollShadow
+                      orientation="horizontal"
+                      className="max-w-full overflow-x-auto pb-2"
+                      hideScrollBar={false}>
+                      {renderFavoriteItemsForScroll()}
+                    </ScrollShadow>
                   )}
-                </ScrollShadow>
-              </Drawer.Body>
-            </Drawer.Dialog>
-          </Drawer.Content>
-        </Drawer.Backdrop>
-      </Drawer>
+                </section>
+              </>
+            )}
+            <section {...getSectionProps()}>
+              <div {...getSectionHeaderProps()}>
+                <Icon
+                  {...getSectionIconProps(
+                    'solar:bookmark-bold',
+                    'text-primary'
+                  )}
+                />
+                <h3 {...getSectionTitleProps('Bookmarks')} />
+              </div>
+              <BookmarkFileTree
+                key={bookmarkTreeKey}
+                items={bookmarkTreeItems}
+                defaultExpandedKeys={bookmarkTreeExpandedKeys}
+                getFileTreeProps={getFileTreeProps}
+                getBookmarkTreeEmptyStateProps={getBookmarkTreeEmptyStateProps}
+                onBookmarkClick={handleBookmarkTreeClick}
+                onBookmarkRemove={handleBookmarkRemove}
+                onFolderEdit={openEditFolderModal}
+                onFolderDelete={handleBookmarkRemove}
+                onNewFolder={openCreateFolderModal}
+                onBookmarkMove={handleBookmarkMove}
+                onTreeChange={handleBookmarkTreeChange}
+              />
+            </section>
+          </div>
+        )}
+      </ScrollShadow>
       <FolderModal
         open={folderModalOpen}
         mode={folderModalMode}
@@ -2102,6 +2071,44 @@ const BookmarksDrawer = forwardRef<'div', Props>((props, ref) => {
   )
 })
 
+BookmarksContent.displayName = 'BookmarksContent'
+
+const BookmarksDrawer = forwardRef<'div', Props>((props, ref) => {
+  const {
+    Component,
+    getDrawerDialogProps,
+    getDrawerBodyProps,
+    isOpen,
+    onClose,
+    placement
+  } = useProps({
+    ...props,
+    ref
+  })
+
+  return (
+    <Component>
+      <Drawer>
+        <Drawer.Backdrop
+          variant="transparent"
+          isOpen={isOpen}
+          onOpenChange={open => {
+            if (!open) onClose()
+          }}>
+          <Drawer.Content placement={placement}>
+            <Drawer.Dialog {...getDrawerDialogProps()}>
+              <Drawer.CloseTrigger />
+              <Drawer.Body {...getDrawerBodyProps()}>
+                <BookmarksContent {...props} />
+              </Drawer.Body>
+            </Drawer.Dialog>
+          </Drawer.Content>
+        </Drawer.Backdrop>
+      </Drawer>
+    </Component>
+  )
+})
+
 BookmarksDrawer.displayName = 'BookmarksDrawer'
 
-export { BookmarksDrawer }
+export { BookmarksContent, BookmarksDrawer }

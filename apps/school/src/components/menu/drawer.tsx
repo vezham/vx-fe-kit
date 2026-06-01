@@ -6,8 +6,8 @@ import {
   DrawerBody,
   DrawerContent,
   DrawerHeader
-} from '@vezham/react/v2'
-import { Button } from '@vezham/react/v3'
+} from '@vezham/react-v2'
+import { Button } from '@vezham/react-v3'
 
 import { MenuDrawerProps } from './types'
 import {

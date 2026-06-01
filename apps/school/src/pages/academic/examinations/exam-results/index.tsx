@@ -13,7 +13,6 @@ import {
   DateRangePicker,
   Drawer,
   Dropdown,
-  Input,
   Label,
   ListBox,
   Pagination,
@@ -23,26 +22,20 @@ import {
   type Selection,
   type SortDescriptor,
   Surface,
-  Switch,
   Table,
   Tooltip
-} from '@vezham/react/v3'
+} from '@vezham/react-v3'
 
 import { ShortcutTooltipLabel } from '../../../../components/shortcut-key'
 import {
   classOptions,
   dateOptions,
-  dayOptions,
   emptyForm,
-  endtimeOptions,
   examtypeOptions,
   initialRows,
-  roomOptions,
   rowCountOptions,
   sectionOptions,
-  sortOptions,
-  starttimeOptions,
-  statusOptions
+  sortOptions
 } from './data'
 import type {
   ClassDetailSummaryProps,
@@ -52,7 +45,6 @@ import type {
   ClassFormProps,
   ClassFormState,
   ClassRow,
-  ClassStatus,
   CustomDateRangeValue,
   DatePresetKey,
   DateRangeFilter,

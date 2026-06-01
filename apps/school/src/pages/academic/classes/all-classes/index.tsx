@@ -26,7 +26,7 @@ import {
   Switch,
   Table,
   Tooltip
-} from '@vezham/react/v3'
+} from '@vezham/react-v3'
 
 import {
   ShortcutKey,

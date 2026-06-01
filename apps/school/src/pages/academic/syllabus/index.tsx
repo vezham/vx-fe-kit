@@ -22,10 +22,9 @@ import {
   type Selection,
   type SortDescriptor,
   Surface,
-  Switch,
   Table,
   Tooltip
-} from '@vezham/react/v3'
+} from '@vezham/react-v3'
 
 import { ShortcutTooltipLabel } from '../../../components/shortcut-key'
 import {

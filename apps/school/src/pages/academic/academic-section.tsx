@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-import { Button, Drawer, Input, Label, useOverlayState } from '@vezham/react/v3'
+import { Button, Drawer, Input, Label, useOverlayState } from '@vezham/react-v3'
 
 type AcademicSectionPageProps = {
   title: string

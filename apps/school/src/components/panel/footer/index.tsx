@@ -11,7 +11,7 @@ import {
   Separator,
   Surface,
   Tooltip
-} from '@vezham/react/v3'
+} from '@vezham/react-v3'
 
 import { useUser } from '../../../store/users/useUserStore'
 import UserInfoModal from './preferences/modal'

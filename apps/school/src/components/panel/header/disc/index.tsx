@@ -2,15 +2,14 @@ import { Icon } from '@iconify/react'
 import { useState } from 'react'
 
 import { forwardRef } from '@vezham/react-utils'
-import { Button, Drawer, Input, ScrollShadow, Tabs } from '@vezham/react/v3'
+import { Button, Drawer, Input, ScrollShadow, Tabs } from '@vezham/react-v3'
 
 import { sampleArchiveItems, sampleTrashItems } from './data'
 import { ArchiveItem, Props, TrashItem, useProps } from './types'
 
-const DiskDrawer = forwardRef<'div', Props>((props, ref) => {
+const DiskContent = forwardRef<'div', Props>((props, ref) => {
   const {
     Component,
-    getDrawerDialogProps,
     getTabsProps,
     getTabsListContainerProps,
     getTabsListProps,
@@ -44,9 +43,6 @@ const DiskDrawer = forwardRef<'div', Props>((props, ref) => {
     getDeleteButtonProps,
     getDeletePermanentButtonProps,
     getActionIconProps,
-    isOpen,
-    onClose,
-    placement,
     externalArchiveItems,
     externalTrashItems,
     onUnarchive,
@@ -424,6 +420,74 @@ const DiskDrawer = forwardRef<'div', Props>((props, ref) => {
 
   return (
     <Component>
+      <div className="flex h-full min-h-0 w-full flex-col gap-4">
+        <Tabs
+          variant="primary"
+          {...getTabsProps()}
+          selectedKey={activeTab}
+          onSelectionChange={key => setActiveTab(key as string)}>
+          <Tabs.ListContainer {...getTabsListContainerProps()}>
+            <Tabs.List {...getTabsListProps()}>
+              <Tabs.Tab {...getTabArchiveProps()}>
+                <Icon icon="solar:archive-linear" width={18} className="mr-2" />
+                Archive
+                <Tabs.Indicator {...getTabIndicatorProps()} />
+              </Tabs.Tab>
+              <Tabs.Tab {...getTabTrashProps()}>
+                <Icon
+                  icon="solar:trash-bin-trash-linear"
+                  width={18}
+                  className="mr-2"
+                />
+                Trash
+                <Tabs.Indicator {...getTabIndicatorProps()} />
+              </Tabs.Tab>
+            </Tabs.List>
+          </Tabs.ListContainer>
+        </Tabs>
+        <Input
+          {...currentTab.getSearchProps()}
+          value={currentTab.searchValue}
+          onChange={e => currentTab.setSearchValue(e.target.value)}
+        />
+
+        {currentTab.hasItems && currentTab.actions.length > 0 && (
+          <div {...getActionsBarProps(currentTab.key === 'trash')}>
+            {currentTab.actions.map(action => (
+              <Button
+                key={action.type}
+                {...action.props}
+                onPress={action.onPress}
+                startContent={<Icon icon={action.icon} width={16} />}>
+                {action.label}
+              </Button>
+            ))}
+          </div>
+        )}
+
+        <div {...getContainerProps()}>
+          <ScrollShadow
+            hideScrollBar={currentTab.key === 'archive'}
+            className="h-full">
+            {currentTab.renderContent()}
+          </ScrollShadow>
+        </div>
+      </div>
+    </Component>
+  )
+})
+
+DiskContent.displayName = 'DiskContent'
+
+const DiskDrawer = forwardRef<'div', Props>((props, ref) => {
+  const { Component, getDrawerDialogProps, isOpen, onClose, placement } =
+    useProps({
+      ...props,
+      ref
+    })
+
+  return (
+    <Component>
       <Drawer>
         <Drawer.Backdrop
           variant="transparent"
@@ -434,63 +498,8 @@ const DiskDrawer = forwardRef<'div', Props>((props, ref) => {
           <Drawer.Content placement={placement}>
             <Drawer.Dialog {...getDrawerDialogProps()}>
               <Drawer.CloseTrigger />
-              <Drawer.Header>
-                <Tabs
-                  variant="secondary"
-                  {...getTabsProps()}
-                  selectedKey={activeTab}
-                  onSelectionChange={key => setActiveTab(key as string)}>
-                  <Tabs.ListContainer {...getTabsListContainerProps()}>
-                    <Tabs.List {...getTabsListProps()}>
-                      <Tabs.Tab {...getTabArchiveProps()}>
-                        <Icon
-                          icon="solar:archive-linear"
-                          width={18}
-                          className="mr-2"
-                        />
-                        Archive
-                        <Tabs.Indicator {...getTabIndicatorProps()} />
-                      </Tabs.Tab>
-                      <Tabs.Tab {...getTabTrashProps()}>
-                        <Icon
-                          icon="solar:trash-bin-trash-linear"
-                          width={18}
-                          className="mr-2"
-                        />
-                        Trash
-                        <Tabs.Indicator {...getTabIndicatorProps()} />
-                      </Tabs.Tab>
-                    </Tabs.List>
-                  </Tabs.ListContainer>
-                </Tabs>
-                <Input
-                  {...currentTab.getSearchProps()}
-                  value={currentTab.searchValue}
-                  onChange={e => currentTab.setSearchValue(e.target.value)}
-                />
-
-                {currentTab.hasItems && currentTab.actions.length > 0 && (
-                  <div {...getActionsBarProps(currentTab.key === 'trash')}>
-                    {currentTab.actions.map(action => (
-                      <Button
-                        key={action.type}
-                        {...action.props}
-                        onPress={action.onPress}
-                        startContent={<Icon icon={action.icon} width={16} />}>
-                        {action.label}
-                      </Button>
-                    ))}
-                  </div>
-                )}
-              </Drawer.Header>
               <Drawer.Body>
-                <div {...getContainerProps()}>
-                  <ScrollShadow
-                    hideScrollBar={currentTab.key === 'archive'}
-                    className="h-full">
-                    {currentTab.renderContent()}
-                  </ScrollShadow>
-                </div>
+                <DiskContent {...props} />
               </Drawer.Body>
             </Drawer.Dialog>
           </Drawer.Content>
@@ -502,4 +511,4 @@ const DiskDrawer = forwardRef<'div', Props>((props, ref) => {
 
 DiskDrawer.displayName = 'DiskDrawer'
 
-export { DiskDrawer }
+export { DiskContent, DiskDrawer }

@@ -17,7 +17,7 @@ import {
   type SortDescriptor,
   Surface,
   Table
-} from '@vezham/react/v3'
+} from '@vezham/react-v3'
 
 import {
   dateOptions,

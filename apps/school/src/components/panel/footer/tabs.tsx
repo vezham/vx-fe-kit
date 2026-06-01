@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Tabs } from '@vezham/react/v3'
+import { Tabs } from '@vezham/react-v3'
 
 interface TabItem {
   id: string

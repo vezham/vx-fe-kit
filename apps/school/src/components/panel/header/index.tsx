@@ -1,51 +1,42 @@
 import { Icon } from '@iconify/react'
-import { useHotkey } from '@tanstack/react-hotkeys'
 import { useCallback, useState } from 'react'
 
-import { Badge } from '@vezham/react/v2'
 import {
-  Alert,
   Avatar,
   Button,
-  CloseButton,
   Popover,
   Separator,
   Surface,
   Tooltip
-} from '@vezham/react/v3'
+} from '@vezham/react-v3'
 
+import { useCommand } from '../../command'
 import { ShortcutKey } from '../../shortcut-key'
 import { HeaderActionsProps } from './types'
 
 export default function Header({
   users,
   showSearch = false,
-  showBookamarks = false,
-  showDisk = false,
-  favoritesCount = 0,
-  archiveCount = 0,
   onAvatarClick,
   onSearchClick,
-  onBookMarksClick,
-  onDiskClick,
+  extraActions,
   className,
   hideSeparator = false
 }: HeaderActionsProps) {
   const [submenu, setSubmenu] = useState<string | null>(null)
   const [open, setOpen] = useState(false)
 
-  const [showAlert, setShowAlert] = useState(false)
+  const { openCommand } = useCommand()
 
   const handleSearch = useCallback(() => {
     onSearchClick?.()
-    setShowAlert(true)
+    openCommand()
+  }, [onSearchClick, openCommand])
 
-    setTimeout(() => setShowAlert(false), 2000)
-  }, [onSearchClick])
-
-  useHotkey('Mod+K', () => {
+  const handlePopoverSearch = useCallback(() => {
     handleSearch()
-  })
+    setOpen(false)
+  }, [handleSearch])
 
   return (
     <>
@@ -87,14 +78,20 @@ export default function Header({
               Back to home
             </Button>
             <Separator className="my-2" />
-            <MenuItem icon="solar:magnifer-linear" shortcut="⌘ K" />
+            <MenuItem
+              ariaLabel="Open command palette"
+              icon="solar:magnifer-linear"
+              shortcut="⌘ K"
+              onClick={handlePopoverSearch}
+            />
             <Separator className="my-2" />
-            <Popover open={submenu === 'file'}>
+            <Popover isOpen={submenu === 'file'}>
               <Popover.Trigger
+                className="w-full"
                 onMouseOver={() => setSubmenu('file')}
                 onMouseLeave={() => setSubmenu(null)}>
                 <div>
-                  <MenuItem label="File" icon="solar:folder-linear" hasSub />
+                  <MenuItem label="File" hasSub />
                 </div>
               </Popover.Trigger>
               <Popover.Content
@@ -127,72 +124,33 @@ export default function Header({
 
         {showSearch && (
           <Tooltip delay={0}>
-            <Tooltip.Trigger asChild>
-              <span>
+            <Tooltip.Trigger>
+              <span
+                aria-label="Open command palette"
+                className="inline-flex"
+                role="button"
+                tabIndex={0}
+                onClick={handleSearch}
+                onKeyDown={event => {
+                  if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault()
+                    handleSearch()
+                  }
+                }}>
                 <Icon
                   className="text-muted cursor-pointer"
                   icon="solar:magnifer-linear"
                   width={24}
-                  onClick={handleSearch}
                 />
               </span>
             </Tooltip.Trigger>
 
             <Tooltip.Content placement="right">
-              Search (Ctrl + K)
+              Search (Ctrl/⌘ K)
             </Tooltip.Content>
           </Tooltip>
         )}
-
-        {showAlert && (
-          <div className="fixed top-4 right-4 z-[9999] w-[320px]">
-            <Alert status="success">
-              <Alert.Indicator />
-              <Alert.Content>
-                <Alert.Title>Search triggered</Alert.Title>
-              </Alert.Content>
-              <CloseButton onClick={() => setShowAlert(false)} />
-            </Alert>
-          </div>
-        )}
-
-        {showBookamarks && (
-          <Tooltip delay={0}>
-            <Tooltip.Trigger>
-              <Badge
-                content={favoritesCount}
-                isInvisible={favoritesCount === 0}
-                color="danger">
-                <Icon
-                  className="text-muted cursor-pointer"
-                  icon="solar:star-linear"
-                  width={24}
-                  onClick={onBookMarksClick}
-                />
-              </Badge>
-            </Tooltip.Trigger>
-            <Tooltip.Content placement="right">Bookmarks</Tooltip.Content>
-          </Tooltip>
-        )}
-
-        {showDisk && (
-          <Tooltip delay={0}>
-            <Tooltip.Trigger>
-              <Badge
-                content={archiveCount}
-                isInvisible={archiveCount === 0}
-                color="primary">
-                <Icon
-                  className="text-muted cursor-pointer"
-                  icon="solar:archive-linear"
-                  width={24}
-                  onClick={onDiskClick}
-                />
-              </Badge>
-            </Tooltip.Trigger>
-            <Tooltip.Content placement="right">Disk</Tooltip.Content>
-          </Tooltip>
-        )}
+        {extraActions}
       </Surface>
 
       {!hideSeparator && <Separator className="hidden md:block" />}
@@ -200,9 +158,38 @@ export default function Header({
   )
 }
 
-function MenuItem({ icon, label, shortcut, hasSub }: any) {
+interface MenuItemProps {
+  ariaLabel?: string
+  icon?: string
+  label?: string
+  shortcut?: string
+  hasSub?: boolean
+  onClick?: () => void
+}
+
+function MenuItem({
+  ariaLabel,
+  icon,
+  label,
+  shortcut,
+  hasSub,
+  onClick
+}: MenuItemProps) {
   return (
-    <div className="hover:bg-background flex cursor-pointer items-center justify-between rounded-md px-3 py-2 text-sm">
+    <div
+      aria-label={ariaLabel ?? label}
+      className="hover:bg-background flex cursor-pointer items-center justify-between rounded-md px-3 py-2 text-sm"
+      role={onClick ? 'button' : undefined}
+      tabIndex={onClick ? 0 : undefined}
+      onClick={onClick}
+      onKeyDown={event => {
+        if (!onClick || (event.key !== 'Enter' && event.key !== ' ')) {
+          return
+        }
+
+        event.preventDefault()
+        onClick()
+      }}>
       <div className="flex items-center gap-2">
         {icon && (
           <Icon icon={icon} width={18} className="text-muted-foreground" />

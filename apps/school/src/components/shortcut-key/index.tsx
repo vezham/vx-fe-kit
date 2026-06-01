@@ -1,4 +1,4 @@
-import { cn } from '@vezham/react/v3'
+import { cn } from '@vezham/react-v3'
 
 type ShortcutKeyProps = {
   className?: string

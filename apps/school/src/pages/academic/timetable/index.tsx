@@ -21,7 +21,7 @@ import {
   Tabs,
   TimeField,
   Tooltip
-} from '@vezham/react/v3'
+} from '@vezham/react-v3'
 
 import { ShortcutKey } from '../../../components/shortcut-key'
 import {

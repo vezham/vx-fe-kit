@@ -1,4 +1,4 @@
-import { useOverlayState } from '@vezham/react/v3'
+import { useOverlayState } from '@vezham/react-v3'
 
 export type typeStatus = 'Theory' | 'Practical'
 export type ClassStatus = 'Active' | 'Inactive'
