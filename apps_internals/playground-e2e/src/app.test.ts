@@ -5,7 +5,8 @@ test.describe('playground', () => {
     await page.goto('/')
   })
 
-  test('has title', async ({ page }) => {
-    await expect(page).toHaveTitle(/Home | /)
+  test('loads app shell', async ({ page }) => {
+    await expect(page).toHaveURL(/\/$/)
+    await expect(page.locator('.vx-app')).toBeVisible()
   })
 })

@@ -27,7 +27,7 @@
     "marked": "^18.0.4",
     "motion": "^12.38.0",
     "react": "19.0.0",
-    "react-aria-components": "^1.17.0",
+    "react-aria-components": "1.18.0",
     "react-dom": "19.0.0",
     "react-markdown": "^10.1.0",
     "react-resizable-panels": "^4.10.0",
@@ -131,6 +131,9 @@
       "heroui-pro",
       "@heroui-pro/react",
       "heroui-native-pro"
-    ]
+    ],
+    "overrides": {
+      "react-aria-components": "1.18.0"
+    }
   }
 }

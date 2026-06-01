@@ -16,6 +16,18 @@
     },
     {
       "path": "./apps_internals/playground"
+    },
+    {
+      "path": "./apps_internals/play-start-e2e"
+    },
+    {
+      "path": "./apps_internals/play-next-e2e"
+    },
+    {
+      "path": "./apps_internals/play-start"
+    },
+    {
+      "path": "./apps_internals/play-next"
     }
   ]
 }

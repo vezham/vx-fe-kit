@@ -2,3 +2,10 @@ packages:
   - 'packages/**/**'
   - 'apps/**/**'
   - 'apps_*/*'
+minimumReleaseAge: 10080 # wjdlz/NOTE: days in minutes - 7 = 10080, 14 = 20160
+minimumReleaseAgeExclude:
+  - '@vx-cli/*'
+  - '@vx-oss/*'
+  - '@vezham/*'
+blockExoticSubdeps: true
+trustPolicy: no-downgrade
