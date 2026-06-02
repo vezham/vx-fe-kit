@@ -3,10 +3,6 @@ import { VariantProps } from '@vezham/react-v3'
 
 const tva = tv({
   slots: {
-    drawer_dialog:
-      'border-default-200 max-w-[440px] border-r bg-black/5 backdrop-blur-sm md:translate-x-[106px]',
-
-    drawer_body: '',
     search_container: 'mt-6',
     search_input: 'w-full',
     search_input_wrapper: 'bg-default-100/50',
@@ -79,25 +75,21 @@ const tva = tv({
   variants: {
     variant: {
       default: {
-        drawer_dialog: 'border-default-200 bg-black/5',
         search_input_wrapper: 'bg-default-100/50',
         bookmark_item: 'hover:bg-default-100',
         folder_item: 'border-default-200'
       },
       dark: {
-        drawer_dialog: 'border-default-700 bg-black/30',
         search_input_wrapper: 'bg-default-800/50',
         bookmark_item: 'hover:bg-default-800',
         folder_item: 'border-default-700'
       },
       light: {
-        drawer_dialog: 'border-default-100 bg-white/10',
         search_input_wrapper: 'bg-default-50/50',
         bookmark_item: 'hover:bg-default-50',
         folder_item: 'border-default-100'
       },
       glass: {
-        drawer_dialog: 'border-white/20 bg-white/20 backdrop-blur-xl',
         search_input_wrapper: 'bg-white/10',
         bookmark_item: 'hover:bg-white/20',
         folder_item: 'border-white/20'
@@ -105,7 +97,6 @@ const tva = tv({
     },
     size: {
       sm: {
-        drawer_dialog: 'max-w-[320px]',
         empty_icon: 'w-12',
         empty_title: 'text-lg',
         empty_description: 'max-w-[180px] text-xs',
@@ -117,7 +108,6 @@ const tva = tv({
         folder_name: 'text-sm'
       },
       md: {
-        drawer_dialog: 'max-w-[440px]',
         empty_icon: 'w-16',
         empty_title: 'text-xl',
         empty_description: 'max-w-[220px] text-sm',
@@ -129,7 +119,6 @@ const tva = tv({
         folder_name: ''
       },
       lg: {
-        drawer_dialog: 'max-w-[560px]',
         empty_icon: 'w-20',
         empty_title: 'text-2xl',
         empty_description: 'max-w-[280px] text-base',
@@ -140,49 +129,11 @@ const tva = tv({
         bookmark_url: 'text-sm',
         folder_name: 'text-lg'
       }
-    },
-    placement: {
-      left: {
-        drawer_dialog: 'border-r md:translate-x-[106px]'
-      },
-      right: {
-        drawer_dialog: 'border-l md:-translate-x-[106px]'
-      }
-    },
-    blur: {
-      none: {
-        drawer_dialog: 'backdrop-blur-none'
-      },
-      sm: {
-        drawer_dialog: 'backdrop-blur-sm'
-      },
-      md: {
-        drawer_dialog: 'backdrop-blur-md'
-      },
-      lg: {
-        drawer_dialog: 'backdrop-blur-lg'
-      }
     }
   },
-  compoundVariants: [
-    {
-      placement: 'left',
-      class: {
-        drawer_dialog: 'left-0 rounded-r-none'
-      }
-    },
-    {
-      placement: 'right',
-      class: {
-        drawer_dialog: 'right-0 rounded-l-none'
-      }
-    }
-  ],
   defaultVariants: {
     variant: 'default',
-    size: 'md',
-    placement: 'left',
-    blur: 'sm'
+    size: 'md'
   }
 })
 

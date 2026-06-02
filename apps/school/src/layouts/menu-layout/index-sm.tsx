@@ -10,13 +10,8 @@ import { ControlCenterDrawer } from '../../components/panel/footer/control-cente
 import { NotificationDrawer } from '../../components/panel/footer/notification-center'
 import UserInfoModal from '../../components/panel/footer/preferences/modal'
 import Header from '../../components/panel/header'
-import { BookmarksDrawer } from '../../components/panel/header/bookmarks'
-import {
-  Bookmarks1Trigger,
-  bookmarks1Panel
-} from '../../components/panel/header/bookmarks1'
-import { DiskDrawer } from '../../components/panel/header/disc'
-import { Disc1Trigger, disc1Panel } from '../../components/panel/header/disc1'
+import { bookmarksPanel } from '../../components/panel/header/bookmarks'
+import { discPanel } from '../../components/panel/header/disc'
 import {
   InfoPanelContainer,
   useInfoPanel
@@ -28,8 +23,6 @@ export default function MenuSM() {
   const [openSettings, setOpenSettings] = useState(false)
   const [notificationsOpen, setNotificationsOpen] = useState(false)
   const [controlsOpen, setControlsOpen] = useState(false)
-  const [bookmarksOpen, setBookmarksOpen] = useState(false)
-  const [diskOpen, setDiskOpen] = useState(false)
   const { openInfoPanel } = useInfoPanel()
 
   const handleItemSelect = (key: string) => {
@@ -56,14 +49,6 @@ export default function MenuSM() {
             showDisk
             onAvatarClick={user => console.log('Avatar clicked:', user)}
             onSearchClick={() => console.log('Search clicked')}
-            onBookMarksClick={() => setBookmarksOpen(true)}
-            onDiskClick={() => setDiskOpen(true)}
-            extraActions={
-              <>
-                <Bookmarks1Trigger />
-                <Disc1Trigger />
-              </>
-            }
           />
 
           <Footer
@@ -99,17 +84,12 @@ export default function MenuSM() {
           isOpen={notificationsOpen}
           onClose={() => setNotificationsOpen(false)}
         />
-        <BookmarksDrawer
-          isOpen={bookmarksOpen}
-          onClose={() => setBookmarksOpen(false)}
-        />
-        <DiskDrawer isOpen={diskOpen} onClose={() => setDiskOpen(false)} />
       </div>
 
       <InfoPanelContainer
         panels={{
-          bookmarks1: bookmarks1Panel,
-          disc1: disc1Panel,
+          bookmarks: bookmarksPanel,
+          disc: discPanel,
           ai: aiPanel
         }}
       />

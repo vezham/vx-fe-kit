@@ -1,0 +1,19 @@
+import { type DragAndDropHooks } from 'react-aria-components'
+
+import { type SlotsToClasses } from '@vezham/react-utils'
+
+import { type tvProps, type tvSlots } from './variant'
+
+export interface FavoriteItem {
+  id: string
+  name: string
+  url: string
+  avatar?: string
+  backgroundImage?: string
+}
+
+export interface FavoriteGridListProps extends tvProps {
+  items?: FavoriteItem[]
+  dragAndDropHooks?: DragAndDropHooks<FavoriteItem>
+  classNames?: SlotsToClasses<tvSlots>
+}

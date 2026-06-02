@@ -6,7 +6,6 @@ import {
   PropGetter,
   mapPropsVariants
 } from '@vezham/react-utils'
-import { cn } from '@vezham/react-utils'
 import { SlotsToClasses } from '@vezham/react-utils'
 
 import { tvProps, tvSlots, tva } from './variant'
@@ -38,9 +37,6 @@ export interface ItemRendererProps<T> {
 interface Props extends tvProps, HTMLHeroUIProps<'div'> {
   ref?: ReactRef<HTMLDivElement | null>
   classNames?: SlotsToClasses<tvSlots>
-  isOpen: boolean
-  onClose: () => void
-  placement?: 'left' | 'right'
   archiveItems?: ArchiveItem[]
   trashItems?: TrashItem[]
   onUnarchive?: (id: string) => void
@@ -63,11 +59,7 @@ const useProps = (originalProps: Props) => {
     id,
     ref,
     children,
-    className,
     classNames,
-    isOpen,
-    onClose,
-    placement = 'left',
     archiveItems: externalArchiveItems,
     trashItems: externalTrashItems,
     onUnarchive,
@@ -86,13 +78,6 @@ const useProps = (originalProps: Props) => {
   const Component = as || 'div'
   const domRef = useDOMRef(ref)
   const slots = tva(variantProps)
-
-  // Drawer getters
-  const getDrawerDialogProps: PropGetter = () => ({
-    className: slots.drawer_dialog({
-      class: cn(classNames?.drawer_dialog, className)
-    })
-  })
 
   // Tabs getters
   const getTabsProps: PropGetter = () => ({
@@ -286,7 +271,6 @@ const useProps = (originalProps: Props) => {
     slots,
     classNames,
     children,
-    getDrawerDialogProps,
     getTabsProps,
     getTabsListContainerProps,
     getTabsListProps,
@@ -320,9 +304,6 @@ const useProps = (originalProps: Props) => {
     getDeleteButtonProps,
     getDeletePermanentButtonProps,
     getActionIconProps,
-    isOpen,
-    onClose,
-    placement,
     externalArchiveItems,
     externalTrashItems,
     onUnarchive,

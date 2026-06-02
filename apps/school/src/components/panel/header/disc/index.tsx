@@ -2,8 +2,9 @@ import { Icon } from '@iconify/react'
 import { useState } from 'react'
 
 import { forwardRef } from '@vezham/react-utils'
-import { Button, Drawer, Input, ScrollShadow, Tabs } from '@vezham/react-v3'
+import { Button, Input, ScrollShadow, Tabs, Tooltip } from '@vezham/react-v3'
 
+import { InfoPanelDefinition, useInfoPanel } from '../../info-panel'
 import { sampleArchiveItems, sampleTrashItems } from './data'
 import { ArchiveItem, Props, TrashItem, useProps } from './types'
 
@@ -479,36 +480,34 @@ const DiskContent = forwardRef<'div', Props>((props, ref) => {
 
 DiskContent.displayName = 'DiskContent'
 
-const DiskDrawer = forwardRef<'div', Props>((props, ref) => {
-  const { Component, getDrawerDialogProps, isOpen, onClose, placement } =
-    useProps({
-      ...props,
-      ref
-    })
+function DiscTrigger() {
+  const { activeInfoPanel, toggleInfoPanel } = useInfoPanel()
+  const isActive = activeInfoPanel === 'disc'
 
   return (
-    <Component>
-      <Drawer>
-        <Drawer.Backdrop
-          variant="transparent"
-          isOpen={isOpen}
-          onOpenChange={open => {
-            if (!open) onClose()
-          }}>
-          <Drawer.Content placement={placement}>
-            <Drawer.Dialog {...getDrawerDialogProps()}>
-              <Drawer.CloseTrigger />
-              <Drawer.Body>
-                <DiskContent {...props} />
-              </Drawer.Body>
-            </Drawer.Dialog>
-          </Drawer.Content>
-        </Drawer.Backdrop>
-      </Drawer>
-    </Component>
+    <Tooltip delay={0}>
+      <Tooltip.Trigger>
+        <span aria-label="Disc">
+          <Icon
+            className={isActive ? 'text-muted' : ''}
+            icon={isActive ? 'solar:archive-bold' : 'solar:archive-linear'}
+            width={24}
+            onClick={() => toggleInfoPanel('disc')}
+          />
+        </span>
+      </Tooltip.Trigger>
+      <Tooltip.Content placement="right">Disc</Tooltip.Content>
+    </Tooltip>
   )
-})
+}
 
-DiskDrawer.displayName = 'DiskDrawer'
+function DiscPanelContent() {
+  return <DiskContent />
+}
 
-export { DiskContent, DiskDrawer }
+const discPanel: InfoPanelDefinition = {
+  title: 'Disc',
+  content: <DiscPanelContent />
+}
+
+export { DiscPanelContent, DiscTrigger, DiskContent, discPanel }

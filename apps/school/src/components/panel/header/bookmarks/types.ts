@@ -1,12 +1,11 @@
 import { ReactNode } from 'react'
 
-import { ReactRef, useDOMRef } from '@vezham/react-utils'
+import { ReactRef, cn, useDOMRef } from '@vezham/react-utils'
 import {
   HTMLHeroUIProps,
   PropGetter,
   mapPropsVariants
 } from '@vezham/react-utils'
-import { cn } from '@vezham/react-utils'
 import { SlotsToClasses } from '@vezham/react-utils'
 
 import { tvProps, tvSlots, tva } from './variant'
@@ -68,9 +67,6 @@ export interface BookmarkItemRendererProps {
 interface Props extends tvProps, HTMLHeroUIProps<'div'> {
   ref?: ReactRef<HTMLDivElement | null>
   classNames?: SlotsToClasses<tvSlots>
-  isOpen: boolean
-  onClose: () => void
-  placement?: 'left' | 'right'
   favorites?: FavoriteItem[]
   bookmarks?: BookmarkItem[]
   onFavoriteClick?: (url: string, item: FavoriteItem) => void
@@ -94,11 +90,7 @@ const useProps = (originalProps: Props) => {
     as,
     ref,
     children,
-    className,
     classNames,
-    isOpen,
-    onClose,
-    placement = 'left',
     favorites: externalFavorites,
     bookmarks: externalBookmarks,
     onFavoriteClick,
@@ -114,16 +106,6 @@ const useProps = (originalProps: Props) => {
   const Component = as || 'div'
   const domRef = useDOMRef(ref)
   const slots = tva(variantProps)
-
-  const getDrawerDialogProps: PropGetter = () => ({
-    className: slots.drawer_dialog({
-      class: cn(classNames?.drawer_dialog, className)
-    })
-  })
-
-  const getDrawerBodyProps: PropGetter = () => ({
-    className: slots.drawer_body({ class: classNames?.drawer_body })
-  })
 
   const getSearchContainerProps: PropGetter = () => ({
     className: slots.search_container({ class: classNames?.search_container })
@@ -381,8 +363,6 @@ const useProps = (originalProps: Props) => {
     slots,
     classNames,
     children,
-    getDrawerDialogProps,
-    getDrawerBodyProps,
     getSearchContainerProps,
     getSearchInputProps,
     getScrollShadowProps,
@@ -430,9 +410,6 @@ const useProps = (originalProps: Props) => {
     getFolderIndicatorProps,
     getFolderPanelProps,
     getFolderBodyProps,
-    isOpen,
-    onClose,
-    placement,
     externalFavorites,
     externalBookmarks,
     onFavoriteClick,

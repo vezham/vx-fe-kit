@@ -12,11 +12,15 @@ import {
 
 import { useCommand } from '../../command'
 import { ShortcutKey } from '../../shortcut-key'
+import { BookmarksTrigger } from './bookmarks'
+import { DiscTrigger } from './disc'
 import { HeaderActionsProps } from './types'
 
 export default function Header({
   users,
   showSearch = false,
+  showBookamarks = false,
+  showDisk = false,
   onAvatarClick,
   onSearchClick,
   extraActions,
@@ -124,7 +128,7 @@ export default function Header({
 
         {showSearch && (
           <Tooltip delay={0}>
-            <Tooltip.Trigger>
+            <Tooltip.Trigger className="mt-2 md:mt-0">
               <span
                 aria-label="Open command palette"
                 className="inline-flex"
@@ -150,6 +154,8 @@ export default function Header({
             </Tooltip.Content>
           </Tooltip>
         )}
+        {showBookamarks && <BookmarksTrigger />}
+        {showDisk && <DiscTrigger />}
         {extraActions}
       </Surface>
 

@@ -1,21 +1,3 @@
-import {
-  DndContext,
-  DragEndEvent,
-  DragOverlay,
-  DragStartEvent,
-  KeyboardSensor,
-  PointerSensor,
-  closestCenter,
-  defaultDropAnimationSideEffects,
-  useSensor,
-  useSensors
-} from '@dnd-kit/core'
-import {
-  SortableContext,
-  arrayMove,
-  rectSortingStrategy,
-  sortableKeyboardCoordinates
-} from '@dnd-kit/sortable'
 import { FileCode, Folder, FolderOpen } from '@gravity-ui/icons'
 import {
   ContextMenu,
@@ -32,7 +14,6 @@ import { PropGetter, forwardRef } from '@vezham/react-utils'
 import {
   Avatar,
   Button,
-  Drawer,
   Input,
   Label,
   Modal,
@@ -40,12 +21,14 @@ import {
   ScrollShadow,
   Separator,
   Tabs,
+  Tooltip,
   useOverlayState
 } from '@vezham/react-v3'
 
 import { ShortcutKey } from '../../../shortcut-key'
-import { SortableFavoriteItem } from './SortableFavoriteItem'
+import { InfoPanelDefinition, useInfoPanel } from '../../info-panel'
 import { sampleBookmarks, sampleFavorites } from './data'
+import ReorderableGridList from './favorites'
 import {
   BookmarkItem,
   BookmarkTreeItem,
@@ -1426,16 +1409,12 @@ const BookmarkFileTree = ({
 const BookmarksContent = forwardRef<'div', Props>((props, ref) => {
   const {
     Component,
-    getDrawerDialogProps,
-    getDrawerBodyProps,
     getScrollShadowProps,
     getContentContainerProps,
     getSectionProps,
     getSectionHeaderProps,
     getSectionIconProps,
     getSectionTitleProps,
-    getFavoritesGridProps,
-    getFavoriteItemProps,
     getFavorite2ItemsProps,
     getFavoriteBackgroundImageProps,
     getFavoriteBackgroundGradientProps,
@@ -1453,7 +1432,6 @@ const BookmarksContent = forwardRef<'div', Props>((props, ref) => {
     onFavoriteClick,
     onBookmarkClick,
     renderFavoriteItem,
-    onFavoritesReorder,
     onBookmarksReorder,
     onFolderReorder
   } = useProps({
@@ -1466,12 +1444,8 @@ const BookmarksContent = forwardRef<'div', Props>((props, ref) => {
     useState<FavoriteItem[]>(sampleFavorites)
   const [internalBookmarks, setInternalBookmarks] =
     useState<BookmarkItem[]>(sampleBookmarks)
-  const [activeId, setActiveId] = useState<string | null>(null)
   const [showAllFavoritesMode, setShowAllFavoritesMode] = useState(false)
   const [isScrollFavoritesOpen, setIsScrollFavoritesOpen] = useState(true)
-  const [favoriteGridOrderIds, setFavoriteGridOrderIds] = useState(() =>
-    getFavoriteIds(sampleFavorites)
-  )
   const [quickAccessOrderIds, setQuickAccessOrderIds] = useState(() =>
     getFavoriteIds(sampleFavorites)
   )
@@ -1490,18 +1464,6 @@ const BookmarksContent = forwardRef<'div', Props>((props, ref) => {
   const favorites = externalFavorites || internalFavorites
   const bookmarks = externalBookmarks || internalBookmarks
 
-  // Sensors for drag and drop
-  const sensors = useSensors(
-    useSensor(PointerSensor, {
-      activationConstraint: {
-        distance: 8
-      }
-    }),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates
-    })
-  )
-
   const filteredFavorites = useMemo(
     () =>
       favorites.filter(item =>
@@ -1519,12 +1481,6 @@ const BookmarksContent = forwardRef<'div', Props>((props, ref) => {
   )
 
   useEffect(() => {
-    setFavoriteGridOrderIds(currentIds => {
-      const nextIds = reconcileFavoriteOrder(currentIds, favorites)
-
-      return areIdsEqual(currentIds, nextIds) ? currentIds : nextIds
-    })
-
     setQuickAccessOrderIds(currentIds => {
       const nextIds = reconcileFavoriteOrder(currentIds, favorites)
 
@@ -1549,7 +1505,6 @@ const BookmarksContent = forwardRef<'div', Props>((props, ref) => {
   )
 
   // Keep the draggable Favorites grid independent from Quick Access order.
-  const gridFavorites = orderFavorites(filteredFavorites, favoriteGridOrderIds)
   const quickAccessFavorites = orderFavorites(
     filteredFavorites,
     quickAccessOrderIds
@@ -1573,33 +1528,6 @@ const BookmarksContent = forwardRef<'div', Props>((props, ref) => {
   // Toggle scroll favorites section
   const toggleScrollFavorites = () => {
     setIsScrollFavoritesOpen(!isScrollFavoritesOpen)
-  }
-
-  const handleDragStart = (event: DragStartEvent) => {
-    const { active } = event
-    setActiveId(active.id as string)
-  }
-
-  const handleFavoriteDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event
-    setActiveId(null)
-
-    if (active.id !== over?.id && over?.id) {
-      const oldIndex = gridFavorites.findIndex(item => item.id === active.id)
-      const newIndex = gridFavorites.findIndex(item => item.id === over.id)
-
-      if (oldIndex !== -1 && newIndex !== -1) {
-        const newFavorites = arrayMove(gridFavorites, oldIndex, newIndex)
-
-        setFavoriteGridOrderIds(getFavoriteIds(newFavorites))
-
-        if (!externalFavorites) {
-          setInternalFavorites(newFavorites)
-        } else if (onFavoritesReorder) {
-          onFavoritesReorder(newFavorites)
-        }
-      }
-    }
   }
 
   const handleItemClick = (url: string) => {
@@ -1750,48 +1678,6 @@ const BookmarksContent = forwardRef<'div', Props>((props, ref) => {
     handleBookmarkTreeChange(result.items)
   }
 
-  const renderFavoriteItemsForGrid = () => {
-    if (renderFavoriteItem) {
-      return gridFavorites.map(item => (
-        <React.Fragment key={item.id}>
-          {renderFavoriteItem({
-            item,
-            onItemClick: url => handleFavoriteClick(url, item)
-          })}
-        </React.Fragment>
-      ))
-    }
-
-    return (
-      <SortableContext
-        items={gridFavorites.map(f => f.id)}
-        strategy={rectSortingStrategy}>
-        <div {...getFavoritesGridProps()} className="flex flex-wrap gap-3">
-          {gridFavorites.map(item => (
-            <SortableFavoriteItem
-              key={item.id}
-              id={item.id}
-              item={item}
-              getFavoriteItemProps={getFavoriteItemProps}
-              getFavoriteBackgroundImageProps={getFavoriteBackgroundImageProps}
-              getFavoriteBackgroundGradientProps={
-                getFavoriteBackgroundGradientProps
-              }
-              getFavoriteOverlayProps={getFavoriteOverlayProps}
-              getFavoriteAvatarContainerProps={getFavoriteAvatarContainerProps}
-              getFavoriteAvatarProps={getFavoriteAvatarProps}
-              getFavoriteAvatarIconProps={getFavoriteAvatarIconProps}
-              getFavoriteAvatarFallbackProps={getFavoriteAvatarFallbackProps}
-              getFavoriteContentProps={getFavoriteContentProps}
-              getFavoriteNameProps={getFavoriteNameProps}
-              onClick={() => handleFavoriteClick(item.url, item)}
-            />
-          ))}
-        </div>
-      </SortableContext>
-    )
-  }
-
   const renderAllFavoritesFullView = () => {
     return (
       <div className="space-y-4">
@@ -1905,8 +1791,6 @@ const BookmarksContent = forwardRef<'div', Props>((props, ref) => {
     )
   }
 
-  const activeFavorite = activeId && gridFavorites.find(f => f.id === activeId)
-
   return (
     <Component>
       <ScrollShadow {...getScrollShadowProps()}>
@@ -1929,64 +1813,8 @@ const BookmarksContent = forwardRef<'div', Props>((props, ref) => {
                             /> */}
                     <h3 {...getSectionTitleProps('Favorites')} />
                   </div>
-                  <DndContext
-                    sensors={sensors}
-                    collisionDetection={closestCenter}
-                    onDragStart={handleDragStart}
-                    onDragCancel={() => setActiveId(null)}
-                    onDragEnd={handleFavoriteDragEnd}>
-                    {renderFavoriteItemsForGrid()}
-                    <DragOverlay
-                      dropAnimation={{
-                        sideEffects: defaultDropAnimationSideEffects({
-                          styles: {
-                            active: {
-                              opacity: '0.4'
-                            }
-                          }
-                        })
-                      }}>
-                      {activeFavorite && (
-                        <div
-                          {...getFavoriteItemProps()}
-                          style={{
-                            opacity: 0.8,
-                            cursor: 'grabbing'
-                          }}>
-                          {activeFavorite.backgroundImage ? (
-                            <img
-                              {...getFavoriteBackgroundImageProps(
-                                activeFavorite.backgroundImage,
-                                activeFavorite.name
-                              )}
-                            />
-                          ) : (
-                            <div {...getFavoriteBackgroundGradientProps()} />
-                          )}
-                          <div {...getFavoriteOverlayProps()} />
-                          <div {...getFavoriteAvatarContainerProps()}>
-                            <Avatar {...getFavoriteAvatarProps()}>
-                              {activeFavorite.avatar && (
-                                <Avatar.Image
-                                  src={activeFavorite.avatar}
-                                  alt={activeFavorite.name}
-                                />
-                              )}
-                              <Avatar.Fallback
-                                {...getFavoriteAvatarFallbackProps(
-                                  activeFavorite.name
-                                )}>
-                                <Icon {...getFavoriteAvatarIconProps()} />
-                              </Avatar.Fallback>
-                            </Avatar>
-                          </div>
-                          <div {...getFavoriteContentProps()}>
-                            <p {...getFavoriteNameProps(activeFavorite.name)} />
-                          </div>
-                        </div>
-                      )}
-                    </DragOverlay>
-                  </DndContext>
+
+                  <ReorderableGridList />
                 </section>
 
                 {/* Scroll: Horizontal Scroll with View All */}
@@ -2073,42 +1901,39 @@ const BookmarksContent = forwardRef<'div', Props>((props, ref) => {
 
 BookmarksContent.displayName = 'BookmarksContent'
 
-const BookmarksDrawer = forwardRef<'div', Props>((props, ref) => {
-  const {
-    Component,
-    getDrawerDialogProps,
-    getDrawerBodyProps,
-    isOpen,
-    onClose,
-    placement
-  } = useProps({
-    ...props,
-    ref
-  })
+function BookmarksTrigger() {
+  const { activeInfoPanel, toggleInfoPanel } = useInfoPanel()
+  const isActive = activeInfoPanel === 'bookmarks'
 
   return (
-    <Component>
-      <Drawer>
-        <Drawer.Backdrop
-          variant="transparent"
-          isOpen={isOpen}
-          onOpenChange={open => {
-            if (!open) onClose()
-          }}>
-          <Drawer.Content placement={placement}>
-            <Drawer.Dialog {...getDrawerDialogProps()}>
-              <Drawer.CloseTrigger />
-              <Drawer.Body {...getDrawerBodyProps()}>
-                <BookmarksContent {...props} />
-              </Drawer.Body>
-            </Drawer.Dialog>
-          </Drawer.Content>
-        </Drawer.Backdrop>
-      </Drawer>
-    </Component>
+    <Tooltip delay={0}>
+      <Tooltip.Trigger>
+        <span aria-label="Bookmarks">
+          <Icon
+            className={isActive ? 'text-muted' : ''}
+            icon={isActive ? 'solar:star-bold' : 'solar:star-linear'}
+            width={24}
+            onClick={() => toggleInfoPanel('bookmarks')}
+          />
+        </span>
+      </Tooltip.Trigger>
+      <Tooltip.Content placement="right">Bookmarks</Tooltip.Content>
+    </Tooltip>
   )
-})
+}
 
-BookmarksDrawer.displayName = 'BookmarksDrawer'
+function BookmarksPanelContent() {
+  return <BookmarksContent />
+}
 
-export { BookmarksContent, BookmarksDrawer }
+const bookmarksPanel: InfoPanelDefinition = {
+  title: 'Bookmarks',
+  content: <BookmarksPanelContent />
+}
+
+export {
+  BookmarksContent,
+  BookmarksPanelContent,
+  BookmarksTrigger,
+  bookmarksPanel
+}

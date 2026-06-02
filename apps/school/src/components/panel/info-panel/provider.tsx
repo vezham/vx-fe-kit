@@ -12,8 +12,8 @@ import { ActiveInfoPanel, InfoPanelContextValue } from './types'
 const InfoPanelContext = createContext<InfoPanelContextValue | null>(null)
 const STORAGE_KEY = 'school:info-panel'
 const VALID_INFO_PANELS: Array<Exclude<ActiveInfoPanel, null>> = [
-  'bookmarks1',
-  'disc1',
+  'bookmarks',
+  'disc',
   'ai'
 ]
 
