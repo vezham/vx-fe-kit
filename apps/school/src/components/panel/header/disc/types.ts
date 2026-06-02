@@ -1,31 +1,12 @@
 import { ReactNode } from 'react'
 
 import { ReactRef, useDOMRef } from '@vezham/react-utils'
-import {
-  HTMLHeroUIProps,
-  PropGetter,
-  mapPropsVariants
-} from '@vezham/react-utils'
+import { HTMLHeroUIProps, mapPropsVariants } from '@vezham/react-utils'
 import { SlotsToClasses } from '@vezham/react-utils'
 
+import { ArchiveItem, ArchiveItemRendererProps } from './archive/types'
+import { TrashItem, TrashItemRendererProps } from './trash/types'
 import { tvProps, tvSlots, tva } from './variant'
-
-// Types for data models
-export interface ArchiveItem {
-  id: string
-  title: string
-  url: string
-  archivedDate: string
-  favicon?: string
-}
-
-export interface TrashItem {
-  id: string
-  title: string
-  url: string
-  deletedDate: string
-  favicon?: string
-}
 
 // Props for custom renderers
 export interface ItemRendererProps<T> {
@@ -47,8 +28,8 @@ interface Props extends tvProps, HTMLHeroUIProps<'div'> {
   onClearAllTrash?: () => void
   onRestoreAllTrash?: () => void
   onItemClick?: (url: string) => void
-  renderArchiveItem?: (props: ItemRendererProps<ArchiveItem>) => ReactNode
-  renderTrashItem?: (props: ItemRendererProps<TrashItem>) => ReactNode
+  renderArchiveItem?: (props: ArchiveItemRendererProps) => ReactNode
+  renderTrashItem?: (props: TrashItemRendererProps) => ReactNode
 }
 
 const useProps = (originalProps: Props) => {
@@ -78,44 +59,45 @@ const useProps = (originalProps: Props) => {
   const Component = as || 'div'
   const domRef = useDOMRef(ref)
   const slots = tva(variantProps)
+  void otherProps
 
   // Tabs getters
-  const getTabsProps: PropGetter = () => ({
+  const getTabsProps = () => ({
     className: slots.tabs({ class: classNames?.tabs })
   })
 
-  const getTabsListContainerProps: PropGetter = () => ({
+  const getTabsListContainerProps = () => ({
     className: slots.tabs_list_container({
       class: classNames?.tabs_list_container
     })
   })
 
-  const getTabsListProps: PropGetter = () => ({
+  const getTabsListProps = () => ({
     className: slots.tabs_list({ class: classNames?.tabs_list }),
     'aria-label': 'Archive and Trash tabs'
   })
 
-  const getTabArchiveProps: PropGetter = () => ({
+  const getTabArchiveProps = () => ({
     id: 'archive',
     className: slots.tab_archive({ class: classNames?.tab_archive })
   })
 
-  const getTabTrashProps: PropGetter = () => ({
+  const getTabTrashProps = () => ({
     id: 'trash',
     className: slots.tab_trash({ class: classNames?.tab_trash })
   })
 
-  const getTabIndicatorProps: PropGetter = () => ({
+  const getTabIndicatorProps = () => ({
     className: slots.tab_indicator({ class: classNames?.tab_indicator })
   })
 
   // Container getters
-  const getContainerProps: PropGetter = () => ({
+  const getContainerProps = () => ({
     className: slots.container({ class: classNames?.container })
   })
 
   // Search input getters
-  const getSearchInputProps: PropGetter = (isArchive: boolean) => ({
+  const getSearchInputProps = (isArchive: boolean) => ({
     className: slots.search_input({ class: classNames?.search_input }),
     placeholder: isArchive ? 'Search' : 'Search',
     variant: 'bordered' as const,
@@ -127,74 +109,74 @@ const useProps = (originalProps: Props) => {
   })
 
   // Actions bar getters
-  const getActionsBarProps: PropGetter = (hasRestore: boolean) => ({
+  const getActionsBarProps = (hasRestore: boolean) => ({
     className: hasRestore
       ? slots.actions_bar_with_gap({ class: classNames?.actions_bar })
       : slots.actions_bar({ class: classNames?.actions_bar })
   })
 
-  const getClearAllButtonProps: PropGetter = () => ({
+  const getClearAllButtonProps = () => ({
     size: 'sm' as const,
     variant: 'light' as const,
     color: 'danger' as const
   })
 
-  const getRestoreAllButtonProps: PropGetter = () => ({
+  const getRestoreAllButtonProps = () => ({
     size: 'sm' as const,
     variant: 'light' as const,
     color: 'success' as const
   })
 
   // Empty state getters
-  const getEmptyContainerProps: PropGetter = () => ({
+  const getEmptyContainerProps = () => ({
     className: slots.empty_container({ class: classNames?.empty_container })
   })
 
-  const getEmptyIconProps: PropGetter = (icon: string) => ({
+  const getEmptyIconProps = (icon: string) => ({
     icon,
     width: 64,
     className: slots.empty_icon({ class: classNames?.empty_icon })
   })
 
-  const getEmptyTitleProps: PropGetter = () => ({
+  const getEmptyTitleProps = () => ({
     className: slots.empty_title({ class: classNames?.empty_title })
   })
 
-  const getEmptyDescriptionProps: PropGetter = () => ({
+  const getEmptyDescriptionProps = () => ({
     className: slots.empty_description({ class: classNames?.empty_description })
   })
 
   // Items container getters
-  const getItemsContainerProps: PropGetter = () => ({
+  const getItemsContainerProps = () => ({
     className: slots.items_container({ class: classNames?.items_container })
   })
 
-  const getDateGroupProps: PropGetter = () => ({
+  const getDateGroupProps = () => ({
     className: slots.date_group({ class: classNames?.date_group })
   })
 
-  const getDateHeaderProps: PropGetter = () => ({
+  const getDateHeaderProps = () => ({
     className: slots.date_header({ class: classNames?.date_header })
   })
 
-  const getDateLabelProps: PropGetter = () => ({
+  const getDateLabelProps = () => ({
     className: slots.date_label({ class: classNames?.date_label })
   })
 
-  const getDateDividerProps: PropGetter = () => ({
+  const getDateDividerProps = () => ({
     className: slots.date_divider({ class: classNames?.date_divider })
   })
 
-  const getItemsListProps: PropGetter = () => ({
+  const getItemsListProps = () => ({
     className: slots.items_list({ class: classNames?.items_list })
   })
 
   // Item getters
-  const getItemProps: PropGetter = () => ({
+  const getItemProps = () => ({
     className: slots.item({ class: classNames?.item })
   })
 
-  const getItemFaviconProps: PropGetter = () => ({
+  const getItemFaviconProps = () => ({
     className: slots.item_favicon({ class: classNames?.item_favicon }),
     alt: '',
     onError: (e: React.SyntheticEvent<HTMLImageElement>) => {
@@ -202,7 +184,7 @@ const useProps = (originalProps: Props) => {
     }
   })
 
-  const getItemFallbackIconProps: PropGetter = () => ({
+  const getItemFallbackIconProps = () => ({
     icon: 'solar:document-linear',
     width: 16,
     className: slots.item_fallback_icon({
@@ -210,48 +192,48 @@ const useProps = (originalProps: Props) => {
     })
   })
 
-  const getItemContentProps: PropGetter = () => ({
+  const getItemContentProps = () => ({
     className: slots.item_content({ class: classNames?.item_content })
   })
 
-  const getItemTitleProps: PropGetter = (title: string) => ({
+  const getItemTitleProps = (title: string) => ({
     className: slots.item_title({ class: classNames?.item_title }),
     children: title
   })
 
-  const getItemUrlProps: PropGetter = (url: string) => ({
+  const getItemUrlProps = (url: string) => ({
     className: slots.item_url({ class: classNames?.item_url }),
     children: url
   })
 
-  const getItemActionsProps: PropGetter = () => ({
+  const getItemActionsProps = () => ({
     className: slots.item_actions({ class: classNames?.item_actions })
   })
 
   // Action button getters
-  const getUnarchiveButtonProps: PropGetter = () => ({
+  const getUnarchiveButtonProps = () => ({
     className: slots.unarchive_button({ class: classNames?.unarchive_button }),
     'aria-label': 'Unarchive'
   })
 
-  const getRestoreButtonProps: PropGetter = () => ({
+  const getRestoreButtonProps = () => ({
     className: slots.restore_button({ class: classNames?.restore_button }),
     'aria-label': 'Restore'
   })
 
-  const getDeleteButtonProps: PropGetter = () => ({
+  const getDeleteButtonProps = () => ({
     className: slots.delete_button({ class: classNames?.delete_button }),
     'aria-label': 'Delete'
   })
 
-  const getDeletePermanentButtonProps: PropGetter = () => ({
+  const getDeletePermanentButtonProps = () => ({
     className: slots.delete_permanent_button({
       class: classNames?.delete_permanent_button
     }),
     'aria-label': 'Delete Permanently'
   })
 
-  const getActionIconProps: PropGetter = (
+  const getActionIconProps = (
     icon: string,
     color?: 'success' | 'danger' | 'default'
   ) => ({
@@ -320,4 +302,4 @@ const useProps = (originalProps: Props) => {
 }
 
 export { useProps }
-export type { Props }
+export type { ArchiveItem, Props, TrashItem }

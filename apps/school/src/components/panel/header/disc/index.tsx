@@ -2,10 +2,12 @@ import { Icon } from '@iconify/react'
 import { useState } from 'react'
 
 import { forwardRef } from '@vezham/react-utils'
-import { Button, Input, ScrollShadow, Tabs, Tooltip } from '@vezham/react-v3'
+import { Tabs, Tooltip } from '@vezham/react-v3'
 
 import { InfoPanelDefinition, useInfoPanel } from '../../info-panel'
+import { Archive } from './archive'
 import { sampleArchiveItems, sampleTrashItems } from './data'
+import { Trash } from './trash'
 import { ArchiveItem, Props, TrashItem, useProps } from './types'
 
 const DiskContent = forwardRef<'div', Props>((props, ref) => {
@@ -72,353 +74,6 @@ const DiskContent = forwardRef<'div', Props>((props, ref) => {
   const archiveItems = externalArchiveItems || internalArchiveItems
   const trashItems = externalTrashItems || internalTrashItems
 
-  const filteredArchiveItems = archiveItems.filter(
-    item =>
-      item.title.toLowerCase().includes(archiveSearch.toLowerCase()) ||
-      item.url.toLowerCase().includes(archiveSearch.toLowerCase())
-  )
-
-  const filteredTrashItems = trashItems.filter(
-    item =>
-      item.title.toLowerCase().includes(trashSearch.toLowerCase()) ||
-      item.url.toLowerCase().includes(trashSearch.toLowerCase())
-  )
-
-  const archiveByDate = filteredArchiveItems.reduce(
-    (acc, item) => {
-      const date = item.archivedDate
-      if (!acc[date]) {
-        acc[date] = []
-      }
-      acc[date].push(item)
-      return acc
-    },
-    {} as Record<string, ArchiveItem[]>
-  )
-
-  const trashByDate = filteredTrashItems.reduce(
-    (acc, item) => {
-      const date = item.deletedDate
-      if (!acc[date]) {
-        acc[date] = []
-      }
-      acc[date].push(item)
-      return acc
-    },
-    {} as Record<string, TrashItem[]>
-  )
-
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString)
-    const today = new Date()
-    const yesterday = new Date(today)
-    yesterday.setDate(yesterday.getDate() - 1)
-
-    if (dateString === today.toISOString().split('T')[0]) {
-      return 'Today'
-    } else if (dateString === yesterday.toISOString().split('T')[0]) {
-      return 'Yesterday'
-    } else {
-      return date.toLocaleDateString('en-US', {
-        month: 'short',
-        day: 'numeric',
-        year: 'numeric'
-      })
-    }
-  }
-
-  const handleUnarchive = (id: string) => {
-    if (onUnarchive) {
-      onUnarchive(id)
-    } else {
-      setInternalArchiveItems(prev => prev.filter(item => item.id !== id))
-    }
-  }
-
-  const handleDeleteFromArchive = (id: string) => {
-    if (onDeleteFromArchive) {
-      onDeleteFromArchive(id)
-    } else {
-      setInternalArchiveItems(prev => prev.filter(item => item.id !== id))
-    }
-  }
-
-  const handleRestore = (id: string) => {
-    if (onRestore) {
-      onRestore(id)
-    } else {
-      setInternalTrashItems(prev => prev.filter(item => item.id !== id))
-    }
-  }
-
-  const handleDeletePermanently = (id: string) => {
-    if (onDeletePermanently) {
-      onDeletePermanently(id)
-    } else {
-      setInternalTrashItems(prev => prev.filter(item => item.id !== id))
-    }
-  }
-
-  const handleClearAllArchive = () => {
-    if (onClearAllArchive) {
-      onClearAllArchive()
-    } else {
-      setInternalArchiveItems([])
-    }
-  }
-
-  const handleClearAllTrash = () => {
-    if (onClearAllTrash) {
-      onClearAllTrash()
-    } else {
-      setInternalTrashItems([])
-    }
-  }
-
-  const handleRestoreAllTrash = () => {
-    if (onRestoreAllTrash) {
-      onRestoreAllTrash()
-    } else {
-      setInternalTrashItems([])
-    }
-  }
-
-  const handleItemClick = (url: string) => {
-    if (onItemClick) {
-      onItemClick(url)
-    } else if (url && url !== '#') {
-      window.open(url.startsWith('http') ? url : `https://${url}`, '_blank')
-    }
-  }
-
-  const hasArchiveItems = filteredArchiveItems.length > 0
-  const hasTrashItems = filteredTrashItems.length > 0
-
-  const renderArchiveContent = () => {
-    if (!hasArchiveItems) {
-      return (
-        <div {...getEmptyContainerProps()}>
-          <Icon {...getEmptyIconProps('solar:archive-linear')} />
-          <h2 {...getEmptyTitleProps()}>Archive is empty</h2>
-          <p {...getEmptyDescriptionProps()}>
-            Archived items will appear here.
-          </p>
-        </div>
-      )
-    }
-
-    return (
-      <div {...getItemsContainerProps()}>
-        {Object.entries(archiveByDate).map(([date, items]) => (
-          <div key={date} {...getDateGroupProps()}>
-            <div {...getDateHeaderProps()}>
-              <span {...getDateLabelProps()}>{formatDate(date)}</span>
-              <div {...getDateDividerProps()} />
-            </div>
-
-            <div {...getItemsListProps()}>
-              {items.map(item => {
-                if (renderArchiveItem) {
-                  return renderArchiveItem({
-                    item,
-                    onAction: action => {
-                      if (action === 'unarchive') handleUnarchive(item.id)
-                      if (action === 'delete') handleDeleteFromArchive(item.id)
-                    }
-                  })
-                }
-
-                return (
-                  <div
-                    key={item.id}
-                    {...getItemProps()}
-                    onClick={() => handleItemClick(item.url)}>
-                    {item.favicon ? (
-                      <img src={item.favicon} {...getItemFaviconProps()} />
-                    ) : (
-                      <Icon {...getItemFallbackIconProps()} />
-                    )}
-
-                    <div {...getItemContentProps()}>
-                      <p {...getItemTitleProps(item.title)} />
-                      <p {...getItemUrlProps(item.url)} />
-                    </div>
-
-                    <div {...getItemActionsProps()}>
-                      <Button
-                        isIconOnly
-                        variant="ghost"
-                        {...getUnarchiveButtonProps()}
-                        onClick={e => {
-                          e.stopPropagation()
-                          handleUnarchive(item.id)
-                        }}>
-                        <Icon
-                          {...getActionIconProps(
-                            'solar:archive-up-linear',
-                            'default'
-                          )}
-                        />
-                      </Button>
-                      <Button
-                        isIconOnly
-                        variant="ghost"
-                        {...getDeleteButtonProps()}
-                        onClick={e => {
-                          e.stopPropagation()
-                          handleDeleteFromArchive(item.id)
-                        }}>
-                        <Icon
-                          {...getActionIconProps(
-                            'solar:trash-bin-trash-linear',
-                            'danger'
-                          )}
-                        />
-                      </Button>
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-        ))}
-      </div>
-    )
-  }
-
-  const renderTrashContent = () => {
-    if (!hasTrashItems) {
-      return (
-        <div {...getEmptyContainerProps()}>
-          <Icon {...getEmptyIconProps('solar:trash-bin-trash-linear')} />
-          <h2 {...getEmptyTitleProps()}>Trash is empty</h2>
-          <p {...getEmptyDescriptionProps()}>Deleted items will appear here.</p>
-        </div>
-      )
-    }
-
-    return (
-      <div {...getItemsContainerProps()}>
-        {Object.entries(trashByDate).map(([date, items]) => (
-          <div key={date} {...getDateGroupProps()}>
-            <div {...getDateHeaderProps()}>
-              <span {...getDateLabelProps()}>{formatDate(date)}</span>
-              <div {...getDateDividerProps()} />
-            </div>
-
-            <div {...getItemsListProps()}>
-              {items.map(item => {
-                if (renderTrashItem) {
-                  return renderTrashItem({
-                    item,
-                    onAction: action => {
-                      if (action === 'restore') handleRestore(item.id)
-                      if (action === 'delete') handleDeletePermanently(item.id)
-                    }
-                  })
-                }
-
-                return (
-                  <div key={item.id} {...getItemProps()}>
-                    {item.favicon ? (
-                      <img src={item.favicon} {...getItemFaviconProps()} />
-                    ) : (
-                      <Icon {...getItemFallbackIconProps()} />
-                    )}
-
-                    <div {...getItemContentProps()}>
-                      <p {...getItemTitleProps(item.title)} />
-                      <p {...getItemUrlProps(item.url)} />
-                    </div>
-
-                    <div {...getItemActionsProps()}>
-                      <Button
-                        isIconOnly
-                        variant="ghost"
-                        {...getRestoreButtonProps()}
-                        onClick={e => {
-                          e.stopPropagation()
-                          handleRestore(item.id)
-                        }}>
-                        <Icon
-                          {...getActionIconProps(
-                            'solar:archive-up-linear',
-                            'success'
-                          )}
-                        />
-                      </Button>
-                      <Button
-                        isIconOnly
-                        variant="ghost"
-                        {...getDeletePermanentButtonProps()}
-                        onClick={e => {
-                          e.stopPropagation()
-                          handleDeletePermanently(item.id)
-                        }}>
-                        <Icon
-                          {...getActionIconProps(
-                            'solar:trash-bin-trash-linear',
-                            'danger'
-                          )}
-                        />
-                      </Button>
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-        ))}
-      </div>
-    )
-  }
-
-  const tabs = [
-    {
-      key: 'archive',
-      searchValue: archiveSearch,
-      setSearchValue: setArchiveSearch,
-      hasItems: hasArchiveItems,
-      actions: [
-        {
-          type: 'clear',
-          props: getClearAllButtonProps(),
-          onPress: handleClearAllArchive,
-          icon: 'solar:trash-bin-trash-linear',
-          label: 'Clear All'
-        }
-      ],
-      renderContent: renderArchiveContent,
-      getSearchProps: () => getSearchInputProps(true)
-    },
-    {
-      key: 'trash',
-      searchValue: trashSearch,
-      setSearchValue: setTrashSearch,
-      hasItems: hasTrashItems,
-      actions: [
-        {
-          type: 'restore',
-          props: getRestoreAllButtonProps(),
-          onPress: handleRestoreAllTrash,
-          icon: 'solar:archive-up-linear',
-          label: 'Restore All'
-        },
-        {
-          type: 'clear',
-          props: getClearAllButtonProps(),
-          onPress: handleClearAllTrash,
-          icon: 'solar:trash-bin-trash-linear',
-          label: 'Clear All'
-        }
-      ],
-      renderContent: renderTrashContent,
-      getSearchProps: () => getSearchInputProps(false)
-    }
-  ]
-
-  const currentTab = tabs.find(tab => tab.key === activeTab)!
-
   return (
     <Component>
       <div className="flex h-full min-h-0 w-full flex-col gap-4">
@@ -446,33 +101,81 @@ const DiskContent = forwardRef<'div', Props>((props, ref) => {
             </Tabs.List>
           </Tabs.ListContainer>
         </Tabs>
-        <Input
-          {...currentTab.getSearchProps()}
-          value={currentTab.searchValue}
-          onChange={e => currentTab.setSearchValue(e.target.value)}
-        />
 
-        {currentTab.hasItems && currentTab.actions.length > 0 && (
-          <div {...getActionsBarProps(currentTab.key === 'trash')}>
-            {currentTab.actions.map(action => (
-              <Button
-                key={action.type}
-                {...action.props}
-                onPress={action.onPress}
-                startContent={<Icon icon={action.icon} width={16} />}>
-                {action.label}
-              </Button>
-            ))}
-          </div>
+        {activeTab === 'archive' ? (
+          <Archive
+            archiveItems={archiveItems}
+            archiveSearch={archiveSearch}
+            setArchiveSearch={setArchiveSearch}
+            setInternalArchiveItems={setInternalArchiveItems}
+            getSearchInputProps={getSearchInputProps}
+            getActionsBarProps={getActionsBarProps}
+            getClearAllButtonProps={getClearAllButtonProps}
+            getContainerProps={getContainerProps}
+            getEmptyContainerProps={getEmptyContainerProps}
+            getEmptyIconProps={getEmptyIconProps}
+            getEmptyTitleProps={getEmptyTitleProps}
+            getEmptyDescriptionProps={getEmptyDescriptionProps}
+            getItemsContainerProps={getItemsContainerProps}
+            getDateGroupProps={getDateGroupProps}
+            getDateHeaderProps={getDateHeaderProps}
+            getDateLabelProps={getDateLabelProps}
+            getDateDividerProps={getDateDividerProps}
+            getItemsListProps={getItemsListProps}
+            getItemProps={getItemProps}
+            getItemFaviconProps={getItemFaviconProps}
+            getItemFallbackIconProps={getItemFallbackIconProps}
+            getItemContentProps={getItemContentProps}
+            getItemTitleProps={getItemTitleProps}
+            getItemUrlProps={getItemUrlProps}
+            getItemActionsProps={getItemActionsProps}
+            getUnarchiveButtonProps={getUnarchiveButtonProps}
+            getDeleteButtonProps={getDeleteButtonProps}
+            getActionIconProps={getActionIconProps}
+            onUnarchive={onUnarchive}
+            onDeleteFromArchive={onDeleteFromArchive}
+            onClearAllArchive={onClearAllArchive}
+            onItemClick={onItemClick}
+            renderArchiveItem={renderArchiveItem}
+          />
+        ) : (
+          <Trash
+            trashItems={trashItems}
+            trashSearch={trashSearch}
+            setTrashSearch={setTrashSearch}
+            setInternalTrashItems={setInternalTrashItems}
+            getSearchInputProps={getSearchInputProps}
+            getActionsBarProps={getActionsBarProps}
+            getRestoreAllButtonProps={getRestoreAllButtonProps}
+            getClearAllButtonProps={getClearAllButtonProps}
+            getContainerProps={getContainerProps}
+            getEmptyContainerProps={getEmptyContainerProps}
+            getEmptyIconProps={getEmptyIconProps}
+            getEmptyTitleProps={getEmptyTitleProps}
+            getEmptyDescriptionProps={getEmptyDescriptionProps}
+            getItemsContainerProps={getItemsContainerProps}
+            getDateGroupProps={getDateGroupProps}
+            getDateHeaderProps={getDateHeaderProps}
+            getDateLabelProps={getDateLabelProps}
+            getDateDividerProps={getDateDividerProps}
+            getItemsListProps={getItemsListProps}
+            getItemProps={getItemProps}
+            getItemFaviconProps={getItemFaviconProps}
+            getItemFallbackIconProps={getItemFallbackIconProps}
+            getItemContentProps={getItemContentProps}
+            getItemTitleProps={getItemTitleProps}
+            getItemUrlProps={getItemUrlProps}
+            getItemActionsProps={getItemActionsProps}
+            getRestoreButtonProps={getRestoreButtonProps}
+            getDeletePermanentButtonProps={getDeletePermanentButtonProps}
+            getActionIconProps={getActionIconProps}
+            onRestore={onRestore}
+            onDeletePermanently={onDeletePermanently}
+            onClearAllTrash={onClearAllTrash}
+            onRestoreAllTrash={onRestoreAllTrash}
+            renderTrashItem={renderTrashItem}
+          />
         )}
-
-        <div {...getContainerProps()}>
-          <ScrollShadow
-            hideScrollBar={currentTab.key === 'archive'}
-            className="h-full">
-            {currentTab.renderContent()}
-          </ScrollShadow>
-        </div>
       </div>
     </Component>
   )

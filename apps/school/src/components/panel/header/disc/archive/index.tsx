@@ -1,0 +1,251 @@
+import { Icon } from '@iconify/react'
+import type { ChangeEvent } from 'react'
+
+import { Button, Input, ScrollShadow } from '@vezham/react-v3'
+
+import { ArchiveProps } from './types'
+import { archiveActions } from './variants'
+
+const SearchInput = Input as any
+const ActionButton = Button as any
+
+function Archive(props: ArchiveProps) {
+  const {
+    archiveItems,
+    archiveSearch,
+    setArchiveSearch,
+    setInternalArchiveItems,
+    getSearchInputProps,
+    getActionsBarProps,
+    getClearAllButtonProps,
+    getContainerProps,
+    getEmptyContainerProps,
+    getEmptyIconProps,
+    getEmptyTitleProps,
+    getEmptyDescriptionProps,
+    getItemsContainerProps,
+    getDateGroupProps,
+    getDateHeaderProps,
+    getDateLabelProps,
+    getDateDividerProps,
+    getItemsListProps,
+    getItemProps,
+    getItemFaviconProps,
+    getItemFallbackIconProps,
+    getItemContentProps,
+    getItemTitleProps,
+    getItemUrlProps,
+    getItemActionsProps,
+    getUnarchiveButtonProps,
+    getDeleteButtonProps,
+    getActionIconProps,
+    onUnarchive,
+    onDeleteFromArchive,
+    onClearAllArchive,
+    onItemClick,
+    renderArchiveItem
+  } = props
+
+  const filteredArchiveItems = archiveItems.filter(
+    item =>
+      item.title.toLowerCase().includes(archiveSearch.toLowerCase()) ||
+      item.url.toLowerCase().includes(archiveSearch.toLowerCase())
+  )
+
+  const archiveByDate = filteredArchiveItems.reduce(
+    (acc, item) => {
+      const date = item.archivedDate
+      if (!acc[date]) {
+        acc[date] = []
+      }
+      acc[date].push(item)
+      return acc
+    },
+    {} as Record<string, ArchiveProps['archiveItems']>
+  )
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString)
+    const today = new Date()
+    const yesterday = new Date(today)
+    yesterday.setDate(yesterday.getDate() - 1)
+
+    if (dateString === today.toISOString().split('T')[0]) {
+      return 'Today'
+    } else if (dateString === yesterday.toISOString().split('T')[0]) {
+      return 'Yesterday'
+    } else {
+      return date.toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric'
+      })
+    }
+  }
+
+  const handleUnarchive = (id: string) => {
+    if (onUnarchive) {
+      onUnarchive(id)
+    } else {
+      setInternalArchiveItems(prev => prev.filter(item => item.id !== id))
+    }
+  }
+
+  const handleDeleteFromArchive = (id: string) => {
+    if (onDeleteFromArchive) {
+      onDeleteFromArchive(id)
+    } else {
+      setInternalArchiveItems(prev => prev.filter(item => item.id !== id))
+    }
+  }
+
+  const handleClearAllArchive = () => {
+    if (onClearAllArchive) {
+      onClearAllArchive()
+    } else {
+      setInternalArchiveItems([])
+    }
+  }
+
+  const handleItemClick = (url: string) => {
+    if (onItemClick) {
+      onItemClick(url)
+    } else if (url && url !== '#') {
+      window.open(url.startsWith('http') ? url : `https://${url}`, '_blank')
+    }
+  }
+
+  const hasArchiveItems = filteredArchiveItems.length > 0
+
+  const renderArchiveContent = () => {
+    if (!hasArchiveItems) {
+      return (
+        <div {...getEmptyContainerProps()}>
+          <Icon {...getEmptyIconProps('solar:archive-linear')} />
+          <h2 {...getEmptyTitleProps()}>Archive is empty</h2>
+          <p {...getEmptyDescriptionProps()}>
+            Archived items will appear here.
+          </p>
+        </div>
+      )
+    }
+
+    return (
+      <div {...getItemsContainerProps()}>
+        {Object.entries(archiveByDate).map(([date, items]) => (
+          <div key={date} {...getDateGroupProps()}>
+            <div {...getDateHeaderProps()}>
+              <span {...getDateLabelProps()}>{formatDate(date)}</span>
+              <div {...getDateDividerProps()} />
+            </div>
+
+            <div {...getItemsListProps()}>
+              {items.map(item => {
+                if (renderArchiveItem) {
+                  return renderArchiveItem({
+                    item,
+                    onAction: action => {
+                      if (action === 'unarchive') handleUnarchive(item.id)
+                      if (action === 'delete') handleDeleteFromArchive(item.id)
+                    }
+                  })
+                }
+
+                return (
+                  <div
+                    key={item.id}
+                    {...getItemProps()}
+                    onClick={() => handleItemClick(item.url)}>
+                    {item.favicon ? (
+                      <img src={item.favicon} {...getItemFaviconProps()} />
+                    ) : (
+                      <Icon {...getItemFallbackIconProps()} />
+                    )}
+
+                    <div {...getItemContentProps()}>
+                      <p {...getItemTitleProps(item.title)} />
+                      <p {...getItemUrlProps(item.url)} />
+                    </div>
+
+                    <div {...getItemActionsProps()}>
+                      <Button
+                        isIconOnly
+                        variant="ghost"
+                        {...getUnarchiveButtonProps()}
+                        onClick={e => {
+                          e.stopPropagation()
+                          handleUnarchive(item.id)
+                        }}>
+                        <Icon
+                          {...getActionIconProps(
+                            'solar:archive-up-linear',
+                            'default'
+                          )}
+                        />
+                      </Button>
+                      <Button
+                        isIconOnly
+                        variant="ghost"
+                        {...getDeleteButtonProps()}
+                        onClick={e => {
+                          e.stopPropagation()
+                          handleDeleteFromArchive(item.id)
+                        }}>
+                        <Icon
+                          {...getActionIconProps(
+                            'solar:trash-bin-trash-linear',
+                            'danger'
+                          )}
+                        />
+                      </Button>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        ))}
+      </div>
+    )
+  }
+
+  const actions = archiveActions.map(action => ({
+    ...action,
+    props: getClearAllButtonProps(),
+    onPress: handleClearAllArchive
+  }))
+
+  return (
+    <>
+      <SearchInput
+        {...getSearchInputProps(true)}
+        value={archiveSearch}
+        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+          setArchiveSearch(e.target.value)
+        }
+      />
+
+      {hasArchiveItems && actions.length > 0 && (
+        <div {...getActionsBarProps(false)}>
+          {actions.map(action => (
+            <ActionButton
+              key={action.type}
+              {...action.props}
+              onPress={action.onPress}
+              startContent={<Icon icon={action.icon} width={16} />}>
+              {action.label}
+            </ActionButton>
+          ))}
+        </div>
+      )}
+
+      <div {...getContainerProps()}>
+        <ScrollShadow hideScrollBar className="h-full">
+          {renderArchiveContent()}
+        </ScrollShadow>
+      </div>
+    </>
+  )
+}
+
+export { Archive }
