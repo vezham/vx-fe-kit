@@ -161,10 +161,7 @@ const useProps = (originalProps: Props) => {
     className: slots.section_header({ class: classNames?.section_header })
   })
 
-  const getSectionIconProps: PropGetter = (
-    icon: string,
-    className?: string
-  ) => ({
+  const getSectionIconProps = (icon: string, className?: string) => ({
     icon,
     width: 18,
     className: cn(
@@ -173,7 +170,7 @@ const useProps = (originalProps: Props) => {
     )
   })
 
-  const getSectionTitleProps: PropGetter = (title: string) => ({
+  const getSectionTitleProps = (title: string) => ({
     className: slots.section_title({ class: classNames?.section_title }),
     children: title
   })
@@ -193,10 +190,7 @@ const useProps = (originalProps: Props) => {
   const getFavorite2ItemsProps: PropGetter = () => ({
     className: slots.favorite_item2({ class: classNames?.favorite_item2 })
   })
-  const getFavoriteBackgroundImageProps: PropGetter = (
-    src: string,
-    alt: string
-  ) => ({
+  const getFavoriteBackgroundImageProps = (src: string, alt: string) => ({
     src,
     alt,
     className: slots.favorite_background_image({
@@ -233,7 +227,7 @@ const useProps = (originalProps: Props) => {
     })
   })
 
-  const getFavoriteAvatarFallbackProps: PropGetter = (name: string) => ({
+  const getFavoriteAvatarFallbackProps = (name: string) => ({
     className: slots.favorite_avatar_fallback({
       class: classNames?.favorite_avatar_fallback
     }),
@@ -244,7 +238,7 @@ const useProps = (originalProps: Props) => {
     className: slots.favorite_content({ class: classNames?.favorite_content })
   })
 
-  const getFavoriteNameProps: PropGetter = (name: string) => ({
+  const getFavoriteNameProps = (name: string) => ({
     className: slots.favorite_name({ class: classNames?.favorite_name }),
     children: name
   })
@@ -262,7 +256,7 @@ const useProps = (originalProps: Props) => {
     className: slots.bookmark_avatar({ class: classNames?.bookmark_avatar })
   })
 
-  const getBookmarkAvatarFallbackProps: PropGetter = (name: string) => ({
+  const getBookmarkAvatarFallbackProps = (name: string) => ({
     className: slots.bookmark_avatar_fallback({
       class: classNames?.bookmark_avatar_fallback
     }),
@@ -273,12 +267,12 @@ const useProps = (originalProps: Props) => {
     className: slots.bookmark_content({ class: classNames?.bookmark_content })
   })
 
-  const getBookmarkNameProps: PropGetter = (name: string) => ({
+  const getBookmarkNameProps = (name: string) => ({
     className: slots.bookmark_name({ class: classNames?.bookmark_name }),
     children: name
   })
 
-  const getBookmarkUrlProps: PropGetter = (url: string) => ({
+  const getBookmarkUrlProps = (url: string) => ({
     className: slots.bookmark_url({ class: classNames?.bookmark_url }),
     children: url
   })
@@ -335,12 +329,12 @@ const useProps = (originalProps: Props) => {
     className: slots.folder_icon({ class: classNames?.folder_icon })
   })
 
-  const getFolderNameProps: PropGetter = (name: string) => ({
+  const getFolderNameProps = (name: string) => ({
     className: slots.folder_name({ class: classNames?.folder_name }),
     children: name
   })
 
-  const getFolderCountProps: PropGetter = (count: number) => ({
+  const getFolderCountProps = (count: number) => ({
     className: slots.folder_count({ class: classNames?.folder_count }),
     children: `(${count})`
   })
