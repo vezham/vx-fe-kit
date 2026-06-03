@@ -2,7 +2,7 @@ import { Icon } from '@iconify/react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ReactNode } from 'react'
 
-import { Button, ScrollShadow, Surface } from '@vezham/react-v3'
+import { Button, CloseButton, ScrollShadow, Surface } from '@vezham/react-v3'
 
 import { useInfoPanel } from './provider'
 import { ActiveInfoPanel, InfoPanelDefinition } from './types'
@@ -65,14 +65,8 @@ export function InfoPanelHeader({
           {title}
         </h2>
       </div>
-      <Button
-        aria-label="Close info panel"
-        isIconOnly
-        size="sm"
-        variant="ghost"
-        onPress={onClose}>
-        <Icon icon="lucide:x" className="h-4 w-4" />
-      </Button>
+
+      <CloseButton onPress={onClose} />
     </div>
   )
 }

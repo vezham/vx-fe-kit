@@ -36,8 +36,7 @@ const useProps = (originalProps: Props) => {
     isOpen,
     onClose,
     icon = 'solar:archive-linear',
-    title = 'Chats empty',
-    description = 'No chats will appear here.',
+
     backdrop = 'transparent',
     placement = 'left',
     ...otherProps
@@ -72,16 +71,6 @@ const useProps = (originalProps: Props) => {
     className: slots.icon({ class: classNames?.icon })
   })
 
-  const getTitleProps: PropGetter = () => ({
-    className: slots.title({ class: classNames?.title }),
-    children: title
-  })
-
-  const getDescriptionProps: PropGetter = () => ({
-    className: slots.description({ class: classNames?.description }),
-    children: description
-  })
-
   return {
     Component,
     domRef,
@@ -93,15 +82,12 @@ const useProps = (originalProps: Props) => {
     getContentProps,
     getBodyProps,
     getIconProps,
-    getTitleProps,
-    getDescriptionProps,
+
     isOpen,
     onClose,
     backdrop,
     placement,
-    icon,
-    title,
-    description
+    icon
   }
 }
 

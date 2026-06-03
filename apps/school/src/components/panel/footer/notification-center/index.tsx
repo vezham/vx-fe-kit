@@ -1,3 +1,5 @@
+import { EmptyState } from '@heroui-pro/react/empty-state'
+import { Icon } from '@iconify/react'
 import { useNavigate } from '@tanstack/react-router'
 
 import { forwardRef } from '@vezham/react-utils'
@@ -9,7 +11,7 @@ import {
   DrawerHeader,
   ScrollShadow
 } from '@vezham/react-v2'
-import { Chip } from '@vezham/react-v3'
+import { Chip, CloseButton } from '@vezham/react-v3'
 
 import WidgetsGrid from '../../../../pages/widgets'
 import { Props, useProps } from './types'
@@ -22,8 +24,11 @@ const NotificationDrawer = forwardRef<'div', Props>((props, ref) => {
     getDrawerContentProps,
     getDrawerHeaderProps,
     getHeaderTitleProps,
+    closeButtonClassName,
     getDrawerBodyProps,
     getScrollShadowProps,
+    getEmptyStateProps,
+    getEmptyStateIconProps,
     getDrawerFooterProps,
     getChipProps,
     isOpen,
@@ -31,7 +36,8 @@ const NotificationDrawer = forwardRef<'div', Props>((props, ref) => {
     backdrop,
     placement,
     onEdit,
-    widgetsGridProps
+    widgetsGridProps,
+    isEmpty
   } = useProps({
     ...props,
     ref
@@ -51,6 +57,7 @@ const NotificationDrawer = forwardRef<'div', Props>((props, ref) => {
     <Component {...getDrawerBaseProps()}>
       <Drawer
         backdrop={backdrop}
+        hideCloseButton
         placement={placement}
         isOpen={isOpen}
         onClose={onClose}
@@ -61,19 +68,33 @@ const NotificationDrawer = forwardRef<'div', Props>((props, ref) => {
         <DrawerContent className={getDrawerContentProps().className}>
           <DrawerHeader {...getDrawerHeaderProps()}>
             <span {...getHeaderTitleProps()} />
+            <CloseButton className={closeButtonClassName} onPress={onClose} />
           </DrawerHeader>
 
           <DrawerBody {...getDrawerBodyProps()}>
             <ScrollShadow {...getScrollShadowProps()}>
-              <WidgetsGrid {...widgetsGridProps} />
+              {isEmpty ? (
+                <div {...getEmptyStateProps()}>
+                  <EmptyState className="rounded-2xl">
+                    <EmptyState.Media>
+                      <Icon {...getEmptyStateIconProps()} />
+                    </EmptyState.Media>
+                    <EmptyState.Title>Notifications are Empty</EmptyState.Title>
+                  </EmptyState>
+                </div>
+              ) : (
+                <WidgetsGrid {...widgetsGridProps} />
+              )}
             </ScrollShadow>
           </DrawerBody>
 
-          <DrawerFooter {...getDrawerFooterProps()}>
-            <Chip variant="primary" {...getChipProps()} onClick={handleEdit}>
-              Edit
-            </Chip>
-          </DrawerFooter>
+          {!isEmpty && (
+            <DrawerFooter {...getDrawerFooterProps()}>
+              <Chip variant="primary" {...getChipProps()} onClick={handleEdit}>
+                Edit
+              </Chip>
+            </DrawerFooter>
+          )}
         </DrawerContent>
       </Drawer>
     </Component>

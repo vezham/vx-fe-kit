@@ -75,107 +75,115 @@ const DiskContent = forwardRef<'div', Props>((props, ref) => {
   const trashItems = externalTrashItems || internalTrashItems
 
   return (
-    <Component>
-      <div className="flex h-full min-h-0 w-full flex-col gap-4">
-        <Tabs
-          variant="primary"
-          {...getTabsProps()}
-          selectedKey={activeTab}
-          onSelectionChange={key => setActiveTab(key as string)}>
-          <Tabs.ListContainer {...getTabsListContainerProps()}>
-            <Tabs.List {...getTabsListProps()}>
-              <Tabs.Tab {...getTabArchiveProps()}>
-                <Icon icon="solar:archive-linear" width={18} className="mr-2" />
-                Archive
-                <Tabs.Indicator {...getTabIndicatorProps()} />
-              </Tabs.Tab>
-              <Tabs.Tab {...getTabTrashProps()}>
-                <Icon
-                  icon="solar:trash-bin-trash-linear"
-                  width={18}
-                  className="mr-2"
-                />
-                Trash
-                <Tabs.Indicator {...getTabIndicatorProps()} />
-              </Tabs.Tab>
-            </Tabs.List>
-          </Tabs.ListContainer>
-        </Tabs>
+    <Component className="h-full">
+      <div className="flex h-full min-h-0 w-full flex-col overflow-hidden">
+        <div className="bg-background/95 sticky top-0 z-20 shrink-0 pb-4">
+          <Tabs
+            variant="primary"
+            {...getTabsProps()}
+            selectedKey={activeTab}
+            onSelectionChange={key => setActiveTab(key as string)}>
+            <Tabs.ListContainer {...getTabsListContainerProps()}>
+              <Tabs.List {...getTabsListProps()}>
+                <Tabs.Tab {...getTabArchiveProps()}>
+                  <Icon
+                    icon="solar:archive-linear"
+                    width={18}
+                    className="mr-2"
+                  />
+                  Archive
+                  <Tabs.Indicator {...getTabIndicatorProps()} />
+                </Tabs.Tab>
+                <Tabs.Tab {...getTabTrashProps()}>
+                  <Icon
+                    icon="solar:trash-bin-trash-linear"
+                    width={18}
+                    className="mr-2"
+                  />
+                  Trash
+                  <Tabs.Indicator {...getTabIndicatorProps()} />
+                </Tabs.Tab>
+              </Tabs.List>
+            </Tabs.ListContainer>
+          </Tabs>
+        </div>
 
-        {activeTab === 'archive' ? (
-          <Archive
-            archiveItems={archiveItems}
-            archiveSearch={archiveSearch}
-            setArchiveSearch={setArchiveSearch}
-            setInternalArchiveItems={setInternalArchiveItems}
-            getSearchInputProps={getSearchInputProps}
-            getActionsBarProps={getActionsBarProps}
-            getClearAllButtonProps={getClearAllButtonProps}
-            getContainerProps={getContainerProps}
-            getEmptyContainerProps={getEmptyContainerProps}
-            getEmptyIconProps={getEmptyIconProps}
-            getEmptyTitleProps={getEmptyTitleProps}
-            getEmptyDescriptionProps={getEmptyDescriptionProps}
-            getItemsContainerProps={getItemsContainerProps}
-            getDateGroupProps={getDateGroupProps}
-            getDateHeaderProps={getDateHeaderProps}
-            getDateLabelProps={getDateLabelProps}
-            getDateDividerProps={getDateDividerProps}
-            getItemsListProps={getItemsListProps}
-            getItemProps={getItemProps}
-            getItemFaviconProps={getItemFaviconProps}
-            getItemFallbackIconProps={getItemFallbackIconProps}
-            getItemContentProps={getItemContentProps}
-            getItemTitleProps={getItemTitleProps}
-            getItemUrlProps={getItemUrlProps}
-            getItemActionsProps={getItemActionsProps}
-            getUnarchiveButtonProps={getUnarchiveButtonProps}
-            getDeleteButtonProps={getDeleteButtonProps}
-            getActionIconProps={getActionIconProps}
-            onUnarchive={onUnarchive}
-            onDeleteFromArchive={onDeleteFromArchive}
-            onClearAllArchive={onClearAllArchive}
-            onItemClick={onItemClick}
-            renderArchiveItem={renderArchiveItem}
-          />
-        ) : (
-          <Trash
-            trashItems={trashItems}
-            trashSearch={trashSearch}
-            setTrashSearch={setTrashSearch}
-            setInternalTrashItems={setInternalTrashItems}
-            getSearchInputProps={getSearchInputProps}
-            getActionsBarProps={getActionsBarProps}
-            getRestoreAllButtonProps={getRestoreAllButtonProps}
-            getClearAllButtonProps={getClearAllButtonProps}
-            getContainerProps={getContainerProps}
-            getEmptyContainerProps={getEmptyContainerProps}
-            getEmptyIconProps={getEmptyIconProps}
-            getEmptyTitleProps={getEmptyTitleProps}
-            getEmptyDescriptionProps={getEmptyDescriptionProps}
-            getItemsContainerProps={getItemsContainerProps}
-            getDateGroupProps={getDateGroupProps}
-            getDateHeaderProps={getDateHeaderProps}
-            getDateLabelProps={getDateLabelProps}
-            getDateDividerProps={getDateDividerProps}
-            getItemsListProps={getItemsListProps}
-            getItemProps={getItemProps}
-            getItemFaviconProps={getItemFaviconProps}
-            getItemFallbackIconProps={getItemFallbackIconProps}
-            getItemContentProps={getItemContentProps}
-            getItemTitleProps={getItemTitleProps}
-            getItemUrlProps={getItemUrlProps}
-            getItemActionsProps={getItemActionsProps}
-            getRestoreButtonProps={getRestoreButtonProps}
-            getDeletePermanentButtonProps={getDeletePermanentButtonProps}
-            getActionIconProps={getActionIconProps}
-            onRestore={onRestore}
-            onDeletePermanently={onDeletePermanently}
-            onClearAllTrash={onClearAllTrash}
-            onRestoreAllTrash={onRestoreAllTrash}
-            renderTrashItem={renderTrashItem}
-          />
-        )}
+        <div className="flex min-h-0 flex-1 flex-col">
+          {activeTab === 'archive' ? (
+            <Archive
+              archiveItems={archiveItems}
+              archiveSearch={archiveSearch}
+              setArchiveSearch={setArchiveSearch}
+              setInternalArchiveItems={setInternalArchiveItems}
+              getSearchInputProps={getSearchInputProps}
+              getActionsBarProps={getActionsBarProps}
+              getClearAllButtonProps={getClearAllButtonProps}
+              getContainerProps={getContainerProps}
+              getEmptyContainerProps={getEmptyContainerProps}
+              getEmptyIconProps={getEmptyIconProps}
+              getEmptyTitleProps={getEmptyTitleProps}
+              getEmptyDescriptionProps={getEmptyDescriptionProps}
+              getItemsContainerProps={getItemsContainerProps}
+              getDateGroupProps={getDateGroupProps}
+              getDateHeaderProps={getDateHeaderProps}
+              getDateLabelProps={getDateLabelProps}
+              getDateDividerProps={getDateDividerProps}
+              getItemsListProps={getItemsListProps}
+              getItemProps={getItemProps}
+              getItemFaviconProps={getItemFaviconProps}
+              getItemFallbackIconProps={getItemFallbackIconProps}
+              getItemContentProps={getItemContentProps}
+              getItemTitleProps={getItemTitleProps}
+              getItemUrlProps={getItemUrlProps}
+              getItemActionsProps={getItemActionsProps}
+              getUnarchiveButtonProps={getUnarchiveButtonProps}
+              getDeleteButtonProps={getDeleteButtonProps}
+              getActionIconProps={getActionIconProps}
+              onUnarchive={onUnarchive}
+              onDeleteFromArchive={onDeleteFromArchive}
+              onClearAllArchive={onClearAllArchive}
+              onItemClick={onItemClick}
+              renderArchiveItem={renderArchiveItem}
+            />
+          ) : (
+            <Trash
+              trashItems={trashItems}
+              trashSearch={trashSearch}
+              setTrashSearch={setTrashSearch}
+              setInternalTrashItems={setInternalTrashItems}
+              getSearchInputProps={getSearchInputProps}
+              getActionsBarProps={getActionsBarProps}
+              getRestoreAllButtonProps={getRestoreAllButtonProps}
+              getClearAllButtonProps={getClearAllButtonProps}
+              getContainerProps={getContainerProps}
+              getEmptyContainerProps={getEmptyContainerProps}
+              getEmptyIconProps={getEmptyIconProps}
+              getEmptyTitleProps={getEmptyTitleProps}
+              getEmptyDescriptionProps={getEmptyDescriptionProps}
+              getItemsContainerProps={getItemsContainerProps}
+              getDateGroupProps={getDateGroupProps}
+              getDateHeaderProps={getDateHeaderProps}
+              getDateLabelProps={getDateLabelProps}
+              getDateDividerProps={getDateDividerProps}
+              getItemsListProps={getItemsListProps}
+              getItemProps={getItemProps}
+              getItemFaviconProps={getItemFaviconProps}
+              getItemFallbackIconProps={getItemFallbackIconProps}
+              getItemContentProps={getItemContentProps}
+              getItemTitleProps={getItemTitleProps}
+              getItemUrlProps={getItemUrlProps}
+              getItemActionsProps={getItemActionsProps}
+              getRestoreButtonProps={getRestoreButtonProps}
+              getDeletePermanentButtonProps={getDeletePermanentButtonProps}
+              getActionIconProps={getActionIconProps}
+              onRestore={onRestore}
+              onDeletePermanently={onDeletePermanently}
+              onClearAllTrash={onClearAllTrash}
+              onRestoreAllTrash={onRestoreAllTrash}
+              renderTrashItem={renderTrashItem}
+            />
+          )}
+        </div>
       </div>
     </Component>
   )

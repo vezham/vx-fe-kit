@@ -1,3 +1,4 @@
+import { EmptyState } from '@heroui-pro/react/empty-state'
 import { Icon } from '@iconify/react'
 import type { ChangeEvent } from 'react'
 
@@ -122,9 +123,12 @@ function Trash(props: TrashProps) {
     if (!hasTrashItems) {
       return (
         <div {...getEmptyContainerProps()}>
-          <Icon {...getEmptyIconProps('solar:trash-bin-trash-linear')} />
-          <h2 {...getEmptyTitleProps()}>Trash is empty</h2>
-          <p {...getEmptyDescriptionProps()}>Deleted items will appear here.</p>
+          <EmptyState className="rounded-2xl">
+            <EmptyState.Media>
+              <Icon {...getEmptyIconProps('solar:trash-bin-trash-linear')} />
+            </EmptyState.Media>
+            <EmptyState.Title>Trash is Empty</EmptyState.Title>
+          </EmptyState>
         </div>
       )
     }
@@ -216,35 +220,37 @@ function Trash(props: TrashProps) {
   }))
 
   return (
-    <>
-      <SearchInput
-        {...getSearchInputProps(false)}
-        value={trashSearch}
-        onChange={(e: ChangeEvent<HTMLInputElement>) =>
-          setTrashSearch(e.target.value)
-        }
-      />
+    <div className="flex min-h-0 flex-1 flex-col">
+      <div className="bg-background/95 sticky top-0 z-10 shrink-0 pb-3">
+        <SearchInput
+          {...getSearchInputProps(false)}
+          value={trashSearch}
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            setTrashSearch(e.target.value)
+          }
+        />
 
-      {hasTrashItems && actions.length > 0 && (
-        <div {...getActionsBarProps(true)}>
-          {actions.map(action => (
-            <ActionButton
-              key={action.type}
-              {...action.props}
-              onPress={action.onPress}
-              startContent={<Icon icon={action.icon} width={16} />}>
-              {action.label}
-            </ActionButton>
-          ))}
-        </div>
-      )}
+        {hasTrashItems && actions.length > 0 && (
+          <div {...getActionsBarProps(true)}>
+            {actions.map(action => (
+              <ActionButton
+                key={action.type}
+                {...action.props}
+                onPress={action.onPress}
+                startContent={<Icon icon={action.icon} width={16} />}>
+                {action.label}
+              </ActionButton>
+            ))}
+          </div>
+        )}
+      </div>
 
       <div {...getContainerProps()}>
-        <ScrollShadow hideScrollBar={false} className="h-full">
+        <ScrollShadow hideScrollBar className="h-full">
           {renderTrashContent()}
         </ScrollShadow>
       </div>
-    </>
+    </div>
   )
 }
 

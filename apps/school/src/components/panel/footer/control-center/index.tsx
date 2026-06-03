@@ -1,10 +1,16 @@
+import { EmptyState } from '@heroui-pro/react/empty-state'
 import { Icon } from '@iconify/react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
 
 import { forwardRef } from '@vezham/react-utils'
-import { Drawer, DrawerContent, DrawerFooter } from '@vezham/react-v2'
-import { Button, Chip } from '@vezham/react-v3'
+import {
+  Drawer,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader
+} from '@vezham/react-v2'
+import { Button, Chip, CloseButton } from '@vezham/react-v3'
 
 import { Props, View, useProps } from './types'
 
@@ -14,7 +20,11 @@ const ControlCenterDrawer = forwardRef<'div', Props>((props, ref) => {
     getDrawerBaseProps,
     getDrawerWrapperProps,
     getDrawerContentProps,
+    getDrawerHeaderProps,
+    closeButtonClassName,
     getMotionContainerProps,
+    getEmptyStateProps,
+    getEmptyStateIconProps,
     getMainViewProps,
     getMainGridProps,
     getMainGridLeftProps,
@@ -51,7 +61,8 @@ const ControlCenterDrawer = forwardRef<'div', Props>((props, ref) => {
     backdrop,
     placement,
     initialView,
-    onViewChange
+    onViewChange,
+    isEmpty
   } = useProps({
     ...props,
     ref
@@ -73,6 +84,7 @@ const ControlCenterDrawer = forwardRef<'div', Props>((props, ref) => {
     <Component {...getDrawerBaseProps()}>
       <Drawer
         backdrop={backdrop}
+        hideCloseButton
         placement={placement}
         isOpen={isOpen}
         onClose={onClose}
@@ -81,181 +93,202 @@ const ControlCenterDrawer = forwardRef<'div', Props>((props, ref) => {
           wrapper: getDrawerWrapperProps().className
         }}>
         <DrawerContent className={getDrawerContentProps().className}>
+          <DrawerHeader {...getDrawerHeaderProps()}>
+            <CloseButton className={closeButtonClassName} onPress={onClose} />
+          </DrawerHeader>
+
           <motion.div {...getMotionContainerProps()}>
-            <AnimatePresence mode="wait">
-              {view === 'main' && (
-                <motion.div
-                  key="main"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  {...getMainViewProps()}>
-                  <div {...getMainGridProps()}>
-                    <div {...getMainGridLeftProps()}>
-                      <div
-                        {...getTileProps({
-                          onClick: () => handleViewChange('wifi')
-                        })}>
-                        <div {...getTileIconWrapperProps()}>
-                          <Icon {...getTileIconProps('mdi:wifi')} />
+            {isEmpty ? (
+              <div {...getEmptyStateProps()}>
+                <EmptyState className="rounded-2xl">
+                  <EmptyState.Media>
+                    <Icon {...getEmptyStateIconProps()} />
+                  </EmptyState.Media>
+                  <EmptyState.Title>Control Center is Empty</EmptyState.Title>
+                </EmptyState>
+              </div>
+            ) : (
+              <AnimatePresence mode="wait">
+                {view === 'main' && (
+                  <motion.div
+                    key="main"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    {...getMainViewProps()}>
+                    <div {...getMainGridProps()}>
+                      <div {...getMainGridLeftProps()}>
+                        <div
+                          {...getTileProps({
+                            onClick: () => handleViewChange('wifi')
+                          })}>
+                          <div {...getTileIconWrapperProps()}>
+                            <Icon {...getTileIconProps('mdi:wifi')} />
+                          </div>
+                          <div>
+                            <div {...getTileLabelProps('Wi-Fi')} />
+                            <div {...getTileSubProps('iPhone')} />
+                          </div>
                         </div>
-                        <div>
-                          <div {...getTileLabelProps('Wi-Fi')} />
-                          <div {...getTileSubProps('iPhone')} />
+
+                        <div {...getTileProps({})}>
+                          <div {...getTileIconWrapperProps()}>
+                            <Icon
+                              icon={''}
+                              {...getTileIconProps('solar:bluetooth-bold')}
+                            />
+                          </div>
+                          <div>
+                            <div {...getTileLabelProps('Bluetooth')} />
+                            <div {...getTileSubProps('On')} />
+                          </div>
+                        </div>
+
+                        <div
+                          {...getTileProps({
+                            onClick: () => handleViewChange('airdrop')
+                          })}>
+                          <div {...getTileIconWrapperProps()}>
+                            <Icon
+                              icon={''}
+                              {...getTileIconProps('solar:airbuds-bold')}
+                            />
+                          </div>
+                          <div>
+                            <div {...getTileLabelProps('AirDrop')} />
+                            <div {...getTileSubProps('Contacts Only')} />
+                          </div>
                         </div>
                       </div>
 
-                      <div {...getTileProps({})}>
-                        <div {...getTileIconWrapperProps()}>
+                      <div {...getMediaTileProps()}>
+                        <div {...getMediaTileStatusProps()} />
+                        <div {...getMediaTileControlsProps()}>
+                          <Icon
+                            {...getMediaTileIconProps('mdi:skip-previous', 22)}
+                          />
+
                           <Icon
                             icon={''}
-                            {...getTileIconProps('solar:bluetooth-bold')}
+                            {...getMediaTileIconProps('solar:play-bold', 28)}
+                          />
+                          <Icon
+                            {...getMediaTileIconProps('mdi:skip-next', 22)}
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-4">
+                      <div {...getCircleActionProps({})}>
+                        <div {...getCircleActionIconWrapperProps()}>
+                          <Icon
+                            icon={''}
+                            {...getCircleActionIconProps('solar:widget-2-bold')}
+                          />
+                        </div>
+                      </div>
+
+                      <div {...getCircleActionProps({})}>
+                        <div {...getCircleActionIconWrapperProps()}>
+                          <Icon
+                            icon={''}
+                            {...getCircleActionIconProps('solar:copy-bold')}
+                          />
+                        </div>
+                      </div>
+
+                      <div {...getCircleActionProps({ large: true })}>
+                        <div {...getCircleActionIconWrapperProps()}>
+                          <Icon
+                            icon={''}
+                            {...getCircleActionIconProps('solar:moon-bold')}
                           />
                         </div>
                         <div>
-                          <div {...getTileLabelProps('Bluetooth')} />
-                          <div {...getTileSubProps('On')} />
-                        </div>
-                      </div>
-
-                      <div
-                        {...getTileProps({
-                          onClick: () => handleViewChange('airdrop')
-                        })}>
-                        <div {...getTileIconWrapperProps()}>
-                          <Icon
-                            icon={''}
-                            {...getTileIconProps('solar:airbuds-bold')}
+                          <div
+                            {...getCircleActionLabelProps('Do Not Disturb')}
                           />
-                        </div>
-                        <div>
-                          <div {...getTileLabelProps('AirDrop')} />
-                          <div {...getTileSubProps('Contacts Only')} />
+                          <div {...getCircleActionSubProps('On')} />
                         </div>
                       </div>
                     </div>
 
-                    <div {...getMediaTileProps()}>
-                      <div {...getMediaTileStatusProps()} />
-                      <div {...getMediaTileControlsProps()}>
-                        <Icon
-                          {...getMediaTileIconProps('mdi:skip-previous', 22)}
-                        />
-
+                    <div {...getSliderProps()}>
+                      <div {...getSliderHeaderProps()}>
                         <Icon
                           icon={''}
-                          {...getMediaTileIconProps('solar:play-bold', 28)}
+                          {...getSliderIconProps('solar:sun-bold')}
                         />
-                        <Icon {...getMediaTileIconProps('mdi:skip-next', 22)} />
+                        <span {...getSliderLabelProps('Display')} />
+                      </div>
+                      <div {...getSliderTrackProps()}>
+                        <div {...getSliderProgressProps(50)} />
                       </div>
                     </div>
-                  </div>
 
-                  <div className="flex gap-4">
-                    <div {...getCircleActionProps({})}>
-                      <div {...getCircleActionIconWrapperProps()}>
+                    <div {...getSliderProps()}>
+                      <div {...getSliderHeaderProps()}>
                         <Icon
                           icon={''}
-                          {...getCircleActionIconProps('solar:widget-2-bold')}
+                          {...getSliderIconProps('solar:volume-loud-bold')}
                         />
+                        <span {...getSliderLabelProps('Sound')} />
+                      </div>
+                      <div {...getSliderTrackProps()}>
+                        <div {...getSliderProgressProps(75)} />
                       </div>
                     </div>
+                  </motion.div>
+                )}
 
-                    <div {...getCircleActionProps({})}>
-                      <div {...getCircleActionIconWrapperProps()}>
-                        <Icon
-                          icon={''}
-                          {...getCircleActionIconProps('solar:copy-bold')}
-                        />
+                {view === 'wifi' && (
+                  <motion.div key="wifi" {...getSubViewProps()}>
+                    <div {...getSubViewHeaderProps()}>
+                      <Button isIconOnly onClick={goBack} variant="ghost">
+                        <Icon icon="solar:alt-arrow-left-linear" />
+                      </Button>
+                      <div {...getSubViewTitleProps('Wi-Fi')} />
+                    </div>
+
+                    <div {...getSubViewContentProps()}>
+                      <div {...getOptionProps({})}>
+                        <span {...getOptionLabelProps('iPhone')} />
+                      </div>
+                      <div {...getOptionProps({})}>
+                        <span {...getOptionLabelProps('Office WiFi')} />
                       </div>
                     </div>
+                  </motion.div>
+                )}
 
-                    <div {...getCircleActionProps({ large: true })}>
-                      <div {...getCircleActionIconWrapperProps()}>
-                        <Icon
-                          icon={''}
-                          {...getCircleActionIconProps('solar:moon-bold')}
-                        />
+                {view === 'airdrop' && (
+                  <motion.div key="airdrop" {...getSubViewProps()}>
+                    <div {...getSubViewHeaderProps()}>
+                      <Button isIconOnly onClick={goBack} variant="ghost">
+                        <Icon icon="solar:alt-arrow-left-linear" />
+                      </Button>
+                      <div {...getSubViewTitleProps('AirDrop')} />
+                    </div>
+
+                    <div {...getSubViewContentProps()}>
+                      <div {...getOptionProps({})}>
+                        <span {...getOptionLabelProps('Contacts Only')} />
                       </div>
-                      <div>
-                        <div {...getCircleActionLabelProps('Do Not Disturb')} />
-                        <div {...getCircleActionSubProps('On')} />
+                      <div {...getOptionProps({})}>
+                        <span {...getOptionLabelProps('Everyone')} />
                       </div>
                     </div>
-                  </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            )}
 
-                  <div {...getSliderProps()}>
-                    <div {...getSliderHeaderProps()}>
-                      <Icon
-                        icon={''}
-                        {...getSliderIconProps('solar:sun-bold')}
-                      />
-                      <span {...getSliderLabelProps('Display')} />
-                    </div>
-                    <div {...getSliderTrackProps()}>
-                      <div {...getSliderProgressProps(50)} />
-                    </div>
-                  </div>
-
-                  <div {...getSliderProps()}>
-                    <div {...getSliderHeaderProps()}>
-                      <Icon
-                        icon={''}
-                        {...getSliderIconProps('solar:volume-loud-bold')}
-                      />
-                      <span {...getSliderLabelProps('Sound')} />
-                    </div>
-                    <div {...getSliderTrackProps()}>
-                      <div {...getSliderProgressProps(75)} />
-                    </div>
-                  </div>
-                </motion.div>
-              )}
-
-              {view === 'wifi' && (
-                <motion.div key="wifi" {...getSubViewProps()}>
-                  <div {...getSubViewHeaderProps()}>
-                    <Button isIconOnly onClick={goBack} variant="ghost">
-                      <Icon icon="solar:alt-arrow-left-linear" />
-                    </Button>
-                    <div {...getSubViewTitleProps('Wi-Fi')} />
-                  </div>
-
-                  <div {...getSubViewContentProps()}>
-                    <div {...getOptionProps({})}>
-                      <span {...getOptionLabelProps('iPhone')} />
-                    </div>
-                    <div {...getOptionProps({})}>
-                      <span {...getOptionLabelProps('Office WiFi')} />
-                    </div>
-                  </div>
-                </motion.div>
-              )}
-
-              {view === 'airdrop' && (
-                <motion.div key="airdrop" {...getSubViewProps()}>
-                  <div {...getSubViewHeaderProps()}>
-                    <Button isIconOnly onClick={goBack} variant="ghost">
-                      <Icon icon="solar:alt-arrow-left-linear" />
-                    </Button>
-                    <div {...getSubViewTitleProps('AirDrop')} />
-                  </div>
-
-                  <div {...getSubViewContentProps()}>
-                    <div {...getOptionProps({})}>
-                      <span {...getOptionLabelProps('Contacts Only')} />
-                    </div>
-                    <div {...getOptionProps({})}>
-                      <span {...getOptionLabelProps('Everyone')} />
-                    </div>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-
-            <DrawerFooter {...getDrawerFooterProps()}>
-              <Chip {...getChipProps()}>Edit Controls</Chip>
-            </DrawerFooter>
+            {!isEmpty && (
+              <DrawerFooter {...getDrawerFooterProps()}>
+                <Chip {...getChipProps()}>Edit Controls</Chip>
+              </DrawerFooter>
+            )}
           </motion.div>
         </DrawerContent>
       </Drawer>

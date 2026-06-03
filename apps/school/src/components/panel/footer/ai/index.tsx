@@ -1,3 +1,4 @@
+import { EmptyState } from '@heroui-pro/react/empty-state'
 import { Icon } from '@iconify/react'
 
 import { forwardRef } from '@vezham/react-utils'
@@ -7,14 +8,7 @@ import { InfoPanelDefinition } from '../../info-panel'
 import { Props, useProps } from './types'
 
 const AIContent = forwardRef<'div', Props>((props, ref) => {
-  const {
-    Component,
-    getBaseProps,
-    getBodyProps,
-    getIconProps,
-    getTitleProps,
-    getDescriptionProps
-  } = useProps({
+  const { Component, getBaseProps, getBodyProps, getIconProps } = useProps({
     ...props,
     ref
   })
@@ -22,9 +16,12 @@ const AIContent = forwardRef<'div', Props>((props, ref) => {
   return (
     <Component {...getBaseProps()}>
       <div {...getBodyProps()}>
-        <Icon {...getIconProps()} />
-        <div {...getTitleProps()} />
-        <div {...getDescriptionProps()} />
+        <EmptyState className="rounded-2xl">
+          <EmptyState.Media>
+            <Icon {...getIconProps()} />
+          </EmptyState.Media>
+          <EmptyState.Title>AI is Empty</EmptyState.Title>
+        </EmptyState>
       </div>
     </Component>
   )

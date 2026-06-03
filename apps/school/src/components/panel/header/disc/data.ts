@@ -141,5 +141,47 @@ export const sampleTrashItems: TrashItem[] = [
     url: 'downloads.example.com/preso',
     deletedDate: '2026-04-05',
     favicon: 'https://www.google.com/s2/favicons?domain=example.com&sz=32'
+  },
+  {
+    id: 't5',
+    title: 'Meeting Notes - Archived',
+    url: 'meet.example.com/notes',
+    deletedDate: '2026-04-06',
+    favicon: 'https://www.google.com/s2/favicons?domain=example.com&sz=32'
+  },
+  {
+    id: 't6',
+    title: 'Screenshot 2026-03-15',
+    url: 'files.example.com/screenshots',
+    deletedDate: '2026-04-05',
+    favicon: 'https://www.google.com/s2/favicons?domain=example.com&sz=32'
+  },
+  {
+    id: 't7',
+    title: 'Download - Presentation.pptx',
+    url: 'downloads.example.com/preso',
+    deletedDate: '2026-04-05',
+    favicon: 'https://www.google.com/s2/favicons?domain=example.com&sz=32'
+  },
+  {
+    id: 't5',
+    title: 'Meeting Notes - Archived',
+    url: 'meet.example.com/notes',
+    deletedDate: '2026-04-06',
+    favicon: 'https://www.google.com/s2/favicons?domain=example.com&sz=32'
+  },
+  {
+    id: 't6',
+    title: 'Screenshot 2026-03-15',
+    url: 'files.example.com/screenshots',
+    deletedDate: '2026-04-05',
+    favicon: 'https://www.google.com/s2/favicons?domain=example.com&sz=32'
+  },
+  {
+    id: 't7',
+    title: 'Download - Presentation.pptx',
+    url: 'downloads.example.com/preso',
+    deletedDate: '2026-04-05',
+    favicon: 'https://www.google.com/s2/favicons?domain=example.com&sz=32'
   }
 ]

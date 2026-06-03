@@ -10,20 +10,20 @@ const tva = tv({
     tab_trash: 'flex-1 justify-center',
     tab_indicator: '',
 
-    container: 'flex h-full flex-col',
+    container: 'flex min-h-0 flex-1 flex-col',
 
     search_input: 'w-full',
     search_input_wrapper: 'bg-default-100/50',
     search_icon: 'text-default-400',
 
-    actions_bar: 'text-muted mb-2 flex justify-end',
-    actions_bar_with_gap: 'text-muted mb-2 flex justify-end gap-2',
+    actions_bar: 'text-muted mt-2 flex justify-end',
+    actions_bar_with_gap: 'text-muted mt-2 flex justify-end gap-2',
 
     clear_all_button: '',
     restore_all_button: '',
 
     empty_container:
-      'flex h-[50vh] flex-col items-center justify-center gap-4 text-center',
+      'flex h-full min-h-[320px] flex-col items-center justify-center gap-4 text-center',
     empty_icon: 'text-default-400',
     empty_title: 'text-xl font-semibold',
     empty_description: 'text-default-500 max-w-[220px]',

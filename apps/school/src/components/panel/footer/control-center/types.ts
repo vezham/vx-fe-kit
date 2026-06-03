@@ -58,6 +58,7 @@ interface Props extends tvProps, HTMLHeroUIProps<'div'> {
   placement?: 'left' | 'right'
   initialView?: View
   onViewChange?: (view: View) => void
+  isEmpty?: boolean
 }
 
 const useProps = (originalProps: Props) => {
@@ -76,6 +77,7 @@ const useProps = (originalProps: Props) => {
     placement = 'left',
     initialView = 'main',
     onViewChange,
+    isEmpty = false,
     ...otherProps
   } = props
 
@@ -97,12 +99,32 @@ const useProps = (originalProps: Props) => {
     className: slots.drawer_content({ class: classNames?.drawer_content })
   })
 
+  const getDrawerHeaderProps: PropGetter = () => ({
+    className: slots.drawer_header({ class: classNames?.drawer_header })
+  })
+
+  const closeButtonClassName = slots.close_button({
+    class: classNames?.close_button
+  })
+
   const getMotionContainerProps: PropGetter = () => ({
     className: slots.motion_container({ class: classNames?.motion_container }),
     initial: { y: 80, opacity: 0 },
     animate: { y: 0, opacity: 1 },
     exit: { y: 80, opacity: 0 },
     transition: { type: 'spring', stiffness: 320, damping: 28 }
+  })
+
+  const getEmptyStateProps: PropGetter = () => ({
+    className: slots.empty_state({ class: classNames?.empty_state })
+  })
+
+  const getEmptyStateIconProps: PropGetter = () => ({
+    icon: 'solar:settings-linear',
+    width: 64,
+    className: slots.empty_state_icon({
+      class: classNames?.empty_state_icon
+    })
   })
 
   const getMainViewProps: PropGetter = () => ({
@@ -274,7 +296,11 @@ const useProps = (originalProps: Props) => {
     getDrawerBaseProps,
     getDrawerWrapperProps,
     getDrawerContentProps,
+    getDrawerHeaderProps,
+    closeButtonClassName,
     getMotionContainerProps,
+    getEmptyStateProps,
+    getEmptyStateIconProps,
     getMainViewProps,
     getMainGridProps,
     getMainGridLeftProps,
@@ -311,7 +337,8 @@ const useProps = (originalProps: Props) => {
     backdrop,
     placement,
     initialView,
-    onViewChange
+    onViewChange,
+    isEmpty
   }
 }
 

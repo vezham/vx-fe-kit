@@ -8,8 +8,13 @@ const tva = tv({
     drawer_wrapper: 'z-[50]',
     drawer_content:
       'flex justify-end bg-black/5 p-4 shadow-xl backdrop-blur-sm',
+    drawer_header: 'flex shrink-0 justify-end p-0 pb-3',
+    close_button:
+      'text-default-500 shrink-0 bg-transparent hover:bg-transparent data-[hovered=true]:bg-transparent',
 
-    motion_container: 'w-full',
+    motion_container: 'flex min-h-0 w-full flex-col',
+    empty_state: 'flex min-h-[320px] flex-col items-center justify-center',
+    empty_state_icon: 'text-muted-foreground',
 
     main_view: 'space-y-4',
     main_grid: 'grid grid-cols-2 gap-4',

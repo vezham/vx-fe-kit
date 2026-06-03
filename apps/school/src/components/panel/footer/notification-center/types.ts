@@ -25,6 +25,7 @@ interface Props extends tvProps, HTMLHeroUIProps<'div'> {
   title?: ReactNode
   onEdit?: () => void
   widgetsGridProps?: WidgetsGridProps
+  isEmpty?: boolean
 }
 
 const useProps = (originalProps: Props) => {
@@ -44,6 +45,7 @@ const useProps = (originalProps: Props) => {
     title = 'Notification Center',
     onEdit,
     widgetsGridProps,
+    isEmpty = false,
     ...otherProps
   } = props
 
@@ -74,6 +76,10 @@ const useProps = (originalProps: Props) => {
     children: title
   })
 
+  const closeButtonClassName = slots.close_button({
+    class: classNames?.close_button
+  })
+
   const getDrawerBodyProps: PropGetter = () => ({
     className: slots.drawer_body({ class: classNames?.drawer_body })
   })
@@ -81,6 +87,18 @@ const useProps = (originalProps: Props) => {
   const getScrollShadowProps: PropGetter = () => ({
     className: slots.scroll_shadow({ class: classNames?.scroll_shadow }),
     hideScrollBar: true
+  })
+
+  const getEmptyStateProps: PropGetter = () => ({
+    className: slots.empty_state({ class: classNames?.empty_state })
+  })
+
+  const getEmptyStateIconProps: PropGetter = () => ({
+    icon: 'solar:bell-linear',
+    width: 64,
+    className: slots.empty_state_icon({
+      class: classNames?.empty_state_icon
+    })
   })
 
   const getDrawerFooterProps: PropGetter = () => ({
@@ -103,8 +121,11 @@ const useProps = (originalProps: Props) => {
     getDrawerContentProps,
     getDrawerHeaderProps,
     getHeaderTitleProps,
+    closeButtonClassName,
     getDrawerBodyProps,
     getScrollShadowProps,
+    getEmptyStateProps,
+    getEmptyStateIconProps,
     getDrawerFooterProps,
     getChipProps,
     isOpen,
@@ -113,7 +134,8 @@ const useProps = (originalProps: Props) => {
     placement,
     title,
     onEdit,
-    widgetsGridProps
+    widgetsGridProps,
+    isEmpty
   }
 }
 
