@@ -2,7 +2,7 @@ import { Icon } from '@iconify/react'
 import { Button, GridList, GridListItem } from 'react-aria-components'
 
 import { cn } from '@vezham/react-utils'
-import { Avatar } from '@vezham/react-v3'
+import { Avatar, Typography } from '@vezham/react-v3'
 
 import { sampleFavorites } from './data'
 import { type FavoriteGridListProps } from './types'
@@ -98,9 +98,10 @@ export default function FavoriteGridList({
               </div>
 
               <div className={slots.content({ class: classNames?.content })}>
-                <p className={slots.name({ class: classNames?.name })}>
+                <Typography.Paragraph
+                  className={slots.name({ class: classNames?.name })}>
                   {item.name}
-                </p>
+                </Typography.Paragraph>
               </div>
             </>
           )}

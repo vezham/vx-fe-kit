@@ -1,7 +1,7 @@
 import { Icon } from '@iconify/react'
 import React from 'react'
 
-import { Avatar, Button, ScrollShadow } from '@vezham/react-v3'
+import { Avatar, Button, ScrollShadow, Typography } from '@vezham/react-v3'
 
 import ReorderableGridList from '../favorites'
 import { type QuickAccessProps } from './types'
@@ -45,7 +45,9 @@ const QuickAccess = ({
               onClick={onBackToNormalView}>
               <Icon icon="solar:arrow-left-linear" width={16} />
             </Button>
-            <h2 className="text-xl font-semibold">All Favorites</h2>
+            <Typography.Heading className="text-xl font-semibold">
+              All Favorites
+            </Typography.Heading>
           </div>
         </div>
         <div className="space-y-2">
@@ -64,9 +66,9 @@ const QuickAccess = ({
                   <Icon icon="solar:star-bold" className="text-warning" />
                 </Avatar.Fallback>
               </Avatar>
-              <span className="font-base min-w-0 flex-1 truncate text-sm text-black">
+              <Typography.Paragraph className="font-base min-w-0 flex-1 truncate text-sm text-black">
                 {item.name}
-              </span>
+              </Typography.Paragraph>
             </button>
           ))}
         </div>
@@ -117,7 +119,8 @@ const QuickAccess = ({
             </div>
 
             <div {...getFavoriteContentProps()}>
-              <p {...getFavoriteNameProps(item.name)} />
+              <Typography.Paragraph
+                {...getFavoriteNameProps(item.name)}></Typography.Paragraph>
             </div>
           </div>
         ))}
@@ -130,12 +133,12 @@ const QuickAccess = ({
             <div className="flex flex-col items-center gap-2 p-4">
               <Icon icon="solar:eye-bold" width={32} className="text-primary" />
               <div className="text-center">
-                <p className="text-default-700 text-sm font-semibold">
+                <Typography.Paragraph className="text-default-700 text-sm font-semibold">
                   View All
-                </p>
-                <p className="text-default-500 text-xs">
+                </Typography.Paragraph>
+                <Typography.Paragraph className="text-default-500 text-xs">
                   {quickAccessFavorites.length - 6} more
-                </p>
+                </Typography.Paragraph>
               </div>
             </div>
           </button>
@@ -159,7 +162,8 @@ const QuickAccess = ({
                       'text-warning'
                     )}
                   /> */}
-          <h3 {...getSectionTitleProps('Favorites')} />
+          <Typography.Heading
+            {...getSectionTitleProps('Favorites')}></Typography.Heading>
         </div>
 
         <ReorderableGridList />
@@ -175,7 +179,7 @@ const QuickAccess = ({
                         'text-warning'
                       )}
                     /> */}
-            <h3 {...getSectionTitleProps('Quick Access')} />
+            <Typography.Heading {...getSectionTitleProps('Quick Access')} />
           </div>
           <div className="flex items-center gap-2">
             <Button

@@ -10,7 +10,8 @@ import {
   InputGroup,
   Label,
   Tabs,
-  TextField
+  TextField,
+  Typography
 } from '@vezham/react-v3'
 
 import { ShortcutKey } from '../shortcut-key'
@@ -110,7 +111,8 @@ export default function DynamicHeader({
                           : 'text-muted-foreground'
                       } `}>
                       {tab.icon && <Icon icon={tab.icon} className="h-4 w-4" />}
-                      <span className="text-sm font-medium">{tab.title}</span>
+                      {/* <span className="text-sm font-medium">{tab.title}</span> */}
+                      <Typography.Heading>{tab.title}</Typography.Heading>
                     </Tabs.Tab>
                   )
                 })}

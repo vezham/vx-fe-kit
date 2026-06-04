@@ -2,7 +2,7 @@ import { EmptyState } from '@heroui-pro/react/empty-state'
 import { Icon } from '@iconify/react'
 import type { ChangeEvent } from 'react'
 
-import { Button, Input, ScrollShadow } from '@vezham/react-v3'
+import { Button, Input, ScrollShadow, Typography } from '@vezham/react-v3'
 
 import { ArchiveProps } from './types'
 import { archiveActions } from './variants'
@@ -137,7 +137,9 @@ function Archive(props: ArchiveProps) {
         {Object.entries(archiveByDate).map(([date, items]) => (
           <div key={date} {...getDateGroupProps()}>
             <div {...getDateHeaderProps()}>
-              <span {...getDateLabelProps()}>{formatDate(date)}</span>
+              <Typography.Paragraph {...getDateLabelProps()}>
+                {formatDate(date)}
+              </Typography.Paragraph>
               <div {...getDateDividerProps()} />
             </div>
 
@@ -165,8 +167,8 @@ function Archive(props: ArchiveProps) {
                     )}
 
                     <div {...getItemContentProps()}>
-                      <p {...getItemTitleProps(item.title)} />
-                      <p {...getItemUrlProps(item.url)} />
+                      <Typography.Heading {...getItemTitleProps(item.title)} />
+                      <Typography.Paragraph {...getItemUrlProps(item.url)} />
                     </div>
 
                     <div {...getItemActionsProps()}>

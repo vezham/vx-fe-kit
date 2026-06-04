@@ -5,7 +5,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { Collection } from 'react-aria-components/Collection'
 import { useTreeData } from 'react-aria-components/useTreeData'
 
-import { Avatar, Button } from '@vezham/react-v3'
+import { Avatar, Button, Typography } from '@vezham/react-v3'
 
 import {
   BookmarkContextMenuItems,
@@ -191,12 +191,12 @@ const BookmarkFileTree = ({
   }
 
   const renderTitle = (item: (typeof tree.items)[number]) => (
-    <span
+    <div
       className="group relative flex w-full min-w-0 flex-1 items-center"
       onContextMenu={event => handleItemContextMenu(event, item.value)}>
-      <span className="min-w-0 flex-1 truncate overflow-hidden">
+      <Typography.Paragraph className="min-w-0 flex-1 truncate overflow-hidden">
         {item.value.title}
-      </span>
+      </Typography.Paragraph>
       <Button
         isIconOnly
         aria-label={`Remove ${item.value.title}`}
@@ -213,7 +213,7 @@ const BookmarkFileTree = ({
         }}>
         <Icon icon="solar:trash-bin-trash-linear" width={24} />
       </Button>
-    </span>
+    </div>
   )
 
   const renderItem = (item: (typeof tree.items)[number]) => {

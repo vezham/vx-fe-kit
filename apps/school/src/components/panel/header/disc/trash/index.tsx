@@ -2,7 +2,7 @@ import { EmptyState } from '@heroui-pro/react/empty-state'
 import { Icon } from '@iconify/react'
 import type { ChangeEvent } from 'react'
 
-import { Button, Input, ScrollShadow } from '@vezham/react-v3'
+import { Button, Input, ScrollShadow, Typography } from '@vezham/react-v3'
 
 import { TrashProps } from './types'
 import { trashActions } from './variants'
@@ -138,7 +138,9 @@ function Trash(props: TrashProps) {
         {Object.entries(trashByDate).map(([date, items]) => (
           <div key={date} {...getDateGroupProps()}>
             <div {...getDateHeaderProps()}>
-              <span {...getDateLabelProps()}>{formatDate(date)}</span>
+              <Typography.Paragraph {...getDateLabelProps()}>
+                {formatDate(date)}
+              </Typography.Paragraph>
               <div {...getDateDividerProps()} />
             </div>
 
@@ -163,8 +165,8 @@ function Trash(props: TrashProps) {
                     )}
 
                     <div {...getItemContentProps()}>
-                      <p {...getItemTitleProps(item.title)} />
-                      <p {...getItemUrlProps(item.url)} />
+                      <Typography.Heading {...getItemTitleProps(item.title)} />
+                      <Typography.Paragraph {...getItemUrlProps(item.url)} />
                     </div>
 
                     <div {...getItemActionsProps()}>

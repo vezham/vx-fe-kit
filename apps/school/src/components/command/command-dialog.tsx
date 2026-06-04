@@ -1,5 +1,12 @@
 import { Command } from '@heroui-pro/react'
+import { Typography } from '@heroui/react'
 import { Icon } from '@iconify/react'
+import { useNavigate } from '@tanstack/react-router'
+
+import { sidebarItems as academicSidebarItems } from '../../pages/academic/layout/data'
+import { operationsSidebarItems } from '../../pages/operations/layout/data'
+import { reportsSidebarItems } from '../../pages/reports/layout/data'
+import { items as mainMenuItems } from '../panel/menu/sidebar-items'
 
 interface CommandDialogProps {
   isOpen: boolean
@@ -7,45 +14,68 @@ interface CommandDialogProps {
   onAction?: () => void
 }
 
-const navigationCommands = [
-  {
-    id: 'dashboard',
-    label: 'Dashboard',
-    description: 'Open overview',
-    icon: 'solar:home-smile-linear'
-  },
-  {
-    id: 'students',
-    label: 'Students',
-    description: 'Browse student records',
-    icon: 'solar:users-group-rounded-linear'
-  },
-  {
-    id: 'teachers',
-    label: 'Teachers',
-    description: 'Browse teacher records',
-    icon: 'solar:user-id-linear'
-  }
+type NavigationCommand = {
+  id: string
+  label: string
+  description: string
+  icon: string
+  href: string
+}
+
+type NavigationMenuItem = {
+  key: string
+  title: string
+  href?: string
+  icon?: string
+  children?: NavigationMenuItem[]
+  submenu?: NavigationMenuItem[]
+}
+
+type ActionCommand = {
+  id: string
+  label: string
+  description: string
+  icon: string
+  action: () => void
+}
+
+const DEFAULT_COMMAND_ICON = 'lucide:circle-dot'
+
+const navigationCommands: NavigationCommand[] = [
+  ...createNavigationCommands(mainMenuItems),
+  ...createNavigationCommands(academicSidebarItems, 'Academic'),
+  ...createNavigationCommands(operationsSidebarItems, 'Operations'),
+  ...createNavigationCommands(reportsSidebarItems, 'Reports')
 ]
 
-const actionCommands = [
+const actionCommands: ActionCommand[] = [
   {
-    id: 'create-student',
-    label: 'Create Student',
-    description: 'Start a new student profile',
-    icon: 'solar:user-plus-linear'
+    id: 'go-back',
+    label: 'Back',
+    description: 'Go to the previous page',
+    icon: 'lucide:arrow-left',
+    action: () => window.history.back()
   },
   {
-    id: 'create-teacher',
-    label: 'Create Teacher',
-    description: 'Start a new teacher profile',
-    icon: 'solar:user-check-linear'
+    id: 'go-forward',
+    label: 'Forward',
+    description: 'Go to the next page',
+    icon: 'lucide:arrow-right',
+    action: () => window.history.forward()
   },
   {
-    id: 'settings',
-    label: 'Settings',
-    description: 'Open preferences',
-    icon: 'solar:settings-linear'
+    id: 'print-page',
+    label: 'Print',
+    description: 'Print the current page',
+    icon: 'lucide:printer',
+    action: () => window.print()
+  },
+  {
+    id: 'refresh-page',
+    label: 'Refresh',
+    description: 'Reload the current page',
+    icon: 'lucide:refresh-cw',
+    action: () => window.location.reload()
   }
 ]
 
@@ -54,6 +84,22 @@ export function CommandPaletteDialog({
   onOpenChange,
   onAction
 }: CommandDialogProps) {
+  const navigate = useNavigate()
+
+  const closeCommand = () => {
+    onAction?.()
+  }
+
+  const runNavigationCommand = (command: NavigationCommand) => {
+    navigate({ to: command.href })
+    closeCommand()
+  }
+
+  const runActionCommand = (command: ActionCommand) => {
+    command.action()
+    closeCommand()
+  }
+
   return (
     <Command>
       <Command.Backdrop
@@ -81,7 +127,7 @@ export function CommandPaletteDialog({
                     key={command.id}
                     id={command.id}
                     textValue={`${command.label} ${command.description}`}
-                    onAction={onAction}>
+                    onAction={() => runNavigationCommand(command)}>
                     <CommandItemContent {...command} />
                   </Command.Item>
                 ))}
@@ -95,7 +141,7 @@ export function CommandPaletteDialog({
                     key={command.id}
                     id={command.id}
                     textValue={`${command.label} ${command.description}`}
-                    onAction={onAction}>
+                    onAction={() => runActionCommand(command)}>
                     <CommandItemContent {...command} />
                   </Command.Item>
                 ))}
@@ -106,6 +152,31 @@ export function CommandPaletteDialog({
       </Command.Backdrop>
     </Command>
   )
+}
+
+function createNavigationCommands(
+  items: NavigationMenuItem[],
+  section?: string
+): NavigationCommand[] {
+  return items.flatMap(item => {
+    const children = item.submenu ?? item.children
+    const command = item.href
+      ? [
+          {
+            id: `navigate-${item.key}`,
+            label: item.title,
+            description: section ? `${section} - ${item.href}` : item.href,
+            icon: item.icon ?? DEFAULT_COMMAND_ICON,
+            href: item.href
+          }
+        ]
+      : []
+
+    return [
+      ...command,
+      ...createNavigationCommands(children ?? [], section ?? item.title)
+    ]
+  })
 }
 
 function CommandItemContent({
@@ -119,15 +190,17 @@ function CommandItemContent({
 }) {
   return (
     <div className="flex min-w-0 items-center gap-3">
-      <span className="bg-default-100 text-default-600 flex h-8 w-8 shrink-0 items-center justify-center rounded-md">
+      <div className="bg-default-100 text-default-600 flex h-8 w-8 shrink-0 items-center justify-center rounded-md">
         <Icon icon={icon} width={18} />
-      </span>
-      <span className="min-w-0 flex-1">
-        <span className="text-foreground block truncate text-sm font-medium">
+      </div>
+      <div className="min-w-0 flex-1">
+        <Typography.Heading className="text-foreground block truncate text-sm font-medium">
           {label}
-        </span>
-        <span className="text-muted block truncate text-xs">{description}</span>
-      </span>
+        </Typography.Heading>
+        <Typography.Paragraph className="text-muted block truncate text-xs">
+          {description}
+        </Typography.Paragraph>
+      </div>
     </div>
   )
 }

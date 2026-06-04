@@ -3,7 +3,7 @@ import { type ComponentProps, type HTMLAttributes } from 'react'
 import { useEffect, useMemo, useState } from 'react'
 
 import { forwardRef } from '@vezham/react-utils'
-import { ScrollShadow, Tooltip } from '@vezham/react-v3'
+import { ScrollShadow, Tooltip, Typography } from '@vezham/react-v3'
 
 import { InfoPanelDefinition, useInfoPanel } from '../../info-panel'
 import BookmarkFileTree from './bookmark-file-tree'
@@ -483,7 +483,9 @@ const BookmarksContent = forwardRef<'div', Props>((props, ref) => {
                     'text-primary'
                   )}
                 />
-                <h3 {...getSectionTitlePropsForTitle('Bookmarks')} />
+                <Typography.Heading
+                  {...getSectionTitlePropsForTitle('Bookmarks')}
+                />
               </div>
               <BookmarkFileTree
                 key={bookmarkTreeKey}

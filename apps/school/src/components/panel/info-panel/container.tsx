@@ -2,7 +2,13 @@ import { Icon } from '@iconify/react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ReactNode } from 'react'
 
-import { Button, CloseButton, ScrollShadow, Surface } from '@vezham/react-v3'
+import {
+  Button,
+  CloseButton,
+  ScrollShadow,
+  Surface,
+  Typography
+} from '@vezham/react-v3'
 
 import { useInfoPanel } from './provider'
 import { ActiveInfoPanel, InfoPanelDefinition } from './types'
@@ -61,9 +67,9 @@ export function InfoPanelHeader({
   return (
     <div className="flex shrink-0 items-center gap-3 px-4 py-4">
       <div className="min-w-0 flex-1">
-        <h2 className="text-foreground truncate text-base font-semibold">
+        <Typography.Heading className="text-foreground truncate text-base font-semibold">
           {title}
-        </h2>
+        </Typography.Heading>
       </div>
 
       <CloseButton onPress={onClose} />

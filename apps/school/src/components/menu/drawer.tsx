@@ -7,7 +7,7 @@ import {
   DrawerContent,
   DrawerHeader
 } from '@vezham/react-v2'
-import { Button } from '@vezham/react-v3'
+import { Button, Typography } from '@vezham/react-v3'
 
 import { MenuDrawerProps } from './types'
 import {
@@ -74,7 +74,9 @@ const MenuDrawer = ({
                     buttonTextColor ?? ''
                   )}>
                   {item.icon && <Icon icon={item.icon} className="h-6 w-6" />}
-                  <div className="text-center">{item.title}</div>
+                  <Typography.Heading className="text-center">
+                    {item.title}
+                  </Typography.Heading>
                 </div>
               </Button>
             ))}

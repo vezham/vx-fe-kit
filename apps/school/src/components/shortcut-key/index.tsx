@@ -1,4 +1,4 @@
-import { cn } from '@vezham/react-v3'
+import { Typography, cn } from '@vezham/react-v3'
 
 type ShortcutKeyProps = {
   className?: string
@@ -13,7 +13,7 @@ const shortcutGroupClassName =
   'inline-flex min-h-9 items-center gap-1 rounded-xl '
 
 const keycapClassName =
-  'inline-flex min-h-7 min-w-7 items-center justify-center rounded-lg border border-black/5 bg-[#f3f4f6] px-2 text-sm font-semibold leading-none text-[#111827] shadow-[inset_0_1px_0_rgba(255,255,255,0.95),inset_0_-1px_0_rgba(0,0,0,0.08),0_1px_2px_rgba(15,23,42,0.08)]'
+  'inline-flex min-h-7 min-w-7 items-center justify-center rounded-lg bg-surface-tertiary px-2 text-sm leading-none text-muted hover:text-foreground'
 
 export function ShortcutKey({ className, shortcut }: ShortcutKeyProps) {
   const keys = shortcut.split(/\s+/).filter(Boolean)
@@ -39,7 +39,7 @@ export function ShortcutTooltipLabel({
   return (
     <span
       className={cn('flex items-center gap-2 whitespace-nowrap', className)}>
-      <span>{label}</span>
+      <Typography.Paragraph>{label}</Typography.Paragraph>
       <ShortcutKey shortcut={shortcut} />
     </span>
   )
