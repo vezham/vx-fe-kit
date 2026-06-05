@@ -4,8 +4,6 @@ import { FC, StrictMode, lazy } from 'react'
 import ReactDOM from 'react-dom/client'
 
 import { VezhamProvider, cn } from '@vezham/react-v2'
-// import { Toaster } from 'sonner'
-
 // import { initWorker } from '@vezham/contracts'
 // import { Lockscreen, NoInternetConnection } from '@vezham/templates'
 // import { ThemeProvider } from '@vezham/theme'
@@ -51,14 +49,11 @@ const Provider: FC<Props> = ({
   let template = (
     <VezhamProvider>
       {/* <ThemeProvider classTarget={classTarget} vmode={vmode}>
-      <OverlayProvider>
-        <Toaster />
         <Lockscreen />
         <NoInternetConnection /> */}
-      {/* wjdlz/TODO: Banner / AlertBanner / Announcement / Search / Header / Container */}
+      {/* wjdlz/TODO: Announcement / Search-Spotlight */}
       <div className={classList}>{children}</div>
       {/* <div id="portal"></div> */}
-      {/* </OverlayProvider> */}
       {/* </ThemeProvider> */}
     </VezhamProvider>
   )

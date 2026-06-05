@@ -8,6 +8,21 @@
       "import": "./src/index.ts",
       "default": "./src/index.ts"
     },
+    "./next": {
+      "types": "./src/lib/provider/next/index.tsx",
+      "import": "./src/lib/provider/next/index.tsx",
+      "default": "./src/lib/provider/next/index.tsx"
+    },
+    "./vite": {
+      "types": "./src/lib/provider/vite/index.ts",
+      "import": "./src/lib/provider/vite/index.ts",
+      "default": "./src/lib/provider/vite/index.ts"
+    },
+    "./tanstack": {
+      "types": "./src/lib/provider/tanstack/index.ts",
+      "import": "./src/lib/provider/tanstack/index.ts",
+      "default": "./src/lib/provider/tanstack/index.ts"
+    },
     "./package.json": "./package.json"
   },
   "main": "./src/index.ts",

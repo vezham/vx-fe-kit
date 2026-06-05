@@ -4,8 +4,8 @@
   "projectType": "application",
   "sourceRoot": "apps_internals/play-next/src",
   "targets": {
-    "hosts:setup": {},
-    "routes:tanstack": {}
+    "serve:next": {},
+    "preview:next": {}
   },
   "tags": ["category:internal"]
 }

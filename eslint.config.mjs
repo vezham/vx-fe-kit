@@ -9,6 +9,8 @@ const ignores = [
   '**/node_modules',
   '**/coverage',
   '**/out-tsc',
+  '**/.next',
+  '**/.next/**',
   '**/.vezham',
   '**/.nx',
   '**/.lintstagedrc.js',

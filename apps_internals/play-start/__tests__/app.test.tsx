@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react'
 
-import { Provider } from '@vx/start'
+import { Provider } from '@vx/start/tanstack'
 
 import { Shell } from '../src/app/shell'
 
