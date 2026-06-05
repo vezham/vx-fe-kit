@@ -47,6 +47,9 @@
     },
     {
       "path": "../../packages/vx/start"
+    },
+    {
+      "path": "../../packages/vx/template"
     }
   ]
 }

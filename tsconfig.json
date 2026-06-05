@@ -28,6 +28,9 @@
     },
     {
       "path": "./apps_internals/play-next"
+    },
+    {
+      "path": "./packages/vx/template"
     }
   ]
 }

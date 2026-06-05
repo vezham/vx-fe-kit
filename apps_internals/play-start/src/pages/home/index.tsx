@@ -1,11 +1,3 @@
-import { Separator } from '@vezham/react-v3'
+import { Home } from '@vx/template/pages'
 
-import Posts from './posts'
-
-export default () => (
-  <div>
-    Welcome to PlayStart!...
-    <Separator />
-    <Posts />
-  </div>
-)
+export default () => <Home />

@@ -2,6 +2,9 @@
   "name": "play-start",
   "version": "0.0.1",
   "private": true,
+  "dependencies": {
+    "@vx/template": "workspace:*"
+  },
   "devDependencies": {
     "@vx/start": "workspace:*",
     "@vx/system-utils": "workspace:*"

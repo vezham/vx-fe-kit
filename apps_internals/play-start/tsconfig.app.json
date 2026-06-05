@@ -46,6 +46,9 @@
     },
     {
       "path": "../../packages/vx/start/tsconfig.lib.json"
+    },
+    {
+      "path": "../../packages/vx/template/tsconfig.lib.json"
     }
   ]
 }
