@@ -120,17 +120,17 @@
     "serve:next": {
       "executor": "nx:run-commands",
       "options": {
-        "cwd": "{projectRoot}",
-        "command": "bash ./bin/server.sh"
+        "cwd": "{workspaceRoot}",
+        "command": "{workspaceRoot}/vx/bin/next/server.sh {projectRoot}"
       }
     },
     "preview:next": {
       "executor": "nx:run-commands",
       "options": {
-        "cwd": "{projectRoot}",
+        "cwd": "{workspaceRoot}",
         "commands": [
           "pnpm exec nx run {projectName}:build",
-          "bash ./bin/server.sh start"
+          "{workspaceRoot}/vx/bin/next/server.sh {projectRoot} start"
         ],
         "parallel": false
       }

@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [ -n "$1" ] && [ -d "$1" ]; then
+    cd "$1" || exit 1
+    shift
+fi
+
 # wjdlz/NOTE: export ENV var if exists
 if [ -f .env ]; then
     set -o allexport
@@ -7,9 +12,9 @@ if [ -f .env ]; then
     set +o allexport
 fi
 
-# $serve (dev, start,..)
-# $port (path to ROOT_DIR from Working Dir)
-# $1 - serve (dev)
+# Args:
+# $1 - optional app root when it points to a directory
+# next arg (now $1) - serve mode after shifting app root (dev, start, ...)
 serve=${1:-"dev"}
 # local vars
 hostname=${HOST_NAME:-"localhost"}
