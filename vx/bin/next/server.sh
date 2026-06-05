@@ -21,7 +21,7 @@ hostname=${HOST_NAME:-"localhost"}
 port=${PORT:-"3000"}
 max_port_attempts=${PORT_ATTEMPTS:-"10"}
 
-pre_setup(){
+pre_setup() {
     if [ "$serve" = "start" ]; then
         port=${PRE_PORT:-"8080"}
     fi

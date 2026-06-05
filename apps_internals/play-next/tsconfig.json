@@ -1,55 +1,13 @@
 {
-  "extends": "../../tsconfig.base.json",
-  "compilerOptions": {
-    "jsx": "preserve",
-    "strict": true,
-    "noEmit": true,
-    "emitDeclarationOnly": false,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true,
-    "incremental": true,
-    "plugins": [{ "name": "next" }],
-    "paths": {
-      "@/*": ["./*"],
-      "@pages/*": ["./src/vx-pages/*"],
-      "@components/*": ["./src/components/*"],
-      "@store/*": ["./src/store/*"]
-    }
-  },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.js",
-    "**/*.jsx",
-    "../../apps_internals/play-next/.next/types/**/*.ts",
-    "../../dist/apps_internals/play-next/.next/types/**/*.ts",
-    "next-env.d.ts",
-    "postcss.config. mjs",
-    "next.config.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "jest.config.ts",
-    "jest.config.cts",
-    "**/*.spec.ts",
-    "**/*.test.ts"
-  ],
+  "files": [],
+  "include": [],
   "references": [
     {
-      "path": "../../packages/vx/system-utils"
+      "path": "./tsconfig.app.json"
     },
     {
-      "path": "../../packages/vx/start"
-    },
-    {
-      "path": "../../packages/vx/template"
+      "path": "./tsconfig.spec.json"
     }
-  ]
+  ],
+  "extends": "../../tsconfig.base.json"
 }

@@ -6,6 +6,9 @@ const nextConfig: WithNxOptions = {
   // Use this to set Nx-specific options
   // See: https://nx.dev/recipes/next/next-config-setup
   nx: {},
+  typescript: {
+    tsconfigPath: 'tsconfig.app.json'
+  },
   turbopack: {
     root: join(__dirname, '../..')
   }
