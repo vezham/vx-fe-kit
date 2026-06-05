@@ -2,7 +2,7 @@ import type { ReactNode } from 'react'
 
 import { defineConfig } from '@vx/start/next'
 
-import './globals.css'
+import './global.css'
 
 type Props = {
   children: ReactNode
