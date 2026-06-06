@@ -21,6 +21,7 @@ export default defineConfig({
   webServer: {
     command: 'pnpm exec nx run play-next:preview:next',
     url: base_url,
+    timeout: process.env.CI ? 300_000 : 60_000,
     reuseExistingServer: !process.env.CI,
     cwd: workspaceRoot
   },

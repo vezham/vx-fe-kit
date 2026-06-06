@@ -22,6 +22,10 @@ port=${PORT:-"3000"}
 max_port_attempts=${PORT_ATTEMPTS:-"10"}
 
 pre_setup() {
+    if [ -n "$CI" ]; then
+        hostname="localhost"
+    fi
+
     if [ "$serve" = "start" ]; then
         port=${PRE_PORT:-"8080"}
     fi
