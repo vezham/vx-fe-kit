@@ -54,6 +54,9 @@ export type PickerDateValue = {
 }
 
 export type FilterDraft = {
+  classes: string | null
+  section: string | null
+  examName: string | null
   subject: string | null
   date: string | null
   starttime: string | null

@@ -116,7 +116,7 @@ export const sortOptions = [
     key: 'ascending',
     label: 'Ascending',
     descriptor: {
-      column: 'type',
+      column: 'grade',
       direction: 'ascending'
     } satisfies SortDescriptor
   },
@@ -124,7 +124,7 @@ export const sortOptions = [
     key: 'descending',
     label: 'Descending',
     descriptor: {
-      column: 'type',
+      column: 'grade',
       direction: 'descending'
     } satisfies SortDescriptor
   },
@@ -147,9 +147,18 @@ export const sortOptions = [
 ] as const
 
 export const rowCountOptions = ['5', '10', '25', '50']
-export const gradeOptions = ['O', 'A+', 'A', 'B', 'C', 'D', 'F']
-export const marksfromOptions = ['90', '80', '70', '60']
-export const marksuptoOptions = ['100']
+export const gradeOptions = ['O', 'A+', 'A', 'B+', 'B', 'C+', 'C', 'D', 'F']
+export const marksfromOptions = ['90', '80', '70', '60', '50', '40', '35', '0']
+export const marksuptoOptions = [
+  '100',
+  '90',
+  '80',
+  '70',
+  '60',
+  '50',
+  '40',
+  '35'
+]
 export const pointOptions = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 export const percentageOptions = [
   '90% - 100%',

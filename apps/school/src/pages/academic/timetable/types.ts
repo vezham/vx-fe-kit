@@ -1,4 +1,6 @@
+import { useAgenda } from '@heroui-pro/react'
 import type { CalendarDateTime } from '@internationalized/date'
+import type { Dispatch, SetStateAction } from 'react'
 
 import { useOverlayState } from '@vezham/react-v3'
 
@@ -79,7 +81,19 @@ export type FilterDropdownProps = {
   draftFilters: TimetableFilter
   onApply: () => void
   onReset: () => void
-  setDraftFilters: (filters: TimetableFilter) => void
+  setDraftFilters: Dispatch<SetStateAction<TimetableFilter>>
+}
+
+export type TimetableToolbarProps = {
+  draftFilters: TimetableFilter
+  onApplyFilters: () => void
+  onResetFilters: () => void
+  setDraftFilters: Dispatch<SetStateAction<TimetableFilter>>
+}
+
+export type TimetableCalendarProps = {
+  agenda: ReturnType<typeof useAgenda>
+  agendaEvents: TimetableAgendaEvent[]
 }
 
 export type DrawerState = ReturnType<typeof useDisclosure>
