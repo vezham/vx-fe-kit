@@ -30,7 +30,7 @@ export const sidebarItems: AcademicMenuItem[] = [
   {
     key: 'classroutine',
     title: 'Class Routine',
-    href: '/academic/classroutine',
+    href: '/academic/class-routine',
     icon: 'lucide:calendar-days'
   },
   {

@@ -164,8 +164,8 @@ export type SortableHeaderProps = {
 }
 
 export type DrawerQueryState = {
-  id: string
-  mode: Exclude<DrawerMode, 'create'>
+  id?: string
+  mode: DrawerMode
 }
 
 export type OpenDrawerOptions = {

@@ -69,14 +69,14 @@ const AcademicHomeworkIndexLazyRouteImport = createFileRoute(
 const AcademicExaminationsIndexLazyRouteImport = createFileRoute(
   '/academic/examinations/',
 )()
-const AcademicClassroutineIndexLazyRouteImport = createFileRoute(
-  '/academic/classroutine/',
-)()
 const AcademicClassroomIndexLazyRouteImport = createFileRoute(
   '/academic/classroom/',
 )()
 const AcademicClassesIndexLazyRouteImport =
   createFileRoute('/academic/classes/')()
+const AcademicClassRoutineIndexLazyRouteImport = createFileRoute(
+  '/academic/class-routine/',
+)()
 const ReportsAttendanceTeacherReportIndexLazyRouteImport = createFileRoute(
   '/reports/attendance/teacher-report/',
 )()
@@ -151,6 +151,21 @@ const OperationsFeesFeesAssignIndexLazyRouteImport = createFileRoute(
 const OperationsFeesCollectFeesIndexLazyRouteImport = createFileRoute(
   '/operations/fees/collect-fees/',
 )()
+const AcademicSyllabusIdIndexLazyRouteImport = createFileRoute(
+  '/academic/syllabus/$id/',
+)()
+const AcademicSubjectIdIndexLazyRouteImport = createFileRoute(
+  '/academic/subject/$id/',
+)()
+const AcademicSectionIdIndexLazyRouteImport = createFileRoute(
+  '/academic/section/$id/',
+)()
+const AcademicReasonsIdIndexLazyRouteImport = createFileRoute(
+  '/academic/reasons/$id/',
+)()
+const AcademicHomeworkIdIndexLazyRouteImport = createFileRoute(
+  '/academic/homework/$id/',
+)()
 const AcademicExaminationsGradesIndexLazyRouteImport = createFileRoute(
   '/academic/examinations/grades/',
 )()
@@ -166,11 +181,37 @@ const AcademicExaminationsExamResultsIndexLazyRouteImport = createFileRoute(
 const AcademicExaminationsExamAttendanceIndexLazyRouteImport = createFileRoute(
   '/academic/examinations/exam-attendance/',
 )()
+const AcademicClassroomIdIndexLazyRouteImport = createFileRoute(
+  '/academic/classroom/$id/',
+)()
 const AcademicClassesScheduleIndexLazyRouteImport = createFileRoute(
   '/academic/classes/schedule/',
 )()
 const AcademicClassesAllclassesIndexLazyRouteImport = createFileRoute(
   '/academic/classes/allclasses/',
+)()
+const AcademicClassRoutineIdIndexLazyRouteImport = createFileRoute(
+  '/academic/class-routine/$id/',
+)()
+const AcademicExaminationsGradesIdIndexLazyRouteImport = createFileRoute(
+  '/academic/examinations/grades/$id/',
+)()
+const AcademicExaminationsExamIdIndexLazyRouteImport = createFileRoute(
+  '/academic/examinations/exam/$id/',
+)()
+const AcademicExaminationsExamScheduleIdIndexLazyRouteImport = createFileRoute(
+  '/academic/examinations/exam-schedule/$id/',
+)()
+const AcademicExaminationsExamResultsIdIndexLazyRouteImport = createFileRoute(
+  '/academic/examinations/exam-results/$id/',
+)()
+const AcademicExaminationsExamAttendanceIdIndexLazyRouteImport =
+  createFileRoute('/academic/examinations/exam-attendance/$id/')()
+const AcademicClassesScheduleIdIndexLazyRouteImport = createFileRoute(
+  '/academic/classes/schedule/$id/',
+)()
+const AcademicClassesAllclassesIdIndexLazyRouteImport = createFileRoute(
+  '/academic/classes/allclasses/$id/',
 )()
 
 const ReportsRouteLazyRoute = ReportsRouteLazyRouteImport.update({
@@ -385,14 +426,6 @@ const AcademicExaminationsIndexLazyRoute =
   } as any).lazy(() =>
     import('./routes/academic/examinations/index.lazy').then((d) => d.Route),
   )
-const AcademicClassroutineIndexLazyRoute =
-  AcademicClassroutineIndexLazyRouteImport.update({
-    id: '/classroutine/',
-    path: '/classroutine/',
-    getParentRoute: () => AcademicRouteLazyRoute,
-  } as any).lazy(() =>
-    import('./routes/academic/classroutine/index.lazy').then((d) => d.Route),
-  )
 const AcademicClassroomIndexLazyRoute =
   AcademicClassroomIndexLazyRouteImport.update({
     id: '/classroom/',
@@ -408,6 +441,14 @@ const AcademicClassesIndexLazyRoute =
     getParentRoute: () => AcademicClassesRouteLazyRoute,
   } as any).lazy(() =>
     import('./routes/academic/classes/index.lazy').then((d) => d.Route),
+  )
+const AcademicClassRoutineIndexLazyRoute =
+  AcademicClassRoutineIndexLazyRouteImport.update({
+    id: '/class-routine/',
+    path: '/class-routine/',
+    getParentRoute: () => AcademicRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/academic/class-routine/index.lazy').then((d) => d.Route),
   )
 const ReportsAttendanceTeacherReportIndexLazyRoute =
   ReportsAttendanceTeacherReportIndexLazyRouteImport.update({
@@ -657,6 +698,46 @@ const OperationsFeesCollectFeesIndexLazyRoute =
       (d) => d.Route,
     ),
   )
+const AcademicSyllabusIdIndexLazyRoute =
+  AcademicSyllabusIdIndexLazyRouteImport.update({
+    id: '/syllabus/$id/',
+    path: '/syllabus/$id/',
+    getParentRoute: () => AcademicRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/academic/syllabus/$id/index.lazy').then((d) => d.Route),
+  )
+const AcademicSubjectIdIndexLazyRoute =
+  AcademicSubjectIdIndexLazyRouteImport.update({
+    id: '/subject/$id/',
+    path: '/subject/$id/',
+    getParentRoute: () => AcademicRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/academic/subject/$id/index.lazy').then((d) => d.Route),
+  )
+const AcademicSectionIdIndexLazyRoute =
+  AcademicSectionIdIndexLazyRouteImport.update({
+    id: '/section/$id/',
+    path: '/section/$id/',
+    getParentRoute: () => AcademicRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/academic/section/$id/index.lazy').then((d) => d.Route),
+  )
+const AcademicReasonsIdIndexLazyRoute =
+  AcademicReasonsIdIndexLazyRouteImport.update({
+    id: '/reasons/$id/',
+    path: '/reasons/$id/',
+    getParentRoute: () => AcademicRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/academic/reasons/$id/index.lazy').then((d) => d.Route),
+  )
+const AcademicHomeworkIdIndexLazyRoute =
+  AcademicHomeworkIdIndexLazyRouteImport.update({
+    id: '/homework/$id/',
+    path: '/homework/$id/',
+    getParentRoute: () => AcademicRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/academic/homework/$id/index.lazy').then((d) => d.Route),
+  )
 const AcademicExaminationsGradesIndexLazyRoute =
   AcademicExaminationsGradesIndexLazyRouteImport.update({
     id: '/grades/',
@@ -707,6 +788,14 @@ const AcademicExaminationsExamAttendanceIndexLazyRoute =
       (d) => d.Route,
     ),
   )
+const AcademicClassroomIdIndexLazyRoute =
+  AcademicClassroomIdIndexLazyRouteImport.update({
+    id: '/classroom/$id/',
+    path: '/classroom/$id/',
+    getParentRoute: () => AcademicRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/academic/classroom/$id/index.lazy').then((d) => d.Route),
+  )
 const AcademicClassesScheduleIndexLazyRoute =
   AcademicClassesScheduleIndexLazyRouteImport.update({
     id: '/schedule/',
@@ -727,6 +816,86 @@ const AcademicClassesAllclassesIndexLazyRoute =
       (d) => d.Route,
     ),
   )
+const AcademicClassRoutineIdIndexLazyRoute =
+  AcademicClassRoutineIdIndexLazyRouteImport.update({
+    id: '/class-routine/$id/',
+    path: '/class-routine/$id/',
+    getParentRoute: () => AcademicRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/academic/class-routine/$id/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const AcademicExaminationsGradesIdIndexLazyRoute =
+  AcademicExaminationsGradesIdIndexLazyRouteImport.update({
+    id: '/grades/$id/',
+    path: '/grades/$id/',
+    getParentRoute: () => AcademicExaminationsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/academic/examinations/grades/$id/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const AcademicExaminationsExamIdIndexLazyRoute =
+  AcademicExaminationsExamIdIndexLazyRouteImport.update({
+    id: '/exam/$id/',
+    path: '/exam/$id/',
+    getParentRoute: () => AcademicExaminationsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/academic/examinations/exam/$id/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const AcademicExaminationsExamScheduleIdIndexLazyRoute =
+  AcademicExaminationsExamScheduleIdIndexLazyRouteImport.update({
+    id: '/exam-schedule/$id/',
+    path: '/exam-schedule/$id/',
+    getParentRoute: () => AcademicExaminationsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/academic/examinations/exam-schedule/$id/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const AcademicExaminationsExamResultsIdIndexLazyRoute =
+  AcademicExaminationsExamResultsIdIndexLazyRouteImport.update({
+    id: '/exam-results/$id/',
+    path: '/exam-results/$id/',
+    getParentRoute: () => AcademicExaminationsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/academic/examinations/exam-results/$id/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const AcademicExaminationsExamAttendanceIdIndexLazyRoute =
+  AcademicExaminationsExamAttendanceIdIndexLazyRouteImport.update({
+    id: '/exam-attendance/$id/',
+    path: '/exam-attendance/$id/',
+    getParentRoute: () => AcademicExaminationsRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/academic/examinations/exam-attendance/$id/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const AcademicClassesScheduleIdIndexLazyRoute =
+  AcademicClassesScheduleIdIndexLazyRouteImport.update({
+    id: '/schedule/$id/',
+    path: '/schedule/$id/',
+    getParentRoute: () => AcademicClassesRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/academic/classes/schedule/$id/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const AcademicClassesAllclassesIdIndexLazyRoute =
+  AcademicClassesAllclassesIdIndexLazyRouteImport.update({
+    id: '/allclasses/$id/',
+    path: '/allclasses/$id/',
+    getParentRoute: () => AcademicClassesRouteLazyRoute,
+  } as any).lazy(() =>
+    import('./routes/academic/classes/allclasses/$id/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
@@ -739,9 +908,9 @@ export interface FileRoutesByFullPath {
   '/channels/': typeof ChannelsIndexLazyRoute
   '/operations/': typeof OperationsIndexLazyRoute
   '/reports/': typeof ReportsIndexLazyRoute
+  '/academic/class-routine/': typeof AcademicClassRoutineIndexLazyRoute
   '/academic/classes/': typeof AcademicClassesIndexLazyRoute
   '/academic/classroom/': typeof AcademicClassroomIndexLazyRoute
-  '/academic/classroutine/': typeof AcademicClassroutineIndexLazyRoute
   '/academic/examinations/': typeof AcademicExaminationsIndexLazyRoute
   '/academic/homework/': typeof AcademicHomeworkIndexLazyRoute
   '/academic/reasons/': typeof AcademicReasonsIndexLazyRoute
@@ -761,13 +930,20 @@ export interface FileRoutesByFullPath {
   '/reports/grade/': typeof ReportsGradeIndexLazyRoute
   '/reports/leave/': typeof ReportsLeaveIndexLazyRoute
   '/reports/student/': typeof ReportsStudentIndexLazyRoute
+  '/academic/class-routine/$id/': typeof AcademicClassRoutineIdIndexLazyRoute
   '/academic/classes/allclasses/': typeof AcademicClassesAllclassesIndexLazyRoute
   '/academic/classes/schedule/': typeof AcademicClassesScheduleIndexLazyRoute
+  '/academic/classroom/$id/': typeof AcademicClassroomIdIndexLazyRoute
   '/academic/examinations/exam-attendance/': typeof AcademicExaminationsExamAttendanceIndexLazyRoute
   '/academic/examinations/exam-results/': typeof AcademicExaminationsExamResultsIndexLazyRoute
   '/academic/examinations/exam-schedule/': typeof AcademicExaminationsExamScheduleIndexLazyRoute
   '/academic/examinations/exam/': typeof AcademicExaminationsExamIndexLazyRoute
   '/academic/examinations/grades/': typeof AcademicExaminationsGradesIndexLazyRoute
+  '/academic/homework/$id/': typeof AcademicHomeworkIdIndexLazyRoute
+  '/academic/reasons/$id/': typeof AcademicReasonsIdIndexLazyRoute
+  '/academic/section/$id/': typeof AcademicSectionIdIndexLazyRoute
+  '/academic/subject/$id/': typeof AcademicSubjectIdIndexLazyRoute
+  '/academic/syllabus/$id/': typeof AcademicSyllabusIdIndexLazyRoute
   '/operations/fees/collect-fees/': typeof OperationsFeesCollectFeesIndexLazyRoute
   '/operations/fees/fees-assign/': typeof OperationsFeesFeesAssignIndexLazyRoute
   '/operations/fees/fees-group/': typeof OperationsFeesFeesGroupIndexLazyRoute
@@ -793,6 +969,13 @@ export interface FileRoutesByFullPath {
   '/reports/attendance/students-attendance-type/': typeof ReportsAttendanceStudentsAttendanceTypeIndexLazyRoute
   '/reports/attendance/teacher-day-wise/': typeof ReportsAttendanceTeacherDayWiseIndexLazyRoute
   '/reports/attendance/teacher-report/': typeof ReportsAttendanceTeacherReportIndexLazyRoute
+  '/academic/classes/allclasses/$id/': typeof AcademicClassesAllclassesIdIndexLazyRoute
+  '/academic/classes/schedule/$id/': typeof AcademicClassesScheduleIdIndexLazyRoute
+  '/academic/examinations/exam-attendance/$id/': typeof AcademicExaminationsExamAttendanceIdIndexLazyRoute
+  '/academic/examinations/exam-results/$id/': typeof AcademicExaminationsExamResultsIdIndexLazyRoute
+  '/academic/examinations/exam-schedule/$id/': typeof AcademicExaminationsExamScheduleIdIndexLazyRoute
+  '/academic/examinations/exam/$id/': typeof AcademicExaminationsExamIdIndexLazyRoute
+  '/academic/examinations/grades/$id/': typeof AcademicExaminationsGradesIdIndexLazyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
@@ -800,9 +983,9 @@ export interface FileRoutesByTo {
   '/channels': typeof ChannelsIndexLazyRoute
   '/operations': typeof OperationsIndexLazyRoute
   '/reports': typeof ReportsIndexLazyRoute
+  '/academic/class-routine': typeof AcademicClassRoutineIndexLazyRoute
   '/academic/classes': typeof AcademicClassesIndexLazyRoute
   '/academic/classroom': typeof AcademicClassroomIndexLazyRoute
-  '/academic/classroutine': typeof AcademicClassroutineIndexLazyRoute
   '/academic/examinations': typeof AcademicExaminationsIndexLazyRoute
   '/academic/homework': typeof AcademicHomeworkIndexLazyRoute
   '/academic/reasons': typeof AcademicReasonsIndexLazyRoute
@@ -822,13 +1005,20 @@ export interface FileRoutesByTo {
   '/reports/grade': typeof ReportsGradeIndexLazyRoute
   '/reports/leave': typeof ReportsLeaveIndexLazyRoute
   '/reports/student': typeof ReportsStudentIndexLazyRoute
+  '/academic/class-routine/$id': typeof AcademicClassRoutineIdIndexLazyRoute
   '/academic/classes/allclasses': typeof AcademicClassesAllclassesIndexLazyRoute
   '/academic/classes/schedule': typeof AcademicClassesScheduleIndexLazyRoute
+  '/academic/classroom/$id': typeof AcademicClassroomIdIndexLazyRoute
   '/academic/examinations/exam-attendance': typeof AcademicExaminationsExamAttendanceIndexLazyRoute
   '/academic/examinations/exam-results': typeof AcademicExaminationsExamResultsIndexLazyRoute
   '/academic/examinations/exam-schedule': typeof AcademicExaminationsExamScheduleIndexLazyRoute
   '/academic/examinations/exam': typeof AcademicExaminationsExamIndexLazyRoute
   '/academic/examinations/grades': typeof AcademicExaminationsGradesIndexLazyRoute
+  '/academic/homework/$id': typeof AcademicHomeworkIdIndexLazyRoute
+  '/academic/reasons/$id': typeof AcademicReasonsIdIndexLazyRoute
+  '/academic/section/$id': typeof AcademicSectionIdIndexLazyRoute
+  '/academic/subject/$id': typeof AcademicSubjectIdIndexLazyRoute
+  '/academic/syllabus/$id': typeof AcademicSyllabusIdIndexLazyRoute
   '/operations/fees/collect-fees': typeof OperationsFeesCollectFeesIndexLazyRoute
   '/operations/fees/fees-assign': typeof OperationsFeesFeesAssignIndexLazyRoute
   '/operations/fees/fees-group': typeof OperationsFeesFeesGroupIndexLazyRoute
@@ -854,6 +1044,13 @@ export interface FileRoutesByTo {
   '/reports/attendance/students-attendance-type': typeof ReportsAttendanceStudentsAttendanceTypeIndexLazyRoute
   '/reports/attendance/teacher-day-wise': typeof ReportsAttendanceTeacherDayWiseIndexLazyRoute
   '/reports/attendance/teacher-report': typeof ReportsAttendanceTeacherReportIndexLazyRoute
+  '/academic/classes/allclasses/$id': typeof AcademicClassesAllclassesIdIndexLazyRoute
+  '/academic/classes/schedule/$id': typeof AcademicClassesScheduleIdIndexLazyRoute
+  '/academic/examinations/exam-attendance/$id': typeof AcademicExaminationsExamAttendanceIdIndexLazyRoute
+  '/academic/examinations/exam-results/$id': typeof AcademicExaminationsExamResultsIdIndexLazyRoute
+  '/academic/examinations/exam-schedule/$id': typeof AcademicExaminationsExamScheduleIdIndexLazyRoute
+  '/academic/examinations/exam/$id': typeof AcademicExaminationsExamIdIndexLazyRoute
+  '/academic/examinations/grades/$id': typeof AcademicExaminationsGradesIdIndexLazyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -867,9 +1064,9 @@ export interface FileRoutesById {
   '/channels/': typeof ChannelsIndexLazyRoute
   '/operations/': typeof OperationsIndexLazyRoute
   '/reports/': typeof ReportsIndexLazyRoute
+  '/academic/class-routine/': typeof AcademicClassRoutineIndexLazyRoute
   '/academic/classes/': typeof AcademicClassesIndexLazyRoute
   '/academic/classroom/': typeof AcademicClassroomIndexLazyRoute
-  '/academic/classroutine/': typeof AcademicClassroutineIndexLazyRoute
   '/academic/examinations/': typeof AcademicExaminationsIndexLazyRoute
   '/academic/homework/': typeof AcademicHomeworkIndexLazyRoute
   '/academic/reasons/': typeof AcademicReasonsIndexLazyRoute
@@ -889,13 +1086,20 @@ export interface FileRoutesById {
   '/reports/grade/': typeof ReportsGradeIndexLazyRoute
   '/reports/leave/': typeof ReportsLeaveIndexLazyRoute
   '/reports/student/': typeof ReportsStudentIndexLazyRoute
+  '/academic/class-routine/$id/': typeof AcademicClassRoutineIdIndexLazyRoute
   '/academic/classes/allclasses/': typeof AcademicClassesAllclassesIndexLazyRoute
   '/academic/classes/schedule/': typeof AcademicClassesScheduleIndexLazyRoute
+  '/academic/classroom/$id/': typeof AcademicClassroomIdIndexLazyRoute
   '/academic/examinations/exam-attendance/': typeof AcademicExaminationsExamAttendanceIndexLazyRoute
   '/academic/examinations/exam-results/': typeof AcademicExaminationsExamResultsIndexLazyRoute
   '/academic/examinations/exam-schedule/': typeof AcademicExaminationsExamScheduleIndexLazyRoute
   '/academic/examinations/exam/': typeof AcademicExaminationsExamIndexLazyRoute
   '/academic/examinations/grades/': typeof AcademicExaminationsGradesIndexLazyRoute
+  '/academic/homework/$id/': typeof AcademicHomeworkIdIndexLazyRoute
+  '/academic/reasons/$id/': typeof AcademicReasonsIdIndexLazyRoute
+  '/academic/section/$id/': typeof AcademicSectionIdIndexLazyRoute
+  '/academic/subject/$id/': typeof AcademicSubjectIdIndexLazyRoute
+  '/academic/syllabus/$id/': typeof AcademicSyllabusIdIndexLazyRoute
   '/operations/fees/collect-fees/': typeof OperationsFeesCollectFeesIndexLazyRoute
   '/operations/fees/fees-assign/': typeof OperationsFeesFeesAssignIndexLazyRoute
   '/operations/fees/fees-group/': typeof OperationsFeesFeesGroupIndexLazyRoute
@@ -921,6 +1125,13 @@ export interface FileRoutesById {
   '/reports/attendance/students-attendance-type/': typeof ReportsAttendanceStudentsAttendanceTypeIndexLazyRoute
   '/reports/attendance/teacher-day-wise/': typeof ReportsAttendanceTeacherDayWiseIndexLazyRoute
   '/reports/attendance/teacher-report/': typeof ReportsAttendanceTeacherReportIndexLazyRoute
+  '/academic/classes/allclasses/$id/': typeof AcademicClassesAllclassesIdIndexLazyRoute
+  '/academic/classes/schedule/$id/': typeof AcademicClassesScheduleIdIndexLazyRoute
+  '/academic/examinations/exam-attendance/$id/': typeof AcademicExaminationsExamAttendanceIdIndexLazyRoute
+  '/academic/examinations/exam-results/$id/': typeof AcademicExaminationsExamResultsIdIndexLazyRoute
+  '/academic/examinations/exam-schedule/$id/': typeof AcademicExaminationsExamScheduleIdIndexLazyRoute
+  '/academic/examinations/exam/$id/': typeof AcademicExaminationsExamIdIndexLazyRoute
+  '/academic/examinations/grades/$id/': typeof AcademicExaminationsGradesIdIndexLazyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -935,9 +1146,9 @@ export interface FileRouteTypes {
     | '/channels/'
     | '/operations/'
     | '/reports/'
+    | '/academic/class-routine/'
     | '/academic/classes/'
     | '/academic/classroom/'
-    | '/academic/classroutine/'
     | '/academic/examinations/'
     | '/academic/homework/'
     | '/academic/reasons/'
@@ -957,13 +1168,20 @@ export interface FileRouteTypes {
     | '/reports/grade/'
     | '/reports/leave/'
     | '/reports/student/'
+    | '/academic/class-routine/$id/'
     | '/academic/classes/allclasses/'
     | '/academic/classes/schedule/'
+    | '/academic/classroom/$id/'
     | '/academic/examinations/exam-attendance/'
     | '/academic/examinations/exam-results/'
     | '/academic/examinations/exam-schedule/'
     | '/academic/examinations/exam/'
     | '/academic/examinations/grades/'
+    | '/academic/homework/$id/'
+    | '/academic/reasons/$id/'
+    | '/academic/section/$id/'
+    | '/academic/subject/$id/'
+    | '/academic/syllabus/$id/'
     | '/operations/fees/collect-fees/'
     | '/operations/fees/fees-assign/'
     | '/operations/fees/fees-group/'
@@ -989,6 +1207,13 @@ export interface FileRouteTypes {
     | '/reports/attendance/students-attendance-type/'
     | '/reports/attendance/teacher-day-wise/'
     | '/reports/attendance/teacher-report/'
+    | '/academic/classes/allclasses/$id/'
+    | '/academic/classes/schedule/$id/'
+    | '/academic/examinations/exam-attendance/$id/'
+    | '/academic/examinations/exam-results/$id/'
+    | '/academic/examinations/exam-schedule/$id/'
+    | '/academic/examinations/exam/$id/'
+    | '/academic/examinations/grades/$id/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -996,9 +1221,9 @@ export interface FileRouteTypes {
     | '/channels'
     | '/operations'
     | '/reports'
+    | '/academic/class-routine'
     | '/academic/classes'
     | '/academic/classroom'
-    | '/academic/classroutine'
     | '/academic/examinations'
     | '/academic/homework'
     | '/academic/reasons'
@@ -1018,13 +1243,20 @@ export interface FileRouteTypes {
     | '/reports/grade'
     | '/reports/leave'
     | '/reports/student'
+    | '/academic/class-routine/$id'
     | '/academic/classes/allclasses'
     | '/academic/classes/schedule'
+    | '/academic/classroom/$id'
     | '/academic/examinations/exam-attendance'
     | '/academic/examinations/exam-results'
     | '/academic/examinations/exam-schedule'
     | '/academic/examinations/exam'
     | '/academic/examinations/grades'
+    | '/academic/homework/$id'
+    | '/academic/reasons/$id'
+    | '/academic/section/$id'
+    | '/academic/subject/$id'
+    | '/academic/syllabus/$id'
     | '/operations/fees/collect-fees'
     | '/operations/fees/fees-assign'
     | '/operations/fees/fees-group'
@@ -1050,6 +1282,13 @@ export interface FileRouteTypes {
     | '/reports/attendance/students-attendance-type'
     | '/reports/attendance/teacher-day-wise'
     | '/reports/attendance/teacher-report'
+    | '/academic/classes/allclasses/$id'
+    | '/academic/classes/schedule/$id'
+    | '/academic/examinations/exam-attendance/$id'
+    | '/academic/examinations/exam-results/$id'
+    | '/academic/examinations/exam-schedule/$id'
+    | '/academic/examinations/exam/$id'
+    | '/academic/examinations/grades/$id'
   id:
     | '__root__'
     | '/'
@@ -1062,9 +1301,9 @@ export interface FileRouteTypes {
     | '/channels/'
     | '/operations/'
     | '/reports/'
+    | '/academic/class-routine/'
     | '/academic/classes/'
     | '/academic/classroom/'
-    | '/academic/classroutine/'
     | '/academic/examinations/'
     | '/academic/homework/'
     | '/academic/reasons/'
@@ -1084,13 +1323,20 @@ export interface FileRouteTypes {
     | '/reports/grade/'
     | '/reports/leave/'
     | '/reports/student/'
+    | '/academic/class-routine/$id/'
     | '/academic/classes/allclasses/'
     | '/academic/classes/schedule/'
+    | '/academic/classroom/$id/'
     | '/academic/examinations/exam-attendance/'
     | '/academic/examinations/exam-results/'
     | '/academic/examinations/exam-schedule/'
     | '/academic/examinations/exam/'
     | '/academic/examinations/grades/'
+    | '/academic/homework/$id/'
+    | '/academic/reasons/$id/'
+    | '/academic/section/$id/'
+    | '/academic/subject/$id/'
+    | '/academic/syllabus/$id/'
     | '/operations/fees/collect-fees/'
     | '/operations/fees/fees-assign/'
     | '/operations/fees/fees-group/'
@@ -1116,6 +1362,13 @@ export interface FileRouteTypes {
     | '/reports/attendance/students-attendance-type/'
     | '/reports/attendance/teacher-day-wise/'
     | '/reports/attendance/teacher-report/'
+    | '/academic/classes/allclasses/$id/'
+    | '/academic/classes/schedule/$id/'
+    | '/academic/examinations/exam-attendance/$id/'
+    | '/academic/examinations/exam-results/$id/'
+    | '/academic/examinations/exam-schedule/$id/'
+    | '/academic/examinations/exam/$id/'
+    | '/academic/examinations/grades/$id/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -1331,13 +1584,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AcademicExaminationsIndexLazyRouteImport
       parentRoute: typeof AcademicExaminationsRouteLazyRoute
     }
-    '/academic/classroutine/': {
-      id: '/academic/classroutine/'
-      path: '/classroutine'
-      fullPath: '/academic/classroutine/'
-      preLoaderRoute: typeof AcademicClassroutineIndexLazyRouteImport
-      parentRoute: typeof AcademicRouteLazyRoute
-    }
     '/academic/classroom/': {
       id: '/academic/classroom/'
       path: '/classroom'
@@ -1351,6 +1597,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/academic/classes/'
       preLoaderRoute: typeof AcademicClassesIndexLazyRouteImport
       parentRoute: typeof AcademicClassesRouteLazyRoute
+    }
+    '/academic/class-routine/': {
+      id: '/academic/class-routine/'
+      path: '/class-routine'
+      fullPath: '/academic/class-routine/'
+      preLoaderRoute: typeof AcademicClassRoutineIndexLazyRouteImport
+      parentRoute: typeof AcademicRouteLazyRoute
     }
     '/reports/attendance/teacher-report/': {
       id: '/reports/attendance/teacher-report/'
@@ -1527,6 +1780,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OperationsFeesCollectFeesIndexLazyRouteImport
       parentRoute: typeof OperationsRouteLazyRoute
     }
+    '/academic/syllabus/$id/': {
+      id: '/academic/syllabus/$id/'
+      path: '/syllabus/$id'
+      fullPath: '/academic/syllabus/$id/'
+      preLoaderRoute: typeof AcademicSyllabusIdIndexLazyRouteImport
+      parentRoute: typeof AcademicRouteLazyRoute
+    }
+    '/academic/subject/$id/': {
+      id: '/academic/subject/$id/'
+      path: '/subject/$id'
+      fullPath: '/academic/subject/$id/'
+      preLoaderRoute: typeof AcademicSubjectIdIndexLazyRouteImport
+      parentRoute: typeof AcademicRouteLazyRoute
+    }
+    '/academic/section/$id/': {
+      id: '/academic/section/$id/'
+      path: '/section/$id'
+      fullPath: '/academic/section/$id/'
+      preLoaderRoute: typeof AcademicSectionIdIndexLazyRouteImport
+      parentRoute: typeof AcademicRouteLazyRoute
+    }
+    '/academic/reasons/$id/': {
+      id: '/academic/reasons/$id/'
+      path: '/reasons/$id'
+      fullPath: '/academic/reasons/$id/'
+      preLoaderRoute: typeof AcademicReasonsIdIndexLazyRouteImport
+      parentRoute: typeof AcademicRouteLazyRoute
+    }
+    '/academic/homework/$id/': {
+      id: '/academic/homework/$id/'
+      path: '/homework/$id'
+      fullPath: '/academic/homework/$id/'
+      preLoaderRoute: typeof AcademicHomeworkIdIndexLazyRouteImport
+      parentRoute: typeof AcademicRouteLazyRoute
+    }
     '/academic/examinations/grades/': {
       id: '/academic/examinations/grades/'
       path: '/grades'
@@ -1562,6 +1850,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AcademicExaminationsExamAttendanceIndexLazyRouteImport
       parentRoute: typeof AcademicExaminationsRouteLazyRoute
     }
+    '/academic/classroom/$id/': {
+      id: '/academic/classroom/$id/'
+      path: '/classroom/$id'
+      fullPath: '/academic/classroom/$id/'
+      preLoaderRoute: typeof AcademicClassroomIdIndexLazyRouteImport
+      parentRoute: typeof AcademicRouteLazyRoute
+    }
     '/academic/classes/schedule/': {
       id: '/academic/classes/schedule/'
       path: '/schedule'
@@ -1576,6 +1871,62 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AcademicClassesAllclassesIndexLazyRouteImport
       parentRoute: typeof AcademicClassesRouteLazyRoute
     }
+    '/academic/class-routine/$id/': {
+      id: '/academic/class-routine/$id/'
+      path: '/class-routine/$id'
+      fullPath: '/academic/class-routine/$id/'
+      preLoaderRoute: typeof AcademicClassRoutineIdIndexLazyRouteImport
+      parentRoute: typeof AcademicRouteLazyRoute
+    }
+    '/academic/examinations/grades/$id/': {
+      id: '/academic/examinations/grades/$id/'
+      path: '/grades/$id'
+      fullPath: '/academic/examinations/grades/$id/'
+      preLoaderRoute: typeof AcademicExaminationsGradesIdIndexLazyRouteImport
+      parentRoute: typeof AcademicExaminationsRouteLazyRoute
+    }
+    '/academic/examinations/exam/$id/': {
+      id: '/academic/examinations/exam/$id/'
+      path: '/exam/$id'
+      fullPath: '/academic/examinations/exam/$id/'
+      preLoaderRoute: typeof AcademicExaminationsExamIdIndexLazyRouteImport
+      parentRoute: typeof AcademicExaminationsRouteLazyRoute
+    }
+    '/academic/examinations/exam-schedule/$id/': {
+      id: '/academic/examinations/exam-schedule/$id/'
+      path: '/exam-schedule/$id'
+      fullPath: '/academic/examinations/exam-schedule/$id/'
+      preLoaderRoute: typeof AcademicExaminationsExamScheduleIdIndexLazyRouteImport
+      parentRoute: typeof AcademicExaminationsRouteLazyRoute
+    }
+    '/academic/examinations/exam-results/$id/': {
+      id: '/academic/examinations/exam-results/$id/'
+      path: '/exam-results/$id'
+      fullPath: '/academic/examinations/exam-results/$id/'
+      preLoaderRoute: typeof AcademicExaminationsExamResultsIdIndexLazyRouteImport
+      parentRoute: typeof AcademicExaminationsRouteLazyRoute
+    }
+    '/academic/examinations/exam-attendance/$id/': {
+      id: '/academic/examinations/exam-attendance/$id/'
+      path: '/exam-attendance/$id'
+      fullPath: '/academic/examinations/exam-attendance/$id/'
+      preLoaderRoute: typeof AcademicExaminationsExamAttendanceIdIndexLazyRouteImport
+      parentRoute: typeof AcademicExaminationsRouteLazyRoute
+    }
+    '/academic/classes/schedule/$id/': {
+      id: '/academic/classes/schedule/$id/'
+      path: '/schedule/$id'
+      fullPath: '/academic/classes/schedule/$id/'
+      preLoaderRoute: typeof AcademicClassesScheduleIdIndexLazyRouteImport
+      parentRoute: typeof AcademicClassesRouteLazyRoute
+    }
+    '/academic/classes/allclasses/$id/': {
+      id: '/academic/classes/allclasses/$id/'
+      path: '/allclasses/$id'
+      fullPath: '/academic/classes/allclasses/$id/'
+      preLoaderRoute: typeof AcademicClassesAllclassesIdIndexLazyRouteImport
+      parentRoute: typeof AcademicClassesRouteLazyRoute
+    }
   }
 }
 
@@ -1583,6 +1934,8 @@ interface AcademicClassesRouteLazyRouteChildren {
   AcademicClassesIndexLazyRoute: typeof AcademicClassesIndexLazyRoute
   AcademicClassesAllclassesIndexLazyRoute: typeof AcademicClassesAllclassesIndexLazyRoute
   AcademicClassesScheduleIndexLazyRoute: typeof AcademicClassesScheduleIndexLazyRoute
+  AcademicClassesAllclassesIdIndexLazyRoute: typeof AcademicClassesAllclassesIdIndexLazyRoute
+  AcademicClassesScheduleIdIndexLazyRoute: typeof AcademicClassesScheduleIdIndexLazyRoute
 }
 
 const AcademicClassesRouteLazyRouteChildren: AcademicClassesRouteLazyRouteChildren =
@@ -1592,6 +1945,10 @@ const AcademicClassesRouteLazyRouteChildren: AcademicClassesRouteLazyRouteChildr
       AcademicClassesAllclassesIndexLazyRoute,
     AcademicClassesScheduleIndexLazyRoute:
       AcademicClassesScheduleIndexLazyRoute,
+    AcademicClassesAllclassesIdIndexLazyRoute:
+      AcademicClassesAllclassesIdIndexLazyRoute,
+    AcademicClassesScheduleIdIndexLazyRoute:
+      AcademicClassesScheduleIdIndexLazyRoute,
   }
 
 const AcademicClassesRouteLazyRouteWithChildren =
@@ -1606,6 +1963,11 @@ interface AcademicExaminationsRouteLazyRouteChildren {
   AcademicExaminationsExamScheduleIndexLazyRoute: typeof AcademicExaminationsExamScheduleIndexLazyRoute
   AcademicExaminationsExamIndexLazyRoute: typeof AcademicExaminationsExamIndexLazyRoute
   AcademicExaminationsGradesIndexLazyRoute: typeof AcademicExaminationsGradesIndexLazyRoute
+  AcademicExaminationsExamAttendanceIdIndexLazyRoute: typeof AcademicExaminationsExamAttendanceIdIndexLazyRoute
+  AcademicExaminationsExamResultsIdIndexLazyRoute: typeof AcademicExaminationsExamResultsIdIndexLazyRoute
+  AcademicExaminationsExamScheduleIdIndexLazyRoute: typeof AcademicExaminationsExamScheduleIdIndexLazyRoute
+  AcademicExaminationsExamIdIndexLazyRoute: typeof AcademicExaminationsExamIdIndexLazyRoute
+  AcademicExaminationsGradesIdIndexLazyRoute: typeof AcademicExaminationsGradesIdIndexLazyRoute
 }
 
 const AcademicExaminationsRouteLazyRouteChildren: AcademicExaminationsRouteLazyRouteChildren =
@@ -1621,6 +1983,16 @@ const AcademicExaminationsRouteLazyRouteChildren: AcademicExaminationsRouteLazyR
       AcademicExaminationsExamIndexLazyRoute,
     AcademicExaminationsGradesIndexLazyRoute:
       AcademicExaminationsGradesIndexLazyRoute,
+    AcademicExaminationsExamAttendanceIdIndexLazyRoute:
+      AcademicExaminationsExamAttendanceIdIndexLazyRoute,
+    AcademicExaminationsExamResultsIdIndexLazyRoute:
+      AcademicExaminationsExamResultsIdIndexLazyRoute,
+    AcademicExaminationsExamScheduleIdIndexLazyRoute:
+      AcademicExaminationsExamScheduleIdIndexLazyRoute,
+    AcademicExaminationsExamIdIndexLazyRoute:
+      AcademicExaminationsExamIdIndexLazyRoute,
+    AcademicExaminationsGradesIdIndexLazyRoute:
+      AcademicExaminationsGradesIdIndexLazyRoute,
   }
 
 const AcademicExaminationsRouteLazyRouteWithChildren =
@@ -1632,14 +2004,21 @@ interface AcademicRouteLazyRouteChildren {
   AcademicClassesRouteLazyRoute: typeof AcademicClassesRouteLazyRouteWithChildren
   AcademicExaminationsRouteLazyRoute: typeof AcademicExaminationsRouteLazyRouteWithChildren
   AcademicIndexLazyRoute: typeof AcademicIndexLazyRoute
+  AcademicClassRoutineIndexLazyRoute: typeof AcademicClassRoutineIndexLazyRoute
   AcademicClassroomIndexLazyRoute: typeof AcademicClassroomIndexLazyRoute
-  AcademicClassroutineIndexLazyRoute: typeof AcademicClassroutineIndexLazyRoute
   AcademicHomeworkIndexLazyRoute: typeof AcademicHomeworkIndexLazyRoute
   AcademicReasonsIndexLazyRoute: typeof AcademicReasonsIndexLazyRoute
   AcademicSectionIndexLazyRoute: typeof AcademicSectionIndexLazyRoute
   AcademicSubjectIndexLazyRoute: typeof AcademicSubjectIndexLazyRoute
   AcademicSyllabusIndexLazyRoute: typeof AcademicSyllabusIndexLazyRoute
   AcademicTimetableIndexLazyRoute: typeof AcademicTimetableIndexLazyRoute
+  AcademicClassRoutineIdIndexLazyRoute: typeof AcademicClassRoutineIdIndexLazyRoute
+  AcademicClassroomIdIndexLazyRoute: typeof AcademicClassroomIdIndexLazyRoute
+  AcademicHomeworkIdIndexLazyRoute: typeof AcademicHomeworkIdIndexLazyRoute
+  AcademicReasonsIdIndexLazyRoute: typeof AcademicReasonsIdIndexLazyRoute
+  AcademicSectionIdIndexLazyRoute: typeof AcademicSectionIdIndexLazyRoute
+  AcademicSubjectIdIndexLazyRoute: typeof AcademicSubjectIdIndexLazyRoute
+  AcademicSyllabusIdIndexLazyRoute: typeof AcademicSyllabusIdIndexLazyRoute
 }
 
 const AcademicRouteLazyRouteChildren: AcademicRouteLazyRouteChildren = {
@@ -1647,14 +2026,21 @@ const AcademicRouteLazyRouteChildren: AcademicRouteLazyRouteChildren = {
   AcademicExaminationsRouteLazyRoute:
     AcademicExaminationsRouteLazyRouteWithChildren,
   AcademicIndexLazyRoute: AcademicIndexLazyRoute,
+  AcademicClassRoutineIndexLazyRoute: AcademicClassRoutineIndexLazyRoute,
   AcademicClassroomIndexLazyRoute: AcademicClassroomIndexLazyRoute,
-  AcademicClassroutineIndexLazyRoute: AcademicClassroutineIndexLazyRoute,
   AcademicHomeworkIndexLazyRoute: AcademicHomeworkIndexLazyRoute,
   AcademicReasonsIndexLazyRoute: AcademicReasonsIndexLazyRoute,
   AcademicSectionIndexLazyRoute: AcademicSectionIndexLazyRoute,
   AcademicSubjectIndexLazyRoute: AcademicSubjectIndexLazyRoute,
   AcademicSyllabusIndexLazyRoute: AcademicSyllabusIndexLazyRoute,
   AcademicTimetableIndexLazyRoute: AcademicTimetableIndexLazyRoute,
+  AcademicClassRoutineIdIndexLazyRoute: AcademicClassRoutineIdIndexLazyRoute,
+  AcademicClassroomIdIndexLazyRoute: AcademicClassroomIdIndexLazyRoute,
+  AcademicHomeworkIdIndexLazyRoute: AcademicHomeworkIdIndexLazyRoute,
+  AcademicReasonsIdIndexLazyRoute: AcademicReasonsIdIndexLazyRoute,
+  AcademicSectionIdIndexLazyRoute: AcademicSectionIdIndexLazyRoute,
+  AcademicSubjectIdIndexLazyRoute: AcademicSubjectIdIndexLazyRoute,
+  AcademicSyllabusIdIndexLazyRoute: AcademicSyllabusIdIndexLazyRoute,
 }
 
 const AcademicRouteLazyRouteWithChildren =

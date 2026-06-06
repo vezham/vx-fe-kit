@@ -1,4 +1,5 @@
 import { useHotkey } from '@tanstack/react-hotkeys'
+import { useParams } from '@tanstack/react-router'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import type { Selection, SortDescriptor } from '@vezham/react-v3'
@@ -27,6 +28,30 @@ import {
 import { rowToForm, validateScheduleForm } from '../utils/exam-schedule'
 import { hiddenTextareaStyles } from '../variants'
 
+const moduleRoutePath = '/academic/examinations/exam-schedule'
+
+const getModuleBasePath = (pathname: string) => {
+  const routeIndex = pathname.indexOf(moduleRoutePath)
+
+  if (routeIndex < 0) {
+    return pathname.replace(/\/$/, '')
+  }
+
+  return pathname.slice(0, routeIndex + moduleRoutePath.length)
+}
+
+const getRowIdFromPath = (pathname: string) => {
+  const basePath = getModuleBasePath(pathname)
+
+  if (!pathname.startsWith(basePath + '/')) {
+    return null
+  }
+
+  const [id] = pathname.slice(basePath.length + 1).split('/')
+
+  return id ? decodeURIComponent(id) : null
+}
+
 const emptyFilters: FilterDraft = {
   classes: null,
   section: null,
@@ -43,6 +68,7 @@ const emptyFilters: FilterDraft = {
 }
 
 export function useExamSchedulePage() {
+  const routeParams = useParams({ strict: false }) as { id?: string }
   const [data, setData] = useState<ClassRow[]>(initialRows)
   const [searchQuery, setSearchQuery] = useState('')
   const [rowsPerPage, setRowsPerPage] = useState('5')
@@ -193,11 +219,17 @@ export function useExamSchedulePage() {
   const updateDrawerQuery = useCallback(
     (nextState: DrawerQueryState | null, replace = false) => {
       const url = new URL(window.location.href)
+      const basePath = getModuleBasePath(url.pathname)
 
       if (nextState) {
-        url.searchParams.set('id', nextState.id)
+        url.pathname =
+          nextState.mode === 'create' || !nextState.id
+            ? basePath
+            : basePath + '/' + encodeURIComponent(nextState.id)
+        url.searchParams.delete('id')
         url.searchParams.set('mode', nextState.mode)
       } else {
+        url.pathname = basePath
         url.searchParams.delete('id')
         url.searchParams.delete('mode')
       }
@@ -225,7 +257,11 @@ export function useExamSchedulePage() {
 
       if (options.syncUrl !== false) {
         updateDrawerQuery(
-          row && nextMode !== 'create' ? { id: row.id, mode: nextMode } : null,
+          nextMode === 'create'
+            ? { mode: nextMode }
+            : row
+              ? { id: row.id, mode: nextMode }
+              : null,
           options.replaceUrl
         )
       }
@@ -334,8 +370,17 @@ export function useExamSchedulePage() {
   useEffect(() => {
     const syncDrawerFromUrl = () => {
       const params = new URLSearchParams(window.location.search)
-      const id = params.get('id')
+      const id = getRowIdFromPath(window.location.pathname) ?? routeParams.id
       const urlMode = params.get('mode')
+
+      if (urlMode === 'create') {
+        setMode('create')
+        setActiveRowId(null)
+        setForm(emptyForm)
+        setFormErrors({})
+        drawer.onOpen()
+        return
+      }
 
       if (!id || (urlMode !== 'view' && urlMode !== 'edit')) {
         setActiveRowId(null)
@@ -362,7 +407,7 @@ export function useExamSchedulePage() {
     window.addEventListener('popstate', syncDrawerFromUrl)
 
     return () => window.removeEventListener('popstate', syncDrawerFromUrl)
-  }, [data])
+  }, [data, routeParams.id])
 
   useEffect(() => {
     if (!activeRowId) {
@@ -576,8 +621,10 @@ export function useExamSchedulePage() {
   ) => {
     const url = new URL(window.location.href)
 
-    url.searchParams.set('id', row.id)
     url.searchParams.set('mode', nextMode)
+    url.searchParams.delete('id')
+    url.pathname =
+      getModuleBasePath(url.pathname) + '/' + encodeURIComponent(row.id)
     url.hash = ''
 
     return url.toString()
