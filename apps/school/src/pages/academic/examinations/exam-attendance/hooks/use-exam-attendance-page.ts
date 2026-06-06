@@ -51,7 +51,7 @@ export function useExamAttendancePage() {
   const [searchQuery, setSearchQuery] = useState('')
   const [rowsPerPage, setRowsPerPage] = useState('5')
   const [page, setPage] = useState(1)
-  const [datePreset, setDatePreset] = useState<DatePresetKey>('last30')
+  const [datePreset, setDatePreset] = useState<DatePresetKey>('thisYear')
   const [isDateDropdownOpen, setIsDateDropdownOpen] = useState(false)
   const [isCustomDateRangeOpen, setIsCustomDateRangeOpen] = useState(false)
   const [customDateRange, setCustomDateRange] =
