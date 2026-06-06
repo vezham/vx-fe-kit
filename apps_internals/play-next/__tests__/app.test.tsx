@@ -1,13 +1,8 @@
 import { render } from '@testing-library/react'
-import { vi } from 'vitest'
 
 import { Provider } from '@vx/start/vite'
 
 import Shell from '../src/app/(routes)/(home)/page'
-
-vi.mock('@tanstack/react-query-devtools', () => ({
-  ReactQueryDevtools: () => null
-}))
 
 const App = () => (
   <Provider strict={false}>

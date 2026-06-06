@@ -5,7 +5,7 @@
 const __ENV__ = import.meta.env || process.env
 
 // @vx/NOTE: run env/sandbox By Stages - dev, qa, preview (alpha + beta), live (production)
-export const __DEV__ = true // __ENV__.MODE === 'development'
+export const __DEV__ = __ENV__.MODE === 'development'
 export const __QA__ = __ENV__.V_IS_QA === 'true'
 export const __PREVIEW__ = __ENV__.V_IS_PREVIEW === 'true'
 export const __PRODUCTION__ = __ENV__.MODE === 'production'
