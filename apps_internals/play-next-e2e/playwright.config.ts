@@ -19,7 +19,7 @@ export default defineConfig({
   },
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: 'pnpm exec nx run play-next:preview',
+    command: 'pnpm exec nx run play-next:preview:next',
     url: base_url,
     reuseExistingServer: !process.env.CI,
     cwd: workspaceRoot
