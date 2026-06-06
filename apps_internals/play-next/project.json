@@ -4,6 +4,7 @@
   "projectType": "application",
   "sourceRoot": "apps_internals/play-next/src",
   "targets": {
+    "test": {},
     "serve:next": {},
     "preview:next": {},
     "hosts:setup": {}

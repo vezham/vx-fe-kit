@@ -88,7 +88,7 @@
     "test": {
       "dependsOn": ["^build"],
       "options": {
-        "command": "bash -lc 'vitest --config \"$(git rev-parse --show-toplevel)/vitest.config.ts\" --passWithNoTests'"
+        "command": "bash -lc 'if [ -f vitest.config.ts ]; then vitest --config vitest.config.ts --passWithNoTests; else vitest --config \"$(git rev-parse --show-toplevel)/vitest.config.ts\" --passWithNoTests; fi'"
       }
     },
     "@nx/js:tsc": {

@@ -8,6 +8,7 @@ on:
   push:
     branches:
       - timeline
+      - next
       - feat/**
     # paths:
     #   - '.github/workflows/qa.yml'
