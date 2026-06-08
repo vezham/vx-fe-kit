@@ -1,26 +1,90 @@
-import { type SortDescriptor } from '@vezham/react-v3'
+import { Icon } from '@iconify/react'
 
-import { SortDropdown as SharedSortDropdown } from '../../../../shared/sort-dropdown'
-import { sortOptions } from '../../data'
+import { Button, Dropdown, type SortDescriptor } from '@vezham/react-v3'
+
+import { sortOptions, sortOrderOptions } from '../../data'
+import { classNames } from '../../variants'
 
 type SortDropdownProps = {
   activeSortLabel: string
-  sortDescriptor: SortDescriptor
-  onSortChange: (descriptor: SortDescriptor) => void
+  sortDirection: SortDescriptor['direction']
+  sortField: (typeof sortOptions)[number]['column']
+  onSortDirectionChange: (direction: SortDescriptor['direction']) => void
+  onSortFieldChange: (column: (typeof sortOptions)[number]['column']) => void
 }
 
 export function SortDropdown({
   activeSortLabel,
-  sortDescriptor,
-  onSortChange
+  sortDirection,
+  sortField,
+  onSortDirectionChange,
+  onSortFieldChange
 }: SortDropdownProps) {
+  const activeField =
+    sortOptions.find(option => option.column === sortField) ?? sortOptions[0]
+  const activeDirection = sortDirection ?? 'ascending'
+  const activeSortIcon =
+    activeDirection === 'ascending'
+      ? 'lucide:arrow-up-wide-narrow'
+      : 'lucide:arrow-down-wide-narrow'
+  const selectedKeys = new Set([activeField.key, activeDirection])
+
+  const updateSortField = (column: (typeof sortOptions)[number]['column']) => {
+    onSortFieldChange(column)
+  }
+
+  const updateSortOrder = (direction: SortDescriptor['direction']) => {
+    onSortDirectionChange(direction)
+  }
+
   return (
-    <SharedSortDropdown
-      ariaLabel="Sort schedules"
-      activeSortLabel={activeSortLabel}
-      sortDescriptor={sortDescriptor}
-      sortOptions={sortOptions}
-      onSortChange={onSortChange}
-    />
+    <Dropdown>
+      <Dropdown.Trigger>
+        <Button variant="outline">
+          <Icon icon={activeSortIcon} width={16} />
+          {activeSortLabel}
+          <Icon icon="lucide:chevron-down" width={16} />
+        </Button>
+      </Dropdown.Trigger>
+      <Dropdown.Popover>
+        <Dropdown.Menu
+          aria-label="Sort schedules"
+          selectedKeys={selectedKeys}
+          selectionMode="multiple">
+          <Dropdown.Section aria-label="Sort by">
+            {sortOptions.map(option => (
+              <Dropdown.Item
+                key={option.key}
+                id={option.key}
+                textValue={option.label}
+                onPress={() => updateSortField(option.column)}>
+                <span className={classNames.dateOptionLabel}>
+                  {option.label}
+                  <Dropdown.ItemIndicator />
+                </span>
+              </Dropdown.Item>
+            ))}
+          </Dropdown.Section>
+
+          <Dropdown.Section aria-label="Order">
+            {sortOrderOptions.map(option => (
+              <Dropdown.Item
+                key={option.key}
+                id={option.key}
+                textValue={option.label}
+                onPress={() => updateSortOrder(option.direction)}>
+                <span className={classNames.dateOptionLabel}>
+                  <span className="flex items-center gap-2">
+                    <Icon icon={option.icon} width={16} />
+                    {option.label}
+                  </span>
+                  <Dropdown.ItemIndicator />
+                </span>
+              </Dropdown.Item>
+            ))}
+          </Dropdown.Section>
+        </Dropdown.Menu>
+      </Dropdown.Popover>
+    </Dropdown>
   )
 }

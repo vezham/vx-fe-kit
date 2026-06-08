@@ -1,6 +1,6 @@
 import { useHotkey } from '@tanstack/react-hotkeys'
 import { useParams } from '@tanstack/react-router'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import type { Selection, SortDescriptor } from '@vezham/react-v3'
 
@@ -110,6 +110,7 @@ export function useClassRoutinePage() {
   const [formErrors, setFormErrors] = useState<ClassFormErrors>({})
   const [toast, setToast] = useState<ToastState | null>(null)
   const drawer = useDisclosure()
+  const drawerWasOpenRef = useRef(drawer.isOpen)
 
   const activeDateRange = useMemo(() => {
     if (datePreset === 'custom') {
@@ -304,8 +305,9 @@ export function useClassRoutinePage() {
 
   const closeDrawer = useCallback(() => {
     setFormErrors({})
-    drawer.onClose()
+    setSelectedRowKeys(new Set())
     setActiveRowId(null)
+    drawer.onClose()
     updateDrawerQuery(null)
   }, [drawer, updateDrawerQuery])
 
@@ -419,6 +421,7 @@ export function useClassRoutinePage() {
 
       if (!id || (urlMode !== 'view' && urlMode !== 'edit')) {
         setActiveRowId(null)
+        setSelectedRowKeys(new Set())
         drawer.onClose()
         return
       }
@@ -427,6 +430,7 @@ export function useClassRoutinePage() {
 
       if (!row) {
         setActiveRowId(null)
+        setSelectedRowKeys(new Set())
         drawer.onClose()
         return
       }
@@ -443,6 +447,15 @@ export function useClassRoutinePage() {
 
     return () => window.removeEventListener('popstate', syncDrawerFromUrl)
   }, [data, routeParams.id])
+
+  useEffect(() => {
+    if (drawerWasOpenRef.current && !drawer.isOpen) {
+      setSelectedRowKeys(new Set())
+      setActiveRowId(null)
+    }
+
+    drawerWasOpenRef.current = drawer.isOpen
+  }, [drawer.isOpen])
 
   useEffect(() => {
     if (drawer.isOpen || !activeRowId) {

@@ -1,5 +1,6 @@
 import { sortOrderOptions } from '../../shared/sort'
 import type {
+  AllClassesColumnKey,
   ClassFormState,
   ClassRow,
   ClassStatus,
@@ -151,6 +152,57 @@ export const sortOptions = [
     column: 'createdAt'
   }
 ] as const
+
+export const allClassesColumnOptions = [
+  {
+    key: 'id',
+    label: 'ID',
+    defaultWidth: 140,
+    minWidth: 120,
+    maxWidth: 180
+  },
+  {
+    key: 'className',
+    label: 'Class',
+    defaultWidth: 140,
+    minWidth: 120,
+    maxWidth: 180
+  },
+  {
+    key: 'section',
+    label: 'Section',
+    defaultWidth: 120,
+    minWidth: 100,
+    maxWidth: 160
+  },
+  {
+    key: 'students',
+    label: 'Students',
+    defaultWidth: 140,
+    minWidth: 120,
+    maxWidth: 180
+  },
+  {
+    key: 'subjects',
+    label: 'Subjects',
+    defaultWidth: 140,
+    minWidth: 120,
+    maxWidth: 180
+  },
+  {
+    key: 'status',
+    label: 'Status',
+    defaultWidth: 140,
+    minWidth: 120,
+    maxWidth: 160
+  }
+] as const satisfies readonly {
+  key: AllClassesColumnKey
+  label: string
+  defaultWidth: number
+  minWidth: number
+  maxWidth: number
+}[]
 
 export const rowCountOptions = ['5', '10', '25', '50']
 export const classOptions = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII']

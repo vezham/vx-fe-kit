@@ -1,17 +1,12 @@
-import {
-  Label,
-  ListBox,
-  SearchField,
-  Select,
-  type SortDescriptor,
-  Surface
-} from '@vezham/react-v3'
+import { Label, ListBox, SearchField, Select, Surface } from '@vezham/react-v3'
 
-import { rowCountOptions } from '../../data'
+import { ColumnsDropdown } from '../../../../shared/columns-dropdown'
+import { rowCountOptions, scheduleColumnOptions, sortOptions } from '../../data'
 import type {
   CustomDateRangeValue,
   DatePresetKey,
-  FilterDraft
+  FilterDraft,
+  ScheduleColumnKey
 } from '../../types'
 import { classNames } from '../../variants'
 import { DateRangeDropdown } from './date-range-dropdown'
@@ -21,13 +16,13 @@ import { SortDropdown } from './sort-dropdown'
 type ScheduleToolbarProps = {
   activeDateLabel: string
   activeSortLabel: string
-  sortDescriptor: SortDescriptor
   datePreset: DatePresetKey
   draftFilters: FilterDraft
   isCustomDateRangeOpen: boolean
   isDateDropdownOpen: boolean
   rowsPerPage: string
   searchQuery: string
+  visibleColumns: Set<ScheduleColumnKey>
   setDraftFilters: (filters: FilterDraft) => void
   onApplyFilters: () => void
   onCustomDateRangeChange: (value: CustomDateRangeValue | null) => void
@@ -37,19 +32,23 @@ type ScheduleToolbarProps = {
   onResetFilters: () => void
   onRowsPerPageChange: (value: string | number | null) => void
   onSearchChange: (value: string) => void
-  onSortChange: (descriptor: SortDescriptor) => void
+  onVisibleColumnsChange: (columns: Set<ScheduleColumnKey>) => void
+  sortField: (typeof sortOptions)[number]['column']
+  sortDirection: 'ascending' | 'descending'
+  onSortFieldChange: (column: (typeof sortOptions)[number]['column']) => void
+  onSortDirectionChange: (direction: 'ascending' | 'descending') => void
 }
 
 export function ScheduleToolbar({
   activeDateLabel,
   activeSortLabel,
-  sortDescriptor,
   datePreset,
   draftFilters,
   isCustomDateRangeOpen,
   isDateDropdownOpen,
   rowsPerPage,
   searchQuery,
+  visibleColumns,
   setDraftFilters,
   onApplyFilters,
   onCustomDateRangeChange,
@@ -59,7 +58,11 @@ export function ScheduleToolbar({
   onResetFilters,
   onRowsPerPageChange,
   onSearchChange,
-  onSortChange
+  onVisibleColumnsChange,
+  sortField,
+  sortDirection,
+  onSortFieldChange,
+  onSortDirectionChange
 }: ScheduleToolbarProps) {
   return (
     <Surface className={classNames.toolbar}>
@@ -88,10 +91,22 @@ export function ScheduleToolbar({
             onReset={onResetFilters}
           />
 
+          <ColumnsDropdown
+            columns={scheduleColumnOptions}
+            visibleColumns={visibleColumns as Set<string>}
+            onVisibleColumnsChange={columns =>
+              onVisibleColumnsChange(
+                new Set(Array.from(columns) as ScheduleColumnKey[])
+              )
+            }
+          />
+
           <SortDropdown
             activeSortLabel={activeSortLabel}
-            sortDescriptor={sortDescriptor}
-            onSortChange={onSortChange}
+            sortField={sortField}
+            sortDirection={sortDirection}
+            onSortFieldChange={onSortFieldChange}
+            onSortDirectionChange={onSortDirectionChange}
           />
         </div>
       </div>

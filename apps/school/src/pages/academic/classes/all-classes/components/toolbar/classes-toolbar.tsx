@@ -1,14 +1,13 @@
-import {
-  Label,
-  ListBox,
-  SearchField,
-  Select,
-  type SortDescriptor,
-  Surface
-} from '@vezham/react-v3'
+import { Label, ListBox, SearchField, Select, Surface } from '@vezham/react-v3'
 
-import { rowCountOptions } from '../../data'
+import { ColumnsDropdown } from '../../../../shared/columns-dropdown'
+import {
+  allClassesColumnOptions,
+  rowCountOptions,
+  sortOptions
+} from '../../data'
 import type {
+  AllClassesColumnKey,
   CustomDateRangeValue,
   DatePresetKey,
   FilterDraft
@@ -21,13 +20,13 @@ import { SortDropdown } from './sort-dropdown'
 type ClassesToolbarProps = {
   activeDateLabel: string
   activeSortLabel: string
-  sortDescriptor: SortDescriptor
   datePreset: DatePresetKey
   draftFilters: FilterDraft
   isCustomDateRangeOpen: boolean
   isDateDropdownOpen: boolean
   rowsPerPage: string
   searchQuery: string
+  visibleColumns: Set<AllClassesColumnKey>
   setDraftFilters: (filters: FilterDraft) => void
   onApplyFilters: () => void
   onCustomDateRangeChange: (value: CustomDateRangeValue | null) => void
@@ -37,19 +36,23 @@ type ClassesToolbarProps = {
   onResetFilters: () => void
   onRowsPerPageChange: (value: string | number | null) => void
   onSearchChange: (value: string) => void
-  onSortChange: (descriptor: SortDescriptor) => void
+  onVisibleColumnsChange: (columns: Set<AllClassesColumnKey>) => void
+  sortField: (typeof sortOptions)[number]['column']
+  sortDirection: 'ascending' | 'descending'
+  onSortFieldChange: (column: (typeof sortOptions)[number]['column']) => void
+  onSortDirectionChange: (direction: 'ascending' | 'descending') => void
 }
 
 export function ClassesToolbar({
   activeDateLabel,
   activeSortLabel,
-  sortDescriptor,
   datePreset,
   draftFilters,
   isCustomDateRangeOpen,
   isDateDropdownOpen,
   rowsPerPage,
   searchQuery,
+  visibleColumns,
   setDraftFilters,
   onApplyFilters,
   onCustomDateRangeChange,
@@ -59,7 +62,11 @@ export function ClassesToolbar({
   onResetFilters,
   onRowsPerPageChange,
   onSearchChange,
-  onSortChange
+  onVisibleColumnsChange,
+  sortField,
+  sortDirection,
+  onSortFieldChange,
+  onSortDirectionChange
 }: ClassesToolbarProps) {
   return (
     <Surface className={classNames.toolbar}>
@@ -88,10 +95,22 @@ export function ClassesToolbar({
             onReset={onResetFilters}
           />
 
+          <ColumnsDropdown
+            columns={allClassesColumnOptions}
+            visibleColumns={visibleColumns as Set<string>}
+            onVisibleColumnsChange={columns =>
+              onVisibleColumnsChange(
+                new Set(Array.from(columns) as AllClassesColumnKey[])
+              )
+            }
+          />
+
           <SortDropdown
             activeSortLabel={activeSortLabel}
-            sortDescriptor={sortDescriptor}
-            onSortChange={onSortChange}
+            sortField={sortField}
+            sortDirection={sortDirection}
+            onSortFieldChange={onSortFieldChange}
+            onSortDirectionChange={onSortDirectionChange}
           />
         </div>
       </div>

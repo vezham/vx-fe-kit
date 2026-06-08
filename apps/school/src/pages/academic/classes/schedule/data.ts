@@ -3,7 +3,8 @@ import type {
   ClassFormState,
   ClassRow,
   ClassStatus,
-  DatePresetKey
+  DatePresetKey,
+  ScheduleColumnKey
 } from './types'
 
 export const initialRows: ClassRow[] = [
@@ -140,6 +141,50 @@ export const sortOptions = [
     column: 'createdAt'
   }
 ] as const
+
+export const scheduleColumnOptions = [
+  {
+    key: 'id',
+    label: 'ID',
+    defaultWidth: 140,
+    minWidth: 120,
+    maxWidth: 180
+  },
+  {
+    key: 'type',
+    label: 'Type',
+    defaultWidth: 140,
+    minWidth: 120,
+    maxWidth: 180
+  },
+  {
+    key: 'starttime',
+    label: 'Start Time',
+    defaultWidth: 140,
+    minWidth: 120,
+    maxWidth: 180
+  },
+  {
+    key: 'endtime',
+    label: 'End Time',
+    defaultWidth: 140,
+    minWidth: 120,
+    maxWidth: 180
+  },
+  {
+    key: 'status',
+    label: 'Status',
+    defaultWidth: 140,
+    minWidth: 120,
+    maxWidth: 160
+  }
+] as const satisfies readonly {
+  key: ScheduleColumnKey
+  label: string
+  defaultWidth: number
+  minWidth: number
+  maxWidth: number
+}[]
 
 export const rowCountOptions = ['5', '10', '25', '50']
 export const typeOptions = ['Class']

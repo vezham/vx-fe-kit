@@ -2,6 +2,12 @@ import { useOverlayState } from '@vezham/react-v3'
 
 export type ClassStatus = 'Active' | 'Inactive'
 export type DrawerMode = 'view' | 'edit' | 'create'
+export type ScheduleColumnKey =
+  | 'id'
+  | 'type'
+  | 'starttime'
+  | 'endtime'
+  | 'status'
 
 export type ToastState = {
   message: string
