@@ -31,7 +31,7 @@ export function InfoPanelContainer({
     <motion.aside
       aria-hidden={!panel}
       animate={{ width: panel ? width : 0 }}
-      className={`sticky top-0 z-40 h-screen shrink-0 overflow-hidden ${className ?? ''}`}
+      className={`sticky top-0 z-40 shrink-0 overflow-hidden ${className ?? ''}`}
       initial={false}
       transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}>
       <AnimatePresence mode="wait">

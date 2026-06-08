@@ -4,10 +4,16 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import type { Selection, SortDescriptor } from '@vezham/react-v3'
 
-import { emptyForm, initialRows, sortOptions } from '../data'
+import {
+  classRoutineColumnOptions,
+  emptyForm,
+  initialRows,
+  sortOptions
+} from '../data'
 import type {
   ClassFormErrors,
   ClassFormState,
+  ClassRoutineColumnKey,
   ClassRow,
   CustomDateRangeValue,
   DatePresetKey,
@@ -68,6 +74,14 @@ const emptyFilters: FilterDraft = {
   status: null
 }
 
+const getSortLabel = (column: SortDescriptor['column']) => {
+  return (
+    sortOptions.find(option => option.column === column)?.label ??
+    classRoutineColumnOptions.find(option => option.key === column)?.label ??
+    'Sort'
+  )
+}
+
 export function useClassRoutinePage() {
   const routeParams = useParams({ strict: false }) as { id?: string }
   const [data, setData] = useState<ClassRow[]>(initialRows)
@@ -79,12 +93,16 @@ export function useClassRoutinePage() {
   const [isCustomDateRangeOpen, setIsCustomDateRangeOpen] = useState(false)
   const [customDateRange, setCustomDateRange] =
     useState<DateRangeFilter | null>(null)
-  const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
-    column: 'viewedAt',
-    direction: 'descending'
-  })
+  const [sortField, setSortField] =
+    useState<(typeof sortOptions)[number]['column']>('viewedAt')
+  const [sortDirection, setSortDirection] =
+    useState<SortDescriptor['direction']>('descending')
+  const [activeSortLabel, setActiveSortLabel] = useState('Sort')
   const [filters, setFilters] = useState<FilterDraft>(emptyFilters)
   const [draftFilters, setDraftFilters] = useState<FilterDraft>(filters)
+  const [visibleColumns, setVisibleColumns] = useState<
+    Set<ClassRoutineColumnKey>
+  >(() => new Set(classRoutineColumnOptions.map(column => column.key)))
   const [activeRowId, setActiveRowId] = useState<string | null>(null)
   const [selectedRowKeys, setSelectedRowKeys] = useState<Selection>(new Set())
   const [mode, setMode] = useState<DrawerMode>('view')
@@ -100,6 +118,14 @@ export function useClassRoutinePage() {
 
     return getPresetDateRange(datePreset)
   }, [customDateRange, datePreset])
+
+  const sortDescriptor = useMemo<SortDescriptor>(
+    () => ({
+      column: sortField,
+      direction: sortDirection
+    }),
+    [sortDirection, sortField]
+  )
 
   const filteredRows = useMemo(() => {
     const query = searchQuery.trim().toLowerCase()
@@ -169,6 +195,13 @@ export function useClassRoutinePage() {
     () => data.find(row => row.id === activeRowId) ?? null,
     [activeRowId, data]
   )
+  const selectedRows = useMemo(() => {
+    if (selectedRowKeys === 'all') {
+      return data
+    }
+
+    return data.filter(row => selectedRowKeys.has(row.id))
+  }, [data, selectedRowKeys])
   const selectedRowIndex = activeRowId
     ? sortedRows.findIndex(row => row.id === activeRowId)
     : -1
@@ -176,11 +209,6 @@ export function useClassRoutinePage() {
     () => (activeRowId ? new Set([activeRowId]) : selectedRowKeys),
     [activeRowId, selectedRowKeys]
   )
-
-  const activeSortLabel =
-    sortOptions.find(option => option.column === sortDescriptor.column)
-      ?.label ?? 'Recently Viewed'
-
   const activeDateLabel =
     datePreset === 'custom'
       ? customDateRange
@@ -265,9 +293,14 @@ export function useClassRoutinePage() {
     [drawer, updateDrawerQuery]
   )
 
-  const updateTableSelection = useCallback((keys: Selection) => {
-    setSelectedRowKeys(keys)
-  }, [])
+  const updateTableSelection = useCallback(
+    (keys: Selection) => {
+      setSelectedRowKeys(
+        keys === 'all' ? new Set(paginatedRows.map(row => row.id)) : keys
+      )
+    },
+    [paginatedRows]
+  )
 
   const closeDrawer = useCallback(() => {
     setFormErrors({})
@@ -313,6 +346,12 @@ export function useClassRoutinePage() {
         return
       }
 
+      const nextPage = Math.floor(index / pageSize) + 1
+
+      if (nextPage !== currentPage) {
+        setPage(nextPage)
+      }
+
       setActiveRowId(nextRow.id)
       setForm(rowToForm(nextRow))
       setMode(currentMode => (currentMode === 'create' ? 'view' : currentMode))
@@ -321,7 +360,7 @@ export function useClassRoutinePage() {
         mode: mode === 'edit' ? 'edit' : 'view'
       })
     },
-    [mode, sortedRows, updateDrawerQuery]
+    [currentPage, mode, pageSize, sortedRows, updateDrawerQuery]
   )
 
   const goToNextRow = useCallback(() => {
@@ -404,6 +443,14 @@ export function useClassRoutinePage() {
 
     return () => window.removeEventListener('popstate', syncDrawerFromUrl)
   }, [data, routeParams.id])
+
+  useEffect(() => {
+    if (drawer.isOpen || !activeRowId) {
+      return
+    }
+
+    setActiveRowId(null)
+  }, [activeRowId, drawer.isOpen])
 
   useEffect(() => {
     if (!activeRowId) {
@@ -492,6 +539,86 @@ export function useClassRoutinePage() {
     setPage(1)
   }
 
+  const updateVisibleColumns = useCallback(
+    (columns: Set<ClassRoutineColumnKey>) => {
+      setVisibleColumns(new Set(columns))
+    },
+    []
+  )
+
+  const clearSelection = useCallback(() => {
+    setSelectedRowKeys(new Set())
+  }, [])
+
+  const copySelectedIds = useCallback(() => {
+    if (!selectedRows.length) {
+      return
+    }
+
+    void copyText(selectedRows.map(row => row.id).join('\n'))
+      .then(() => {
+        showToast(
+          selectedRows.length === 1
+            ? 'ID copied'
+            : `${selectedRows.length} IDs copied`
+        )
+      })
+      .catch(() => {
+        showToast('Unable to copy IDs', 'danger')
+      })
+  }, [copyText, selectedRows, showToast])
+
+  const copySelectedLinks = useCallback(() => {
+    if (!selectedRows.length) {
+      return
+    }
+
+    void copyText(
+      selectedRows
+        .map(row => getClassUrl(row, mode === 'edit' ? 'edit' : 'view'))
+        .join('\n')
+    )
+      .then(() => {
+        showToast(
+          selectedRows.length === 1
+            ? 'URL copied'
+            : `${selectedRows.length} URLs copied`
+        )
+      })
+      .catch(() => {
+        showToast('Unable to copy URLs', 'danger')
+      })
+  }, [copyText, mode, selectedRows, showToast])
+
+  const editSelectedClass = useCallback(() => {
+    if (selectedRows.length !== 1) {
+      return
+    }
+
+    openDrawer('edit', selectedRows[0])
+  }, [openDrawer, selectedRows])
+
+  const deleteSelectedClasses = useCallback(() => {
+    if (!selectedRows.length) {
+      return
+    }
+
+    const selectedIds = new Set(selectedRows.map(row => row.id))
+
+    setData(current => current.filter(row => !selectedIds.has(row.id)))
+    setSelectedRowKeys(new Set())
+
+    if (activeRowId && selectedIds.has(activeRowId)) {
+      closeDrawer()
+    }
+
+    showToast(
+      selectedRows.length === 1
+        ? 'Item deleted'
+        : `${selectedRows.length} items deleted`
+    )
+  }, [activeRowId, closeDrawer, selectedRows, showToast])
+
   const applyFilters = () => {
     setFilters(draftFilters)
     setPage(1)
@@ -503,8 +630,21 @@ export function useClassRoutinePage() {
     setPage(1)
   }
 
-  const updateSortDescriptor = (descriptor: SortDescriptor) => {
-    setSortDescriptor(descriptor)
+  const updateSortField = (column: (typeof sortOptions)[number]['column']) => {
+    setSortField(column)
+    setActiveSortLabel(getSortLabel(column))
+    setPage(1)
+  }
+
+  const updateSortDirection = (direction: SortDescriptor['direction']) => {
+    setSortDirection(direction)
+    setPage(1)
+  }
+
+  const updateSortChange = (descriptor: SortDescriptor) => {
+    setSortField(descriptor.column as (typeof sortOptions)[number]['column'])
+    setSortDirection(descriptor.direction)
+    setActiveSortLabel(getSortLabel(descriptor.column))
     setPage(1)
   }
 
@@ -583,6 +723,21 @@ export function useClassRoutinePage() {
 
   const deleteClass = (rowId: string) => {
     setData(current => current.filter(row => row.id !== rowId))
+    setSelectedRowKeys(current => {
+      if (current === 'all') {
+        return new Set()
+      }
+
+      if (!current.size) {
+        return current
+      }
+
+      const next = new Set(current)
+
+      next.delete(rowId)
+
+      return next
+    })
 
     if (activeRowId === rowId) {
       setActiveRowId(null)
@@ -646,6 +801,7 @@ export function useClassRoutinePage() {
       isDateDropdownOpen,
       rowsPerPage,
       searchQuery,
+      visibleColumns,
       setDraftFilters,
       onApplyFilters: applyFilters,
       onCustomDateRangeChange: updateCustomDateRange,
@@ -655,23 +811,33 @@ export function useClassRoutinePage() {
       onResetFilters: resetFilters,
       onRowsPerPageChange: updateRowsPerPage,
       onSearchChange: updateSearch,
-      sortDescriptor,
-      onSortChange: updateSortDescriptor
+      onVisibleColumnsChange: updateVisibleColumns,
+      sortField,
+      sortDirection,
+      onSortFieldChange: updateSortField,
+      onSortDirectionChange: updateSortDirection
     },
     table: {
       activeRowId,
       currentPage,
       pageSize,
       rows: paginatedRows,
+      selectedCount: selectedRows.length,
       selectedKeys: tableSelectedKeys,
+      visibleColumns,
       sortDescriptor,
       totalPages,
       totalRows: sortedRows.length,
+      onBulkEdit: editSelectedClass,
       onDelete: deleteClass,
       onOpenDrawer: openDrawer,
       onPageChange: setPage,
+      onClearSelection: clearSelection,
+      onBulkCopyIds: copySelectedIds,
+      onBulkCopyLinks: copySelectedLinks,
+      onBulkDelete: deleteSelectedClasses,
       onSelectionChange: updateTableSelection,
-      onSortChange: updateSortDescriptor
+      onSortChange: updateSortChange
     },
     drawerProps: {
       canGoNext:

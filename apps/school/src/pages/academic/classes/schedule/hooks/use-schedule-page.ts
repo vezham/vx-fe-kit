@@ -147,7 +147,7 @@ export function useSchedulePage() {
   const activeSortLabel = getActiveSortLabel(
     sortOptions,
     sortDescriptor,
-    'Type'
+    'Sort'
   )
 
   const activeDateLabel =

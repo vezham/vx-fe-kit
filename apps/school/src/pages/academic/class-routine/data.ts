@@ -2,6 +2,7 @@ import type { SortDescriptor } from '@vezham/react-v3'
 
 import type {
   ClassFormState,
+  ClassRoutineColumnKey,
   ClassRow,
   ClassStatus,
   DatePresetKey
@@ -220,6 +221,80 @@ export const sortOrderOptions = [
   label: string
   direction: SortDescriptor['direction']
   icon: string
+}[]
+
+export const classRoutineColumnOptions = [
+  {
+    key: 'id',
+    label: 'ID',
+    defaultWidth: 140,
+    minWidth: 120,
+    maxWidth: 180,
+    isRowHeader: true
+  },
+  {
+    key: 'classes',
+    label: 'Class',
+    defaultWidth: 120,
+    minWidth: 100,
+    maxWidth: 180
+  },
+  {
+    key: 'section',
+    label: 'Section',
+    defaultWidth: 120,
+    minWidth: 100,
+    maxWidth: 160
+  },
+  {
+    key: 'teacher',
+    label: 'Teacher',
+    defaultWidth: 160,
+    minWidth: 140,
+    maxWidth: 240
+  },
+  {
+    key: 'subject',
+    label: 'Subject',
+    defaultWidth: 200,
+    minWidth: 160,
+    maxWidth: 280
+  },
+  {
+    key: 'day',
+    label: 'Day',
+    defaultWidth: 120,
+    minWidth: 100,
+    maxWidth: 150
+  },
+  {
+    key: 'starttime',
+    label: 'Start Time',
+    defaultWidth: 140,
+    minWidth: 120,
+    maxWidth: 180
+  },
+  {
+    key: 'endtime',
+    label: 'End Time',
+    defaultWidth: 140,
+    minWidth: 120,
+    maxWidth: 180
+  },
+  {
+    key: 'classroom',
+    label: 'Class Room',
+    defaultWidth: 140,
+    minWidth: 120,
+    maxWidth: 180
+  }
+] as const satisfies readonly {
+  key: ClassRoutineColumnKey
+  label: string
+  defaultWidth: number
+  minWidth: number
+  maxWidth: number
+  isRowHeader?: boolean
 }[]
 
 export const rowCountOptions = ['5', '10', '25', '50']

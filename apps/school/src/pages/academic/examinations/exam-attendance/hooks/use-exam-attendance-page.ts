@@ -177,7 +177,7 @@ export function useExamAttendancePage() {
   const activeSortLabel = getActiveSortLabel(
     sortOptions,
     sortDescriptor,
-    'Student Name'
+    'Recently Viewed'
   )
 
   const activeDateLabel =

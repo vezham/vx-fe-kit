@@ -183,7 +183,7 @@ export function useExamResultsPage() {
   const activeSortLabel = getActiveSortLabel(
     sortOptions,
     sortDescriptor,
-    'Student Name'
+    'Recently Viewed'
   )
 
   const activeDateLabel =

@@ -150,7 +150,7 @@ export function useClassesPage() {
   const activeSortLabel = getActiveSortLabel(
     sortOptions,
     sortDescriptor,
-    'Class'
+    'Recently Viewed'
   )
 
   const activeDateLabel =

@@ -169,7 +169,7 @@ export function useExamSchedulePage() {
   const activeSortLabel = getActiveSortLabel(
     sortOptions,
     sortDescriptor,
-    'Subject'
+    'Recently Viewed'
   )
 
   const activeDateLabel =

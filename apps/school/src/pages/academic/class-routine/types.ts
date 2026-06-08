@@ -2,6 +2,16 @@ import { useOverlayState } from '@vezham/react-v3'
 
 export type ClassStatus = 'Active' | 'Inactive'
 export type DrawerMode = 'view' | 'edit' | 'create'
+export type ClassRoutineColumnKey =
+  | 'id'
+  | 'classes'
+  | 'section'
+  | 'teacher'
+  | 'subject'
+  | 'day'
+  | 'starttime'
+  | 'endtime'
+  | 'classroom'
 
 export type ToastState = {
   message: string
@@ -89,6 +99,11 @@ export type FilterDropdownProps = {
   onReset: () => void
 }
 
+export type ColumnsDropdownProps = {
+  visibleColumns: Set<ClassRoutineColumnKey>
+  onVisibleColumnsChange: (columns: Set<ClassRoutineColumnKey>) => void
+}
+
 export type ClassDrawerProps = {
   canGoNext: boolean
   canGoPrevious: boolean
@@ -135,10 +150,14 @@ export type SortableHeaderProps = {
   sortDirection?: 'ascending' | 'descending'
 }
 
-export type DrawerQueryState = {
-  id: string
-  mode: Exclude<DrawerMode, 'create'>
-}
+export type DrawerQueryState =
+  | {
+      id: string
+      mode: Exclude<DrawerMode, 'create'>
+    }
+  | {
+      mode: 'create'
+    }
 
 export type OpenDrawerOptions = {
   syncUrl?: boolean

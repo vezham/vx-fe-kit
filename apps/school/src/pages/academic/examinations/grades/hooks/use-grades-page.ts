@@ -153,7 +153,7 @@ export function useGradesPage() {
   const activeSortLabel = getActiveSortLabel(
     sortOptions,
     sortDescriptor,
-    'Grade'
+    'Recently Viewed'
   )
   const activeDateLabel =
     datePreset === 'custom'

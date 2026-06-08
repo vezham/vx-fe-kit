@@ -7,13 +7,15 @@ import {
   Surface
 } from '@vezham/react-v3'
 
-import { rowCountOptions } from '../../data'
+import { rowCountOptions, sortOptions } from '../../data'
 import type {
+  ClassRoutineColumnKey,
   CustomDateRangeValue,
   DatePresetKey,
   FilterDraft
 } from '../../types'
 import { classNames } from '../../variants'
+import { ColumnsDropdown } from './columns-dropdown'
 import { DateRangeDropdown } from './date-range-dropdown'
 import { FilterDropdown } from './filter-dropdown'
 import { SortDropdown } from './sort-dropdown'
@@ -27,8 +29,10 @@ type ClassRoutineToolbarProps = {
   isDateDropdownOpen: boolean
   rowsPerPage: string
   searchQuery: string
+  visibleColumns: Set<ClassRoutineColumnKey>
   setDraftFilters: (filters: FilterDraft) => void
-  sortDescriptor: SortDescriptor
+  sortField: (typeof sortOptions)[number]['column']
+  sortDirection: SortDescriptor['direction']
   onApplyFilters: () => void
   onCustomDateRangeChange: (value: CustomDateRangeValue | null) => void
   onCustomDateRangeOpenChange: (isOpen: boolean) => void
@@ -37,7 +41,9 @@ type ClassRoutineToolbarProps = {
   onResetFilters: () => void
   onRowsPerPageChange: (value: string | number | null) => void
   onSearchChange: (value: string) => void
-  onSortChange: (descriptor: SortDescriptor) => void
+  onVisibleColumnsChange: (columns: Set<ClassRoutineColumnKey>) => void
+  onSortFieldChange: (column: (typeof sortOptions)[number]['column']) => void
+  onSortDirectionChange: (direction: SortDescriptor['direction']) => void
 }
 
 export function ClassRoutineToolbar({
@@ -49,8 +55,10 @@ export function ClassRoutineToolbar({
   isDateDropdownOpen,
   rowsPerPage,
   searchQuery,
+  visibleColumns,
   setDraftFilters,
-  sortDescriptor,
+  sortField,
+  sortDirection,
   onApplyFilters,
   onCustomDateRangeChange,
   onCustomDateRangeOpenChange,
@@ -59,7 +67,9 @@ export function ClassRoutineToolbar({
   onResetFilters,
   onRowsPerPageChange,
   onSearchChange,
-  onSortChange
+  onVisibleColumnsChange,
+  onSortFieldChange,
+  onSortDirectionChange
 }: ClassRoutineToolbarProps) {
   return (
     <Surface className={classNames.toolbar}>
@@ -88,10 +98,17 @@ export function ClassRoutineToolbar({
             onReset={onResetFilters}
           />
 
+          <ColumnsDropdown
+            visibleColumns={visibleColumns}
+            onVisibleColumnsChange={onVisibleColumnsChange}
+          />
+
           <SortDropdown
             activeSortLabel={activeSortLabel}
-            sortDescriptor={sortDescriptor}
-            onSortChange={onSortChange}
+            sortField={sortField}
+            sortDirection={sortDirection}
+            onSortFieldChange={onSortFieldChange}
+            onSortDirectionChange={onSortDirectionChange}
           />
         </div>
       </div>

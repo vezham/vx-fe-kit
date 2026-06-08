@@ -74,9 +74,9 @@ const MenuDrawer = ({
                     buttonTextColor ?? ''
                   )}>
                   {item.icon && <Icon icon={item.icon} className="h-6 w-6" />}
-                  <Typography.Heading className="text-center">
+                  <Typography.Paragraph className="text-center">
                     {item.title}
-                  </Typography.Heading>
+                  </Typography.Paragraph>
                 </div>
               </Button>
             ))}
