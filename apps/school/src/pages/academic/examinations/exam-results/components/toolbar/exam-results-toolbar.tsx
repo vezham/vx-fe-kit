@@ -21,6 +21,7 @@ import { SortDropdown } from './sort-dropdown'
 type ExamResultsToolbarProps = {
   activeDateLabel: string
   activeSortLabel: string
+  sortDescriptor: SortDescriptor
   datePreset: DatePresetKey
   draftFilters: FilterDraft
   isCustomDateRangeOpen: boolean
@@ -42,6 +43,7 @@ type ExamResultsToolbarProps = {
 export function ExamResultsToolbar({
   activeDateLabel,
   activeSortLabel,
+  sortDescriptor,
   datePreset,
   draftFilters,
   isCustomDateRangeOpen,
@@ -88,6 +90,7 @@ export function ExamResultsToolbar({
 
           <SortDropdown
             activeSortLabel={activeSortLabel}
+            sortDescriptor={sortDescriptor}
             onSortChange={onSortChange}
           />
         </div>

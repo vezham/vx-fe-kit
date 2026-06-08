@@ -5,10 +5,13 @@ import { classNames } from '../../variants'
 import { FilterDropdown } from './filter-dropdown'
 
 export function TimetableToolbar({
+  activeSortLabel,
   draftFilters,
   onApplyFilters,
   onResetFilters,
-  setDraftFilters
+  onSortChange,
+  setDraftFilters,
+  sortDescriptor
 }: TimetableToolbarProps) {
   return (
     <Surface className={classNames.toolbar}>

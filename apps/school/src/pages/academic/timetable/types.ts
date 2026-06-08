@@ -2,7 +2,7 @@ import { useAgenda } from '@heroui-pro/react'
 import type { CalendarDateTime } from '@internationalized/date'
 import type { Dispatch, SetStateAction } from 'react'
 
-import { useOverlayState } from '@vezham/react-v3'
+import { type SortDescriptor, useOverlayState } from '@vezham/react-v3'
 
 export type TimetableView = 'day' | 'week' | 'month'
 
@@ -85,10 +85,13 @@ export type FilterDropdownProps = {
 }
 
 export type TimetableToolbarProps = {
+  activeSortLabel: string
   draftFilters: TimetableFilter
   onApplyFilters: () => void
   onResetFilters: () => void
+  onSortChange: (descriptor: SortDescriptor) => void
   setDraftFilters: Dispatch<SetStateAction<TimetableFilter>>
+  sortDescriptor: SortDescriptor
 }
 
 export type TimetableCalendarProps = {

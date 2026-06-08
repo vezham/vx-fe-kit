@@ -215,38 +215,36 @@ export const dateOptions: { key: DatePresetKey; label: string }[] = [
 
 export const sortOptions = [
   {
-    key: 'ascending',
-    label: 'Ascending',
-    descriptor: {
-      column: 'type',
-      direction: 'ascending'
-    } satisfies SortDescriptor
-  },
-  {
-    key: 'descending',
-    label: 'Descending',
-    descriptor: {
-      column: 'type',
-      direction: 'descending'
-    } satisfies SortDescriptor
-  },
-  {
     key: 'recentlyViewed',
     label: 'Recently Viewed',
-    descriptor: {
-      column: 'viewedAt',
-      direction: 'descending'
-    } satisfies SortDescriptor
+    column: 'viewedAt'
   },
   {
     key: 'recentlyAdded',
     label: 'Recently Added',
-    descriptor: {
-      column: 'createdAt',
-      direction: 'descending'
-    } satisfies SortDescriptor
+    column: 'createdAt'
   }
 ] as const
+
+export const sortOrderOptions = [
+  {
+    key: 'ascending',
+    label: 'Ascending',
+    direction: 'ascending',
+    icon: 'lucide:arrow-up-wide-narrow'
+  },
+  {
+    key: 'descending',
+    label: 'Descending',
+    direction: 'descending',
+    icon: 'lucide:arrow-down-wide-narrow'
+  }
+] as const satisfies readonly {
+  key: string
+  label: string
+  direction: SortDescriptor['direction']
+  icon: string
+}[]
 
 export const rowCountOptions = ['5', '10', '25', '50']
 export const classOptions = ['I', 'II', 'III', 'IV', 'V']

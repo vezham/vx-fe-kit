@@ -1,5 +1,4 @@
-import type { SortDescriptor } from '@vezham/react-v3'
-
+import { sortOrderOptions } from '../../shared/sort'
 import type {
   ClassFormState,
   ClassRow,
@@ -131,36 +130,14 @@ export const dateOptions: { key: DatePresetKey; label: string }[] = [
 
 export const sortOptions = [
   {
-    key: 'ascending',
-    label: 'Ascending',
-    descriptor: {
-      column: 'type',
-      direction: 'ascending'
-    } satisfies SortDescriptor
-  },
-  {
-    key: 'descending',
-    label: 'Descending',
-    descriptor: {
-      column: 'type',
-      direction: 'descending'
-    } satisfies SortDescriptor
-  },
-  {
     key: 'recentlyViewed',
     label: 'Recently Viewed',
-    descriptor: {
-      column: 'viewedAt',
-      direction: 'descending'
-    } satisfies SortDescriptor
+    column: 'viewedAt'
   },
   {
     key: 'recentlyAdded',
     label: 'Recently Added',
-    descriptor: {
-      column: 'createdAt',
-      direction: 'descending'
-    } satisfies SortDescriptor
+    column: 'createdAt'
   }
 ] as const
 
@@ -183,6 +160,7 @@ export const endtimeOptions = [
   '05.30 PM'
 ]
 export const statusOptions: ClassStatus[] = ['Active', 'Inactive']
+export { sortOrderOptions }
 
 export const emptyForm: ClassFormState = {
   type: '',

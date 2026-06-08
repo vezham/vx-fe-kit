@@ -8,6 +8,7 @@ export const classNames = {
   mutedText: 'text-muted text-sm',
   title: 'text-base font-semibold',
   toolbarActions: 'flex flex-col gap-3 sm:flex-row sm:flex-wrap lg:justify-end',
+  dateOptionLabel: 'flex w-full items-center justify-between',
   rowsControls: 'flex items-center gap-2',
   filterPanel: 'flex w-80 flex-col gap-4 p-4',
   filterTitle: 'text-lg font-semibold',

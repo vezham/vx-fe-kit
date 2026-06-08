@@ -172,6 +172,39 @@ export const statusOptions = [
   { key: 'unconfirmed', label: 'Unconfirmed' }
 ] as const
 
+export const sortOptions = [
+  {
+    key: 'startTime',
+    label: 'Start Time',
+    column: 'start'
+  },
+  {
+    key: 'endTime',
+    label: 'End Time',
+    column: 'end'
+  },
+  {
+    key: 'day',
+    label: 'Day',
+    column: 'day'
+  }
+] as const
+
+export const sortOrderOptions = [
+  {
+    key: 'ascending',
+    label: 'Ascending',
+    direction: 'ascending',
+    icon: 'lucide:arrow-up-wide-narrow'
+  },
+  {
+    key: 'descending',
+    label: 'Descending',
+    direction: 'descending',
+    icon: 'lucide:arrow-down-wide-narrow'
+  }
+] as const
+
 export const roomOptions = [
   'Auditorium',
   'Biology Lab',

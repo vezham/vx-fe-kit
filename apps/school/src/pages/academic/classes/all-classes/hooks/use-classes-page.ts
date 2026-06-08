@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import type { Selection, SortDescriptor } from '@vezham/react-v3'
 
+import { getActiveSortLabel, sortRows } from '../../../shared/sort'
 import { emptyForm, initialRows, sortOptions } from '../data'
 import type {
   ClassFormErrors,
@@ -124,20 +125,7 @@ export function useClassesPage() {
   }, [activeDateRange, data, filters, searchQuery])
 
   const sortedRows = useMemo(() => {
-    return [...filteredRows].sort((firstRow, secondRow) => {
-      const first = firstRow[sortDescriptor.column as keyof ClassRow]
-      const second = secondRow[sortDescriptor.column as keyof ClassRow]
-      const comparison =
-        typeof first === 'number' && typeof second === 'number'
-          ? first - second
-          : String(first).localeCompare(String(second), undefined, {
-              numeric: true
-            })
-
-      return sortDescriptor.direction === 'descending'
-        ? comparison * -1
-        : comparison
-    })
+    return sortRows(filteredRows, sortDescriptor)
   }, [filteredRows, sortDescriptor])
 
   const pageSize = Number(rowsPerPage)
@@ -159,12 +147,11 @@ export function useClassesPage() {
     [activeRowId, selectedRowKeys]
   )
 
-  const activeSortLabel =
-    sortOptions.find(
-      option =>
-        option.descriptor.column === sortDescriptor.column &&
-        option.descriptor.direction === sortDescriptor.direction
-    )?.label ?? 'Ascending'
+  const activeSortLabel = getActiveSortLabel(
+    sortOptions,
+    sortDescriptor,
+    'Class'
+  )
 
   const activeDateLabel =
     datePreset === 'custom'
@@ -605,6 +592,7 @@ export function useClassesPage() {
     toolbar: {
       activeDateLabel,
       activeSortLabel,
+      sortDescriptor,
       datePreset,
       draftFilters,
       isCustomDateRangeOpen,

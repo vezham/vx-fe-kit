@@ -2,9 +2,13 @@ import { useAgenda } from '@heroui-pro/react'
 import { CalendarDateTime } from '@internationalized/date'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
+import type { SortDescriptor } from '@vezham/react-v3'
+
 import {
+  dayOptions,
   emptyFilters,
   emptyTimetableForm,
+  sortOptions,
   timetableEvents,
   toAgendaEvents
 } from '../data'
@@ -33,6 +37,10 @@ import {
 export function useTimetablePage() {
   const [events, setEvents] = useState<TimetableEvent[]>(timetableEvents)
   const [searchQuery] = useState('')
+  const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
+    column: 'start',
+    direction: 'ascending'
+  })
   const [view, setView] = useState<TimetableView>('week')
   const [calendarDate, setCalendarDate] = useState(getTodayCalendarDate)
   const [filters, setFilters] = useState<TimetableFilter>(emptyFilters)
@@ -71,15 +79,51 @@ export function useTimetablePage() {
     })
   }, [events, filters, searchQuery])
 
+  const sortedEvents = useMemo(() => {
+    return [...filteredEvents].sort((firstEvent, secondEvent) => {
+      const first = firstEvent[sortDescriptor.column as keyof TimetableEvent]
+      const second = secondEvent[sortDescriptor.column as keyof TimetableEvent]
+
+      let comparison = 0
+
+      if (
+        first instanceof CalendarDateTime &&
+        second instanceof CalendarDateTime
+      ) {
+        comparison = first.compare(second)
+      } else if (sortDescriptor.column === 'day') {
+        comparison =
+          dayOptions.indexOf(String(first ?? '')) -
+          dayOptions.indexOf(String(second ?? ''))
+      } else {
+        comparison = String(first ?? '').localeCompare(
+          String(second ?? ''),
+          undefined,
+          {
+            numeric: true
+          }
+        )
+      }
+
+      return sortDescriptor.direction === 'descending'
+        ? comparison * -1
+        : comparison
+    })
+  }, [filteredEvents, sortDescriptor])
+
   const agendaEvents = useMemo(
-    () => toAgendaEvents(filteredEvents),
-    [filteredEvents]
+    () => toAgendaEvents(sortedEvents),
+    [sortedEvents]
   )
   const todayDate = useMemo(() => getTodayCalendarDate(), [])
   const agendaDate = useMemo(
     () => getAgendaDate(calendarDate, view),
     [calendarDate, view]
   )
+
+  const activeSortLabel =
+    sortOptions.find(option => option.column === sortDescriptor.column)
+      ?.label ?? 'Start Time'
 
   const updateView = useCallback((nextView: TimetableView) => {
     setView(nextView)
@@ -142,6 +186,10 @@ export function useTimetablePage() {
     setDraftFilters(emptyFilters)
     setView('week')
     setCalendarDate(todayDate)
+  }
+
+  const updateSortDescriptor = (descriptor: SortDescriptor) => {
+    setSortDescriptor(descriptor)
   }
 
   const openCreateDrawer = useCallback(() => {
@@ -242,10 +290,13 @@ export function useTimetablePage() {
       onSave: saveTimetableEntry
     },
     toolbar: {
+      activeSortLabel,
       draftFilters,
       onApplyFilters: applyFilters,
       onResetFilters: resetFilters,
-      setDraftFilters
+      onSortChange: updateSortDescriptor,
+      setDraftFilters,
+      sortDescriptor
     }
   }
 }

@@ -28,6 +28,7 @@ type SyllabusToolbarProps = {
   rowsPerPage: string
   searchQuery: string
   setDraftFilters: (filters: FilterDraft) => void
+  sortDescriptor: SortDescriptor
   onApplyFilters: () => void
   onCustomDateRangeChange: (value: CustomDateRangeValue | null) => void
   onCustomDateRangeOpenChange: (isOpen: boolean) => void
@@ -49,6 +50,7 @@ export function SyllabusToolbar({
   rowsPerPage,
   searchQuery,
   setDraftFilters,
+  sortDescriptor,
   onApplyFilters,
   onCustomDateRangeChange,
   onCustomDateRangeOpenChange,
@@ -88,6 +90,7 @@ export function SyllabusToolbar({
 
           <SortDropdown
             activeSortLabel={activeSortLabel}
+            sortDescriptor={sortDescriptor}
             onSortChange={onSortChange}
           />
         </div>

@@ -1,40 +1,26 @@
-import { Icon } from '@iconify/react'
+import { type SortDescriptor } from '@vezham/react-v3'
 
-import { Button, Dropdown, type SortDescriptor } from '@vezham/react-v3'
-
+import { SortDropdown as SharedSortDropdown } from '../../../../shared/sort-dropdown'
 import { sortOptions } from '../../data'
 
 type SortDropdownProps = {
   activeSortLabel: string
+  sortDescriptor: SortDescriptor
   onSortChange: (descriptor: SortDescriptor) => void
 }
 
 export function SortDropdown({
   activeSortLabel,
+  sortDescriptor,
   onSortChange
 }: SortDropdownProps) {
   return (
-    <Dropdown>
-      <Dropdown.Trigger>
-        <Button variant="outline">
-          <Icon icon="lucide:arrow-up-down" width={16} />
-          Sort by {activeSortLabel}
-          <Icon icon="lucide:chevron-down" width={16} />
-        </Button>
-      </Dropdown.Trigger>
-      <Dropdown.Popover>
-        <Dropdown.Menu aria-label="Sort classes">
-          {sortOptions.map(option => (
-            <Dropdown.Item
-              key={option.key}
-              id={option.key}
-              textValue={option.label}
-              onPress={() => onSortChange(option.descriptor)}>
-              {option.label}
-            </Dropdown.Item>
-          ))}
-        </Dropdown.Menu>
-      </Dropdown.Popover>
-    </Dropdown>
+    <SharedSortDropdown
+      ariaLabel="Sort classes"
+      activeSortLabel={activeSortLabel}
+      sortDescriptor={sortDescriptor}
+      sortOptions={sortOptions}
+      onSortChange={onSortChange}
+    />
   )
 }

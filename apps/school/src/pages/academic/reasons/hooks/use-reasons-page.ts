@@ -68,8 +68,8 @@ export function useReasonsPage() {
   const [customDateRange, setCustomDateRange] =
     useState<DateRangeFilter | null>(null)
   const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
-    column: 'type',
-    direction: 'ascending'
+    column: 'viewedAt',
+    direction: 'descending'
   })
   const [filters, setFilters] = useState<FilterDraft>({
     role: null,
@@ -158,11 +158,8 @@ export function useReasonsPage() {
   )
 
   const activeSortLabel =
-    sortOptions.find(
-      option =>
-        option.descriptor.column === sortDescriptor.column &&
-        option.descriptor.direction === sortDescriptor.direction
-    )?.label ?? 'Ascending'
+    sortOptions.find(option => option.column === sortDescriptor.column)
+      ?.label ?? 'Recently Viewed'
 
   const activeDateLabel =
     datePreset === 'custom'
@@ -610,6 +607,7 @@ export function useReasonsPage() {
       rowsPerPage,
       searchQuery,
       setDraftFilters,
+      sortDescriptor,
       onApplyFilters: applyFilters,
       onCustomDateRangeChange: updateCustomDateRange,
       onCustomDateRangeOpenChange: setIsCustomDateRangeOpen,

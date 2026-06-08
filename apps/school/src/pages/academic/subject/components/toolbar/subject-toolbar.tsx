@@ -28,6 +28,7 @@ type SubjectToolbarProps = {
   rowsPerPage: string
   searchQuery: string
   setDraftFilters: (filters: FilterDraft) => void
+  sortDescriptor: SortDescriptor
   onApplyFilters: () => void
   onCustomDateRangeChange: (value: CustomDateRangeValue | null) => void
   onCustomDateRangeOpenChange: (isOpen: boolean) => void
@@ -49,6 +50,7 @@ export function SubjectToolbar({
   rowsPerPage,
   searchQuery,
   setDraftFilters,
+  sortDescriptor,
   onApplyFilters,
   onCustomDateRangeChange,
   onCustomDateRangeOpenChange,
@@ -88,6 +90,7 @@ export function SubjectToolbar({
 
           <SortDropdown
             activeSortLabel={activeSortLabel}
+            sortDescriptor={sortDescriptor}
             onSortChange={onSortChange}
           />
         </div>

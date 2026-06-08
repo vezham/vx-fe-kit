@@ -2,18 +2,23 @@ import { Icon } from '@iconify/react'
 
 import { Button, Dropdown, type SortDescriptor } from '@vezham/react-v3'
 
-import { sortOptions, sortOrderOptions } from '../../data'
-import { classNames } from '../../variants'
+import { classNames } from '../class-routine/variants'
+import type { SortFieldOption } from './sort'
+import { sortOrderOptions } from './sort'
 
 type SortDropdownProps = {
   activeSortLabel: string
+  ariaLabel: string
   sortDescriptor: SortDescriptor
+  sortOptions: readonly SortFieldOption[]
   onSortChange: (descriptor: SortDescriptor) => void
 }
 
 export function SortDropdown({
   activeSortLabel,
+  ariaLabel,
   sortDescriptor,
+  sortOptions,
   onSortChange
 }: SortDropdownProps) {
   const activeField =
@@ -51,7 +56,7 @@ export function SortDropdown({
       </Dropdown.Trigger>
       <Dropdown.Popover>
         <Dropdown.Menu
-          aria-label="Sort schedules"
+          aria-label={ariaLabel}
           selectedKeys={selectedKeys}
           selectionMode="multiple">
           <Dropdown.Section aria-label="Sort by">
