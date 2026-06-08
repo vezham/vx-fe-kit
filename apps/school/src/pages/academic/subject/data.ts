@@ -184,6 +184,45 @@ export const codeOptions = [
 export const typeOptions: typeStatus[] = ['Theory', 'Practical']
 export const statusOptions: ClassStatus[] = ['Active', 'Inactive']
 
+export const subjectColumnOptions = [
+  {
+    key: 'id',
+    label: 'ID',
+    defaultWidth: 140,
+    minWidth: 120,
+    maxWidth: 180,
+    isRowHeader: true
+  },
+  {
+    key: 'name',
+    label: 'Name',
+    defaultWidth: 220,
+    minWidth: 180,
+    maxWidth: 320
+  },
+  {
+    key: 'code',
+    label: 'Code',
+    defaultWidth: 120,
+    minWidth: 100,
+    maxWidth: 160
+  },
+  {
+    key: 'type',
+    label: 'Type',
+    defaultWidth: 140,
+    minWidth: 120,
+    maxWidth: 180
+  },
+  {
+    key: 'status',
+    label: 'Status',
+    defaultWidth: 140,
+    minWidth: 120,
+    maxWidth: 180
+  }
+] as const
+
 export const emptyForm: ClassFormState = {
   name: '',
   code: '',

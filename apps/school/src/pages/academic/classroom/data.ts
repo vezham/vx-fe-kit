@@ -135,6 +135,37 @@ export const sortOrderOptions = [
 }[]
 
 export const rowCountOptions = ['5', '10', '25', '50']
+export const classroomColumnOptions = [
+  {
+    key: 'id',
+    label: 'ID',
+    defaultWidth: 140,
+    minWidth: 120,
+    maxWidth: 180,
+    isRowHeader: true
+  },
+  {
+    key: 'roomno',
+    label: 'Room No',
+    defaultWidth: 150,
+    minWidth: 120,
+    maxWidth: 180
+  },
+  {
+    key: 'capacity',
+    label: 'Capacity',
+    defaultWidth: 150,
+    minWidth: 120,
+    maxWidth: 180
+  },
+  {
+    key: 'status',
+    label: 'Status',
+    defaultWidth: 140,
+    minWidth: 120,
+    maxWidth: 180
+  }
+] as const
 export const roomnoOptions = [
   '101',
   '102',

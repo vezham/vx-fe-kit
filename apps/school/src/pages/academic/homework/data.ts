@@ -268,6 +268,59 @@ export const roomOptions = [
   '109',
   '110'
 ]
+
+export const homeworkColumnOptions = [
+  {
+    key: 'id',
+    label: 'ID',
+    defaultWidth: 140,
+    minWidth: 120,
+    maxWidth: 180,
+    isRowHeader: true
+  },
+  {
+    key: 'classes',
+    label: 'Class',
+    defaultWidth: 120,
+    minWidth: 100,
+    maxWidth: 180
+  },
+  {
+    key: 'section',
+    label: 'Section',
+    defaultWidth: 120,
+    minWidth: 100,
+    maxWidth: 160
+  },
+  {
+    key: 'subject',
+    label: 'Subject',
+    defaultWidth: 180,
+    minWidth: 150,
+    maxWidth: 260
+  },
+  {
+    key: 'homeworkdate',
+    label: 'Homework Date',
+    defaultWidth: 160,
+    minWidth: 140,
+    maxWidth: 220
+  },
+  {
+    key: 'submissiondate',
+    label: 'Submission Date',
+    defaultWidth: 160,
+    minWidth: 140,
+    maxWidth: 220
+  },
+  {
+    key: 'createdBy',
+    label: 'Created By',
+    defaultWidth: 220,
+    minWidth: 180,
+    maxWidth: 320
+  }
+] as const
 export const dayOptions = [
   'Monday',
   'Tuesday',

@@ -1,3 +1,4 @@
+import { ActionBar } from '@heroui-pro/react/action-bar'
 import { Icon } from '@iconify/react'
 
 import {
@@ -7,11 +8,14 @@ import {
   Dropdown,
   Pagination,
   type Selection,
+  Separator,
   type SortDescriptor,
-  Table
+  Table,
+  Tooltip
 } from '@vezham/react-v3'
 
-import type { ClassRow, DrawerMode } from '../../types'
+import { classroomColumnOptions } from '../../data'
+import type { ClassRow, ClassroomColumnKey, DrawerMode } from '../../types'
 import { getPaginationSummary } from '../../utils/classroom'
 import { classNames, getTableRowClassName } from '../../variants'
 import { SortableHeader } from '../shared/sortable-header'
@@ -21,13 +25,20 @@ type ClassroomTableProps = {
   currentPage: number
   pageSize: number
   rows: ClassRow[]
+  selectedCount: number
   selectedKeys: Selection
+  visibleColumns: Set<ClassroomColumnKey>
   sortDescriptor: SortDescriptor
   totalPages: number
   totalRows: number
+  onBulkEdit: () => void
+  onBulkCopyIds: () => void
+  onBulkCopyLinks: () => void
+  onBulkDelete: () => void
   onDelete: (rowId: string) => void
   onOpenDrawer: (mode: DrawerMode, row: ClassRow) => void
   onPageChange: (value: number | ((current: number) => number)) => void
+  onClearSelection: () => void
   onSelectionChange: (keys: Selection) => void
   onSortChange: (descriptor: SortDescriptor) => void
 }
@@ -37,142 +48,176 @@ export function ClassroomTable({
   currentPage,
   pageSize,
   rows,
+  selectedCount,
   selectedKeys,
+  visibleColumns,
   sortDescriptor,
   totalPages,
   totalRows,
+  onBulkEdit,
+  onBulkCopyIds,
+  onBulkCopyLinks,
+  onBulkDelete,
   onDelete,
   onOpenDrawer,
   onPageChange,
+  onClearSelection,
   onSelectionChange,
   onSortChange
 }: ClassroomTableProps) {
+  const tableMinWidth =
+    48 +
+    132 +
+    classroomColumnOptions.reduce(
+      (total, column) =>
+        total + (visibleColumns.has(column.key) ? column.defaultWidth : 0),
+      0
+    )
+
   return (
     <Table>
       <Table.ScrollContainer>
-        <Table.Content
-          aria-label="Schedules"
-          className={classNames.tableContent}
-          selectedKeys={selectedKeys}
-          selectionMode="multiple"
-          sortDescriptor={sortDescriptor}
-          onSelectionChange={onSelectionChange}
-          onSortChange={onSortChange}>
-          <Table.Header>
-            <Table.Column className={classNames.selectionColumn} />
-            <Table.Column allowsSorting isRowHeader id="id">
-              {({ sortDirection }) => (
-                <SortableHeader sortDirection={sortDirection}>
-                  ID
-                </SortableHeader>
-              )}
-            </Table.Column>
-            <Table.Column allowsSorting id="roomno">
-              {({ sortDirection }) => (
-                <SortableHeader sortDirection={sortDirection}>
-                  Room No
-                </SortableHeader>
-              )}
-            </Table.Column>
-            <Table.Column allowsSorting id="capacity">
-              {({ sortDirection }) => (
-                <SortableHeader sortDirection={sortDirection}>
-                  Capacity
-                </SortableHeader>
-              )}
-            </Table.Column>
-            <Table.Column allowsSorting id="status">
-              {({ sortDirection }) => (
-                <SortableHeader sortDirection={sortDirection}>
-                  Status
-                </SortableHeader>
-              )}
-            </Table.Column>
-            <Table.Column>Actions</Table.Column>
-          </Table.Header>
+        <Table.ResizableContainer>
+          <Table.Content
+            aria-label="Classroom"
+            className={classNames.tableContent}
+            style={{ minWidth: `${tableMinWidth}px` }}
+            selectedKeys={selectedKeys}
+            selectionBehavior="toggle"
+            selectionMode="multiple"
+            sortDescriptor={sortDescriptor}
+            onSelectionChange={onSelectionChange}
+            onSortChange={onSortChange}>
+            <Table.Header>
+              <Table.Column className={classNames.selectionColumn} width={48}>
+                <Checkbox aria-label="Select all rows" slot="selection">
+                  <Checkbox.Control>
+                    <Checkbox.Indicator />
+                  </Checkbox.Control>
+                </Checkbox>
+              </Table.Column>
+              {classroomColumnOptions
+                .filter(column => visibleColumns.has(column.key))
+                .map(column => (
+                  <Table.Column
+                    key={column.key}
+                    allowsSorting
+                    defaultWidth={column.defaultWidth}
+                    id={column.key}
+                    isRowHeader={column.key === 'id'}
+                    maxWidth={column.maxWidth}
+                    minWidth={column.minWidth}>
+                    {({ sortDirection }) => (
+                      <>
+                        <SortableHeader sortDirection={sortDirection}>
+                          {column.label}
+                        </SortableHeader>
+                        <Table.ColumnResizer
+                          aria-label={`Resize ${column.label.toLowerCase()} column`}
+                        />
+                      </>
+                    )}
+                  </Table.Column>
+                ))}
+              <Table.Column width={132}>Actions</Table.Column>
+            </Table.Header>
 
-          <Table.Body renderEmptyState={() => <TableEmptyState />}>
-            {rows.map(row => (
-              <Table.Row
-                key={row.id}
-                id={row.id}
-                data-class-row-id={row.id}
-                className={getTableRowClassName(activeRowId === row.id)}
-                onClick={() => onOpenDrawer('view', row)}>
-                <Table.Cell>
-                  <Checkbox
-                    aria-label={`Select schedule ${row.id}`}
-                    slot="selection"
-                    onClick={event => event.stopPropagation()}>
-                    <Checkbox.Control>
-                      <Checkbox.Indicator />
-                    </Checkbox.Control>
-                  </Checkbox>
-                </Table.Cell>
-                <Table.Cell>{row.id}</Table.Cell>
-                <Table.Cell>{row.roomno}</Table.Cell>
-                <Table.Cell>{row.capacity}</Table.Cell>
-                <Table.Cell>
-                  <Chip
-                    color={row.status === 'Active' ? 'success' : 'danger'}
-                    size="sm"
-                    variant="soft">
-                    <span aria-hidden="true">●</span>
-                    <Chip.Label>{row.status}</Chip.Label>
-                  </Chip>
-                </Table.Cell>
-                <Table.Cell>
-                  <div
-                    className={classNames.rowActions}
-                    onClick={event => event.stopPropagation()}>
-                    <Button
-                      isIconOnly
-                      aria-label={`Edit ${row.id}`}
-                      variant="ghost"
-                      onPress={() => onOpenDrawer('edit', row)}>
-                      <Icon icon="lucide:pencil" width={16} />
-                    </Button>
-                    <Button
-                      isIconOnly
-                      aria-label={`Delete ${row.id}`}
-                      variant="outline"
-                      onPress={() => onDelete(row.id)}>
-                      <Icon
-                        className={classNames.dangerIcon}
-                        icon="lucide:trash-2"
-                        width={16}
-                      />
-                    </Button>
-                    <Dropdown>
-                      <Dropdown.Trigger>
-                        <Button
-                          isIconOnly
-                          aria-label={`More actions for ${row.id}`}
-                          variant="ghost">
-                          <Icon icon="lucide:more-horizontal" width={18} />
-                        </Button>
-                      </Dropdown.Trigger>
-                      <Dropdown.Popover>
-                        <Dropdown.Menu
-                          aria-label={`More actions for ${row.id}`}>
-                          <Dropdown.Item
-                            id="view"
-                            textValue="View"
-                            onPress={() => onOpenDrawer('view', row)}>
-                            <span className={classNames.menuItemLabel}>
-                              <Icon icon="lucide:eye" width={16} />
-                              View
-                            </span>
-                          </Dropdown.Item>
-                        </Dropdown.Menu>
-                      </Dropdown.Popover>
-                    </Dropdown>
-                  </div>
-                </Table.Cell>
-              </Table.Row>
-            ))}
-          </Table.Body>
-        </Table.Content>
+            <Table.Body renderEmptyState={() => <TableEmptyState />}>
+              {rows.map(row => (
+                <Table.Row
+                  key={row.id}
+                  id={row.id}
+                  data-class-row-id={row.id}
+                  className={getTableRowClassName(activeRowId === row.id)}>
+                  <Table.Cell>
+                    <Checkbox
+                      aria-label={`Select classroom ${row.id}`}
+                      slot="selection"
+                      onClick={event => event.stopPropagation()}>
+                      <Checkbox.Control>
+                        <Checkbox.Indicator />
+                      </Checkbox.Control>
+                    </Checkbox>
+                  </Table.Cell>
+                  {classroomColumnOptions
+                    .filter(column => visibleColumns.has(column.key))
+                    .map(column => (
+                      <Table.Cell
+                        key={column.key}
+                        onPointerDown={event => event.stopPropagation()}
+                        onClick={event => {
+                          event.stopPropagation()
+                          onOpenDrawer('view', row)
+                        }}>
+                        {column.key === 'status' ? (
+                          <Chip
+                            color={
+                              row.status === 'Active' ? 'success' : 'danger'
+                            }
+                            size="sm"
+                            variant="soft">
+                            <span aria-hidden="true">●</span>
+                            <Chip.Label>{row.status}</Chip.Label>
+                          </Chip>
+                        ) : (
+                          row[column.key]
+                        )}
+                      </Table.Cell>
+                    ))}
+                  <Table.Cell>
+                    <div
+                      className={classNames.rowActions}
+                      onPointerDown={event => event.stopPropagation()}
+                      onClick={event => event.stopPropagation()}>
+                      <Button
+                        isIconOnly
+                        aria-label={`Edit ${row.id}`}
+                        variant="ghost"
+                        onPress={() => onOpenDrawer('edit', row)}>
+                        <Icon icon="lucide:pencil" width={16} />
+                      </Button>
+                      <Button
+                        isIconOnly
+                        aria-label={`Delete ${row.id}`}
+                        variant="outline"
+                        onPress={() => onDelete(row.id)}>
+                        <Icon
+                          className={classNames.dangerIcon}
+                          icon="lucide:trash-2"
+                          width={16}
+                        />
+                      </Button>
+                      <Dropdown>
+                        <Dropdown.Trigger>
+                          <Button
+                            isIconOnly
+                            aria-label={`More actions for ${row.id}`}
+                            variant="ghost">
+                            <Icon icon="lucide:more-horizontal" width={18} />
+                          </Button>
+                        </Dropdown.Trigger>
+                        <Dropdown.Popover>
+                          <Dropdown.Menu
+                            aria-label={`More actions for ${row.id}`}>
+                            <Dropdown.Item
+                              id="view"
+                              textValue="View"
+                              onPress={() => onOpenDrawer('view', row)}>
+                              <span className={classNames.menuItemLabel}>
+                                <Icon icon="lucide:eye" width={16} />
+                                View
+                              </span>
+                            </Dropdown.Item>
+                          </Dropdown.Menu>
+                        </Dropdown.Popover>
+                      </Dropdown>
+                    </div>
+                  </Table.Cell>
+                </Table.Row>
+              ))}
+            </Table.Body>
+          </Table.Content>
+        </Table.ResizableContainer>
       </Table.ScrollContainer>
 
       <Table.Footer>
@@ -213,6 +258,67 @@ export function ClassroomTable({
           </Pagination.Content>
         </Pagination>
       </Table.Footer>
+
+      <ActionBar aria-label="Classroom bulk actions" isOpen={selectedCount > 0}>
+        <ActionBar.Prefix>
+          <Chip className="shrink-0 tabular-nums" size="sm">
+            {selectedCount}
+          </Chip>
+        </ActionBar.Prefix>
+        <Separator />
+        <ActionBar.Content>
+          <Button
+            aria-label="Edit selected classroom"
+            isDisabled={selectedCount !== 1}
+            size="sm"
+            variant="ghost"
+            onPress={onBulkEdit}>
+            <Icon icon="lucide:pencil" width={16} />
+            <span className="action-bar__label">Edit</span>
+          </Button>
+          <Button
+            aria-label="Copy selected IDs"
+            size="sm"
+            variant="ghost"
+            onPress={onBulkCopyIds}>
+            <Icon icon="lucide:hash" width={16} />
+            <span className="action-bar__label">Copy IDs</span>
+          </Button>
+          <Button
+            aria-label="Copy selected links"
+            size="sm"
+            variant="ghost"
+            onPress={onBulkCopyLinks}>
+            <Icon icon="lucide:link" width={16} />
+            <span className="action-bar__label">Copy Links</span>
+          </Button>
+          <Button
+            aria-label="Delete selected classrooms"
+            className="text-danger bg-danger/10"
+            size="sm"
+            variant="ghost"
+            onPress={onBulkDelete}>
+            <Icon icon="lucide:trash-2" width={16} />
+            <span className="action-bar__label">Delete</span>
+          </Button>
+        </ActionBar.Content>
+        <Separator />
+        <ActionBar.Suffix>
+          <Tooltip delay={0}>
+            <Tooltip.Trigger>
+              <Button
+                isIconOnly
+                aria-label="Clear selection"
+                size="sm"
+                variant="ghost"
+                onPress={onClearSelection}>
+                <Icon icon="lucide:x" width={16} />
+              </Button>
+            </Tooltip.Trigger>
+            <Tooltip.Content>Clear selection</Tooltip.Content>
+          </Tooltip>
+        </ActionBar.Suffix>
+      </ActionBar>
     </Table>
   )
 }

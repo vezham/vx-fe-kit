@@ -7,7 +7,8 @@ import {
   Surface
 } from '@vezham/react-v3'
 
-import { rowCountOptions } from '../../data'
+import { ColumnsDropdown } from '../../../shared/columns-dropdown'
+import { homeworkColumnOptions, rowCountOptions } from '../../data'
 import type {
   CustomDateRangeValue,
   DatePresetKey,
@@ -27,8 +28,11 @@ type HomeworkToolbarProps = {
   isDateDropdownOpen: boolean
   rowsPerPage: string
   searchQuery: string
+  visibleColumns: Set<string>
   setDraftFilters: (filters: FilterDraft) => void
-  sortDescriptor: SortDescriptor
+  sortField: SortDescriptor['column']
+  sortDirection: SortDescriptor['direction']
+  onVisibleColumnsChange: (columns: Set<string>) => void
   onApplyFilters: () => void
   onCustomDateRangeChange: (value: CustomDateRangeValue | null) => void
   onCustomDateRangeOpenChange: (isOpen: boolean) => void
@@ -37,7 +41,8 @@ type HomeworkToolbarProps = {
   onResetFilters: () => void
   onRowsPerPageChange: (value: string | number | null) => void
   onSearchChange: (value: string) => void
-  onSortChange: (descriptor: SortDescriptor) => void
+  onSortFieldChange: (column: SortDescriptor['column']) => void
+  onSortDirectionChange: (direction: SortDescriptor['direction']) => void
 }
 
 export function HomeworkToolbar({
@@ -49,8 +54,10 @@ export function HomeworkToolbar({
   isDateDropdownOpen,
   rowsPerPage,
   searchQuery,
+  visibleColumns,
   setDraftFilters,
-  sortDescriptor,
+  sortDirection,
+  sortField,
   onApplyFilters,
   onCustomDateRangeChange,
   onCustomDateRangeOpenChange,
@@ -59,7 +66,9 @@ export function HomeworkToolbar({
   onResetFilters,
   onRowsPerPageChange,
   onSearchChange,
-  onSortChange
+  onVisibleColumnsChange,
+  onSortDirectionChange,
+  onSortFieldChange
 }: HomeworkToolbarProps) {
   return (
     <Surface className={classNames.toolbar}>
@@ -85,10 +94,17 @@ export function HomeworkToolbar({
             onApply={onApplyFilters}
             onReset={onResetFilters}
           />
+          <ColumnsDropdown
+            columns={homeworkColumnOptions}
+            visibleColumns={visibleColumns}
+            onVisibleColumnsChange={onVisibleColumnsChange}
+          />
           <SortDropdown
             activeSortLabel={activeSortLabel}
-            sortDescriptor={sortDescriptor}
-            onSortChange={onSortChange}
+            sortDirection={sortDirection}
+            sortField={sortField}
+            onSortDirectionChange={onSortDirectionChange}
+            onSortFieldChange={onSortFieldChange}
           />
         </div>
       </div>

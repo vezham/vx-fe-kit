@@ -11,9 +11,11 @@ import { rowCountOptions } from '../../data'
 import type {
   CustomDateRangeValue,
   DatePresetKey,
-  FilterDraft
+  FilterDraft,
+  SectionColumnKey
 } from '../../types'
 import { classNames } from '../../variants'
+import { ColumnsDropdown } from './columns-dropdown'
 import { DateRangeDropdown } from './date-range-dropdown'
 import { FilterDropdown } from './filter-dropdown'
 import { SortDropdown } from './sort-dropdown'
@@ -27,8 +29,10 @@ type SectionToolbarProps = {
   isDateDropdownOpen: boolean
   rowsPerPage: string
   searchQuery: string
+  visibleColumns: Set<SectionColumnKey>
   setDraftFilters: (filters: FilterDraft) => void
-  sortDescriptor: SortDescriptor
+  sortField: SortDescriptor['column']
+  sortDirection: SortDescriptor['direction']
   onApplyFilters: () => void
   onCustomDateRangeChange: (value: CustomDateRangeValue | null) => void
   onCustomDateRangeOpenChange: (isOpen: boolean) => void
@@ -37,7 +41,9 @@ type SectionToolbarProps = {
   onResetFilters: () => void
   onRowsPerPageChange: (value: string | number | null) => void
   onSearchChange: (value: string) => void
-  onSortChange: (descriptor: SortDescriptor) => void
+  onVisibleColumnsChange: (columns: Set<SectionColumnKey>) => void
+  onSortFieldChange: (column: SortDescriptor['column']) => void
+  onSortDirectionChange: (direction: SortDescriptor['direction']) => void
 }
 
 export function SectionToolbar({
@@ -49,8 +55,10 @@ export function SectionToolbar({
   isDateDropdownOpen,
   rowsPerPage,
   searchQuery,
+  visibleColumns,
   setDraftFilters,
-  sortDescriptor,
+  sortDirection,
+  sortField,
   onApplyFilters,
   onCustomDateRangeChange,
   onCustomDateRangeOpenChange,
@@ -59,7 +67,9 @@ export function SectionToolbar({
   onResetFilters,
   onRowsPerPageChange,
   onSearchChange,
-  onSortChange
+  onVisibleColumnsChange,
+  onSortDirectionChange,
+  onSortFieldChange
 }: SectionToolbarProps) {
   return (
     <Surface className={classNames.toolbar}>
@@ -88,10 +98,17 @@ export function SectionToolbar({
             onReset={onResetFilters}
           />
 
+          <ColumnsDropdown
+            visibleColumns={visibleColumns}
+            onVisibleColumnsChange={onVisibleColumnsChange}
+          />
+
           <SortDropdown
             activeSortLabel={activeSortLabel}
-            sortDescriptor={sortDescriptor}
-            onSortChange={onSortChange}
+            sortDirection={sortDirection}
+            sortField={sortField}
+            onSortDirectionChange={onSortDirectionChange}
+            onSortFieldChange={onSortFieldChange}
           />
         </div>
       </div>

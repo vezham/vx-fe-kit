@@ -161,3 +161,27 @@ export const emptyForm: ClassFormState = {
   role: '',
   reasons: ''
 }
+
+export const reasonsColumnOptions = [
+  {
+    key: 'role',
+    label: 'Role',
+    defaultWidth: 160,
+    minWidth: 140,
+    maxWidth: 220
+  },
+  {
+    key: 'reasons',
+    label: 'Reasons',
+    defaultWidth: 260,
+    minWidth: 200,
+    maxWidth: 360
+  },
+  {
+    key: 'createdAt',
+    label: 'Created At',
+    defaultWidth: 160,
+    minWidth: 140,
+    maxWidth: 220
+  }
+] as const

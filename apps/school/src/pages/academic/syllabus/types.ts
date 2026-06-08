@@ -109,10 +109,14 @@ export type SortableHeaderProps = {
   sortDirection?: 'ascending' | 'descending'
 }
 
-export type DrawerQueryState = {
-  id: string
-  mode: Exclude<DrawerMode, 'create'>
-}
+export type DrawerQueryState =
+  | {
+      id: string
+      mode: Exclude<DrawerMode, 'create'>
+    }
+  | {
+      mode: 'create'
+    }
 
 export type OpenDrawerOptions = {
   syncUrl?: boolean

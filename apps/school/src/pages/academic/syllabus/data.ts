@@ -174,3 +174,41 @@ export const emptyForm: ClassFormState = {
   classes: '',
   subject: ''
 }
+
+export const syllabusColumnOptions = [
+  {
+    key: 'classes',
+    label: 'Class',
+    defaultWidth: 120,
+    minWidth: 100,
+    maxWidth: 180
+  },
+  {
+    key: 'section',
+    label: 'Section',
+    defaultWidth: 120,
+    minWidth: 100,
+    maxWidth: 160
+  },
+  {
+    key: 'subject',
+    label: 'Subject',
+    defaultWidth: 180,
+    minWidth: 150,
+    maxWidth: 260
+  },
+  {
+    key: 'createdAt',
+    label: 'Created At',
+    defaultWidth: 160,
+    minWidth: 140,
+    maxWidth: 220
+  },
+  {
+    key: 'status',
+    label: 'Status',
+    defaultWidth: 140,
+    minWidth: 120,
+    maxWidth: 180
+  }
+] as const

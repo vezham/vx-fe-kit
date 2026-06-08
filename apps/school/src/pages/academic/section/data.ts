@@ -133,6 +133,30 @@ export const sortOrderOptions = [
   icon: string
 }[]
 
+export const sectionColumnOptions = [
+  {
+    key: 'id',
+    label: 'ID',
+    defaultWidth: 180,
+    minWidth: 140,
+    maxWidth: 240
+  },
+  {
+    key: 'section',
+    label: 'Section Name',
+    defaultWidth: 220,
+    minWidth: 180,
+    maxWidth: 320
+  },
+  {
+    key: 'status',
+    label: 'Status',
+    defaultWidth: 160,
+    minWidth: 140,
+    maxWidth: 220
+  }
+] as const
+
 export const rowCountOptions = ['5', '10', '25', '50']
 export const sectionOptions = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
 export const statusOptions: ClassStatus[] = ['Active', 'Inactive']

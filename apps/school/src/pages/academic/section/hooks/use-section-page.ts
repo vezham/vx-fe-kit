@@ -1,10 +1,15 @@
 import { useHotkey } from '@tanstack/react-hotkeys'
 import { useParams } from '@tanstack/react-router'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import type { Selection, SortDescriptor } from '@vezham/react-v3'
 
-import { emptyForm, initialRows, sortOptions } from '../data'
+import {
+  emptyForm,
+  initialRows,
+  sectionColumnOptions,
+  sortOptions
+} from '../data'
 import type {
   ClassFormErrors,
   ClassFormState,
@@ -16,6 +21,7 @@ import type {
   DrawerQueryState,
   FilterDraft,
   OpenDrawerOptions,
+  SectionColumnKey,
   ToastState
 } from '../types'
 import { useDisclosure } from '../types'
@@ -61,6 +67,10 @@ const emptyFilters: FilterDraft = {
   status: null
 }
 
+const getSortLabel = (column: SortDescriptor['column']) => {
+  return sortOptions.find(option => option.column === column)?.label ?? 'Sort'
+}
+
 export function useSectionPage() {
   const routeParams = useParams({ strict: false }) as { id?: string }
   const [data, setData] = useState<ClassRow[]>(initialRows)
@@ -72,12 +82,16 @@ export function useSectionPage() {
   const [isCustomDateRangeOpen, setIsCustomDateRangeOpen] = useState(false)
   const [customDateRange, setCustomDateRange] =
     useState<DateRangeFilter | null>(null)
-  const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
-    column: 'viewedAt',
-    direction: 'descending'
-  })
+  const [sortField, setSortField] =
+    useState<(typeof sortOptions)[number]['column']>('viewedAt')
+  const [sortDirection, setSortDirection] =
+    useState<SortDescriptor['direction']>('descending')
+  const [activeSortLabel, setActiveSortLabel] = useState('Sort')
   const [filters, setFilters] = useState<FilterDraft>(emptyFilters)
   const [draftFilters, setDraftFilters] = useState<FilterDraft>(filters)
+  const [visibleColumns, setVisibleColumns] = useState<Set<SectionColumnKey>>(
+    () => new Set(sectionColumnOptions.map(column => column.key))
+  )
   const [activeRowId, setActiveRowId] = useState<string | null>(null)
   const [selectedRowKeys, setSelectedRowKeys] = useState<Selection>(new Set())
   const [mode, setMode] = useState<DrawerMode>('view')
@@ -85,6 +99,7 @@ export function useSectionPage() {
   const [formErrors, setFormErrors] = useState<ClassFormErrors>({})
   const [toast, setToast] = useState<ToastState | null>(null)
   const drawer = useDisclosure()
+  const wasDrawerOpenRef = useRef(drawer.isOpen)
 
   const activeDateRange = useMemo(() => {
     if (datePreset === 'custom') {
@@ -93,6 +108,14 @@ export function useSectionPage() {
 
     return getPresetDateRange(datePreset)
   }, [customDateRange, datePreset])
+
+  const sortDescriptor = useMemo<SortDescriptor>(
+    () => ({
+      column: sortField,
+      direction: sortDirection
+    }),
+    [sortDirection, sortField]
+  )
 
   const filteredRows = useMemo(() => {
     const query = searchQuery.trim().toLowerCase()
@@ -148,6 +171,13 @@ export function useSectionPage() {
     () => data.find(row => row.id === activeRowId) ?? null,
     [activeRowId, data]
   )
+  const selectedRows = useMemo(() => {
+    if (selectedRowKeys === 'all') {
+      return data
+    }
+
+    return data.filter(row => selectedRowKeys.has(row.id))
+  }, [data, selectedRowKeys])
   const selectedRowIndex = activeRowId
     ? sortedRows.findIndex(row => row.id === activeRowId)
     : -1
@@ -155,10 +185,6 @@ export function useSectionPage() {
     () => (activeRowId ? new Set([activeRowId]) : selectedRowKeys),
     [activeRowId, selectedRowKeys]
   )
-
-  const activeSortLabel =
-    sortOptions.find(option => option.column === sortDescriptor.column)
-      ?.label ?? 'Recently Viewed'
 
   const activeDateLabel =
     datePreset === 'custom'
@@ -190,6 +216,21 @@ export function useSectionPage() {
     document.execCommand('copy')
     document.body.removeChild(textarea)
   }, [])
+
+  const getClassUrl = useCallback(
+    (row: ClassRow, nextMode: Exclude<DrawerMode, 'create'> = 'view') => {
+      const url = new URL(window.location.href)
+      const basePath = getSectionBasePath(url.pathname)
+
+      url.searchParams.set('mode', nextMode)
+      url.searchParams.delete('id')
+      url.pathname = `${basePath}/${encodeURIComponent(row.id)}`
+      url.hash = ''
+
+      return url.toString()
+    },
+    []
+  )
 
   const updateDrawerQuery = useCallback(
     (nextState: DrawerQueryState | null, replace = false) => {
@@ -244,14 +285,20 @@ export function useSectionPage() {
     [drawer, updateDrawerQuery]
   )
 
-  const updateTableSelection = useCallback((keys: Selection) => {
-    setSelectedRowKeys(keys)
-  }, [])
+  const updateTableSelection = useCallback(
+    (keys: Selection) => {
+      setSelectedRowKeys(
+        keys === 'all' ? new Set(paginatedRows.map(row => row.id)) : keys
+      )
+    },
+    [paginatedRows]
+  )
 
   const closeDrawer = useCallback(() => {
     setFormErrors({})
     drawer.onClose()
     setActiveRowId(null)
+    setSelectedRowKeys(new Set())
     updateDrawerQuery(null)
   }, [drawer, updateDrawerQuery])
 
@@ -382,6 +429,22 @@ export function useSectionPage() {
   }, [data, routeParams.id])
 
   useEffect(() => {
+    if (wasDrawerOpenRef.current && !drawer.isOpen) {
+      setSelectedRowKeys(new Set())
+    }
+
+    wasDrawerOpenRef.current = drawer.isOpen
+  }, [drawer.isOpen])
+
+  useEffect(() => {
+    if (drawer.isOpen || !activeRowId) {
+      return
+    }
+
+    setActiveRowId(null)
+  }, [activeRowId, drawer.isOpen])
+
+  useEffect(() => {
     if (!activeRowId) {
       return
     }
@@ -468,6 +531,83 @@ export function useSectionPage() {
     setPage(1)
   }
 
+  const updateVisibleColumns = useCallback((columns: Set<SectionColumnKey>) => {
+    setVisibleColumns(new Set(columns))
+  }, [])
+
+  const clearSelection = useCallback(() => {
+    setSelectedRowKeys(new Set())
+  }, [])
+
+  const copySelectedIds = useCallback(() => {
+    if (!selectedRows.length) {
+      return
+    }
+
+    void copyText(selectedRows.map(row => row.id).join('\n'))
+      .then(() => {
+        showToast(
+          selectedRows.length === 1
+            ? 'ID copied'
+            : `${selectedRows.length} IDs copied`
+        )
+      })
+      .catch(() => {
+        showToast('Unable to copy IDs', 'danger')
+      })
+  }, [copyText, selectedRows, showToast])
+
+  const copySelectedLinks = useCallback(() => {
+    if (!selectedRows.length) {
+      return
+    }
+
+    void copyText(
+      selectedRows
+        .map(row => getClassUrl(row, mode === 'edit' ? 'edit' : 'view'))
+        .join('\n')
+    )
+      .then(() => {
+        showToast(
+          selectedRows.length === 1
+            ? 'URL copied'
+            : `${selectedRows.length} URLs copied`
+        )
+      })
+      .catch(() => {
+        showToast('Unable to copy URLs', 'danger')
+      })
+  }, [copyText, getClassUrl, mode, selectedRows, showToast])
+
+  const editSelectedSection = useCallback(() => {
+    if (selectedRows.length !== 1) {
+      return
+    }
+
+    openDrawer('edit', selectedRows[0])
+  }, [openDrawer, selectedRows])
+
+  const deleteSelectedSections = useCallback(() => {
+    if (!selectedRows.length) {
+      return
+    }
+
+    const selectedIds = new Set(selectedRows.map(row => row.id))
+
+    setData(current => current.filter(row => !selectedIds.has(row.id)))
+    setSelectedRowKeys(new Set())
+
+    if (activeRowId && selectedIds.has(activeRowId)) {
+      closeDrawer()
+    }
+
+    showToast(
+      selectedRows.length === 1
+        ? 'Item deleted'
+        : `${selectedRows.length} items deleted`
+    )
+  }, [activeRowId, closeDrawer, selectedRows, showToast])
+
   const applyFilters = () => {
     setFilters(draftFilters)
     setPage(1)
@@ -479,8 +619,21 @@ export function useSectionPage() {
     setPage(1)
   }
 
-  const updateSortDescriptor = (descriptor: SortDescriptor) => {
-    setSortDescriptor(descriptor)
+  const updateSortField = (column: SortDescriptor['column']) => {
+    setSortField(column as (typeof sortOptions)[number]['column'])
+    setActiveSortLabel(getSortLabel(column))
+    setPage(1)
+  }
+
+  const updateSortDirection = (direction: SortDescriptor['direction']) => {
+    setSortDirection(direction)
+    setPage(1)
+  }
+
+  const updateSortChange = (descriptor: SortDescriptor) => {
+    setSortField(descriptor.column as (typeof sortOptions)[number]['column'])
+    setSortDirection(descriptor.direction)
+    setActiveSortLabel(getSortLabel(descriptor.column))
     setPage(1)
   }
 
@@ -537,6 +690,21 @@ export function useSectionPage() {
 
   const deleteClass = (rowId: string) => {
     setData(current => current.filter(row => row.id !== rowId))
+    setSelectedRowKeys(current => {
+      if (current === 'all') {
+        return new Set()
+      }
+
+      if (!current.size) {
+        return current
+      }
+
+      const next = new Set(current)
+
+      next.delete(rowId)
+
+      return next
+    })
 
     if (activeRowId === rowId) {
       setActiveRowId(null)
@@ -545,21 +713,6 @@ export function useSectionPage() {
     }
 
     showToast('Item deleted')
-  }
-
-  const getClassUrl = (
-    row: ClassRow,
-    nextMode: Exclude<DrawerMode, 'create'> = 'view'
-  ) => {
-    const url = new URL(window.location.href)
-    const basePath = getSectionBasePath(url.pathname)
-
-    url.searchParams.set('mode', nextMode)
-    url.searchParams.delete('id')
-    url.pathname = `${basePath}/${encodeURIComponent(row.id)}`
-    url.hash = ''
-
-    return url.toString()
   }
 
   const copyClassLink = (row: ClassRow) => {
@@ -599,6 +752,7 @@ export function useSectionPage() {
       isDateDropdownOpen,
       rowsPerPage,
       searchQuery,
+      visibleColumns,
       setDraftFilters,
       sortDescriptor,
       onApplyFilters: applyFilters,
@@ -609,22 +763,33 @@ export function useSectionPage() {
       onResetFilters: resetFilters,
       onRowsPerPageChange: updateRowsPerPage,
       onSearchChange: updateSearch,
-      onSortChange: updateSortDescriptor
+      onVisibleColumnsChange: updateVisibleColumns,
+      sortDirection,
+      sortField,
+      onSortDirectionChange: updateSortDirection,
+      onSortFieldChange: updateSortField
     },
     table: {
       activeRowId,
       currentPage,
       pageSize,
       rows: paginatedRows,
+      selectedCount: selectedRows.length,
       selectedKeys: tableSelectedKeys,
+      visibleColumns,
       sortDescriptor,
       totalPages,
       totalRows: sortedRows.length,
+      onBulkEdit: editSelectedSection,
+      onBulkCopyIds: copySelectedIds,
+      onBulkCopyLinks: copySelectedLinks,
+      onBulkDelete: deleteSelectedSections,
       onDelete: deleteClass,
       onOpenDrawer: openDrawer,
       onPageChange: setPage,
+      onClearSelection: clearSelection,
       onSelectionChange: updateTableSelection,
-      onSortChange: updateSortDescriptor
+      onSortChange: updateSortChange
     },
     drawerProps: {
       canGoNext:

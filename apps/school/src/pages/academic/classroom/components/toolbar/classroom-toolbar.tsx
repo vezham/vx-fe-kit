@@ -7,13 +7,15 @@ import {
   Surface
 } from '@vezham/react-v3'
 
-import { rowCountOptions } from '../../data'
+import { rowCountOptions, sortOptions } from '../../data'
 import type {
+  ClassroomColumnKey,
   CustomDateRangeValue,
   DatePresetKey,
   FilterDraft
 } from '../../types'
 import { classNames } from '../../variants'
+import { ColumnsDropdown } from './columns-dropdown'
 import { DateRangeDropdown } from './date-range-dropdown'
 import { FilterDropdown } from './filter-dropdown'
 import { SortDropdown } from './sort-dropdown'
@@ -27,8 +29,10 @@ type ClassroomToolbarProps = {
   isDateDropdownOpen: boolean
   rowsPerPage: string
   searchQuery: string
+  sortDirection: SortDescriptor['direction']
+  sortField: (typeof sortOptions)[number]['column']
   setDraftFilters: (filters: FilterDraft) => void
-  sortDescriptor: SortDescriptor
+  visibleColumns: Set<ClassroomColumnKey>
   onApplyFilters: () => void
   onCustomDateRangeChange: (value: CustomDateRangeValue | null) => void
   onCustomDateRangeOpenChange: (isOpen: boolean) => void
@@ -37,7 +41,9 @@ type ClassroomToolbarProps = {
   onResetFilters: () => void
   onRowsPerPageChange: (value: string | number | null) => void
   onSearchChange: (value: string) => void
-  onSortChange: (descriptor: SortDescriptor) => void
+  onSortDirectionChange: (direction: SortDescriptor['direction']) => void
+  onSortFieldChange: (column: (typeof sortOptions)[number]['column']) => void
+  onVisibleColumnsChange: (columns: Set<ClassroomColumnKey>) => void
 }
 
 export function ClassroomToolbar({
@@ -49,8 +55,10 @@ export function ClassroomToolbar({
   isDateDropdownOpen,
   rowsPerPage,
   searchQuery,
+  sortDirection,
+  sortField,
   setDraftFilters,
-  sortDescriptor,
+  visibleColumns,
   onApplyFilters,
   onCustomDateRangeChange,
   onCustomDateRangeOpenChange,
@@ -59,7 +67,9 @@ export function ClassroomToolbar({
   onResetFilters,
   onRowsPerPageChange,
   onSearchChange,
-  onSortChange
+  onSortDirectionChange,
+  onSortFieldChange,
+  onVisibleColumnsChange
 }: ClassroomToolbarProps) {
   return (
     <Surface className={classNames.toolbar}>
@@ -88,10 +98,17 @@ export function ClassroomToolbar({
             onReset={onResetFilters}
           />
 
+          <ColumnsDropdown
+            visibleColumns={visibleColumns}
+            onVisibleColumnsChange={onVisibleColumnsChange}
+          />
+
           <SortDropdown
             activeSortLabel={activeSortLabel}
-            sortDescriptor={sortDescriptor}
-            onSortChange={onSortChange}
+            sortField={sortField}
+            sortDirection={sortDirection}
+            onSortFieldChange={onSortFieldChange}
+            onSortDirectionChange={onSortDirectionChange}
           />
         </div>
       </div>

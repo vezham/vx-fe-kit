@@ -7,37 +7,34 @@ import { classNames } from '../../variants'
 
 type SortDropdownProps = {
   activeSortLabel: string
-  sortDescriptor: SortDescriptor
-  onSortChange: (descriptor: SortDescriptor) => void
+  sortField: SortDescriptor['column']
+  sortDirection: SortDescriptor['direction']
+  onSortFieldChange: (column: SortDescriptor['column']) => void
+  onSortDirectionChange: (direction: SortDescriptor['direction']) => void
 }
 
 export function SortDropdown({
   activeSortLabel,
-  sortDescriptor,
-  onSortChange
+  sortField,
+  sortDirection,
+  onSortFieldChange,
+  onSortDirectionChange
 }: SortDropdownProps) {
   const activeField =
-    sortOptions.find(option => option.column === sortDescriptor.column) ??
-    sortOptions[0]
-  const activeDirection = sortDescriptor.direction ?? 'ascending'
+    sortOptions.find(option => option.column === sortField) ?? sortOptions[0]
+  const activeDirection = sortDirection ?? 'ascending'
   const activeSortIcon =
     activeDirection === 'ascending'
       ? 'lucide:arrow-up-wide-narrow'
       : 'lucide:arrow-down-wide-narrow'
   const selectedKeys = new Set([activeField.key, activeDirection])
 
-  const updateSortField = (column: (typeof sortOptions)[number]['column']) => {
-    onSortChange({
-      column,
-      direction: activeDirection
-    })
+  const updateSortField = (column: SortDescriptor['column']) => {
+    onSortFieldChange(column)
   }
 
   const updateSortOrder = (direction: SortDescriptor['direction']) => {
-    onSortChange({
-      column: activeField.column,
-      direction
-    })
+    onSortDirectionChange(direction)
   }
 
   return (

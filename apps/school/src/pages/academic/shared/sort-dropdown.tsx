@@ -3,22 +3,35 @@ import { Icon } from '@iconify/react'
 import { Button, Dropdown, type SortDescriptor } from '@vezham/react-v3'
 
 import { classNames } from '../class-routine/variants'
-import type { SortFieldOption } from './sort'
-import { sortOrderOptions } from './sort'
+
+type SortOption = {
+  key: string
+  label: string
+  column: string
+}
+
+type SortOrderOption = {
+  key: string
+  label: string
+  direction: SortDescriptor['direction']
+  icon: string
+}
 
 type SortDropdownProps = {
   activeSortLabel: string
-  ariaLabel: string
+  ariaLabel?: string
   sortDescriptor: SortDescriptor
-  sortOptions: readonly SortFieldOption[]
+  sortOptions: readonly SortOption[]
+  sortOrderOptions: readonly SortOrderOption[]
   onSortChange: (descriptor: SortDescriptor) => void
 }
 
 export function SortDropdown({
   activeSortLabel,
-  ariaLabel,
+  ariaLabel = 'Sort records',
   sortDescriptor,
   sortOptions,
+  sortOrderOptions,
   onSortChange
 }: SortDropdownProps) {
   const activeField =
@@ -31,7 +44,7 @@ export function SortDropdown({
       : 'lucide:arrow-down-wide-narrow'
   const selectedKeys = new Set([activeField.key, activeDirection])
 
-  const updateSortField = (column: (typeof sortOptions)[number]['column']) => {
+  const updateSortField = (column: string) => {
     onSortChange({
       column,
       direction: activeDirection
