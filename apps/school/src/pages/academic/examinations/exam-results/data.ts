@@ -3,7 +3,8 @@ import type {
   ClassFormState,
   ClassRow,
   ClassStatus,
-  DatePresetKey
+  DatePresetKey,
+  ExamResultsColumnOption
 } from './types'
 
 export const initialRows: ClassRow[] = [
@@ -307,6 +308,100 @@ export const sortOptions = [
     column: 'createdAt'
   }
 ] as const
+
+export const examResultsColumnOptions = [
+  {
+    key: 'id',
+    label: 'Admission No',
+    defaultWidth: 180,
+    minWidth: 140,
+    maxWidth: 220
+  },
+  {
+    key: 'name',
+    label: 'Student Name',
+    defaultWidth: 220,
+    minWidth: 180,
+    maxWidth: 280
+  },
+  {
+    key: 'english',
+    label: 'English',
+    defaultWidth: 130,
+    minWidth: 120,
+    maxWidth: 160
+  },
+  {
+    key: 'spanish',
+    label: 'Spanish',
+    defaultWidth: 130,
+    minWidth: 120,
+    maxWidth: 160
+  },
+  {
+    key: 'physics',
+    label: 'Physics',
+    defaultWidth: 130,
+    minWidth: 120,
+    maxWidth: 160
+  },
+  {
+    key: 'chemistry',
+    label: 'Chemistry',
+    defaultWidth: 130,
+    minWidth: 120,
+    maxWidth: 160
+  },
+  {
+    key: 'maths',
+    label: 'Maths',
+    defaultWidth: 130,
+    minWidth: 120,
+    maxWidth: 160
+  },
+  {
+    key: 'computer',
+    label: 'Computer',
+    defaultWidth: 130,
+    minWidth: 120,
+    maxWidth: 160
+  },
+  {
+    key: 'envscience',
+    label: 'Env Science',
+    defaultWidth: 150,
+    minWidth: 130,
+    maxWidth: 180
+  },
+  {
+    key: 'total',
+    label: 'Total',
+    defaultWidth: 120,
+    minWidth: 110,
+    maxWidth: 150
+  },
+  {
+    key: 'percent',
+    label: 'Percent %',
+    defaultWidth: 130,
+    minWidth: 120,
+    maxWidth: 170
+  },
+  {
+    key: 'grade',
+    label: 'Grade',
+    defaultWidth: 120,
+    minWidth: 110,
+    maxWidth: 150
+  },
+  {
+    key: 'result',
+    label: 'Result',
+    defaultWidth: 140,
+    minWidth: 120,
+    maxWidth: 160
+  }
+] as const satisfies readonly ExamResultsColumnOption[]
 
 export const rowCountOptions = ['5', '10', '25', '50']
 export const classOptions = ['I', 'II', 'III', 'IV', 'V']

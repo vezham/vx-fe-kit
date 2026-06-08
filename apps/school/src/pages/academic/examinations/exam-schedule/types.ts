@@ -2,6 +2,20 @@ import { useOverlayState } from '@vezham/react-v3'
 
 export type ClassStatus = 'Active' | 'Inactive'
 export type DrawerMode = 'view' | 'edit' | 'create'
+export type ScheduleColumnKey =
+  | 'id'
+  | 'classes'
+  | 'section'
+  | 'examName'
+  | 'date'
+  | 'subject'
+  | 'starttime'
+  | 'endtime'
+  | 'duration'
+  | 'classroom'
+  | 'maximum'
+  | 'minimum'
+  | 'status'
 
 export type ToastState = {
   message: string
@@ -162,6 +176,14 @@ export type DetailLineProps = {
 export type SortableHeaderProps = {
   children: string
   sortDirection?: 'ascending' | 'descending'
+}
+
+export type ScheduleColumnOption = {
+  key: ScheduleColumnKey
+  label: string
+  defaultWidth: number
+  minWidth: number
+  maxWidth: number
 }
 
 export type DrawerQueryState = {

@@ -3,6 +3,7 @@ import { Icon } from '@iconify/react'
 import { Button, Dropdown, type SortDescriptor } from '@vezham/react-v3'
 
 import { classNames } from '../class-routine/variants'
+import { sortOrderOptions as defaultSortOrderOptions } from './sort'
 
 type SortOption = {
   key: string
@@ -20,24 +21,27 @@ type SortOrderOption = {
 type SortDropdownProps = {
   activeSortLabel: string
   ariaLabel?: string
-  sortDescriptor: SortDescriptor
+  sortField: SortDescriptor['column']
+  sortDirection: SortDescriptor['direction']
   sortOptions: readonly SortOption[]
-  sortOrderOptions: readonly SortOrderOption[]
-  onSortChange: (descriptor: SortDescriptor) => void
+  sortOrderOptions?: readonly SortOrderOption[]
+  onSortFieldChange: (column: SortDescriptor['column']) => void
+  onSortDirectionChange: (direction: SortDescriptor['direction']) => void
 }
 
 export function SortDropdown({
   activeSortLabel,
   ariaLabel = 'Sort records',
-  sortDescriptor,
+  sortField,
+  sortDirection,
   sortOptions,
-  sortOrderOptions,
-  onSortChange
+  sortOrderOptions = defaultSortOrderOptions,
+  onSortFieldChange,
+  onSortDirectionChange
 }: SortDropdownProps) {
   const activeField =
-    sortOptions.find(option => option.column === sortDescriptor.column) ??
-    sortOptions[0]
-  const activeDirection = sortDescriptor.direction ?? 'ascending'
+    sortOptions.find(option => option.column === sortField) ?? sortOptions[0]
+  const activeDirection = sortDirection ?? 'ascending'
   const activeSortIcon =
     activeDirection === 'ascending'
       ? 'lucide:arrow-up-wide-narrow'
@@ -45,17 +49,11 @@ export function SortDropdown({
   const selectedKeys = new Set([activeField.key, activeDirection])
 
   const updateSortField = (column: string) => {
-    onSortChange({
-      column,
-      direction: activeDirection
-    })
+    onSortFieldChange(column)
   }
 
   const updateSortOrder = (direction: SortDescriptor['direction']) => {
-    onSortChange({
-      column: activeField.column,
-      direction
-    })
+    onSortDirectionChange(direction)
   }
 
   return (

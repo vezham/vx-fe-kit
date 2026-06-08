@@ -6,26 +6,46 @@ import { Button, Chip, Separator, Tooltip } from '@vezham/react-v3'
 type BulkActionBarProps = {
   ariaLabel: string
   selectedCount: number
-  onEdit: () => void
-  onCopyIds: () => void
-  onCopyLinks: () => void
-  onDelete: () => void
+  entityLabel?: string
+  entityPluralLabel?: string
+  editLabel?: string
+  deleteLabel?: string
+  onBulkEdit?: () => void
+  onBulkCopyIds?: () => void
+  onBulkCopyLinks?: () => void
+  onBulkDelete?: () => void
+  onEdit?: () => void
+  onCopyIds?: () => void
+  onCopyLinks?: () => void
+  onDelete?: () => void
   onClearSelection: () => void
-  editLabel: string
-  deleteLabel: string
 }
 
 export function BulkActionBar({
   ariaLabel,
+  entityLabel,
+  entityPluralLabel,
+  editLabel,
+  deleteLabel,
   selectedCount,
+  onBulkEdit,
+  onBulkCopyIds,
+  onBulkCopyLinks,
+  onBulkDelete,
   onEdit,
   onCopyIds,
   onCopyLinks,
   onDelete,
-  onClearSelection,
-  editLabel,
-  deleteLabel
+  onClearSelection
 }: BulkActionBarProps) {
+  const resolvedEntityLabel = entityLabel ?? 'item'
+  const resolvedEntityPluralLabel =
+    entityPluralLabel ?? `${resolvedEntityLabel}s`
+  const resolvedEdit = onBulkEdit ?? onEdit
+  const resolvedCopyIds = onBulkCopyIds ?? onCopyIds
+  const resolvedCopyLinks = onBulkCopyLinks ?? onCopyLinks
+  const resolvedDelete = onBulkDelete ?? onDelete
+
   return (
     <ActionBar aria-label={ariaLabel} isOpen={selectedCount > 0}>
       <ActionBar.Prefix>
@@ -36,38 +56,38 @@ export function BulkActionBar({
       <Separator />
       <ActionBar.Content>
         <Button
-          aria-label={editLabel}
+          aria-label={`Edit selected ${resolvedEntityPluralLabel}`}
           isDisabled={selectedCount !== 1}
           size="sm"
           variant="ghost"
-          onPress={onEdit}>
+          onPress={resolvedEdit}>
           <Icon icon="lucide:pencil" width={16} />
-          <span className="action-bar__label">Edit</span>
+          <span className="action-bar__label">{editLabel ?? 'Edit'}</span>
         </Button>
         <Button
-          aria-label="Copy selected IDs"
+          aria-label={`Copy selected ${resolvedEntityPluralLabel} IDs`}
           size="sm"
           variant="ghost"
-          onPress={onCopyIds}>
+          onPress={resolvedCopyIds}>
           <Icon icon="lucide:hash" width={16} />
           <span className="action-bar__label">Copy IDs</span>
         </Button>
         <Button
-          aria-label="Copy selected links"
+          aria-label={`Copy selected ${resolvedEntityPluralLabel} links`}
           size="sm"
           variant="ghost"
-          onPress={onCopyLinks}>
+          onPress={resolvedCopyLinks}>
           <Icon icon="lucide:link" width={16} />
           <span className="action-bar__label">Copy Links</span>
         </Button>
         <Button
-          aria-label={deleteLabel}
+          aria-label={`Delete selected ${resolvedEntityPluralLabel}`}
           className="text-danger bg-danger/10"
           size="sm"
           variant="ghost"
-          onPress={onDelete}>
+          onPress={resolvedDelete}>
           <Icon icon="lucide:trash-2" width={16} />
-          <span className="action-bar__label">Delete</span>
+          <span className="action-bar__label">{deleteLabel ?? 'Delete'}</span>
         </Button>
       </ActionBar.Content>
       <Separator />

@@ -11,7 +11,9 @@ import {
   Table
 } from '@vezham/react-v3'
 
-import type { ClassRow, DrawerMode } from '../../types'
+import { BulkActionBar } from '../../../../shared/bulk-action-bar'
+import { gradeColumnOptions } from '../../data'
+import type { ClassRow, DrawerMode, GradeColumnKey } from '../../types'
 import { getPaginationSummary } from '../../utils/grades'
 import { classNames, getTableRowClassName } from '../../variants'
 import { SortableHeader } from '../shared/sortable-header'
@@ -21,10 +23,17 @@ type GradesTableProps = {
   currentPage: number
   pageSize: number
   rows: ClassRow[]
+  selectedCount: number
   selectedKeys: Selection
+  visibleColumns: Set<GradeColumnKey>
   sortDescriptor: SortDescriptor
   totalPages: number
   totalRows: number
+  onBulkEdit: () => void
+  onBulkCopyIds: () => void
+  onBulkCopyLinks: () => void
+  onBulkDelete: () => void
+  onClearSelection: () => void
   onDelete: (rowId: string) => void
   onOpenDrawer: (mode: DrawerMode, row: ClassRow) => void
   onPageChange: (value: number | ((current: number) => number)) => void
@@ -37,150 +46,176 @@ export function GradesTable({
   currentPage,
   pageSize,
   rows,
+  selectedCount,
   selectedKeys,
+  visibleColumns,
   sortDescriptor,
   totalPages,
   totalRows,
+  onBulkEdit,
+  onBulkCopyIds,
+  onBulkCopyLinks,
+  onBulkDelete,
+  onClearSelection,
   onDelete,
   onOpenDrawer,
   onPageChange,
   onSelectionChange,
   onSortChange
 }: GradesTableProps) {
+  const tableMinWidth =
+    48 +
+    132 +
+    gradeColumnOptions.reduce(
+      (total, column) =>
+        total + (visibleColumns.has(column.key) ? column.defaultWidth : 0),
+      0
+    )
+
   return (
     <Table>
       <Table.ScrollContainer>
-        <Table.Content
-          aria-label="Grades"
-          className={classNames.tableContent}
-          selectedKeys={selectedKeys}
-          selectionMode="multiple"
-          sortDescriptor={sortDescriptor}
-          onSelectionChange={onSelectionChange}
-          onSortChange={onSortChange}>
-          <Table.Header>
-            <Table.Column className={classNames.selectionColumn} />
-            <Table.Column allowsSorting isRowHeader id="id">
-              {({ sortDirection }) => (
-                <SortableHeader sortDirection={sortDirection}>
-                  ID
-                </SortableHeader>
-              )}
-            </Table.Column>
-            <Table.Column allowsSorting id="grade">
-              {({ sortDirection }) => (
-                <SortableHeader sortDirection={sortDirection}>
-                  Grade
-                </SortableHeader>
-              )}
-            </Table.Column>
-            <Table.Column allowsSorting id="percentage">
-              {({ sortDirection }) => (
-                <SortableHeader sortDirection={sortDirection}>
-                  Percentage
-                </SortableHeader>
-              )}
-            </Table.Column>
-            <Table.Column allowsSorting id="points">
-              {({ sortDirection }) => (
-                <SortableHeader sortDirection={sortDirection}>
-                  Points
-                </SortableHeader>
-              )}
-            </Table.Column>
-            <Table.Column allowsSorting id="status">
-              {({ sortDirection }) => (
-                <SortableHeader sortDirection={sortDirection}>
-                  Status
-                </SortableHeader>
-              )}
-            </Table.Column>
-            <Table.Column>Actions</Table.Column>
-          </Table.Header>
+        <Table.ResizableContainer>
+          <Table.Content
+            aria-label="Grades"
+            className={classNames.tableContent}
+            selectedKeys={selectedKeys}
+            selectionBehavior="toggle"
+            selectionMode="multiple"
+            sortDescriptor={sortDescriptor}
+            style={{ minWidth: `${tableMinWidth}px` }}
+            onSelectionChange={onSelectionChange}
+            onSortChange={onSortChange}>
+            <Table.Header>
+              <Table.Column className={classNames.selectionColumn} width={48}>
+                <Checkbox aria-label="Select all rows" slot="selection">
+                  <Checkbox.Control>
+                    <Checkbox.Indicator />
+                  </Checkbox.Control>
+                </Checkbox>
+              </Table.Column>
+              {gradeColumnOptions
+                .filter(column => visibleColumns.has(column.key))
+                .map(column => (
+                  <Table.Column
+                    key={column.key}
+                    allowsSorting
+                    defaultWidth={column.defaultWidth}
+                    id={column.key}
+                    isRowHeader={column.key === 'id'}
+                    maxWidth={column.maxWidth}
+                    minWidth={column.minWidth}>
+                    {({ sortDirection }) => (
+                      <>
+                        <SortableHeader sortDirection={sortDirection}>
+                          {column.label}
+                        </SortableHeader>
+                        <Table.ColumnResizer
+                          aria-label={`Resize ${column.label.toLowerCase()} column`}
+                        />
+                      </>
+                    )}
+                  </Table.Column>
+                ))}
+              <Table.Column width={132}>Actions</Table.Column>
+            </Table.Header>
 
-          <Table.Body renderEmptyState={() => <TableEmptyState />}>
-            {rows.map(row => (
-              <Table.Row
-                key={row.id}
-                id={row.id}
-                data-class-row-id={row.id}
-                className={getTableRowClassName(activeRowId === row.id)}
-                onClick={() => onOpenDrawer('view', row)}>
-                <Table.Cell>
-                  <Checkbox
-                    aria-label={`Select grade ${row.id}`}
-                    slot="selection"
-                    onClick={event => event.stopPropagation()}>
-                    <Checkbox.Control>
-                      <Checkbox.Indicator />
-                    </Checkbox.Control>
-                  </Checkbox>
-                </Table.Cell>
-                <Table.Cell>{row.id}</Table.Cell>
-                <Table.Cell>{row.grade}</Table.Cell>
-                <Table.Cell>{row.percentage}</Table.Cell>
-                <Table.Cell>{row.points}</Table.Cell>
-                <Table.Cell>
-                  <Chip
-                    color={row.status === 'Active' ? 'success' : 'danger'}
-                    size="sm"
-                    variant="soft">
-                    <span aria-hidden="true">●</span>
-                    <Chip.Label>{row.status}</Chip.Label>
-                  </Chip>
-                </Table.Cell>
-                <Table.Cell>
-                  <div
-                    className={classNames.rowActions}
-                    onClick={event => event.stopPropagation()}>
-                    <Button
-                      isIconOnly
-                      aria-label={`Edit ${row.id}`}
-                      variant="ghost"
-                      onPress={() => onOpenDrawer('edit', row)}>
-                      <Icon icon="lucide:pencil" width={16} />
-                    </Button>
-                    <Button
-                      isIconOnly
-                      aria-label={`Delete ${row.id}`}
-                      variant="outline"
-                      onPress={() => onDelete(row.id)}>
-                      <Icon
-                        className={classNames.dangerIcon}
-                        icon="lucide:trash-2"
-                        width={16}
-                      />
-                    </Button>
-                    <Dropdown>
-                      <Dropdown.Trigger>
-                        <Button
-                          isIconOnly
-                          aria-label={`More actions for ${row.id}`}
-                          variant="ghost">
-                          <Icon icon="lucide:more-horizontal" width={18} />
-                        </Button>
-                      </Dropdown.Trigger>
-                      <Dropdown.Popover>
-                        <Dropdown.Menu
-                          aria-label={`More actions for ${row.id}`}>
-                          <Dropdown.Item
-                            id="view"
-                            textValue="View"
-                            onPress={() => onOpenDrawer('view', row)}>
-                            <span className={classNames.menuItemLabel}>
-                              <Icon icon="lucide:eye" width={16} />
-                              View
-                            </span>
-                          </Dropdown.Item>
-                        </Dropdown.Menu>
-                      </Dropdown.Popover>
-                    </Dropdown>
-                  </div>
-                </Table.Cell>
-              </Table.Row>
-            ))}
-          </Table.Body>
-        </Table.Content>
+            <Table.Body renderEmptyState={() => <TableEmptyState />}>
+              {rows.map(row => (
+                <Table.Row
+                  key={row.id}
+                  id={row.id}
+                  data-class-row-id={row.id}
+                  className={getTableRowClassName(activeRowId === row.id)}>
+                  <Table.Cell>
+                    <Checkbox
+                      aria-label={`Select grade ${row.id}`}
+                      slot="selection"
+                      onClick={event => event.stopPropagation()}>
+                      <Checkbox.Control>
+                        <Checkbox.Indicator />
+                      </Checkbox.Control>
+                    </Checkbox>
+                  </Table.Cell>
+                  {gradeColumnOptions
+                    .filter(column => visibleColumns.has(column.key))
+                    .map(column => (
+                      <Table.Cell
+                        key={column.key}
+                        onClick={event => {
+                          event.stopPropagation()
+                          onOpenDrawer('view', row)
+                        }}
+                        onPointerDown={event => event.stopPropagation()}>
+                        {column.key === 'status' ? (
+                          <Chip
+                            color={
+                              row.status === 'Active' ? 'success' : 'danger'
+                            }
+                            size="sm"
+                            variant="soft">
+                            <span aria-hidden="true">●</span>
+                            <Chip.Label>{row.status}</Chip.Label>
+                          </Chip>
+                        ) : (
+                          row[column.key]
+                        )}
+                      </Table.Cell>
+                    ))}
+                  <Table.Cell>
+                    <div
+                      className={classNames.rowActions}
+                      onClick={event => event.stopPropagation()}
+                      onPointerDown={event => event.stopPropagation()}>
+                      <Button
+                        isIconOnly
+                        aria-label={`Edit ${row.id}`}
+                        variant="ghost"
+                        onPress={() => onOpenDrawer('edit', row)}>
+                        <Icon icon="lucide:pencil" width={16} />
+                      </Button>
+                      <Button
+                        isIconOnly
+                        aria-label={`Delete ${row.id}`}
+                        variant="outline"
+                        onPress={() => onDelete(row.id)}>
+                        <Icon
+                          className={classNames.dangerIcon}
+                          icon="lucide:trash-2"
+                          width={16}
+                        />
+                      </Button>
+                      <Dropdown>
+                        <Dropdown.Trigger>
+                          <Button
+                            isIconOnly
+                            aria-label={`More actions for ${row.id}`}
+                            variant="ghost">
+                            <Icon icon="lucide:more-horizontal" width={18} />
+                          </Button>
+                        </Dropdown.Trigger>
+                        <Dropdown.Popover>
+                          <Dropdown.Menu
+                            aria-label={`More actions for ${row.id}`}>
+                            <Dropdown.Item
+                              id="view"
+                              textValue="View"
+                              onPress={() => onOpenDrawer('view', row)}>
+                              <span className={classNames.menuItemLabel}>
+                                <Icon icon="lucide:eye" width={16} />
+                                View
+                              </span>
+                            </Dropdown.Item>
+                          </Dropdown.Menu>
+                        </Dropdown.Popover>
+                      </Dropdown>
+                    </div>
+                  </Table.Cell>
+                </Table.Row>
+              ))}
+            </Table.Body>
+          </Table.Content>
+        </Table.ResizableContainer>
       </Table.ScrollContainer>
 
       <Table.Footer>
@@ -221,6 +256,18 @@ export function GradesTable({
           </Pagination.Content>
         </Pagination>
       </Table.Footer>
+
+      <BulkActionBar
+        ariaLabel="Grades bulk actions"
+        entityLabel="grade item"
+        entityPluralLabel="grade items"
+        selectedCount={selectedCount}
+        onBulkEdit={onBulkEdit}
+        onBulkCopyIds={onBulkCopyIds}
+        onBulkCopyLinks={onBulkCopyLinks}
+        onBulkDelete={onBulkDelete}
+        onClearSelection={onClearSelection}
+      />
     </Table>
   )
 }

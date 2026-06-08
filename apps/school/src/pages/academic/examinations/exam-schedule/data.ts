@@ -3,7 +3,8 @@ import type {
   ClassFormState,
   ClassRow,
   ClassStatus,
-  DatePresetKey
+  DatePresetKey,
+  ScheduleColumnOption
 } from './types'
 
 export const initialRows: ClassRow[] = [
@@ -239,6 +240,100 @@ export const sortOptions = [
     column: 'createdAt'
   }
 ] as const
+
+export const examScheduleColumnOptions = [
+  {
+    key: 'id',
+    label: 'ID',
+    defaultWidth: 180,
+    minWidth: 140,
+    maxWidth: 220
+  },
+  {
+    key: 'classes',
+    label: 'Class',
+    defaultWidth: 120,
+    minWidth: 100,
+    maxWidth: 140
+  },
+  {
+    key: 'section',
+    label: 'Section',
+    defaultWidth: 120,
+    minWidth: 100,
+    maxWidth: 140
+  },
+  {
+    key: 'examName',
+    label: 'Exam Name',
+    defaultWidth: 220,
+    minWidth: 180,
+    maxWidth: 280
+  },
+  {
+    key: 'date',
+    label: 'Exam Date',
+    defaultWidth: 180,
+    minWidth: 160,
+    maxWidth: 220
+  },
+  {
+    key: 'subject',
+    label: 'Subject',
+    defaultWidth: 180,
+    minWidth: 150,
+    maxWidth: 220
+  },
+  {
+    key: 'starttime',
+    label: 'Start Time',
+    defaultWidth: 160,
+    minWidth: 140,
+    maxWidth: 200
+  },
+  {
+    key: 'endtime',
+    label: 'End Time',
+    defaultWidth: 160,
+    minWidth: 140,
+    maxWidth: 200
+  },
+  {
+    key: 'duration',
+    label: 'Duration',
+    defaultWidth: 140,
+    minWidth: 120,
+    maxWidth: 160
+  },
+  {
+    key: 'classroom',
+    label: 'Room No',
+    defaultWidth: 140,
+    minWidth: 120,
+    maxWidth: 180
+  },
+  {
+    key: 'maximum',
+    label: 'Max Marks',
+    defaultWidth: 140,
+    minWidth: 120,
+    maxWidth: 180
+  },
+  {
+    key: 'minimum',
+    label: 'Min Marks',
+    defaultWidth: 140,
+    minWidth: 120,
+    maxWidth: 180
+  },
+  {
+    key: 'status',
+    label: 'Status',
+    defaultWidth: 140,
+    minWidth: 120,
+    maxWidth: 160
+  }
+] as const satisfies readonly ScheduleColumnOption[]
 
 export const rowCountOptions = ['5', '10', '25', '50']
 export const classOptions = ['I', 'II', 'III', 'IV', 'V']

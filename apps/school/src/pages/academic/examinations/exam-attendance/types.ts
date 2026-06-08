@@ -2,6 +2,16 @@ import { useOverlayState } from '@vezham/react-v3'
 
 export type AttendanceStatus = 'Present' | 'Absent' | 'Late'
 export type DrawerMode = 'view' | 'edit' | 'create'
+export type AttendanceColumnKey =
+  | 'id'
+  | 'name'
+  | 'english'
+  | 'spanish'
+  | 'physics'
+  | 'chemistry'
+  | 'maths'
+  | 'computer'
+  | 'envscience'
 
 export type ToastState = {
   message: string
@@ -148,6 +158,14 @@ export type AttendanceDetailSummaryProps = {
 export type SortableHeaderProps = {
   children: string
   sortDirection?: 'ascending' | 'descending'
+}
+
+export type AttendanceColumnOption = {
+  key: AttendanceColumnKey
+  label: string
+  defaultWidth: number
+  minWidth: number
+  maxWidth: number
 }
 
 export type DrawerQueryState = {

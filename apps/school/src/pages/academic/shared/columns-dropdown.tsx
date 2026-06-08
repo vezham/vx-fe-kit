@@ -2,28 +2,30 @@ import { Icon } from '@iconify/react'
 
 import { Button, Dropdown } from '@vezham/react-v3'
 
-import { classNames } from '../class-routine/variants'
-
-type ColumnOption = {
-  key: string
+type ColumnOption<Key extends string> = {
+  key: Key
   label: string
 }
 
-type ColumnsDropdownProps = {
-  ariaLabel?: string
+type ColumnsDropdownProps<Key extends string> = {
+  ariaLabel: string
   buttonLabel?: string
-  columns: readonly ColumnOption[]
-  visibleColumns: Set<string>
-  onVisibleColumnsChange: (columns: Set<string>) => void
+  options?: readonly ColumnOption<Key>[]
+  columns?: readonly ColumnOption<Key>[]
+  visibleColumns: Set<Key>
+  onVisibleColumnsChange: (columns: Set<Key>) => void
 }
 
-export function ColumnsDropdown({
-  ariaLabel = 'Show or hide table columns',
+export function ColumnsDropdown<Key extends string>({
+  ariaLabel,
   buttonLabel = 'Columns',
+  options,
   columns,
   visibleColumns,
   onVisibleColumnsChange
-}: ColumnsDropdownProps) {
+}: ColumnsDropdownProps<Key>) {
+  const resolvedOptions = options ?? columns ?? []
+
   return (
     <Dropdown>
       <Dropdown.Trigger>
@@ -40,18 +42,20 @@ export function ColumnsDropdown({
           selectionMode="multiple"
           onSelectionChange={keys => {
             if (keys === 'all') {
-              onVisibleColumnsChange(new Set(columns.map(option => option.key)))
+              onVisibleColumnsChange(
+                new Set(resolvedOptions.map(option => option.key))
+              )
               return
             }
 
-            onVisibleColumnsChange(new Set(Array.from(keys) as string[]))
+            onVisibleColumnsChange(new Set(Array.from(keys) as Key[]))
           }}>
-          {columns.map(option => (
+          {resolvedOptions.map(option => (
             <Dropdown.Item
               key={option.key}
               id={option.key}
               textValue={option.label}>
-              <span className={classNames.dateOptionLabel}>
+              <span className="flex w-full items-center justify-between">
                 {option.label}
                 <Dropdown.ItemIndicator />
               </span>

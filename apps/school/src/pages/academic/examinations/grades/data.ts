@@ -3,7 +3,8 @@ import type {
   ClassFormState,
   ClassRow,
   ClassStatus,
-  DatePresetKey
+  DatePresetKey,
+  GradeColumnOption
 } from './types'
 
 export const initialRows: ClassRow[] = [
@@ -122,6 +123,44 @@ export const sortOptions = [
     column: 'createdAt'
   }
 ] as const
+
+export const gradeColumnOptions = [
+  {
+    key: 'id',
+    label: 'ID',
+    defaultWidth: 180,
+    minWidth: 140,
+    maxWidth: 220
+  },
+  {
+    key: 'grade',
+    label: 'Grade',
+    defaultWidth: 140,
+    minWidth: 120,
+    maxWidth: 160
+  },
+  {
+    key: 'percentage',
+    label: 'Percentage',
+    defaultWidth: 180,
+    minWidth: 150,
+    maxWidth: 220
+  },
+  {
+    key: 'points',
+    label: 'Points',
+    defaultWidth: 140,
+    minWidth: 120,
+    maxWidth: 160
+  },
+  {
+    key: 'status',
+    label: 'Status',
+    defaultWidth: 140,
+    minWidth: 120,
+    maxWidth: 160
+  }
+] as const satisfies readonly GradeColumnOption[]
 
 export const rowCountOptions = ['5', '10', '25', '50']
 export const gradeOptions = ['O', 'A+', 'A', 'B+', 'B', 'C+', 'C', 'D', 'F']

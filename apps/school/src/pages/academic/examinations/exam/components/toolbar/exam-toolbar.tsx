@@ -7,10 +7,12 @@ import {
   Surface
 } from '@vezham/react-v3'
 
-import { rowCountOptions } from '../../data'
+import { ColumnsDropdown } from '../../../../shared/columns-dropdown'
+import { examColumnOptions, rowCountOptions } from '../../data'
 import type {
   CustomDateRangeValue,
   DatePresetKey,
+  ExamColumnKey,
   FilterDraft
 } from '../../types'
 import { classNames } from '../../variants'
@@ -21,13 +23,13 @@ import { SortDropdown } from './sort-dropdown'
 type ExamToolbarProps = {
   activeDateLabel: string
   activeSortLabel: string
-  sortDescriptor: SortDescriptor
   datePreset: DatePresetKey
   draftFilters: FilterDraft
   isCustomDateRangeOpen: boolean
   isDateDropdownOpen: boolean
   rowsPerPage: string
   searchQuery: string
+  visibleColumns: Set<ExamColumnKey>
   setDraftFilters: (filters: FilterDraft) => void
   onApplyFilters: () => void
   onCustomDateRangeChange: (value: CustomDateRangeValue | null) => void
@@ -37,19 +39,23 @@ type ExamToolbarProps = {
   onResetFilters: () => void
   onRowsPerPageChange: (value: string | number | null) => void
   onSearchChange: (value: string) => void
-  onSortChange: (descriptor: SortDescriptor) => void
+  sortDirection: SortDescriptor['direction']
+  sortField: SortDescriptor['column']
+  onSortDirectionChange: (direction: SortDescriptor['direction']) => void
+  onSortFieldChange: (column: SortDescriptor['column']) => void
+  onVisibleColumnsChange: (columns: Set<ExamColumnKey>) => void
 }
 
 export function ExamToolbar({
   activeDateLabel,
   activeSortLabel,
-  sortDescriptor,
   datePreset,
   draftFilters,
   isCustomDateRangeOpen,
   isDateDropdownOpen,
   rowsPerPage,
   searchQuery,
+  visibleColumns,
   setDraftFilters,
   onApplyFilters,
   onCustomDateRangeChange,
@@ -59,7 +65,11 @@ export function ExamToolbar({
   onResetFilters,
   onRowsPerPageChange,
   onSearchChange,
-  onSortChange
+  sortDirection,
+  sortField,
+  onSortDirectionChange,
+  onSortFieldChange,
+  onVisibleColumnsChange
 }: ExamToolbarProps) {
   return (
     <Surface className={classNames.toolbar}>
@@ -88,10 +98,19 @@ export function ExamToolbar({
             onReset={onResetFilters}
           />
 
+          <ColumnsDropdown
+            ariaLabel="Show or hide exam columns"
+            options={examColumnOptions}
+            visibleColumns={visibleColumns}
+            onVisibleColumnsChange={onVisibleColumnsChange}
+          />
+
           <SortDropdown
             activeSortLabel={activeSortLabel}
-            sortDescriptor={sortDescriptor}
-            onSortChange={onSortChange}
+            sortDirection={sortDirection}
+            sortField={sortField}
+            onSortDirectionChange={onSortDirectionChange}
+            onSortFieldChange={onSortFieldChange}
           />
         </div>
       </div>

@@ -2,6 +2,20 @@ import { useOverlayState } from '@vezham/react-v3'
 
 export type ClassStatus = 'Pass' | 'Fail'
 export type DrawerMode = 'view' | 'edit' | 'create'
+export type ExamResultsColumnKey =
+  | 'id'
+  | 'name'
+  | 'english'
+  | 'spanish'
+  | 'physics'
+  | 'chemistry'
+  | 'maths'
+  | 'computer'
+  | 'envscience'
+  | 'total'
+  | 'percent'
+  | 'grade'
+  | 'result'
 
 export type ToastState = {
   message: string
@@ -161,6 +175,14 @@ export type DetailLineProps = {
 export type SortableHeaderProps = {
   children: string
   sortDirection?: 'ascending' | 'descending'
+}
+
+export type ExamResultsColumnOption = {
+  key: ExamResultsColumnKey
+  label: string
+  defaultWidth: number
+  minWidth: number
+  maxWidth: number
 }
 
 export type DrawerQueryState = {

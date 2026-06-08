@@ -3,7 +3,8 @@ import type {
   ClassFormState,
   ClassRow,
   ClassStatus,
-  DatePresetKey
+  DatePresetKey,
+  ExamColumnOption
 } from './types'
 
 export const initialRows: ClassRow[] = [
@@ -132,6 +133,44 @@ export const sortOptions = [
     column: 'createdAt'
   }
 ] as const
+
+export const examColumnOptions = [
+  {
+    key: 'id',
+    label: 'ID',
+    defaultWidth: 180,
+    minWidth: 140,
+    maxWidth: 220
+  },
+  {
+    key: 'name',
+    label: 'Exam Name',
+    defaultWidth: 240,
+    minWidth: 180,
+    maxWidth: 320
+  },
+  {
+    key: 'date',
+    label: 'Exam Date',
+    defaultWidth: 180,
+    minWidth: 160,
+    maxWidth: 220
+  },
+  {
+    key: 'starttime',
+    label: 'Start Time',
+    defaultWidth: 160,
+    minWidth: 140,
+    maxWidth: 200
+  },
+  {
+    key: 'endtime',
+    label: 'End Time',
+    defaultWidth: 160,
+    minWidth: 140,
+    maxWidth: 200
+  }
+] as const satisfies readonly ExamColumnOption[]
 
 export const rowCountOptions = ['5', '10', '25', '50']
 export const examOptions = [

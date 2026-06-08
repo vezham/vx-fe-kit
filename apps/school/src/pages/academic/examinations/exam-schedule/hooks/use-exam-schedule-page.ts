@@ -1,11 +1,16 @@
 import { useHotkey } from '@tanstack/react-hotkeys'
 import { useParams } from '@tanstack/react-router'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import type { Selection, SortDescriptor } from '@vezham/react-v3'
 
-import { getActiveSortLabel, sortRows } from '../../../shared/sort'
-import { emptyForm, initialRows, sortOptions } from '../data'
+import { sortRows } from '../../../shared/sort'
+import {
+  emptyForm,
+  examScheduleColumnOptions,
+  initialRows,
+  sortOptions
+} from '../data'
 import type {
   ClassFormErrors,
   ClassFormState,
@@ -17,6 +22,7 @@ import type {
   DrawerQueryState,
   FilterDraft,
   OpenDrawerOptions,
+  ScheduleColumnKey,
   ToastState
 } from '../types'
 import { useDisclosure } from '../types'
@@ -68,6 +74,10 @@ const emptyFilters: FilterDraft = {
   status: null
 }
 
+const getSortLabel = (column: SortDescriptor['column']) => {
+  return sortOptions.find(option => option.column === column)?.label ?? 'Sort'
+}
+
 export function useExamSchedulePage() {
   const routeParams = useParams({ strict: false }) as { id?: string }
   const [data, setData] = useState<ClassRow[]>(initialRows)
@@ -79,12 +89,16 @@ export function useExamSchedulePage() {
   const [isCustomDateRangeOpen, setIsCustomDateRangeOpen] = useState(false)
   const [customDateRange, setCustomDateRange] =
     useState<DateRangeFilter | null>(null)
-  const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
-    column: 'type',
-    direction: 'ascending'
-  })
+  const [sortField, setSortField] =
+    useState<(typeof sortOptions)[number]['column']>('viewedAt')
+  const [sortDirection, setSortDirection] =
+    useState<SortDescriptor['direction']>('descending')
+  const [activeSortLabel, setActiveSortLabel] = useState('Sort')
   const [filters, setFilters] = useState<FilterDraft>(emptyFilters)
   const [draftFilters, setDraftFilters] = useState<FilterDraft>(filters)
+  const [visibleColumns, setVisibleColumns] = useState<Set<ScheduleColumnKey>>(
+    () => new Set(examScheduleColumnOptions.map(column => column.key))
+  )
   const [activeRowId, setActiveRowId] = useState<string | null>(null)
   const [selectedRowKeys, setSelectedRowKeys] = useState<Selection>(new Set())
   const [mode, setMode] = useState<DrawerMode>('view')
@@ -92,6 +106,7 @@ export function useExamSchedulePage() {
   const [formErrors, setFormErrors] = useState<ClassFormErrors>({})
   const [toast, setToast] = useState<ToastState | null>(null)
   const drawer = useDisclosure()
+  const wasDrawerOpenRef = useRef(drawer.isOpen)
 
   const activeDateRange = useMemo(() => {
     if (datePreset === 'custom') {
@@ -100,6 +115,14 @@ export function useExamSchedulePage() {
 
     return getPresetDateRange(datePreset)
   }, [customDateRange, datePreset])
+
+  const sortDescriptor = useMemo<SortDescriptor>(
+    () => ({
+      column: sortField,
+      direction: sortDirection
+    }),
+    [sortDirection, sortField]
+  )
 
   const filteredRows = useMemo(() => {
     const query = searchQuery.trim().toLowerCase()
@@ -158,6 +181,13 @@ export function useExamSchedulePage() {
     () => data.find(row => row.id === activeRowId) ?? null,
     [activeRowId, data]
   )
+  const selectedRows = useMemo(() => {
+    if (selectedRowKeys === 'all') {
+      return data
+    }
+
+    return data.filter(row => selectedRowKeys.has(row.id))
+  }, [data, selectedRowKeys])
   const selectedRowIndex = activeRowId
     ? sortedRows.findIndex(row => row.id === activeRowId)
     : -1
@@ -165,12 +195,7 @@ export function useExamSchedulePage() {
     () => (activeRowId ? new Set([activeRowId]) : selectedRowKeys),
     [activeRowId, selectedRowKeys]
   )
-
-  const activeSortLabel = getActiveSortLabel(
-    sortOptions,
-    sortDescriptor,
-    'Recently Viewed'
-  )
+  const selectedCount = selectedRows.length
 
   const activeDateLabel =
     datePreset === 'custom'
@@ -260,6 +285,17 @@ export function useExamSchedulePage() {
     setSelectedRowKeys(keys)
   }, [])
 
+  const updateVisibleColumns = useCallback(
+    (columns: Set<ScheduleColumnKey>) => {
+      setVisibleColumns(new Set(columns))
+    },
+    []
+  )
+
+  const clearSelection = useCallback(() => {
+    setSelectedRowKeys(new Set())
+  }, [])
+
   const closeDrawer = useCallback(() => {
     setFormErrors({})
     drawer.onClose()
@@ -333,6 +369,90 @@ export function useExamSchedulePage() {
     goToRowAt(Math.max(0, selectedRowIndex - 1))
   }, [goToRowAt, selectedRowIndex])
 
+  const getScheduleUrl = useCallback(
+    (row: ClassRow, nextMode: Exclude<DrawerMode, 'create'> = 'view') => {
+      const url = new URL(window.location.href)
+      const basePath = getModuleBasePath(url.pathname)
+
+      url.searchParams.set('mode', nextMode)
+      url.searchParams.delete('id')
+      url.pathname = `${basePath}/${encodeURIComponent(row.id)}`
+      url.hash = ''
+
+      return url.toString()
+    },
+    []
+  )
+
+  const copySelectedIds = useCallback(() => {
+    if (!selectedRows.length) {
+      return
+    }
+
+    void copyText(selectedRows.map(row => row.id).join('\n'))
+      .then(() => {
+        showToast(
+          selectedRows.length === 1
+            ? 'ID copied'
+            : `${selectedRows.length} IDs copied`
+        )
+      })
+      .catch(() => {
+        showToast('Unable to copy IDs', 'danger')
+      })
+  }, [copyText, selectedRows, showToast])
+
+  const copySelectedLinks = useCallback(() => {
+    if (!selectedRows.length) {
+      return
+    }
+
+    void copyText(
+      selectedRows
+        .map(row => getScheduleUrl(row, mode === 'edit' ? 'edit' : 'view'))
+        .join('\n')
+    )
+      .then(() => {
+        showToast(
+          selectedRows.length === 1
+            ? 'URL copied'
+            : `${selectedRows.length} URLs copied`
+        )
+      })
+      .catch(() => {
+        showToast('Unable to copy URLs', 'danger')
+      })
+  }, [copyText, getScheduleUrl, mode, selectedRows, showToast])
+
+  const editSelectedRows = useCallback(() => {
+    if (selectedRows.length !== 1) {
+      return
+    }
+
+    openDrawer('edit', selectedRows[0])
+  }, [openDrawer, selectedRows])
+
+  const deleteSelectedRows = useCallback(() => {
+    if (!selectedRows.length) {
+      return
+    }
+
+    const selectedIds = new Set(selectedRows.map(row => row.id))
+
+    setData(current => current.filter(row => !selectedIds.has(row.id)))
+    setSelectedRowKeys(new Set())
+
+    if (activeRowId && selectedIds.has(activeRowId)) {
+      closeDrawer()
+    }
+
+    showToast(
+      selectedRows.length === 1
+        ? 'Item deleted'
+        : `${selectedRows.length} items deleted`
+    )
+  }, [activeRowId, closeDrawer, selectedRows, showToast])
+
   useEffect(() => {
     const openAddSchedule = () => openDrawer('create', null)
 
@@ -395,6 +515,22 @@ export function useExamSchedulePage() {
 
     return () => window.removeEventListener('popstate', syncDrawerFromUrl)
   }, [data, routeParams.id])
+
+  useEffect(() => {
+    if (wasDrawerOpenRef.current && !drawer.isOpen) {
+      setSelectedRowKeys(new Set())
+    }
+
+    wasDrawerOpenRef.current = drawer.isOpen
+  }, [drawer.isOpen])
+
+  useEffect(() => {
+    if (drawer.isOpen || !activeRowId) {
+      return
+    }
+
+    setActiveRowId(null)
+  }, [activeRowId, drawer.isOpen])
 
   useEffect(() => {
     if (!activeRowId) {
@@ -494,8 +630,21 @@ export function useExamSchedulePage() {
     setPage(1)
   }
 
+  const updateSortField = (column: SortDescriptor['column']) => {
+    setSortField(column as (typeof sortOptions)[number]['column'])
+    setActiveSortLabel(getSortLabel(column))
+    setPage(1)
+  }
+
+  const updateSortDirection = (direction: SortDescriptor['direction']) => {
+    setSortDirection(direction)
+    setPage(1)
+  }
+
   const updateSortDescriptor = (descriptor: SortDescriptor) => {
-    setSortDescriptor(descriptor)
+    setSortField(descriptor.column as (typeof sortOptions)[number]['column'])
+    setSortDirection(descriptor.direction)
+    setActiveSortLabel(getSortLabel(descriptor.column))
     setPage(1)
   }
 
@@ -592,6 +741,21 @@ export function useExamSchedulePage() {
 
   const deleteSchedule = (rowId: string) => {
     setData(current => current.filter(row => row.id !== rowId))
+    setSelectedRowKeys(current => {
+      if (current === 'all') {
+        return new Set()
+      }
+
+      if (!current.size) {
+        return current
+      }
+
+      const next = new Set(current)
+
+      next.delete(rowId)
+
+      return next
+    })
 
     if (activeRowId === rowId) {
       setActiveRowId(null)
@@ -600,21 +764,6 @@ export function useExamSchedulePage() {
     }
 
     showToast('Item deleted')
-  }
-
-  const getScheduleUrl = (
-    row: ClassRow,
-    nextMode: Exclude<DrawerMode, 'create'> = 'view'
-  ) => {
-    const url = new URL(window.location.href)
-
-    url.searchParams.set('mode', nextMode)
-    url.searchParams.delete('id')
-    url.pathname =
-      getModuleBasePath(url.pathname) + '/' + encodeURIComponent(row.id)
-    url.hash = ''
-
-    return url.toString()
   }
 
   const copyScheduleLink = (row: ClassRow) => {
@@ -648,13 +797,13 @@ export function useExamSchedulePage() {
     toolbar: {
       activeDateLabel,
       activeSortLabel,
-      sortDescriptor,
       datePreset,
       draftFilters,
       isCustomDateRangeOpen,
       isDateDropdownOpen,
       rowsPerPage,
       searchQuery,
+      visibleColumns,
       setDraftFilters,
       onApplyFilters: applyFilters,
       onCustomDateRangeChange: updateCustomDateRange,
@@ -664,17 +813,28 @@ export function useExamSchedulePage() {
       onResetFilters: resetFilters,
       onRowsPerPageChange: updateRowsPerPage,
       onSearchChange: updateSearch,
-      onSortChange: updateSortDescriptor
+      onVisibleColumnsChange: updateVisibleColumns,
+      sortDirection,
+      sortField,
+      onSortDirectionChange: updateSortDirection,
+      onSortFieldChange: updateSortField
     },
     table: {
       activeRowId,
       currentPage,
       pageSize,
       rows: paginatedRows,
+      selectedCount,
       selectedKeys: tableSelectedKeys,
+      visibleColumns,
       sortDescriptor,
       totalPages,
       totalRows: sortedRows.length,
+      onBulkEdit: editSelectedRows,
+      onBulkCopyIds: copySelectedIds,
+      onBulkCopyLinks: copySelectedLinks,
+      onBulkDelete: deleteSelectedRows,
+      onClearSelection: clearSelection,
       onDelete: deleteSchedule,
       onOpenDrawer: openDrawer,
       onPageChange: setPage,

@@ -7,10 +7,12 @@ import {
   Surface
 } from '@vezham/react-v3'
 
-import { rowCountOptions } from '../../data'
+import { ColumnsDropdown } from '../../../../shared/columns-dropdown'
+import { examResultsColumnOptions, rowCountOptions } from '../../data'
 import type {
   CustomDateRangeValue,
   DatePresetKey,
+  ExamResultsColumnKey,
   FilterDraft
 } from '../../types'
 import { classNames } from '../../variants'
@@ -21,13 +23,13 @@ import { SortDropdown } from './sort-dropdown'
 type ExamResultsToolbarProps = {
   activeDateLabel: string
   activeSortLabel: string
-  sortDescriptor: SortDescriptor
   datePreset: DatePresetKey
   draftFilters: FilterDraft
   isCustomDateRangeOpen: boolean
   isDateDropdownOpen: boolean
   rowsPerPage: string
   searchQuery: string
+  visibleColumns: Set<ExamResultsColumnKey>
   setDraftFilters: (filters: FilterDraft) => void
   onApplyFilters: () => void
   onCustomDateRangeChange: (value: CustomDateRangeValue | null) => void
@@ -37,19 +39,23 @@ type ExamResultsToolbarProps = {
   onResetFilters: () => void
   onRowsPerPageChange: (value: string | number | null) => void
   onSearchChange: (value: string) => void
-  onSortChange: (descriptor: SortDescriptor) => void
+  sortDirection: SortDescriptor['direction']
+  sortField: SortDescriptor['column']
+  onSortDirectionChange: (direction: SortDescriptor['direction']) => void
+  onSortFieldChange: (column: SortDescriptor['column']) => void
+  onVisibleColumnsChange: (columns: Set<ExamResultsColumnKey>) => void
 }
 
 export function ExamResultsToolbar({
   activeDateLabel,
   activeSortLabel,
-  sortDescriptor,
   datePreset,
   draftFilters,
   isCustomDateRangeOpen,
   isDateDropdownOpen,
   rowsPerPage,
   searchQuery,
+  visibleColumns,
   setDraftFilters,
   onApplyFilters,
   onCustomDateRangeChange,
@@ -59,7 +65,11 @@ export function ExamResultsToolbar({
   onResetFilters,
   onRowsPerPageChange,
   onSearchChange,
-  onSortChange
+  sortDirection,
+  sortField,
+  onSortDirectionChange,
+  onSortFieldChange,
+  onVisibleColumnsChange
 }: ExamResultsToolbarProps) {
   return (
     <Surface className={classNames.toolbar}>
@@ -88,10 +98,19 @@ export function ExamResultsToolbar({
             onReset={onResetFilters}
           />
 
+          <ColumnsDropdown
+            ariaLabel="Show or hide exam result columns"
+            options={examResultsColumnOptions}
+            visibleColumns={visibleColumns}
+            onVisibleColumnsChange={onVisibleColumnsChange}
+          />
+
           <SortDropdown
             activeSortLabel={activeSortLabel}
-            sortDescriptor={sortDescriptor}
-            onSortChange={onSortChange}
+            sortDirection={sortDirection}
+            sortField={sortField}
+            onSortDirectionChange={onSortDirectionChange}
+            onSortFieldChange={onSortFieldChange}
           />
         </div>
       </div>

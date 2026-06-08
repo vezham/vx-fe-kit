@@ -147,7 +147,7 @@ export function ExamForm({ form, formErrors, onFormChange }: ClassFormProps) {
   )
 }
 
-function toCalendarDate(value: string | null) {
+function toCalendarDate(value: string | null): any {
   if (!value) {
     return null
   }

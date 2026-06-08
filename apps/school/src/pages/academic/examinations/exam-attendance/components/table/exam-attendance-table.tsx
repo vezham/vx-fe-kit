@@ -2,14 +2,23 @@ import { Icon } from '@iconify/react'
 
 import {
   Avatar,
+  Button,
   Checkbox,
+  Dropdown,
   Pagination,
   type Selection,
   type SortDescriptor,
   Table
 } from '@vezham/react-v3'
 
-import type { AttendanceRow, AttendanceStatus, DrawerMode } from '../../types'
+import { BulkActionBar } from '../../../../shared/bulk-action-bar'
+import { attendanceColumnOptions } from '../../data'
+import type {
+  AttendanceColumnKey,
+  AttendanceRow,
+  AttendanceStatus,
+  DrawerMode
+} from '../../types'
 import {
   getInitials,
   getPaginationSummary,
@@ -23,10 +32,18 @@ type ExamAttendanceTableProps = {
   currentPage: number
   pageSize: number
   rows: AttendanceRow[]
+  selectedCount: number
   selectedKeys: Selection
+  visibleColumns: Set<AttendanceColumnKey>
   sortDescriptor: SortDescriptor
   totalPages: number
   totalRows: number
+  onBulkEdit: () => void
+  onBulkCopyIds: () => void
+  onBulkCopyLinks: () => void
+  onBulkDelete: () => void
+  onClearSelection: () => void
+  onDelete: (rowId: string) => void
   onOpenDrawer: (mode: DrawerMode, row: AttendanceRow) => void
   onPageChange: (value: number | ((current: number) => number)) => void
   onSelectionChange: (keys: Selection) => void
@@ -38,140 +55,172 @@ export function ExamAttendanceTable({
   currentPage,
   pageSize,
   rows,
+  selectedCount,
   selectedKeys,
+  visibleColumns,
   sortDescriptor,
   totalPages,
   totalRows,
+  onBulkEdit,
+  onBulkCopyIds,
+  onBulkCopyLinks,
+  onBulkDelete,
+  onClearSelection,
+  onDelete,
   onOpenDrawer,
   onPageChange,
   onSelectionChange,
   onSortChange
 }: ExamAttendanceTableProps) {
+  const tableMinWidth =
+    48 +
+    132 +
+    attendanceColumnOptions.reduce(
+      (total, column) =>
+        total + (visibleColumns.has(column.key) ? column.defaultWidth : 0),
+      0
+    )
+
   return (
     <Table>
       <Table.ScrollContainer>
-        <Table.Content
-          aria-label="Exam attendance"
-          className={classNames.tableContent}
-          selectedKeys={selectedKeys}
-          selectionMode="multiple"
-          sortDescriptor={sortDescriptor}
-          onSelectionChange={onSelectionChange}
-          onSortChange={onSortChange}>
-          <Table.Header>
-            <Table.Column className={classNames.selectionColumn} />
-            <Table.Column allowsSorting isRowHeader id="id">
-              {({ sortDirection }) => (
-                <SortableHeader sortDirection={sortDirection}>
-                  Admission No
-                </SortableHeader>
-              )}
-            </Table.Column>
-            <Table.Column allowsSorting id="name">
-              {({ sortDirection }) => (
-                <SortableHeader sortDirection={sortDirection}>
-                  Student Name
-                </SortableHeader>
-              )}
-            </Table.Column>
-            <Table.Column allowsSorting id="english">
-              {({ sortDirection }) => (
-                <SortableHeader sortDirection={sortDirection}>
-                  English
-                </SortableHeader>
-              )}
-            </Table.Column>
-            <Table.Column allowsSorting id="spanish">
-              {({ sortDirection }) => (
-                <SortableHeader sortDirection={sortDirection}>
-                  Spanish
-                </SortableHeader>
-              )}
-            </Table.Column>
-            <Table.Column allowsSorting id="physics">
-              {({ sortDirection }) => (
-                <SortableHeader sortDirection={sortDirection}>
-                  Physics
-                </SortableHeader>
-              )}
-            </Table.Column>
-            <Table.Column allowsSorting id="chemistry">
-              {({ sortDirection }) => (
-                <SortableHeader sortDirection={sortDirection}>
-                  Chemistry
-                </SortableHeader>
-              )}
-            </Table.Column>
-            <Table.Column allowsSorting id="maths">
-              {({ sortDirection }) => (
-                <SortableHeader sortDirection={sortDirection}>
-                  Maths
-                </SortableHeader>
-              )}
-            </Table.Column>
-            <Table.Column allowsSorting id="computer">
-              {({ sortDirection }) => (
-                <SortableHeader sortDirection={sortDirection}>
-                  Computer
-                </SortableHeader>
-              )}
-            </Table.Column>
-            <Table.Column allowsSorting id="envscience">
-              {({ sortDirection }) => (
-                <SortableHeader sortDirection={sortDirection}>
-                  Env Science
-                </SortableHeader>
-              )}
-            </Table.Column>
-          </Table.Header>
+        <Table.ResizableContainer>
+          <Table.Content
+            aria-label="Exam attendance"
+            className={classNames.tableContent}
+            selectedKeys={selectedKeys}
+            selectionBehavior="toggle"
+            selectionMode="multiple"
+            sortDescriptor={sortDescriptor}
+            style={{ minWidth: `${tableMinWidth}px` }}
+            onSelectionChange={onSelectionChange}
+            onSortChange={onSortChange}>
+            <Table.Header>
+              <Table.Column className={classNames.selectionColumn} width={48}>
+                <Checkbox aria-label="Select all rows" slot="selection">
+                  <Checkbox.Control>
+                    <Checkbox.Indicator />
+                  </Checkbox.Control>
+                </Checkbox>
+              </Table.Column>
+              {attendanceColumnOptions
+                .filter(column => visibleColumns.has(column.key))
+                .map(column => (
+                  <Table.Column
+                    key={column.key}
+                    allowsSorting
+                    defaultWidth={column.defaultWidth}
+                    id={column.key}
+                    isRowHeader={column.key === 'id'}
+                    maxWidth={column.maxWidth}
+                    minWidth={column.minWidth}>
+                    {({ sortDirection }) => (
+                      <>
+                        <SortableHeader sortDirection={sortDirection}>
+                          {column.label}
+                        </SortableHeader>
+                        <Table.ColumnResizer
+                          aria-label={`Resize ${column.label.toLowerCase()} column`}
+                        />
+                      </>
+                    )}
+                  </Table.Column>
+                ))}
+              <Table.Column width={132}>Actions</Table.Column>
+            </Table.Header>
 
-          <Table.Body renderEmptyState={() => <TableEmptyState />}>
-            {rows.map(row => (
-              <Table.Row
-                key={row.id}
-                id={row.id}
-                data-attendance-row-id={row.id}
-                className={getTableRowClassName(activeRowId === row.id)}
-                onClick={() => onOpenDrawer('view', row)}>
-                <Table.Cell>
-                  <Checkbox
-                    aria-label={`Select attendance ${row.id}`}
-                    slot="selection"
-                    onClick={event => event.stopPropagation()}>
-                    <Checkbox.Control>
-                      <Checkbox.Indicator />
-                    </Checkbox.Control>
-                  </Checkbox>
-                </Table.Cell>
-                <Table.Cell>{row.id}</Table.Cell>
-                <Table.Cell>
-                  <StudentNameCell row={row} />
-                </Table.Cell>
-                <Table.Cell>
-                  <AttendanceMarker status={row.english} />
-                </Table.Cell>
-                <Table.Cell>
-                  <AttendanceMarker status={row.spanish} />
-                </Table.Cell>
-                <Table.Cell>
-                  <AttendanceMarker status={row.physics} />
-                </Table.Cell>
-                <Table.Cell>
-                  <AttendanceMarker status={row.chemistry} />
-                </Table.Cell>
-                <Table.Cell>
-                  <AttendanceMarker status={row.maths} />
-                </Table.Cell>
-                <Table.Cell>
-                  <AttendanceMarker status={row.computer} />
-                </Table.Cell>
-                <Table.Cell>
-                  <AttendanceMarker status={row.envscience} />
-                </Table.Cell>
-              </Table.Row>
-            ))}
-          </Table.Body>
-        </Table.Content>
+            <Table.Body renderEmptyState={() => <TableEmptyState />}>
+              {rows.map(row => (
+                <Table.Row
+                  key={row.id}
+                  id={row.id}
+                  data-attendance-row-id={row.id}
+                  className={getTableRowClassName(activeRowId === row.id)}>
+                  <Table.Cell>
+                    <Checkbox
+                      aria-label={`Select attendance ${row.id}`}
+                      slot="selection"
+                      onClick={event => event.stopPropagation()}>
+                      <Checkbox.Control>
+                        <Checkbox.Indicator />
+                      </Checkbox.Control>
+                    </Checkbox>
+                  </Table.Cell>
+                  {attendanceColumnOptions
+                    .filter(column => visibleColumns.has(column.key))
+                    .map(column => (
+                      <Table.Cell
+                        key={column.key}
+                        onClick={event => {
+                          event.stopPropagation()
+                          onOpenDrawer('view', row)
+                        }}
+                        onPointerDown={event => event.stopPropagation()}>
+                        {column.key === 'id' ? (
+                          row.id
+                        ) : column.key === 'name' ? (
+                          <StudentNameCell row={row} />
+                        ) : (
+                          <AttendanceMarker
+                            status={row[column.key] as AttendanceStatus}
+                          />
+                        )}
+                      </Table.Cell>
+                    ))}
+                  <Table.Cell>
+                    <div
+                      className={classNames.rowActions}
+                      onClick={event => event.stopPropagation()}
+                      onPointerDown={event => event.stopPropagation()}>
+                      <Button
+                        isIconOnly
+                        aria-label={`Edit ${row.id}`}
+                        variant="ghost"
+                        onPress={() => onOpenDrawer('edit', row)}>
+                        <Icon icon="lucide:pencil" width={16} />
+                      </Button>
+                      <Button
+                        isIconOnly
+                        aria-label={`Delete ${row.id}`}
+                        variant="outline"
+                        onPress={() => onDelete(row.id)}>
+                        <Icon
+                          className={classNames.dangerIcon}
+                          icon="lucide:trash-2"
+                          width={16}
+                        />
+                      </Button>
+                      <Dropdown>
+                        <Dropdown.Trigger>
+                          <Button
+                            isIconOnly
+                            aria-label={`More actions for ${row.id}`}
+                            variant="ghost">
+                            <Icon icon="lucide:more-horizontal" width={18} />
+                          </Button>
+                        </Dropdown.Trigger>
+                        <Dropdown.Popover>
+                          <Dropdown.Menu
+                            aria-label={`More actions for ${row.id}`}>
+                            <Dropdown.Item
+                              id="view"
+                              textValue="View"
+                              onPress={() => onOpenDrawer('view', row)}>
+                              <span className={classNames.menuItemLabel}>
+                                <Icon icon="lucide:eye" width={16} />
+                                View
+                              </span>
+                            </Dropdown.Item>
+                          </Dropdown.Menu>
+                        </Dropdown.Popover>
+                      </Dropdown>
+                    </div>
+                  </Table.Cell>
+                </Table.Row>
+              ))}
+            </Table.Body>
+          </Table.Content>
+        </Table.ResizableContainer>
       </Table.ScrollContainer>
 
       <Table.Footer>
@@ -212,6 +261,18 @@ export function ExamAttendanceTable({
           </Pagination.Content>
         </Pagination>
       </Table.Footer>
+
+      <BulkActionBar
+        ariaLabel="Exam attendance bulk actions"
+        entityLabel="attendance item"
+        entityPluralLabel="attendance items"
+        selectedCount={selectedCount}
+        onBulkEdit={onBulkEdit}
+        onBulkCopyIds={onBulkCopyIds}
+        onBulkCopyLinks={onBulkCopyLinks}
+        onBulkDelete={onBulkDelete}
+        onClearSelection={onClearSelection}
+      />
     </Table>
   )
 }

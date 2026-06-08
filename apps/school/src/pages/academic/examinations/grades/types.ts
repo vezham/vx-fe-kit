@@ -2,6 +2,7 @@ import { useOverlayState } from '@vezham/react-v3'
 
 export type ClassStatus = 'Active' | 'Inactive'
 export type DrawerMode = 'view' | 'edit' | 'create'
+export type GradeColumnKey = 'id' | 'grade' | 'percentage' | 'points' | 'status'
 
 export type ToastState = {
   message: string
@@ -119,6 +120,14 @@ export type DetailLineProps = {
 export type SortableHeaderProps = {
   children: string
   sortDirection?: 'ascending' | 'descending'
+}
+
+export type GradeColumnOption = {
+  key: GradeColumnKey
+  label: string
+  defaultWidth: number
+  minWidth: number
+  maxWidth: number
 }
 
 export type DrawerQueryState = {

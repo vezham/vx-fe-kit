@@ -5,22 +5,28 @@ import { sortOptions } from '../../data'
 
 type SortDropdownProps = {
   activeSortLabel: string
-  sortDescriptor: SortDescriptor
-  onSortChange: (descriptor: SortDescriptor) => void
+  sortDirection: SortDescriptor['direction']
+  sortField: SortDescriptor['column']
+  onSortDirectionChange: (direction: SortDescriptor['direction']) => void
+  onSortFieldChange: (column: SortDescriptor['column']) => void
 }
 
 export function SortDropdown({
   activeSortLabel,
-  sortDescriptor,
-  onSortChange
+  sortDirection,
+  sortField,
+  onSortDirectionChange,
+  onSortFieldChange
 }: SortDropdownProps) {
   return (
     <SharedSortDropdown
       ariaLabel="Sort exams"
       activeSortLabel={activeSortLabel}
-      sortDescriptor={sortDescriptor}
+      sortDirection={sortDirection}
+      sortField={sortField}
       sortOptions={sortOptions}
-      onSortChange={onSortChange}
+      onSortDirectionChange={onSortDirectionChange}
+      onSortFieldChange={onSortFieldChange}
     />
   )
 }
