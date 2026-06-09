@@ -11,9 +11,9 @@ import { VezhamProvider, cn } from '@vezham/react-v2'
 // import { startWorker as defineWorker } from '@vezham/shared-sw'
 // import { cn } from '@vezham/system-utils'
 
-import { useLogger } from '@vezham/use-logger'
+import { defineLogger, useLogger } from '@vezham/use-logger'
 
-import { APP_NAME, __DEV__ } from '@vx/system-utils'
+import { APP_NAME, __DEBUG__, __DEV__ } from '@vx/system-utils/vite/env'
 
 import { Props } from './types'
 
@@ -36,6 +36,8 @@ const ReactQueryDevtools = lazy(() =>
     default: d.ReactQueryDevtools
   }))
 )
+
+defineLogger({ APP_NAME, __DEBUG__, __DEV__ })
 
 const Provider: FC<Props> = ({
   className = '',
@@ -73,7 +75,6 @@ const Provider: FC<Props> = ({
   return template
 }
 
-// @vx/NOTE: defineLogger is handled by @vx/system-utils
 const preConfig = ({ name, version, store = true }: Props) => {
   if (store) {
     // defineStore({ pretext: name, version })

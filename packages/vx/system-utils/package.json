@@ -8,6 +8,16 @@
       "import": "./src/index.ts",
       "default": "./src/index.ts"
     },
+    "./next/env": {
+      "types": "./src/lib/env/next/index.ts",
+      "import": "./src/lib/env/next/index.ts",
+      "default": "./src/lib/env/next/index.ts"
+    },
+    "./vite/env": {
+      "types": "./src/lib/env/vite/index.ts",
+      "import": "./src/lib/env/vite/index.ts",
+      "default": "./src/lib/env/vite/index.ts"
+    },
     "./package.json": "./package.json"
   },
   "main": "./src/index.ts",

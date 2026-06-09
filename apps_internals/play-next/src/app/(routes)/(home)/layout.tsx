@@ -2,7 +2,7 @@
 
 import type { ReactNode } from 'react'
 
-import { Provider } from '@vx/start/vite'
+import { Provider } from '@vx/start/next'
 
 type Props = {
   children: ReactNode

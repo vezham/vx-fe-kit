@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react'
 
-import { Provider } from '@vx/start/vite'
+import { Provider } from '@vx/start/next'
 
 import Shell from '../src/app/(routes)/(home)/page'
 

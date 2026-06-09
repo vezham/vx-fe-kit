@@ -4,6 +4,8 @@
 import { Inter, JetBrains_Mono } from 'next/font/google'
 import type { ReactNode } from 'react'
 
+import { Provider } from './provider'
+
 const inter = Inter({
   subsets: ['latin']
 })
@@ -47,7 +49,7 @@ type Props = {
   // i18n: i18n
 }
 
-export const defineConfig = ({ children }: Props) => {
+const defineConfig = ({ children }: Props) => {
   // const { provider } = defineI18nUI(i18n.locale, {
   //   translations: i18n.translations
   // });
@@ -66,3 +68,5 @@ export const defineConfig = ({ children }: Props) => {
     </html>
   )
 }
+
+export { Provider, defineConfig }
