@@ -1,19 +1,9 @@
 // export * from './lib/provider/src'
 // import { defineI18nUI, Translations } from 'fumadocs-ui/i18n';
 // import { RootProvider } from 'fumadocs-ui/provider/next';
-import { Inter, JetBrains_Mono } from 'next/font/google'
 import type { ReactNode } from 'react'
 
 import { Provider } from './provider'
-
-const inter = Inter({
-  subsets: ['latin']
-})
-
-const mono = JetBrains_Mono({
-  subsets: ['latin'],
-  variable: '--font-mono'
-})
 
 // Language extends string = string
 // type Language = string
@@ -57,10 +47,7 @@ const defineConfig = ({ children }: Props) => {
   const lang = 'en'
 
   return (
-    <html
-      lang={lang}
-      className={`${inter.className} ${mono.variable}`}
-      suppressHydrationWarning>
+    <html lang={lang} suppressHydrationWarning>
       <body>
         {children}
         {/* <RootProvider i18n={provider(lang)}>{children}</RootProvider> */}
@@ -69,4 +56,4 @@ const defineConfig = ({ children }: Props) => {
   )
 }
 
-export { Provider, defineConfig }
+export { defineConfig, Provider }
