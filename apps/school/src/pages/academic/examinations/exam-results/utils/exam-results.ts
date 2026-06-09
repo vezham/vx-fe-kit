@@ -48,11 +48,11 @@ export function getPaginationSummary(
   total: number
 ) {
   if (!total) {
-    return 'Showing 0 to 0 of 0 entries'
+    return '0 of 0'
   }
 
   const start = (page - 1) * pageSize + 1
   const end = Math.min(total, page * pageSize)
 
-  return `Showing ${start} to ${end} of ${total} entries`
+  return `${start}-${end} of ${total}`
 }

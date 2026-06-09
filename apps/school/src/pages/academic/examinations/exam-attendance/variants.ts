@@ -5,7 +5,7 @@ export const classNames = {
     'flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between',
   mutedText: 'text-muted text-sm',
   title: 'text-base font-semibold',
-  toolbarActions: 'flex flex-col gap-3 sm:flex-row sm:flex-wrap lg:justify-end',
+  toolbarActions: 'flex flex-col gap-2 sm:flex-row sm:flex-wrap lg:justify-end',
   datePopover: 'w-[360px] p-2',
   customDatePanel: 'space-y-3',
   fullWidth: 'w-full',

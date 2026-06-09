@@ -6,7 +6,9 @@ import {
   Checkbox,
   Chip,
   Dropdown,
+  ListBox,
   Pagination,
+  Select,
   type Selection,
   Separator,
   type SortDescriptor,
@@ -14,7 +16,7 @@ import {
   Tooltip
 } from '@vezham/react-v3'
 
-import { classroomColumnOptions } from '../../data'
+import { classroomColumnOptions, rowCountOptions } from '../../data'
 import type { ClassRow, ClassroomColumnKey, DrawerMode } from '../../types'
 import { getPaginationSummary } from '../../utils/classroom'
 import { classNames, getTableRowClassName } from '../../variants'
@@ -27,6 +29,7 @@ type ClassroomTableProps = {
   rows: ClassRow[]
   selectedCount: number
   selectedKeys: Selection
+  rowsPerPage: string
   visibleColumns: Set<ClassroomColumnKey>
   sortDescriptor: SortDescriptor
   totalPages: number
@@ -40,6 +43,7 @@ type ClassroomTableProps = {
   onPageChange: (value: number | ((current: number) => number)) => void
   onClearSelection: () => void
   onSelectionChange: (keys: Selection) => void
+  onRowsPerPageChange: (value: string | number | null) => void
   onSortChange: (descriptor: SortDescriptor) => void
 }
 
@@ -50,6 +54,7 @@ export function ClassroomTable({
   rows,
   selectedCount,
   selectedKeys,
+  rowsPerPage,
   visibleColumns,
   sortDescriptor,
   totalPages,
@@ -63,6 +68,7 @@ export function ClassroomTable({
   onPageChange,
   onClearSelection,
   onSelectionChange,
+  onRowsPerPageChange,
   onSortChange
 }: ClassroomTableProps) {
   const tableMinWidth =
@@ -119,7 +125,7 @@ export function ClassroomTable({
                     )}
                   </Table.Column>
                 ))}
-              <Table.Column width={132}>Actions</Table.Column>
+              {/* <Table.Column width={132}>Actions</Table.Column> */}
             </Table.Header>
 
             <Table.Body renderEmptyState={() => <TableEmptyState />}>
@@ -164,7 +170,7 @@ export function ClassroomTable({
                         )}
                       </Table.Cell>
                     ))}
-                  <Table.Cell>
+                  {/* <Table.Cell>
                     <div
                       className={classNames.rowActions}
                       onPointerDown={event => event.stopPropagation()}
@@ -212,7 +218,7 @@ export function ClassroomTable({
                         </Dropdown.Popover>
                       </Dropdown>
                     </div>
-                  </Table.Cell>
+                  </Table.Cell> */}
                 </Table.Row>
               ))}
             </Table.Body>
@@ -221,10 +227,37 @@ export function ClassroomTable({
       </Table.ScrollContainer>
 
       <Table.Footer>
-        <Pagination>
-          <Pagination.Summary>
-            {getPaginationSummary(currentPage, pageSize, totalRows)}
-          </Pagination.Summary>
+        <Pagination className="flex w-full flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className={classNames.rowsControls}>
+            <Pagination.Summary>
+              {getPaginationSummary(currentPage, pageSize, totalRows)}
+            </Pagination.Summary>
+            <span aria-hidden="true" className="text-muted">
+              |
+            </span>
+            <Select
+              aria-label="Rows per page"
+              value={rowsPerPage}
+              onChange={onRowsPerPageChange}>
+              <Select.Trigger>
+                <Select.Value />
+                <Select.Indicator />
+              </Select.Trigger>
+              <Select.Popover>
+                <ListBox>
+                  {rowCountOptions.map(option => (
+                    <ListBox.Item key={option} id={option} textValue={option}>
+                      {option}
+                    </ListBox.Item>
+                  ))}
+                </ListBox>
+              </Select.Popover>
+            </Select>
+            <span aria-hidden="true" className="text-muted text-sm">
+              per page
+            </span>
+          </div>
+
           <Pagination.Content>
             <Pagination.Item>
               <Pagination.Previous

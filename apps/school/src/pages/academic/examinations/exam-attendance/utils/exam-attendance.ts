@@ -110,13 +110,13 @@ export function getPaginationSummary(
   total: number
 ) {
   if (!total) {
-    return 'Showing 0 of 0 entries'
+    return '0 of 0'
   }
 
   const start = (page - 1) * pageSize + 1
   const end = Math.min(page * pageSize, total)
 
-  return `Showing ${start}-${end} of ${total} entries`
+  return `${start}-${end} of ${total}`
 }
 
 function getDrawerText(value: unknown) {

@@ -1,4 +1,4 @@
-import { sortOrderOptions } from '../../shared/sort'
+import { type SortFieldOption, sortOrderOptions } from '../../shared/sort'
 import type {
   ClassFormState,
   ClassRow,
@@ -228,19 +228,6 @@ export const dateOptions: { key: DatePresetKey; label: string }[] = [
   { key: 'custom', label: 'Custom Range' }
 ]
 
-export const sortOptions = [
-  {
-    key: 'recentlyViewed',
-    label: 'Recently Viewed',
-    column: 'viewedAt'
-  },
-  {
-    key: 'recentlyAdded',
-    label: 'Recently Added',
-    column: 'createdAt'
-  }
-] as const
-
 export const examScheduleColumnOptions = [
   {
     key: 'id',
@@ -334,6 +321,24 @@ export const examScheduleColumnOptions = [
     maxWidth: 160
   }
 ] as const satisfies readonly ScheduleColumnOption[]
+
+export const sortOptions = [
+  {
+    key: 'recentlyViewed',
+    label: 'Recently Viewed',
+    column: 'viewedAt'
+  },
+  {
+    key: 'recentlyAdded',
+    label: 'Recently Added',
+    column: 'createdAt'
+  },
+  ...examScheduleColumnOptions.map(option => ({
+    key: option.key,
+    label: option.label,
+    column: option.key
+  }))
+] satisfies readonly SortFieldOption[]
 
 export const rowCountOptions = ['5', '10', '25', '50']
 export const classOptions = ['I', 'II', 'III', 'IV', 'V']

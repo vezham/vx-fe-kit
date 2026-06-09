@@ -1,16 +1,25 @@
 import { Icon } from '@iconify/react'
 
-import { Button, Dropdown, type SortDescriptor } from '@vezham/react-v3'
+import {
+  Button,
+  Dropdown,
+  Separator,
+  type SortDescriptor
+} from '@vezham/react-v3'
 
-import { sortOptions, sortOrderOptions } from '../../data'
+import {
+  scheduleColumnOptions,
+  sortOptions,
+  sortOrderOptions
+} from '../../data'
 import { classNames } from '../../variants'
 
 type SortDropdownProps = {
   activeSortLabel: string
   sortDirection: SortDescriptor['direction']
-  sortField: (typeof sortOptions)[number]['column']
+  sortField: SortDescriptor['column']
   onSortDirectionChange: (direction: SortDescriptor['direction']) => void
-  onSortFieldChange: (column: (typeof sortOptions)[number]['column']) => void
+  onSortFieldChange: (column: SortDescriptor['column']) => void
 }
 
 export function SortDropdown({
@@ -20,16 +29,17 @@ export function SortDropdown({
   onSortDirectionChange,
   onSortFieldChange
 }: SortDropdownProps) {
-  const activeField =
-    sortOptions.find(option => option.column === sortField) ?? sortOptions[0]
   const activeDirection = sortDirection ?? 'ascending'
   const activeSortIcon =
     activeDirection === 'ascending'
       ? 'lucide:arrow-up-wide-narrow'
       : 'lucide:arrow-down-wide-narrow'
-  const selectedKeys = new Set([activeField.key, activeDirection])
+  const selectedKeys = new Set([
+    sortOptions.find(option => option.column === sortField)?.key ?? sortField,
+    activeDirection
+  ])
 
-  const updateSortField = (column: (typeof sortOptions)[number]['column']) => {
+  const updateSortField = (column: SortDescriptor['column']) => {
     onSortFieldChange(column)
   }
 
@@ -51,13 +61,36 @@ export function SortDropdown({
           aria-label="Sort schedules"
           selectedKeys={selectedKeys}
           selectionMode="multiple">
-          <Dropdown.Section aria-label="Sort by">
-            {sortOptions.map(option => (
+          <Dropdown.Section aria-label="Recently used">
+            <Dropdown.Item
+              key="recentlyViewed"
+              id="recentlyViewed"
+              textValue="Recently Viewed"
+              onPress={() => onSortFieldChange('viewedAt')}>
+              <span className={classNames.dateOptionLabel}>
+                Recently Viewed
+                <Dropdown.ItemIndicator />
+              </span>
+            </Dropdown.Item>
+            <Dropdown.Item
+              key="recentlyAdded"
+              id="recentlyAdded"
+              textValue="Recently Added"
+              onPress={() => onSortFieldChange('createdAt')}>
+              <span className={classNames.dateOptionLabel}>
+                Recently Added
+                <Dropdown.ItemIndicator />
+              </span>
+            </Dropdown.Item>
+          </Dropdown.Section>
+
+          <Dropdown.Section aria-label="Table columns">
+            {scheduleColumnOptions.map(option => (
               <Dropdown.Item
                 key={option.key}
                 id={option.key}
                 textValue={option.label}
-                onPress={() => updateSortField(option.column)}>
+                onPress={() => updateSortField(option.key)}>
                 <span className={classNames.dateOptionLabel}>
                   {option.label}
                   <Dropdown.ItemIndicator />
@@ -65,7 +98,7 @@ export function SortDropdown({
               </Dropdown.Item>
             ))}
           </Dropdown.Section>
-
+          <Separator />
           <Dropdown.Section aria-label="Order">
             {sortOrderOptions.map(option => (
               <Dropdown.Item

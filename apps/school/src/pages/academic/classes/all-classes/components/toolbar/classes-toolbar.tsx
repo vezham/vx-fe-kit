@@ -1,11 +1,7 @@
-import { Label, ListBox, SearchField, Select, Surface } from '@vezham/react-v3'
+import { SearchField, type SortDescriptor, Surface } from '@vezham/react-v3'
 
 import { ColumnsDropdown } from '../../../../shared/columns-dropdown'
-import {
-  allClassesColumnOptions,
-  rowCountOptions,
-  sortOptions
-} from '../../data'
+import { allClassesColumnOptions } from '../../data'
 import type {
   AllClassesColumnKey,
   CustomDateRangeValue,
@@ -24,7 +20,6 @@ type ClassesToolbarProps = {
   draftFilters: FilterDraft
   isCustomDateRangeOpen: boolean
   isDateDropdownOpen: boolean
-  rowsPerPage: string
   searchQuery: string
   visibleColumns: Set<AllClassesColumnKey>
   setDraftFilters: (filters: FilterDraft) => void
@@ -34,13 +29,12 @@ type ClassesToolbarProps = {
   onDateDropdownOpenChange: (isOpen: boolean) => void
   onDatePresetChange: (key: DatePresetKey) => void
   onResetFilters: () => void
-  onRowsPerPageChange: (value: string | number | null) => void
   onSearchChange: (value: string) => void
   onVisibleColumnsChange: (columns: Set<AllClassesColumnKey>) => void
-  sortField: (typeof sortOptions)[number]['column']
-  sortDirection: 'ascending' | 'descending'
-  onSortFieldChange: (column: (typeof sortOptions)[number]['column']) => void
-  onSortDirectionChange: (direction: 'ascending' | 'descending') => void
+  sortField: SortDescriptor['column']
+  sortDirection: SortDescriptor['direction']
+  onSortFieldChange: (column: SortDescriptor['column']) => void
+  onSortDirectionChange: (direction: SortDescriptor['direction']) => void
 }
 
 export function ClassesToolbar({
@@ -50,7 +44,6 @@ export function ClassesToolbar({
   draftFilters,
   isCustomDateRangeOpen,
   isDateDropdownOpen,
-  rowsPerPage,
   searchQuery,
   visibleColumns,
   setDraftFilters,
@@ -60,7 +53,6 @@ export function ClassesToolbar({
   onDateDropdownOpenChange,
   onDatePresetChange,
   onResetFilters,
-  onRowsPerPageChange,
   onSearchChange,
   onVisibleColumnsChange,
   sortField,
@@ -96,6 +88,7 @@ export function ClassesToolbar({
           />
 
           <ColumnsDropdown
+            ariaLabel="All classes columns"
             columns={allClassesColumnOptions}
             visibleColumns={visibleColumns as Set<string>}
             onVisibleColumnsChange={columns =>
@@ -116,29 +109,6 @@ export function ClassesToolbar({
       </div>
 
       <div className={classNames.headerRow}>
-        <div className={classNames.rowsControls}>
-          <Label>Rows per page</Label>
-          <Select
-            aria-label="Rows per page"
-            value={rowsPerPage}
-            onChange={onRowsPerPageChange}>
-            <Select.Trigger>
-              <Select.Value />
-              <Select.Indicator />
-            </Select.Trigger>
-            <Select.Popover>
-              <ListBox>
-                {rowCountOptions.map(option => (
-                  <ListBox.Item key={option} id={option} textValue={option}>
-                    {option}
-                  </ListBox.Item>
-                ))}
-              </ListBox>
-            </Select.Popover>
-          </Select>
-          <Label>Entries</Label>
-        </div>
-
         <SearchField
           aria-label="Search classes"
           value={searchQuery}

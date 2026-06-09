@@ -5,14 +5,16 @@ import {
   Checkbox,
   Chip,
   Dropdown,
+  ListBox,
   Pagination,
+  Select,
   type Selection,
   type SortDescriptor,
   Table
 } from '@vezham/react-v3'
 
 import { BulkActionBar } from '../../../../shared/bulk-action-bar'
-import { allClassesColumnOptions } from '../../data'
+import { allClassesColumnOptions, rowCountOptions } from '../../data'
 import type { AllClassesColumnKey, ClassRow, DrawerMode } from '../../types'
 import { getPaginationSummary } from '../../utils/classes'
 import { classNames, getTableRowClassName } from '../../variants'
@@ -25,6 +27,7 @@ type ClassesTableProps = {
   rows: ClassRow[]
   selectedCount: number
   selectedKeys: Selection
+  rowsPerPage: string
   visibleColumns: Set<AllClassesColumnKey>
   sortDescriptor: SortDescriptor
   totalPages: number
@@ -38,6 +41,7 @@ type ClassesTableProps = {
   onPageChange: (value: number | ((current: number) => number)) => void
   onClearSelection: () => void
   onSelectionChange: (keys: Selection) => void
+  onRowsPerPageChange: (value: string | number | null) => void
   onSortChange: (descriptor: SortDescriptor) => void
 }
 
@@ -48,6 +52,7 @@ export function ClassesTable({
   rows,
   selectedCount,
   selectedKeys,
+  rowsPerPage,
   visibleColumns,
   sortDescriptor,
   totalPages,
@@ -61,6 +66,7 @@ export function ClassesTable({
   onPageChange,
   onClearSelection,
   onSelectionChange,
+  onRowsPerPageChange,
   onSortChange
 }: ClassesTableProps) {
   const tableMinWidth =
@@ -117,7 +123,7 @@ export function ClassesTable({
                     )}
                   </Table.Column>
                 ))}
-              <Table.Column width={132}>Actions</Table.Column>
+              {/* <Table.Column width={132}>Actions</Table.Column> */}
             </Table.Header>
 
             <Table.Body renderEmptyState={() => <TableEmptyState />}>
@@ -169,7 +175,7 @@ export function ClassesTable({
                         </Table.Cell>
                       )
                     })}
-                  <Table.Cell>
+                  {/* <Table.Cell>
                     <div
                       className={classNames.rowActions}
                       onPointerDown={event => event.stopPropagation()}
@@ -217,7 +223,7 @@ export function ClassesTable({
                         </Dropdown.Popover>
                       </Dropdown>
                     </div>
-                  </Table.Cell>
+                  </Table.Cell> */}
                 </Table.Row>
               ))}
             </Table.Body>
@@ -226,10 +232,37 @@ export function ClassesTable({
       </Table.ScrollContainer>
 
       <Table.Footer>
-        <Pagination>
-          <Pagination.Summary>
-            {getPaginationSummary(currentPage, pageSize, totalRows)}
-          </Pagination.Summary>
+        <Pagination className="flex w-full flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className={classNames.rowsControls}>
+            <Pagination.Summary>
+              {getPaginationSummary(currentPage, pageSize, totalRows)}
+            </Pagination.Summary>
+            <span aria-hidden="true" className="text-muted">
+              |
+            </span>
+            <Select
+              aria-label="Rows per page"
+              value={rowsPerPage}
+              onChange={onRowsPerPageChange}>
+              <Select.Trigger>
+                <Select.Value />
+                <Select.Indicator />
+              </Select.Trigger>
+              <Select.Popover>
+                <ListBox>
+                  {rowCountOptions.map(option => (
+                    <ListBox.Item key={option} id={option} textValue={option}>
+                      {option}
+                    </ListBox.Item>
+                  ))}
+                </ListBox>
+              </Select.Popover>
+            </Select>
+            <span aria-hidden="true" className="text-muted text-sm">
+              per page
+            </span>
+          </div>
+
           <Pagination.Content>
             <Pagination.Item>
               <Pagination.Previous
@@ -267,8 +300,8 @@ export function ClassesTable({
       <BulkActionBar
         ariaLabel="All classes bulk actions"
         selectedCount={selectedCount}
-        editLabel="Edit selected class"
-        deleteLabel="Delete selected classes"
+        editLabel="Edit"
+        deleteLabel="Delete"
         onEdit={onBulkEdit}
         onCopyIds={onBulkCopyIds}
         onCopyLinks={onBulkCopyLinks}

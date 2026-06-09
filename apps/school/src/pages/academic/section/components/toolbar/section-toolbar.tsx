@@ -1,13 +1,5 @@
-import {
-  Label,
-  ListBox,
-  SearchField,
-  Select,
-  type SortDescriptor,
-  Surface
-} from '@vezham/react-v3'
+import { SearchField, type SortDescriptor, Surface } from '@vezham/react-v3'
 
-import { rowCountOptions } from '../../data'
 import type {
   CustomDateRangeValue,
   DatePresetKey,
@@ -27,19 +19,17 @@ type SectionToolbarProps = {
   draftFilters: FilterDraft
   isCustomDateRangeOpen: boolean
   isDateDropdownOpen: boolean
-  rowsPerPage: string
   searchQuery: string
   visibleColumns: Set<SectionColumnKey>
   setDraftFilters: (filters: FilterDraft) => void
-  sortField: SortDescriptor['column']
   sortDirection: SortDescriptor['direction']
+  sortField: SortDescriptor['column']
   onApplyFilters: () => void
   onCustomDateRangeChange: (value: CustomDateRangeValue | null) => void
   onCustomDateRangeOpenChange: (isOpen: boolean) => void
   onDateDropdownOpenChange: (isOpen: boolean) => void
   onDatePresetChange: (key: DatePresetKey) => void
   onResetFilters: () => void
-  onRowsPerPageChange: (value: string | number | null) => void
   onSearchChange: (value: string) => void
   onVisibleColumnsChange: (columns: Set<SectionColumnKey>) => void
   onSortFieldChange: (column: SortDescriptor['column']) => void
@@ -53,7 +43,6 @@ export function SectionToolbar({
   draftFilters,
   isCustomDateRangeOpen,
   isDateDropdownOpen,
-  rowsPerPage,
   searchQuery,
   visibleColumns,
   setDraftFilters,
@@ -65,7 +54,6 @@ export function SectionToolbar({
   onDateDropdownOpenChange,
   onDatePresetChange,
   onResetFilters,
-  onRowsPerPageChange,
   onSearchChange,
   onVisibleColumnsChange,
   onSortDirectionChange,
@@ -114,29 +102,6 @@ export function SectionToolbar({
       </div>
 
       <div className={classNames.headerRow}>
-        <div className={classNames.rowsControls}>
-          <Label>Rows per page</Label>
-          <Select
-            aria-label="Rows per page"
-            value={rowsPerPage}
-            onChange={onRowsPerPageChange}>
-            <Select.Trigger>
-              <Select.Value />
-              <Select.Indicator />
-            </Select.Trigger>
-            <Select.Popover>
-              <ListBox>
-                {rowCountOptions.map(option => (
-                  <ListBox.Item key={option} id={option} textValue={option}>
-                    {option}
-                  </ListBox.Item>
-                ))}
-              </ListBox>
-            </Select.Popover>
-          </Select>
-          <Label>Entries</Label>
-        </div>
-
         <SearchField
           aria-label="Search schedules"
           value={searchQuery}

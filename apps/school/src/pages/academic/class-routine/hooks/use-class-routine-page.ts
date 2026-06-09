@@ -94,10 +94,12 @@ export function useClassRoutinePage() {
   const [customDateRange, setCustomDateRange] =
     useState<DateRangeFilter | null>(null)
   const [sortField, setSortField] =
-    useState<(typeof sortOptions)[number]['column']>('viewedAt')
+    useState<SortDescriptor['column']>('viewedAt')
   const [sortDirection, setSortDirection] =
     useState<SortDescriptor['direction']>('descending')
-  const [activeSortLabel, setActiveSortLabel] = useState('Sort')
+  const [activeSortLabel, setActiveSortLabel] = useState(() =>
+    getSortLabel('viewedAt')
+  )
   const [filters, setFilters] = useState<FilterDraft>(emptyFilters)
   const [draftFilters, setDraftFilters] = useState<FilterDraft>(filters)
   const [visibleColumns, setVisibleColumns] = useState<
@@ -643,7 +645,7 @@ export function useClassRoutinePage() {
     setPage(1)
   }
 
-  const updateSortField = (column: (typeof sortOptions)[number]['column']) => {
+  const updateSortField = (column: SortDescriptor['column']) => {
     setSortField(column)
     setActiveSortLabel(getSortLabel(column))
     setPage(1)
@@ -655,7 +657,7 @@ export function useClassRoutinePage() {
   }
 
   const updateSortChange = (descriptor: SortDescriptor) => {
-    setSortField(descriptor.column as (typeof sortOptions)[number]['column'])
+    setSortField(descriptor.column)
     setSortDirection(descriptor.direction)
     setActiveSortLabel(getSortLabel(descriptor.column))
     setPage(1)
@@ -822,7 +824,6 @@ export function useClassRoutinePage() {
       onDateDropdownOpenChange: updateDateDropdownOpen,
       onDatePresetChange: updateDatePreset,
       onResetFilters: resetFilters,
-      onRowsPerPageChange: updateRowsPerPage,
       onSearchChange: updateSearch,
       onVisibleColumnsChange: updateVisibleColumns,
       sortField,
@@ -837,6 +838,7 @@ export function useClassRoutinePage() {
       rows: paginatedRows,
       selectedCount: selectedRows.length,
       selectedKeys: tableSelectedKeys,
+      rowsPerPage,
       visibleColumns,
       sortDescriptor,
       totalPages,
@@ -850,6 +852,7 @@ export function useClassRoutinePage() {
       onBulkCopyLinks: copySelectedLinks,
       onBulkDelete: deleteSelectedClasses,
       onSelectionChange: updateTableSelection,
+      onRowsPerPageChange: updateRowsPerPage,
       onSortChange: updateSortChange
     },
     drawerProps: {

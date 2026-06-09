@@ -69,8 +69,12 @@ const getRowIdFromPath = (pathname: string) => {
   return id ? decodeURIComponent(id) : null
 }
 
-const getSortLabel = (column: (typeof sortOptions)[number]['column']) => {
-  return sortOptions.find(option => option.column === column)?.label ?? 'Sort'
+const getSortLabel = (column: SortDescriptor['column']) => {
+  return (
+    sortOptions.find(option => option.column === column)?.label ??
+    allClassesColumnOptions.find(option => option.key === column)?.label ??
+    'Sort'
+  )
 }
 
 export function useClassesPage() {
@@ -85,12 +89,12 @@ export function useClassesPage() {
   const [customDateRange, setCustomDateRange] =
     useState<DateRangeFilter | null>(null)
   const [sortField, setSortField] =
-    useState<(typeof sortOptions)[number]['column']>('viewedAt')
+    useState<SortDescriptor['column']>('viewedAt')
   const [sortDirection, setSortDirection] =
-    useState<SortDescriptor['direction']>('ascending')
-  const [selectedSortField, setSelectedSortField] = useState<
-    (typeof sortOptions)[number]['column'] | null
-  >(null)
+    useState<SortDescriptor['direction']>('descending')
+  const [activeSortLabel, setActiveSortLabel] = useState(() =>
+    getSortLabel('viewedAt')
+  )
   const [filters, setFilters] = useState<FilterDraft>(emptyFilters)
   const [draftFilters, setDraftFilters] = useState<FilterDraft>(filters)
   const [visibleColumns, setVisibleColumns] = useState<
@@ -120,10 +124,6 @@ export function useClassesPage() {
     }),
     [sortDirection, sortField]
   )
-  const activeSortLabel = selectedSortField
-    ? getSortLabel(selectedSortField)
-    : 'Sort'
-
   const filteredRows = useMemo(() => {
     const query = searchQuery.trim().toLowerCase()
 
@@ -619,9 +619,9 @@ export function useClassesPage() {
     setPage(1)
   }
 
-  const updateSortField = (column: (typeof sortOptions)[number]['column']) => {
+  const updateSortField = (column: SortDescriptor['column']) => {
     setSortField(column)
-    setSelectedSortField(column)
+    setActiveSortLabel(getSortLabel(column))
     setPage(1)
   }
 
@@ -631,11 +631,8 @@ export function useClassesPage() {
   }
 
   const updateSortChange = (descriptor: SortDescriptor) => {
-    const nextField =
-      descriptor.column as (typeof sortOptions)[number]['column']
-
-    setSortField(nextField)
-    setSelectedSortField(nextField)
+    setSortField(descriptor.column)
+    setActiveSortLabel(getSortLabel(descriptor.column))
     setSortDirection(descriptor.direction)
     setPage(1)
   }
@@ -765,7 +762,6 @@ export function useClassesPage() {
       draftFilters,
       isCustomDateRangeOpen,
       isDateDropdownOpen,
-      rowsPerPage,
       searchQuery,
       setDraftFilters,
       onApplyFilters: applyFilters,
@@ -791,6 +787,7 @@ export function useClassesPage() {
       sortDescriptor,
       totalPages,
       totalRows: sortedRows.length,
+      rowsPerPage,
       onBulkEdit: editSelectedClass,
       onBulkCopyIds: copySelectedIds,
       onBulkCopyLinks: copySelectedLinks,
@@ -800,7 +797,8 @@ export function useClassesPage() {
       onPageChange: setPage,
       onClearSelection: clearSelection,
       onSelectionChange: updateTableSelection,
-      onSortChange: updateSortChange
+      onSortChange: updateSortChange,
+      onRowsPerPageChange: updateRowsPerPage
     },
     drawerProps: {
       canGoNext:

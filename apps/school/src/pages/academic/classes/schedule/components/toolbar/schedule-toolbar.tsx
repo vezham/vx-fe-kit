@@ -1,7 +1,7 @@
-import { Label, ListBox, SearchField, Select, Surface } from '@vezham/react-v3'
+import { SearchField, type SortDescriptor, Surface } from '@vezham/react-v3'
 
 import { ColumnsDropdown } from '../../../../shared/columns-dropdown'
-import { rowCountOptions, scheduleColumnOptions, sortOptions } from '../../data'
+import { scheduleColumnOptions } from '../../data'
 import type {
   CustomDateRangeValue,
   DatePresetKey,
@@ -20,7 +20,6 @@ type ScheduleToolbarProps = {
   draftFilters: FilterDraft
   isCustomDateRangeOpen: boolean
   isDateDropdownOpen: boolean
-  rowsPerPage: string
   searchQuery: string
   visibleColumns: Set<ScheduleColumnKey>
   setDraftFilters: (filters: FilterDraft) => void
@@ -30,13 +29,12 @@ type ScheduleToolbarProps = {
   onDateDropdownOpenChange: (isOpen: boolean) => void
   onDatePresetChange: (key: DatePresetKey) => void
   onResetFilters: () => void
-  onRowsPerPageChange: (value: string | number | null) => void
   onSearchChange: (value: string) => void
   onVisibleColumnsChange: (columns: Set<ScheduleColumnKey>) => void
-  sortField: (typeof sortOptions)[number]['column']
-  sortDirection: 'ascending' | 'descending'
-  onSortFieldChange: (column: (typeof sortOptions)[number]['column']) => void
-  onSortDirectionChange: (direction: 'ascending' | 'descending') => void
+  sortField: SortDescriptor['column']
+  sortDirection: SortDescriptor['direction']
+  onSortFieldChange: (column: SortDescriptor['column']) => void
+  onSortDirectionChange: (direction: SortDescriptor['direction']) => void
 }
 
 export function ScheduleToolbar({
@@ -46,7 +44,6 @@ export function ScheduleToolbar({
   draftFilters,
   isCustomDateRangeOpen,
   isDateDropdownOpen,
-  rowsPerPage,
   searchQuery,
   visibleColumns,
   setDraftFilters,
@@ -56,7 +53,6 @@ export function ScheduleToolbar({
   onDateDropdownOpenChange,
   onDatePresetChange,
   onResetFilters,
-  onRowsPerPageChange,
   onSearchChange,
   onVisibleColumnsChange,
   sortField,
@@ -92,6 +88,7 @@ export function ScheduleToolbar({
           />
 
           <ColumnsDropdown
+            ariaLabel="Schedule columns"
             columns={scheduleColumnOptions}
             visibleColumns={visibleColumns as Set<string>}
             onVisibleColumnsChange={columns =>
@@ -112,29 +109,6 @@ export function ScheduleToolbar({
       </div>
 
       <div className={classNames.headerRow}>
-        <div className={classNames.rowsControls}>
-          <Label>Rows per page</Label>
-          <Select
-            aria-label="Rows per page"
-            value={rowsPerPage}
-            onChange={onRowsPerPageChange}>
-            <Select.Trigger>
-              <Select.Value />
-              <Select.Indicator />
-            </Select.Trigger>
-            <Select.Popover>
-              <ListBox>
-                {rowCountOptions.map(option => (
-                  <ListBox.Item key={option} id={option} textValue={option}>
-                    {option}
-                  </ListBox.Item>
-                ))}
-              </ListBox>
-            </Select.Popover>
-          </Select>
-          <Label>Entries</Label>
-        </div>
-
         <SearchField
           aria-label="Search schedules"
           value={searchQuery}

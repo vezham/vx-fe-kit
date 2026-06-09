@@ -283,7 +283,7 @@ export const classRoutineColumnOptions = [
   },
   {
     key: 'classroom',
-    label: 'Class Room',
+    label: 'Classroom',
     defaultWidth: 140,
     minWidth: 120,
     maxWidth: 180

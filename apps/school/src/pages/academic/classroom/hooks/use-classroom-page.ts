@@ -69,7 +69,11 @@ const emptyFilters: FilterDraft = {
 }
 
 const getSortLabel = (column: SortDescriptor['column']) => {
-  return sortOptions.find(option => option.column === column)?.label ?? 'Sort'
+  return (
+    sortOptions.find(option => option.column === column)?.label ??
+    classroomColumnOptions.find(option => option.key === column)?.label ??
+    'Sort'
+  )
 }
 
 export function useClassroomPage() {
@@ -84,7 +88,7 @@ export function useClassroomPage() {
   const [customDateRange, setCustomDateRange] =
     useState<DateRangeFilter | null>(null)
   const [sortField, setSortField] =
-    useState<(typeof sortOptions)[number]['column']>('viewedAt')
+    useState<SortDescriptor['column']>('viewedAt')
   const [sortDirection, setSortDirection] =
     useState<SortDescriptor['direction']>('descending')
   const [activeSortLabel, setActiveSortLabel] = useState('Sort')
@@ -606,7 +610,7 @@ export function useClassroomPage() {
     )
   }, [activeRowId, closeDrawer, selectedRows, showToast])
 
-  const updateSortField = (column: (typeof sortOptions)[number]['column']) => {
+  const updateSortField = (column: SortDescriptor['column']) => {
     setSortField(column)
     setActiveSortLabel(getSortLabel(column))
     setPage(1)
@@ -618,7 +622,7 @@ export function useClassroomPage() {
   }
 
   const updateSortChange = (descriptor: SortDescriptor) => {
-    setSortField(descriptor.column as (typeof sortOptions)[number]['column'])
+    setSortField(descriptor.column)
     setSortDirection(descriptor.direction)
     setActiveSortLabel(getSortLabel(descriptor.column))
     setPage(1)
@@ -782,6 +786,7 @@ export function useClassroomPage() {
       rows: paginatedRows,
       selectedCount: selectedRows.length,
       selectedKeys: tableSelectedKeys,
+      rowsPerPage,
       visibleColumns,
       sortDescriptor,
       totalPages,
@@ -795,6 +800,7 @@ export function useClassroomPage() {
       onOpenDrawer: openDrawer,
       onPageChange: setPage,
       onSelectionChange: updateTableSelection,
+      onRowsPerPageChange: updateRowsPerPage,
       onSortChange: updateSortChange
     },
     drawerProps: {

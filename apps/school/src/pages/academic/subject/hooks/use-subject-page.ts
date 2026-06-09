@@ -69,7 +69,11 @@ const emptyFilters: FilterDraft = {
 }
 
 const getSortLabel = (column: SortDescriptor['column']) => {
-  return sortOptions.find(option => option.column === column)?.label ?? 'Sort'
+  return (
+    sortOptions.find(option => option.column === column)?.label ??
+    subjectColumnOptions.find(option => option.key === column)?.label ??
+    'Sort'
+  )
 }
 
 export function useSubjectPage() {
@@ -84,7 +88,7 @@ export function useSubjectPage() {
   const [customDateRange, setCustomDateRange] =
     useState<DateRangeFilter | null>(null)
   const [sortField, setSortField] =
-    useState<(typeof sortOptions)[number]['column']>('viewedAt')
+    useState<SortDescriptor['column']>('viewedAt')
   const [sortDirection, setSortDirection] =
     useState<SortDescriptor['direction']>('descending')
   const [activeSortLabel, setActiveSortLabel] = useState('Sort')
@@ -531,7 +535,7 @@ export function useSubjectPage() {
   }
 
   const updateSortField = (column: SortDescriptor['column']) => {
-    setSortField(column as (typeof sortOptions)[number]['column'])
+    setSortField(column)
     setActiveSortLabel(getSortLabel(column))
     setPage(1)
   }
@@ -542,7 +546,7 @@ export function useSubjectPage() {
   }
 
   const updateSortChange = (descriptor: SortDescriptor) => {
-    setSortField(descriptor.column as (typeof sortOptions)[number]['column'])
+    setSortField(descriptor.column)
     setSortDirection(descriptor.direction)
     setActiveSortLabel(getSortLabel(descriptor.column))
     setPage(1)
@@ -763,6 +767,7 @@ export function useSubjectPage() {
       rows: paginatedRows,
       selectedCount: selectedRows.length,
       selectedKeys: tableSelectedKeys,
+      rowsPerPage,
       visibleColumns,
       sortDescriptor,
       totalPages,
@@ -776,6 +781,7 @@ export function useSubjectPage() {
       onPageChange: setPage,
       onClearSelection: clearSelection,
       onSelectionChange: updateTableSelection,
+      onRowsPerPageChange: updateRowsPerPage,
       onSortChange: updateSortChange
     },
     drawerProps: {

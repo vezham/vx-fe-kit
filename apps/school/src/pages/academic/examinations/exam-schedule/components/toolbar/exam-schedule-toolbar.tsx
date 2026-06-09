@@ -1,14 +1,7 @@
-import {
-  Label,
-  ListBox,
-  SearchField,
-  Select,
-  type SortDescriptor,
-  Surface
-} from '@vezham/react-v3'
+import { SearchField, type SortDescriptor, Surface } from '@vezham/react-v3'
 
 import { ColumnsDropdown } from '../../../../shared/columns-dropdown'
-import { examScheduleColumnOptions, rowCountOptions } from '../../data'
+import { examScheduleColumnOptions } from '../../data'
 import type {
   CustomDateRangeValue,
   DatePresetKey,
@@ -27,7 +20,6 @@ type ExamScheduleToolbarProps = {
   draftFilters: FilterDraft
   isCustomDateRangeOpen: boolean
   isDateDropdownOpen: boolean
-  rowsPerPage: string
   searchQuery: string
   visibleColumns: Set<ScheduleColumnKey>
   setDraftFilters: (filters: FilterDraft) => void
@@ -37,7 +29,6 @@ type ExamScheduleToolbarProps = {
   onDateDropdownOpenChange: (isOpen: boolean) => void
   onDatePresetChange: (key: DatePresetKey) => void
   onResetFilters: () => void
-  onRowsPerPageChange: (value: string | number | null) => void
   onSearchChange: (value: string) => void
   sortDirection: SortDescriptor['direction']
   sortField: SortDescriptor['column']
@@ -53,7 +44,6 @@ export function ExamScheduleToolbar({
   draftFilters,
   isCustomDateRangeOpen,
   isDateDropdownOpen,
-  rowsPerPage,
   searchQuery,
   visibleColumns,
   setDraftFilters,
@@ -63,7 +53,6 @@ export function ExamScheduleToolbar({
   onDateDropdownOpenChange,
   onDatePresetChange,
   onResetFilters,
-  onRowsPerPageChange,
   onSearchChange,
   sortDirection,
   sortField,
@@ -116,39 +105,18 @@ export function ExamScheduleToolbar({
       </div>
 
       <div className={classNames.headerRow}>
-        <div className={classNames.rowsControls}>
-          <Label>Rows per page</Label>
-          <Select
-            aria-label="Rows per page"
-            value={rowsPerPage}
-            onChange={onRowsPerPageChange}>
-            <Select.Trigger>
-              <Select.Value />
-              <Select.Indicator />
-            </Select.Trigger>
-            <Select.Popover>
-              <ListBox>
-                {rowCountOptions.map(option => (
-                  <ListBox.Item key={option} id={option} textValue={option}>
-                    {option}
-                  </ListBox.Item>
-                ))}
-              </ListBox>
-            </Select.Popover>
-          </Select>
-          <Label>Entries</Label>
+        <div className="ml-auto">
+          <SearchField
+            aria-label="Search schedules"
+            value={searchQuery}
+            onChange={onSearchChange}>
+            <SearchField.Group>
+              <SearchField.SearchIcon />
+              <SearchField.Input placeholder="Search" />
+              <SearchField.ClearButton />
+            </SearchField.Group>
+          </SearchField>
         </div>
-
-        <SearchField
-          aria-label="Search schedules"
-          value={searchQuery}
-          onChange={onSearchChange}>
-          <SearchField.Group>
-            <SearchField.SearchIcon />
-            <SearchField.Input placeholder="Search" />
-            <SearchField.ClearButton />
-          </SearchField.Group>
-        </SearchField>
       </div>
     </Surface>
   )

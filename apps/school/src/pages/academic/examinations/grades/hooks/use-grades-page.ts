@@ -72,7 +72,11 @@ const emptyFilters: FilterDraft = {
 }
 
 const getSortLabel = (column: SortDescriptor['column']) => {
-  return sortOptions.find(option => option.column === column)?.label ?? 'Sort'
+  return (
+    sortOptions.find(option => option.column === column)?.label ??
+    gradeColumnOptions.find(option => option.key === column)?.label ??
+    'Sort'
+  )
 }
 
 export function useGradesPage() {
@@ -86,11 +90,12 @@ export function useGradesPage() {
   const [isCustomDateRangeOpen, setIsCustomDateRangeOpen] = useState(false)
   const [customDateRange, setCustomDateRange] =
     useState<DateRangeFilter | null>(null)
-  const [sortField, setSortField] =
-    useState<(typeof sortOptions)[number]['column']>('viewedAt')
+  const [sortField, setSortField] = useState<SortDescriptor['column']>('id')
   const [sortDirection, setSortDirection] =
     useState<SortDescriptor['direction']>('descending')
-  const [activeSortLabel, setActiveSortLabel] = useState('Sort')
+  const [activeSortLabel, setActiveSortLabel] = useState(() =>
+    getSortLabel('id')
+  )
   const [filters, setFilters] = useState<FilterDraft>(emptyFilters)
   const [draftFilters, setDraftFilters] = useState<FilterDraft>(filters)
   const [visibleColumns, setVisibleColumns] = useState<Set<GradeColumnKey>>(
@@ -603,7 +608,7 @@ export function useGradesPage() {
   }
 
   const updateSortField = (column: SortDescriptor['column']) => {
-    setSortField(column as (typeof sortOptions)[number]['column'])
+    setSortField(column)
     setActiveSortLabel(getSortLabel(column))
     setPage(1)
   }
@@ -614,7 +619,7 @@ export function useGradesPage() {
   }
 
   const updateSortDescriptor = (descriptor: SortDescriptor) => {
-    setSortField(descriptor.column as (typeof sortOptions)[number]['column'])
+    setSortField(descriptor.column)
     setSortDirection(descriptor.direction)
     setActiveSortLabel(getSortLabel(descriptor.column))
     setPage(1)
@@ -740,7 +745,6 @@ export function useGradesPage() {
       draftFilters,
       isCustomDateRangeOpen,
       isDateDropdownOpen,
-      rowsPerPage,
       searchQuery,
       visibleColumns,
       setDraftFilters,
@@ -750,7 +754,6 @@ export function useGradesPage() {
       onDateDropdownOpenChange: updateDateDropdownOpen,
       onDatePresetChange: updateDatePreset,
       onResetFilters: resetFilters,
-      onRowsPerPageChange: updateRowsPerPage,
       onSearchChange: updateSearch,
       onVisibleColumnsChange: updateVisibleColumns,
       sortDirection,
@@ -765,6 +768,7 @@ export function useGradesPage() {
       rows: paginatedRows,
       selectedCount,
       selectedKeys: tableSelectedKeys,
+      rowsPerPage,
       visibleColumns,
       sortDescriptor,
       totalPages,
@@ -777,6 +781,7 @@ export function useGradesPage() {
       onDelete: deleteClass,
       onOpenDrawer: openDrawer,
       onPageChange: setPage,
+      onRowsPerPageChange: updateRowsPerPage,
       onSelectionChange: setSelectedRowKeys,
       onSortChange: updateSortDescriptor
     },

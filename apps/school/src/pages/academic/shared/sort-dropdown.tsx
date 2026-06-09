@@ -1,6 +1,11 @@
 import { Icon } from '@iconify/react'
 
-import { Button, Dropdown, type SortDescriptor } from '@vezham/react-v3'
+import {
+  Button,
+  Dropdown,
+  Separator,
+  type SortDescriptor
+} from '@vezham/react-v3'
 
 import { classNames } from '../class-routine/variants'
 import { sortOrderOptions as defaultSortOrderOptions } from './sort'
@@ -47,6 +52,13 @@ export function SortDropdown({
       ? 'lucide:arrow-up-wide-narrow'
       : 'lucide:arrow-down-wide-narrow'
   const selectedKeys = new Set([activeField.key, activeDirection])
+  const recentSortKeys = new Set(['recentlyViewed', 'recentlyAdded'])
+  const recentlyUsedOptions = sortOptions.filter(option =>
+    recentSortKeys.has(option.key)
+  )
+  const tableColumnOptions = sortOptions.filter(
+    option => !recentSortKeys.has(option.key)
+  )
 
   const updateSortField = (column: string) => {
     onSortFieldChange(column)
@@ -70,8 +82,8 @@ export function SortDropdown({
           aria-label={ariaLabel}
           selectedKeys={selectedKeys}
           selectionMode="multiple">
-          <Dropdown.Section aria-label="Sort by">
-            {sortOptions.map(option => (
+          <Dropdown.Section aria-label="Recently used">
+            {recentlyUsedOptions.map(option => (
               <Dropdown.Item
                 key={option.key}
                 id={option.key}
@@ -84,6 +96,23 @@ export function SortDropdown({
               </Dropdown.Item>
             ))}
           </Dropdown.Section>
+
+          <Dropdown.Section aria-label="Table columns">
+            {tableColumnOptions.map(option => (
+              <Dropdown.Item
+                key={option.key}
+                id={option.key}
+                textValue={option.label}
+                onPress={() => updateSortField(option.column)}>
+                <span className={classNames.dateOptionLabel}>
+                  {option.label}
+                  <Dropdown.ItemIndicator />
+                </span>
+              </Dropdown.Item>
+            ))}
+          </Dropdown.Section>
+
+          <Separator />
 
           <Dropdown.Section aria-label="Order">
             {sortOrderOptions.map(option => (

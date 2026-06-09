@@ -5,14 +5,16 @@ import {
   Checkbox,
   Chip,
   Dropdown,
+  ListBox,
   Pagination,
+  Select,
   type Selection,
   type SortDescriptor,
   Table
 } from '@vezham/react-v3'
 
 import { BulkActionBar } from '../../../../shared/bulk-action-bar'
-import { gradeColumnOptions } from '../../data'
+import { gradeColumnOptions, rowCountOptions } from '../../data'
 import type { ClassRow, DrawerMode, GradeColumnKey } from '../../types'
 import { getPaginationSummary } from '../../utils/grades'
 import { classNames, getTableRowClassName } from '../../variants'
@@ -25,6 +27,7 @@ type GradesTableProps = {
   rows: ClassRow[]
   selectedCount: number
   selectedKeys: Selection
+  rowsPerPage: string
   visibleColumns: Set<GradeColumnKey>
   sortDescriptor: SortDescriptor
   totalPages: number
@@ -38,6 +41,7 @@ type GradesTableProps = {
   onOpenDrawer: (mode: DrawerMode, row: ClassRow) => void
   onPageChange: (value: number | ((current: number) => number)) => void
   onSelectionChange: (keys: Selection) => void
+  onRowsPerPageChange: (value: string | number | null) => void
   onSortChange: (descriptor: SortDescriptor) => void
 }
 
@@ -61,6 +65,8 @@ export function GradesTable({
   onOpenDrawer,
   onPageChange,
   onSelectionChange,
+  rowsPerPage,
+  onRowsPerPageChange,
   onSortChange
 }: GradesTableProps) {
   const tableMinWidth =
@@ -117,7 +123,7 @@ export function GradesTable({
                     )}
                   </Table.Column>
                 ))}
-              <Table.Column width={132}>Actions</Table.Column>
+              {/* <Table.Column width={132}>Actions</Table.Column> */}
             </Table.Header>
 
             <Table.Body renderEmptyState={() => <TableEmptyState />}>
@@ -162,7 +168,7 @@ export function GradesTable({
                         )}
                       </Table.Cell>
                     ))}
-                  <Table.Cell>
+                  {/* <Table.Cell>
                     <div
                       className={classNames.rowActions}
                       onClick={event => event.stopPropagation()}
@@ -210,7 +216,7 @@ export function GradesTable({
                         </Dropdown.Popover>
                       </Dropdown>
                     </div>
-                  </Table.Cell>
+                  </Table.Cell> */}
                 </Table.Row>
               ))}
             </Table.Body>
@@ -219,10 +225,37 @@ export function GradesTable({
       </Table.ScrollContainer>
 
       <Table.Footer>
-        <Pagination>
-          <Pagination.Summary>
-            {getPaginationSummary(currentPage, pageSize, totalRows)}
-          </Pagination.Summary>
+        <Pagination className="flex w-full flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className={classNames.rowsControls}>
+            <Pagination.Summary>
+              {getPaginationSummary(currentPage, pageSize, totalRows)}
+            </Pagination.Summary>
+            <span aria-hidden="true" className="text-muted">
+              |
+            </span>
+            <Select
+              aria-label="Rows per page"
+              value={rowsPerPage}
+              onChange={onRowsPerPageChange}>
+              <Select.Trigger>
+                <Select.Value />
+                <Select.Indicator />
+              </Select.Trigger>
+              <Select.Popover>
+                <ListBox>
+                  {rowCountOptions.map(option => (
+                    <ListBox.Item key={option} id={option} textValue={option}>
+                      {option}
+                    </ListBox.Item>
+                  ))}
+                </ListBox>
+              </Select.Popover>
+            </Select>
+            <span aria-hidden="true" className="text-muted text-sm">
+              per page
+            </span>
+          </div>
+
           <Pagination.Content>
             <Pagination.Item>
               <Pagination.Previous

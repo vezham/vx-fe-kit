@@ -79,7 +79,11 @@ const emptyFilters: FilterDraft = {
 }
 
 const getSortLabel = (column: SortDescriptor['column']) => {
-  return sortOptions.find(option => option.column === column)?.label ?? 'Sort'
+  return (
+    sortOptions.find(option => option.column === column)?.label ??
+    attendanceColumnOptions.find(option => option.key === column)?.label ??
+    'Sort'
+  )
 }
 
 export function useExamAttendancePage() {
@@ -93,11 +97,12 @@ export function useExamAttendancePage() {
   const [isCustomDateRangeOpen, setIsCustomDateRangeOpen] = useState(false)
   const [customDateRange, setCustomDateRange] =
     useState<DateRangeFilter | null>(null)
-  const [sortField, setSortField] =
-    useState<(typeof sortOptions)[number]['column']>('viewedAt')
+  const [sortField, setSortField] = useState<SortDescriptor['column']>('id')
   const [sortDirection, setSortDirection] =
     useState<SortDescriptor['direction']>('descending')
-  const [activeSortLabel, setActiveSortLabel] = useState('Sort')
+  const [activeSortLabel, setActiveSortLabel] = useState(() =>
+    getSortLabel('id')
+  )
   const [filters, setFilters] = useState<FilterDraft>(emptyFilters)
   const [draftFilters, setDraftFilters] = useState<FilterDraft>(filters)
   const [visibleColumns, setVisibleColumns] = useState<
@@ -635,7 +640,7 @@ export function useExamAttendancePage() {
   }
 
   const updateSortField = (column: SortDescriptor['column']) => {
-    setSortField(column as (typeof sortOptions)[number]['column'])
+    setSortField(column)
     setActiveSortLabel(getSortLabel(column))
     setPage(1)
   }
@@ -646,7 +651,7 @@ export function useExamAttendancePage() {
   }
 
   const updateSortDescriptor = (descriptor: SortDescriptor) => {
-    setSortField(descriptor.column as (typeof sortOptions)[number]['column'])
+    setSortField(descriptor.column)
     setSortDirection(descriptor.direction)
     setActiveSortLabel(getSortLabel(descriptor.column))
     setPage(1)
@@ -783,7 +788,6 @@ export function useExamAttendancePage() {
       draftFilters,
       isCustomDateRangeOpen,
       isDateDropdownOpen,
-      rowsPerPage,
       searchQuery,
       visibleColumns,
       setDraftFilters,
@@ -793,7 +797,6 @@ export function useExamAttendancePage() {
       onDateDropdownOpenChange: setIsDateDropdownOpen,
       onDatePresetChange: updateDatePreset,
       onResetFilters: resetFilters,
-      onRowsPerPageChange: updateRowsPerPage,
       onSearchChange: updateSearch,
       onVisibleColumnsChange: updateVisibleColumns,
       sortDirection,
@@ -808,6 +811,7 @@ export function useExamAttendancePage() {
       rows: paginatedRows,
       selectedCount,
       selectedKeys: tableSelectedKeys,
+      rowsPerPage,
       visibleColumns,
       sortDescriptor,
       totalPages,
@@ -820,6 +824,7 @@ export function useExamAttendancePage() {
       onDelete: deleteAttendance,
       onOpenDrawer: openDrawer,
       onPageChange: setPage,
+      onRowsPerPageChange: updateRowsPerPage,
       onSelectionChange: updateTableSelection,
       onSortChange: updateSortDescriptor
     },

@@ -1,15 +1,24 @@
 import { Icon } from '@iconify/react'
 
-import { Button, Dropdown, type SortDescriptor } from '@vezham/react-v3'
+import {
+  Button,
+  Dropdown,
+  Separator,
+  type SortDescriptor
+} from '@vezham/react-v3'
 
-import { sortOptions, sortOrderOptions } from '../../data'
+import {
+  classRoutineColumnOptions,
+  sortOptions,
+  sortOrderOptions
+} from '../../data'
 import { classNames } from '../../variants'
 
 type SortDropdownProps = {
   activeSortLabel: string
-  sortField: (typeof sortOptions)[number]['column']
+  sortField: SortDescriptor['column']
   sortDirection: SortDescriptor['direction']
-  onSortFieldChange: (column: (typeof sortOptions)[number]['column']) => void
+  onSortFieldChange: (column: SortDescriptor['column']) => void
   onSortDirectionChange: (direction: SortDescriptor['direction']) => void
 }
 
@@ -20,22 +29,15 @@ export function SortDropdown({
   onSortFieldChange,
   onSortDirectionChange
 }: SortDropdownProps) {
-  const activeField =
-    sortOptions.find(option => option.column === sortField) ?? sortOptions[0]
   const activeDirection = sortDirection ?? 'ascending'
   const activeSortIcon =
     activeDirection === 'ascending'
       ? 'lucide:arrow-up-wide-narrow'
       : 'lucide:arrow-down-wide-narrow'
-  const selectedKeys = new Set([activeField.key, activeDirection])
-
-  const updateSortField = (column: (typeof sortOptions)[number]['column']) => {
-    onSortFieldChange(column)
-  }
-
-  const updateSortOrder = (direction: SortDescriptor['direction']) => {
-    onSortDirectionChange(direction)
-  }
+  const selectedKeys = new Set([
+    sortOptions.find(option => option.column === sortField)?.key ?? sortField,
+    activeDirection
+  ])
 
   return (
     <Dropdown>
@@ -51,13 +53,36 @@ export function SortDropdown({
           aria-label="Sort schedules"
           selectedKeys={selectedKeys}
           selectionMode="multiple">
-          <Dropdown.Section aria-label="Sort by">
-            {sortOptions.map(option => (
+          <Dropdown.Section aria-label="Recently used">
+            <Dropdown.Item
+              key="recentlyViewed"
+              id="recentlyViewed"
+              textValue="Recently Viewed"
+              onPress={() => onSortFieldChange('viewedAt')}>
+              <span className={classNames.dateOptionLabel}>
+                Recently Viewed
+                <Dropdown.ItemIndicator />
+              </span>
+            </Dropdown.Item>
+            <Dropdown.Item
+              key="recentlyAdded"
+              id="recentlyAdded"
+              textValue="Recently Added"
+              onPress={() => onSortFieldChange('createdAt')}>
+              <span className={classNames.dateOptionLabel}>
+                Recently Added
+                <Dropdown.ItemIndicator />
+              </span>
+            </Dropdown.Item>
+          </Dropdown.Section>
+
+          <Dropdown.Section aria-label="Table columns">
+            {classRoutineColumnOptions.map(option => (
               <Dropdown.Item
                 key={option.key}
                 id={option.key}
                 textValue={option.label}
-                onPress={() => updateSortField(option.column)}>
+                onPress={() => onSortFieldChange(option.key)}>
                 <span className={classNames.dateOptionLabel}>
                   {option.label}
                   <Dropdown.ItemIndicator />
@@ -66,13 +91,15 @@ export function SortDropdown({
             ))}
           </Dropdown.Section>
 
+          <Separator />
+
           <Dropdown.Section aria-label="Order">
             {sortOrderOptions.map(option => (
               <Dropdown.Item
                 key={option.key}
                 id={option.key}
                 textValue={option.label}
-                onPress={() => updateSortOrder(option.direction)}>
+                onPress={() => onSortDirectionChange(option.direction)}>
                 <span className={classNames.dateOptionLabel}>
                   <span className="flex items-center gap-2">
                     <Icon icon={option.icon} width={16} />

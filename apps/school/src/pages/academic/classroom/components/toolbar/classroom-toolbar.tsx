@@ -1,13 +1,5 @@
-import {
-  Label,
-  ListBox,
-  SearchField,
-  Select,
-  type SortDescriptor,
-  Surface
-} from '@vezham/react-v3'
+import { SearchField, type SortDescriptor, Surface } from '@vezham/react-v3'
 
-import { rowCountOptions, sortOptions } from '../../data'
 import type {
   ClassroomColumnKey,
   CustomDateRangeValue,
@@ -27,10 +19,9 @@ type ClassroomToolbarProps = {
   draftFilters: FilterDraft
   isCustomDateRangeOpen: boolean
   isDateDropdownOpen: boolean
-  rowsPerPage: string
   searchQuery: string
   sortDirection: SortDescriptor['direction']
-  sortField: (typeof sortOptions)[number]['column']
+  sortField: SortDescriptor['column']
   setDraftFilters: (filters: FilterDraft) => void
   visibleColumns: Set<ClassroomColumnKey>
   onApplyFilters: () => void
@@ -39,10 +30,9 @@ type ClassroomToolbarProps = {
   onDateDropdownOpenChange: (isOpen: boolean) => void
   onDatePresetChange: (key: DatePresetKey) => void
   onResetFilters: () => void
-  onRowsPerPageChange: (value: string | number | null) => void
   onSearchChange: (value: string) => void
   onSortDirectionChange: (direction: SortDescriptor['direction']) => void
-  onSortFieldChange: (column: (typeof sortOptions)[number]['column']) => void
+  onSortFieldChange: (column: SortDescriptor['column']) => void
   onVisibleColumnsChange: (columns: Set<ClassroomColumnKey>) => void
 }
 
@@ -53,7 +43,6 @@ export function ClassroomToolbar({
   draftFilters,
   isCustomDateRangeOpen,
   isDateDropdownOpen,
-  rowsPerPage,
   searchQuery,
   sortDirection,
   sortField,
@@ -65,7 +54,6 @@ export function ClassroomToolbar({
   onDateDropdownOpenChange,
   onDatePresetChange,
   onResetFilters,
-  onRowsPerPageChange,
   onSearchChange,
   onSortDirectionChange,
   onSortFieldChange,
@@ -114,29 +102,6 @@ export function ClassroomToolbar({
       </div>
 
       <div className={classNames.headerRow}>
-        <div className={classNames.rowsControls}>
-          <Label>Rows per page</Label>
-          <Select
-            aria-label="Rows per page"
-            value={rowsPerPage}
-            onChange={onRowsPerPageChange}>
-            <Select.Trigger>
-              <Select.Value />
-              <Select.Indicator />
-            </Select.Trigger>
-            <Select.Popover>
-              <ListBox>
-                {rowCountOptions.map(option => (
-                  <ListBox.Item key={option} id={option} textValue={option}>
-                    {option}
-                  </ListBox.Item>
-                ))}
-              </ListBox>
-            </Select.Popover>
-          </Select>
-          <Label>Entries</Label>
-        </div>
-
         <SearchField
           aria-label="Search schedules"
           value={searchQuery}

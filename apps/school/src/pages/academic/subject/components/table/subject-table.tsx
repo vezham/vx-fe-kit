@@ -5,14 +5,16 @@ import {
   Checkbox,
   Chip,
   Dropdown,
+  ListBox,
   Pagination,
+  Select,
   type Selection,
   type SortDescriptor,
   Table
 } from '@vezham/react-v3'
 
 import { BulkActionBar } from '../../../shared/bulk-action-bar'
-import { subjectColumnOptions } from '../../data'
+import { rowCountOptions, subjectColumnOptions } from '../../data'
 import type { ClassRow, DrawerMode } from '../../types'
 import { getPaginationSummary } from '../../utils/subject'
 import { classNames, getTableRowClassName } from '../../variants'
@@ -25,6 +27,7 @@ type SubjectTableProps = {
   rows: ClassRow[]
   selectedCount: number
   selectedKeys: Selection
+  rowsPerPage: string
   sortDescriptor: SortDescriptor
   totalPages: number
   totalRows: number
@@ -38,6 +41,7 @@ type SubjectTableProps = {
   onPageChange: (value: number | ((current: number) => number)) => void
   onClearSelection: () => void
   onSelectionChange: (keys: Selection) => void
+  onRowsPerPageChange: (value: string | number | null) => void
   onSortChange: (descriptor: SortDescriptor) => void
 }
 
@@ -48,6 +52,7 @@ export function SubjectTable({
   rows,
   selectedCount,
   selectedKeys,
+  rowsPerPage,
   sortDescriptor,
   totalPages,
   totalRows,
@@ -61,6 +66,7 @@ export function SubjectTable({
   onPageChange,
   onClearSelection,
   onSelectionChange,
+  onRowsPerPageChange,
   onSortChange
 }: SubjectTableProps) {
   const tableMinWidth =
@@ -117,7 +123,7 @@ export function SubjectTable({
                     )}
                   </Table.Column>
                 ))}
-              <Table.Column width={132}>Actions</Table.Column>
+              {/* <Table.Column width={132}>Actions</Table.Column> */}
             </Table.Header>
 
             <Table.Body renderEmptyState={() => <TableEmptyState />}>
@@ -150,7 +156,7 @@ export function SubjectTable({
                         {renderCellContent(row, column.key)}
                       </Table.Cell>
                     ))}
-                  <Table.Cell>
+                  {/* <Table.Cell>
                     <div
                       className={classNames.rowActions}
                       onPointerDown={event => event.stopPropagation()}
@@ -198,7 +204,7 @@ export function SubjectTable({
                         </Dropdown.Popover>
                       </Dropdown>
                     </div>
-                  </Table.Cell>
+                  </Table.Cell> */}
                 </Table.Row>
               ))}
             </Table.Body>
@@ -207,10 +213,37 @@ export function SubjectTable({
       </Table.ScrollContainer>
 
       <Table.Footer>
-        <Pagination>
-          <Pagination.Summary>
-            {getPaginationSummary(currentPage, pageSize, totalRows)}
-          </Pagination.Summary>
+        <Pagination className="flex w-full flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className={classNames.rowsControls}>
+            <Pagination.Summary>
+              {getPaginationSummary(currentPage, pageSize, totalRows)}
+            </Pagination.Summary>
+            <span aria-hidden="true" className="text-muted">
+              |
+            </span>
+            <Select
+              aria-label="Rows per page"
+              value={rowsPerPage}
+              onChange={onRowsPerPageChange}>
+              <Select.Trigger>
+                <Select.Value />
+                <Select.Indicator />
+              </Select.Trigger>
+              <Select.Popover>
+                <ListBox>
+                  {rowCountOptions.map(option => (
+                    <ListBox.Item key={option} id={option} textValue={option}>
+                      {option}
+                    </ListBox.Item>
+                  ))}
+                </ListBox>
+              </Select.Popover>
+            </Select>
+            <span aria-hidden="true" className="text-muted text-sm">
+              per page
+            </span>
+          </div>
+
           <Pagination.Content>
             <Pagination.Item>
               <Pagination.Previous
@@ -247,8 +280,8 @@ export function SubjectTable({
 
       <BulkActionBar
         ariaLabel="Subject bulk actions"
-        deleteLabel="Delete selected subjects"
-        editLabel="Edit selected subject"
+        deleteLabel="Delete"
+        editLabel="Edit"
         selectedCount={selectedCount}
         onClearSelection={onClearSelection}
         onCopyIds={onBulkCopyIds}
