@@ -3,11 +3,6 @@
   "version": "0.0.1",
   "private": true,
   "exports": {
-    ".": {
-      "types": "./src/index.ts",
-      "import": "./src/index.ts",
-      "default": "./src/index.ts"
-    },
     "./package.json": "./package.json",
     "./vite": {
       "types": "./src/lib/env/vite/index.ts",
@@ -19,7 +14,5 @@
       "import": "./src/lib/env/next/index.ts",
       "default": "./src/lib/env/next/index.ts"
     }
-  },
-  "main": "./src/index.ts",
-  "types": "./src/index.ts"
+  }
 }
