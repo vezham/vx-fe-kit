@@ -346,12 +346,12 @@ importers:
         specifier: workspace:*
         version: link:../../packages/vx/template
     devDependencies:
+      '@vx/env':
+        specifier: workspace:*
+        version: link:../../packages/vx/env
       '@vx/start':
         specifier: workspace:*
         version: link:../../packages/vx/start
-      '@vx/system-utils':
-        specifier: workspace:*
-        version: link:../../packages/vx/system-utils
 
   apps_internals/play-next-e2e: {}
 
@@ -383,12 +383,12 @@ importers:
         specifier: workspace:*
         version: link:../../packages/vx/template
     devDependencies:
+      '@vx/env':
+        specifier: workspace:*
+        version: link:../../packages/vx/env
       '@vx/start':
         specifier: workspace:*
         version: link:../../packages/vx/start
-      '@vx/system-utils':
-        specifier: workspace:*
-        version: link:../../packages/vx/system-utils
 
   apps_internals/play-start-e2e: {}
 
@@ -420,12 +420,12 @@ importers:
         specifier: workspace:*
         version: link:../../packages/vx/template
     devDependencies:
+      '@vx/env':
+        specifier: workspace:*
+        version: link:../../packages/vx/env
       '@vx/start':
         specifier: workspace:*
         version: link:../../packages/vx/start
-      '@vx/system-utils':
-        specifier: workspace:*
-        version: link:../../packages/vx/system-utils
 
   apps_internals/playground-e2e: {}
 
@@ -451,11 +451,13 @@ importers:
         specifier: ^16.4.1
         version: 16.6.1
 
+  packages/vx/env: {}
+
   packages/vx/start:
     devDependencies:
-      '@vx/system-utils':
+      '@vx/env':
         specifier: workspace:*
-        version: link:../system-utils
+        version: link:../env
 
   packages/vx/system-utils: {}
 

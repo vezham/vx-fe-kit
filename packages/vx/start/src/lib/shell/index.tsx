@@ -13,7 +13,7 @@ import { VezhamProvider, cn } from '@vezham/react-v2'
 
 import { defineLogger, useLogger } from '@vezham/use-logger'
 
-import { APP_NAME, __DEBUG__, __DEV__ } from '@vx/system-utils/vite/env'
+import { APP_NAME, __DEBUG__, __DEV__ } from '@vx/env/vite'
 
 import { Props } from './types'
 

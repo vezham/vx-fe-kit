@@ -15,6 +15,7 @@
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "incremental": true,
+    "tsBuildInfoFile": "dist/tsconfig.app.tsbuildinfo",
     "plugins": [{ "name": "next" }],
     "paths": {
       "@/*": ["./*"],
@@ -45,13 +46,13 @@
   ],
   "references": [
     {
-      "path": "../../packages/vx/system-utils/tsconfig.lib.json"
+      "path": "../../packages/vx/template/tsconfig.lib.json"
+    },
+    {
+      "path": "../../packages/vx/env/tsconfig.lib.json"
     },
     {
       "path": "../../packages/vx/start/tsconfig.lib.json"
-    },
-    {
-      "path": "../../packages/vx/template/tsconfig.lib.json"
     }
   ]
 }

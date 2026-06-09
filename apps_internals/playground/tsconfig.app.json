@@ -42,13 +42,13 @@
   "include": ["src/**/*.js", "src/**/*.jsx", "src/**/*.ts", "src/**/*.tsx"],
   "references": [
     {
-      "path": "../../packages/vx/system-utils/tsconfig.lib.json"
+      "path": "../../packages/vx/template/tsconfig.lib.json"
+    },
+    {
+      "path": "../../packages/vx/env/tsconfig.lib.json"
     },
     {
       "path": "../../packages/vx/start/tsconfig.lib.json"
-    },
-    {
-      "path": "../../packages/vx/template/tsconfig.lib.json"
     }
   ]
 }

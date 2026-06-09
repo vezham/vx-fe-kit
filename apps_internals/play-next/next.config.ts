@@ -2,7 +2,7 @@ import { composePlugins, withNx } from '@nx/next'
 import type { WithNxOptions } from '@nx/next/plugins/with-nx'
 import { join } from 'node:path'
 
-import { configEnv } from '@vx/system-utils/next/env'
+import { configEnv } from '@vx/env/next'
 
 const nextConfig: WithNxOptions = {
   // Use this to set Nx-specific options

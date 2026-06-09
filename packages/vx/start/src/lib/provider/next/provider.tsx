@@ -6,7 +6,7 @@ import { FC, StrictMode, lazy } from 'react'
 import { VezhamProvider, cn } from '@vezham/react-v2'
 import { defineLogger } from '@vezham/use-logger'
 
-import { APP_NAME, __DEBUG__, __DEV__ } from '@vx/system-utils/next/env'
+import { APP_NAME, __DEBUG__, __DEV__ } from '@vx/env/next'
 
 import type { Props } from '../../shell/types'
 
