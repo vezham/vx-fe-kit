@@ -1,31 +1,29 @@
 import { useOverlayState } from '@vezham/react-v3'
 
-export type ClassStatus = 'Active' | 'Inactive'
+import type {
+  ClassFormState,
+  ClassStatus,
+  ClassroomColumnKey,
+  ClassroomItem
+} from '../../../store/useAcademic/useClassroom'
+
+export type {
+  ClassFormState,
+  ClassStatus,
+  DatePresetKey,
+  ClassroomColumnKey,
+  RQClassroom,
+  ClassroomResponse
+} from '../../../store/useAcademic/useClassroom'
+
 export type DrawerMode = 'view' | 'edit' | 'create'
-export type ClassroomColumnKey = 'id' | 'roomno' | 'capacity' | 'status'
 
 export type ToastState = {
   message: string
   status: 'success' | 'danger'
 }
 
-export type ClassRow = {
-  id: string
-  roomno: string
-  capacity: string
-  status: ClassStatus
-  createdAt: string
-  viewedAt: string
-}
-
-export type DatePresetKey =
-  | 'today'
-  | 'yesterday'
-  | 'last7'
-  | 'last30'
-  | 'thisYear'
-  | 'nextYear'
-  | 'custom'
+export type ClassRow = ClassroomItem
 
 export type DateRangeFilter = {
   start: string
@@ -40,12 +38,6 @@ export type FilterDraft = {
   roomno: string | null
   capacity: string | null
   status: ClassStatus | null
-}
-
-export type ClassFormState = {
-  roomno: string
-  capacity: string
-  status: ClassStatus
 }
 
 export type ClassFormErrors = Partial<

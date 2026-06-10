@@ -9,9 +9,9 @@ import {
   emptyFilters,
   emptyTimetableForm,
   sortOptions,
-  timetableEvents,
-  toAgendaEvents
-} from '../data'
+  toAgendaEvents,
+  useTimetable
+} from '../../../../store/useAcademic/useTimetable'
 import type {
   TimetableEvent,
   TimetableFilter,
@@ -35,7 +35,8 @@ import {
 } from '../utils/timetable'
 
 export function useTimetablePage() {
-  const [events, setEvents] = useState<TimetableEvent[]>(timetableEvents)
+  const { data: timetableEvents } = useTimetable.list({})
+  const [events, setEvents] = useState<TimetableEvent[]>([])
   const [searchQuery] = useState('')
   const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
     column: 'start',
@@ -50,6 +51,12 @@ export function useTimetablePage() {
   const [form, setForm] = useState<TimetableFormState>(emptyTimetableForm)
   const [formErrors, setFormErrors] = useState<TimetableFormErrors>({})
   const drawer = useDisclosure()
+
+  useEffect(() => {
+    if (timetableEvents) {
+      setEvents(timetableEvents)
+    }
+  }, [timetableEvents])
 
   const filteredEvents = useMemo(() => {
     const query = searchQuery.trim().toLowerCase()

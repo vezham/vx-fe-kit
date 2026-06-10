@@ -1,182 +1,223 @@
-import type { SortDescriptor } from '@vezham/react-v3'
-
+import {
+  type SortFieldOption,
+  sortOrderOptions
+} from '../../../pages/academic/shared/sort'
 import type {
   ClassFormState,
-  ClassRoutineColumnKey,
   ClassRow,
   ClassStatus,
-  DatePresetKey
+  DatePresetKey,
+  ScheduleColumnOption
 } from './types'
 
 export const initialRows: ClassRow[] = [
   {
     id: 'RT167648',
     classes: 'I',
+    section: 'A',
+    examName: 'Monthly Test',
     starttime: '09.30 AM',
     endtime: '10.45 PM',
     status: 'Active',
     createdAt: '2026-05-01',
     viewedAt: '2026-05-01',
-    section: 'A',
-    teacher: 'Erickson',
+    date: '	13 May 2024',
+    duration: '3hrs',
     subject: 'English',
-    day: 'Monday',
-    classroom: '101'
+    maximum: '100',
+    classroom: '101',
+    minimum: '35'
   },
   {
     id: 'RT167647',
     classes: 'I',
+    section: 'B',
+    examName: 'Monthly Test',
     starttime: '10.45 AM',
     endtime: '12.00 PM',
     status: 'Active',
     createdAt: '2026-04-30',
     viewedAt: '2026-04-30',
-    section: 'B',
-    teacher: 'Mori',
+    date: '	14 May 2024',
+    duration: '3hrs',
     subject: 'Math',
-    day: 'Tuesday',
-    classroom: '102'
+    maximum: '100',
+    classroom: '104',
+    minimum: '35'
   },
   {
     id: 'RT167646',
     classes: 'II',
+    section: 'A',
+    examName: 'Monthly Test',
     starttime: '12.00 AM',
     endtime: '01.15 PM',
     status: 'Active',
 
     createdAt: '2026-04-29',
     viewedAt: '2026-04-29',
-    section: 'A',
-    teacher: 'Joseph',
+    date: '	15 May 2024',
+    duration: '3hrs',
     subject: 'Physics',
-    day: 'Wednesday',
-    classroom: '103'
+    maximum: '100',
+    classroom: '103',
+    minimum: '35'
   },
   {
     id: 'RT167645',
     classes: 'II',
+    section: 'B',
+    examName: 'Unit Test',
     starttime: '01.15 PM',
     endtime: '02.30 PM',
     status: 'Active',
     createdAt: '2026-04-26',
     viewedAt: '2026-04-28',
-    section: 'B',
-    teacher: 'James',
+    date: '	16 May 2024',
+    duration: '3hrs',
     subject: 'Chemistry',
-    day: 'Thursday',
-    classroom: '104'
+    maximum: '100',
+    classroom: '105',
+    minimum: '35'
   },
   {
     id: 'RT167644',
     classes: 'II',
+    section: 'C',
+    examName: 'Unit Test',
     starttime: '02.30 PM',
     endtime: '03.45 PM',
     status: 'Inactive',
     createdAt: '2026-04-21',
     viewedAt: '2026-04-27',
-    section: 'C',
-    teacher: 'Federi',
+    date: '	17 May 2024',
+    duration: '3hrs',
     subject: 'Biology',
-    day: 'Friday',
-    classroom: '105'
+    maximum: '100',
+    classroom: '106',
+    minimum: '35'
   },
   {
     id: 'RT167643',
     classes: 'III',
+    section: 'A',
+    examName: 'Unit Test',
+
     starttime: '03.45 PM',
     endtime: '05.00 PM',
     status: 'Active',
     createdAt: '2026-04-20',
     viewedAt: '2026-04-26',
-    section: 'A',
-    teacher: 'Teresa',
+    date: '	18 May 2024',
+    duration: '3hrs',
     subject: 'Higher Math',
-    day: 'Saturday',
-    classroom: '106'
+    maximum: '100',
+    classroom: '102',
+    minimum: '35'
   },
   {
     id: 'RT167642',
     classes: 'III',
+    section: 'B',
+    examName: 'Annual Exam',
+
     starttime: '09.30 AM',
     endtime: '10.45 PM',
     status: 'Active',
     createdAt: '2026-04-15',
     viewedAt: '2026-04-25',
-    section: 'B',
-    teacher: 'James',
+    date: '	19 May 2024',
+    duration: '3hrs',
     subject: 'Information Technology',
-    day: 'Monday',
-    classroom: '107'
+    maximum: '100',
+    classroom: '107',
+    minimum: '35'
   },
   {
     id: 'RT167641',
     classes: 'IV',
+    section: 'A',
+    examName: 'Annual Exam',
     starttime: '10.45 AM',
     endtime: '12.00 PM',
     status: 'Active',
     createdAt: '2026-03-31',
     viewedAt: '2026-04-24',
-    section: 'A',
-    teacher: 'Hendrita',
+    date: '	20 May 2024',
+    duration: '3hrs',
     subject: 'Moral Education',
-    day: 'Tuesday',
-    classroom: '108'
+    maximum: '100',
+    classroom: '101',
+    minimum: '35'
   },
   {
     id: 'RT167640',
     classes: 'IV',
+    section: 'B',
+    examName: 'Annual Exam',
     starttime: '12.00 PM',
     endtime: '01.15 PM',
     status: 'Inactive',
     createdAt: '2026-01-12',
     viewedAt: '2026-04-23',
-    section: 'B',
-    teacher: 'Morgan',
+    date: '	21 May 2024',
+    duration: '3hrs',
     subject: 'Finance',
-    day: 'Wednesday',
-    classroom: '109'
+    maximum: '100',
+    classroom: '106',
+    minimum: '35'
   },
   {
     id: 'RT167639',
     classes: 'V',
+    section: 'A',
+    examName: 'Chapter Wise Test',
     starttime: '01.15 PM',
     endtime: '02.30 PM',
     status: 'Active',
     createdAt: '2025-12-20',
     viewedAt: '2026-04-22',
-    section: 'A',
-    teacher: 'Ramsey',
+    date: '	22 May 2024',
+    duration: '3hrs',
     subject: 'Economics',
-    day: 'Thursday',
-    classroom: '110'
+    maximum: '100',
+    classroom: '104',
+    minimum: '35'
   },
   {
     id: 'RT167638',
     classes: 'V',
+    section: 'B',
+    examName: 'Chapter Wise Test',
     starttime: '02.30 PM',
     endtime: '03.45 PM',
     status: 'Active',
     createdAt: '2026-04-02',
     viewedAt: '2026-04-21',
-    section: 'B',
-    teacher: 'Henry',
+    date: '	23 May 2024',
+    duration: '3hrs',
     subject: 'Math',
-    day: 'Friday',
-    classroom: '111'
+    maximum: '100',
+    classroom: '103',
+    minimum: '35'
   },
   {
     id: 'RT167637',
     classes: 'III',
+    section: 'A',
+    examName: 'Weekly Test',
+
     starttime: '03.45 PM',
     endtime: '05.00 PM',
     status: 'Inactive',
     createdAt: '2027-02-14',
     viewedAt: '2026-04-20',
-    section: 'A',
-    teacher: 'Jordan',
+    date: '	24 May 2024',
+    duration: '3hrs',
     subject: 'Physics',
-    day: 'Saturday',
-    classroom: '112'
+    maximum: '100',
+    classroom: '101',
+    minimum: '35'
   }
 ]
 
@@ -190,6 +231,100 @@ export const dateOptions: { key: DatePresetKey; label: string }[] = [
   { key: 'custom', label: 'Custom Range' }
 ]
 
+export const examScheduleColumnOptions = [
+  {
+    key: 'id',
+    label: 'ID',
+    defaultWidth: 180,
+    minWidth: 140,
+    maxWidth: 220
+  },
+  {
+    key: 'classes',
+    label: 'Class',
+    defaultWidth: 120,
+    minWidth: 100,
+    maxWidth: 140
+  },
+  {
+    key: 'section',
+    label: 'Section',
+    defaultWidth: 120,
+    minWidth: 100,
+    maxWidth: 140
+  },
+  {
+    key: 'examName',
+    label: 'Exam Name',
+    defaultWidth: 220,
+    minWidth: 180,
+    maxWidth: 280
+  },
+  {
+    key: 'date',
+    label: 'Exam Date',
+    defaultWidth: 180,
+    minWidth: 160,
+    maxWidth: 220
+  },
+  {
+    key: 'subject',
+    label: 'Subject',
+    defaultWidth: 180,
+    minWidth: 150,
+    maxWidth: 220
+  },
+  {
+    key: 'starttime',
+    label: 'Start Time',
+    defaultWidth: 160,
+    minWidth: 140,
+    maxWidth: 200
+  },
+  {
+    key: 'endtime',
+    label: 'End Time',
+    defaultWidth: 160,
+    minWidth: 140,
+    maxWidth: 200
+  },
+  {
+    key: 'duration',
+    label: 'Duration',
+    defaultWidth: 140,
+    minWidth: 120,
+    maxWidth: 160
+  },
+  {
+    key: 'classroom',
+    label: 'Room No',
+    defaultWidth: 140,
+    minWidth: 120,
+    maxWidth: 180
+  },
+  {
+    key: 'maximum',
+    label: 'Max Marks',
+    defaultWidth: 140,
+    minWidth: 120,
+    maxWidth: 180
+  },
+  {
+    key: 'minimum',
+    label: 'Min Marks',
+    defaultWidth: 140,
+    minWidth: 120,
+    maxWidth: 180
+  },
+  {
+    key: 'status',
+    label: 'Status',
+    defaultWidth: 140,
+    minWidth: 120,
+    maxWidth: 160
+  }
+] as const satisfies readonly ScheduleColumnOption[]
+
 export const sortOptions = [
   {
     key: 'recentlyViewed',
@@ -200,113 +335,25 @@ export const sortOptions = [
     key: 'recentlyAdded',
     label: 'Recently Added',
     column: 'createdAt'
-  }
-] as const
-
-export const sortOrderOptions = [
-  {
-    key: 'ascending',
-    label: 'Ascending',
-    direction: 'ascending',
-    icon: 'lucide:arrow-up-wide-narrow'
   },
-  {
-    key: 'descending',
-    label: 'Descending',
-    direction: 'descending',
-    icon: 'lucide:arrow-down-wide-narrow'
-  }
-] as const satisfies readonly {
-  key: string
-  label: string
-  direction: SortDescriptor['direction']
-  icon: string
-}[]
-
-export const classRoutineColumnOptions = [
-  {
-    key: 'id',
-    label: 'ID',
-    defaultWidth: 140,
-    minWidth: 120,
-    maxWidth: 180,
-    isRowHeader: true
-  },
-  {
-    key: 'classes',
-    label: 'Class',
-    defaultWidth: 120,
-    minWidth: 100,
-    maxWidth: 180
-  },
-  {
-    key: 'section',
-    label: 'Section',
-    defaultWidth: 120,
-    minWidth: 100,
-    maxWidth: 160
-  },
-  {
-    key: 'teacher',
-    label: 'Teacher',
-    defaultWidth: 160,
-    minWidth: 140,
-    maxWidth: 240
-  },
-  {
-    key: 'subject',
-    label: 'Subject',
-    defaultWidth: 200,
-    minWidth: 160,
-    maxWidth: 280
-  },
-  {
-    key: 'day',
-    label: 'Day',
-    defaultWidth: 120,
-    minWidth: 100,
-    maxWidth: 150
-  },
-  {
-    key: 'starttime',
-    label: 'Start Time',
-    defaultWidth: 140,
-    minWidth: 120,
-    maxWidth: 180
-  },
-  {
-    key: 'endtime',
-    label: 'End Time',
-    defaultWidth: 140,
-    minWidth: 120,
-    maxWidth: 180
-  },
-  {
-    key: 'classroom',
-    label: 'Classroom',
-    defaultWidth: 140,
-    minWidth: 120,
-    maxWidth: 180
-  }
-] as const satisfies readonly {
-  key: ClassRoutineColumnKey
-  label: string
-  defaultWidth: number
-  minWidth: number
-  maxWidth: number
-  isRowHeader?: boolean
-}[]
+  ...examScheduleColumnOptions.map(option => ({
+    key: option.key,
+    label: option.label,
+    column: option.key
+  }))
+] satisfies readonly SortFieldOption[]
 
 export const rowCountOptions = ['5', '10', '25', '50']
 export const classOptions = ['I', 'II', 'III', 'IV', 'V']
 export const sectionOptions = ['A', 'B', 'C', 'D', 'E']
-export const teacherOptions = [
-  'Erickson',
-  'Joseph',
-  'James',
-  'Henry',
-  'Fathima'
+export const examOptions = [
+  'Weekly Test',
+  'Monthly Test',
+  'Unit Test',
+  'Annual Exam',
+  'Chapter Wise Test'
 ]
+export const durationOptions = ['30', '45', '60', '90', '120', '180']
 export const roomOptions = [
   '101',
   '102',
@@ -328,6 +375,24 @@ export const dayOptions = [
   'Saturday',
   'Sunday'
 ]
+export const examdateOptions = [
+  '13 May 2024',
+  '14 May 2024',
+  '15 May 2024',
+  '16 May 2024'
+]
+export const subjectOptions = [
+  'English',
+  'Math',
+  'Physics',
+  'Chemistry',
+  'Biology',
+  'Higher Math',
+  'Information Technology',
+  'Moral Education',
+  'Finance',
+  'Economics'
+]
 
 export const starttimeOptions = [
   '09.30 AM',
@@ -346,15 +411,29 @@ export const endtimeOptions = [
   '05.30 PM'
 ]
 export const statusOptions: ClassStatus[] = ['Active', 'Inactive']
+export { sortOrderOptions }
 
 export const emptyForm: ClassFormState = {
   classes: '',
-  subject: '',
   section: '',
-  teacher: '',
-  day: '',
-  classroom: '',
+  examName: '',
+  subject: '',
+  date: '',
   starttime: '',
   endtime: '',
-  status: 'Active'
+  duration: '',
+  classroom: '',
+  maximum: '',
+  minimum: '',
+  status: 'Active',
+  scheduleRows: [
+    {
+      id: 'schedule-row-1',
+      date: '',
+      subject: '',
+      classroom: '',
+      maximum: '',
+      minimum: ''
+    }
+  ]
 }

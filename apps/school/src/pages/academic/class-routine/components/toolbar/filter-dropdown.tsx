@@ -15,7 +15,7 @@ import {
   roomOptions,
   sectionOptions,
   teacherOptions
-} from '../../data'
+} from '../../../../../store/useAcademic/useClassRoutine'
 import type { FilterDropdownProps } from '../../types'
 import { classNames } from '../../variants'
 

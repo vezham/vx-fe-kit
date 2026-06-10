@@ -4,17 +4,17 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import type { Selection, SortDescriptor } from '@vezham/react-v3'
 
-import { sortRows } from '../../../shared/sort'
 import {
+  ClassFormState,
   allClassesColumnOptions,
   emptyForm,
   initialRows,
   sortOptions
-} from '../data'
+} from '../../../../../store/useAcademic/useAllClasses'
+import { sortRows } from '../../../shared/sort'
 import type {
   AllClassesColumnKey,
   ClassFormErrors,
-  ClassFormState,
   ClassRow,
   CustomDateRangeValue,
   DatePresetKey,

@@ -6,10 +6,10 @@ import type { Selection, SortDescriptor } from '@vezham/react-v3'
 
 import {
   emptyForm,
-  initialRows,
   sortOptions,
-  syllabusColumnOptions
-} from '../data'
+  syllabusColumnOptions,
+  useSyllabus
+} from '../../../../store/useAcademic/useSyllabus'
 import type {
   ClassFormErrors,
   ClassFormState,
@@ -78,7 +78,8 @@ const getSortLabel = (column: SortDescriptor['column']) => {
 
 export function useSyllabusPage() {
   const routeParams = useParams({ strict: false }) as { id?: string }
-  const [data, setData] = useState<ClassRow[]>(initialRows)
+  const syllabusQuery = useSyllabus.list({})
+  const [data, setData] = useState<ClassRow[]>([])
   const [searchQuery, setSearchQuery] = useState('')
   const [rowsPerPage, setRowsPerPage] = useState('5')
   const [page, setPage] = useState(1)
@@ -105,6 +106,14 @@ export function useSyllabusPage() {
   const [toast, setToast] = useState<ToastState | null>(null)
   const drawer = useDisclosure()
   const wasDrawerOpenRef = useRef(drawer.isOpen)
+
+  useEffect(() => {
+    if (!syllabusQuery.data?.length || data.length) {
+      return
+    }
+
+    setData(syllabusQuery.data)
+  }, [data.length, syllabusQuery.data])
 
   const activeDateRange = useMemo(() => {
     if (datePreset === 'custom') {

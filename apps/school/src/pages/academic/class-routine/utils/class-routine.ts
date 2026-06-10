@@ -13,7 +13,7 @@ export function getClassTags(row: ClassRow) {
 }
 
 export function getDrawerTitle(row: ClassRow) {
-  const values = row as Record<string, unknown>
+  const values = row as unknown as Record<string, unknown>
   const idValue =
     getDrawerText(values.displayId) ||
     getDrawerText(values.refId) ||

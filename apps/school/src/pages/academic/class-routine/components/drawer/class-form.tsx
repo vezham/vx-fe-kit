@@ -6,7 +6,7 @@ import {
   roomOptions,
   sectionOptions,
   teacherOptions
-} from '../../data'
+} from '../../../../../store/useAcademic/useClassRoutine'
 import type { ClassFormProps } from '../../types'
 import { classNames } from '../../variants'
 

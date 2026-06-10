@@ -1,6 +1,20 @@
 import { useOverlayState } from '@vezham/react-v3'
 
-export type ClassStatus = 'Active' | 'Inactive'
+import type {
+  ClassFormState,
+  ClassStatus,
+  SyllabusItem
+} from '../../../store/useAcademic/useSyllabus'
+
+export type {
+  ClassFormState,
+  ClassStatus,
+  DatePresetKey,
+  SyllabusColumnKey,
+  RQSyllabus,
+  SyllabusResponse
+} from '../../../store/useAcademic/useSyllabus'
+
 export type DrawerMode = 'view' | 'edit' | 'create'
 
 export type ToastState = {
@@ -8,24 +22,7 @@ export type ToastState = {
   status: 'success' | 'danger'
 }
 
-export type ClassRow = {
-  id: string
-  classes: string
-  subject: string
-  section: string
-  status: ClassStatus
-  createdAt: string
-  viewedAt: string
-}
-
-export type DatePresetKey =
-  | 'today'
-  | 'yesterday'
-  | 'last7'
-  | 'last30'
-  | 'thisYear'
-  | 'nextYear'
-  | 'custom'
+export type ClassRow = SyllabusItem
 
 export type DateRangeFilter = {
   start: string
@@ -41,13 +38,6 @@ export type FilterDraft = {
   subject: string | null
   section: string | null
   status: ClassStatus | null
-}
-
-export type ClassFormState = {
-  classes: string
-  subject: string
-  section: string
-  status: ClassStatus
 }
 
 export type ClassFormErrors = Partial<

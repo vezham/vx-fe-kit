@@ -4,12 +4,12 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import type { Selection, SortDescriptor } from '@vezham/react-v3'
 
+import { useClassRoutine } from '../../../../store/useAcademic/useClassRoutine'
 import {
   classRoutineColumnOptions,
   emptyForm,
-  initialRows,
   sortOptions
-} from '../data'
+} from '../../../../store/useAcademic/useClassRoutine'
 import type {
   ClassFormErrors,
   ClassFormState,
@@ -84,7 +84,8 @@ const getSortLabel = (column: SortDescriptor['column']) => {
 
 export function useClassRoutinePage() {
   const routeParams = useParams({ strict: false }) as { id?: string }
-  const [data, setData] = useState<ClassRow[]>(initialRows)
+  const classRoutineQuery = useClassRoutine.list({})
+  const [data, setData] = useState<ClassRow[]>([])
   const [searchQuery, setSearchQuery] = useState('')
   const [rowsPerPage, setRowsPerPage] = useState('5')
   const [page, setPage] = useState(1)
@@ -113,6 +114,14 @@ export function useClassRoutinePage() {
   const [toast, setToast] = useState<ToastState | null>(null)
   const drawer = useDisclosure()
   const drawerWasOpenRef = useRef(drawer.isOpen)
+
+  useEffect(() => {
+    if (!classRoutineQuery.data?.length || data.length) {
+      return
+    }
+
+    setData(classRoutineQuery.data)
+  }, [classRoutineQuery.data, data.length])
 
   const activeDateRange = useMemo(() => {
     if (datePreset === 'custom') {

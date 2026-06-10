@@ -13,8 +13,11 @@ import {
   Table
 } from '@vezham/react-v3'
 
+import {
+  rowCountOptions,
+  scheduleColumnOptions
+} from '../../../../../../store/useAcademic/useClassSchedule/data'
 import { BulkActionBar } from '../../../../shared/bulk-action-bar'
-import { rowCountOptions, scheduleColumnOptions } from '../../data'
 import type { ClassRow, DrawerMode, ScheduleColumnKey } from '../../types'
 import { getPaginationSummary } from '../../utils/schedule'
 import { classNames, getTableRowClassName } from '../../variants'

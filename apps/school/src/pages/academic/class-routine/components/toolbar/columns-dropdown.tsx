@@ -2,7 +2,7 @@ import { Icon } from '@iconify/react'
 
 import { Button, Dropdown } from '@vezham/react-v3'
 
-import { classRoutineColumnOptions } from '../../data'
+import { classRoutineColumnOptions } from '../../../../../store/useAcademic/useClassRoutine'
 import type { ClassRoutineColumnKey, ColumnsDropdownProps } from '../../types'
 import { classNames } from '../../variants'
 

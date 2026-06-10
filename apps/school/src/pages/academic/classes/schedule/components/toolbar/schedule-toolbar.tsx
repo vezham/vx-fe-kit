@@ -1,7 +1,7 @@
 import { SearchField, type SortDescriptor, Surface } from '@vezham/react-v3'
 
+import { scheduleColumnOptions } from '../../../../../../store/useAcademic/useClassSchedule'
 import { ColumnsDropdown } from '../../../../shared/columns-dropdown'
-import { scheduleColumnOptions } from '../../data'
 import type {
   CustomDateRangeValue,
   DatePresetKey,

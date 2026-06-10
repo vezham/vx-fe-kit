@@ -9,7 +9,7 @@ import {
   Surface
 } from '@vezham/react-v3'
 
-import { dateOptions } from '../../data'
+import { dateOptions } from '../../../../../../store/useAcademic/useAllClasses'
 import type { CustomDateRangeValue, DatePresetKey } from '../../types'
 import { classNames } from '../../variants'
 

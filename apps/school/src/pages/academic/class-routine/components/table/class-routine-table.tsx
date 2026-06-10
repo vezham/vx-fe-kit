@@ -5,7 +5,6 @@ import {
   Button,
   Checkbox,
   Chip,
-  Dropdown,
   ListBox,
   Pagination,
   Select,
@@ -16,7 +15,10 @@ import {
   Tooltip
 } from '@vezham/react-v3'
 
-import { classRoutineColumnOptions, rowCountOptions } from '../../data'
+import {
+  classRoutineColumnOptions,
+  rowCountOptions
+} from '../../../../../store/useAcademic/useClassRoutine'
 import type { ClassRoutineColumnKey, ClassRow, DrawerMode } from '../../types'
 import { getPaginationSummary } from '../../utils/class-routine'
 import { classNames, getTableRowClassName } from '../../variants'

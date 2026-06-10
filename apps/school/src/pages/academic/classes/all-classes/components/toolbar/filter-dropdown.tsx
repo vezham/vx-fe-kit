@@ -9,8 +9,13 @@ import {
   Surface
 } from '@vezham/react-v3'
 
-import { classOptions, sectionOptions, statusOptions } from '../../data'
-import type { ClassStatus, FilterDropdownProps } from '../../types'
+import {
+  ClassStatus,
+  classOptions,
+  sectionOptions,
+  statusOptions
+} from '../../../../../../store/useAcademic/useAllClasses'
+import { FilterDropdownProps } from '../../types'
 import { classNames } from '../../variants'
 
 export function FilterDropdown({

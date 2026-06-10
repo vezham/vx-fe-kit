@@ -11,7 +11,7 @@ import {
   scheduleColumnOptions,
   sortOptions,
   sortOrderOptions
-} from '../../data'
+} from '../../../../../../store/useAcademic/useClassSchedule'
 import { classNames } from '../../variants'
 
 type SortDropdownProps = {

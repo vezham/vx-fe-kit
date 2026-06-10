@@ -1,39 +1,26 @@
 import { useOverlayState } from '@vezham/react-v3'
 
-export type ClassStatus = 'Active' | 'Inactive'
+import type {
+  AllClassesItem,
+  ClassFormState,
+  ClassStatus
+} from '../../../store/useAcademic/useAllClasses'
+
+export type {
+  AllClassesColumnKey,
+  AllClassesResponse,
+  DatePresetKey,
+  RQAllClasses
+} from '../../../store/useAcademic/useAllClasses'
+
 export type DrawerMode = 'view' | 'edit' | 'create'
-export type AllClassesColumnKey =
-  | 'id'
-  | 'className'
-  | 'section'
-  | 'students'
-  | 'subjects'
-  | 'status'
 
 export type ToastState = {
   message: string
   status: 'success' | 'danger'
 }
 
-export type ClassRow = {
-  id: string
-  className: string
-  section: string
-  students: number
-  subjects: number
-  status: ClassStatus
-  createdAt: string
-  viewedAt: string
-}
-
-export type DatePresetKey =
-  | 'today'
-  | 'yesterday'
-  | 'last7'
-  | 'last30'
-  | 'thisYear'
-  | 'nextYear'
-  | 'custom'
+export type ClassRow = AllClassesItem
 
 export type DateRangeFilter = {
   start: string
@@ -48,14 +35,6 @@ export type FilterDraft = {
   className: string | null
   section: string | null
   status: ClassStatus | null
-}
-
-export type ClassFormState = {
-  className: string
-  section: string
-  students: string
-  subjects: string
-  status: ClassStatus
 }
 
 export type ClassFormErrors = Partial<

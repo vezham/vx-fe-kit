@@ -1,6 +1,10 @@
 import { Label, ListBox, Select, Switch } from '@vezham/react-v3'
 
-import { endtimeOptions, starttimeOptions, typeOptions } from '../../data'
+import {
+  endtimeOptions,
+  starttimeOptions,
+  typeOptions
+} from '../../../../../../store/useAcademic/useClassSchedule'
 import type { ClassFormProps } from '../../types'
 import { classNames } from '../../variants'
 

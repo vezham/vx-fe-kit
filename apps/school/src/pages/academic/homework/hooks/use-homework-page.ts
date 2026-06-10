@@ -7,9 +7,9 @@ import type { Selection, SortDescriptor } from '@vezham/react-v3'
 import {
   emptyForm,
   homeworkColumnOptions,
-  initialRows,
-  sortOptions
-} from '../data'
+  sortOptions,
+  useHomework
+} from '../../../../store/useAcademic/useHomework'
 import type {
   ClassFormErrors,
   ClassFormState,
@@ -72,7 +72,8 @@ const getSortLabel = (column: SortDescriptor['column']) => {
 
 export function useHomeworkPage() {
   const routeParams = useParams({ strict: false }) as { id?: string }
-  const [data, setData] = useState<ClassRow[]>(initialRows)
+  const homeworkQuery = useHomework.list({})
+  const [data, setData] = useState<ClassRow[]>([])
   const [searchQuery, setSearchQuery] = useState('')
   const [rowsPerPage, setRowsPerPage] = useState('5')
   const [page, setPage] = useState(1)
@@ -108,6 +109,14 @@ export function useHomeworkPage() {
   const [toast, setToast] = useState<ToastState | null>(null)
   const drawer = useDisclosure()
   const wasDrawerOpenRef = useRef(drawer.isOpen)
+
+  useEffect(() => {
+    if (!homeworkQuery.data?.length || data.length) {
+      return
+    }
+
+    setData(homeworkQuery.data)
+  }, [data.length, homeworkQuery.data])
 
   const activeDateRange = useMemo(() => {
     if (datePreset === 'custom') {

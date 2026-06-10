@@ -1,46 +1,26 @@
 import { useOverlayState } from '@vezham/react-v3'
 
-export type ClassStatus = 'Active' | 'Inactive'
+import type {
+  ClassFormState,
+  ClassRoutineColumnKey,
+  ClassRoutineItem as ClassRow,
+  ClassStatus
+} from '../../../store/useAcademic/useClassRoutine'
+
+export type {
+  ClassFormState,
+  ClassRoutineColumnKey,
+  ClassRoutineItem as ClassRow,
+  ClassStatus,
+  DatePresetKey
+} from '../../../store/useAcademic/useClassRoutine'
+
 export type DrawerMode = 'view' | 'edit' | 'create'
-export type ClassRoutineColumnKey =
-  | 'id'
-  | 'classes'
-  | 'section'
-  | 'teacher'
-  | 'subject'
-  | 'day'
-  | 'starttime'
-  | 'endtime'
-  | 'classroom'
 
 export type ToastState = {
   message: string
   status: 'success' | 'danger'
 }
-
-export type ClassRow = {
-  id: string
-  classes: string
-  section: string
-  teacher: string
-  subject: string
-  day: string
-  starttime: string
-  endtime: string
-  classroom: string
-  status: ClassStatus
-  createdAt: string
-  viewedAt: string
-}
-
-export type DatePresetKey =
-  | 'today'
-  | 'yesterday'
-  | 'last7'
-  | 'last30'
-  | 'thisYear'
-  | 'nextYear'
-  | 'custom'
 
 export type DateRangeFilter = {
   start: string
@@ -61,18 +41,6 @@ export type FilterDraft = {
   endtime: string | null
   classroom: string | null
   status: ClassStatus | null
-}
-
-export type ClassFormState = {
-  classes: string
-  section: string
-  teacher: string
-  subject: string
-  day: string
-  starttime: string
-  endtime: string
-  classroom: string
-  status: ClassStatus
 }
 
 export type ClassFormErrors = Partial<

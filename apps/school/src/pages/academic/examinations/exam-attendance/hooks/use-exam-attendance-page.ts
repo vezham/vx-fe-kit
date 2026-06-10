@@ -4,13 +4,13 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import type { Selection, SortDescriptor } from '@vezham/react-v3'
 
-import { sortRows } from '../../../shared/sort'
 import {
   attendanceColumnOptions,
   emptyForm,
-  initialRows,
-  sortOptions
-} from '../data'
+  sortOptions,
+  useExamAttendance
+} from '../../../../../store/useAcademic/useExamAttendance'
+import { sortRows } from '../../../shared/sort'
 import type {
   AttendanceColumnKey,
   AttendanceFormErrors,
@@ -88,7 +88,8 @@ const getSortLabel = (column: SortDescriptor['column']) => {
 
 export function useExamAttendancePage() {
   const routeParams = useParams({ strict: false }) as { id?: string }
-  const [data, setData] = useState<AttendanceRow[]>(initialRows)
+  const examAttendanceQuery = useExamAttendance.list({})
+  const [data, setData] = useState<AttendanceRow[]>([])
   const [searchQuery, setSearchQuery] = useState('')
   const [rowsPerPage, setRowsPerPage] = useState('5')
   const [page, setPage] = useState(1)
@@ -116,6 +117,14 @@ export function useExamAttendancePage() {
   const [toast, setToast] = useState<ToastState | null>(null)
   const drawer = useDisclosure()
   const wasDrawerOpenRef = useRef(drawer.isOpen)
+
+  useEffect(() => {
+    if (!examAttendanceQuery.data?.length || data.length) {
+      return
+    }
+
+    setData(examAttendanceQuery.data)
+  }, [data.length, examAttendanceQuery.data])
 
   const activeDateRange = useMemo(() => {
     if (datePreset === 'custom') {

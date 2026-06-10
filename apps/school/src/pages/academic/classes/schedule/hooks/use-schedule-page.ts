@@ -4,13 +4,13 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import type { Selection, SortDescriptor } from '@vezham/react-v3'
 
-import { sortRows } from '../../../shared/sort'
 import {
   emptyForm,
   initialRows,
   scheduleColumnOptions,
   sortOptions
-} from '../data'
+} from '../../../../../store/useAcademic/useClassSchedule'
+import { sortRows } from '../../../shared/sort'
 import type {
   ClassFormErrors,
   ClassFormState,

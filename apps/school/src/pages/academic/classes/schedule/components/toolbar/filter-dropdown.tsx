@@ -9,7 +9,10 @@ import {
   Surface
 } from '@vezham/react-v3'
 
-import { statusOptions, typeOptions } from '../../data'
+import {
+  statusOptions,
+  typeOptions
+} from '../../../../../../store/useAcademic/useClassSchedule'
 import type { ClassStatus, FilterDropdownProps } from '../../types'
 import { classNames } from '../../variants'
 

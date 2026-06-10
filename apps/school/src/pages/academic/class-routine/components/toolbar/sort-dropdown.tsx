@@ -11,7 +11,7 @@ import {
   classRoutineColumnOptions,
   sortOptions,
   sortOrderOptions
-} from '../../data'
+} from '../../../../../store/useAcademic/useClassRoutine'
 import { classNames } from '../../variants'
 
 type SortDropdownProps = {

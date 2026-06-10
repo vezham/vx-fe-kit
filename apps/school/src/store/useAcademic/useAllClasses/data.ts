@@ -1,118 +1,130 @@
-import { sortOrderOptions } from '../../shared/sort'
 import type {
+  AllClassesColumnOption,
+  AllClassesItem,
   ClassFormState,
-  ClassRow,
   ClassStatus,
   DatePresetKey,
-  ScheduleColumnKey
+  SortOption,
+  SortOrderOption
 } from './types'
 
-export const initialRows: ClassRow[] = [
+export const allClassesData: AllClassesItem[] = [
   {
-    id: 'S148239',
-    type: 'Class',
-    starttime: '09.30 AM',
-    endtime: '01.30 PM',
+    id: 'C138038',
+    className: 'I',
+    section: 'A',
+    students: 30,
+    subjects: 3,
     status: 'Active',
     createdAt: '2026-05-01',
     viewedAt: '2026-05-01'
   },
   {
-    id: 'S148238',
-    type: 'Class',
-    starttime: '10.30 AM',
-    endtime: '02.30 PM',
+    id: 'C138037',
+    className: 'I',
+    section: 'B',
+    students: 25,
+    subjects: 3,
     status: 'Active',
     createdAt: '2026-04-30',
     viewedAt: '2026-04-30'
   },
   {
-    id: 'S148237',
-    type: 'Class',
-    starttime: '11.30 AM',
-    endtime: '03.30 PM',
+    id: 'C138036',
+    className: 'II',
+    section: 'A',
+    students: 40,
+    subjects: 3,
     status: 'Active',
-
     createdAt: '2026-04-29',
     viewedAt: '2026-04-29'
   },
   {
-    id: 'S148236',
-    type: 'Class',
-    starttime: '12.30 PM',
-    endtime: '04.30 PM',
+    id: 'C138035',
+    className: 'II',
+    section: 'B',
+    students: 35,
+    subjects: 3,
     status: 'Active',
     createdAt: '2026-04-26',
     viewedAt: '2026-04-28'
   },
   {
-    id: 'S148235',
-    type: 'Class',
-    starttime: '01.30 PM',
-    endtime: '04.30 PM',
+    id: 'C138034',
+    className: 'II',
+    section: 'C',
+    students: 25,
+    subjects: 3,
     status: 'Inactive',
     createdAt: '2026-04-21',
     viewedAt: '2026-04-27'
   },
   {
-    id: 'S148234',
-    type: 'Class',
-    starttime: '10.30 AM',
-    endtime: '04.30 PM',
+    id: 'C138033',
+    className: 'III',
+    section: 'A',
+    students: 30,
+    subjects: 3,
     status: 'Active',
     createdAt: '2026-04-20',
     viewedAt: '2026-04-26'
   },
   {
-    id: 'S148233',
-    type: 'Class',
-    starttime: '11.30 AM',
-    endtime: '12.30 PM',
+    id: 'C138032',
+    className: 'III',
+    section: 'B',
+    students: 25,
+    subjects: 5,
     status: 'Active',
     createdAt: '2026-04-15',
     viewedAt: '2026-04-25'
   },
   {
-    id: 'S148232',
-    type: 'Class',
-    starttime: '12.30 PM',
-    endtime: '04.30 PM',
+    id: 'C138031',
+    className: 'IV',
+    section: 'A',
+    students: 20,
+    subjects: 5,
     status: 'Active',
     createdAt: '2026-03-31',
     viewedAt: '2026-04-24'
   },
   {
-    id: 'S148231',
-    type: 'Class',
-    starttime: '01.30 PM',
-    endtime: '04.30 PM',
+    id: 'C138030',
+    className: 'IV',
+    section: 'B',
+    students: 30,
+    subjects: 5,
     status: 'Inactive',
     createdAt: '2026-01-12',
     viewedAt: '2026-04-23'
   },
   {
-    id: 'S148230',
-    type: 'Class',
-    starttime: '02.30 PM',
-    endtime: '05.30 PM',
+    id: 'C138029',
+    className: 'V',
+    section: 'A',
+    students: 35,
+    subjects: 5,
     status: 'Active',
     createdAt: '2025-12-20',
     viewedAt: '2026-04-22'
   },
   {
-    id: 'S148228',
-    type: 'Class',
-    starttime: '10.30 AM',
-    endtime: '02.30 PM',
+    id: 'C138028',
+    className: 'V',
+    section: 'B',
+    students: 32,
+    subjects: 5,
     status: 'Active',
     createdAt: '2026-04-02',
     viewedAt: '2026-04-21'
   },
   {
-    id: 'S148229',
-    type: 'Class',
-    starttime: '11.30 AM',
-    endtime: '03.30 PM',
+    id: 'C138027',
+    className: 'VI',
+    section: 'A',
+    students: 38,
+    subjects: 6,
     status: 'Inactive',
     createdAt: '2027-02-14',
     viewedAt: '2026-04-20'
@@ -140,9 +152,24 @@ export const sortOptions = [
     label: 'Recently Added',
     column: 'createdAt'
   }
-] as const
+] as const satisfies readonly SortOption[]
 
-export const scheduleColumnOptions = [
+export const sortOrderOptions = [
+  {
+    key: 'ascending',
+    label: 'Ascending',
+    direction: 'ascending',
+    icon: 'lucide:arrow-up-wide-narrow'
+  },
+  {
+    key: 'descending',
+    label: 'Descending',
+    direction: 'descending',
+    icon: 'lucide:arrow-down-wide-narrow'
+  }
+] as const satisfies readonly SortOrderOption[]
+
+export const allClassesColumnOptions = [
   {
     key: 'id',
     label: 'ID',
@@ -151,22 +178,29 @@ export const scheduleColumnOptions = [
     maxWidth: 180
   },
   {
-    key: 'type',
-    label: 'Type',
+    key: 'className',
+    label: 'Class',
     defaultWidth: 140,
     minWidth: 120,
     maxWidth: 180
   },
   {
-    key: 'starttime',
-    label: 'Start Time',
+    key: 'section',
+    label: 'Section',
+    defaultWidth: 120,
+    minWidth: 100,
+    maxWidth: 160
+  },
+  {
+    key: 'students',
+    label: 'Students',
     defaultWidth: 140,
     minWidth: 120,
     maxWidth: 180
   },
   {
-    key: 'endtime',
-    label: 'End Time',
+    key: 'subjects',
+    label: 'Subjects',
     defaultWidth: 140,
     minWidth: 120,
     maxWidth: 180
@@ -178,38 +212,19 @@ export const scheduleColumnOptions = [
     minWidth: 120,
     maxWidth: 160
   }
-] as const satisfies readonly {
-  key: ScheduleColumnKey
-  label: string
-  defaultWidth: number
-  minWidth: number
-  maxWidth: number
-}[]
+] as const satisfies readonly AllClassesColumnOption[]
 
 export const rowCountOptions = ['5', '10', '25', '50']
-export const typeOptions = ['Class']
-export const starttimeOptions = [
-  '09.30 AM',
-  '10.30 AM',
-  '11.30 AM',
-  '12.30 PM',
-  '01.30 PM',
-  '02.30 PM'
-]
-export const endtimeOptions = [
-  '12.30 PM',
-  '01.30 PM',
-  '02.30 PM',
-  '03.30 PM',
-  '04.30 PM',
-  '05.30 PM'
-]
+export const classOptions = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII']
+export const sectionOptions = ['A', 'B', 'C', 'D']
 export const statusOptions: ClassStatus[] = ['Active', 'Inactive']
-export { sortOrderOptions }
 
 export const emptyForm: ClassFormState = {
-  type: '',
-  starttime: '',
-  endtime: '',
+  className: '',
+  section: '',
+  students: '',
+  subjects: '',
   status: 'Active'
 }
+
+export { allClassesData as initialRows }

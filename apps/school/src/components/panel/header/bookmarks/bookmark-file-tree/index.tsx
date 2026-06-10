@@ -282,11 +282,11 @@ const BookmarkFileTree = ({
           />
         </ContextMenu.Menu>
       </ContextMenu.Popover>
-      <ContextMenu.Trigger>
+      {/* <ContextMenu.Trigger>
         <div className="border-border text-muted flex h-48 w-80 items-center justify-center rounded-xl border border-dashed text-sm select-none">
           Right-click here
         </div>
-      </ContextMenu.Trigger>
+      </ContextMenu.Trigger> */}
       <ContextMenu.Popover>
         <ContextMenu.Menu>
           <BrowserContextMenuItems />

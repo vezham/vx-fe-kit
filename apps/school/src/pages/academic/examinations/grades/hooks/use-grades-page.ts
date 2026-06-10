@@ -4,13 +4,13 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import type { Selection, SortDescriptor } from '@vezham/react-v3'
 
-import { sortRows } from '../../../shared/sort'
 import {
   emptyForm,
   gradeColumnOptions,
-  initialRows,
-  sortOptions
-} from '../data'
+  sortOptions,
+  useGrades
+} from '../../../../../store/useAcademic/useGrades'
+import { sortRows } from '../../../shared/sort'
 import type {
   ClassFormErrors,
   ClassFormState,
@@ -81,7 +81,8 @@ const getSortLabel = (column: SortDescriptor['column']) => {
 
 export function useGradesPage() {
   const routeParams = useParams({ strict: false }) as { id?: string }
-  const [data, setData] = useState<ClassRow[]>(initialRows)
+  const gradesQuery = useGrades.list({})
+  const [data, setData] = useState<ClassRow[]>([])
   const [searchQuery, setSearchQuery] = useState('')
   const [rowsPerPage, setRowsPerPage] = useState('5')
   const [page, setPage] = useState(1)
@@ -109,6 +110,14 @@ export function useGradesPage() {
   const [toast, setToast] = useState<ToastState | null>(null)
   const drawer = useDisclosure()
   const wasDrawerOpenRef = useRef(drawer.isOpen)
+
+  useEffect(() => {
+    if (!gradesQuery.data?.length || data.length) {
+      return
+    }
+
+    setData(gradesQuery.data)
+  }, [data.length, gradesQuery.data])
 
   const activeDateRange = useMemo(() => {
     if (datePreset === 'custom') {

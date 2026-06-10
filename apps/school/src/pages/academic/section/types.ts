@@ -1,30 +1,29 @@
 import { useOverlayState } from '@vezham/react-v3'
 
-export type ClassStatus = 'Active' | 'Inactive'
+import type {
+  ClassFormState,
+  ClassStatus,
+  SectionColumnKey,
+  SectionItem
+} from '../../../store/useAcademic/useSection'
+
+export type {
+  ClassFormState,
+  ClassStatus,
+  DatePresetKey,
+  SectionColumnKey,
+  RQSection,
+  SectionResponse
+} from '../../../store/useAcademic/useSection'
+
 export type DrawerMode = 'view' | 'edit' | 'create'
-export type SectionColumnKey = 'id' | 'section' | 'status'
 
 export type ToastState = {
   message: string
   status: 'success' | 'danger'
 }
 
-export type ClassRow = {
-  id: string
-  section: string
-  status: ClassStatus
-  createdAt: string
-  viewedAt: string
-}
-
-export type DatePresetKey =
-  | 'today'
-  | 'yesterday'
-  | 'last7'
-  | 'last30'
-  | 'thisYear'
-  | 'nextYear'
-  | 'custom'
+export type ClassRow = SectionItem
 
 export type DateRangeFilter = {
   start: string
@@ -38,11 +37,6 @@ export type PickerDateValue = {
 export type FilterDraft = {
   section: string | null
   status: ClassStatus | null
-}
-
-export type ClassFormState = {
-  section: string
-  status: ClassStatus
 }
 
 export type ClassFormErrors = Partial<Record<'section' | 'status', string>>

@@ -1,6 +1,19 @@
 import { useOverlayState } from '@vezham/react-v3'
 
-export type ClassStatus = 'Active' | 'Inactive'
+import type {
+  ClassFormState,
+  ClassStatus,
+  HomeworkItem
+} from '../../../store/useAcademic/useHomework'
+
+export type {
+  ClassFormState,
+  ClassStatus,
+  DatePresetKey,
+  HomeworkResponse,
+  RQHomework
+} from '../../../store/useAcademic/useHomework'
+
 export type DrawerMode = 'view' | 'edit' | 'create'
 
 export type ToastState = {
@@ -8,35 +21,7 @@ export type ToastState = {
   status: 'success' | 'danger'
 }
 
-export type ClassRow = {
-  id: string
-  classes: string
-  section: string
-  subject: string
-  homeworkdate: string
-  submissiondate: string
-  status: ClassStatus
-  createdBy: HomeworkCreator
-  createdAt: string
-  viewedAt: string
-  attachments?: string
-  date?: string
-}
-
-export type HomeworkCreator = {
-  name: string
-  secondaryText?: string
-  avatar?: string
-}
-
-export type DatePresetKey =
-  | 'today'
-  | 'yesterday'
-  | 'last7'
-  | 'last30'
-  | 'thisYear'
-  | 'nextYear'
-  | 'custom'
+export type ClassRow = HomeworkItem
 
 export type DateRangeFilter = {
   start: string
@@ -56,17 +41,6 @@ export type FilterDraft = {
   status: ClassStatus | null
   date: string | null
   attachments: string | null
-}
-
-export type ClassFormState = {
-  classes: string
-  section: string
-  subject: string
-  homeworkdate: string
-  submissiondate: string
-  status: ClassStatus
-  date: string
-  attachments: string
 }
 
 export type ClassFormErrors = Partial<

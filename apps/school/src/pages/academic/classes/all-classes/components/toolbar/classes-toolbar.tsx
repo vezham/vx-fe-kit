@@ -1,7 +1,7 @@
 import { SearchField, type SortDescriptor, Surface } from '@vezham/react-v3'
 
+import { allClassesColumnOptions } from '../../../../../../store/useAcademic/useAllClasses/data'
 import { ColumnsDropdown } from '../../../../shared/columns-dropdown'
-import { allClassesColumnOptions } from '../../data'
 import type {
   AllClassesColumnKey,
   CustomDateRangeValue,

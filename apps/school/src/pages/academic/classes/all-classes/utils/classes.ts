@@ -1,4 +1,5 @@
-import type { ClassFormErrors, ClassFormState, ClassRow } from '../types'
+import { ClassFormState } from '../../../../../store/useAcademic/useAllClasses'
+import type { ClassFormErrors, ClassRow } from '../types'
 
 export function getClassTags(row: ClassRow) {
   return [`Grade ${row.className}`, `Section ${row.section}`, row.status]

@@ -11,7 +11,7 @@ import {
   allClassesColumnOptions,
   sortOptions,
   sortOrderOptions
-} from '../../data'
+} from '../../../../../../store/useAcademic/useAllClasses/data'
 import { classNames } from '../../variants'
 
 type SortDropdownProps = {

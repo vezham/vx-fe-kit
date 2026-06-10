@@ -1,6 +1,6 @@
 import { Input, Label, ListBox, Select, Switch } from '@vezham/react-v3'
 
-import { sectionOptions } from '../../data'
+import { sectionOptions } from '../../../../../../store/useAcademic/useAllClasses'
 import type { ClassFormProps } from '../../types'
 import { classNames } from '../../variants'
 

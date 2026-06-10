@@ -13,8 +13,11 @@ import {
   Table
 } from '@vezham/react-v3'
 
+import {
+  allClassesColumnOptions,
+  rowCountOptions
+} from '../../../../../../store/useAcademic/useAllClasses/data'
 import { BulkActionBar } from '../../../../shared/bulk-action-bar'
-import { allClassesColumnOptions, rowCountOptions } from '../../data'
 import type { AllClassesColumnKey, ClassRow, DrawerMode } from '../../types'
 import { getPaginationSummary } from '../../utils/classes'
 import { classNames, getTableRowClassName } from '../../variants'

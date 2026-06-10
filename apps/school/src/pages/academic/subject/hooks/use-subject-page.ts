@@ -6,10 +6,10 @@ import type { Selection, SortDescriptor } from '@vezham/react-v3'
 
 import {
   emptyForm,
-  initialRows,
   sortOptions,
-  subjectColumnOptions
-} from '../data'
+  subjectColumnOptions,
+  useSubject
+} from '../../../../store/useAcademic/useSubject'
 import type {
   ClassFormErrors,
   ClassFormState,
@@ -78,7 +78,8 @@ const getSortLabel = (column: SortDescriptor['column']) => {
 
 export function useSubjectPage() {
   const routeParams = useParams({ strict: false }) as { id?: string }
-  const [data, setData] = useState<ClassRow[]>(initialRows)
+  const subjectQuery = useSubject.list({})
+  const [data, setData] = useState<ClassRow[]>([])
   const [searchQuery, setSearchQuery] = useState('')
   const [rowsPerPage, setRowsPerPage] = useState('5')
   const [page, setPage] = useState(1)
@@ -105,6 +106,14 @@ export function useSubjectPage() {
   const [toast, setToast] = useState<ToastState | null>(null)
   const drawer = useDisclosure()
   const wasDrawerOpenRef = useRef(drawer.isOpen)
+
+  useEffect(() => {
+    if (!subjectQuery.data?.length || data.length) {
+      return
+    }
+
+    setData(subjectQuery.data)
+  }, [data.length, subjectQuery.data])
 
   const activeDateRange = useMemo(() => {
     if (datePreset === 'custom') {

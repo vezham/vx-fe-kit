@@ -7,9 +7,9 @@ import type { Selection, SortDescriptor } from '@vezham/react-v3'
 import {
   classroomColumnOptions,
   emptyForm,
-  initialRows,
-  sortOptions
-} from '../data'
+  sortOptions,
+  useClassroom
+} from '../../../../store/useAcademic/useClassroom'
 import type {
   ClassFormErrors,
   ClassFormState,
@@ -78,7 +78,8 @@ const getSortLabel = (column: SortDescriptor['column']) => {
 
 export function useClassroomPage() {
   const routeParams = useParams({ strict: false }) as { id?: string }
-  const [data, setData] = useState<ClassRow[]>(initialRows)
+  const classroomQuery = useClassroom.list({})
+  const [data, setData] = useState<ClassRow[]>([])
   const [searchQuery, setSearchQuery] = useState('')
   const [rowsPerPage, setRowsPerPage] = useState('5')
   const [page, setPage] = useState(1)
@@ -104,6 +105,14 @@ export function useClassroomPage() {
   const [formErrors, setFormErrors] = useState<ClassFormErrors>({})
   const [toast, setToast] = useState<ToastState | null>(null)
   const drawer = useDisclosure()
+
+  useEffect(() => {
+    if (!classroomQuery.data?.length || data.length) {
+      return
+    }
+
+    setData(classroomQuery.data)
+  }, [classroomQuery.data, data.length])
 
   const activeDateRange = useMemo(() => {
     if (datePreset === 'custom') {
