@@ -1,12 +1,12 @@
 import { Icon } from '@iconify/react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { forwardRef } from '@vezham/react-utils'
 import { Tabs, Tooltip } from '@vezham/react-v3'
 
+import { useDisc } from '../../../../store/useDisc'
 import { InfoPanelDefinition, useInfoPanel } from '../../info-panel'
 import { Archive } from './archive'
-import { sampleArchiveItems, sampleTrashItems } from './data'
 import { Trash } from './trash'
 import { ArchiveItem, Props, TrashItem, useProps } from './types'
 
@@ -63,13 +63,32 @@ const DiskContent = forwardRef<'div', Props>((props, ref) => {
     ref
   })
 
+  const discQuery = useDisc.list({})
   const [activeTab, setActiveTab] = useState<string>('archive')
   const [archiveSearch, setArchiveSearch] = useState('')
   const [trashSearch, setTrashSearch] = useState('')
-  const [internalArchiveItems, setInternalArchiveItems] =
-    useState<ArchiveItem[]>(sampleArchiveItems)
-  const [internalTrashItems, setInternalTrashItems] =
-    useState<TrashItem[]>(sampleTrashItems)
+  const [internalArchiveItems, setInternalArchiveItems] = useState<
+    ArchiveItem[]
+  >(() => discQuery.data?.archiveItems ?? [])
+  const [internalTrashItems, setInternalTrashItems] = useState<TrashItem[]>(
+    () => discQuery.data?.trashItems ?? []
+  )
+
+  useEffect(() => {
+    if (!discQuery.data?.archiveItems?.length || internalArchiveItems.length) {
+      return
+    }
+
+    setInternalArchiveItems(discQuery.data.archiveItems)
+  }, [discQuery.data?.archiveItems, internalArchiveItems.length])
+
+  useEffect(() => {
+    if (!discQuery.data?.trashItems?.length || internalTrashItems.length) {
+      return
+    }
+
+    setInternalTrashItems(discQuery.data.trashItems)
+  }, [discQuery.data?.trashItems, internalTrashItems.length])
 
   const archiveItems = externalArchiveItems || internalArchiveItems
   const trashItems = externalTrashItems || internalTrashItems
@@ -221,4 +240,4 @@ const discPanel: InfoPanelDefinition = {
   content: <DiscPanelContent />
 }
 
-export { DiscPanelContent, DiscTrigger, DiskContent, discPanel }
+export { discPanel, DiscPanelContent, DiscTrigger, DiskContent }

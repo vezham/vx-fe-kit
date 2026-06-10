@@ -1,10 +1,16 @@
 import { Icon } from '@iconify/react'
-import { type ComponentProps, type HTMLAttributes } from 'react'
-import { useEffect, useMemo, useState } from 'react'
+import {
+  type ComponentProps,
+  type HTMLAttributes,
+  useEffect,
+  useMemo,
+  useState
+} from 'react'
 
 import { forwardRef } from '@vezham/react-utils'
 import { ScrollShadow, Tooltip, Typography } from '@vezham/react-v3'
 
+import { useBookmarks } from '../../../../store/useBookmarks'
 import { InfoPanelDefinition, useInfoPanel } from '../../info-panel'
 import BookmarkFileTree from './bookmark-file-tree'
 import {
@@ -19,7 +25,6 @@ import {
   removeTreeItem,
   updateTreeItem
 } from './bookmark-file-tree/variants'
-import { sampleBookmarks, sampleFavorites } from './data'
 import FolderModal from './folder-modal'
 import { type FolderFormState } from './folder-modal/types'
 import {
@@ -197,18 +202,22 @@ const BookmarksContent = forwardRef<'div', Props>((props, ref) => {
     ref
   })
 
+  const bookmarksQuery = useBookmarks.list({})
   const searchQuery = ''
-  const [internalFavorites] = useState<FavoriteItem[]>(sampleFavorites)
-  const [internalBookmarks, setInternalBookmarks] =
-    useState<BookmarkItem[]>(sampleBookmarks)
+  const [internalFavorites, setInternalFavorites] = useState<FavoriteItem[]>(
+    () => bookmarksQuery.data?.favorites ?? []
+  )
+  const [internalBookmarks, setInternalBookmarks] = useState<BookmarkItem[]>(
+    () => bookmarksQuery.data?.bookmarks ?? []
+  )
   const [showAllFavoritesMode, setShowAllFavoritesMode] = useState(false)
   const [isScrollFavoritesOpen, setIsScrollFavoritesOpen] = useState(true)
-  const [quickAccessOrderIds, setQuickAccessOrderIds] = useState(() =>
-    getFavoriteIds(sampleFavorites)
+  const [quickAccessOrderIds, setQuickAccessOrderIds] = useState<string[]>(() =>
+    getFavoriteIds(bookmarksQuery.data?.favorites ?? [])
   )
-  const [bookmarkTreeItems, setBookmarkTreeItems] = useState(() =>
-    bookmarksToTreeItems(sampleBookmarks)
-  )
+  const [bookmarkTreeItems, setBookmarkTreeItems] = useState<
+    BookmarkTreeItem[]
+  >(() => bookmarksToTreeItems(bookmarksQuery.data?.bookmarks ?? []))
   const [folderModalOpen, setFolderModalOpen] = useState(false)
   const [folderModalMode, setFolderModalMode] = useState<'create' | 'edit'>(
     'create'
@@ -217,6 +226,24 @@ const BookmarksContent = forwardRef<'div', Props>((props, ref) => {
   const [folderForm, setFolderForm] = useState<FolderFormState>(() =>
     createDefaultFolderForm()
   )
+
+  useEffect(() => {
+    if (!bookmarksQuery.data?.favorites?.length || internalFavorites.length) {
+      return
+    }
+
+    setInternalFavorites(bookmarksQuery.data.favorites)
+    setQuickAccessOrderIds(getFavoriteIds(bookmarksQuery.data.favorites))
+  }, [bookmarksQuery.data?.favorites, internalFavorites.length])
+
+  useEffect(() => {
+    if (!bookmarksQuery.data?.bookmarks?.length || internalBookmarks.length) {
+      return
+    }
+
+    setInternalBookmarks(bookmarksQuery.data.bookmarks)
+    setBookmarkTreeItems(bookmarksToTreeItems(bookmarksQuery.data.bookmarks))
+  }, [bookmarksQuery.data?.bookmarks, internalBookmarks.length])
 
   const favorites = externalFavorites || internalFavorites
   const bookmarks = externalBookmarks || internalBookmarks
