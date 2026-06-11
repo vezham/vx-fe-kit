@@ -1,6 +1,11 @@
+import {
+  collectFeesConfig,
+  useCollectFees
+} from '../../../../store/useOperations/useFees/useCollectFees'
 import OperationsTablePage from '../../_shared'
-import { collectFeesConfig } from './data'
 
 export default function CollectFeesOperationsPage() {
-  return <OperationsTablePage config={collectFeesConfig} />
+  const { data } = useCollectFees.list({})
+
+  return <OperationsTablePage config={{ ...collectFeesConfig, rows: data }} />
 }

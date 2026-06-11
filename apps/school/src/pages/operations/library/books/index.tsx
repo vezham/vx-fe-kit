@@ -1,6 +1,11 @@
+import {
+  booksConfig,
+  useBooks
+} from '../../../../store/useOperations/useLibrary/useBooks'
 import OperationsTablePage from '../../_shared'
-import { booksConfig } from './data'
 
 export default function BooksOperationsPage() {
-  return <OperationsTablePage config={booksConfig} />
+  const { data } = useBooks.list({})
+
+  return <OperationsTablePage config={{ ...booksConfig, rows: data }} />
 }

@@ -1,6 +1,11 @@
+import {
+  roomTypeConfig,
+  useRoomType
+} from '../../../../store/useOperations/useHostel/useRoomType'
 import OperationsTablePage from '../../_shared'
-import { roomTypeConfig } from './data'
 
 export default function RoomTypeOperationsPage() {
-  return <OperationsTablePage config={roomTypeConfig} />
+  const { data } = useRoomType.list({})
+
+  return <OperationsTablePage config={{ ...roomTypeConfig, rows: data }} />
 }

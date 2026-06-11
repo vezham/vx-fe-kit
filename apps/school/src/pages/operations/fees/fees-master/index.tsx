@@ -1,6 +1,11 @@
+import {
+  feesMasterConfig,
+  useFeesMaster
+} from '../../../../store/useOperations/useFees/useFeesMaster'
 import OperationsTablePage from '../../_shared'
-import { feesMasterConfig } from './data'
 
 export default function FeesMasterOperationsPage() {
-  return <OperationsTablePage config={feesMasterConfig} />
+  const { data } = useFeesMaster.list({})
+
+  return <OperationsTablePage config={{ ...feesMasterConfig, rows: data }} />
 }

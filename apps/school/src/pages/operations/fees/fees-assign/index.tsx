@@ -1,6 +1,11 @@
+import {
+  feesAssignConfig,
+  useFeesAssign
+} from '../../../../store/useOperations/useFees/useFeesAssign'
 import OperationsTablePage from '../../_shared'
-import { feesAssignConfig } from './data'
 
 export default function FeesAssignOperationsPage() {
-  return <OperationsTablePage config={feesAssignConfig} />
+  const { data } = useFeesAssign.list({})
+
+  return <OperationsTablePage config={{ ...feesAssignConfig, rows: data }} />
 }

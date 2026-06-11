@@ -1,6 +1,13 @@
+import {
+  useVehicleDrivers,
+  vehicleDriversConfig
+} from '../../../../store/useOperations/useTransport/useVehicleDrivers'
 import OperationsTablePage from '../../_shared'
-import { vehicleDriversConfig } from './data'
 
 export default function VehicleDriversOperationsPage() {
-  return <OperationsTablePage config={vehicleDriversConfig} />
+  const { data } = useVehicleDrivers.list({})
+
+  return (
+    <OperationsTablePage config={{ ...vehicleDriversConfig, rows: data }} />
+  )
 }

@@ -1,6 +1,11 @@
+import {
+  feesGroupConfig,
+  useFeesGroup
+} from '../../../../store/useOperations/useFees/useFeesGroup'
 import OperationsTablePage from '../../_shared'
-import { feesGroupConfig } from './data'
 
 export default function FeesGroupOperationsPage() {
-  return <OperationsTablePage config={feesGroupConfig} />
+  const { data } = useFeesGroup.list({})
+
+  return <OperationsTablePage config={{ ...feesGroupConfig, rows: data }} />
 }

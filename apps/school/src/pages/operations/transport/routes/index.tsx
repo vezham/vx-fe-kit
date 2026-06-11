@@ -1,6 +1,11 @@
+import {
+  routesConfig,
+  useRoutes
+} from '../../../../store/useOperations/useTransport/useRoutes'
 import OperationsTablePage from '../../_shared'
-import { routesConfig } from './data'
 
 export default function RoutesOperationsPage() {
-  return <OperationsTablePage config={routesConfig} />
+  const { data } = useRoutes.list({})
+
+  return <OperationsTablePage config={{ ...routesConfig, rows: data }} />
 }

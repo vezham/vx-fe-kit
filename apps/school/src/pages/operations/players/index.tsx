@@ -1,6 +1,9 @@
+import { usePlayers } from '../../../store/useOperations/usePlayers'
 import OperationsTablePage from '../_shared'
-import { sportsConfig } from './data'
+import { playersConfig } from './data'
 
 export default function PlayersOperationsPage() {
-  return <OperationsTablePage config={sportsConfig} />
+  const { data } = usePlayers.list({})
+
+  return <OperationsTablePage config={{ ...playersConfig, rows: data }} />
 }

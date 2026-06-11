@@ -1,6 +1,11 @@
+import {
+  returnBooksConfig,
+  useReturn
+} from '../../../../store/useOperations/useLibrary/useReturn'
 import OperationsTablePage from '../../_shared'
-import { returnBooksConfig } from './data'
 
 export default function ReturnBooksOperationsPage() {
-  return <OperationsTablePage config={returnBooksConfig} />
+  const { data } = useReturn.list({})
+
+  return <OperationsTablePage config={{ ...returnBooksConfig, rows: data }} />
 }

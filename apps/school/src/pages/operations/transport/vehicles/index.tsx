@@ -1,6 +1,11 @@
+import {
+  useVehicles,
+  vehiclesConfig
+} from '../../../../store/useOperations/useTransport/useVehicles'
 import OperationsTablePage from '../../_shared'
-import { vehiclesConfig } from './data'
 
 export default function VehiclesOperationsPage() {
-  return <OperationsTablePage config={vehiclesConfig} />
+  const { data } = useVehicles.list({})
+
+  return <OperationsTablePage config={{ ...vehiclesConfig, rows: data }} />
 }

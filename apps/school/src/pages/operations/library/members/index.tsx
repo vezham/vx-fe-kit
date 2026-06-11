@@ -1,6 +1,13 @@
+import {
+  libraryMembersConfig,
+  useMembers
+} from '../../../../store/useOperations/useLibrary/useMembers'
 import OperationsTablePage from '../../_shared'
-import { libraryMembersConfig } from './data'
 
 export default function LibraryMembersOperationsPage() {
-  return <OperationsTablePage config={libraryMembersConfig} />
+  const { data } = useMembers.list({})
+
+  return (
+    <OperationsTablePage config={{ ...libraryMembersConfig, rows: data }} />
+  )
 }

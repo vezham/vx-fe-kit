@@ -1,6 +1,11 @@
+import {
+  pickupPointsConfig,
+  usePickupPoints
+} from '../../../../store/useOperations/useTransport/usePickupPoints'
 import OperationsTablePage from '../../_shared'
-import { pickupPointsConfig } from './data'
 
 export default function PickupPointsOperationsPage() {
-  return <OperationsTablePage config={pickupPointsConfig} />
+  const { data } = usePickupPoints.list({})
+
+  return <OperationsTablePage config={{ ...pickupPointsConfig, rows: data }} />
 }
