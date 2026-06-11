@@ -111,7 +111,9 @@ build
 coverage
 tmp
 out-tsc
+# typescript
 tsconfig.tsbuildinfo
+*.tsbuildinfo
 
 **/.git
 **/.svn
