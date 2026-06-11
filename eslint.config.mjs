@@ -1,6 +1,6 @@
 import nx from '@nx/eslint-plugin'
 import tanstackQuery from '@tanstack/eslint-plugin-query'
-import jsoncParser from 'jsonc-eslint-parser'
+import * as jsoncParser from 'jsonc-eslint-parser'
 
 // import react from 'eslint-plugin-react'
 // import reactHooks from 'eslint-plugin-react-hooks'

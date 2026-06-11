@@ -2,7 +2,6 @@
 import { tanstackRouter } from '@tanstack/router-plugin/vite'
 import react from '@vitejs/plugin-react-swc'
 import { defineConfig } from 'vite'
-import tsconfigPaths from 'vite-tsconfig-paths'
 
 export default defineConfig(async () => {
   const tailwindcss = (await import('@tailwindcss/vite')).default
@@ -21,11 +20,13 @@ export default defineConfig(async () => {
       port: Number(env.PRE_PORT) || Number(env.PORT),
       host: hostname
     },
+    resolve: {
+      tsconfigPaths: true
+    },
     plugins: [
       tanstackRouter({ target: 'react', autoCodeSplitting: true }),
       react(),
-      tailwindcss(),
-      tsconfigPaths()
+      tailwindcss()
     ],
     build: {
       outDir: './dist',
