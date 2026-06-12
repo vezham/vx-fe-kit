@@ -1,0 +1,9 @@
+{
+  "name": "mail",
+  "version": "0.0.1",
+  "private": true,
+  "devDependencies": {
+    "@vx/start": "workspace:*",
+    "@vx/system-utils": "workspace:*"
+  }
+}

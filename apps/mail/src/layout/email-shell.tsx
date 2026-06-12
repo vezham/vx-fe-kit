@@ -1,0 +1,86 @@
+'use client'
+
+import { AppLayout } from '@heroui-pro/react'
+import { useRouter } from '@tanstack/react-router'
+import type { ReactNode } from 'react'
+import { useCallback, useEffect, useState } from 'react'
+
+import { ComposeSheet } from '../components/compose-sheet'
+import { EmailSidebar } from '../components/email-sidebar'
+import { DEFAULT_FOLDER_ID } from '../data/email'
+
+export interface EmailShellProps {
+  children: ReactNode
+  basePath?: string
+  disableNavigation?: boolean
+}
+
+export default function EmailShell({
+  basePath = '',
+  children,
+  disableNavigation = false
+}: EmailShellProps) {
+  const router = useRouter()
+  const pathname = location.pathname
+  const [isComposeOpen, setIsComposeOpen] = useState(false)
+
+  const navigate = useCallback(
+    (href: string) => {
+      if (disableNavigation) return
+
+      router.navigate({
+        to: basePath + href
+      })
+    },
+    [router, basePath, disableNavigation]
+  )
+
+  // Keyboard shortcut: `C` opens compose. Skipped in preview mode and when
+  // focus is inside an input/textarea so normal typing still works.
+  useEffect(() => {
+    if (disableNavigation) return
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.metaKey || event.ctrlKey || event.altKey || event.shiftKey)
+        return
+      if (event.key !== 'c' && event.key !== 'C') return
+
+      const target = event.target as HTMLElement | null
+      const tagName = target?.tagName.toLowerCase()
+
+      if (
+        tagName === 'input' ||
+        tagName === 'textarea' ||
+        target?.isContentEditable
+      )
+        return
+
+      event.preventDefault()
+      setIsComposeOpen(true)
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [disableNavigation])
+
+  return (
+    <AppLayout
+      className="bg-background"
+      navigate={navigate}
+      sidebar={
+        <EmailSidebar
+          basePath={basePath}
+          disableNavigation={disableNavigation}
+          pathname={pathname ?? `/${DEFAULT_FOLDER_ID}`}
+          onCompose={
+            disableNavigation ? undefined : () => setIsComposeOpen(true)
+          }
+        />
+      }
+      sidebarCollapsible="offcanvas">
+      {children}
+      <ComposeSheet isOpen={isComposeOpen} onOpenChange={setIsComposeOpen} />
+    </AppLayout>
+  )
+}

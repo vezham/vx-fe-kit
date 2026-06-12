@@ -1,0 +1,11 @@
+{
+  "name": "mail",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/mail/src",
+  "targets": {
+    "hosts:setup": {},
+    "routes:tanstack": {}
+  },
+  "tags": ["category:app"]
+}

@@ -1,0 +1,10 @@
+{
+  "name": "mail-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/mail-e2e/src",
+  "tags": ["category:app", "e2e"],
+  "implicitDependencies": ["mail"],
+  "// targets": "to see all targets run: nx show project mail-e2e --web",
+  "targets": {}
+}
