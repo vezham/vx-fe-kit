@@ -28,6 +28,12 @@
     },
     {
       "path": "./apps/mail"
+    },
+    {
+      "path": "./apps/chats-e2e"
+    },
+    {
+      "path": "./apps/chats"
     }
   ]
 }

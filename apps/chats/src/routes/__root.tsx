@@ -3,7 +3,7 @@ import { lazy } from 'react'
 
 import { __DEV__ } from '@vx/system-utils'
 
-import EmailShell from '../layout/email-shell'
+import { ChatShell } from '../components/chat-shell'
 
 const TanStackRouterDevtools = lazy(() =>
   import('@tanstack/react-router-devtools').then(d => ({
@@ -18,9 +18,9 @@ export const Route = createRootRoute({
 function RootComponent() {
   return (
     <>
-      <EmailShell>
+      <ChatShell>
         <Outlet />
-      </EmailShell>
+      </ChatShell>
       {__DEV__ ? <TanStackRouterDevtools position="bottom-right" /> : null}
     </>
   )

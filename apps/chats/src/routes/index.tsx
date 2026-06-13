@@ -1,13 +1,13 @@
 import { createFileRoute, redirect } from '@tanstack/react-router'
 
-import { DEFAULT_FOLDER_ID } from '../data/email'
+import { DEFAULT_CHAT_THREAD_ID } from '../data/chat'
 
 export const Route = createFileRoute('/')({
   beforeLoad: () => {
     throw redirect({
-      to: `/$folder`,
+      to: `/$chatId`,
       params: {
-        folder: DEFAULT_FOLDER_ID
+        chatId: DEFAULT_CHAT_THREAD_ID
       }
     })
   }
