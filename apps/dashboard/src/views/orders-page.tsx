@@ -122,7 +122,7 @@ export function OrdersPage() {
   )
 
   return (
-    <div className="bg-background mx-auto flex max-w-7xl flex-col gap-4 px-5 pt-4 pb-10">
+    <div className="bg-background mx-auto flex min-h-screen max-w-7xl flex-col gap-4 px-5 pt-4 pb-10">
       <p className="text-muted text-sm">Manage and track customer orders.</p>
 
       <div className="flex flex-wrap items-center gap-2">

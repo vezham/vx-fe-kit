@@ -15,7 +15,7 @@ const TIME_RANGES = ['7D', '30D', '90D', '12M'] as const
 
 export function AnalyticsPage() {
   return (
-    <div className="bg-background mx-auto flex max-w-7xl flex-col gap-4 px-5 pt-4 pb-10">
+    <div className="bg-background mx-auto flex min-h-screen max-w-7xl flex-col gap-4 px-5 pt-4 pb-10">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-muted text-sm">
           Explore how your product is performing.

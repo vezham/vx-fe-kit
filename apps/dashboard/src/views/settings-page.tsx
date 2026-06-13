@@ -32,7 +32,7 @@ const CURRENCIES = [
 
 export function SettingsPage() {
   return (
-    <form className="bg-background mx-auto flex max-w-5xl flex-col gap-4 px-5 pt-4 pb-10">
+    <form className="bg-background mx-auto flex min-h-screen max-w-5xl flex-col gap-4 px-5 pt-4 pb-10">
       <p className="text-muted text-sm">
         Manage your organization profile and preferences.
       </p>
