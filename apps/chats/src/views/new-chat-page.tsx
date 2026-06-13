@@ -7,7 +7,7 @@ import { SUGGESTED_PROMPTS } from '../data/chat'
 
 export function NewChatPage() {
   return (
-    <div className="flex h-[calc(100svh-var(--chat-navbar-height,56px))] flex-col overflow-hidden">
+    <div className="bg-background flex h-[calc(100svh-var(--chat-navbar-height,56px))] flex-col overflow-hidden">
       <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
         <div className="mx-auto flex min-h-full w-full max-w-[714px] flex-col justify-center px-4 py-10">
           <PromptSuggestion>

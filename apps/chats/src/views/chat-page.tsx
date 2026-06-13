@@ -12,7 +12,7 @@ export interface ChatPageProps {
 
 export default function ChatPage({ thread }: ChatPageProps) {
   return (
-    <div className="flex h-[calc(100svh-var(--chat-navbar-height,64px))] flex-col overflow-hidden">
+    <div className="bg-background flex h-[calc(100svh-var(--chat-navbar-height,64px))] flex-col overflow-hidden">
       <ChatConversation className="min-h-0 flex-1">
         <ChatConversation.Content className="flex flex-col">
           <div className="mx-auto flex w-full max-w-[714px] flex-col gap-8 px-4 pt-10 pb-6">

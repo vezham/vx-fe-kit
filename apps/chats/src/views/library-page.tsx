@@ -12,7 +12,7 @@ export interface LibraryPageProps {
 export function LibraryPage({ basePath = '' }: LibraryPageProps) {
   return (
     <div className="h-full min-h-0 overflow-y-auto">
-      <div className="mx-auto flex w-full max-w-[960px] flex-col px-4 py-8">
+      <div className="bg-background mx-auto flex w-full max-w-[960px] flex-col px-4 py-8">
         <PromptSuggestion variant="card">
           <PromptSuggestion.Header>
             <PromptSuggestion.Title>
