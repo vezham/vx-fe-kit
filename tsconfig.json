@@ -34,6 +34,12 @@
     },
     {
       "path": "./apps/chats"
+    },
+    {
+      "path": "./apps/dashboard-e2e"
+    },
+    {
+      "path": "./apps/dashboard"
     }
   ]
 }

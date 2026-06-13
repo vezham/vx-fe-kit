@@ -379,6 +379,39 @@ importers:
         specifier: ^16.4.1
         version: 16.6.1
 
+  apps/dashboard:
+    devDependencies:
+      '@vx/start':
+        specifier: workspace:*
+        version: link:../../packages/vx/start
+      '@vx/system-utils':
+        specifier: workspace:*
+        version: link:../../packages/vx/system-utils
+
+  apps/dashboard-e2e: {}
+
+  apps/dashboard-mock:
+    dependencies:
+      '@faker-js/faker':
+        specifier: ^8.4.1
+        version: 8.4.1
+      json-server:
+        specifier: ^0.17.4
+        version: 0.17.4
+    devDependencies:
+      '@types/json-server':
+        specifier: ^0.14.8
+        version: 0.14.8
+      '@types/node':
+        specifier: ^20.0.0
+        version: 20.19.9
+      '@vezham/use-logger':
+        specifier: ^0.3.3
+        version: 0.3.3
+      dotenv:
+        specifier: ^16.4.1
+        version: 16.6.1
+
   apps/mail:
     devDependencies:
       '@vx/start':
@@ -19448,7 +19481,7 @@ snapshots:
 
   dotenv-expand@12.0.3:
     dependencies:
-      dotenv: 16.4.7
+      dotenv: 16.6.1
 
   dotenv@16.4.7: {}
 
