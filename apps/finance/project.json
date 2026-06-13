@@ -1,0 +1,21 @@
+{
+  "name": "finance",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/finance/src",
+  "targets": {
+    "hosts:setup": {},
+    "routes:tanstack": {},
+    "config-local-hostile": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/chats",
+        "commands": [
+          "sudo pnpm exec hostile set localhost finance.vezham.local && sudo pnpm exec hostile set localhost finance.mock.vezham.local"
+        ],
+        "parallel": false
+      }
+    }
+  },
+  "tags": ["category:app"]
+}
