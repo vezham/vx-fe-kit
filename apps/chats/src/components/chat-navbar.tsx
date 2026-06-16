@@ -4,7 +4,7 @@ import { ArrowRightToSquare, Magnifier } from '@gravity-ui/icons'
 import { AppLayout, Navbar, Sidebar } from '@heroui-pro/react'
 import { Button, Kbd, Tooltip } from '@heroui/react'
 
-import type { ChatActivePage } from '../data/chat'
+import { ChatActivePage } from '../data/types'
 
 const NAV_TITLES: Record<
   ChatActivePage['kind'],

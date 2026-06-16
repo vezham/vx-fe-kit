@@ -12,11 +12,7 @@ import {
   TextShimmer
 } from '@heroui-pro/react'
 
-import type {
-  ChatMessage,
-  ChatMessageSource,
-  ChatMessageTool
-} from '../data/chat'
+import { ChatMessage, ChatMessageSource, ChatMessageTool } from '../data/types'
 import { chatStrings } from '../i18n/strings'
 import { ChatAttachmentList } from './chat-attachment-list'
 import { MessageActions } from './message-actions'

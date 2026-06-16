@@ -1,4 +1,4 @@
-import type { ChatThread } from './chat'
+import { ChatThread } from './types'
 
 export const SHOWCASE_MARKDOWN = `Here is a concise answer with **markdown** support:
 

@@ -2,9 +2,9 @@
 
 import { ChatConversation } from '@heroui-pro/react'
 
-import { ChatComposer } from '../components/chat-composer'
-import { ThreadMessage } from '../components/thread-message'
-import type { ChatThread } from '../data/chat'
+import { ChatComposer } from '@/src/components/chat-composer'
+import { ThreadMessage } from '@/src/components/thread-message'
+import { ChatThread } from '@/src/store/useChats/types'
 
 export interface ChatPageProps {
   thread: ChatThread

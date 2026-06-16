@@ -3,7 +3,7 @@
 import { PromptSuggestion } from '@heroui-pro/react'
 import { Card } from '@heroui/react'
 
-import { EXPLORE_CATEGORIES } from '../data/chat'
+import { EXPLORE_CATEGORIES } from '@/src/store/useExplore/data'
 
 export function ExplorePage() {
   return (

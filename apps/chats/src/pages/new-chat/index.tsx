@@ -2,8 +2,8 @@
 
 import { PromptSuggestion } from '@heroui-pro/react'
 
-import { ChatComposer } from '../components/chat-composer'
-import { SUGGESTED_PROMPTS } from '../data/chat'
+import { ChatComposer } from '@/src/components/chat-composer'
+import { SUGGESTED_PROMPTS } from '@/src/data/data'
 
 export function NewChatPage() {
   return (

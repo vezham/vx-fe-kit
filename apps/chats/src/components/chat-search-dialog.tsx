@@ -4,7 +4,7 @@ import { Comment, Magnifier } from '@gravity-ui/icons'
 import { Command } from '@heroui-pro/react'
 import { Kbd } from '@heroui/react'
 
-import type { ChatThread } from '../data/chat'
+import { ChatThread } from '../data/types'
 
 export interface ChatSearchDialogProps {
   isOpen: boolean

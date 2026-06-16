@@ -7,7 +7,7 @@ import { ListBox, Select } from '@heroui/react'
 import type { ChangeEvent } from 'react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-import { CHAT_MODELS } from '../data/chat'
+import { CHAT_MODELS } from '../data/data'
 import { chatStrings } from '../i18n/strings'
 import type { ChatAttachmentListItem } from './chat-attachment-list'
 import { ChatAttachmentList } from './chat-attachment-list'

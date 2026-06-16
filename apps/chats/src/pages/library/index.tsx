@@ -3,7 +3,7 @@
 import { PromptSuggestion } from '@heroui-pro/react'
 import { Card, Chip } from '@heroui/react'
 
-import { LIBRARY_ITEMS } from '../data/chat'
+import { LIBRARY_ITEMS } from '@/src/store/useLibraries/data'
 
 export interface LibraryPageProps {
   basePath?: string

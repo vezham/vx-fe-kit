@@ -5,13 +5,11 @@ import { useRouter } from '@tanstack/react-router'
 import type { ReactNode } from 'react'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
-import type { ChatActivePage, ChatNavItemId, ChatThread } from '../data/chat'
-import {
-  CHAT_NAV_ITEMS,
-  CHAT_THREADS,
-  DEFAULT_CHAT_THREAD_ID,
-  resolveChatActivePage
-} from '../data/chat'
+import { CHAT_NAV_ITEMS, DEFAULT_CHAT_THREAD_ID } from '../data/data'
+import { ChatActivePage, ChatNavItemId, ChatThread } from '../data/types'
+import { CHAT_THREADS } from '../store/useChats/data'
+import { useCurrentUser } from '../store/useCurrentUser'
+import { resolveChatActivePage } from '../utils/chat'
 import { ChatNavbar } from './chat-navbar'
 import { ChatSearchDialog } from './chat-search-dialog'
 import { ChatSidebar } from './chat-sidebar'
@@ -30,6 +28,9 @@ export function ChatShell({
   const router = useRouter()
   const pathname = location.pathname
   const [isSearchOpen, setIsSearchOpen] = useState(false)
+  const { data: currentUser } = useCurrentUser.get()
+
+  if (!currentUser) return null
 
   const navigate = useCallback(
     (href: string) => {
@@ -100,6 +101,7 @@ export function ChatShell({
           pathname={pathname ?? `/${DEFAULT_CHAT_THREAD_ID}`}
           threads={CHAT_THREADS}
           onAction={handleNavAction}
+          currentUser={currentUser}
         />
       }>
       {children}

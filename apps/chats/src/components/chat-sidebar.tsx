@@ -4,18 +4,18 @@ import { Comment } from '@gravity-ui/icons'
 import { Sidebar } from '@heroui-pro/react'
 import { Avatar, Kbd } from '@heroui/react'
 
-import type { ChatNavItem, ChatNavItemId, ChatThread } from '../data/chat'
-import {
-  CHAT_NAV_ITEMS,
-  DEFAULT_CHAT_THREAD_ID,
-  resolveChatActivePage
-} from '../data/chat'
+import type { CurrentUserResponse } from '@src/store/useCurrentUser'
+
+import { CHAT_NAV_ITEMS, DEFAULT_CHAT_THREAD_ID } from '../data/data'
+import { ChatNavItem, ChatNavItemId, ChatThread } from '../data/types'
+import { resolveChatActivePage } from '../utils/chat'
 
 export interface ChatSidebarProps {
   threads: readonly ChatThread[]
   pathname: string
   basePath: string
   disableNavigation?: boolean
+  currentUser: CurrentUserResponse
   onAction?: (id: ChatNavItemId) => void
 }
 
@@ -24,6 +24,7 @@ export function ChatSidebar({
   disableNavigation = false,
   onAction,
   pathname,
+  currentUser,
   threads
 }: ChatSidebarProps) {
   const contentProps = {
@@ -31,6 +32,7 @@ export function ChatSidebar({
     disableNavigation,
     onAction,
     pathname,
+    currentUser,
     threads
   }
 
@@ -54,6 +56,7 @@ interface SidebarContentsProps extends ChatSidebarProps {
 function SidebarContents({
   basePath,
   disableNavigation,
+  currentUser,
   idPrefix = '',
   onAction,
   pathname,
@@ -66,18 +69,17 @@ function SidebarContents({
       <Sidebar.Header>
         <div className="flex items-center gap-3 px-1 py-1">
           <Avatar className="size-9">
-            <Avatar.Image
-              alt={threads[0]?.user.name ?? 'User'}
-              src={threads[0]?.user.avatar}
-            />
-            <Avatar.Fallback>DH</Avatar.Fallback>
+            <Avatar.Image alt={currentUser.name} src={currentUser.avatar} />
+            <Avatar.Fallback>
+              {currentUser.name.slice(0, 2).toUpperCase()}
+            </Avatar.Fallback>
           </Avatar>
           <div className="flex min-w-0 flex-col" data-sidebar="label">
             <span className="text-foreground text-sm leading-tight font-medium">
-              {threads[0]?.user.name ?? 'Darnell Howe'}
+              {currentUser.name ?? 'Darnell Howe'}
             </span>
             <span className="text-muted text-xs leading-tight font-medium">
-              {threads[0]?.user.email ?? 'darnell@email.com'}
+              {currentUser.email ?? 'darnell@email.com'}
             </span>
           </div>
         </div>
