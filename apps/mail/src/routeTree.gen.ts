@@ -8,15 +8,11 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { createFileRoute } from '@tanstack/react-router'
-
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as FolderRouteRouteImport } from './routes/$folder/route'
 import { Route as IndexRouteImport } from './routes/index'
-
-const FolderIndexLazyRouteImport = createFileRoute('/$folder/')()
-const FolderEmailIdIndexLazyRouteImport =
-  createFileRoute('/$folder/$emailId/')()
+import { Route as FolderIndexRouteImport } from './routes/$folder/index'
+import { Route as FolderEmailIdIndexRouteImport } from './routes/$folder/$emailId/index'
 
 const FolderRouteRoute = FolderRouteRouteImport.update({
   id: '/$folder',
@@ -28,36 +24,34 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const FolderIndexLazyRoute = FolderIndexLazyRouteImport.update({
+const FolderIndexRoute = FolderIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => FolderRouteRoute,
-} as any).lazy(() => import('./routes/$folder/index.lazy').then((d) => d.Route))
-const FolderEmailIdIndexLazyRoute = FolderEmailIdIndexLazyRouteImport.update({
+} as any)
+const FolderEmailIdIndexRoute = FolderEmailIdIndexRouteImport.update({
   id: '/$emailId/',
   path: '/$emailId/',
   getParentRoute: () => FolderRouteRoute,
-} as any).lazy(() =>
-  import('./routes/$folder/$emailId/index.lazy').then((d) => d.Route),
-)
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$folder': typeof FolderRouteRouteWithChildren
-  '/$folder/': typeof FolderIndexLazyRoute
-  '/$folder/$emailId/': typeof FolderEmailIdIndexLazyRoute
+  '/$folder/': typeof FolderIndexRoute
+  '/$folder/$emailId/': typeof FolderEmailIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/$folder': typeof FolderIndexLazyRoute
-  '/$folder/$emailId': typeof FolderEmailIdIndexLazyRoute
+  '/$folder': typeof FolderIndexRoute
+  '/$folder/$emailId': typeof FolderEmailIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/$folder': typeof FolderRouteRouteWithChildren
-  '/$folder/': typeof FolderIndexLazyRoute
-  '/$folder/$emailId/': typeof FolderEmailIdIndexLazyRoute
+  '/$folder/': typeof FolderIndexRoute
+  '/$folder/$emailId/': typeof FolderEmailIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -92,27 +86,27 @@ declare module '@tanstack/react-router' {
       id: '/$folder/'
       path: '/'
       fullPath: '/$folder/'
-      preLoaderRoute: typeof FolderIndexLazyRouteImport
+      preLoaderRoute: typeof FolderIndexRouteImport
       parentRoute: typeof FolderRouteRoute
     }
     '/$folder/$emailId/': {
       id: '/$folder/$emailId/'
       path: '/$emailId'
       fullPath: '/$folder/$emailId/'
-      preLoaderRoute: typeof FolderEmailIdIndexLazyRouteImport
+      preLoaderRoute: typeof FolderEmailIdIndexRouteImport
       parentRoute: typeof FolderRouteRoute
     }
   }
 }
 
 interface FolderRouteRouteChildren {
-  FolderIndexLazyRoute: typeof FolderIndexLazyRoute
-  FolderEmailIdIndexLazyRoute: typeof FolderEmailIdIndexLazyRoute
+  FolderIndexRoute: typeof FolderIndexRoute
+  FolderEmailIdIndexRoute: typeof FolderEmailIdIndexRoute
 }
 
 const FolderRouteRouteChildren: FolderRouteRouteChildren = {
-  FolderIndexLazyRoute: FolderIndexLazyRoute,
-  FolderEmailIdIndexLazyRoute: FolderEmailIdIndexLazyRoute,
+  FolderIndexRoute: FolderIndexRoute,
+  FolderEmailIdIndexRoute: FolderEmailIdIndexRoute,
 }
 
 const FolderRouteRouteWithChildren = FolderRouteRoute._addFileChildren(

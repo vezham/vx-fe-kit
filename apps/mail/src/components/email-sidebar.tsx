@@ -4,8 +4,11 @@ import { PencilToLine } from '@gravity-ui/icons'
 import { Sidebar } from '@heroui-pro/react'
 import { Avatar, Button, Chip } from '@heroui/react'
 
-import type { EmailFolder, EmailLabel } from '../data/email'
-import { FOLDERS, FOLDER_UNREAD_COUNTS, LABELS } from '../data/email'
+import type { CurrentUserResponse } from '@src/store/useCurrentUser'
+
+import { FOLDERS, LABELS } from '../data/data'
+import { EmailFolder, EmailLabel } from '../data/types'
+import { FOLDER_UNREAD_COUNTS } from '../utils/email'
 
 const LABEL_TONE_CLASS: Record<EmailLabel['tone'], string> = {
   accent: 'bg-accent',
@@ -20,12 +23,14 @@ export interface EmailSidebarProps {
   basePath: string
   disableNavigation?: boolean
   onCompose?: () => void
+  currentUser: CurrentUserResponse
 }
 
 export function EmailSidebar({
   basePath,
   disableNavigation = false,
   onCompose,
+  currentUser,
   pathname
 }: EmailSidebarProps) {
   return (
@@ -36,6 +41,7 @@ export function EmailSidebar({
           disableNavigation={disableNavigation}
           pathname={pathname}
           onCompose={onCompose}
+          currentUser={currentUser}
         />
       </Sidebar>
       <Sidebar.Mobile>
@@ -45,24 +51,27 @@ export function EmailSidebar({
           idPrefix="mobile-"
           pathname={pathname}
           onCompose={onCompose}
+          currentUser={currentUser}
         />
       </Sidebar.Mobile>
     </>
   )
 }
 
-interface SidebarContentsProps {
+interface SidebarContentsProps extends EmailSidebarProps {
   basePath: string
   disableNavigation: boolean
   pathname: string
   idPrefix?: string
   onCompose?: () => void
+  currentUser: CurrentUserResponse
 }
 
 function SidebarContents({
   basePath,
   disableNavigation,
   idPrefix = '',
+  currentUser,
   onCompose,
   pathname
 }: SidebarContentsProps) {
@@ -71,18 +80,19 @@ function SidebarContents({
       <Sidebar.Header>
         <div className="flex items-center gap-3 px-1 py-1">
           <Avatar className="size-9">
-            <Avatar.Image
-              alt="You"
-              src="https://heroui-assets.nyc3.cdn.digitaloceanspaces.com/avatars/blue-light.jpg"
-            />
-            <Avatar.Fallback>Y</Avatar.Fallback>
+            <Avatar.Image alt={currentUser.name} src={currentUser.avatar} />
+            <Avatar.Fallback>
+              {currentUser.name.slice(0, 2).toUpperCase()}
+            </Avatar.Fallback>
           </Avatar>
+
           <div className="flex min-w-0 flex-col" data-sidebar="label">
             <span className="text-foreground text-sm leading-tight font-medium">
-              You
+              {currentUser.name}
             </span>
+
             <span className="text-muted text-xs leading-tight font-medium">
-              you@heroui.dev
+              {currentUser.email}
             </span>
           </div>
         </div>

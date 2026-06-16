@@ -5,9 +5,10 @@ import { useRouter } from '@tanstack/react-router'
 import type { ReactNode } from 'react'
 import { useCallback, useEffect, useState } from 'react'
 
-import { ComposeSheet } from '../components/compose-sheet'
-import { EmailSidebar } from '../components/email-sidebar'
-import { DEFAULT_FOLDER_ID } from '../data/email'
+import { ComposeSheet } from '@/src/components/compose-sheet'
+import { EmailSidebar } from '@/src/components/email-sidebar'
+import { DEFAULT_FOLDER_ID } from '@/src/data/data'
+import { useCurrentUser } from '@/src/store/useCurrentUser'
 
 export interface EmailShellProps {
   children: ReactNode
@@ -23,6 +24,9 @@ export default function EmailShell({
   const router = useRouter()
   const pathname = location.pathname
   const [isComposeOpen, setIsComposeOpen] = useState(false)
+  const { data: currentUser } = useCurrentUser.get()
+
+  if (!currentUser) return null
 
   const navigate = useCallback(
     (href: string) => {
@@ -70,6 +74,7 @@ export default function EmailShell({
       navigate={navigate}
       sidebar={
         <EmailSidebar
+          currentUser={currentUser}
           basePath={basePath}
           disableNavigation={disableNavigation}
           pathname={pathname ?? `/${DEFAULT_FOLDER_ID}`}

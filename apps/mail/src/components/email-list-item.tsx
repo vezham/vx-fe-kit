@@ -3,7 +3,7 @@
 import { Star, StarFill } from '@gravity-ui/icons'
 import { Avatar, Description, Link } from '@heroui/react'
 
-import type { EmailThread } from '../data/email'
+import { EmailThread } from '../data/types'
 
 export interface EmailListItemProps {
   thread: EmailThread

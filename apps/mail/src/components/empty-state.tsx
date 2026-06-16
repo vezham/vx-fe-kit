@@ -1,6 +1,6 @@
 import { Tray } from '@gravity-ui/icons'
 
-import type { EmailFolder } from '../data/email'
+import { EmailFolder } from '../data/types'
 
 export interface EmptyStateProps {
   folder: EmailFolder

@@ -2,8 +2,8 @@
 
 import type { ReactNode } from 'react'
 
-import type { EmailThread } from '../data/email'
 import { getFolder } from '../data/email'
+import { EmailThread } from '../data/types'
 import { EmailList } from './email-list'
 
 export interface FolderLayoutProps {

@@ -3,7 +3,7 @@
 import { AppLayout } from '@heroui-pro/react'
 import { ScrollShadow, SearchField } from '@heroui/react'
 
-import type { EmailFolder, EmailThread } from '../data/email'
+import { EmailFolder, EmailThread } from '../data/types'
 import { EmailListItem } from './email-list-item'
 
 export interface EmailListProps {

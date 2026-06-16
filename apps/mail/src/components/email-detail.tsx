@@ -22,7 +22,7 @@ import {
   Separator
 } from '@heroui/react'
 
-import type { EmailMessage, EmailThread } from '../data/email'
+import { EmailMessage, EmailThread } from '../data/types'
 
 export interface EmailDetailProps {
   thread: EmailThread
