@@ -24,6 +24,7 @@ export default function EmailShell({
   const router = useRouter()
   const pathname = location.pathname
   const [isComposeOpen, setIsComposeOpen] = useState(false)
+
   const { data: currentUser } = useCurrentUser.get()
 
   if (!currentUser) return null
