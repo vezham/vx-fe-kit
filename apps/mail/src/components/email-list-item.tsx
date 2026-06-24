@@ -1,7 +1,7 @@
 'use client'
 
 import { Star, StarFill } from '@gravity-ui/icons'
-import { Avatar, Description, Link } from '@heroui/react'
+import { Avatar, Link } from '@heroui/react'
 
 import { EmailThread } from '../data/types'
 
@@ -34,20 +34,38 @@ export function EmailListItem({
   }`
 
   const content = (
-    <>
+    <div className="flex w-full min-w-0 gap-3">
       <Avatar className="size-9 shrink-0">
         <Avatar.Image alt={senderName} src={senderAvatar} />
         <Avatar.Fallback>{getInitials(senderName)}</Avatar.Fallback>
       </Avatar>
 
-      <div className="flex min-w-0 flex-1 flex-col gap-0.5">
-        <div className="flex items-center justify-between">
-          <span
-            className={`truncate text-sm leading-tight ${
-              !thread.isRead ? 'text-foreground font-medium' : 'text-foreground'
+      <div className="flex min-w-0 flex-1 items-start justify-between gap-3">
+        <div className="min-w-0 flex-1">
+          <div className="flex min-w-0 items-center gap-2">
+            <span
+              className={`truncate text-sm leading-tight ${
+                !thread.isRead
+                  ? 'text-foreground font-medium'
+                  : 'text-foreground'
+              }`}>
+              {senderName}
+            </span>
+          </div>
+
+          <p
+            className={`truncate text-xs leading-tight ${
+              !thread.isRead ? 'text-foreground font-medium' : 'text-muted'
             }`}>
-            {senderName}
-          </span>
+            {thread.subject}
+          </p>
+
+          <p className="text-muted truncate text-xs leading-tight">
+            {thread.preview}
+          </p>
+        </div>
+
+        <div className="flex shrink-0 flex-col items-end gap-3 pt-0.5">
           <div className="flex items-center gap-2">
             <span
               className={`text-xs leading-tight whitespace-nowrap ${
@@ -62,20 +80,7 @@ export function EmailListItem({
               />
             ) : null}
           </div>
-        </div>
 
-        <Description
-          className={`truncate text-xs leading-tight ${
-            !thread.isRead ? 'text-foreground font-medium' : 'text-muted'
-          }`}>
-          {thread.subject}
-        </Description>
-
-        <Description className="text-muted truncate pr-8 text-xs leading-tight">
-          {thread.preview}
-        </Description>
-
-        <div className="absolute right-3 bottom-3">
           {thread.isStarred ? (
             <StarFill className="text-warning size-4 opacity-90" />
           ) : (
@@ -83,7 +88,7 @@ export function EmailListItem({
           )}
         </div>
       </div>
-    </>
+    </div>
   )
 
   return (
@@ -91,7 +96,7 @@ export function EmailListItem({
       {disableNavigation ? (
         <a
           aria-current={isActive ? 'page' : undefined}
-          className={className}
+          className={`${className} block w-full`}
           href={href}
           onClick={event => event.preventDefault()}>
           {content}
@@ -99,7 +104,7 @@ export function EmailListItem({
       ) : (
         <Link
           aria-current={isActive ? 'page' : undefined}
-          className={className}
+          className={`${className} block w-full`}
           href={href}>
           {content}
         </Link>

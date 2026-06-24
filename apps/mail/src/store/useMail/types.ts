@@ -52,3 +52,32 @@ export type RQEmail = {
 export interface EmailResponse {
   threads: EmailThread[]
 }
+
+export type Mail = EmailThread
+
+export type Mails = Mail[]
+
+export type RQMailList = {
+  folderId?: EmailFolderId
+}
+
+export type RQMailGet = {
+  id: string
+}
+
+export type RQMailCreate = {
+  body: string
+  folderId?: EmailFolderId
+  subject: string
+  to: string
+  cc?: string[]
+  attachments?: EmailAttachment[]
+}
+
+export type RQMailDelete = {
+  id: string
+}
+
+export type MailAddress = EmailAddress
+export type MailMessage = EmailMessage
+export type MailThread = EmailThread

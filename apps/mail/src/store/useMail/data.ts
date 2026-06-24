@@ -1,6 +1,7 @@
+import { FOLDERS } from '../../data/data'
 import { CONTACTS } from '../useContacts/data'
 import { CURRENT_USER } from '../useCurrentUser/data'
-import { EmailThread } from './types'
+import type { EmailFolderId, EmailThread } from './types'
 
 export const THREADS: EmailThread[] = [
   {
@@ -394,3 +395,85 @@ export const THREADS: EmailThread[] = [
     updatedAt: 'Apr 2'
   }
 ]
+
+export const mailsData: EmailThread[] = THREADS
+
+export type MailStats = {
+  folderCounts: Record<EmailFolderId, number>
+  totalCount: number
+}
+
+export function getMailSnapshot() {
+  return mailsData.map(mail => ({
+    ...mail,
+    labelIds: [...mail.labelIds],
+    messages: mail.messages.map(message => ({
+      ...message,
+      attachments: message.attachments ? [...message.attachments] : undefined,
+      body: [...message.body],
+      cc: message.cc ? [...message.cc] : undefined,
+      to: [...message.to]
+    })),
+    participants: [...mail.participants]
+  }))
+}
+
+export function getMailStats(
+  mails: readonly EmailThread[] = mailsData
+): MailStats {
+  const folderCounts = Object.fromEntries(
+    FOLDERS.map(folder => [folder.id, 0])
+  ) as Record<EmailFolderId, number>
+
+  let totalCount = 0
+
+  for (const mail of mails) {
+    totalCount += 1
+    folderCounts[mail.folderId] += 1
+
+    if (mail.isStarred) {
+      folderCounts.starred += 1
+    }
+  }
+
+  return { folderCounts, totalCount }
+}
+
+export function getMailById(id: string) {
+  return mailsData.find(mail => mail.id === id)
+}
+
+export function getMailsByFolder(folderId?: EmailFolderId | 'all') {
+  if (!folderId || folderId === 'all') {
+    return mailsData
+  }
+
+  if (folderId === 'starred') {
+    return mailsData.filter(mail => mail.isStarred)
+  }
+
+  return mailsData.filter(mail => mail.folderId === folderId)
+}
+
+export function upsertMailSnapshot(mail: EmailThread) {
+  const index = mailsData.findIndex(item => item.id === mail.id)
+
+  if (index === -1) {
+    mailsData.unshift(mail)
+    return mail
+  }
+
+  mailsData[index] = mail
+
+  return mail
+}
+
+export function removeMailSnapshot(id: string) {
+  const index = mailsData.findIndex(mail => mail.id === id)
+
+  if (index === -1) return undefined
+
+  const [deleted] = mailsData.splice(index, 1)
+
+  return deleted
+}

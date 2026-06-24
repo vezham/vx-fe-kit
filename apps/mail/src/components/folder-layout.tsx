@@ -2,8 +2,7 @@
 
 import type { ReactNode } from 'react'
 
-import { getFolder } from '../data/email'
-import { EmailThread } from '../data/types'
+import { getFolder } from '../utils/email'
 import { EmailList } from './email-list'
 
 export interface FolderLayoutProps {
@@ -13,7 +12,6 @@ export interface FolderLayoutProps {
    * boundary. The client resolves the full folder via `getFolder`.
    */
   folderId: string
-  threads: readonly EmailThread[]
   basePath: string
   disableNavigation?: boolean
   children: ReactNode
@@ -30,10 +28,9 @@ export function FolderLayout({
   basePath,
   children,
   disableNavigation,
-  folderId,
-  threads
+  folderId
 }: FolderLayoutProps) {
-  const pathname = location.pathname
+  const pathname = typeof window !== 'undefined' ? window.location.pathname : ''
   const folder = getFolder(folderId)
 
   if (!folder) return null
@@ -52,7 +49,6 @@ export function FolderLayout({
           currentThreadId={currentThreadId}
           disableNavigation={disableNavigation}
           folder={folder}
-          threads={threads}
         />
       </div>
       <div

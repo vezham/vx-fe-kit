@@ -2,7 +2,7 @@ import { Outlet, createFileRoute, notFound } from '@tanstack/react-router'
 
 import { FolderLayout } from '@/src/components/folder-layout'
 import { TextContentSkeleton } from '@/src/components/skeleton'
-import { getFolder, getThreadsForFolder } from '@/src/utils/email'
+import { getFolder } from '@/src/utils/email'
 
 export const Route = createFileRoute('/$folder')({
   loader: ({ params }) => {
@@ -12,10 +12,7 @@ export const Route = createFileRoute('/$folder')({
       throw notFound()
     }
 
-    return {
-      folder,
-      threads: getThreadsForFolder(params.folder)
-    }
+    return { folder }
   },
 
   pendingComponent: () => (
@@ -30,10 +27,10 @@ export const Route = createFileRoute('/$folder')({
 })
 
 function RouteComponent() {
-  const { folder, threads } = Route.useLoaderData()
+  const { folder } = Route.useLoaderData()
 
   return (
-    <FolderLayout basePath="" folderId={folder.id} threads={threads}>
+    <FolderLayout basePath="" folderId={folder.id}>
       <Outlet />
     </FolderLayout>
   )
@@ -44,25 +41,22 @@ function RouteComponent() {
 // export const Route = createFileRoute('/$folder')({
 //   beforeLoad: ({ params }) => {
 //     const folder = getFolder(params.folder)
-
+//
 //     if (!folder) {
 //       throw notFound()
 //     }
-
-//     return {
-//       folder,
-//       threads: getThreadsForFolder(params.folder)
-//     }
+//
+//     return { folder }
 //   },
-
+//
 //   component: RouteComponent
 // })
 
 // function RouteComponent() {
-//   const { folder, threads } = Route.useRouteContext()
-
+//   const { folder } = Route.useRouteContext()
+//
 //   return (
-//     <FolderLayout basePath="" folderId={folder.id} threads={threads}>
+//     <FolderLayout basePath="" folderId={folder.id}>
 //       <Outlet />
 //     </FolderLayout>
 //   )
@@ -73,29 +67,22 @@ function RouteComponent() {
 // export const Route = createFileRoute('/$folder')({
 //   loader: ({ params }) => {
 //     const folder = getFolder(params.folder)
-
+//
 //     if (!folder) {
 //       throw notFound()
 //     }
-
-//     return {
-//       folder,
-//       threads: getThreadsForFolder(params.folder),
-//     }
+//
+//     return { folder }
 //   },
-
+//
 //   component: RouteComponent,
 // })
 
 // function RouteComponent() {
-//   const { folder, threads } = Route.useLoaderData()
-
+//   const { folder } = Route.useLoaderData()
+//
 //   return (
-//     <FolderLayout
-//       basePath=""
-//       folderId={folder.id}
-//       threads={threads}
-//     >
+//     <FolderLayout basePath="" folderId={folder.id}>
 //       <Outlet />
 //     </FolderLayout>
 //   )

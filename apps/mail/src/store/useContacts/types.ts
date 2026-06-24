@@ -4,4 +4,20 @@ export interface EmailAddress {
   avatar?: string
 }
 
-export type ContactsResponse = Record<string, EmailAddress>
+export type Contact = EmailAddress & {
+  id: string
+}
+
+export type ContactsResponse = Contact[]
+
+export type RQContactsGet = {
+  id: string
+}
+
+export type RQContactsCreate = Omit<Contact, 'id'> & {
+  id?: string
+}
+
+export type RQContactsDelete = {
+  id: string
+}

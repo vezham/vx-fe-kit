@@ -1,7 +1,7 @@
 import { notFound } from '@tanstack/react-router'
 import type { ReactNode } from 'react'
 
-import { getFolder, getThreadsForFolder } from '@/src/utils/email'
+import { getFolder } from '@/src/utils/email'
 
 import { FolderLayout } from '../../components/folder-layout'
 
@@ -17,10 +17,8 @@ export default async function Layout({
 
   if (!folder) return notFound()
 
-  const threads = getThreadsForFolder(folderId)
-
   return (
-    <FolderLayout basePath="" folderId={folder.id} threads={threads}>
+    <FolderLayout basePath="" folderId={folder.id}>
       {children}
     </FolderLayout>
   )

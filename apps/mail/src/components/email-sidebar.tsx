@@ -8,7 +8,7 @@ import type { CurrentUserResponse } from '@src/store/useCurrentUser'
 
 import { FOLDERS, LABELS } from '../data/data'
 import { EmailFolder, EmailLabel } from '../data/types'
-import { FOLDER_UNREAD_COUNTS } from '../utils/email'
+import { useMail } from '../store/useMail'
 
 const LABEL_TONE_CLASS: Record<EmailLabel['tone'], string> = {
   accent: 'bg-accent',
@@ -75,6 +75,8 @@ function SidebarContents({
   onCompose,
   pathname
 }: SidebarContentsProps) {
+  const { data: stats } = useMail.stats()
+
   return (
     <>
       <Sidebar.Header>
@@ -107,6 +109,7 @@ function SidebarContents({
                 disableNavigation={disableNavigation}
                 folder={folder}
                 idPrefix={idPrefix}
+                folderCount={stats?.folderCounts[folder.id] ?? 0}
                 pathname={pathname}
               />
             ))}
@@ -147,6 +150,7 @@ interface FolderMenuItemProps {
   disableNavigation: boolean
   folder: EmailFolder
   idPrefix: string
+  folderCount: number
   pathname: string
 }
 
@@ -155,6 +159,7 @@ function FolderMenuItem({
   disableNavigation,
   folder,
   idPrefix,
+  folderCount,
   pathname
 }: FolderMenuItemProps) {
   const Icon = folder.icon
@@ -167,8 +172,6 @@ function FolderMenuItem({
       (pathname === basePath ||
         pathname === `${basePath}/` ||
         pathname === '/'))
-  const unreadCount = FOLDER_UNREAD_COUNTS[folder.id]
-
   return (
     <Sidebar.MenuItem
       href={disableNavigation ? undefined : fullHref}
@@ -179,13 +182,11 @@ function FolderMenuItem({
         <Icon className="size-4" />
       </Sidebar.MenuIcon>
       <Sidebar.MenuLabel>{folder.label}</Sidebar.MenuLabel>
-      {unreadCount > 0 ? (
-        <Sidebar.MenuChip>
-          <Chip size="sm" variant="soft">
-            {unreadCount}
-          </Chip>
-        </Sidebar.MenuChip>
-      ) : null}
+      <Sidebar.MenuChip>
+        <Chip size="sm" variant="soft">
+          {folderCount}
+        </Chip>
+      </Sidebar.MenuChip>
     </Sidebar.MenuItem>
   )
 }

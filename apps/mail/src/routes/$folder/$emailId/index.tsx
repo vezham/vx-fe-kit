@@ -1,51 +1,50 @@
 import { createFileRoute, notFound } from '@tanstack/react-router'
 
 import { EmailDetail } from '@/src/components/email-detail'
-import { getThread } from '@/src/utils/email'
+import { getFolder } from '@/src/utils/email'
 
 export const Route = createFileRoute('/$folder/$emailId/')({
   beforeLoad: ({ params }) => {
-    const thread = getThread(params.emailId)
+    const folder = getFolder(params.folder)
 
-    if (!thread) {
+    if (!folder) {
       throw notFound()
     }
 
-    return { thread }
+    return { folder }
   },
 
   component: RouteComponent
 })
 
 function RouteComponent() {
-  const { folder } = Route.useParams()
-  const { thread } = Route.useRouteContext()
+  const { folder, emailId } = Route.useParams()
 
-  return <EmailDetail backHref={`/${folder}`} thread={thread} />
+  return (
+    <EmailDetail backHref={`/${folder}`} folderId={folder} mailId={emailId} />
+  )
 }
 
 // =========================================================== loader ===========================
 
 // export const Route = createFileRoute('/$folder/$emailId/')({
 //   loader: ({ params }) => {
-//     const thread = getThread(params.emailId)
-//     if (!thread) {
+//     const folder = getFolder(params.folder)
+//
+//     if (!folder) {
 //       throw notFound()
 //     }
-//     return { thread }
+//
+//     return { folder }
 //   },
-
+//
 //   component: RouteComponent,
 // })
 
 // function RouteComponent() {
-//   const { folder } = Route.useParams()
-//   const { thread } = Route.useLoaderData()
-
+//   const { folder, emailId } = Route.useParams()
+//
 //   return (
-//     <EmailDetail
-//       backHref={`/${folder}`}
-//       thread={thread}
-//     />
+//     <EmailDetail backHref={`/${folder}`} folderId={folder} mailId={emailId} />
 //   )
 // }

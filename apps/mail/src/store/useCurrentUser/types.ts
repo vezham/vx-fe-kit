@@ -4,4 +4,10 @@ export interface EmailAddress {
   avatar?: string
 }
 
-export type CurrentUserResponse = EmailAddress
+export type CurrentUser = EmailAddress & {
+  id: string
+}
+
+export type CurrentUserResponse = CurrentUser
+
+export type RQCurrentUserUpdate = Partial<Omit<CurrentUserResponse, 'id'>>

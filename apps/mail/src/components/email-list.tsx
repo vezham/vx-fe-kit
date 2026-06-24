@@ -3,12 +3,13 @@
 import { AppLayout } from '@heroui-pro/react'
 import { ScrollShadow, SearchField } from '@heroui/react'
 
-import { EmailFolder, EmailThread } from '../data/types'
+import { EmailFolder } from '../data/types'
+import { useMail } from '../store/useMail'
+import { getMailsForFolder } from '../utils/email'
 import { EmailListItem } from './email-list-item'
 
 export interface EmailListProps {
   folder: EmailFolder
-  threads: readonly EmailThread[]
   basePath: string
   disableNavigation?: boolean
   currentThreadId?: string
@@ -18,9 +19,11 @@ export function EmailList({
   basePath,
   currentThreadId,
   disableNavigation = false,
-  folder,
-  threads
+  folder
 }: EmailListProps) {
+  const { data: mails = [] } = useMail.list({})
+  const threads = getMailsForFolder(mails, folder.id)
+
   return (
     <div className="flex h-full min-h-0 flex-col gap-3 overflow-clip px-2 pt-4 pb-2">
       <div className="flex items-center gap-2">
@@ -37,7 +40,9 @@ export function EmailList({
         </SearchField>
       </div>
 
-      <ScrollShadow hideScrollBar className="min-h-0 flex-1 overflow-y-auto">
+      <ScrollShadow
+        hideScrollBar
+        className="min-h-0 flex-1 overflow-x-hidden overflow-y-auto">
         {threads.length === 0 ? (
           <div className="flex h-full flex-col items-center justify-center gap-2 px-6 py-10 text-center">
             <p className="text-foreground text-sm font-medium">

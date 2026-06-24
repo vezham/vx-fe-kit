@@ -22,12 +22,10 @@ export default function EmailShell({
   disableNavigation = false
 }: EmailShellProps) {
   const router = useRouter()
-  const pathname = location.pathname
+  const pathname = typeof window !== 'undefined' ? window.location.pathname : ''
   const [isComposeOpen, setIsComposeOpen] = useState(false)
 
   const { data: currentUser } = useCurrentUser.get()
-
-  if (!currentUser) return null
 
   const navigate = useCallback(
     (href: string) => {
@@ -68,6 +66,8 @@ export default function EmailShell({
 
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [disableNavigation])
+
+  if (!currentUser) return null
 
   return (
     <AppLayout

@@ -21,11 +21,15 @@ import {
   ScrollShadow,
   Separator
 } from '@heroui/react'
+import { useRouter } from '@tanstack/react-router'
+import { useEffect } from 'react'
 
-import { EmailMessage, EmailThread } from '../data/types'
+import { EmailMessage } from '../data/types'
+import { useMail } from '../store/useMail'
 
 export interface EmailDetailProps {
-  thread: EmailThread
+  folderId: string
+  mailId: string
   /**
    * URL to navigate back to the list column. When provided, a mobile back
    * button appears in the toolbar and the close button collapses to desktop
@@ -41,21 +45,119 @@ function getInitials(name: string) {
     .join('')
 }
 
-export function EmailDetail({ backHref, thread }: EmailDetailProps) {
+export function EmailDetail({ backHref, folderId, mailId }: EmailDetailProps) {
+  const router = useRouter()
+  const { data: mails = [] } = useMail.list({})
+  const { data: mail } = useMail.getById({ id: mailId })
+  const deleteMail = useMail.delete()
+  const resolvedMail = mail ?? mails.find(mailItem => mailItem.id === mailId)
+
+  const folderMails = mails.filter(mailItem =>
+    folderId === 'starred' ? mailItem.isStarred : mailItem.folderId === folderId
+  )
+  const currentIndex = folderMails.findIndex(mailItem => mailItem.id === mailId)
+  const previousMail =
+    currentIndex > 0 ? folderMails[currentIndex - 1] : undefined
+  const nextMail =
+    currentIndex >= 0 && currentIndex < folderMails.length - 1
+      ? folderMails[currentIndex + 1]
+      : undefined
+
+  useEffect(() => {
+    if (resolvedMail || !backHref) return
+
+    router.navigate({ to: backHref })
+  }, [backHref, resolvedMail, router])
+
+  useEffect(() => {
+    if (!resolvedMail || !backHref) return
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.metaKey || event.ctrlKey || event.altKey || event.shiftKey)
+        return
+
+      const target = event.target as HTMLElement | null
+      const tagName = target?.tagName.toLowerCase()
+
+      if (
+        tagName === 'input' ||
+        tagName === 'textarea' ||
+        target?.isContentEditable
+      ) {
+        return
+      }
+
+      if (event.key === 'ArrowLeft' && previousMail) {
+        event.preventDefault()
+        router.navigate({ to: `${backHref}/${previousMail.id}` })
+      }
+
+      if (event.key === 'ArrowRight' && nextMail) {
+        event.preventDefault()
+        router.navigate({ to: `${backHref}/${nextMail.id}` })
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [backHref, nextMail, previousMail, resolvedMail, router])
+
+  const goToMail = (targetMailId: string) => {
+    if (!backHref) return
+
+    router.navigate({ to: `${backHref}/${targetMailId}` })
+  }
+
+  const handleDelete = () => {
+    if (!resolvedMail) return
+
+    deleteMail.mutate(
+      { id: resolvedMail.id },
+      {
+        onSuccess: () => {
+          if (nextMail) {
+            goToMail(nextMail.id)
+            return
+          }
+
+          if (previousMail) {
+            goToMail(previousMail.id)
+            return
+          }
+
+          if (backHref) {
+            router.navigate({ to: backHref })
+          }
+        }
+      }
+    )
+  }
+
+  if (!resolvedMail) return null
+
   return (
     <div className="flex min-h-0 min-h-screen min-w-0 flex-col overflow-clip lg:py-4 lg:pr-4 lg:pl-0.5">
       <div className="lg:bg-surface lg:shadow-surface flex max-h-full flex-1 flex-col gap-6 overflow-clip p-4 lg:rounded-2xl">
-        <Toolbar backHref={backHref} messageCount={thread.messages.length} />
+        <Toolbar
+          backHref={backHref}
+          messageCount={resolvedMail.messages.length}
+          onDelete={handleDelete}
+          onNext={nextMail ? () => goToMail(nextMail.id) : undefined}
+          onPrevious={
+            previousMail ? () => goToMail(previousMail.id) : undefined
+          }
+        />
 
         <ScrollShadow
           hideScrollBar
           className="min-h-0 flex-1 overflow-y-auto lg:px-6">
           <div className="flex flex-col gap-8 pb-5">
             <h1 className="text-foreground text-base leading-normal font-semibold">
-              {thread.subject}
+              {resolvedMail.subject}
             </h1>
 
-            {thread.messages.map((message, index) => (
+            {resolvedMail.messages.map((message, index) => (
               <div key={message.id} className="flex flex-col gap-6">
                 {index > 0 ? <Separator /> : null}
                 <ThreadMessage message={message} />
@@ -71,9 +173,18 @@ export function EmailDetail({ backHref, thread }: EmailDetailProps) {
 interface ToolbarProps {
   backHref?: string
   messageCount: number
+  onDelete: () => void
+  onNext?: () => void
+  onPrevious?: () => void
 }
 
-function Toolbar({ backHref, messageCount }: ToolbarProps) {
+function Toolbar({
+  backHref,
+  messageCount,
+  onDelete,
+  onNext,
+  onPrevious
+}: ToolbarProps) {
   return (
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-4">
@@ -91,7 +202,8 @@ function Toolbar({ backHref, messageCount }: ToolbarProps) {
             aria-label="Delete"
             className="text-muted hover:text-foreground"
             size="sm"
-            variant="ghost">
+            variant="ghost"
+            onPress={onDelete}>
             <TrashBin className="size-4" />
           </Button>
           <Button
@@ -131,7 +243,8 @@ function Toolbar({ backHref, messageCount }: ToolbarProps) {
             aria-label="Previous"
             className="text-muted hover:text-foreground"
             size="sm"
-            variant="ghost">
+            variant="ghost"
+            onPress={onPrevious}>
             <ArrowLeft className="size-4" />
           </Button>
           <Button
@@ -139,7 +252,8 @@ function Toolbar({ backHref, messageCount }: ToolbarProps) {
             aria-label="Next"
             className="text-muted hover:text-foreground"
             size="sm"
-            variant="ghost">
+            variant="ghost"
+            onPress={onNext}>
             <ArrowRight className="size-4" />
           </Button>
         </div>

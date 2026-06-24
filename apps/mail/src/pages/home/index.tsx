@@ -1,6 +1,6 @@
-import { ReactNode } from 'react'
+import type { ReactNode } from 'react'
 
-const Page = ({ children }: { children: ReactNode }) => {
+const Page = ({ children }: { children?: ReactNode }) => {
   return (
     <div>
       Welcome to Mail!...
