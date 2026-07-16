@@ -1,4 +1,5 @@
 import nx from '@nx/eslint-plugin'
+// import { tanstackConfig } from '@tanstack/eslint-config'
 import tanstackQuery from '@tanstack/eslint-plugin-query'
 import * as jsoncParser from 'jsonc-eslint-parser'
 
@@ -6,6 +7,7 @@ import * as jsoncParser from 'jsonc-eslint-parser'
 // import reactHooks from 'eslint-plugin-react-hooks'
 const ignores = [
   '**/dist',
+  '**/.output',
   '**/node_modules',
   '**/coverage',
   '**/out-tsc',
@@ -30,6 +32,7 @@ export default [
   ...nx.configs['flat/typescript'],
   ...nx.configs['flat/javascript'],
   ...tanstackQuery.configs['flat/recommended'],
+  // ...tanstackConfig,
   {
     ignores
   },

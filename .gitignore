@@ -96,6 +96,11 @@ vitest.config.*.timestamp*
 test-output
 
 .tanstack
+.nitro
+.wrangler
+.output
+.vinxi
+__unconfig*
 
 # node | env
 # Optional npm cache directory
@@ -104,9 +109,11 @@ test-output
 # Ignore artifacts | compiled output
 **/node_modules/
 **/dist/
+**/dist-ssr/
 **/build/
 node_modules
 dist
+dist-ssr
 build
 coverage
 tmp

@@ -101,6 +101,7 @@ test-output
 .npm
 
 # Ignore artifacts | compiled output
+**/.output/
 **/node_modules/
 **/dist/
 **/build/

@@ -1,10 +1,12 @@
 /// <reference types='vitest' />
-import { tanstackRouter } from '@tanstack/router-plugin/vite'
+import tailwindcss from '@tailwindcss/vite'
+import { devtools } from '@tanstack/devtools-vite'
+import { tanstackStart } from '@tanstack/react-start/plugin/vite'
 import react from '@vitejs/plugin-react-swc'
+import { nitro } from 'nitro/vite'
 import { defineConfig } from 'vite'
 
 export default defineConfig(async () => {
-  const tailwindcss = (await import('@tailwindcss/vite')).default
   const { env } = process
   const hostname = env.CI ? 'localhost' : env.HOST_NAME || 'localhost'
 
@@ -24,9 +26,11 @@ export default defineConfig(async () => {
       tsconfigPaths: true
     },
     plugins: [
-      tanstackRouter({ target: 'react', autoCodeSplitting: true }),
-      react(),
-      tailwindcss()
+      devtools(),
+      nitro({ rollupConfig: { external: [/^@sentry\//] } }),
+      tailwindcss(),
+      tanstackStart(),
+      react()
     ],
     build: {
       outDir: './dist',

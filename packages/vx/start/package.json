@@ -10,9 +10,9 @@
       "default": "./src/lib/provider/vite/index.ts"
     },
     "./tanstack": {
-      "types": "./src/lib/provider/tanstack/index.ts",
-      "import": "./src/lib/provider/tanstack/index.ts",
-      "default": "./src/lib/provider/tanstack/index.ts"
+      "types": "./src/lib/provider/tanstack/index.tsx",
+      "import": "./src/lib/provider/tanstack/index.tsx",
+      "default": "./src/lib/provider/tanstack/index.tsx"
     },
     "./next": {
       "types": "./src/lib/provider/next/index.tsx",
