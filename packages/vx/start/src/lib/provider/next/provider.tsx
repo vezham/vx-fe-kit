@@ -1,11 +1,12 @@
 'use client'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { FC, StrictMode, lazy } from 'react'
+import { FC, StrictMode } from 'react'
 
 import { VezhamProvider, cn } from '@vezham/react-v2'
 import { defineLogger } from '@vezham/use-logger'
 
+import { Devtools } from '@vx/devtools'
 import { APP_NAME, __DEBUG__, __DEV__ } from '@vx/env/next'
 
 import type { Props } from '../../shell/types'
@@ -20,12 +21,6 @@ const queryClient = new QueryClient({
   }
 })
 
-const ReactQueryDevtools = lazy(() =>
-  import('@tanstack/react-query-devtools').then(d => ({
-    default: d.ReactQueryDevtools
-  }))
-)
-
 defineLogger({ APP_NAME, __DEBUG__, __DEV__ })
 
 export const Provider: FC<Props> = ({
@@ -37,17 +32,17 @@ export const Provider: FC<Props> = ({
 }) => {
   const classList = cn('vx-app', className)
   let template = (
-    <VezhamProvider>
-      <div className={classList}>{children}</div>
-    </VezhamProvider>
+    <>
+      <VezhamProvider>
+        <div className={classList}>{children}</div>
+      </VezhamProvider>
+      <Devtools env={__DEV__} router={false} />
+    </>
   )
 
   if (query) {
     template = (
-      <QueryClientProvider client={queryClient}>
-        {__DEV__ ? <ReactQueryDevtools /> : null}
-        {template}
-      </QueryClientProvider>
+      <QueryClientProvider client={queryClient}>{template}</QueryClientProvider>
     )
   }
 

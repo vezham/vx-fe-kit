@@ -68,7 +68,6 @@ yarn-error.log
 testem.log
 /typings
 *.pem
-.next
 next-env.d.ts
 .yarn-integrity
 
@@ -83,6 +82,7 @@ Thumbs.db
 .nx/installation
 .nx/cache
 .nx/workspace-data
+.nx/migrate-runs
 .nx/self-healing
 .nx/polygraph
 
@@ -95,11 +95,17 @@ vite.config.*.timestamp*
 vitest.config.*.timestamp*
 test-output
 
+# TanStack Start
 .tanstack
+.vinxi
 .nitro
+
+# Next.js
+.next
+out
+
 .wrangler
 .output
-.vinxi
 __unconfig*
 
 # node | env

@@ -1,13 +1,7 @@
 import { Outlet, createRootRoute } from '@tanstack/react-router'
-import { lazy } from 'react'
 
+import { Devtools } from '@vx/devtools'
 import { __DEV__ } from '@vx/env/vite'
-
-const TanStackRouterDevtools = lazy(() =>
-  import('@tanstack/react-router-devtools').then(d => ({
-    default: d.TanStackRouterDevtools
-  }))
-)
 
 export const Route = createRootRoute({
   component: RootComponent
@@ -17,7 +11,7 @@ function RootComponent() {
   return (
     <>
       <Outlet />
-      {__DEV__ ? <TanStackRouterDevtools position="bottom-right" /> : null}
+      <Devtools env={__DEV__} />
     </>
   )
 }

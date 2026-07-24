@@ -1,8 +1,9 @@
-import { render } from '@testing-library/react'
+/* eslint-disable */
+import { Provider } from '../../../packages/vx/start/src/lib/provider/tanstack/provider'
+// import { Shell } from '../src/app/shell'
+import Shell from '../src/pages/home'
 
-import { Provider } from '@vx/start/tanstack'
-
-import { Shell } from '../src/app/shell'
+// wjdlz/TODO: NOH fix with LLM
 
 const App = () => (
   <Provider strict={false}>

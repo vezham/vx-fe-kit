@@ -12,6 +12,6 @@ type Props = {
 export default ({ children }: Props) => defineConfig({ children })
 
 export const metadata: Metadata = {
-  title: 'Home | Vezham PlayNext',
-  description: 'single app to manage your Vezham PlayNext'
+  title: 'Home | Vezham Play Next',
+  description: 'single app to manage your Vezham Play Next'
 }

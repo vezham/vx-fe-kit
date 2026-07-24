@@ -8,15 +8,18 @@ import * as jsoncParser from 'jsonc-eslint-parser'
 const ignores = [
   '**/dist',
   '**/.output',
+  '**/out-tsc',
+  '**/test-output',
   '**/node_modules',
   '**/coverage',
-  '**/out-tsc',
   '**/.next',
   '**/.next/**',
   '**/.vezham',
   '**/.nx',
   '**/.lintstagedrc.js',
-  '**/routeTree.gen.ts'
+  '**/routeTree.gen.ts',
+  '**/vite.config.*.timestamp*',
+  '**/vitest.config.*.timestamp*'
 ]
 
 export default [
@@ -35,13 +38,6 @@ export default [
   // ...tanstackConfig,
   {
     ignores
-  },
-  {
-    ignores: [
-      '**/vite.config.*.timestamp*',
-      '**/vitest.config.*.timestamp*',
-      '**/test-output'
-    ]
   },
   {
     files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],

@@ -1,6 +1,6 @@
 // import { OverlayProvider } from '@react-aria/overlays'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { FC, StrictMode, lazy } from 'react'
+import { FC, StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
 
 import { VezhamProvider, cn } from '@vezham/react-v2'
@@ -31,12 +31,6 @@ const queryClient = new QueryClient({
   }
 })
 
-const ReactQueryDevtools = lazy(() =>
-  import('@tanstack/react-query-devtools').then(d => ({
-    default: d.ReactQueryDevtools
-  }))
-)
-
 defineLogger({ APP_NAME, __DEBUG__, __DEV__ })
 
 const Provider: FC<Props> = ({
@@ -62,10 +56,7 @@ const Provider: FC<Props> = ({
 
   if (query) {
     template = (
-      <QueryClientProvider client={queryClient}>
-        {__DEV__ ? <ReactQueryDevtools /> : null}
-        {template}
-      </QueryClientProvider>
+      <QueryClientProvider client={queryClient}>{template}</QueryClientProvider>
     )
   }
 

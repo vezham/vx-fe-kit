@@ -1,53 +1,27 @@
-import {
-  HeadContent,
-  Outlet,
-  Scripts,
-  createRootRoute
-} from '@tanstack/react-router'
-import { lazy } from 'react'
+import { createRootRoute } from '@tanstack/react-router'
 
-import { __DEV__ } from '@vx/env/vite'
-import { Provider } from '@vx/start/tanstack'
-
-const TanStackRouterDevtools = lazy(() =>
-  import('@tanstack/react-router-devtools').then(d => ({
-    default: d.TanStackRouterDevtools
-  }))
-)
+import { defineConfig } from '@vx/start/tanstack'
 
 export const Route = createRootRoute({
-  component: RootComponent
+  head: () => ({
+    meta: [
+      {
+        charSet: 'utf-8'
+      },
+      {
+        name: 'viewport',
+        content: 'width=device-width, initial-scale=1'
+      },
+      {
+        title: 'Home | Vezham Play Start'
+      }
+    ]
+    // links: [
+    //   {
+    //     rel: 'stylesheet',
+    //     href: appCss
+    //   }
+    // ]
+  }),
+  component: defineConfig
 })
-
-// function RootComponent() {
-//   return (
-//     <>
-//       <Outlet />
-//       {__DEV__ ? <TanStackRouterDevtools position="bottom-right" /> : null}
-//     </>
-//   )
-// }
-
-function RootComponent() {
-  return (
-    <RootDocument>
-      <Outlet />
-    </RootDocument>
-  )
-}
-
-function RootDocument({ children }: { children: React.ReactNode }) {
-  return (
-    <html>
-      <head>
-        <HeadContent />
-      </head>
-      <body>
-        <Provider>{children}</Provider>
-
-        {__DEV__ ? <TanStackRouterDevtools position="bottom-right" /> : null}
-        <Scripts />
-      </body>
-    </html>
-  )
-}

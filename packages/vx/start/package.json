@@ -21,6 +21,7 @@
     }
   },
   "devDependencies": {
+    "@vx/devtools": "workspace:*",
     "@vx/env": "workspace:*"
   }
 }
