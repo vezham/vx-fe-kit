@@ -1,6 +1,6 @@
 // import { OverlayProvider } from '@react-aria/overlays'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { FC, StrictMode, lazy } from 'react'
+import { FC, StrictMode, Suspense, lazy, useEffect, useState } from 'react'
 
 import { VezhamProvider, cn } from '@vezham/react-v2'
 // import { initWorker } from '@vezham/contracts'
@@ -12,7 +12,6 @@ import { VezhamProvider, cn } from '@vezham/react-v2'
 
 import { defineLogger } from '@vezham/use-logger'
 
-import { Devtools } from '@vx/devtools'
 // import { useLogger } from '@vezham/use-logger'
 
 import { APP_NAME, __DEBUG__, __DEV__ } from '@vx/env/vite'
@@ -22,6 +21,10 @@ import { Props } from './types'
 // const NAMESPACE = '@vx/start'
 
 const MINUTE = 1000 * 60
+
+const Devtools = lazy(() =>
+  import('@vx/devtools').then(module => ({ default: module.Devtools }))
+)
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -34,6 +37,22 @@ const queryClient = new QueryClient({
 })
 
 defineLogger({ APP_NAME, __DEBUG__, __DEV__ })
+
+const ClientDevtools = () => {
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!__DEV__ || !mounted) return null
+
+  return (
+    <Suspense fallback={null}>
+      <Devtools env={__DEV__} />
+    </Suspense>
+  )
+}
 
 const Provider: FC<Props> = ({
   className = '',
@@ -55,7 +74,7 @@ const Provider: FC<Props> = ({
         {/* <div id="portal"></div> */}
         {/* </ThemeProvider> */}
       </VezhamProvider>
-      <Devtools env={__DEV__} />
+      <ClientDevtools />
     </>
   )
 
