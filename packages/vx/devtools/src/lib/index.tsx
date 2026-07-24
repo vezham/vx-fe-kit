@@ -21,7 +21,7 @@ export const Devtools = ({
       name: 'Vezham Devtools',
       render: (
         <div>
-          Hello World :) $env: {env ? 'true' : 'false'}
+          Hello World :)
           <Button> From @vx/devtools</Button>
         </div>
       )

@@ -1,5 +1,7 @@
-/* eslint-disable */
-import { Provider } from '../../../packages/vx/start/src/lib/provider/tanstack/provider'
+import { render } from '@testing-library/react'
+
+import { Provider } from '@vx/start/tanstack'
+
 // import { Shell } from '../src/app/shell'
 import Shell from '../src/pages/home'
 
