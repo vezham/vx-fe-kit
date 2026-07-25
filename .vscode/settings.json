@@ -1,7 +1,7 @@
 {
-  "typescript.tsdk": "node_modules/typescript/lib",
+  "js/ts.tsdk.path": "node_modules/typescript/lib",
+  "js/ts.updateImportsOnFileMove.enabled": "always",
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.defaultFoldingRangeProvider": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
   "editor.formatOnPaste": true,
   "editor.formatOnType": true,
@@ -28,7 +28,7 @@
     "**/routeTree.gen.ts": true
   },
   "files.watcherExclude": {
-    "**/routeTree.gen.ts": true
+    "// **/routeTree.gen.ts": true
   },
   "search.exclude": {
     "**/routeTree.gen.ts": true,
@@ -56,14 +56,12 @@
     ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
     ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
   ],
-  "javascript.updateImportsOnFileMove.enabled": "always",
   "[javascript][javascriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[json][jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "typescript.updateImportsOnFileMove.enabled": "always",
   "[typescript][typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.codeActionsOnSave": {

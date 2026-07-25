@@ -66,7 +66,6 @@
     "@swc/helpers": "0.5.23",
     "@tailwindcss/postcss": "4.3.0",
     "@tailwindcss/vite": "^4.3.0",
-    "@tanstack/devtools-vite": "latest",
     "@tanstack/eslint-config": "latest",
     "@tanstack/eslint-plugin-query": "^5.101.0",
     "@tanstack/react-devtools": "latest",
