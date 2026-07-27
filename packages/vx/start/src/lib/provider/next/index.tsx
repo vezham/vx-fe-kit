@@ -49,7 +49,7 @@ const defineConfig = ({ children }: Props) => {
   return (
     <html lang={lang} suppressHydrationWarning>
       <body>
-        {children}
+        <Provider strict={false}>{children}</Provider>
         {/* <RootProvider i18n={provider(lang)}>{children}</RootProvider> */}
       </body>
     </html>

@@ -149,5 +149,4 @@ export default [
   //     '@typescript-eslint/no-empty-interface': 'off'
   //   }
   // }
-  // wjdlz/TODO: set workspace config
 ]
