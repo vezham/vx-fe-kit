@@ -40,6 +40,15 @@ export default [
     ignores
   },
   {
+    // wjdlz/NOTE: Keep this rule in sync with @vx-cli project generators.
+    files: ['**/*-mock/**/*.{ts,tsx,cts,mts}'],
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
+      '@typescript-eslint/no-non-null-assertion': 'off'
+    }
+  },
+  {
     files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
     rules: {
       '@nx/enforce-module-boundaries': [

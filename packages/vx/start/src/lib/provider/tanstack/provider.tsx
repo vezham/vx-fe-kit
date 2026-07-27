@@ -1,6 +1,6 @@
 // import { OverlayProvider } from '@react-aria/overlays'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { FC, StrictMode, Suspense, lazy, useEffect, useState } from 'react'
+import { FC, StrictMode, Suspense, lazy, useSyncExternalStore } from 'react'
 
 import { VezhamProvider, cn } from '@vezham/react-v2'
 // import { initWorker } from '@vezham/contracts'
@@ -26,6 +26,10 @@ const Devtools = lazy(() =>
   import('@vx/devtools').then(module => ({ default: module.Devtools }))
 )
 
+const emptySubscribe = () => () => undefined
+const getClientSnapshot = () => true
+const getServerSnapshot = () => false
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -39,11 +43,11 @@ const queryClient = new QueryClient({
 defineLogger({ APP_NAME, __DEBUG__, __DEV__ })
 
 const ClientDevtools = () => {
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
+  const mounted = useSyncExternalStore(
+    emptySubscribe,
+    getClientSnapshot,
+    getServerSnapshot
+  )
 
   if (!__DEV__ || !mounted) return null
 
