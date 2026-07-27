@@ -16,7 +16,7 @@ const ignores = [
   '**/.next/**',
   '**/.vezham',
   '**/.nx',
-  '**/.lintstagedrc.js',
+  '**/lint-staged.config.cjs',
   '**/routeTree.gen.ts',
   '**/vite.config.*.timestamp*',
   '**/vitest.config.*.timestamp*'

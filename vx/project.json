@@ -36,7 +36,8 @@
           "eslint --cache --cache-strategy metadata",
           "stylelint \"**/*.{css,module.css}\" --allow-empty-input --cache --cache-strategy metadata"
         ],
-        "parallel": false
+        "parallel": true,
+        "forwardAllArgs": false
       }
     },
     "@vx-ws/fix": {

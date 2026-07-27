@@ -25,7 +25,6 @@ module.exports = async () => {
   // wjdlz/NOTE: Normalize scoped Nx project names
   // eg: feat(@vx/start): ... -> feat(start): ...
   const scopes = [
-    'kit',
     'workspace',
     'repo',
     ...Array.from(
