@@ -1,10 +1,10 @@
 /// <reference types='vitest' />
+import tailwindcss from '@tailwindcss/vite'
 import { tanstackRouter } from '@tanstack/router-plugin/vite'
 import react from '@vitejs/plugin-react-swc'
 import { defineConfig } from 'vite'
 
 export default defineConfig(async () => {
-  const tailwindcss = (await import('@tailwindcss/vite')).default
   const { env } = process
   const hostname = env.CI ? 'localhost' : env.HOST_NAME || 'localhost'
 
