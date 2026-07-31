@@ -432,9 +432,6 @@ importers:
         specifier: workspace:*
         version: link:../../packages/vx/template
     devDependencies:
-      '@vx/devtools':
-        specifier: workspace:*
-        version: link:../../packages/vx/devtools
       '@vx/env':
         specifier: workspace:*
         version: link:../../packages/vx/env

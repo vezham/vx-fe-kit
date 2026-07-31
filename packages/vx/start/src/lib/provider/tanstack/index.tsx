@@ -1,39 +1,9 @@
-// export * from './lib/provider/src'
 // import { defineI18nUI, Translations } from 'fumadocs-ui/i18n';
 // import { RootProvider } from 'fumadocs-ui/provider/next';
 import { HeadContent, Outlet, Scripts } from '@tanstack/react-router'
 import type { ReactNode } from 'react'
 
 import { Provider } from './provider'
-
-// Language extends string = string
-// type Language = string
-
-// interface I18nConfig {
-//   /**
-//    * Supported locale codes.
-//    *
-//    * A page tree will be built for each language.
-//    */
-//   languages: Language[]
-//   /**
-//    * Default locale if not specified
-//    */
-//   defaultLanguage: Language
-//   /**
-//    * the fallback language when the page has no translations available for a given locale.
-//    *
-//    * Default to ``defaultLanguage`, no fallback when set to `null`.
-//    */
-//   // fallbackLanguage?: Language | null;
-// }
-
-// interface i18n {
-//   locale: I18nConfig
-//   translations: {
-//       [K in Language]?: Partial<Translations> & { displayName?: string };
-//     }
-// }
 
 type Props = {
   children: ReactNode
@@ -47,15 +17,6 @@ const RootDocument = ({ children }: Props) => {
 
   const lang = 'en'
 
-  // return (
-  //   <html lang={lang} suppressHydrationWarning>
-  //     <body>
-  //       {children}
-  //       {/* <RootProvider i18n={provider(lang)}>{children}</RootProvider> */}
-  //     </body>
-  //   </html>
-  // )
-
   return (
     <html lang={lang} suppressHydrationWarning>
       <head>
@@ -63,6 +24,7 @@ const RootDocument = ({ children }: Props) => {
       </head>
       <body>
         <Provider>{children}</Provider>
+        {/* <RootProvider i18n={provider(lang)}>{children}</RootProvider> */}
         <Scripts />
       </body>
     </html>
