@@ -4,6 +4,17 @@ import { Provider } from '@vx/start/next'
 
 import Shell from '../src/app/(routes)/(home)/page'
 
+vi.mock('next/navigation', () => ({
+  useRouter: () => ({
+    back: vi.fn(),
+    forward: vi.fn(),
+    prefetch: vi.fn(),
+    push: vi.fn(),
+    refresh: vi.fn(),
+    replace: vi.fn()
+  })
+}))
+
 const App = () => (
   <Provider strict={false}>
     <Shell />

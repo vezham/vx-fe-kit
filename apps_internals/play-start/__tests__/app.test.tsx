@@ -1,28 +1,39 @@
-import { render } from '@testing-library/react'
+import {
+  RouterProvider,
+  createMemoryHistory,
+  createRouter
+} from '@tanstack/react-router'
+import { render, waitFor } from '@testing-library/react'
 
-import { Provider } from '@vx/start/tanstack'
+import { routeTree } from '../src/routeTree.gen'
 
-// import { Shell } from '../src/app/shell'
-import Shell from '../src/pages/home'
-
-// wjdlz/TODO: NOH fix with LLM
-
-const App = () => (
-  <Provider strict={false}>
-    <Shell />
-  </Provider>
-)
-
-describe('App', () => {
-  it('should render successfully', () => {
-    const { baseElement } = render(<App />)
-
-    expect(baseElement).toBeTruthy()
+const renderApp = () => {
+  const router = createRouter({
+    history: createMemoryHistory({
+      initialEntries: ['/']
+    }),
+    routeTree
   })
 
-  it('should mount app shell container', () => {
-    const { container } = render(<App />)
+  return render(<RouterProvider router={router} />)
+}
 
-    expect(container.querySelector('.vx-app')).toBeTruthy()
+describe('App', () => {
+  beforeEach(() => {
+    window.scrollTo = vi.fn()
+  })
+
+  it('should render successfully', async () => {
+    const { baseElement } = renderApp()
+
+    await waitFor(() => expect(baseElement).toBeTruthy())
+  })
+
+  it('should mount app shell container', async () => {
+    const { baseElement } = renderApp()
+
+    await waitFor(() =>
+      expect(baseElement.querySelector('.vx-app')).toBeTruthy()
+    )
   })
 })
