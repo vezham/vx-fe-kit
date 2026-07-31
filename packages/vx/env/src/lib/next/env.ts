@@ -1,4 +1,4 @@
-import { type T_BASE_API_URL } from '../base'
+import { type BaseApiMode } from '../base'
 
 export const configEnv = {
   MODE: process.env.NODE_ENV,
@@ -11,7 +11,7 @@ export const configEnv = {
   V_IS_DEBUG: process.env.V_IS_DEBUG,
   V_IS_BETA: process.env.V_IS_BETA,
 
-  V_BASE_API_URL: process.env.V_BASE_API_URL as T_BASE_API_URL,
+  V_BASE_API_MODE: process.env.V_BASE_API_MODE as BaseApiMode,
   V_MOCK_LOCAL_API_URL: process.env.V_MOCK_LOCAL_API_URL,
   V_MOCK_API_URL: process.env.V_MOCK_API_URL,
   V_APP_API_URL: process.env.V_APP_API_URL

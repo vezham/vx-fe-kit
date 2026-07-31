@@ -45,7 +45,7 @@ module.exports = async () => {
       'scope-case': [2, 'always', 'lower-case'],
       'scope-empty': [2, 'never'],
       'header-max-length': [2, 'always', 120],
-      'subject-case': [2, 'always', ['sentence-case', 'lower-case']],
+      'subject-case': [2, 'never', []],
       'body-leading-blank': [2, 'always'],
       'footer-leading-blank': [2, 'always'],
       'body-max-length': [2, 'always', 2500],

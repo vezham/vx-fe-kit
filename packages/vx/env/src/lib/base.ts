@@ -1,6 +1,6 @@
-export type T_BASE_API_URL = 'api' | 'mock' | 'local'
+export type BaseApiMode = 'api' | 'mock' | 'local'
 
-export type T_ENV = {
+type Props = {
   MODE?: string
 
   V_IS_QA?: string
@@ -11,13 +11,13 @@ export type T_ENV = {
   V_IS_DEBUG?: string
   V_IS_BETA?: string
 
-  V_BASE_API_URL?: T_BASE_API_URL
+  V_BASE_API_MODE?: BaseApiMode
   V_MOCK_LOCAL_API_URL?: string
   V_MOCK_API_URL?: string
   V_APP_API_URL?: string
 }
 
-export const createEnv = (__ENV__: Partial<T_ENV> = {}) => {
+export const createEnv = (__ENV__: Partial<Props>) => {
   // @vx/NOTE: run env/sandbox By Stages - dev, qa, preview (alpha + beta), live (production)
   const __DEV__ = __ENV__.MODE === 'development'
   const __QA__ = __ENV__.V_IS_QA === 'true'
@@ -32,7 +32,7 @@ export const createEnv = (__ENV__: Partial<T_ENV> = {}) => {
   const IS_BETA = __ENV__.V_IS_BETA === 'true'
 
   // @vx/NOTE: app - server/api endpoint
-  // const BASE_API_URL: T_BASE_API_URL = __ENV__.V_BASE_API_URL || 'api'
+  // const BaseApiMode: BaseApiMode = __ENV__.V_BASE_API_MODE || 'api'
 
   // @vx/NOTE: for ws debugger
   if (__DEV__ && __DEBUG__) console.table(__ENV__)
@@ -50,21 +50,21 @@ export const createEnv = (__ENV__: Partial<T_ENV> = {}) => {
     __DEBUG__,
     IS_BETA
 
-    // BASE_API_URL
+    // BASE_API_MODE
   }
 }
 
 // wjdlz/NOTE: use-axios | getApiServerEndPoint | config: AxiosRequestConfig
 // const defineServerEnv = () => {
-//   if (BASE_API_URL === 'local') {
+//   if (BaseApiMode === 'local') {
 //     return __ENV__.V_MOCK_LOCAL_API_URL
 //   }
 
-//  if (BASE_API_URL === 'mock') {
+//  if (BaseApiMode === 'mock') {
 //     return __ENV__.V_MOCK_API_URL
 //   }
 
-//   // wjdlz/TODO : NOH - on impl axios
+//   // wjdlz/TODO: NOH - on impl axios
 //   // -@ts-expect-error | wjdlz/NOTE: domain_type - handled in start
 //   // } else if (config.domain_type === IAM.DomainType.SANDBOX) {
 //   //   return __ENV__.V_APP_SANDBOX_API_URL
@@ -72,6 +72,6 @@ export const createEnv = (__ENV__: Partial<T_ENV> = {}) => {
 //   // } else if (config.domain_type === IAM.DomainType.DC) {
 //   //   return __ENV__.V_APP_DC_API_URL
 
-//   // if (BASE_API_URL == "api" || config.domain_type === IAM.DomainType.DEFAULT)
+//   // if (BaseApiMode == "api" || config.domain_type === IAM.DomainType.DEFAULT)
 //   return __ENV__.V_APP_API_URL
 // }

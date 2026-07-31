@@ -5,14 +5,14 @@
   "exports": {
     "./package.json": "./package.json",
     "./vite": {
-      "types": "./src/lib/env/vite/index.ts",
-      "import": "./src/lib/env/vite/index.ts",
-      "default": "./src/lib/env/vite/index.ts"
+      "types": "./src/lib/vite/index.ts",
+      "import": "./src/lib/vite/index.ts",
+      "default": "./src/lib/vite/index.ts"
     },
     "./next": {
-      "types": "./src/lib/env/next/index.ts",
-      "import": "./src/lib/env/next/index.ts",
-      "default": "./src/lib/env/next/index.ts"
+      "types": "./src/lib/next/index.ts",
+      "import": "./src/lib/next/index.ts",
+      "default": "./src/lib/next/index.ts"
     }
   }
 }
