@@ -19,10 +19,6 @@ const renderApp = () => {
 }
 
 describe('App', () => {
-  beforeEach(() => {
-    window.scrollTo = vi.fn()
-  })
-
   it('should render successfully', async () => {
     const { baseElement } = renderApp()
 

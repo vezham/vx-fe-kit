@@ -1,36 +1,28 @@
-import { render } from '@testing-library/react'
+import { render, waitFor } from '@testing-library/react'
 
 import { Provider } from '@vx/start/next'
 
 import Shell from '../src/app/(routes)/(home)/page'
 
-vi.mock('next/navigation', () => ({
-  useRouter: () => ({
-    back: vi.fn(),
-    forward: vi.fn(),
-    prefetch: vi.fn(),
-    push: vi.fn(),
-    refresh: vi.fn(),
-    replace: vi.fn()
-  })
-}))
-
-const App = () => (
-  <Provider strict={false}>
-    <Shell />
-  </Provider>
-)
+const renderApp = () =>
+  render(
+    <Provider strict={false}>
+      <Shell />
+    </Provider>
+  )
 
 describe('App', () => {
-  it('should render successfully', () => {
-    const { baseElement } = render(<App />)
+  it('should render successfully', async () => {
+    const { baseElement } = renderApp()
 
-    expect(baseElement).toBeTruthy()
+    await waitFor(() => expect(baseElement).toBeTruthy())
   })
 
-  it('should mount app shell container', () => {
-    const { container } = render(<App />)
+  it('should mount app shell container', async () => {
+    const { baseElement } = renderApp()
 
-    expect(container.querySelector('.vx-app')).toBeTruthy()
+    await waitFor(() =>
+      expect(baseElement.querySelector('.vx-app')).toBeTruthy()
+    )
   })
 })
