@@ -2,23 +2,29 @@ import ReactDOM from 'react-dom/client'
 
 import { useLogger } from '@vezham/use-logger'
 
-import { APP_NAME } from '@vx/env/vite'
+import { APP_NAME, APP_VER } from '@vx/env/vite'
 
 import { config, preConfig } from '../shared/config'
 import { ClientDevtools } from '../shared/devtools'
 import { NAMESPACE, type Props } from '../shared/types'
 import { Provider } from './provider'
 
-const defineConfig = ({ name = APP_NAME, ...props }: Props) => {
+const defineConfig = (props: Props) => {
+  const options = {
+    ...props,
+    name: props.name || APP_NAME,
+    version: props.version || APP_VER
+  }
+
   const el = document.getElementById('root') as HTMLElement
-  if (el && !el.getAttribute('data-vx-app-mounted')) {
-    preConfig(props)
+  if (el && !el.getAttribute('data-vx-app')) {
+    preConfig(options)
 
     const root = ReactDOM.createRoot(el)
-    root.render(<Provider {...props} />)
-    el.setAttribute('data-vx-app-mounted', name || '')
+    root.render(<Provider {...options} />)
+    el.setAttribute('data-vx-app', options.name || '')
 
-    config(props)
+    config(options)
   } else {
     useLogger.log(NAMESPACE, '[provider] | root el is missing')
   }

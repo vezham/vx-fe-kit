@@ -10,6 +10,7 @@ export const {
   __PRODUCTION__,
 
   APP_NAME,
+  APP_VER,
 
   __DEBUG__,
   IS_BETA

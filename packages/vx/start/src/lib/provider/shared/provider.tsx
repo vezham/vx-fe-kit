@@ -20,29 +20,37 @@ const createQueryClient = () =>
     }
   })
 
-interface CreateProviderOptions {
+interface CreateProviderProps {
   env: ProviderEnv
   renderDevtools?: () => ReactNode
 }
 
-const createProvider = ({ env, renderDevtools }: CreateProviderOptions) => {
+const createProvider = ({ env, renderDevtools }: CreateProviderProps) => {
   const queryClient = createQueryClient()
 
   defineLogger(env)
 
   const Provider: FC<Props> = ({
+    // id
     className = '',
-    children,
     // classTarget,
-    // vmode,
+    children,
+
     strict = true,
+    // disableAnimation
+    // vmode,
+
+    version,
     query = true
   }) => {
     const classList = cn('vx-app', className)
     let template = (
       <>
         <VezhamProvider>
-          <div className={classList}>{children}</div>
+          {/* data-vx-app-name, data-vx-app-env, data-vx-app-framework */}
+          <div data-vx-app-version={version} className={classList}>
+            {children}
+          </div>
           {/* <ThemeProvider classTarget={classTarget} vmode={vmode}>
           <Lockscreen />
           <NoInternetConnection /> */}

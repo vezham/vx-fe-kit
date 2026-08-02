@@ -7,6 +7,7 @@ type Props = {
   V_IS_PREVIEW?: string
 
   V_APP_NAME?: string
+  V_APP_VER?: string
 
   V_IS_DEBUG?: string
   V_IS_BETA?: string
@@ -26,6 +27,7 @@ export const createEnv = (__ENV__: Partial<Props>) => {
 
   // @vx/NOTE: app config
   const APP_NAME = __ENV__.V_APP_NAME || 'vx-app'
+  const APP_VER = __ENV__.V_APP_VER || '1.0.0.alpha'
 
   // @vx/NOTE: app config By env
   const __DEBUG__ = __ENV__.V_IS_DEBUG === 'true'
@@ -47,6 +49,8 @@ export const createEnv = (__ENV__: Partial<Props>) => {
 
     // @vx/app
     APP_NAME,
+    APP_VER,
+
     __DEBUG__,
     IS_BETA
 

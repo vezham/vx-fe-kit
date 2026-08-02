@@ -7,6 +7,7 @@ export const configEnv = {
   V_IS_PREVIEW: process.env.V_IS_PREVIEW,
 
   V_APP_NAME: process.env.V_APP_NAME,
+  V_APP_VER: process.env.V_APP_VER,
 
   V_IS_DEBUG: process.env.V_IS_DEBUG,
   V_IS_BETA: process.env.V_IS_BETA,

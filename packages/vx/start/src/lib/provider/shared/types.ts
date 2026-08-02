@@ -11,13 +11,15 @@ interface AxiosProps {
 interface Props extends AxiosProps {
   id?: string
   className?: string
+  // classTarget?: string
   children?: ReactNode
-  classTarget?: string
-  disableAnimation?: boolean
-  // vmode?: Vmode
-  strict?: boolean
 
-  // wjdlz/NOTE: default V_APP_NAME
+  // wjdlz/INFO: app prefer
+  strict?: boolean
+  // disableAnimation?: boolean
+  // vmode?: Vmode
+
+  // wjdlz/INFO: app impl
   name?: string
   version?: string
   query?: boolean

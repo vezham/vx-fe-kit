@@ -1,16 +1,16 @@
-// import { defineI18nUI, Translations } from 'fumadocs-ui/i18n';
-// import { RootProvider } from 'fumadocs-ui/provider/next';
 import { HeadContent, Outlet, Scripts } from '@tanstack/react-router'
 
-import { APP_NAME } from '@vx/env/vite'
+import { APP_NAME, APP_VER } from '@vx/env/vite'
 
 import type { Props } from '../shared/types'
 import { Provider } from './provider'
 
-const RootDocument = ({ name = APP_NAME, ...props }: Props) => {
-  // const { provider } = defineI18nUI(i18n.locale, {
-  //   translations: i18n.translations
-  // });
+const RootDocument = (props: Props) => {
+  const options = {
+    ...props,
+    name: props.name || APP_NAME,
+    version: props.version || APP_VER
+  }
 
   const lang = 'en'
 
@@ -20,9 +20,8 @@ const RootDocument = ({ name = APP_NAME, ...props }: Props) => {
         <HeadContent />
       </head>
       <body>
-        <div id="root" data-vx-app-mounted={name || ''}>
-          <Provider {...props} />
-          {/* <RootProvider i18n={provider(lang)}>{children}</RootProvider> */}
+        <div id="root" data-vx-app={options.name || ''}>
+          <Provider {...options} />
         </div>
         <Scripts />
       </body>
