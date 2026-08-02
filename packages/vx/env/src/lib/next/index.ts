@@ -1,6 +1,7 @@
 import { createEnv } from '../base'
 import { configEnv } from './env'
 
+// wjdlz/NOTE: for adding the env in next.config.ts
 export { configEnv }
 
 const __ENV__ = createEnv(configEnv)

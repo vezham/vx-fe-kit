@@ -16,7 +16,9 @@ interface Props extends AxiosProps {
   disableAnimation?: boolean
   // vmode?: Vmode
   strict?: boolean
-  name?: string // wjdlz/NOTE: default V_APP_NAME
+
+  // wjdlz/NOTE: default V_APP_NAME
+  name?: string
   version?: string
   query?: boolean
   store?: boolean

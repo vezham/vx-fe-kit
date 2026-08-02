@@ -2,7 +2,8 @@
 
 import { APP_NAME, __DEBUG__, __DEV__ } from '@vx/env/next'
 
-import { ClientDevtools, createProvider } from '../shared'
+import { ClientDevtools } from '../shared/devtools'
+import { createProvider } from '../shared/provider'
 
 const Provider = createProvider({
   env: { APP_NAME, __DEBUG__, __DEV__ },
