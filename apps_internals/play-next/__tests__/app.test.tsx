@@ -1,14 +1,13 @@
 import { render, waitFor } from '@testing-library/react'
 
-import { Provider } from '@vx/start/next'
-
-import Shell from '../src/app/(routes)/(home)/page'
+import Page from '../src/app/(routes)/(home)/page'
+import RootLayout from '../src/app/layout'
 
 const renderApp = () =>
   render(
-    <Provider strict={false}>
-      <Shell />
-    </Provider>
+    <RootLayout>
+      <Page />
+    </RootLayout>
   )
 
 describe('App', () => {
