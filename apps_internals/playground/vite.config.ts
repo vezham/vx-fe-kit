@@ -1,4 +1,3 @@
-/// <reference types='vitest' />
 import tailwindcss from '@tailwindcss/vite'
 import { tanstackRouter } from '@tanstack/router-plugin/vite'
 import react from '@vitejs/plugin-react-swc'
@@ -36,19 +35,6 @@ export default defineConfig(async () => {
         transformMixedEsModules: true
       }
     },
-    test: {
-      name: 'playground',
-      watch: false,
-      globals: true,
-      environment: 'jsdom',
-      include: [
-        '{src,tests,__tests__}/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'
-      ],
-      reporters: ['default'],
-      coverage: {
-        reportsDirectory: './test-output/vitest/coverage',
-        provider: 'v8' as const
-      }
-    }
+    test: {}
   }
 })
