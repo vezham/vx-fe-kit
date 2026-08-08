@@ -1,5 +1,8 @@
 {
   "name": "play-next-e2e",
   "version": "0.0.1",
-  "private": true
+  "private": true,
+  "devDependencies": {
+    "@vx/config": "workspace:*"
+  }
 }
