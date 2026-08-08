@@ -1,8 +1,13 @@
-import { existsSync, readFileSync } from 'node:fs'
+import { existsSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { type UserConfig, loadConfigFromFile, mergeConfig } from 'vite'
-import { defineConfig } from 'vitest/config'
+import { loadConfigFromFile, mergeConfig } from 'vite'
+
+import {
+  type ViteConfig,
+  defineVitestConfig,
+  getProjectPackageName
+} from '@vx/config/vite'
 
 const rootDir = path.dirname(fileURLToPath(import.meta.url))
 const configFile = fileURLToPath(import.meta.url)
@@ -30,27 +35,13 @@ const findProjectConfig = () => {
     .find(candidate => candidate !== configFile && existsSync(candidate))
 }
 
-const getProjectName = () => {
-  const packageJsonFile = path.resolve(process.cwd(), 'package.json')
-
-  if (!existsSync(packageJsonFile)) {
-    return path.basename(process.cwd())
-  }
-
-  try {
-    return JSON.parse(readFileSync(packageJsonFile, 'utf8')).name as string
-  } catch {
-    return path.basename(process.cwd())
-  }
-}
-
-export default defineConfig(async () => {
+export default defineVitestConfig(async () => {
   const baseConfig = {
     resolve: {
       tsconfigPaths: true
     },
     test: {
-      name: getProjectName(),
+      name: getProjectPackageName(),
       watch: false,
       globals: true,
       environment: 'jsdom',
@@ -64,7 +55,7 @@ export default defineConfig(async () => {
         provider: 'v8' as const
       }
     }
-  } satisfies UserConfig
+  } satisfies ViteConfig
 
   const projectConfigFile = findProjectConfig()
 
@@ -83,7 +74,7 @@ export default defineConfig(async () => {
     process.cwd()
   )
   const projectConfig = loadedProjectConfig?.config ?? {}
-  const mergedConfig = mergeConfig(baseConfig, projectConfig) as UserConfig
+  const mergedConfig = mergeConfig(baseConfig, projectConfig) as ViteConfig
 
   return {
     ...mergedConfig,

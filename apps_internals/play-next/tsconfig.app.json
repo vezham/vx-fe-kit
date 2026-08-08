@@ -46,13 +46,16 @@
   ],
   "references": [
     {
+      "path": "../../packages/vx/config/tsconfig.lib.json"
+    },
+    {
       "path": "../../packages/vx/template/tsconfig.lib.json"
     },
     {
-      "path": "../../packages/vx/env/tsconfig.lib.json"
+      "path": "../../packages/vx/start/tsconfig.lib.json"
     },
     {
-      "path": "../../packages/vx/start/tsconfig.lib.json"
+      "path": "../../packages/vx/env/tsconfig.lib.json"
     }
   ]
 }

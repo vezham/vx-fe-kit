@@ -1,13 +1,8 @@
 import react from '@vitejs/plugin-react-swc'
-import { defineConfig } from 'vite'
 
-export default defineConfig(() => ({
+import { defineLibConfig } from '@vx/config/vite'
+
+export default defineLibConfig({
   root: __dirname,
-  cacheDir: '../../../node_modules/.vite/packages/vx/env',
-  plugins: [react()],
-  // Uncomment this if you are using workers.
-  // worker: {
-  //  plugins: [ nxViteTsPaths() ],
-  // },
-  test: {}
-}))
+  plugins: [react()]
+})
