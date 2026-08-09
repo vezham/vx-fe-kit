@@ -14,6 +14,10 @@ type WebServerConfig = Exclude<
   unknown[]
 >
 
+const isCI = Boolean(process.env.CI)
+const testTimeout = isCI ? 180_000 : 120_000
+const webServerTimeout = isCI ? 400_000 : 300_000
+
 export type PlaywrightConfig = Omit<PlaywrightTestConfig, 'webServer'> & {
   webServer: WebServerConfig
 }
@@ -70,7 +74,7 @@ export const defineConfig = (configFile: string, config: PlaywrightConfig) => {
 
   return definePlaywrightConfig({
     ...nxE2EPreset(configFile, { testDir: './src' }),
-    timeout: 120_000,
+    timeout: testTimeout,
     workers: 1,
     /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
     ...restConfig,
@@ -83,8 +87,9 @@ export const defineConfig = (configFile: string, config: PlaywrightConfig) => {
     /* Run your local dev server before starting the tests */
     webServer: {
       url: baseURL,
-      timeout: process.env.CI ? 400_000 : 300_000,
-      reuseExistingServer: process.env.PLAYWRIGHT_REUSE_SERVER === 'true',
+      timeout: webServerTimeout,
+      reuseExistingServer:
+        !isCI && process.env.PLAYWRIGHT_REUSE_SERVER !== 'false',
       cwd: workspaceRoot,
       ...webServer
     },
