@@ -12,6 +12,8 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiHeartbeatRouteRouteImport } from './routes/api/heartbeat/route'
+import { Route as ApiPulseRouteRouteImport } from './routes/api/pulse/route'
 
 const ProLazyRouteImport = createFileRoute('/pro')()
 
@@ -25,31 +27,49 @@ const ProLazyRoute = ProLazyRouteImport.update({
   path: '/pro',
   getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/pro.lazy').then((d) => d.Route))
+const ApiHeartbeatRouteRoute = ApiHeartbeatRouteRouteImport.update({
+  id: '/api/heartbeat',
+  path: '/api/heartbeat',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPulseRouteRoute = ApiPulseRouteRouteImport.update({
+  id: '/api/pulse',
+  path: '/api/pulse',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/pro': typeof ProLazyRoute
+  '/api/heartbeat': typeof ApiHeartbeatRouteRoute
+  '/api/pulse': typeof ApiPulseRouteRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/pro': typeof ProLazyRoute
+  '/api/heartbeat': typeof ApiHeartbeatRouteRoute
+  '/api/pulse': typeof ApiPulseRouteRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/pro': typeof ProLazyRoute
+  '/api/heartbeat': typeof ApiHeartbeatRouteRoute
+  '/api/pulse': typeof ApiPulseRouteRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/pro'
+  fullPaths: '/' | '/pro' | '/api/heartbeat' | '/api/pulse'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/pro'
-  id: '__root__' | '/' | '/pro'
+  to: '/' | '/pro' | '/api/heartbeat' | '/api/pulse'
+  id: '__root__' | '/' | '/pro' | '/api/heartbeat' | '/api/pulse'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ProLazyRoute: typeof ProLazyRoute
+  ApiHeartbeatRouteRoute: typeof ApiHeartbeatRouteRoute
+  ApiPulseRouteRoute: typeof ApiPulseRouteRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -68,12 +88,28 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/heartbeat': {
+      id: '/api/heartbeat'
+      path: '/api/heartbeat'
+      fullPath: '/api/heartbeat'
+      preLoaderRoute: typeof ApiHeartbeatRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/pulse': {
+      id: '/api/pulse'
+      path: '/api/pulse'
+      fullPath: '/api/pulse'
+      preLoaderRoute: typeof ApiPulseRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ProLazyRoute: ProLazyRoute,
+  ApiHeartbeatRouteRoute: ApiHeartbeatRouteRoute,
+  ApiPulseRouteRoute: ApiPulseRouteRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
