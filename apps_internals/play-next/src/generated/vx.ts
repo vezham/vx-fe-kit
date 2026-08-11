@@ -155,6 +155,7 @@ export const vxMetadata = {
     description: 'single app to manage your Vezham Play Next',
     image:
       'https://static.cdn.vezham.com/apps_internals/play-next/icons/icon-512x512.png?vx=1.0.5',
+    url: 'https://play-next.vezham.app',
     card: 'summary_large_image'
   }
 } as const
@@ -250,28 +251,32 @@ export const tanstackHead = {
       content: 'https://play-next.vezham.app'
     },
     {
-      property: 'twitter:creator',
+      name: 'twitter:creator',
       content: '@vezham'
     },
     {
-      property: 'twitter:site',
+      name: 'twitter:site',
       content: '@vezham'
     },
     {
-      property: 'twitter:title',
+      name: 'twitter:title',
       content: 'Vezham Play Next'
     },
     {
-      property: 'twitter:description',
+      name: 'twitter:description',
       content: 'single app to manage your Vezham Play Next'
     },
     {
-      property: 'twitter:image',
+      name: 'twitter:image',
       content:
         'https://static.cdn.vezham.com/apps_internals/play-next/icons/icon-512x512.png?vx=1.0.5'
     },
     {
-      property: 'twitter:card',
+      name: 'twitter:url',
+      content: 'https://play-next.vezham.app'
+    },
+    {
+      name: 'twitter:card',
       content: 'summary_large_image'
     }
   ],
@@ -661,7 +666,8 @@ export const nextMetadata = {
   other: {
     'mobile-web-app-capable': 'yes',
     'msapplication-config': '/browserconfig.xml',
-    'msapplication-starturl': '/'
+    'msapplication-starturl': '/',
+    'twitter:url': 'https://play-next.vezham.app'
   }
 }
 

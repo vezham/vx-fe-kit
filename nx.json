@@ -150,6 +150,7 @@
     },
     "serve:next": {
       "executor": "nx:run-commands",
+      "dependsOn": ["metadata:watch"],
       "options": {
         "cwd": "{workspaceRoot}",
         "command": "{workspaceRoot}/vx/bin/next/server.sh {projectRoot}"

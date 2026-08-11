@@ -265,6 +265,7 @@ const getRuntimeMetadata = (config: VxConfig, projectRoot = process.cwd()) => {
       title: core.name,
       description,
       image: twitterImage,
+      url: core.url,
       card: twitter.card
     }
   }
@@ -331,15 +332,16 @@ const getTanStackHead = (config: VxConfig, projectRoot = process.cwd()) => {
       { property: 'og:description', content: metadata.openGraph.description },
       { property: 'og:image', content: metadata.openGraph.image },
       { property: 'og:url', content: metadata.openGraph.url },
-      { property: 'twitter:creator', content: metadata.twitter.creator },
-      { property: 'twitter:site', content: metadata.twitter.site },
-      { property: 'twitter:title', content: metadata.twitter.title },
+      { name: 'twitter:creator', content: metadata.twitter.creator },
+      { name: 'twitter:site', content: metadata.twitter.site },
+      { name: 'twitter:title', content: metadata.twitter.title },
       {
-        property: 'twitter:description',
+        name: 'twitter:description',
         content: metadata.twitter.description
       },
-      { property: 'twitter:image', content: metadata.twitter.image },
-      { property: 'twitter:card', content: metadata.twitter.card }
+      { name: 'twitter:image', content: metadata.twitter.image },
+      { name: 'twitter:url', content: metadata.twitter.url },
+      { name: 'twitter:card', content: metadata.twitter.card }
     ],
     links: [
       { rel: 'manifest', href: metadata.manifest },
@@ -506,7 +508,8 @@ const getNextMetadata = (config: VxConfig, projectRoot = process.cwd()) => {
     other: {
       'mobile-web-app-capable': metadata.mobileWebAppCapable ? 'yes' : 'no',
       'msapplication-config': metadata.microsoft.config,
-      'msapplication-starturl': metadata.microsoft.startUrl
+      'msapplication-starturl': metadata.microsoft.startUrl,
+      'twitter:url': metadata.twitter.url
     }
   }
 }
