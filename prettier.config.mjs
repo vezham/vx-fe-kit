@@ -18,7 +18,7 @@ const config = {
     '^@vx-oss/(.*)$',
     '^@vx-pro/(.*)$',
     '^@vx/(.*)$',
-    '^(?:@/|@src/|@pages/|@components/|@store/)(.*)$',
+    '^(?:@/|@src/|@pages/|@components/|@store/|@generated/)(.*)$',
     // '^@/(.*)$',
     '^[./]'
   ],

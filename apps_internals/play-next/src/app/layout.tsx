@@ -1,8 +1,9 @@
-import { nextMetadata, nextViewport } from '@generated/vx'
 import type { Metadata, Viewport } from 'next'
 import type { ReactNode } from 'react'
 
 import { defineConfig } from '@vx/start/next'
+
+import { nextMetadata, nextViewport } from '@generated/vx'
 
 import './global.css'
 

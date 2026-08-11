@@ -3,7 +3,7 @@
   "version": "1.0.5",
   "id": "vezham-play-start",
   "name": "Vezham Play Start",
-  "short_name": "Vezham Play Start",
+  "short_name": "Play Start",
   "description": "single app to manage your Vezham Play Start",
   "scope": ".",
   "start_url": "/?utm_source=homescreen&utm_medium=shortcut&pwa=true",
@@ -69,8 +69,8 @@
       "icons": [
         {
           "src": "https://static.cdn.vezham.com/apps_internals/play-start/shortcuts/icon-home-192x192.png?vx=1.0.5",
-          "type": "image/png",
-          "sizes": "192x192"
+          "sizes": "192x192",
+          "type": "image/png"
         }
       ]
     }

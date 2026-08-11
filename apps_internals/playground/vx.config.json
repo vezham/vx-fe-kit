@@ -1,15 +1,17 @@
 {
   "$schema": "https://vezham.com/schemas/vx.config.json",
-  "id": "vezham-playground",
-  "name": "Vezham Playground",
-  "shortName": "Vezham Playground",
-  "version": "1.0.5",
-  "description": "Single app to manage your Vezham Playground",
-  "publisher": {
-    "name": "Vezham Technologies Private Limited",
-    "url": "https://vezham.com"
+  "core": {
+    "id": "vezham-playground",
+    "name": "Vezham Playground",
+    "shortName": "Playground",
+    "version": "1.0.5",
+    "description": "Single app to manage your Vezham Playground",
+    "publisher": {
+      "name": "Vezham Technologies Private Limited",
+      "url": "https://vezham.com"
+    },
+    "url": "https://playground.vezham.app"
   },
-  "url": "https://playground.vezham.app",
   "branding": {
     "themeColor": "#000000",
     "backgroundColor": "#ffffff"
@@ -18,7 +20,34 @@
     "display": "standalone",
     "orientation": "any",
     "scope": ".",
-    "startUrl": "/"
+    "startUrl": "/",
+    "categories": ["productivity", "personalization", "utilities"],
+    "icons": {
+      "path": "icons/icon-{size}x{size}.png",
+      "sizes": [48, 72, 96, 128, 192, 384, 512, 1024],
+      "type": "image/png"
+    },
+    "shortcuts": [
+      {
+        "name": "Home",
+        "shortName": "Home",
+        "url": "/",
+        "icons": [
+          {
+            "src": "shortcuts/icon-home-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+          }
+        ]
+      }
+    ],
+    "screenshots": [
+      {
+        "src": "screenshots/home-512x512.png",
+        "type": "image/png",
+        "sizes": "512x512"
+      }
+    ]
   },
   "metadata": {
     "title": "Home | Vezham Playground",
@@ -29,165 +58,169 @@
       "lightBackgroundColor": "white",
       "darkBackgroundColor": "black"
     },
-    "apple": {
-      "mobileWebAppCapable": true,
-      "webAppCapable": true,
-      "touchIcon": "icons/icon-512x512.png",
-      "startupImages": [
-        {
-          "colorScheme": "light",
-          "width": 320,
-          "height": 568,
-          "pixelRatio": 2,
-          "path": "splashscreens/light/splash-iphone5.png"
-        },
-        {
-          "colorScheme": "light",
-          "width": 375,
-          "height": 667,
-          "pixelRatio": 2,
-          "path": "splashscreens/light/splash-iphone6.png"
-        },
-        {
-          "colorScheme": "light",
-          "width": 375,
-          "height": 812,
-          "pixelRatio": 3,
-          "path": "splashscreens/light/splash-iphonex.png"
-        },
-        {
-          "colorScheme": "light",
-          "width": 414,
-          "height": 896,
-          "pixelRatio": 2,
-          "path": "splashscreens/light/splash-iphonexr.png"
-        },
-        {
-          "colorScheme": "light",
-          "width": 414,
-          "height": 896,
-          "pixelRatio": 3,
-          "path": "splashscreens/light/splash-iphonexsmax.png"
-        },
-        {
-          "colorScheme": "light",
-          "width": 621,
-          "height": 1104,
-          "pixelRatio": 3,
-          "path": "splashscreens/light/splash-iphoneplus.png"
-        },
-        {
-          "colorScheme": "light",
-          "width": 768,
-          "height": 1024,
-          "pixelRatio": 2,
-          "path": "splashscreens/light/splash-ipad.png"
-        },
-        {
-          "colorScheme": "light",
-          "width": 834,
-          "height": 1112,
-          "pixelRatio": 2,
-          "path": "splashscreens/light/splash-ipadpro1.png"
-        },
-        {
-          "colorScheme": "light",
-          "width": 834,
-          "height": 1194,
-          "pixelRatio": 2,
-          "path": "splashscreens/light/splash-ipadpro3.png"
-        },
-        {
-          "colorScheme": "light",
-          "width": 1024,
-          "height": 1366,
-          "pixelRatio": 2,
-          "path": "splashscreens/light/splash-ipadpro2.png"
-        },
-        {
-          "colorScheme": "dark",
-          "width": 320,
-          "height": 568,
-          "pixelRatio": 2,
-          "path": "splashscreens/dark/splash-iphone5.png"
-        },
-        {
-          "colorScheme": "dark",
-          "width": 375,
-          "height": 667,
-          "pixelRatio": 2,
-          "path": "splashscreens/dark/splash-iphone6.png"
-        },
-        {
-          "colorScheme": "dark",
-          "width": 375,
-          "height": 812,
-          "pixelRatio": 3,
-          "path": "splashscreens/dark/splash-iphonex.png"
-        },
-        {
-          "colorScheme": "dark",
-          "width": 414,
-          "height": 896,
-          "pixelRatio": 2,
-          "path": "splashscreens/dark/splash-iphonexr.png"
-        },
-        {
-          "colorScheme": "dark",
-          "width": 414,
-          "height": 896,
-          "pixelRatio": 3,
-          "path": "splashscreens/dark/splash-iphonexsmax.png"
-        },
-        {
-          "colorScheme": "dark",
-          "width": 621,
-          "height": 1104,
-          "pixelRatio": 3,
-          "path": "splashscreens/dark/splash-iphoneplus.png"
-        },
-        {
-          "colorScheme": "dark",
-          "width": 768,
-          "height": 1024,
-          "pixelRatio": 2,
-          "path": "splashscreens/dark/splash-ipad.png"
-        },
-        {
-          "colorScheme": "dark",
-          "width": 834,
-          "height": 1112,
-          "pixelRatio": 2,
-          "path": "splashscreens/dark/splash-ipadpro1.png"
-        },
-        {
-          "colorScheme": "dark",
-          "width": 834,
-          "height": 1194,
-          "pixelRatio": 2,
-          "path": "splashscreens/dark/splash-ipadpro3.png"
-        },
-        {
-          "colorScheme": "dark",
-          "width": 1024,
-          "height": 1366,
-          "pixelRatio": 2,
-          "path": "splashscreens/dark/splash-ipadpro2.png"
-        }
-      ]
+    "platforms": {
+      "apple": {
+        "mobileWebAppCapable": true,
+        "webAppCapable": true,
+        "touchIcon": "icons/icon-512x512.png",
+        "startupImages": [
+          {
+            "colorScheme": "light",
+            "width": 320,
+            "height": 568,
+            "pixelRatio": 2,
+            "path": "splashscreens/light/splash-iphone5.png"
+          },
+          {
+            "colorScheme": "light",
+            "width": 375,
+            "height": 667,
+            "pixelRatio": 2,
+            "path": "splashscreens/light/splash-iphone6.png"
+          },
+          {
+            "colorScheme": "light",
+            "width": 375,
+            "height": 812,
+            "pixelRatio": 3,
+            "path": "splashscreens/light/splash-iphonex.png"
+          },
+          {
+            "colorScheme": "light",
+            "width": 414,
+            "height": 896,
+            "pixelRatio": 2,
+            "path": "splashscreens/light/splash-iphonexr.png"
+          },
+          {
+            "colorScheme": "light",
+            "width": 414,
+            "height": 896,
+            "pixelRatio": 3,
+            "path": "splashscreens/light/splash-iphonexsmax.png"
+          },
+          {
+            "colorScheme": "light",
+            "width": 621,
+            "height": 1104,
+            "pixelRatio": 3,
+            "path": "splashscreens/light/splash-iphoneplus.png"
+          },
+          {
+            "colorScheme": "light",
+            "width": 768,
+            "height": 1024,
+            "pixelRatio": 2,
+            "path": "splashscreens/light/splash-ipad.png"
+          },
+          {
+            "colorScheme": "light",
+            "width": 834,
+            "height": 1112,
+            "pixelRatio": 2,
+            "path": "splashscreens/light/splash-ipadpro1.png"
+          },
+          {
+            "colorScheme": "light",
+            "width": 834,
+            "height": 1194,
+            "pixelRatio": 2,
+            "path": "splashscreens/light/splash-ipadpro3.png"
+          },
+          {
+            "colorScheme": "light",
+            "width": 1024,
+            "height": 1366,
+            "pixelRatio": 2,
+            "path": "splashscreens/light/splash-ipadpro2.png"
+          },
+          {
+            "colorScheme": "dark",
+            "width": 320,
+            "height": 568,
+            "pixelRatio": 2,
+            "path": "splashscreens/dark/splash-iphone5.png"
+          },
+          {
+            "colorScheme": "dark",
+            "width": 375,
+            "height": 667,
+            "pixelRatio": 2,
+            "path": "splashscreens/dark/splash-iphone6.png"
+          },
+          {
+            "colorScheme": "dark",
+            "width": 375,
+            "height": 812,
+            "pixelRatio": 3,
+            "path": "splashscreens/dark/splash-iphonex.png"
+          },
+          {
+            "colorScheme": "dark",
+            "width": 414,
+            "height": 896,
+            "pixelRatio": 2,
+            "path": "splashscreens/dark/splash-iphonexr.png"
+          },
+          {
+            "colorScheme": "dark",
+            "width": 414,
+            "height": 896,
+            "pixelRatio": 3,
+            "path": "splashscreens/dark/splash-iphonexsmax.png"
+          },
+          {
+            "colorScheme": "dark",
+            "width": 621,
+            "height": 1104,
+            "pixelRatio": 3,
+            "path": "splashscreens/dark/splash-iphoneplus.png"
+          },
+          {
+            "colorScheme": "dark",
+            "width": 768,
+            "height": 1024,
+            "pixelRatio": 2,
+            "path": "splashscreens/dark/splash-ipad.png"
+          },
+          {
+            "colorScheme": "dark",
+            "width": 834,
+            "height": 1112,
+            "pixelRatio": 2,
+            "path": "splashscreens/dark/splash-ipadpro1.png"
+          },
+          {
+            "colorScheme": "dark",
+            "width": 834,
+            "height": 1194,
+            "pixelRatio": 2,
+            "path": "splashscreens/dark/splash-ipadpro3.png"
+          },
+          {
+            "colorScheme": "dark",
+            "width": 1024,
+            "height": 1366,
+            "pixelRatio": 2,
+            "path": "splashscreens/dark/splash-ipadpro2.png"
+          }
+        ]
+      },
+      "microsoft": {
+        "startUrl": "/"
+      }
     },
-    "microsoft": {
-      "startUrl": "/"
-    },
-    "openGraph": {
-      "type": "website",
-      "image": "icons/icon-512x512.png"
-    },
-    "twitter": {
-      "creator": "@vezham",
-      "site": "@vezham",
-      "card": "summary_large_image",
-      "image": "icons/icon-512x512.png"
+    "social": {
+      "openGraph": {
+        "type": "website",
+        "image": "icons/icon-512x512.png"
+      },
+      "twitter": {
+        "creator": "@vezham",
+        "site": "@vezham",
+        "card": "summary_large_image",
+        "image": "icons/icon-512x512.png"
+      }
     }
   }
 }
