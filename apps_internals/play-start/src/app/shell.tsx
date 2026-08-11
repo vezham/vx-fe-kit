@@ -8,8 +8,7 @@ import './global.css'
 export const router = createRouter({
   scrollRestoration: true,
   routeTree,
-  defaultPreload: 'intent',
-  defaultPreloadStaleTime: 0
+  defaultPreload: 'intent'
 })
 
 // @vx/NOTE: Register the router instance for type safety

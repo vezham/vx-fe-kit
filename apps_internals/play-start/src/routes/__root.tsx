@@ -14,6 +14,10 @@ export const Route = createRootRoute({
       },
       {
         title: 'Home | Vezham Play Start'
+      },
+      {
+        name: 'description',
+        content: 'single app to manage your Vezham Play Start'
       }
     ]
     // links: [

@@ -8,7 +8,8 @@ import './global.css'
 // @vx/NOTE: Create a new router instance
 const router = createRouter({
   scrollRestoration: true,
-  routeTree
+  routeTree,
+  defaultPreload: 'intent'
   // defaultPendingComponent: () => <Loading />,
   // defaultErrorComponent: () => <ErrorPage />,
   // defaultNotFoundComponent: () => <NotFound app={APP_NAME} />

@@ -1,0 +1,29 @@
+{
+  "$schema": "https://vezham.com/schemas/vx.config.json",
+
+  "id": "vezham-play-next",
+  "name": "Vezham Play Next",
+  "shortName": "Vezham Play Next",
+  "version": "1.0.5",
+
+  "description": "Single app to manage your Vezham Play Next",
+
+  "publisher": {
+    "name": "Vezham Technologies Private Limited",
+    "url": "https://vezham.com"
+  },
+
+  "url": "https://play-next.vezham.app",
+
+  "branding": {
+    "themeColor": "#000000",
+    "backgroundColor": "#ffffff"
+  },
+
+  "pwa": {
+    "display": "standalone",
+    "orientation": "any",
+    "scope": ".",
+    "startUrl": "/"
+  }
+}

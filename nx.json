@@ -119,6 +119,34 @@
         "command": "tsr watch"
       }
     },
+    "metadata:generate": {
+      "executor": "nx:run-commands",
+      "cache": true,
+      "inputs": [
+        "{projectRoot}/vx.config.json",
+        "{workspaceRoot}/packages/vx/config/src/lib/metadata/**/*"
+      ],
+      "outputs": [
+        "{projectRoot}/public/manifest.webmanifest",
+        "{projectRoot}/public/browserconfig.xml",
+        "{projectRoot}/public/robots.txt",
+        "{projectRoot}/public/sw.js",
+        "{projectRoot}/public/offline.html",
+        "{projectRoot}/public/api/hello.json"
+      ],
+      "options": {
+        "cwd": "{workspaceRoot}",
+        "command": "tsx packages/vx/config/src/lib/metadata/cli.ts generate {projectRoot}"
+      }
+    },
+    "metadata:watch": {
+      "executor": "nx:run-commands",
+      "continuous": true,
+      "options": {
+        "cwd": "{workspaceRoot}",
+        "command": "tsx packages/vx/config/src/lib/metadata/cli.ts watch {projectRoot}"
+      }
+    },
     "serve:next": {
       "executor": "nx:run-commands",
       "options": {

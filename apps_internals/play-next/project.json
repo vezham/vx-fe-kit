@@ -4,6 +4,14 @@
   "projectType": "application",
   "sourceRoot": "apps_internals/play-next/src",
   "targets": {
+    "build": {
+      "dependsOn": ["metadata:generate", "^build"]
+    },
+    "dev": {
+      "dependsOn": ["metadata:watch"]
+    },
+    "metadata:generate": {},
+    "metadata:watch": {},
     "test": {},
     "serve:next": {},
     "preview:next": {},

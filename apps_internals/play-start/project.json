@@ -4,7 +4,15 @@
   "projectType": "application",
   "sourceRoot": "apps_internals/play-start/src",
   "targets": {
+    "build": {
+      "dependsOn": ["metadata:generate", "^build"]
+    },
+    "dev": {
+      "dependsOn": ["metadata:watch"]
+    },
     "hosts:setup": {},
+    "metadata:generate": {},
+    "metadata:watch": {},
     "routes:tanstack": {}
   },
   "tags": ["category:internal"]
