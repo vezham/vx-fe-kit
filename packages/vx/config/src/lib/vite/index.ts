@@ -46,6 +46,49 @@ type ViteConfigFactory = (env: ConfigEnv) => ViteConfig | Promise<ViteConfig>
 
 type ViteConfigOverrides = ViteConfig | ViteConfigFactory
 
+type TsConfigWithPaths = {
+  compilerOptions?: {
+    paths?: Record<string, string[]>
+  }
+}
+
+const trimTrailingWildcard = (value: string) =>
+  value.endsWith('/*') ? value.slice(0, -2) : value
+
+const getTsConfigPathAliases = (projectRoot = process.cwd()) => {
+  const tsconfigFile = path.resolve(projectRoot, 'tsconfig.app.json')
+
+  if (!existsSync(tsconfigFile)) {
+    return {}
+  }
+
+  try {
+    const tsconfig = JSON.parse(
+      readFileSync(tsconfigFile, 'utf8')
+    ) as TsConfigWithPaths
+    const paths = tsconfig.compilerOptions?.paths ?? {}
+
+    return Object.fromEntries(
+      Object.entries(paths)
+        .map(([alias, values]) => {
+          const value = values[0]
+
+          if (!value) {
+            return null
+          }
+
+          return [
+            trimTrailingWildcard(alias),
+            path.resolve(projectRoot, trimTrailingWildcard(value))
+          ]
+        })
+        .filter(entry => entry !== null)
+    )
+  } catch {
+    return {}
+  }
+}
+
 const getServerConfig = () => {
   const { env } = process
   const hostname = env.CI ? 'localhost' : env.HOST_NAME || 'localhost'
@@ -78,6 +121,7 @@ export const getAppViteConfig = (projectRoot = process.cwd()): ViteConfig => ({
   server: getServerConfig(),
   preview: getPreviewConfig(),
   resolve: {
+    alias: getTsConfigPathAliases(projectRoot),
     tsconfigPaths: true
   },
   build: {
