@@ -132,7 +132,8 @@
         "{projectRoot}/public/robots.txt",
         "{projectRoot}/public/sw.js",
         "{projectRoot}/public/offline.html",
-        "{projectRoot}/public/api/hello.json"
+        "{projectRoot}/public/api/hello.json",
+        "{projectRoot}/src/generated/vx.ts"
       ],
       "options": {
         "cwd": "{workspaceRoot}",

@@ -17,7 +17,8 @@
       "@src/*": ["./src/*"],
       "@pages/*": ["./src/pages/*"],
       "@components/*": ["./src/components/*"],
-      "@store/*": ["./src/store/*"]
+      "@store/*": ["./src/store/*"],
+      "@generated/*": ["./src/generated/*"]
     }
   },
   "exclude": [

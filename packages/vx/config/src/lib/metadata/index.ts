@@ -13,6 +13,7 @@ type VxConfig = {
   shortName?: string
   version: string
   description?: string
+  url?: string
   publisher?: {
     name?: string
     url?: string
@@ -27,6 +28,47 @@ type VxConfig = {
     scope?: string
     startUrl?: string
   }
+  metadata?: VxMetadataConfig
+}
+
+type VxMetadataConfig = {
+  title?: string
+  keywords?: string[]
+  theme?: {
+    lightColor?: string
+    darkColor?: string
+    lightBackgroundColor?: string
+    darkBackgroundColor?: string
+  }
+  apple?: {
+    mobileWebAppCapable?: boolean
+    webAppCapable?: boolean
+    touchIcon?: string
+    startupImages?: VxStartupImage[]
+  }
+  microsoft?: {
+    startUrl?: string
+  }
+  openGraph?: {
+    type?: string
+    image?: string
+  }
+  twitter?: {
+    creator?: string
+    site?: string
+    card?: string
+    image?: string
+  }
+}
+
+type VxStartupImage = {
+  colorScheme?: 'light' | 'dark'
+  width?: number
+  height?: number
+  pixelRatio?: number
+  path?: string
+  media?: string
+  src?: string
 }
 
 export type GenerateMetadataOptions = {
@@ -63,6 +105,31 @@ const createVersionedAssetUrl = (baseUrl: string, version: string) => {
 const getStaticAssetUrl = (assetPath: string, version: string) =>
   `https://static.cdn.vezham.com/${assetPath.replace(/^\//, '')}?vx=${encodeURIComponent(version)}`
 
+const toAssetUrl = (
+  assetPath: string,
+  versionedAssetUrl: (assetPath: string) => string
+) =>
+  /^https?:\/\//.test(assetPath) || assetPath.startsWith('/')
+    ? assetPath
+    : versionedAssetUrl(assetPath)
+
+const getStartupImageMedia = (image: VxStartupImage) => {
+  if (image.media) {
+    return image.media
+  }
+
+  const colorScheme = image.colorScheme
+    ? `(prefers-color-scheme: ${image.colorScheme})`
+    : undefined
+  const width = image.width ? `(device-width: ${image.width}px)` : undefined
+  const height = image.height ? `(device-height: ${image.height}px)` : undefined
+  const pixelRatio = image.pixelRatio
+    ? `(-webkit-device-pixel-ratio: ${image.pixelRatio})`
+    : undefined
+
+  return [colorScheme, width, height, pixelRatio].filter(Boolean).join(' and ')
+}
+
 const writeMetadataFile = ({ path: file, content }: MetadataFile) => {
   mkdirSync(path.dirname(file), { recursive: true })
   writeFileSync(file, content)
@@ -73,6 +140,370 @@ const stringifyManifest = (manifest: Record<string, unknown>) =>
     '"categories": [\n    "productivity",\n    "personalization",\n    "utilities"\n  ]',
     '"categories": ["productivity", "personalization", "utilities"]'
   )
+
+const stringifyTs = (value: unknown) => JSON.stringify(value, null, 2)
+
+const getRuntimeMetadata = (config: VxConfig, projectRoot = process.cwd()) => {
+  const versionedAssetUrl = createVersionedAssetUrl(
+    getProjectAssetBaseUrl(projectRoot),
+    config.version
+  )
+  const metadata = config.metadata ?? {}
+  const title = metadata.title ?? `Home | ${config.name}`
+  const description = lowerFirst(config.description ?? '')
+  const lightThemeColor = metadata.theme?.lightColor ?? 'white'
+  const darkThemeColor = metadata.theme?.darkColor ?? 'black'
+  const lightBackgroundColor =
+    metadata.theme?.lightBackgroundColor ?? lightThemeColor
+  const darkBackgroundColor =
+    metadata.theme?.darkBackgroundColor ?? darkThemeColor
+  const faviconLight = versionedAssetUrl('favicon-light.png')
+  const faviconDark = versionedAssetUrl('favicon-dark.png')
+  const maskIcon = versionedAssetUrl('safari-pinned-tab.svg')
+  const appleTouchIcon = versionedAssetUrl(
+    metadata.apple?.touchIcon ?? 'icons/icon-512x512.png'
+  )
+  const openGraphImage = toAssetUrl(
+    metadata.openGraph?.image ?? 'icons/icon-512x512.png',
+    versionedAssetUrl
+  )
+  const twitterImage = toAssetUrl(
+    metadata.twitter?.image ??
+      metadata.openGraph?.image ??
+      'icons/icon-512x512.png',
+    versionedAssetUrl
+  )
+  const startupImages =
+    metadata.apple?.startupImages?.map(image => ({
+      media: getStartupImageMedia(image),
+      url: toAssetUrl(image.path ?? image.src ?? '', versionedAssetUrl)
+    })) ?? []
+
+  return {
+    title,
+    description,
+    url: config.url,
+    manifest: '/manifest.webmanifest',
+    browserConfig: '/browserconfig.xml',
+    startUrl: metadata.microsoft?.startUrl ?? config.pwa?.startUrl ?? '/',
+    author: config.publisher,
+    keywords: metadata.keywords ?? [config.name],
+    theme: {
+      lightColor: lightThemeColor,
+      darkColor: darkThemeColor,
+      lightBackgroundColor,
+      darkBackgroundColor
+    },
+    mobileWebAppCapable: metadata.apple?.mobileWebAppCapable ?? true,
+    apple: {
+      title: config.name,
+      capable: metadata.apple?.webAppCapable ?? true,
+      touchIcon: appleTouchIcon,
+      startupImages
+    },
+    icons: {
+      faviconLight,
+      faviconDark,
+      maskIcon
+    },
+    microsoft: {
+      applicationName: config.name,
+      config: '/browserconfig.xml',
+      startUrl: metadata.microsoft?.startUrl ?? '/'
+    },
+    openGraph: {
+      type: metadata.openGraph?.type ?? 'website',
+      title: config.name,
+      description,
+      image: openGraphImage,
+      url: config.url
+    },
+    twitter: {
+      creator: metadata.twitter?.creator ?? '@vezham',
+      site: metadata.twitter?.site ?? '@vezham',
+      title: config.name,
+      description,
+      image: twitterImage,
+      card: metadata.twitter?.card ?? 'summary_large_image'
+    }
+  }
+}
+
+const getTanStackHead = (config: VxConfig, projectRoot = process.cwd()) => {
+  const metadata = getRuntimeMetadata(config, projectRoot)
+
+  return {
+    meta: [
+      { charSet: 'utf-8' },
+      {
+        name: 'viewport',
+        content:
+          'width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=1, shrink-to-fit=no'
+      },
+      { name: 'author', content: metadata.author?.name ?? '' },
+      { name: 'keywords', content: metadata.keywords.join(', ') },
+      { title: metadata.title },
+      { name: 'description', content: metadata.description },
+      {
+        name: 'theme-color',
+        media: '(prefers-color-scheme: light)',
+        content: metadata.theme.lightColor
+      },
+      {
+        name: 'theme-color',
+        media: '(prefers-color-scheme: dark)',
+        content: metadata.theme.darkColor
+      },
+      {
+        name: 'background-color',
+        media: '(prefers-color-scheme: light)',
+        content: metadata.theme.lightBackgroundColor
+      },
+      {
+        name: 'background-color',
+        media: '(prefers-color-scheme: dark)',
+        content: metadata.theme.darkBackgroundColor
+      },
+      {
+        name: 'mobile-web-app-capable',
+        content: metadata.mobileWebAppCapable ? 'yes' : 'no'
+      },
+      { name: 'apple-mobile-web-app-title', content: metadata.apple.title },
+      {
+        name: 'apple-mobile-web-app-capable',
+        content: metadata.apple.capable ? 'yes' : 'no'
+      },
+      {
+        name: 'application-name',
+        content: metadata.microsoft.applicationName
+      },
+      {
+        name: 'msapplication-config',
+        content: metadata.microsoft.config
+      },
+      {
+        name: 'msapplication-starturl',
+        content: metadata.microsoft.startUrl
+      },
+      { property: 'og:type', content: metadata.openGraph.type },
+      { property: 'og:title', content: metadata.openGraph.title },
+      { property: 'og:description', content: metadata.openGraph.description },
+      { property: 'og:image', content: metadata.openGraph.image },
+      { property: 'og:url', content: metadata.openGraph.url },
+      { property: 'twitter:creator', content: metadata.twitter.creator },
+      { property: 'twitter:site', content: metadata.twitter.site },
+      { property: 'twitter:title', content: metadata.twitter.title },
+      {
+        property: 'twitter:description',
+        content: metadata.twitter.description
+      },
+      { property: 'twitter:image', content: metadata.twitter.image },
+      { property: 'twitter:card', content: metadata.twitter.card }
+    ],
+    links: [
+      { rel: 'manifest', href: metadata.manifest },
+      {
+        rel: 'icon',
+        type: 'image/x-icon',
+        media: '(prefers-color-scheme: light)',
+        href: metadata.icons.faviconLight
+      },
+      {
+        rel: 'icon',
+        type: 'image/x-icon',
+        media: '(prefers-color-scheme: dark)',
+        href: metadata.icons.faviconDark
+      },
+      {
+        rel: 'icon',
+        media: '(prefers-color-scheme: light)',
+        href: metadata.icons.faviconLight
+      },
+      {
+        rel: 'icon',
+        media: '(prefers-color-scheme: dark)',
+        href: metadata.icons.faviconDark
+      },
+      {
+        rel: 'icon',
+        type: 'image/svg+xml',
+        media: '(prefers-color-scheme: light)',
+        href: metadata.icons.maskIcon,
+        color: 'black'
+      },
+      {
+        rel: 'icon',
+        type: 'image/svg+xml',
+        media: '(prefers-color-scheme: dark)',
+        href: metadata.icons.maskIcon,
+        color: 'white'
+      },
+      {
+        rel: 'shortcut icon',
+        media: '(prefers-color-scheme: light)',
+        href: metadata.icons.faviconLight
+      },
+      {
+        rel: 'shortcut icon',
+        media: '(prefers-color-scheme: dark)',
+        href: metadata.icons.faviconDark
+      },
+      {
+        rel: 'mask-icon',
+        media: '(prefers-color-scheme: light)',
+        href: metadata.icons.maskIcon,
+        color: 'black'
+      },
+      {
+        rel: 'mask-icon',
+        media: '(prefers-color-scheme: dark)',
+        href: metadata.icons.maskIcon,
+        color: 'white'
+      },
+      {
+        rel: 'apple-touch-icon',
+        href: metadata.apple.touchIcon
+      },
+      ...metadata.apple.startupImages.map(image => ({
+        rel: 'apple-touch-startup-image',
+        media: image.media,
+        href: image.url
+      }))
+    ]
+  }
+}
+
+const getNextMetadata = (config: VxConfig, projectRoot = process.cwd()) => {
+  const metadata = getRuntimeMetadata(config, projectRoot)
+
+  return {
+    metadataBase: metadata.url ? new URL(metadata.url) : undefined,
+    title: metadata.title,
+    description: metadata.description,
+    applicationName: metadata.microsoft.applicationName,
+    authors: metadata.author?.name
+      ? [
+          {
+            name: metadata.author.name,
+            url: metadata.author.url
+          }
+        ]
+      : undefined,
+    keywords: metadata.keywords,
+    manifest: metadata.manifest,
+    icons: {
+      icon: [
+        {
+          url: metadata.icons.faviconLight,
+          type: 'image/x-icon',
+          media: '(prefers-color-scheme: light)'
+        },
+        {
+          url: metadata.icons.faviconDark,
+          type: 'image/x-icon',
+          media: '(prefers-color-scheme: dark)'
+        },
+        {
+          url: metadata.icons.maskIcon,
+          type: 'image/svg+xml',
+          media: '(prefers-color-scheme: light)',
+          color: 'black'
+        },
+        {
+          url: metadata.icons.maskIcon,
+          type: 'image/svg+xml',
+          media: '(prefers-color-scheme: dark)',
+          color: 'white'
+        }
+      ],
+      shortcut: [
+        {
+          url: metadata.icons.faviconLight,
+          media: '(prefers-color-scheme: light)'
+        },
+        {
+          url: metadata.icons.faviconDark,
+          media: '(prefers-color-scheme: dark)'
+        }
+      ],
+      apple: [{ url: metadata.apple.touchIcon }],
+      other: [
+        {
+          rel: 'mask-icon',
+          url: metadata.icons.maskIcon,
+          media: '(prefers-color-scheme: light)',
+          color: 'black'
+        },
+        {
+          rel: 'mask-icon',
+          url: metadata.icons.maskIcon,
+          media: '(prefers-color-scheme: dark)',
+          color: 'white'
+        }
+      ]
+    },
+    appleWebApp: {
+      title: metadata.apple.title,
+      capable: metadata.apple.capable,
+      startupImage: metadata.apple.startupImages
+    },
+    openGraph: {
+      type: metadata.openGraph.type,
+      title: metadata.openGraph.title,
+      description: metadata.openGraph.description,
+      images: [metadata.openGraph.image],
+      url: metadata.openGraph.url
+    },
+    twitter: {
+      creator: metadata.twitter.creator,
+      site: metadata.twitter.site,
+      title: metadata.twitter.title,
+      description: metadata.twitter.description,
+      images: [metadata.twitter.image],
+      card: metadata.twitter.card
+    },
+    other: {
+      'mobile-web-app-capable': metadata.mobileWebAppCapable ? 'yes' : 'no',
+      'msapplication-config': metadata.microsoft.config,
+      'msapplication-starturl': metadata.microsoft.startUrl
+    }
+  }
+}
+
+const getNextViewport = (config: VxConfig, projectRoot = process.cwd()) => {
+  const metadata = getRuntimeMetadata(config, projectRoot)
+
+  return {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1.5,
+    userScalable: true,
+    themeColor: [
+      {
+        media: '(prefers-color-scheme: light)',
+        color: metadata.theme.lightColor
+      },
+      {
+        media: '(prefers-color-scheme: dark)',
+        color: metadata.theme.darkColor
+      }
+    ]
+  }
+}
+
+const getGeneratedMetadataModule = (
+  config: VxConfig,
+  projectRoot = process.cwd()
+) => `// ${generatedNotice}
+
+export const vxMetadata = ${stringifyTs(getRuntimeMetadata(config, projectRoot))} as const
+
+export const tanstackHead = ${stringifyTs(getTanStackHead(config, projectRoot))}
+
+export const nextMetadata = ${stringifyTs(getNextMetadata(config, projectRoot))}
+
+export const nextViewport = ${stringifyTs(getNextViewport(config, projectRoot))}
+`
 
 export const loadVxConfig = (projectRoot = process.cwd()) => {
   const configFile = path.resolve(projectRoot, 'vx.config.json')
@@ -325,6 +756,10 @@ export const getMetadataFiles = (
         null,
         2
       )}\n`
+    },
+    {
+      path: path.join(projectRoot, 'src/generated/vx.ts'),
+      content: getGeneratedMetadataModule(config, projectRoot)
     }
   ]
 }

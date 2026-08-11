@@ -1,4 +1,5 @@
-import type { Metadata } from 'next'
+import { nextMetadata, nextViewport } from '@generated/vx'
+import type { Metadata, Viewport } from 'next'
 import type { ReactNode } from 'react'
 
 import { defineConfig } from '@vx/start/next'
@@ -12,6 +13,8 @@ type Props = {
 export default ({ children }: Props) => defineConfig({ children })
 
 export const metadata: Metadata = {
-  title: 'Home | Vezham Play Next',
-  description: 'single app to manage your Vezham Play Next'
+  ...nextMetadata,
+  metadataBase: new URL(nextMetadata.metadataBase)
 }
+
+export const viewport: Viewport = nextViewport
