@@ -18,7 +18,15 @@
       "types": "./src/lib/provider/next/index.tsx",
       "import": "./src/lib/provider/next/index.tsx",
       "default": "./src/lib/provider/next/index.tsx"
+    },
+    "./router/tanstack": {
+      "types": "./src/lib/router/tanstack/index.tsx",
+      "import": "./src/lib/router/tanstack/index.tsx",
+      "default": "./src/lib/router/tanstack/index.tsx"
     }
+  },
+  "dependencies": {
+    "@vx/template": "workspace:*"
   },
   "devDependencies": {
     "@vx/devtools": "workspace:*",

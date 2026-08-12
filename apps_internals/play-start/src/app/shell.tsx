@@ -1,4 +1,4 @@
-import { createRouter } from '@tanstack/react-router'
+import { createRouter } from '@vx/start/router/tanstack'
 
 import { routeTree } from '@src/routeTree.gen'
 
@@ -6,9 +6,7 @@ import './global.css'
 
 // @vx/NOTE: Create a new router instance
 export const router = createRouter({
-  scrollRestoration: true,
-  routeTree,
-  defaultPreload: 'intent'
+  routeTree
 })
 
 // @vx/NOTE: Register the router instance for type safety

@@ -1,5 +1,6 @@
-// import { Loading, ErrorPage, NotFound } from '@vezham/templates'
-import { RouterProvider, createRouter } from '@tanstack/react-router'
+import { RouterProvider } from '@tanstack/react-router'
+
+import { createRouter } from '@vx/start/router/tanstack'
 
 import { routeTree } from '@src/routeTree.gen'
 
@@ -7,12 +8,7 @@ import './global.css'
 
 // @vx/NOTE: Create a new router instance
 const router = createRouter({
-  scrollRestoration: true,
-  routeTree,
-  defaultPreload: 'intent'
-  // defaultPendingComponent: () => <Loading />,
-  // defaultErrorComponent: () => <ErrorPage />,
-  // defaultNotFoundComponent: () => <NotFound app={APP_NAME} />
+  routeTree
 })
 
 // @vx/NOTE: Register the router instance for type safety

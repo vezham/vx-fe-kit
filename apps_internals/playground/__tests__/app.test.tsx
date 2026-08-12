@@ -1,10 +1,7 @@
-import {
-  RouterProvider,
-  createMemoryHistory,
-  createRouter
-} from '@tanstack/react-router'
+import { RouterProvider, createMemoryHistory } from '@tanstack/react-router'
 import { render, waitFor } from '@testing-library/react'
 
+import { createRouter } from '@vx/start/router/tanstack'
 import { Provider } from '@vx/start/vite'
 
 import { routeTree } from '../src/routeTree.gen'

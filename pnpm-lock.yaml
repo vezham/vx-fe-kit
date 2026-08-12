@@ -398,6 +398,9 @@ importers:
 
   apps_internals/play-start:
     dependencies:
+      '@vx/config':
+        specifier: workspace:*
+        version: link:../../packages/vx/config
       '@vx/template':
         specifier: workspace:*
         version: link:../../packages/vx/template
@@ -439,6 +442,9 @@ importers:
 
   apps_internals/playground:
     dependencies:
+      '@vx/config':
+        specifier: workspace:*
+        version: link:../../packages/vx/config
       '@vx/template':
         specifier: workspace:*
         version: link:../../packages/vx/template
@@ -485,6 +491,10 @@ importers:
   packages/vx/env: {}
 
   packages/vx/start:
+    dependencies:
+      '@vx/template':
+        specifier: workspace:*
+        version: link:../template
     devDependencies:
       '@vx/devtools':
         specifier: workspace:*
