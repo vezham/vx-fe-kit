@@ -41,5 +41,8 @@
     {
       "path": "./packages/vx/config"
     }
-  ]
+  ],
+  "compilerOptions": {
+    "ignoreDeprecations": "6.0"
+  }
 }

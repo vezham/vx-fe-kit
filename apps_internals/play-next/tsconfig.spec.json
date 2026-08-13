@@ -20,7 +20,9 @@
       "@components/*": ["./src/components/*"],
       "@store/*": ["./src/store/*"],
       "@generated/*": ["./src/generated/*"]
-    }
+    },
+    "ignoreDeprecations": "6.0",
+    "rootDir": "."
   },
   "include": [
     "__tests__/**/*.test.tsx",

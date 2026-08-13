@@ -67,7 +67,6 @@
         "targetName": "e2e"
       }
     },
-    "@vx-cli/react",
     {
       "plugin": "@nx/vitest",
       "options": {

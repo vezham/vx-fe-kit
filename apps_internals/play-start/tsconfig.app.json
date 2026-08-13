@@ -19,7 +19,8 @@
       "@components/*": ["./src/components/*"],
       "@store/*": ["./src/store/*"],
       "@generated/*": ["./src/generated/*"]
-    }
+    },
+    "ignoreDeprecations": "6.0"
   },
   "exclude": [
     "out-tsc",
