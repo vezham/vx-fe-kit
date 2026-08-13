@@ -26,3 +26,8 @@ utilities, testing helpers, and other reusable developer resources.
 Workspace automation built on top of **@vx/kit**, providing commands for
 formatting, linting, testing, releasing, dependency management, and other
 workspace operations.
+
+## Handbooks
+
+- [Coding Standards](./handbooks/coding-standards.md)
+- [Release Versioning](./handbooks/release.md)

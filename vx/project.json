@@ -160,9 +160,9 @@
       "options": {
         "commands": [
           { "command": "nx run @vx:@vx-ci/build", "forwardAllArgs": false },
-          "tsx vx/tools/release.ts"
+          "tsx vx/tools/release/index.ts"
         ],
-        "// commands": ["tsx vx/tools/release.ts -d --fr"],
+        "// commands": ["tsx vx/tools/release/index.ts -d --fr"],
         "parallel": false
       }
     },

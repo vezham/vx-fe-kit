@@ -23,117 +23,117 @@ export const vxMetadata = {
     title: 'Vezham Playground',
     capable: true,
     touchIcon:
-      'https://static.cdn.vezham.com/apps_internals/playground/icons/icon-512x512.png?vx=1.0.5',
+      'https://static.cdn.vezham.com/apps_internals/playground/icons/icon-512x512.png?vx=26.0.0-alpha.1',
     startupImages: [
       {
         media:
           '(prefers-color-scheme: light) and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)',
-        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-iphone5.png?vx=1.0.5'
+        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-iphone5.png?vx=26.0.0-alpha.1'
       },
       {
         media:
           '(prefers-color-scheme: light) and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)',
-        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-iphone6.png?vx=1.0.5'
+        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-iphone6.png?vx=26.0.0-alpha.1'
       },
       {
         media:
           '(prefers-color-scheme: light) and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)',
-        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-iphonex.png?vx=1.0.5'
+        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-iphonex.png?vx=26.0.0-alpha.1'
       },
       {
         media:
           '(prefers-color-scheme: light) and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)',
-        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-iphonexr.png?vx=1.0.5'
+        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-iphonexr.png?vx=26.0.0-alpha.1'
       },
       {
         media:
           '(prefers-color-scheme: light) and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)',
-        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-iphonexsmax.png?vx=1.0.5'
+        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-iphonexsmax.png?vx=26.0.0-alpha.1'
       },
       {
         media:
           '(prefers-color-scheme: light) and (device-width: 621px) and (device-height: 1104px) and (-webkit-device-pixel-ratio: 3)',
-        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-iphoneplus.png?vx=1.0.5'
+        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-iphoneplus.png?vx=26.0.0-alpha.1'
       },
       {
         media:
           '(prefers-color-scheme: light) and (device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)',
-        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-ipad.png?vx=1.0.5'
+        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-ipad.png?vx=26.0.0-alpha.1'
       },
       {
         media:
           '(prefers-color-scheme: light) and (device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2)',
-        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-ipadpro1.png?vx=1.0.5'
+        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-ipadpro1.png?vx=26.0.0-alpha.1'
       },
       {
         media:
           '(prefers-color-scheme: light) and (device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)',
-        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-ipadpro3.png?vx=1.0.5'
+        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-ipadpro3.png?vx=26.0.0-alpha.1'
       },
       {
         media:
           '(prefers-color-scheme: light) and (device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)',
-        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-ipadpro2.png?vx=1.0.5'
+        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-ipadpro2.png?vx=26.0.0-alpha.1'
       },
       {
         media:
           '(prefers-color-scheme: dark) and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)',
-        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-iphone5.png?vx=1.0.5'
+        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-iphone5.png?vx=26.0.0-alpha.1'
       },
       {
         media:
           '(prefers-color-scheme: dark) and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)',
-        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-iphone6.png?vx=1.0.5'
+        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-iphone6.png?vx=26.0.0-alpha.1'
       },
       {
         media:
           '(prefers-color-scheme: dark) and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)',
-        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-iphonex.png?vx=1.0.5'
+        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-iphonex.png?vx=26.0.0-alpha.1'
       },
       {
         media:
           '(prefers-color-scheme: dark) and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)',
-        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-iphonexr.png?vx=1.0.5'
+        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-iphonexr.png?vx=26.0.0-alpha.1'
       },
       {
         media:
           '(prefers-color-scheme: dark) and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)',
-        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-iphonexsmax.png?vx=1.0.5'
+        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-iphonexsmax.png?vx=26.0.0-alpha.1'
       },
       {
         media:
           '(prefers-color-scheme: dark) and (device-width: 621px) and (device-height: 1104px) and (-webkit-device-pixel-ratio: 3)',
-        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-iphoneplus.png?vx=1.0.5'
+        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-iphoneplus.png?vx=26.0.0-alpha.1'
       },
       {
         media:
           '(prefers-color-scheme: dark) and (device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)',
-        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-ipad.png?vx=1.0.5'
+        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-ipad.png?vx=26.0.0-alpha.1'
       },
       {
         media:
           '(prefers-color-scheme: dark) and (device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2)',
-        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-ipadpro1.png?vx=1.0.5'
+        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-ipadpro1.png?vx=26.0.0-alpha.1'
       },
       {
         media:
           '(prefers-color-scheme: dark) and (device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)',
-        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-ipadpro3.png?vx=1.0.5'
+        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-ipadpro3.png?vx=26.0.0-alpha.1'
       },
       {
         media:
           '(prefers-color-scheme: dark) and (device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)',
-        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-ipadpro2.png?vx=1.0.5'
+        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-ipadpro2.png?vx=26.0.0-alpha.1'
       }
     ]
   },
   icons: {
     faviconLight:
-      'https://static.cdn.vezham.com/apps_internals/playground/favicon-light.png?vx=1.0.5',
+      'https://static.cdn.vezham.com/apps_internals/playground/favicon-light.png?vx=26.0.0-alpha.1',
     faviconDark:
-      'https://static.cdn.vezham.com/apps_internals/playground/favicon-dark.png?vx=1.0.5',
+      'https://static.cdn.vezham.com/apps_internals/playground/favicon-dark.png?vx=26.0.0-alpha.1',
     maskIcon:
-      'https://static.cdn.vezham.com/apps_internals/playground/safari-pinned-tab.svg?vx=1.0.5'
+      'https://static.cdn.vezham.com/apps_internals/playground/safari-pinned-tab.svg?vx=26.0.0-alpha.1'
   },
   microsoft: {
     applicationName: 'Vezham Playground',
@@ -145,7 +145,7 @@ export const vxMetadata = {
     title: 'Vezham Playground',
     description: 'single app to manage your Vezham Playground',
     image:
-      'https://static.cdn.vezham.com/apps_internals/playground/icons/icon-512x512.png?vx=1.0.5',
+      'https://static.cdn.vezham.com/apps_internals/playground/icons/icon-512x512.png?vx=26.0.0-alpha.1',
     url: 'https://playground.vezham.app'
   },
   twitter: {
@@ -154,7 +154,7 @@ export const vxMetadata = {
     title: 'Vezham Playground',
     description: 'single app to manage your Vezham Playground',
     image:
-      'https://static.cdn.vezham.com/apps_internals/playground/icons/icon-512x512.png?vx=1.0.5',
+      'https://static.cdn.vezham.com/apps_internals/playground/icons/icon-512x512.png?vx=26.0.0-alpha.1',
     url: 'https://playground.vezham.app',
     card: 'summary_large_image'
   }
@@ -244,7 +244,7 @@ export const tanstackHead = {
     {
       property: 'og:image',
       content:
-        'https://static.cdn.vezham.com/apps_internals/playground/icons/icon-512x512.png?vx=1.0.5'
+        'https://static.cdn.vezham.com/apps_internals/playground/icons/icon-512x512.png?vx=26.0.0-alpha.1'
     },
     {
       property: 'og:url',
@@ -269,7 +269,7 @@ export const tanstackHead = {
     {
       name: 'twitter:image',
       content:
-        'https://static.cdn.vezham.com/apps_internals/playground/icons/icon-512x512.png?vx=1.0.5'
+        'https://static.cdn.vezham.com/apps_internals/playground/icons/icon-512x512.png?vx=26.0.0-alpha.1'
     },
     {
       name: 'twitter:url',
@@ -289,183 +289,183 @@ export const tanstackHead = {
       rel: 'icon',
       type: 'image/x-icon',
       media: '(prefers-color-scheme: light)',
-      href: 'https://static.cdn.vezham.com/apps_internals/playground/favicon-light.png?vx=1.0.5'
+      href: 'https://static.cdn.vezham.com/apps_internals/playground/favicon-light.png?vx=26.0.0-alpha.1'
     },
     {
       rel: 'icon',
       type: 'image/x-icon',
       media: '(prefers-color-scheme: dark)',
-      href: 'https://static.cdn.vezham.com/apps_internals/playground/favicon-dark.png?vx=1.0.5'
+      href: 'https://static.cdn.vezham.com/apps_internals/playground/favicon-dark.png?vx=26.0.0-alpha.1'
     },
     {
       rel: 'icon',
       media: '(prefers-color-scheme: light)',
-      href: 'https://static.cdn.vezham.com/apps_internals/playground/favicon-light.png?vx=1.0.5'
+      href: 'https://static.cdn.vezham.com/apps_internals/playground/favicon-light.png?vx=26.0.0-alpha.1'
     },
     {
       rel: 'icon',
       media: '(prefers-color-scheme: dark)',
-      href: 'https://static.cdn.vezham.com/apps_internals/playground/favicon-dark.png?vx=1.0.5'
+      href: 'https://static.cdn.vezham.com/apps_internals/playground/favicon-dark.png?vx=26.0.0-alpha.1'
     },
     {
       rel: 'icon',
       type: 'image/svg+xml',
       media: '(prefers-color-scheme: light)',
-      href: 'https://static.cdn.vezham.com/apps_internals/playground/safari-pinned-tab.svg?vx=1.0.5',
+      href: 'https://static.cdn.vezham.com/apps_internals/playground/safari-pinned-tab.svg?vx=26.0.0-alpha.1',
       color: 'black'
     },
     {
       rel: 'icon',
       type: 'image/svg+xml',
       media: '(prefers-color-scheme: dark)',
-      href: 'https://static.cdn.vezham.com/apps_internals/playground/safari-pinned-tab.svg?vx=1.0.5',
+      href: 'https://static.cdn.vezham.com/apps_internals/playground/safari-pinned-tab.svg?vx=26.0.0-alpha.1',
       color: 'white'
     },
     {
       rel: 'shortcut icon',
       media: '(prefers-color-scheme: light)',
-      href: 'https://static.cdn.vezham.com/apps_internals/playground/favicon-light.png?vx=1.0.5'
+      href: 'https://static.cdn.vezham.com/apps_internals/playground/favicon-light.png?vx=26.0.0-alpha.1'
     },
     {
       rel: 'shortcut icon',
       media: '(prefers-color-scheme: dark)',
-      href: 'https://static.cdn.vezham.com/apps_internals/playground/favicon-dark.png?vx=1.0.5'
+      href: 'https://static.cdn.vezham.com/apps_internals/playground/favicon-dark.png?vx=26.0.0-alpha.1'
     },
     {
       rel: 'mask-icon',
       media: '(prefers-color-scheme: light)',
-      href: 'https://static.cdn.vezham.com/apps_internals/playground/safari-pinned-tab.svg?vx=1.0.5',
+      href: 'https://static.cdn.vezham.com/apps_internals/playground/safari-pinned-tab.svg?vx=26.0.0-alpha.1',
       color: 'black'
     },
     {
       rel: 'mask-icon',
       media: '(prefers-color-scheme: dark)',
-      href: 'https://static.cdn.vezham.com/apps_internals/playground/safari-pinned-tab.svg?vx=1.0.5',
+      href: 'https://static.cdn.vezham.com/apps_internals/playground/safari-pinned-tab.svg?vx=26.0.0-alpha.1',
       color: 'white'
     },
     {
       rel: 'apple-touch-icon',
-      href: 'https://static.cdn.vezham.com/apps_internals/playground/icons/icon-512x512.png?vx=1.0.5'
+      href: 'https://static.cdn.vezham.com/apps_internals/playground/icons/icon-512x512.png?vx=26.0.0-alpha.1'
     },
     {
       rel: 'apple-touch-startup-image',
       media:
         '(prefers-color-scheme: light) and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)',
-      href: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-iphone5.png?vx=1.0.5'
+      href: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-iphone5.png?vx=26.0.0-alpha.1'
     },
     {
       rel: 'apple-touch-startup-image',
       media:
         '(prefers-color-scheme: light) and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)',
-      href: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-iphone6.png?vx=1.0.5'
+      href: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-iphone6.png?vx=26.0.0-alpha.1'
     },
     {
       rel: 'apple-touch-startup-image',
       media:
         '(prefers-color-scheme: light) and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)',
-      href: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-iphonex.png?vx=1.0.5'
+      href: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-iphonex.png?vx=26.0.0-alpha.1'
     },
     {
       rel: 'apple-touch-startup-image',
       media:
         '(prefers-color-scheme: light) and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)',
-      href: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-iphonexr.png?vx=1.0.5'
+      href: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-iphonexr.png?vx=26.0.0-alpha.1'
     },
     {
       rel: 'apple-touch-startup-image',
       media:
         '(prefers-color-scheme: light) and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)',
-      href: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-iphonexsmax.png?vx=1.0.5'
+      href: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-iphonexsmax.png?vx=26.0.0-alpha.1'
     },
     {
       rel: 'apple-touch-startup-image',
       media:
         '(prefers-color-scheme: light) and (device-width: 621px) and (device-height: 1104px) and (-webkit-device-pixel-ratio: 3)',
-      href: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-iphoneplus.png?vx=1.0.5'
+      href: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-iphoneplus.png?vx=26.0.0-alpha.1'
     },
     {
       rel: 'apple-touch-startup-image',
       media:
         '(prefers-color-scheme: light) and (device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)',
-      href: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-ipad.png?vx=1.0.5'
+      href: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-ipad.png?vx=26.0.0-alpha.1'
     },
     {
       rel: 'apple-touch-startup-image',
       media:
         '(prefers-color-scheme: light) and (device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2)',
-      href: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-ipadpro1.png?vx=1.0.5'
+      href: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-ipadpro1.png?vx=26.0.0-alpha.1'
     },
     {
       rel: 'apple-touch-startup-image',
       media:
         '(prefers-color-scheme: light) and (device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)',
-      href: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-ipadpro3.png?vx=1.0.5'
+      href: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-ipadpro3.png?vx=26.0.0-alpha.1'
     },
     {
       rel: 'apple-touch-startup-image',
       media:
         '(prefers-color-scheme: light) and (device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)',
-      href: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-ipadpro2.png?vx=1.0.5'
+      href: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-ipadpro2.png?vx=26.0.0-alpha.1'
     },
     {
       rel: 'apple-touch-startup-image',
       media:
         '(prefers-color-scheme: dark) and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)',
-      href: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-iphone5.png?vx=1.0.5'
+      href: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-iphone5.png?vx=26.0.0-alpha.1'
     },
     {
       rel: 'apple-touch-startup-image',
       media:
         '(prefers-color-scheme: dark) and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)',
-      href: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-iphone6.png?vx=1.0.5'
+      href: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-iphone6.png?vx=26.0.0-alpha.1'
     },
     {
       rel: 'apple-touch-startup-image',
       media:
         '(prefers-color-scheme: dark) and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)',
-      href: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-iphonex.png?vx=1.0.5'
+      href: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-iphonex.png?vx=26.0.0-alpha.1'
     },
     {
       rel: 'apple-touch-startup-image',
       media:
         '(prefers-color-scheme: dark) and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)',
-      href: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-iphonexr.png?vx=1.0.5'
+      href: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-iphonexr.png?vx=26.0.0-alpha.1'
     },
     {
       rel: 'apple-touch-startup-image',
       media:
         '(prefers-color-scheme: dark) and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)',
-      href: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-iphonexsmax.png?vx=1.0.5'
+      href: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-iphonexsmax.png?vx=26.0.0-alpha.1'
     },
     {
       rel: 'apple-touch-startup-image',
       media:
         '(prefers-color-scheme: dark) and (device-width: 621px) and (device-height: 1104px) and (-webkit-device-pixel-ratio: 3)',
-      href: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-iphoneplus.png?vx=1.0.5'
+      href: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-iphoneplus.png?vx=26.0.0-alpha.1'
     },
     {
       rel: 'apple-touch-startup-image',
       media:
         '(prefers-color-scheme: dark) and (device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)',
-      href: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-ipad.png?vx=1.0.5'
+      href: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-ipad.png?vx=26.0.0-alpha.1'
     },
     {
       rel: 'apple-touch-startup-image',
       media:
         '(prefers-color-scheme: dark) and (device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2)',
-      href: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-ipadpro1.png?vx=1.0.5'
+      href: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-ipadpro1.png?vx=26.0.0-alpha.1'
     },
     {
       rel: 'apple-touch-startup-image',
       media:
         '(prefers-color-scheme: dark) and (device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)',
-      href: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-ipadpro3.png?vx=1.0.5'
+      href: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-ipadpro3.png?vx=26.0.0-alpha.1'
     },
     {
       rel: 'apple-touch-startup-image',
       media:
         '(prefers-color-scheme: dark) and (device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)',
-      href: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-ipadpro2.png?vx=1.0.5'
+      href: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-ipadpro2.png?vx=26.0.0-alpha.1'
     }
   ]
 }
@@ -486,23 +486,23 @@ export const nextMetadata = {
   icons: {
     icon: [
       {
-        url: 'https://static.cdn.vezham.com/apps_internals/playground/favicon-light.png?vx=1.0.5',
+        url: 'https://static.cdn.vezham.com/apps_internals/playground/favicon-light.png?vx=26.0.0-alpha.1',
         type: 'image/x-icon',
         media: '(prefers-color-scheme: light)'
       },
       {
-        url: 'https://static.cdn.vezham.com/apps_internals/playground/favicon-dark.png?vx=1.0.5',
+        url: 'https://static.cdn.vezham.com/apps_internals/playground/favicon-dark.png?vx=26.0.0-alpha.1',
         type: 'image/x-icon',
         media: '(prefers-color-scheme: dark)'
       },
       {
-        url: 'https://static.cdn.vezham.com/apps_internals/playground/safari-pinned-tab.svg?vx=1.0.5',
+        url: 'https://static.cdn.vezham.com/apps_internals/playground/safari-pinned-tab.svg?vx=26.0.0-alpha.1',
         type: 'image/svg+xml',
         media: '(prefers-color-scheme: light)',
         color: 'black'
       },
       {
-        url: 'https://static.cdn.vezham.com/apps_internals/playground/safari-pinned-tab.svg?vx=1.0.5',
+        url: 'https://static.cdn.vezham.com/apps_internals/playground/safari-pinned-tab.svg?vx=26.0.0-alpha.1',
         type: 'image/svg+xml',
         media: '(prefers-color-scheme: dark)',
         color: 'white'
@@ -510,29 +510,29 @@ export const nextMetadata = {
     ],
     shortcut: [
       {
-        url: 'https://static.cdn.vezham.com/apps_internals/playground/favicon-light.png?vx=1.0.5',
+        url: 'https://static.cdn.vezham.com/apps_internals/playground/favicon-light.png?vx=26.0.0-alpha.1',
         media: '(prefers-color-scheme: light)'
       },
       {
-        url: 'https://static.cdn.vezham.com/apps_internals/playground/favicon-dark.png?vx=1.0.5',
+        url: 'https://static.cdn.vezham.com/apps_internals/playground/favicon-dark.png?vx=26.0.0-alpha.1',
         media: '(prefers-color-scheme: dark)'
       }
     ],
     apple: [
       {
-        url: 'https://static.cdn.vezham.com/apps_internals/playground/icons/icon-512x512.png?vx=1.0.5'
+        url: 'https://static.cdn.vezham.com/apps_internals/playground/icons/icon-512x512.png?vx=26.0.0-alpha.1'
       }
     ],
     other: [
       {
         rel: 'mask-icon',
-        url: 'https://static.cdn.vezham.com/apps_internals/playground/safari-pinned-tab.svg?vx=1.0.5',
+        url: 'https://static.cdn.vezham.com/apps_internals/playground/safari-pinned-tab.svg?vx=26.0.0-alpha.1',
         media: '(prefers-color-scheme: light)',
         color: 'black'
       },
       {
         rel: 'mask-icon',
-        url: 'https://static.cdn.vezham.com/apps_internals/playground/safari-pinned-tab.svg?vx=1.0.5',
+        url: 'https://static.cdn.vezham.com/apps_internals/playground/safari-pinned-tab.svg?vx=26.0.0-alpha.1',
         media: '(prefers-color-scheme: dark)',
         color: 'white'
       }
@@ -545,102 +545,102 @@ export const nextMetadata = {
       {
         media:
           '(prefers-color-scheme: light) and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)',
-        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-iphone5.png?vx=1.0.5'
+        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-iphone5.png?vx=26.0.0-alpha.1'
       },
       {
         media:
           '(prefers-color-scheme: light) and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)',
-        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-iphone6.png?vx=1.0.5'
+        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-iphone6.png?vx=26.0.0-alpha.1'
       },
       {
         media:
           '(prefers-color-scheme: light) and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)',
-        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-iphonex.png?vx=1.0.5'
+        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-iphonex.png?vx=26.0.0-alpha.1'
       },
       {
         media:
           '(prefers-color-scheme: light) and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)',
-        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-iphonexr.png?vx=1.0.5'
+        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-iphonexr.png?vx=26.0.0-alpha.1'
       },
       {
         media:
           '(prefers-color-scheme: light) and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)',
-        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-iphonexsmax.png?vx=1.0.5'
+        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-iphonexsmax.png?vx=26.0.0-alpha.1'
       },
       {
         media:
           '(prefers-color-scheme: light) and (device-width: 621px) and (device-height: 1104px) and (-webkit-device-pixel-ratio: 3)',
-        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-iphoneplus.png?vx=1.0.5'
+        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-iphoneplus.png?vx=26.0.0-alpha.1'
       },
       {
         media:
           '(prefers-color-scheme: light) and (device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)',
-        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-ipad.png?vx=1.0.5'
+        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-ipad.png?vx=26.0.0-alpha.1'
       },
       {
         media:
           '(prefers-color-scheme: light) and (device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2)',
-        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-ipadpro1.png?vx=1.0.5'
+        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-ipadpro1.png?vx=26.0.0-alpha.1'
       },
       {
         media:
           '(prefers-color-scheme: light) and (device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)',
-        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-ipadpro3.png?vx=1.0.5'
+        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-ipadpro3.png?vx=26.0.0-alpha.1'
       },
       {
         media:
           '(prefers-color-scheme: light) and (device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)',
-        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-ipadpro2.png?vx=1.0.5'
+        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/light/splash-ipadpro2.png?vx=26.0.0-alpha.1'
       },
       {
         media:
           '(prefers-color-scheme: dark) and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)',
-        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-iphone5.png?vx=1.0.5'
+        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-iphone5.png?vx=26.0.0-alpha.1'
       },
       {
         media:
           '(prefers-color-scheme: dark) and (device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)',
-        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-iphone6.png?vx=1.0.5'
+        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-iphone6.png?vx=26.0.0-alpha.1'
       },
       {
         media:
           '(prefers-color-scheme: dark) and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)',
-        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-iphonex.png?vx=1.0.5'
+        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-iphonex.png?vx=26.0.0-alpha.1'
       },
       {
         media:
           '(prefers-color-scheme: dark) and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)',
-        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-iphonexr.png?vx=1.0.5'
+        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-iphonexr.png?vx=26.0.0-alpha.1'
       },
       {
         media:
           '(prefers-color-scheme: dark) and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)',
-        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-iphonexsmax.png?vx=1.0.5'
+        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-iphonexsmax.png?vx=26.0.0-alpha.1'
       },
       {
         media:
           '(prefers-color-scheme: dark) and (device-width: 621px) and (device-height: 1104px) and (-webkit-device-pixel-ratio: 3)',
-        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-iphoneplus.png?vx=1.0.5'
+        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-iphoneplus.png?vx=26.0.0-alpha.1'
       },
       {
         media:
           '(prefers-color-scheme: dark) and (device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)',
-        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-ipad.png?vx=1.0.5'
+        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-ipad.png?vx=26.0.0-alpha.1'
       },
       {
         media:
           '(prefers-color-scheme: dark) and (device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2)',
-        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-ipadpro1.png?vx=1.0.5'
+        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-ipadpro1.png?vx=26.0.0-alpha.1'
       },
       {
         media:
           '(prefers-color-scheme: dark) and (device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)',
-        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-ipadpro3.png?vx=1.0.5'
+        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-ipadpro3.png?vx=26.0.0-alpha.1'
       },
       {
         media:
           '(prefers-color-scheme: dark) and (device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)',
-        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-ipadpro2.png?vx=1.0.5'
+        url: 'https://static.cdn.vezham.com/apps_internals/playground/splashscreens/dark/splash-ipadpro2.png?vx=26.0.0-alpha.1'
       }
     ]
   },
@@ -649,7 +649,7 @@ export const nextMetadata = {
     title: 'Vezham Playground',
     description: 'single app to manage your Vezham Playground',
     images: [
-      'https://static.cdn.vezham.com/apps_internals/playground/icons/icon-512x512.png?vx=1.0.5'
+      'https://static.cdn.vezham.com/apps_internals/playground/icons/icon-512x512.png?vx=26.0.0-alpha.1'
     ],
     url: 'https://playground.vezham.app'
   },
@@ -659,7 +659,7 @@ export const nextMetadata = {
     title: 'Vezham Playground',
     description: 'single app to manage your Vezham Playground',
     images: [
-      'https://static.cdn.vezham.com/apps_internals/playground/icons/icon-512x512.png?vx=1.0.5'
+      'https://static.cdn.vezham.com/apps_internals/playground/icons/icon-512x512.png?vx=26.0.0-alpha.1'
     ],
     card: 'summary_large_image'
   },

@@ -133,7 +133,8 @@
         "{projectRoot}/public/sw.js",
         "{projectRoot}/public/offline.html",
         "{projectRoot}/public/api/hello.json",
-        "{projectRoot}/src/generated/vx.ts"
+        "{projectRoot}/src/generated/vx.ts",
+        "{projectRoot}/.env"
       ],
       "options": {
         "cwd": "{workspaceRoot}",
@@ -196,7 +197,8 @@
     "projects": ["*", "!@vx/fe-kit"],
     "version": {
       "preVersionCommand": "pnpm dlx nx run-many -t build",
-      "conventionalCommits": true
+      "conventionalCommits": true,
+      "versionActions": "./vx/tools/release/version-actions.cjs"
     },
     "conventionalCommits": {
       "types": {
@@ -206,45 +208,24 @@
         "fix": {
           "semverBump": "patch"
         },
-        "refactor": {
-          "semverBump": "patch"
-        },
-        "mocks": {
-          "semverBump": "patch"
-        },
-        "stories": {
-          "semverBump": "patch"
-        },
-        "test": {
-          "semverBump": "patch"
-        },
-        "docs": {
-          "semverBump": "patch"
-        },
-        "i18n": {
-          "semverBump": "patch"
-        },
-        "ci": {
-          "semverBump": "patch"
-        },
-        "chore": {
-          "semverBump": "patch"
-        },
+        "refactor": true,
+        "mocks": true,
+        "stories": true,
+        "test": true,
+        "docs": true,
+        "i18n": true,
+        "ci": true,
+        "chore": true,
+        "deps": true,
         "build": {
           "semverBump": "none"
         },
         "release": {
           "semverBump": "none"
         },
-        "style": {
-          "semverBump": "patch"
-        },
-        "perf": {
-          "semverBump": "patch"
-        },
-        "revert": {
-          "semverBump": "patch"
-        }
+        "style": true,
+        "perf": true,
+        "revert": true
       }
     },
     "changelog": {

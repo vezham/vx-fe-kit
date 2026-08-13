@@ -15,8 +15,8 @@ const types = [
   'deps',
   'release',
   'i18n',
-  'mocks'
-  // 'stories',
+  'mocks',
+  'stories'
 ]
 
 module.exports = async () => {
