@@ -6,6 +6,7 @@ type Props = {
   V_IS_QA?: string
   V_IS_PREVIEW?: string
 
+  V_APP_ID?: string
   V_APP_NAME?: string
   V_APP_VER?: string
 
@@ -26,7 +27,8 @@ export const createEnv = (__ENV__: Partial<Props>) => {
   const __PRODUCTION__ = __ENV__.MODE === 'production'
 
   // @vx/NOTE: app config
-  const APP_NAME = __ENV__.V_APP_NAME || 'vx-app'
+  const APP_ID = __ENV__.V_APP_ID || 'vx-app'
+  const APP_NAME = __ENV__.V_APP_NAME || 'VX App'
   const APP_VER = __ENV__.V_APP_VER || '1.0.0.alpha'
 
   // @vx/NOTE: app config By env
@@ -48,6 +50,7 @@ export const createEnv = (__ENV__: Partial<Props>) => {
     __PRODUCTION__,
 
     // @vx/app
+    APP_ID,
     APP_NAME,
     APP_VER,
 

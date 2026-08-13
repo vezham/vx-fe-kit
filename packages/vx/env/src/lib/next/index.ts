@@ -12,6 +12,7 @@ export const {
   __PREVIEW__,
   __PRODUCTION__,
 
+  APP_ID,
   APP_NAME,
   APP_VER,
 

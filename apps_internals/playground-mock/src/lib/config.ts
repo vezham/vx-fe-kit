@@ -10,7 +10,7 @@ interface Server {
   hostname: string
   port: number
   // PRE_PORT
-  app_name: string
+  app_id: string
   debug: boolean
   // beta: boolean
   cors_origin: string
@@ -27,7 +27,7 @@ const defineConfig = (): Server => {
       ? 'localhost'
       : validateHost(process.env.HOST_NAME, 'localhost'),
     port: parsePort(process.env.PORT, 3030), // PRE_PORT
-    app_name: process.env.V_APP_NAME || 'vx-app-mock',
+    app_id: process.env.V_APP_ID || 'vx-app-mock',
     debug: process.env.V_IS_DEBUG === 'true',
     // beta: process.env.V_IS_BETA === 'true',
     cors_origin: process.env.V_CORS_ORIGIN || '*',
@@ -66,7 +66,7 @@ const validateConfig = async (config: Server): Promise<void> => {
 const defineLog = (config: Server) => {
   // const __DEV__ = process.env.MODE === 'development'
   defineLogger({
-    APP_NAME: config.app_name,
+    APP_NAME: config.app_id,
     __DEBUG__: config.debug,
     __DEV__: config.debug
   })
@@ -81,7 +81,7 @@ const defineLog = (config: Server) => {
   useLogger.log(NAMESPACE, '📋 Server Configuration:')
   useLogger.log(NAMESPACE, `   Host: ${config.hostname}`)
   useLogger.log(NAMESPACE, `   Port: ${config.port}`)
-  useLogger.log(NAMESPACE, `   App Name: ${config.app_name}`)
+  useLogger.log(NAMESPACE, `   App ID: ${config.app_id}`)
   useLogger.log(NAMESPACE, `   Debug: ${config.debug}`)
   useLogger.log(NAMESPACE, `   CORS Origin: ${config.cors_origin}`)
   useLogger.log(NAMESPACE, `   @data/routes: ${config.data_routes}`)

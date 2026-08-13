@@ -395,7 +395,7 @@ server.get('/health', (_, res) => {
   res.json({
     status: true,
     timestamp: new Date().toISOString(),
-    name: config.app_name,
+    name: config.app_id,
     version: '1.0.0',
     routes: Object.keys(data_routes).length,
     database,
@@ -413,7 +413,7 @@ server.get('/config', (_, res) => {
   res.json({
     status: true,
     timestamp: new Date().toISOString(),
-    name: config.app_name,
+    name: config.app_id,
     version: '0.0.1'
   })
 })
