@@ -18,6 +18,7 @@ const ignores = [
   '**/.nx',
   '**/lint-staged.config.cjs',
   '**/routeTree.gen.ts',
+  '**/src/generated/**',
   '**/vite.config.*.timestamp*',
   '**/vitest.config.*.timestamp*'
 ]
