@@ -114,6 +114,11 @@ export default ({ onClick }: Props) => {
         <Link.Icon />
       </Link>
 
+      <Link href="/hello-world">
+        Hello World :|
+        <Link.Icon />
+      </Link>
+
       <Separator />
 
       <EmptyState />

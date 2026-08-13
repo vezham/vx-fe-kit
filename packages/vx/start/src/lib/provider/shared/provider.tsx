@@ -47,7 +47,15 @@ const createProvider = ({ env, renderDevtools }: CreateProviderProps) => {
     let template = (
       <>
         <VezhamProvider>
-          {/* data-vx-app-name, data-vx-app-env, data-vx-app-framework */}
+          {/* wjdlz/NOTE: 
+            data-vx-app="mail"
+            data-vx-app-name="Vezham Mail"
+            data-vx-app-version="1.0.0"
+            data-vx-app-env="development"
+            data-vx-app-framework="vite"
+
+            TODO: data-vx-app-name, data-vx-app-env, data-vx-app-framework 
+          */}
           <div data-vx-app-version={version} className={classList}>
             {children}
           </div>
