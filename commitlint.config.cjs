@@ -27,6 +27,7 @@ module.exports = async () => {
   const scopes = [
     'workspace',
     'repo',
+    'agents',
     ...Array.from(
       new Set(
         Object.keys(graph.nodes).map(name => name.replace(/^@[^/]+\//, ''))
