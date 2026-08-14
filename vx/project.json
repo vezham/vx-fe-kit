@@ -12,10 +12,10 @@
       "command": "pnpm dlx heroui-pro@latest login"
     },
     "@hui-pro/install": {
-      "command": "pnpm dlx heroui-pro@latest install"
+      "command": "npm_config_ignore_workspace_root_check=true pnpm dlx heroui-pro@latest install"
     },
     "@hui-pro/upgrade": {
-      "command": "pnpm dlx heroui-pro@latest"
+      "command": "npm_config_ignore_workspace_root_check=true pnpm dlx heroui-pro@latest"
     },
     "@vx-ws/clean": {
       "executor": "nx:run-commands",

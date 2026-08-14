@@ -40,6 +40,12 @@
     },
     {
       "path": "./packages/vx/config"
+    },
+    {
+      "path": "./apps_internals/play-docs-e2e"
+    },
+    {
+      "path": "./apps_internals/play-docs"
     }
   ],
   "compilerOptions": {
