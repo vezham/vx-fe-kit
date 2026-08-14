@@ -1,0 +1,10 @@
+{
+  "name": "play-docs-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps_internals/play-docs-e2e/src",
+  "tags": ["category:internal", "e2e"],
+  "implicitDependencies": ["play-docs"],
+  "// targets": "to see all targets run: nx show project play-docs-e2e --web",
+  "targets": {}
+}
