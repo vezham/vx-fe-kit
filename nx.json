@@ -132,6 +132,7 @@
         "{projectRoot}/public/sw.js",
         "{projectRoot}/public/offline.html",
         "{projectRoot}/public/api/hello.json",
+        "{projectRoot}/index.html",
         "{projectRoot}/src/generated/vx.ts",
         "{projectRoot}/.env"
       ],
