@@ -28,7 +28,7 @@ export const createEnv = (__ENV__: Partial<Props>) => {
 
   // @vx/NOTE: app config
   const APP_ID = __ENV__.V_APP_ID || 'vx-app'
-  const APP_NAME = __ENV__.V_APP_NAME || 'VX App'
+  const APP_NAME = __ENV__.V_APP_NAME || 'Vx App'
   const APP_VER = __ENV__.V_APP_VER || '1.0.0.alpha'
 
   // @vx/NOTE: app config By env

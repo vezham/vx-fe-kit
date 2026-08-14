@@ -1,6 +1,6 @@
 # Release Versioning
 
-This handbook documents how VX app and package versions are managed.
+This handbook documents how Vx app and package versions are managed.
 
 ## Version Shape
 
@@ -59,8 +59,8 @@ version action:
 That action extends Nx's JavaScript release behavior:
 
 - Nx updates `package.json`.
-- VX additionally updates `vx.config.json` at `core.version` when the project
-  has a VX config file.
+- Vx additionally updates `vx.config.json` at `core.version` when the project
+  has a Vx config file.
 - `metadata:generate` then syncs `.env` keys such as `V_APP_VER` from
   `vx.config.json`.
 

@@ -24,7 +24,7 @@ class VxVersionActions extends JsVersionActions {
 
     return [
       ...logMessages,
-      `✍️  New version ${newVersion} written to VX config: ${vxConfigPath}`
+      `✍️  New version ${newVersion} written to Vx config: ${vxConfigPath}`
     ]
   }
 }
