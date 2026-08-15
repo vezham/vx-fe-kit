@@ -1,16 +1,16 @@
 {
   "$schema": "https://vezham.com/schemas/vx.config.json",
   "core": {
-    "id": "vezham-play-docs",
-    "name": "Vezham Play Docs",
-    "shortName": "Play Docs",
+    "id": "vezham-playground-docs",
+    "name": "Vezham Playground Docs",
+    "shortName": "Playground Docs",
     "version": "26.0.0-alpha.1",
-    "description": "Single app to manage your Vezham Play Docs",
+    "description": "Single app to manage your Vezham Playground Docs",
     "publisher": {
       "name": "Vezham Technologies Private Limited",
       "url": "https://vezham.com"
     },
-    "url": "https://play-docs.vezham.app"
+    "url": "https://playground-docs.vezham.app"
   },
   "branding": {
     "themeColor": "#000000",
@@ -50,8 +50,8 @@
     ]
   },
   "metadata": {
-    "title": "Home | Vezham Play Docs",
-    "keywords": ["Vezham Play Docs"],
+    "title": "Home | Vezham Playground Docs",
+    "keywords": ["Vezham Playground Docs"],
     "theme": {
       "lightColor": "white",
       "darkColor": "black",
