@@ -12,10 +12,10 @@
 ## Usage
 
 ```ts
-// Local workspace toolkit
 // Public packages and global tools
 import { something } from '@vezham/something'
 
+// Local workspace toolkit
 import { defineAppConfig } from '@vx/config/vite'
 import { defineConfig } from '@vx/start/tanstack'
 ```
