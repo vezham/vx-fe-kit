@@ -1,0 +1,40 @@
+{
+  "hosting": {
+    "public": "apps_internals/playground-docs/.output/public",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**",
+      "**/*.d.ts",
+      "**/*.d.ts.map",
+      "**/*.tsbuildinfo"
+    ],
+    "cleanUrls": true,
+    "headers": [
+      {
+        "source": "/assets/**",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public,max-age=31536000,immutable"
+          }
+        ]
+      },
+      {
+        "source": "**/*.@(html|json|txt|md)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public,max-age=300"
+          }
+        ]
+      }
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/_shell.html"
+      }
+    ]
+  }
+}

@@ -1,26 +1,22 @@
-import { Link as VLink, useNavigate } from '@tanstack/react-router'
+import { Link } from '@tanstack/react-router'
+import { HomeLayout } from 'fumadocs-ui/layouts/home'
 
-import { Link } from '@vezham/react-v3'
+import { baseOptions } from '@src/lib/layout.shared'
 
-import { Home } from '@vx/template/pages'
-
-export default () => {
-  const navigate = useNavigate()
-
+export default function Home() {
   return (
-    <>
-      <VLink to="/pro" className="link">
-        FROm Page
-        <Link.Icon />
-      </VLink>
-
-      <Link onPress={() => navigate({ to: '/pro' })}>
-        <Link.Icon />
-        Using HUI :)
-        <Link.Icon />
-      </Link>
-
-      <Home onClick={() => navigate({ to: '/pro' })} />
-    </>
+    <HomeLayout {...baseOptions()}>
+      <div className="flex flex-1 flex-col items-center justify-center text-center">
+        <h1 className="mb-4 text-xl font-medium">Playground Docs</h1>
+        <Link
+          to="/docs/$"
+          params={{
+            _splat: ''
+          }}
+          className="bg-fd-primary text-fd-primary-foreground mx-auto rounded-lg px-3 py-2 text-sm font-medium">
+          Open Docs
+        </Link>
+      </div>
+    </HomeLayout>
   )
 }

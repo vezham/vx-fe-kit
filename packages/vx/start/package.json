@@ -14,6 +14,11 @@
       "import": "./src/lib/provider/tanstack/index.tsx",
       "default": "./src/lib/provider/tanstack/index.tsx"
     },
+    "./tanstack-docs": {
+      "types": "./src/lib/provider/tanstack-docs/index.tsx",
+      "import": "./src/lib/provider/tanstack-docs/index.tsx",
+      "default": "./src/lib/provider/tanstack-docs/index.tsx"
+    },
     "./next": {
       "types": "./src/lib/provider/next/index.tsx",
       "import": "./src/lib/provider/next/index.tsx",
@@ -26,7 +31,9 @@
     }
   },
   "dependencies": {
-    "@vx/template": "workspace:*"
+    "@vx/template": "workspace:*",
+    "fumadocs-core": "latest",
+    "fumadocs-ui": "latest"
   },
   "devDependencies": {
     "@vx/devtools": "workspace:*",

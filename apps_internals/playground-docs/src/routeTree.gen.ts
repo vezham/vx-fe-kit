@@ -12,14 +12,29 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as LlmsFullDottxtRouteImport } from './routes/llms-full[.]txt'
+import { Route as LlmsDottxtRouteImport } from './routes/llms[.]txt'
 import { Route as ApiHeartbeatRouteRouteImport } from './routes/api/heartbeat/route'
 import { Route as ApiPulseRouteRouteImport } from './routes/api/pulse/route'
+import { Route as ApiSearchRouteImport } from './routes/api/search'
+import { Route as DocsSplatRouteImport } from './routes/docs/$'
+import { Route as DocsChar123Char125DotmdRouteImport } from './routes/docs/{$}[.]md'
 
 const ProLazyRouteImport = createFileRoute('/pro')()
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LlmsFullDottxtRoute = LlmsFullDottxtRouteImport.update({
+  id: '/llms-full.txt',
+  path: '/llms-full.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LlmsDottxtRoute = LlmsDottxtRouteImport.update({
+  id: '/llms.txt',
+  path: '/llms.txt',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProLazyRoute = ProLazyRouteImport.update({
@@ -37,39 +52,102 @@ const ApiPulseRouteRoute = ApiPulseRouteRouteImport.update({
   path: '/api/pulse',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiSearchRoute = ApiSearchRouteImport.update({
+  id: '/api/search',
+  path: '/api/search',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DocsSplatRoute = DocsSplatRouteImport.update({
+  id: '/docs/$',
+  path: '/docs/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DocsChar123Char125DotmdRoute = DocsChar123Char125DotmdRouteImport.update({
+  id: '/docs/{$}.md',
+  path: '/docs/{$}.md',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/llms-full.txt': typeof LlmsFullDottxtRoute
+  '/llms.txt': typeof LlmsDottxtRoute
   '/pro': typeof ProLazyRoute
   '/api/heartbeat': typeof ApiHeartbeatRouteRoute
   '/api/pulse': typeof ApiPulseRouteRoute
+  '/api/search': typeof ApiSearchRoute
+  '/docs/$': typeof DocsSplatRoute
+  '/docs/{$}.md': typeof DocsChar123Char125DotmdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/llms-full.txt': typeof LlmsFullDottxtRoute
+  '/llms.txt': typeof LlmsDottxtRoute
   '/pro': typeof ProLazyRoute
   '/api/heartbeat': typeof ApiHeartbeatRouteRoute
   '/api/pulse': typeof ApiPulseRouteRoute
+  '/api/search': typeof ApiSearchRoute
+  '/docs/$': typeof DocsSplatRoute
+  '/docs/{$}.md': typeof DocsChar123Char125DotmdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/llms-full.txt': typeof LlmsFullDottxtRoute
+  '/llms.txt': typeof LlmsDottxtRoute
   '/pro': typeof ProLazyRoute
   '/api/heartbeat': typeof ApiHeartbeatRouteRoute
   '/api/pulse': typeof ApiPulseRouteRoute
+  '/api/search': typeof ApiSearchRoute
+  '/docs/$': typeof DocsSplatRoute
+  '/docs/{$}.md': typeof DocsChar123Char125DotmdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/pro' | '/api/heartbeat' | '/api/pulse'
+  fullPaths:
+    | '/'
+    | '/llms-full.txt'
+    | '/llms.txt'
+    | '/pro'
+    | '/api/heartbeat'
+    | '/api/pulse'
+    | '/api/search'
+    | '/docs/$'
+    | '/docs/{$}.md'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/pro' | '/api/heartbeat' | '/api/pulse'
-  id: '__root__' | '/' | '/pro' | '/api/heartbeat' | '/api/pulse'
+  to:
+    | '/'
+    | '/llms-full.txt'
+    | '/llms.txt'
+    | '/pro'
+    | '/api/heartbeat'
+    | '/api/pulse'
+    | '/api/search'
+    | '/docs/$'
+    | '/docs/{$}.md'
+  id:
+    | '__root__'
+    | '/'
+    | '/llms-full.txt'
+    | '/llms.txt'
+    | '/pro'
+    | '/api/heartbeat'
+    | '/api/pulse'
+    | '/api/search'
+    | '/docs/$'
+    | '/docs/{$}.md'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  LlmsFullDottxtRoute: typeof LlmsFullDottxtRoute
+  LlmsDottxtRoute: typeof LlmsDottxtRoute
   ProLazyRoute: typeof ProLazyRoute
   ApiHeartbeatRouteRoute: typeof ApiHeartbeatRouteRoute
   ApiPulseRouteRoute: typeof ApiPulseRouteRoute
+  ApiSearchRoute: typeof ApiSearchRoute
+  DocsSplatRoute: typeof DocsSplatRoute
+  DocsChar123Char125DotmdRoute: typeof DocsChar123Char125DotmdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -79,6 +157,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/llms-full.txt': {
+      id: '/llms-full.txt'
+      path: '/llms-full.txt'
+      fullPath: '/llms-full.txt'
+      preLoaderRoute: typeof LlmsFullDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/llms.txt': {
+      id: '/llms.txt'
+      path: '/llms.txt'
+      fullPath: '/llms.txt'
+      preLoaderRoute: typeof LlmsDottxtRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/pro': {
@@ -102,14 +194,40 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPulseRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/search': {
+      id: '/api/search'
+      path: '/api/search'
+      fullPath: '/api/search'
+      preLoaderRoute: typeof ApiSearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/docs/$': {
+      id: '/docs/$'
+      path: '/docs/$'
+      fullPath: '/docs/$'
+      preLoaderRoute: typeof DocsSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/docs/{$}.md': {
+      id: '/docs/{$}.md'
+      path: '/docs/{$}.md'
+      fullPath: '/docs/{$}.md'
+      preLoaderRoute: typeof DocsChar123Char125DotmdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  LlmsFullDottxtRoute: LlmsFullDottxtRoute,
+  LlmsDottxtRoute: LlmsDottxtRoute,
   ProLazyRoute: ProLazyRoute,
   ApiHeartbeatRouteRoute: ApiHeartbeatRouteRoute,
   ApiPulseRouteRoute: ApiPulseRouteRoute,
+  ApiSearchRoute: ApiSearchRoute,
+  DocsSplatRoute: DocsSplatRoute,
+  DocsChar123Char125DotmdRoute: DocsChar123Char125DotmdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
