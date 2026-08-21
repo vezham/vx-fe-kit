@@ -12,6 +12,33 @@
     "cleanUrls": true,
     "headers": [
       {
+        "source": "/sw.js",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache,no-store,must-revalidate"
+          }
+        ]
+      },
+      {
+        "source": "/manifest.webmanifest",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public,max-age=300"
+          }
+        ]
+      },
+      {
+        "source": "/_shell.html",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public,max-age=300"
+          }
+        ]
+      },
+      {
         "source": "/assets/**",
         "headers": [
           {
@@ -22,6 +49,42 @@
       },
       {
         "source": "**/*.@(html|json|txt|md)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public,max-age=300"
+          }
+        ]
+      },
+      {
+        "source": "/",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public,max-age=300"
+          }
+        ]
+      },
+      {
+        "source": "/docs",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public,max-age=300"
+          }
+        ]
+      },
+      {
+        "source": "/docs/**",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public,max-age=300"
+          }
+        ]
+      },
+      {
+        "source": "/api/search",
         "headers": [
           {
             "key": "Cache-Control",
