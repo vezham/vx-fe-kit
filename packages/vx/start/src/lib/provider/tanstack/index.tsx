@@ -30,8 +30,10 @@ const RootDocument = (props: Props) => {
 }
 
 // RootComponent
-const defineConfig = ({ children, ...props }: Props) => (
-  <RootDocument {...props}>{children ?? <Outlet />}</RootDocument>
+const defineConfig = (props: Props) => (
+  <RootDocument {...props}>
+    <Outlet />
+  </RootDocument>
 )
 
-export { defineConfig, Provider }
+export { RootDocument, defineConfig, Provider }
