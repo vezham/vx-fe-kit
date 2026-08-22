@@ -13,17 +13,18 @@ const reactDir = path.dirname(require.resolve('react/package.json'))
 
 export default defineAppConfig(({ command }) => ({
   root: __dirname,
-  resolve:
-    command === 'build'
-      ? {
-          alias: {
+  resolve: {
+    dedupe: ['fumadocs-core', 'fumadocs-ui', 'react', 'react-dom'],
+    alias:
+      command === 'build'
+        ? {
             'react/jsx-dev-runtime': path.join(
               reactDir,
               'cjs/react-jsx-dev-runtime.development.js'
             )
           }
-        }
-      : undefined,
+        : undefined
+  },
   preview: {
     host: 'localhost'
   },
