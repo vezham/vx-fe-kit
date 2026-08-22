@@ -25,9 +25,6 @@ export default defineAppConfig(({ command }) => ({
           }
         : undefined
   },
-  preview: {
-    host: 'localhost'
-  },
   plugins: [
     fumadocsMdx(),
     nitro({ rollupConfig: { external: [/^@sentry\//] } }),
