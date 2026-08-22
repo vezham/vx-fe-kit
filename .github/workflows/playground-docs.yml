@@ -1,4 +1,4 @@
-# @vx/INFO: @vx/ci
+# @vx/INFO: @vx/ci - trigger | test: ci.0.1
 name: playground-docs | bnd
 
 on:
