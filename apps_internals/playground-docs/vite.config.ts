@@ -1,3 +1,4 @@
+import story from '@fumadocs/story/vite'
 import tailwindcss from '@tailwindcss/vite'
 import { tanstackStart } from '@tanstack/react-start/plugin/vite'
 import react from '@vitejs/plugin-react'
@@ -29,6 +30,7 @@ export default defineAppConfig(({ command }) => ({
     fumadocsMdx(),
     nitro({ rollupConfig: { external: [/^@sentry\//] } }),
     tailwindcss(),
+    story(),
     tanstackStart({
       spa: {
         enabled: true,
