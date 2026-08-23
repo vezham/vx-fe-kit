@@ -1,4 +1,5 @@
 import { createRootRoute, useParams } from '@tanstack/react-router'
+import { openapiTranslations } from 'fumadocs-openapi/i18n'
 import { i18nProvider, uiTranslations } from 'fumadocs-ui/i18n'
 
 import { defineConfig } from '@vx/start/tanstack-docs'
@@ -14,6 +15,7 @@ export const Route = createRootRoute({
 const translations = i18n
   .translations()
   .extend(uiTranslations())
+  .extend(openapiTranslations())
   .add({
     en: {
       displayName: 'English'

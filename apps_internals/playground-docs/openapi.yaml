@@ -1,0 +1,54 @@
+openapi: 3.1.0
+info:
+  title: Playground API
+  description: API surface used by the playground docs example.
+  version: 1.0.0
+servers:
+  - url: http://playground-docs.vezham.local:3050
+tags:
+  - name: Health
+    description: Runtime health checks.
+  - name: Docs
+    description: Documentation assets generated at build time.
+paths:
+  /api/heartbeat:
+    get:
+      tags:
+        - Health
+      summary: Heartbeat
+      operationId: getHeartbeat
+      responses:
+        '200':
+          description: Service is reachable.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Heartbeat'
+  /api/search:
+    get:
+      tags:
+        - Docs
+      summary: Search index
+      operationId: getSearchIndex
+      responses:
+        '200':
+          description: Static Fumadocs search index.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+components:
+  schemas:
+    Heartbeat:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: string
+          example: ok
+        time:
+          type: string
+          format: date-time
+          example: '2026-08-23T00:00:00.000Z'

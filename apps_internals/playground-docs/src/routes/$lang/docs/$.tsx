@@ -10,7 +10,9 @@ import {
   ViewOptionsPopover
 } from 'fumadocs-ui/layouts/docs/page'
 import { Suspense, use } from 'react'
+import type { ReactNode } from 'react'
 
+import { OpenAPIPage } from '@src/components/api-page'
 import { useMDXComponents } from '@src/components/mdx'
 import { type Locale, resolveLocale } from '@src/lib/i18n'
 import { baseOptions } from '@src/lib/layout.shared'
@@ -24,7 +26,9 @@ export const Route = createFileRoute('/$lang/docs/$')({
     const slugs = params._splat?.split('/') ?? []
     const data = await loadPage(slugs, lang)
 
-    await docs.getPage(data.path)?.preload()
+    if (data.type === 'docs') {
+      await docs.getPage(data.path)?.preload()
+    }
 
     return data
   }
@@ -37,11 +41,25 @@ async function loadPage(slugs: string[], lang: Locale) {
     throw notFound()
   }
 
+  const pageTree = await source.serializePageTree(source.getPageTree(lang))
+
+  if (page.type === 'openapi') {
+    return {
+      type: 'openapi' as const,
+      lang,
+      title: page.data.title,
+      description: page.data.description,
+      pageTree,
+      props: page.data.getOpenAPIPageProps()
+    }
+  }
+
   return {
+    type: 'docs' as const,
     lang,
     path: page.path,
     markdownUrl: encodeMarkdownUrl(page.slugs, page.locale),
-    pageTree: await source.serializePageTree(source.getPageTree(lang))
+    pageTree
   }
 }
 
@@ -74,16 +92,31 @@ function Content({ path, markdownUrl }: { path: string; markdownUrl: string }) {
 }
 
 function Page() {
-  const { pageTree, path, markdownUrl, lang } = useFumadocsLoader(
-    Route.useLoaderData()
-  )
+  const page = useFumadocsLoader(Route.useLoaderData())
+  let content: ReactNode
+
+  if (page.type === 'openapi') {
+    content = (
+      <DocsPage full>
+        <DocsTitle>{page.title}</DocsTitle>
+        <DocsDescription>{page.description}</DocsDescription>
+        <OpenAPIPage {...page.props} />
+      </DocsPage>
+    )
+  } else {
+    content = (
+      <>
+        <Link to={page.markdownUrl} hidden />
+        <Suspense>
+          <Content path={page.path} markdownUrl={page.markdownUrl} />
+        </Suspense>
+      </>
+    )
+  }
 
   return (
-    <DocsLayout {...baseOptions(lang)} tree={pageTree}>
-      <Link to={markdownUrl} hidden />
-      <Suspense>
-        <Content path={path} markdownUrl={markdownUrl} />
-      </Suspense>
+    <DocsLayout {...baseOptions(page.lang)} tree={page.pageTree}>
+      {content}
     </DocsLayout>
   )
 }

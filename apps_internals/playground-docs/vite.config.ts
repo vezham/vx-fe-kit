@@ -13,9 +13,32 @@ import { i18n } from './src/lib/i18n'
 
 const require = createRequire(import.meta.url)
 const reactDir = path.dirname(require.resolve('react/package.json'))
+const docsStaticPaths = [
+  '/docs/test',
+  '/docs/index.md',
+  '/docs/test.md',
+  '/docs/openapi/getHeartbeat',
+  '/docs/openapi/getSearchIndex'
+]
+const prerenderPage = (pagePath: string) => ({
+  path: pagePath,
+  prerender:
+    pagePath.endsWith('.md') || pagePath.startsWith('/api/')
+      ? undefined
+      : {
+          outputPath: `${pagePath}/index.html`
+        }
+})
 
 export default defineAppConfig(({ command }) => ({
   root: __dirname,
+  preview:
+    process.env.TSS_PRERENDERING === 'true'
+      ? {
+          host: 'localhost',
+          port: 0
+        }
+      : undefined,
   resolve: {
     dedupe: ['fumadocs-core', 'fumadocs-ui', 'react', 'react-dom'],
     alias:
@@ -49,20 +72,17 @@ export default defineAppConfig(({ command }) => ({
       //   },
       // ],
       pages: [
-        {
-          path: '/docs'
-        },
+        prerenderPage('/docs'),
+        ...docsStaticPaths.map(prerenderPage),
         ...i18n.languages.flatMap(lang => [
-          {
-            path: `/${lang}`
-          },
-          {
-            path: `/${lang}/docs`
-          }
+          prerenderPage(`/${lang}`),
+          prerenderPage(`/${lang}/docs`),
+          ...docsStaticPaths.map(pagePath => ({
+            ...prerenderPage(`/${lang}${pagePath}`),
+            path: `/${lang}${pagePath}`
+          }))
         ]),
-        {
-          path: '/api/search'
-        },
+        prerenderPage('/api/search'),
         {
           path: '/llms-full.txt'
         },
