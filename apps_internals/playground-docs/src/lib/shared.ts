@@ -23,6 +23,7 @@ export function encodeMarkdownUrl(slugs: string[], locale?: string) {
   )
 }
 
+/** @returns page slugs */
 export function decodeMarkdownUrl(segments: string[]) {
   if (segments.length === 0) {
     return []

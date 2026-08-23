@@ -8,14 +8,13 @@ import { Provider } from './provider'
 const RootDocument = (props: Props) => {
   const options = {
     ...props,
+    lang: props.lang || 'en',
     name: props.name || APP_NAME,
     version: props.version || APP_VER
   }
 
-  const lang = 'en'
-
   return (
-    <html lang={lang} suppressHydrationWarning>
+    <html lang={options.lang} suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>
@@ -36,4 +35,4 @@ const defineConfig = (props: Props) => (
   </RootDocument>
 )
 
-export { RootDocument, defineConfig, Provider }
+export { defineConfig, Provider, RootDocument }

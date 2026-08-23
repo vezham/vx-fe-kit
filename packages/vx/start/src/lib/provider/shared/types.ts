@@ -10,6 +10,7 @@ interface AxiosProps {
 
 interface Props extends AxiosProps {
   id?: string
+  lang?: string
   className?: string
   // classTarget?: string
   children?: ReactNode

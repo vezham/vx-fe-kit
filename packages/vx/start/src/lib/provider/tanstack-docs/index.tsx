@@ -1,16 +1,29 @@
 import { Outlet } from '@tanstack/react-router'
-import { RootProvider } from 'fumadocs-ui/provider/tanstack'
+import {
+  RootProvider,
+  type RootProviderProps
+} from 'fumadocs-ui/provider/tanstack'
 
 import type { Props } from '../shared/types'
 import { RootDocument } from '../tanstack'
 import { DocsSearchDialog } from './search'
 
-const defineConfig = (props: Props) => (
-  <RootDocument {...props}>
-    <RootProvider search={{ SearchDialog: DocsSearchDialog }}>
-      <Outlet />
-    </RootProvider>
-  </RootDocument>
-)
+type DocsConfigProps = Props & {
+  rootProvider?: Omit<RootProviderProps, 'children'>
+}
+
+const defineConfig = ({ rootProvider, ...props }: DocsConfigProps = {}) => {
+  const { search, ...rootProviderProps } = rootProvider ?? {}
+
+  return (
+    <RootDocument {...props}>
+      <RootProvider
+        {...rootProviderProps}
+        search={{ SearchDialog: DocsSearchDialog, ...search }}>
+        <Outlet />
+      </RootProvider>
+    </RootDocument>
+  )
+}
 
 export { defineConfig, DocsSearchDialog }

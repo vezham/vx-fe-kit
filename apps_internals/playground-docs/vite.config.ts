@@ -9,6 +9,8 @@ import path from 'node:path'
 
 import { defineAppConfig } from '@vx/config/vite'
 
+import { i18n } from './src/lib/i18n'
+
 const require = createRequire(import.meta.url)
 const reactDir = path.dirname(require.resolve('react/package.json'))
 
@@ -50,14 +52,22 @@ export default defineAppConfig(({ command }) => ({
         {
           path: '/docs'
         },
+        ...i18n.languages.flatMap(lang => [
+          {
+            path: `/${lang}`
+          },
+          {
+            path: `/${lang}/docs`
+          }
+        ]),
         {
           path: '/api/search'
         },
         {
-          path: 'llms-full.txt'
+          path: '/llms-full.txt'
         },
         {
-          path: 'llms.txt'
+          path: '/llms.txt'
         }
       ]
     }),
