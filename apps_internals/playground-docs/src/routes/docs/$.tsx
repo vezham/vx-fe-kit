@@ -14,9 +14,10 @@ import type { ReactNode } from 'react'
 
 import { OpenAPIPage } from '@src/components/api-page'
 import { useMDXComponents } from '@src/components/mdx'
+import { docs } from '@src/lib/docs'
 import { baseOptions } from '@src/lib/layout.shared'
 import { encodeMarkdownUrl, gitConfig } from '@src/lib/shared'
-import { docs, source } from '@src/lib/source'
+import { source } from '@src/lib/source'
 
 export const Route = createFileRoute('/docs/$')({
   component: Page,

@@ -17,6 +17,16 @@ const docsStaticPaths = [
   '/docs/test',
   '/docs/index.md',
   '/docs/test.md',
+  '/docs/openapi/getAllData',
+  '/docs/openapi/createPlanet',
+  '/docs/openapi/getPlanet',
+  '/docs/openapi/updatePlanet',
+  '/docs/openapi/deletePlanet',
+  '/docs/openapi/uploadImage',
+  '/docs/openapi/createCelestialBody',
+  '/docs/openapi/createUser',
+  '/docs/openapi/getToken',
+  '/docs/openapi/getMe',
   '/docs/openapi/getHeartbeat',
   '/docs/openapi/getSearchIndex'
 ]
@@ -55,7 +65,9 @@ export default defineAppConfig(({ command }) => ({
     fumadocsMdx(),
     nitro({ rollupConfig: { external: [/^@sentry\//] } }),
     tailwindcss(),
-    story(),
+    story({
+      tsconfigPath: path.join(__dirname, 'tsconfig.app.json')
+    }),
     tanstackStart({
       spa: {
         enabled: true,
