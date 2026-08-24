@@ -149,6 +149,39 @@
         "command": "tsx packages/vx/config/src/lib/metadata/cli.ts watch {projectRoot}"
       }
     },
+    "docs:generate": {
+      "executor": "nx:run-commands",
+      "cache": false,
+      "inputs": [
+        "{projectRoot}/vx.config.json",
+        "{projectRoot}/content/docs/**/*",
+        "{projectRoot}/openapi.yaml",
+        "{projectRoot}/openapi/**/*",
+        "{workspaceRoot}/vx/tools/docs/generate-content.ts"
+      ],
+      "options": {
+        "cwd": "{workspaceRoot}",
+        "command": "tsx vx/tools/docs/generate-content.ts {projectRoot}"
+      }
+    },
+    "og:generate": {
+      "executor": "nx:run-commands",
+      "cache": true,
+      "dependsOn": ["docs:generate"],
+      "inputs": [
+        "{projectRoot}/vx.config.json",
+        "{projectRoot}/content/**/*",
+        "{projectRoot}/openapi.yaml",
+        "{projectRoot}/openapi/**/*",
+        "{workspaceRoot}/vx/tools/docs/generate-content.ts",
+        "{workspaceRoot}/vx/tools/docs/generate-og-images.ts"
+      ],
+      "outputs": ["{projectRoot}/public/og-docs"],
+      "options": {
+        "cwd": "{workspaceRoot}",
+        "command": "tsx vx/tools/docs/generate-og-images.ts {projectRoot}"
+      }
+    },
     "serve:next": {
       "executor": "nx:run-commands",
       "dependsOn": ["metadata:watch"],

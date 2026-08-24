@@ -17,7 +17,7 @@ function Home() {
       <div className="my-auto p-4 text-center">
         <h1 className="mb-4 text-xl font-medium">Playground Docs</h1>
         <Link
-          to="/$lang/docs/$"
+          to="/{-$lang}/docs/$"
           params={{
             lang,
             _splat: ''

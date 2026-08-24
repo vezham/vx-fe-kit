@@ -8,10 +8,7 @@ import { docsRoute } from './shared'
 
 export const source = loader(
   {
-    docs: docs.toFumadocsSource(),
-    openapi: await openapi.staticSource({
-      baseDir: 'openapi'
-    })
+    docs: docs.toFumadocsSource()
   },
   {
     baseUrl: docsRoute,
@@ -20,9 +17,26 @@ export const source = loader(
   }
 )
 
+function getOpenAPIDocumentId(page: (typeof source)['$inferPage']) {
+  const preload = (page.data as { _openapi?: { preload?: unknown } })._openapi
+    ?.preload
+
+  return Array.isArray(preload) && typeof preload[0] === 'string'
+    ? preload[0]
+    : undefined
+}
+
+export async function preloadOpenAPIPage(page: (typeof source)['$inferPage']) {
+  return getOpenAPIDocumentId(page)
+    ? openapi.preloadOpenAPIPage(page)
+    : undefined
+}
+
 export async function getLLMText(page: (typeof source)['$inferPage']) {
-  if (page.type === 'openapi') {
-    return JSON.stringify(page.data.getSchema(), null, 2)
+  const documentId = getOpenAPIDocumentId(page)
+
+  if (documentId) {
+    return JSON.stringify(await openapi.getSchema(documentId), null, 2)
   }
 
   const processed = await page.data.getText('processed')

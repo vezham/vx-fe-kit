@@ -1,7 +1,7 @@
 import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared'
 
 import { type Locale, i18n } from './i18n'
-import { appName, gitConfig } from './shared'
+import { appName } from './shared'
 
 export function baseOptions(
   locale: Locale = i18n.defaultLanguage
@@ -10,6 +10,17 @@ export function baseOptions(
     nav: {
       title: `${appName} :| ${locale.toUpperCase()}`
     },
-    githubUrl: `https://github.com/${gitConfig.user}/${gitConfig.repo}`
+    links: [
+      {
+        text: 'UI/docs',
+        url: '/ui-docs/overview',
+        active: 'nested-url'
+      },
+      {
+        text: 'UI/notebook',
+        url: '/ui-notebook/overview',
+        active: 'nested-url'
+      }
+    ]
   }
 }

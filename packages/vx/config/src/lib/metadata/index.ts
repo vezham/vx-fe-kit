@@ -9,12 +9,18 @@ import path from 'node:path'
 
 type VxConfig = {
   core: VxCoreConfig
+  i18n?: VxI18nConfig
   branding: {
     themeColor: string
     backgroundColor: string
   }
   pwa: VxPwaConfig
   metadata: VxMetadataConfig
+}
+
+type VxI18nConfig = {
+  defaultLanguage: string
+  languages: string[]
 }
 
 type VxCoreConfig = {
@@ -827,6 +833,10 @@ const getGeneratedMetadataModule = (
 ) => `// ${generatedNotice}
 
 export const vxMetadata = ${stringifyTs(getRuntimeMetadata(config, projectRoot))} as const
+
+export const vxI18n = ${
+  config.i18n ? `${stringifyTs(config.i18n)} as const` : 'undefined'
+}
 
 export const tanstackHead = ${stringifyTs(getTanStackHead(config, projectRoot))}
 

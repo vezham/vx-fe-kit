@@ -12,6 +12,10 @@
     },
     "url": "https://playground-docs.vezham.app"
   },
+  "i18n": {
+    "defaultLanguage": "en",
+    "languages": ["en", "cn"]
+  },
   "branding": {
     "themeColor": "#000000",
     "backgroundColor": "#ffffff"

@@ -1,12 +1,6 @@
 export const appName = 'Playground Docs'
 export const docsRoute = '/docs'
-export const docsImageRoute = '/og/docs'
-
-export const gitConfig = {
-  user: 'vezham',
-  repo: 'vx-fe-kit',
-  branch: 'main'
-}
+export const docsImageRoute = '/og-docs'
 
 export function encodeMarkdownUrl(slugs: string[], locale?: string) {
   const segments = [...slugs]

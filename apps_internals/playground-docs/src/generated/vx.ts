@@ -200,6 +200,14 @@ export const vxMetadata = {
   }
 } as const
 
+export const vxI18n = {
+  "defaultLanguage": "en",
+  "languages": [
+    "en",
+    "cn"
+  ]
+} as const
+
 export const tanstackHead = {
   "meta": [
     {

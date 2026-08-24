@@ -4,7 +4,7 @@ import { resolveLocale } from '@src/lib/i18n'
 import { decodeMarkdownUrl } from '@src/lib/shared'
 import { getLLMText, source } from '@src/lib/source'
 
-export const Route = createFileRoute('/$lang/docs/{$}.md')({
+export const Route = createFileRoute('/{-$lang}/docs/{$}.md')({
   server: {
     handlers: {
       GET: async ({ params }) => {
