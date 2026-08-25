@@ -1,9 +1,10 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { createFromSource } from 'fumadocs-core/search/server'
+
+import { createDocsSearchServer } from '@vx/start/runtime/docs'
 
 import { source } from '@src/lib/source'
 
-const server = createFromSource(source)
+const server = createDocsSearchServer(source)
 
 export const Route = createFileRoute('/api/search')({
   server: {

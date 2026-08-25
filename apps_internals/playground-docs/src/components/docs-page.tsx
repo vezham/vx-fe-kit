@@ -1,23 +1,11 @@
 import { Link, notFound } from '@tanstack/react-router'
 import { useFumadocsLoader } from 'fumadocs-core/source/client'
-import { DocsLayout as DocsShellLayout } from 'fumadocs-ui/layouts/docs'
-import {
-  DocsBody,
-  DocsDescription,
-  DocsPage,
-  DocsTitle,
-  MarkdownCopyButton,
-  ViewOptionsPopover
-} from 'fumadocs-ui/layouts/docs/page'
-import { DocsLayout as NotebookLayout } from 'fumadocs-ui/layouts/notebook'
-import {
-  DocsBody as NotebookDocsBody,
-  DocsDescription as NotebookDocsDescription,
-  DocsPage as NotebookDocsPage,
-  DocsTitle as NotebookDocsTitle
-} from 'fumadocs-ui/layouts/notebook/page'
 import type { ComponentProps } from 'react'
 import { Suspense, use } from 'react'
+
+import { DocsLayout, DocsPage, type DocsShell } from '@vx/start/layouts/docs'
+import { OpenAPIPage } from '@vx/start/pages/docs/openapi'
+import { getDocsRouteHead as getStartDocsRouteHead } from '@vx/start/runtime/docs'
 
 import { vxMetadata } from '@generated/vx'
 import { docs } from '@src/lib/docs'
@@ -32,10 +20,8 @@ import {
 } from '@src/lib/shared'
 import { preloadOpenAPIPage, source } from '@src/lib/source'
 
-import { OpenAPIPage } from './api-page'
 import { useMDXComponents } from './mdx'
 
-type DocsShell = 'docs' | 'notebook'
 type LoadedDocsPage = Awaited<ReturnType<typeof loadDocsPage>>
 type OpenAPIPageComponentProps = ComponentProps<typeof OpenAPIPage>
 
@@ -64,64 +50,18 @@ export async function preloadDocsPage(data: LoadedDocsPage) {
   await docs.getPage(data.path)?.preload()
 }
 
-function absoluteSiteUrl(pathname: string) {
-  return new URL(pathname, `${vxMetadata.url}/`).toString()
-}
-
-function normalizeDocsRoutePath(routePath: string) {
-  for (const lang of i18n.languages) {
-    const localizedDocsRoute = `/${lang}${docsRoute}`
-
-    if (routePath === localizedDocsRoute) {
-      return docsRoute
-    }
-
-    if (routePath.startsWith(`${localizedDocsRoute}/`)) {
-      return routePath.slice(`/${lang}`.length)
-    }
-  }
-
-  return routePath
-}
-
-function docsOgImagePath(routePath: string) {
-  if ((vxMetadata.openGraph.imageSource as string) !== 'default') {
-    return vxMetadata.openGraph.image
-  }
-
-  const docsPath = normalizeDocsRoutePath(routePath)
-  const suffix = docsPath === docsRoute ? '' : docsPath.slice(docsRoute.length)
-
-  return `${docsImageRoute}${suffix}/image.png`
-}
-
 export function getDocsRouteHead(data?: LoadedDocsPage) {
-  if (!data) {
-    return {}
-  }
-
-  const title = `${data.title} | ${appName}`
-  const description = data.description ?? vxMetadata.description
-  const docsPath = normalizeDocsRoutePath(data.routePath)
-  const pageUrl =
-    data.lang === i18n.defaultLanguage ? docsPath : `/${data.lang}${docsPath}`
-  const imageUrl = docsOgImagePath(docsPath)
-
-  return {
-    meta: [
-      { title },
-      { name: 'description', content: description },
-      { property: 'og:title', content: title },
-      { property: 'og:description', content: description },
-      { property: 'og:image', content: imageUrl },
-      { property: 'og:url', content: absoluteSiteUrl(pageUrl) },
-      { name: 'twitter:title', content: title },
-      { name: 'twitter:description', content: description },
-      { name: 'twitter:image', content: imageUrl },
-      { name: 'twitter:url', content: absoluteSiteUrl(pageUrl) },
-      { name: 'twitter:card', content: 'summary_large_image' }
-    ]
-  }
+  return getStartDocsRouteHead(data, {
+    appName,
+    defaultLanguage: i18n.defaultLanguage,
+    docsImageRoute,
+    docsRoute,
+    languages: i18n.languages,
+    openGraphImage: vxMetadata.openGraph.image,
+    openGraphImageSource: vxMetadata.openGraph.imageSource,
+    siteDescription: vxMetadata.description,
+    siteUrl: vxMetadata.url
+  })
 }
 
 function Content({
@@ -143,11 +83,6 @@ function Content({
 
   const { toc } = use(page.load())
   const MDX = page.body
-  const Page = shell === 'notebook' ? NotebookDocsPage : DocsPage
-  const Body = shell === 'notebook' ? NotebookDocsBody : DocsBody
-  const Description =
-    shell === 'notebook' ? NotebookDocsDescription : DocsDescription
-  const Title = shell === 'notebook' ? NotebookDocsTitle : DocsTitle
   const components = useMDXComponents(
     openapiData
       ? {
@@ -167,24 +102,21 @@ function Content({
 
   if (openapiData) {
     return (
-      <Page full toc={toc}>
+      <DocsPage full shell={shell} toc={toc}>
         <MDX components={components} />
-      </Page>
+      </DocsPage>
     )
   }
 
   return (
-    <Page toc={toc}>
-      <Title>{page.title}</Title>
-      <Description>{page.description}</Description>
-      <div className="-mt-4 flex flex-row items-center gap-2 border-b pb-6">
-        <MarkdownCopyButton markdownUrl={markdownUrl} />
-        <ViewOptionsPopover markdownUrl={markdownUrl} />
-      </div>
-      <Body>
-        <MDX components={components} />
-      </Body>
-    </Page>
+    <DocsPage
+      description={page.description}
+      markdownUrl={markdownUrl}
+      shell={shell}
+      title={page.title}
+      toc={toc}>
+      <MDX components={components} />
+    </DocsPage>
   )
 }
 
@@ -196,7 +128,6 @@ export function DocsRoutePage({
   shell?: DocsShell
 }) {
   const page = useFumadocsLoader(data)
-  const Layout = shell === 'notebook' ? NotebookLayout : DocsShellLayout
   const content = (
     <>
       <Link to={page.markdownUrl} hidden />
@@ -212,8 +143,8 @@ export function DocsRoutePage({
   )
 
   return (
-    <Layout {...baseOptions(page.lang)} tree={page.pageTree}>
+    <DocsLayout {...baseOptions(page.lang)} shell={shell} tree={page.pageTree}>
       {content}
-    </Layout>
+    </DocsLayout>
   )
 }

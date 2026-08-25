@@ -19,6 +19,21 @@
       "import": "./src/lib/provider/tanstack-docs/index.tsx",
       "default": "./src/lib/provider/tanstack-docs/index.tsx"
     },
+    "./layouts/*": {
+      "types": "./src/lib/layouts/*/index.tsx",
+      "import": "./src/lib/layouts/*/index.tsx",
+      "default": "./src/lib/layouts/*/index.tsx"
+    },
+    "./pages/*": {
+      "types": "./src/lib/pages/*/index.tsx",
+      "import": "./src/lib/pages/*/index.tsx",
+      "default": "./src/lib/pages/*/index.tsx"
+    },
+    "./runtime/*": {
+      "types": "./src/lib/runtime/*/index.ts",
+      "import": "./src/lib/runtime/*/index.ts",
+      "default": "./src/lib/runtime/*/index.ts"
+    },
     "./next": {
       "types": "./src/lib/provider/next/index.tsx",
       "import": "./src/lib/provider/next/index.tsx",
@@ -33,7 +48,9 @@
   "dependencies": {
     "@vx/template": "workspace:*",
     "fumadocs-core": "latest",
-    "fumadocs-ui": "latest"
+    "fumadocs-openapi": "latest",
+    "fumadocs-ui": "latest",
+    "yaml": "latest"
   },
   "devDependencies": {
     "@vx/devtools": "workspace:*",
