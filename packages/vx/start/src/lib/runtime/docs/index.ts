@@ -67,7 +67,7 @@ export type DocsRouteHeadOptions = {
 }
 
 function slash(value: string) {
-  return value.split('/').join('/')
+  return value.split('\\').join('/')
 }
 
 export function encodeMarkdownUrl(
@@ -121,10 +121,16 @@ export function openAPIDocumentIdFromPath(
   const openapiDirIndex = segments.lastIndexOf(openapiDir)
   const relativePath =
     openapiDirIndex === -1
-      ? filePath
+      ? slash(filePath)
       : segments.slice(openapiDirIndex + 1).join('/')
 
-  return relativePath.replace(/\.(?:json|yaml|yml)$/, '')
+  const idSegments = relativePath.replace(/\.(?:json|yaml|yml)$/, '').split('/')
+
+  if (idSegments[idSegments.length - 1] === 'index') {
+    idSegments.pop()
+  }
+
+  return idSegments.length === 0 ? 'openapi' : idSegments.join('/')
 }
 
 export function createOpenAPIFromSources({
@@ -136,7 +142,10 @@ export function createOpenAPIFromSources({
   const input = {
     ...(rootDocument
       ? {
-          [rootDocumentId]: parseOpenAPIDocument('openapi.yaml', rootDocument)
+          [rootDocumentId]: parseOpenAPIDocument(
+            'openapi/index.yaml',
+            rootDocument
+          )
         }
       : {}),
     ...Object.fromEntries(
@@ -263,11 +272,20 @@ export function getDocsOgImagePath({
   openGraphImageSource?: string
   routePath: string
 }) {
-  if (openGraphImageSource !== 'default') {
+  const usesDefaultOgImage =
+    openGraphImageSource === 'default' || openGraphImage === '/og/image.png'
+
+  if (!usesDefaultOgImage) {
     return openGraphImage
   }
 
   const docsPath = normalizeDocsRoutePath({ docsRoute, languages, routePath })
+  const docsImageRouteRoot = docsImageRoute.split('/').slice(0, -1).join('/')
+
+  if (docsPath !== docsRoute && !docsPath.startsWith(`${docsRoute}/`)) {
+    return `${docsImageRouteRoot}${docsPath}/image.png`
+  }
+
   const suffix = docsPath === docsRoute ? '' : docsPath.slice(docsRoute.length)
 
   return `${docsImageRoute}${suffix}/image.png`

@@ -1,7 +1,5 @@
 import { createOpenAPIFromSources } from '@vx/start/runtime/docs'
 
-import openApiYaml from '../../openapi.yaml?raw'
-
 const openapiFiles = {
   ...import.meta.glob<string>('../../openapi/**/*.json', {
     eager: true,
@@ -21,6 +19,5 @@ const openapiFiles = {
 }
 
 export const openapi = createOpenAPIFromSources({
-  files: openapiFiles,
-  rootDocument: openApiYaml
+  files: openapiFiles
 })

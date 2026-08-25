@@ -25,7 +25,39 @@ import { useMDXComponents } from './mdx'
 type LoadedDocsPage = Awaited<ReturnType<typeof loadDocsPage>>
 type OpenAPIPageComponentProps = ComponentProps<typeof OpenAPIPage>
 
-export async function loadDocsPage(slugs: string[], lang: Locale) {
+function replaceDocsRoute(pagePath: string, nextRoute: string) {
+  if (nextRoute === docsRoute) {
+    return pagePath
+  }
+
+  if (pagePath === docsRoute) {
+    return nextRoute
+  }
+
+  if (pagePath.startsWith(`${docsRoute}/`)) {
+    return `${nextRoute}${pagePath.slice(docsRoute.length)}`
+  }
+
+  for (const lang of i18n.languages) {
+    const localizedDocsRoute = `/${lang}${docsRoute}`
+
+    if (pagePath === localizedDocsRoute) {
+      return nextRoute
+    }
+
+    if (pagePath.startsWith(`${localizedDocsRoute}/`)) {
+      return `${nextRoute}${pagePath.slice(localizedDocsRoute.length)}`
+    }
+  }
+
+  return pagePath
+}
+
+export async function loadDocsPage(
+  slugs: string[],
+  lang: Locale,
+  routeRoot = docsRoute
+) {
   const page = source.getPage(slugs, lang)
 
   if (!page) {
@@ -38,7 +70,7 @@ export async function loadDocsPage(slugs: string[], lang: Locale) {
     lang,
     title: page.data.title,
     description: page.data.description,
-    routePath: page.url,
+    routePath: replaceDocsRoute(page.url, routeRoot),
     path: page.path,
     markdownUrl: encodeMarkdownUrl(page.slugs, page.locale),
     pageTree,

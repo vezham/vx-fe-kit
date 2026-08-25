@@ -1,4 +1,5 @@
 import { existsSync, readFileSync } from 'node:fs'
+import { createRequire } from 'node:module'
 import path from 'node:path'
 import { defineConfig as defineViteConfig, mergeConfig } from 'vite'
 import type { ConfigEnv, UserConfig, UserConfigExport } from 'vite'
@@ -102,11 +103,20 @@ const getServerConfig = () => {
 const getPreviewConfig = () => {
   const { env } = process
   const hostname = env.CI ? 'localhost' : env.HOST_NAME || 'localhost'
+  const configuredPort = Number(env.PRE_PORT) || Number(env.PORT)
 
   return {
-    port: Number(env.PRE_PORT) || Number(env.PORT),
+    port: env.TSS_PRERENDERING === 'true' ? 0 : configuredPort || undefined,
     host: hostname
   }
+}
+
+const getReactPackageDir = (projectRoot = process.cwd()) => {
+  const requireFromProject = createRequire(
+    path.join(projectRoot, 'package.json')
+  )
+
+  return path.dirname(requireFromProject.resolve('react/package.json'))
 }
 
 export const getViteConfig = (projectRoot = process.cwd()): ViteConfig => ({
@@ -119,7 +129,6 @@ export const getAppViteConfig = (projectRoot = process.cwd()): ViteConfig => ({
   ...getViteConfig(projectRoot),
   envPrefix: ['V_'],
   server: getServerConfig(),
-  preview: getPreviewConfig(),
   resolve: {
     alias: getTsConfigPathAliases(projectRoot),
     tsconfigPaths: true
@@ -131,6 +140,36 @@ export const getAppViteConfig = (projectRoot = process.cwd()): ViteConfig => ({
     commonjsOptions: {
       transformMixedEsModules: true
     }
+  }
+})
+
+const getAppPreviewOverride = (env: ConfigEnv): ViteConfig => ({
+  preview:
+    process.env.TSS_PRERENDERING === 'true'
+      ? {
+          host: 'localhost',
+          port: 0
+        }
+      : env.command === 'build'
+        ? undefined
+        : getPreviewConfig()
+})
+
+const getAppResolveOverride = (
+  env: ConfigEnv,
+  projectRoot = process.cwd()
+): ViteConfig => ({
+  resolve: {
+    dedupe: ['react', 'react-dom'],
+    alias:
+      env.command === 'build'
+        ? {
+            'react/jsx-dev-runtime': path.join(
+              getReactPackageDir(projectRoot),
+              'cjs/react-jsx-dev-runtime.development.js'
+            )
+          }
+        : undefined
   }
 })
 
@@ -158,7 +197,19 @@ export const defineVitestConfig = (overrides: ViteConfigOverrides = {}) =>
   createConfig(getViteConfig, overrides)
 
 export const defineAppConfig = (overrides: ViteConfigOverrides = {}) =>
-  createConfig(getAppViteConfig, overrides)
+  defineViteConfig(async env => {
+    const resolvedOverrides =
+      typeof overrides === 'function' ? await overrides(env) : overrides
+    const projectRoot = path.resolve(
+      String(resolvedOverrides.root ?? process.cwd())
+    )
+
+    return mergeConfig(getAppViteConfig(projectRoot), {
+      ...getAppPreviewOverride(env),
+      ...getAppResolveOverride(env, projectRoot),
+      ...resolvedOverrides
+    }) as ViteConfig
+  })
 
 export const defineLibConfig = (overrides: ViteConfigOverrides = {}) =>
   createConfig(getViteConfig, overrides)

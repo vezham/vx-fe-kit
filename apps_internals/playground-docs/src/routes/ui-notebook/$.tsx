@@ -13,7 +13,7 @@ export const Route = createFileRoute('/ui-notebook/$')({
   head: ({ loaderData }) => getDocsRouteHead(loaderData),
   loader: async ({ params }) => {
     const slugs = params._splat?.split('/') ?? []
-    const data = await loadDocsPage(slugs, i18n.defaultLanguage)
+    const data = await loadDocsPage(slugs, i18n.defaultLanguage, '/ui-notebook')
 
     await preloadDocsPage(data)
 

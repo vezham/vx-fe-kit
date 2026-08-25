@@ -29,5 +29,6 @@ workspace operations.
 
 ## Handbooks
 
+- [Vx Config](./handbooks/vx-config.md)
 - [Coding Standards](./handbooks/coding-standards.md)
 - [Release Versioning](./handbooks/release.md)

@@ -21,6 +21,7 @@ export type I18nConfig = {
 export type VxDocsConfig = {
   docs?: DocsConfig
   i18n?: I18nConfig
+  routes?: RouteInput[]
 }
 
 type OpenAPISpec = {
@@ -40,6 +41,39 @@ export type DocsStaticPaths = {
   docsShellStaticPaths: string[]
   docsStaticPathsByLocale: Record<string, string[]>
   openApiStaticPaths: string[]
+}
+
+export type DocsPrerenderPage = {
+  path: string
+  prerender?: {
+    outputPath: string
+  }
+}
+
+export type RouteOg =
+  | boolean
+  | {
+      image?: string
+    }
+
+export type RouteConfig = {
+  og?: RouteOg
+  path: string
+  prerender?:
+    | boolean
+    | {
+        outputPath?: string
+      }
+  source?: 'docs'
+}
+
+export type RouteInput = RouteConfig | string
+
+export type DocsPrerenderPagesOptions = {
+  extraPages?: Array<DocsPrerenderPage | string>
+  includeDocsRoot?: boolean
+  includeLocalizedDocsRoots?: boolean
+  routes?: RouteInput[]
 }
 
 const defaultContentDir = 'content/docs'
@@ -107,6 +141,17 @@ function generatedDirectories(dir: string): string[] {
 
 function withoutExtension(filePath: string) {
   return filePath.slice(0, -path.extname(filePath).length)
+}
+
+function openAPISpecIdFromRelativePath(relativePath: string) {
+  const relativeWithoutExtension = withoutExtension(slash(relativePath))
+  const segments = relativeWithoutExtension.split('/')
+
+  if (segments[segments.length - 1] === 'index') {
+    segments.pop()
+  }
+
+  return segments.length === 0 ? 'openapi' : segments.join('/')
 }
 
 function getLocalizedMdxSuffixes(i18n: I18nConfig) {
@@ -203,6 +248,186 @@ export function getDocsStaticPaths(
   }
 }
 
+function shouldWritePrerenderIndex(pagePath: string) {
+  return path.extname(pagePath) === '' && !pagePath.startsWith('/api/')
+}
+
+function createDocsPrerenderPage(pagePath: string): DocsPrerenderPage {
+  return {
+    path: pagePath,
+    prerender: shouldWritePrerenderIndex(pagePath)
+      ? {
+          outputPath: `${pagePath}/index.html`
+        }
+      : undefined
+  }
+}
+
+function normalizeDocsPrerenderPage(
+  page: DocsPrerenderPage | string
+): DocsPrerenderPage {
+  return typeof page === 'string' ? createDocsPrerenderPage(page) : page
+}
+
+function replaceDocsRoute(
+  pagePath: string,
+  docsRoute: string,
+  nextRoute: string
+) {
+  if (pagePath === docsRoute) {
+    return nextRoute
+  }
+
+  return pagePath.startsWith(`${docsRoute}/`)
+    ? `${nextRoute}${pagePath.slice(docsRoute.length)}`
+    : pagePath
+}
+
+function routeRootFromGlob(pagePath: string) {
+  const globSuffix = '/**'
+
+  return pagePath.endsWith(globSuffix)
+    ? pagePath.slice(0, -globSuffix.length)
+    : undefined
+}
+
+function normalizeRoute(route: RouteInput): RouteConfig {
+  return typeof route === 'string' ? { path: route } : route
+}
+
+function shouldPrerenderRoute(route: RouteConfig) {
+  return route.prerender !== false
+}
+
+function docsMirrorRouteFromRoute(route: RouteConfig) {
+  const routeRoot = routeRootFromGlob(route.path)
+
+  return routeRoot && route.source === 'docs' ? routeRoot : undefined
+}
+
+function shouldGenerateDocsRouteOg(route: RouteConfig) {
+  const hasDocsMirrorGlob = docsMirrorRouteFromRoute(route) !== undefined
+
+  if (typeof route.og === 'object') {
+    return false
+  }
+
+  return route.og ?? hasDocsMirrorGlob
+}
+
+function assertSupportedRoute(route: RouteConfig) {
+  const routeRoot = routeRootFromGlob(route.path)
+
+  if (!routeRoot || route.source === 'docs') {
+    return
+  }
+
+  throw new Error(
+    `Unsupported route source "${route.source ?? 'none'}" for glob route "${route.path}". Use source "docs" or provide an exact path.`
+  )
+}
+
+function createDocsPrerenderPageFromRoute(
+  route: RouteConfig
+): DocsPrerenderPage {
+  if (typeof route.prerender === 'object' && route.prerender.outputPath) {
+    return {
+      path: route.path,
+      prerender: {
+        outputPath: route.prerender.outputPath
+      }
+    }
+  }
+
+  return createDocsPrerenderPage(route.path)
+}
+
+function getDocsMirrorRoutes(routes: RouteInput[]) {
+  return unique(
+    routes
+      .map(normalizeRoute)
+      .filter(shouldGenerateDocsRouteOg)
+      .map(docsMirrorRouteFromRoute)
+      .filter(route => route !== undefined)
+  )
+}
+
+function uniquePrerenderPages(pages: DocsPrerenderPage[]) {
+  return [...new Map(pages.map(page => [page.path, page])).values()]
+}
+
+export function getDocsPrerenderPages(
+  projectRoot: string,
+  config: DocsConfig = {},
+  i18n: I18nConfig,
+  {
+    extraPages = [],
+    includeDocsRoot = true,
+    includeLocalizedDocsRoots = true,
+    routes = []
+  }: DocsPrerenderPagesOptions = {}
+) {
+  const resolved = resolveDocsConfig(config)
+  const {
+    defaultDocsStaticPaths,
+    docsShellStaticPaths,
+    docsStaticPathsByLocale
+  } = getDocsStaticPaths(projectRoot, config, i18n)
+  const routeEntries = routes.map(normalizeRoute).filter(shouldPrerenderRoute)
+
+  for (const route of routeEntries) {
+    assertSupportedRoute(route)
+  }
+
+  const globDocsRoutes = unique([
+    ...routeEntries.flatMap(route => {
+      const docsRoute = docsMirrorRouteFromRoute(route)
+
+      return docsRoute ? [docsRoute] : []
+    })
+  ])
+  const staticRoutes = routeEntries.filter(
+    route => !routeRootFromGlob(route.path)
+  )
+
+  return uniquePrerenderPages([
+    ...(includeDocsRoot ? [createDocsPrerenderPage(resolved.docsRoute)] : []),
+    ...defaultDocsStaticPaths.map(createDocsPrerenderPage),
+    ...globDocsRoutes.flatMap(route =>
+      docsShellStaticPaths.map(pagePath =>
+        createDocsPrerenderPage(
+          replaceDocsRoute(pagePath, resolved.docsRoute, route)
+        )
+      )
+    ),
+    ...i18n.languages.flatMap(lang => [
+      ...(includeLocalizedDocsRoots
+        ? [
+            createDocsPrerenderPage(`/${lang}`),
+            createDocsPrerenderPage(`/${lang}${resolved.docsRoute}`)
+          ]
+        : []),
+      ...docsStaticPathsByLocale[lang].map(pagePath =>
+        createDocsPrerenderPage(`/${lang}${pagePath}`)
+      )
+    ]),
+    ...staticRoutes.map(createDocsPrerenderPageFromRoute),
+    ...extraPages.map(normalizeDocsPrerenderPage)
+  ])
+}
+
+export function getVxDocsPrerenderPages(
+  projectRoot = process.cwd(),
+  options: DocsPrerenderPagesOptions = {}
+) {
+  const { docs, i18n, routes } = loadVxDocsConfig(projectRoot)
+
+  return getDocsPrerenderPages(projectRoot, docs, i18n, {
+    ...options,
+    routes: [...routes, ...(options.routes ?? [])]
+  })
+}
+
 function assertGeneratedOutput(docsDir: string, outputDir: string) {
   const relativePath = path.relative(docsDir, outputDir)
 
@@ -224,16 +449,6 @@ function discoverOpenAPISpecs(
   openapiDirName: string
 ): OpenAPISpec[] {
   const specs: OpenAPISpec[] = []
-  const rootSpec = path.join(projectRoot, 'openapi.yaml')
-
-  if (fs.existsSync(rootSpec)) {
-    specs.push({
-      documentId: 'openapi',
-      inputPath: rootSpec,
-      outputDir: path.join(docsDir, 'openapi', '(generated)')
-    })
-  }
-
   const openapiDir = path.join(projectRoot, openapiDirName)
   const folderSpecs = walkFiles(openapiDir)
     .filter(filePath => openapiExtensions.has(path.extname(filePath)))
@@ -241,17 +456,13 @@ function discoverOpenAPISpecs(
 
   for (const inputPath of folderSpecs) {
     const relativePath = path.relative(openapiDir, inputPath)
-    const relativeWithoutExtension = withoutExtension(relativePath)
+    const documentId = openAPISpecIdFromRelativePath(relativePath)
+    const outputSegments = documentId === 'openapi' ? [] : documentId.split('/')
 
     specs.push({
-      documentId: slash(relativeWithoutExtension),
+      documentId,
       inputPath,
-      outputDir: path.join(
-        docsDir,
-        'openapi',
-        relativeWithoutExtension,
-        '(generated)'
-      )
+      outputDir: path.join(docsDir, 'openapi', ...outputSegments, '(generated)')
     })
   }
 
@@ -460,14 +671,57 @@ function assertOutputDir(outputDir: string) {
   }
 }
 
+function getDocsOgOutputPaths({
+  docsRoute,
+  entryRoutePath,
+  mirrorRoutes,
+  outputDir
+}: {
+  docsRoute: string
+  entryRoutePath: string
+  mirrorRoutes: string[]
+  outputDir: string
+}) {
+  const suffix =
+    entryRoutePath === docsRoute ? '' : entryRoutePath.slice(docsRoute.length)
+  const outputRoot = path.dirname(outputDir)
+  const outputPaths = [
+    path.join(outputDir, `${suffix}/image.png`.replace(/^\//, ''))
+  ]
+
+  if (entryRoutePath === docsRoute) {
+    outputPaths.push(path.join(outputRoot, 'image.png'))
+  }
+
+  for (const mirrorRoute of mirrorRoutes) {
+    outputPaths.push(
+      path.join(
+        outputRoot,
+        mirrorRoute,
+        `${suffix}/image.png`.replace(/^\//, '')
+      )
+    )
+  }
+
+  return outputPaths
+}
+
 export async function generateDocsOgImages(
   projectRoot: string,
   config: DocsConfig,
-  i18n: I18nConfig
+  i18n: I18nConfig,
+  {
+    routes = []
+  }: {
+    routes?: RouteInput[]
+  } = {}
 ) {
   const resolved = resolveDocsConfig(config)
   const resolvedDocsDir = path.resolve(projectRoot, resolved.docsDir)
   const resolvedOutputDir = path.resolve(projectRoot, resolved.ogOutputDir)
+  const mirrorRoutes = getDocsMirrorRoutes(routes).filter(
+    route => route !== resolved.docsRoute
+  )
   const entries = uniqueByRoute(
     getMdxEntries({
       ...i18n,
@@ -479,35 +733,30 @@ export async function generateDocsOgImages(
   assertOutputDir(resolvedOutputDir)
   fs.rmSync(resolvedOutputDir, { force: true, recursive: true })
 
-  await Promise.all(
+  const generatedImageCounts = await Promise.all(
     entries.map(async entry => {
-      const suffix =
-        entry.routePath === resolved.docsRoute
-          ? ''
-          : entry.routePath.slice(resolved.docsRoute.length)
-      const outputPaths = [
-        path.join(resolvedOutputDir, `${suffix}/image.png`.replace(/^\//, ''))
-      ]
+      const outputPaths = getDocsOgOutputPaths({
+        docsRoute: resolved.docsRoute,
+        entryRoutePath: entry.routePath,
+        mirrorRoutes,
+        outputDir: resolvedOutputDir
+      })
       const response = generateOGImage({
         title: entry.title,
         description: entry.description
       })
       const image = Buffer.from(await response.arrayBuffer())
 
-      if (entry.routePath === resolved.docsRoute) {
-        outputPaths.push(
-          path.join(path.dirname(resolvedOutputDir), 'image.png')
-        )
-      }
-
       for (const outputPath of outputPaths) {
         fs.mkdirSync(path.dirname(outputPath), { recursive: true })
         fs.writeFileSync(outputPath, image)
       }
+
+      return outputPaths.length
     })
   )
 
-  return entries.length
+  return generatedImageCounts.reduce((total, count) => total + count, 0)
 }
 
 export function loadVxDocsConfig(projectRoot = process.cwd()) {
@@ -522,6 +771,7 @@ export function loadVxDocsConfig(projectRoot = process.cwd()) {
     config,
     configFile,
     docs: config.docs ?? {},
-    i18n: config.i18n
+    i18n: config.i18n,
+    routes: config.routes ?? []
   }
 }

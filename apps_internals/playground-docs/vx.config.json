@@ -16,6 +16,25 @@
     "defaultLanguage": "en",
     "languages": ["en", "cn"]
   },
+  "routes": [
+    {
+      "path": "/ui-docs/**",
+      "source": "docs"
+    },
+    {
+      "path": "/ui-notebook/**",
+      "source": "docs"
+    },
+    {
+      "path": "/api/search"
+    },
+    {
+      "path": "/llms-full.txt"
+    },
+    {
+      "path": "/llms.txt"
+    }
+  ],
   "branding": {
     "themeColor": "#000000",
     "backgroundColor": "#ffffff"
