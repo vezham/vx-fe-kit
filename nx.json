@@ -157,11 +157,11 @@
         "{projectRoot}/content/docs/**/*",
         "{projectRoot}/openapi.yaml",
         "{projectRoot}/openapi/**/*",
-        "{workspaceRoot}/vx/tools/docs/generate-content.ts"
+        "{workspaceRoot}/packages/vx/config/src/lib/docs/**/*"
       ],
       "options": {
         "cwd": "{workspaceRoot}",
-        "command": "tsx vx/tools/docs/generate-content.ts {projectRoot}"
+        "command": "tsx packages/vx/config/src/lib/docs/cli.ts generate {projectRoot}"
       }
     },
     "og:generate": {
@@ -173,13 +173,12 @@
         "{projectRoot}/content/**/*",
         "{projectRoot}/openapi.yaml",
         "{projectRoot}/openapi/**/*",
-        "{workspaceRoot}/vx/tools/docs/generate-content.ts",
-        "{workspaceRoot}/vx/tools/docs/generate-og-images.ts"
+        "{workspaceRoot}/packages/vx/config/src/lib/docs/**/*"
       ],
       "outputs": ["{projectRoot}/public/og"],
       "options": {
         "cwd": "{workspaceRoot}",
-        "command": "tsx vx/tools/docs/generate-og-images.ts {projectRoot}"
+        "command": "tsx packages/vx/config/src/lib/docs/cli.ts og {projectRoot}"
       }
     },
     "serve:next": {

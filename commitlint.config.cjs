@@ -50,7 +50,8 @@ module.exports = async () => {
       'body-leading-blank': [2, 'always'],
       'footer-leading-blank': [2, 'always'],
       'body-max-length': [2, 'always', 2500],
-      'body-max-line-length': [2, 'always', 2500]
+      'body-max-line-length': [2, 'always', 2500],
+      'footer-max-line-length': [2, 'always', 250]
     }
   }
 }

@@ -19,6 +19,11 @@
       "types": "./src/lib/metadata/index.ts",
       "import": "./src/lib/metadata/index.ts",
       "default": "./src/lib/metadata/index.ts"
+    },
+    "./docs": {
+      "types": "./src/lib/docs/index.ts",
+      "import": "./src/lib/docs/index.ts",
+      "default": "./src/lib/docs/index.ts"
     }
   }
 }
