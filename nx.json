@@ -176,7 +176,7 @@
         "{workspaceRoot}/vx/tools/docs/generate-content.ts",
         "{workspaceRoot}/vx/tools/docs/generate-og-images.ts"
       ],
-      "outputs": ["{projectRoot}/public/og-docs"],
+      "outputs": ["{projectRoot}/public/og"],
       "options": {
         "cwd": "{workspaceRoot}",
         "command": "tsx vx/tools/docs/generate-og-images.ts {projectRoot}"

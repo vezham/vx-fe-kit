@@ -186,7 +186,8 @@ export const vxMetadata = {
     "type": "website",
     "title": "Vezham Playground Docs",
     "description": "single app to manage your Vezham Playground Docs",
-    "image": "https://static.cdn.vezham.com/apps_internals/playground-docs/icons/icon-512x512.png?vx=26.0.0-alpha.1",
+    "image": "/og/image.png",
+    "imageSource": "path",
     "url": "https://playground-docs.vezham.app"
   },
   "twitter": {
@@ -194,7 +195,7 @@ export const vxMetadata = {
     "site": "@vezham",
     "title": "Vezham Playground Docs",
     "description": "single app to manage your Vezham Playground Docs",
-    "image": "https://static.cdn.vezham.com/apps_internals/playground-docs/icons/icon-512x512.png?vx=26.0.0-alpha.1",
+    "image": "/og/image.png",
     "url": "https://playground-docs.vezham.app",
     "card": "summary_large_image"
   }
@@ -290,7 +291,7 @@ export const tanstackHead = {
     },
     {
       "property": "og:image",
-      "content": "https://static.cdn.vezham.com/apps_internals/playground-docs/icons/icon-512x512.png?vx=26.0.0-alpha.1"
+      "content": "/og/image.png"
     },
     {
       "property": "og:url",
@@ -314,7 +315,7 @@ export const tanstackHead = {
     },
     {
       "name": "twitter:image",
-      "content": "https://static.cdn.vezham.com/apps_internals/playground-docs/icons/icon-512x512.png?vx=26.0.0-alpha.1"
+      "content": "/og/image.png"
     },
     {
       "name": "twitter:url",
@@ -800,7 +801,7 @@ export const nextMetadata = {
     "title": "Vezham Playground Docs",
     "description": "single app to manage your Vezham Playground Docs",
     "images": [
-      "https://static.cdn.vezham.com/apps_internals/playground-docs/icons/icon-512x512.png?vx=26.0.0-alpha.1"
+      "/og/image.png"
     ],
     "url": "https://playground-docs.vezham.app"
   },
@@ -810,7 +811,7 @@ export const nextMetadata = {
     "title": "Vezham Playground Docs",
     "description": "single app to manage your Vezham Playground Docs",
     "images": [
-      "https://static.cdn.vezham.com/apps_internals/playground-docs/icons/icon-512x512.png?vx=26.0.0-alpha.1"
+      "/og/image.png"
     ],
     "card": "summary_large_image"
   },

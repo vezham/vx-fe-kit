@@ -134,7 +134,7 @@ async function generateDocsOgImages(
     docsDir = 'content/docs',
     docsRoute = '/docs',
     languages,
-    outputDir = 'public/og-docs'
+    outputDir = 'public/og/docs'
   }: I18nConfig & DocsConfig
 ) {
   const resolvedDocsDir = path.resolve(projectRoot, docsDir)
@@ -157,17 +157,25 @@ async function generateDocsOgImages(
         entry.routePath === docsRoute
           ? ''
           : entry.routePath.slice(docsRoute.length)
-      const outputPath = path.join(
-        resolvedOutputDir,
-        `${suffix}/image.png`.replace(/^\//, '')
-      )
+      const outputPaths = [
+        path.join(resolvedOutputDir, `${suffix}/image.png`.replace(/^\//, ''))
+      ]
       const response = generateOGImage({
         title: entry.title,
         description: entry.description
       })
+      const image = Buffer.from(await response.arrayBuffer())
 
-      fs.mkdirSync(path.dirname(outputPath), { recursive: true })
-      fs.writeFileSync(outputPath, Buffer.from(await response.arrayBuffer()))
+      if (entry.routePath === docsRoute) {
+        outputPaths.push(
+          path.join(path.dirname(resolvedOutputDir), 'image.png')
+        )
+      }
+
+      for (const outputPath of outputPaths) {
+        fs.mkdirSync(path.dirname(outputPath), { recursive: true })
+        fs.writeFileSync(outputPath, image)
+      }
     })
   )
 

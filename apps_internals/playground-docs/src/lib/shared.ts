@@ -1,6 +1,6 @@
 export const appName = 'Playground Docs'
 export const docsRoute = '/docs'
-export const docsImageRoute = '/og-docs'
+export const docsImageRoute = '/og/docs'
 
 export function encodeMarkdownUrl(slugs: string[], locale?: string) {
   const segments = [...slugs]

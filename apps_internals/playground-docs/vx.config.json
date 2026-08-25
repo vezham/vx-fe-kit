@@ -189,13 +189,13 @@
     "social": {
       "openGraph": {
         "type": "website",
-        "image": "icons/icon-512x512.png"
+        "image": "/og/image.png"
       },
       "twitter": {
         "creator": "@vezham",
         "site": "@vezham",
         "card": "summary_large_image",
-        "image": "icons/icon-512x512.png"
+        "image": "/og/image.png"
       }
     }
   }

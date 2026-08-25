@@ -186,7 +186,8 @@ export const vxMetadata = {
     "type": "website",
     "title": "Vezham Play Start",
     "description": "single app to manage your Vezham Play Start",
-    "image": "https://static.cdn.vezham.com/apps_internals/play-start/icons/icon-512x512.png?vx=26.0.0-alpha.1",
+    "image": "/og/image.png",
+    "imageSource": "path",
     "url": "https://play-start.vezham.app"
   },
   "twitter": {
@@ -194,11 +195,13 @@ export const vxMetadata = {
     "site": "@vezham",
     "title": "Vezham Play Start",
     "description": "single app to manage your Vezham Play Start",
-    "image": "https://static.cdn.vezham.com/apps_internals/play-start/icons/icon-512x512.png?vx=26.0.0-alpha.1",
+    "image": "/og/image.png",
     "url": "https://play-start.vezham.app",
     "card": "summary_large_image"
   }
 } as const
+
+export const vxI18n = undefined
 
 export const tanstackHead = {
   "meta": [
@@ -282,7 +285,7 @@ export const tanstackHead = {
     },
     {
       "property": "og:image",
-      "content": "https://static.cdn.vezham.com/apps_internals/play-start/icons/icon-512x512.png?vx=26.0.0-alpha.1"
+      "content": "/og/image.png"
     },
     {
       "property": "og:url",
@@ -306,7 +309,7 @@ export const tanstackHead = {
     },
     {
       "name": "twitter:image",
-      "content": "https://static.cdn.vezham.com/apps_internals/play-start/icons/icon-512x512.png?vx=26.0.0-alpha.1"
+      "content": "/og/image.png"
     },
     {
       "name": "twitter:url",
@@ -792,7 +795,7 @@ export const nextMetadata = {
     "title": "Vezham Play Start",
     "description": "single app to manage your Vezham Play Start",
     "images": [
-      "https://static.cdn.vezham.com/apps_internals/play-start/icons/icon-512x512.png?vx=26.0.0-alpha.1"
+      "/og/image.png"
     ],
     "url": "https://play-start.vezham.app"
   },
@@ -802,7 +805,7 @@ export const nextMetadata = {
     "title": "Vezham Play Start",
     "description": "single app to manage your Vezham Play Start",
     "images": [
-      "https://static.cdn.vezham.com/apps_internals/play-start/icons/icon-512x512.png?vx=26.0.0-alpha.1"
+      "/og/image.png"
     ],
     "card": "summary_large_image"
   },

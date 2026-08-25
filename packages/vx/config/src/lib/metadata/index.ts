@@ -97,13 +97,13 @@ type VxMetadataConfig = {
   social: {
     openGraph: {
       type: string
-      image: string
+      image?: string
     }
     twitter: {
       creator: string
       site: string
       card: string
-      image: string
+      image?: string
     }
   }
 }
@@ -171,6 +171,33 @@ const toAssetUrl = (
   /^https?:\/\//.test(assetPath) || assetPath.startsWith('/')
     ? assetPath
     : versionedAssetUrl(assetPath)
+
+type SocialImageSource = 'default' | 'path' | 'url'
+
+type ResolvedSocialImage = {
+  source: SocialImageSource
+  url: string
+}
+
+const resolveSocialImage = (image: string | undefined): ResolvedSocialImage => {
+  const value = image?.trim()
+
+  if (!value) {
+    return {
+      source: 'default',
+      url: '/og/image.png'
+    }
+  }
+
+  if (/^https?:\/\//i.test(value)) {
+    return { source: 'url', url: value }
+  }
+
+  return {
+    source: 'path',
+    url: `/${value.replace(/^\/+/, '')}`
+  }
+}
 
 const getStartupImageMedia = (image: VxStartupImage) => {
   if (image.media) {
@@ -311,8 +338,10 @@ const getRuntimeMetadata = (config: VxConfig, projectRoot = process.cwd()) => {
   const faviconDark = versionedAssetUrl('favicon-dark.png')
   const maskIcon = versionedAssetUrl('safari-pinned-tab.svg')
   const appleTouchIcon = versionedAssetUrl(apple.touchIcon)
-  const openGraphImage = toAssetUrl(openGraph.image, versionedAssetUrl)
-  const twitterImage = toAssetUrl(twitter.image, versionedAssetUrl)
+  const openGraphImage = resolveSocialImage(openGraph.image)
+  const twitterImage = resolveSocialImage(
+    twitter.image?.trim() ? twitter.image : openGraph.image
+  )
   const startupImages = normalizeStartupImages(apple.startupImages).map(
     image => ({
       media: getStartupImageMedia(image),
@@ -356,7 +385,8 @@ const getRuntimeMetadata = (config: VxConfig, projectRoot = process.cwd()) => {
       type: openGraph.type,
       title: core.name,
       description,
-      image: openGraphImage,
+      image: openGraphImage.url,
+      imageSource: openGraphImage.source,
       url: core.url
     },
     twitter: {
@@ -364,7 +394,7 @@ const getRuntimeMetadata = (config: VxConfig, projectRoot = process.cwd()) => {
       site: twitter.site,
       title: core.name,
       description,
-      image: twitterImage,
+      image: twitterImage.url,
       url: core.url,
       card: twitter.card
     }

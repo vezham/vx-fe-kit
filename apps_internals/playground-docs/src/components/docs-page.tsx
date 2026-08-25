@@ -84,11 +84,15 @@ function normalizeDocsRoutePath(routePath: string) {
   return routePath
 }
 
-function docsOgImageUrl(routePath: string) {
+function docsOgImagePath(routePath: string) {
+  if ((vxMetadata.openGraph.imageSource as string) !== 'default') {
+    return vxMetadata.openGraph.image
+  }
+
   const docsPath = normalizeDocsRoutePath(routePath)
   const suffix = docsPath === docsRoute ? '' : docsPath.slice(docsRoute.length)
 
-  return absoluteSiteUrl(`${docsImageRoute}${suffix}/image.png`)
+  return `${docsImageRoute}${suffix}/image.png`
 }
 
 export function getDocsRouteHead(data?: LoadedDocsPage) {
@@ -101,7 +105,7 @@ export function getDocsRouteHead(data?: LoadedDocsPage) {
   const docsPath = normalizeDocsRoutePath(data.routePath)
   const pageUrl =
     data.lang === i18n.defaultLanguage ? docsPath : `/${data.lang}${docsPath}`
-  const imageUrl = docsOgImageUrl(docsPath)
+  const imageUrl = docsOgImagePath(docsPath)
 
   return {
     meta: [
