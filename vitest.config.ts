@@ -1,3 +1,4 @@
+import { fumadocsMdx } from 'fumadocs-mdx/vite'
 import { existsSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -37,6 +38,20 @@ const findProjectConfig = () => {
 
 export default defineVitestConfig(async () => {
   const baseConfig = {
+    plugins: [
+      fumadocsMdx({
+        macro: {
+          include: [
+            '**/*.js',
+            '**/*.jsx',
+            '**/*.mjs',
+            '**/*.ts',
+            '**/*.tsx',
+            '**/*.mts'
+          ]
+        }
+      })
+    ],
     resolve: {
       tsconfigPaths: true
     },
