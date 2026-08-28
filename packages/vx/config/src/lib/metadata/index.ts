@@ -7,8 +7,11 @@ import {
 } from 'node:fs'
 import path from 'node:path'
 
+import { type DocsConfig, resolveDocsConfig } from '../docs'
+
 type VxConfig = {
   core: VxCoreConfig
+  docs?: DocsConfig
   i18n?: VxI18nConfig
   branding: {
     themeColor: string
@@ -863,6 +866,10 @@ const getGeneratedMetadataModule = (
 ) => `// ${generatedNotice}
 
 export const vxMetadata = ${stringifyTs(getRuntimeMetadata(config, projectRoot))} as const
+
+export const vxCore = ${stringifyTs(config.core)} as const
+
+export const vxDocs = ${stringifyTs(resolveDocsConfig(config.docs))} as const
 
 export const vxI18n = ${
   config.i18n ? `${stringifyTs(config.i18n)} as const` : 'undefined'

@@ -1,7 +1,7 @@
 import { Callout } from 'fumadocs-ui/components/callout'
 import type { ComponentProps } from 'react'
 
-export function CalloutStory(
+export function CalloutPreview(
   props: Pick<ComponentProps<typeof Callout>, 'title' | 'type' | 'children'>
 ) {
   return (

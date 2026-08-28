@@ -1,22 +1,13 @@
-import { createRootRoute, useParams } from '@tanstack/react-router'
-import { openapiTranslations } from 'fumadocs-openapi/i18n'
-import { i18nProvider, uiTranslations } from 'fumadocs-ui/i18n'
+import { createRootRoute } from '@tanstack/react-router'
 
-import { defineConfig } from '@vx/start/tanstack-docs'
+import { createRootComponent } from '@vx/start/tanstack-docs'
 
+import { i18n } from '@app/docs'
 import { tanstackHead } from '@generated/vx'
-import { i18n, resolveLocale } from '@src/lib/i18n'
 
-export const Route = createRootRoute({
-  head: () => tanstackHead,
-  component: RootComponent
-})
-
-const translations = i18n
-  .translations()
-  .extend(uiTranslations())
-  .extend(openapiTranslations())
-  .add({
+const RootComponent = createRootComponent({
+  i18n,
+  translations: {
     en: {
       displayName: 'English'
     },
@@ -24,16 +15,10 @@ const translations = i18n
       displayName: '中文',
       'Search(search trigger)': '搜尋'
     }
-  })
+  }
+})
 
-function RootComponent() {
-  const { lang = i18n.defaultLanguage } = useParams({ strict: false })
-  const locale = resolveLocale(lang)
-
-  return defineConfig({
-    lang: locale,
-    rootProvider: {
-      i18n: i18nProvider(translations, locale)
-    }
-  })
-}
+export const Route = createRootRoute({
+  head: () => tanstackHead,
+  component: RootComponent
+})

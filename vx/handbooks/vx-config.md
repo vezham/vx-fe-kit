@@ -94,23 +94,24 @@ OpenAPI-generated docs pages are included for each locale.
 
 ## Docs
 
-`docs` controls docs content discovery, OpenAPI input discovery, and default
-docs OG output.
+`docs` controls the public docs route and its matching generated OG route.
+
+Docs content and OpenAPI inputs use the fixed conventions `content/docs` and
+`openapi`, respectively. Fumadocs and Vite need those source paths to be
+literal at compile time.
 
 Defaults:
 
 ```json
 {
   "docs": {
-    "contentDir": "content/docs",
-    "docsRoute": "/docs",
-    "openapiDir": "openapi",
-    "outputDir": "public/og/docs"
+    "docsRoute": "/docs"
   }
 }
 ```
 
-All fields are optional. Only set them when the app differs from the defaults.
+The field is optional. When `docsRoute` is `/guides`, generated docs OG images
+are written under `public/og/guides` and the runtime uses `/og/guides`.
 
 ---
 

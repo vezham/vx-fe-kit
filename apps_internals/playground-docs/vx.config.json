@@ -18,15 +18,8 @@
   },
   "routes": [
     {
-      "path": "/ui-docs/**",
-      "source": "docs"
-    },
-    {
-      "path": "/ui-notebook/**",
-      "source": "docs"
-    },
-    {
-      "path": "/api/search"
+      "path": "/api/**",
+      "source": "routes"
     },
     {
       "path": "/llms-full.txt"

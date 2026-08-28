@@ -547,6 +547,9 @@ importers:
 
   packages/vx/start:
     dependencies:
+      '@fumadocs/story':
+        specifier: 1.2.0
+        version: 1.2.0(467b12ddf8691a5190bfc168ad98b7a8)
       '@vx/template':
         specifier: workspace:*
         version: link:../template

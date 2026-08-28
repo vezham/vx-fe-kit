@@ -34,6 +34,16 @@
       "import": "./src/lib/runtime/*/index.ts",
       "default": "./src/lib/runtime/*/index.ts"
     },
+    "./mdx": {
+      "types": "./src/lib/mdx/index.tsx",
+      "import": "./src/lib/mdx/index.tsx",
+      "default": "./src/lib/mdx/index.tsx"
+    },
+    "./story": {
+      "types": "./src/lib/story/index.ts",
+      "import": "./src/lib/story/index.ts",
+      "default": "./src/lib/story/index.ts"
+    },
     "./next": {
       "types": "./src/lib/provider/next/index.tsx",
       "import": "./src/lib/provider/next/index.tsx",
@@ -46,6 +56,7 @@
     }
   },
   "dependencies": {
+    "@fumadocs/story": "1.2.0",
     "@vx/template": "workspace:*",
     "fumadocs-core": "latest",
     "fumadocs-openapi": "latest",

@@ -84,7 +84,7 @@
         ]
       },
       {
-        "source": "/api/search",
+        "source": "/api/**",
         "headers": [
           {
             "key": "Cache-Control",

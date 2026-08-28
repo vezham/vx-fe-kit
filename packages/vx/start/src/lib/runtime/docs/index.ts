@@ -1,4 +1,4 @@
-import type { I18nConfig } from 'fumadocs-core/i18n'
+import { type I18nConfig, defineI18n } from 'fumadocs-core/i18n'
 import { type SearchAPI, createFromSource } from 'fumadocs-core/search/server'
 import { type StaticSource, llms, loader } from 'fumadocs-core/source'
 import { lucideIconsPlugin } from 'fumadocs-core/source/lucide-icons'
@@ -7,7 +7,12 @@ import { createOpenAPI } from 'fumadocs-openapi/server'
 import { parse } from 'yaml'
 
 export const defaultDocsRoute = '/docs'
-export const defaultDocsImageRoute = '/og/docs'
+
+export function getDocsImageRoute(docsRoute = defaultDocsRoute) {
+  return `/og${docsRoute}`
+}
+
+export const defaultDocsImageRoute = getDocsImageRoute()
 
 type OpenAPIDocument = Exclude<
   NonNullable<OpenAPIOptions['input']>,
@@ -22,6 +27,10 @@ type DocsOpenAPIPlugin = {
 
 type DocsOpenAPIRuntime = {
   getSchema: (documentId: string) => Promise<unknown>
+}
+
+type DocsOpenAPIPreloader = {
+  preloadOpenAPIPage: (page: never) => Promise<unknown>
 }
 
 export type OpenAPISourceFiles = Record<string, string>
@@ -49,7 +58,7 @@ export type DocsPageLike = {
 
 export type DocsRouteHeadData = {
   description?: string
-  lang: string
+  locale: string
   routePath: string
   title: string
 }
@@ -64,6 +73,11 @@ export type DocsRouteHeadOptions = {
   openGraphImageSource?: string
   siteDescription: string
   siteUrl: string
+}
+
+export type DocsI18nInput<Languages extends readonly string[]> = {
+  defaultLanguage: Languages[number]
+  languages: Languages
 }
 
 function slash(value: string) {
@@ -159,6 +173,31 @@ export function createOpenAPIFromSources({
   return createOpenAPI({ input })
 }
 
+export function createDocsI18n<const Languages extends readonly string[]>(
+  config: DocsI18nInput<Languages>
+) {
+  return defineI18n({
+    defaultLanguage: config.defaultLanguage,
+    languages: [...config.languages]
+  })
+}
+
+export function normalizeLocale<Locale extends string>(
+  i18n: {
+    defaultLanguage: Locale
+    languages: readonly Locale[]
+  },
+  lang?: string
+): Locale {
+  return i18n.languages.includes(lang as Locale)
+    ? (lang as Locale)
+    : i18n.defaultLanguage
+}
+
+export function localizedUrl(locale: string, path: string) {
+  return `/${locale}${path.startsWith('/') ? path : `/${path}`}`
+}
+
 export function createDocsSource<
   Docs extends StaticSource,
   I18n extends I18nConfig
@@ -183,6 +222,33 @@ export function createDocsSource<
       plugins: [lucideIconsPlugin(), openapi.loaderPlugin()]
     }
   )
+}
+
+export function createDocsRuntime<
+  Docs extends StaticSource,
+  I18n extends I18nConfig
+>({
+  docs,
+  docsRoute,
+  i18n,
+  openapi
+}: {
+  docs: Docs
+  docsRoute?: string
+  i18n: I18n
+  openapi: DocsOpenAPIPlugin & DocsOpenAPIRuntime & DocsOpenAPIPreloader
+}) {
+  const source = createDocsSource({ docs, docsRoute, i18n, openapi })
+
+  return {
+    source,
+    preloadOpenAPIPage: (page: (typeof source)['$inferPage']) =>
+      getOpenAPIDocumentId(page)
+        ? openapi.preloadOpenAPIPage(page as never)
+        : undefined,
+    getLLMText: (page: (typeof source)['$inferPage']) =>
+      getDocsLLMText(page, openapi)
+  }
 }
 
 export function getOpenAPIDocumentId(page: DocsPageLike) {
@@ -229,7 +295,7 @@ export function getDocsLLMSIndex(source: unknown) {
   return llms(source as Parameters<typeof llms>[0]).index()
 }
 
-export function createDocsSearchServer(source: unknown): SearchAPI {
+export function createSearchServer(source: unknown): SearchAPI {
   return createFromSource(source as Parameters<typeof createFromSource>[0])
 }
 
@@ -321,7 +387,7 @@ export function getDocsRouteHead(
     routePath: data.routePath
   })
   const pageUrl =
-    data.lang === defaultLanguage ? docsPath : `/${data.lang}${docsPath}`
+    data.locale === defaultLanguage ? docsPath : `/${data.locale}${docsPath}`
   const imageUrl = getDocsOgImagePath({
     docsImageRoute,
     docsRoute,

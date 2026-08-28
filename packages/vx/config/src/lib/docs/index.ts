@@ -6,11 +6,7 @@ import path from 'node:path'
 import { parse } from 'yaml'
 
 export type DocsConfig = {
-  contentDir?: string
-  docsDir?: string
   docsRoute?: string
-  openapiDir?: string
-  outputDir?: string
 }
 
 export type I18nConfig = {
@@ -64,7 +60,7 @@ export type RouteConfig = {
     | {
         outputPath?: string
       }
-  source?: 'docs'
+  source?: 'docs' | 'routes'
 }
 
 export type RouteInput = RouteConfig | string
@@ -79,15 +75,22 @@ export type DocsPrerenderPagesOptions = {
 const defaultContentDir = 'content/docs'
 const defaultDocsRoute = '/docs'
 const defaultOpenApiDir = 'openapi'
-const defaultOgOutputDir = 'public/og/docs'
 const openapiExtensions = new Set(['.json', '.yaml', '.yml'])
+const routeFileExtensions = new Set(['.js', '.jsx', '.ts', '.tsx'])
+
+function docsImageRoute(docsRoute: string) {
+  return `/og${docsRoute}`
+}
 
 export function resolveDocsConfig(config: DocsConfig = {}) {
+  const docsRoute = config.docsRoute ?? defaultDocsRoute
+
   return {
-    docsDir: config.docsDir ?? config.contentDir ?? defaultContentDir,
-    docsRoute: config.docsRoute ?? defaultDocsRoute,
-    openapiDir: config.openapiDir ?? defaultOpenApiDir,
-    ogOutputDir: config.outputDir ?? defaultOgOutputDir
+    docsDir: defaultContentDir,
+    docsRoute,
+    docsImageRoute: docsImageRoute(docsRoute),
+    openapiDir: defaultOpenApiDir,
+    ogOutputDir: `public${docsImageRoute(docsRoute)}`
   }
 }
 
@@ -252,6 +255,10 @@ function shouldWritePrerenderIndex(pagePath: string) {
   return path.extname(pagePath) === '' && !pagePath.startsWith('/api/')
 }
 
+function isDocsShellPath(pagePath: string) {
+  return !pagePath.endsWith('.md')
+}
+
 function createDocsPrerenderPage(pagePath: string): DocsPrerenderPage {
   return {
     path: pagePath,
@@ -305,6 +312,85 @@ function docsMirrorRouteFromRoute(route: RouteConfig) {
   return routeRoot && route.source === 'docs' ? routeRoot : undefined
 }
 
+function decodeRouteSegment(segment: string) {
+  return segment.split('[.]').join('.')
+}
+
+function isPathlessRouteSegment(segment: string) {
+  return segment.startsWith('(') && segment.endsWith(')')
+}
+
+function isDynamicRouteSegment(segment: string) {
+  return segment === '$' || segment.includes('$') || segment.includes('{')
+}
+
+function routePathFromFile(routesDir: string, filePath: string) {
+  const extension = path.extname(filePath)
+
+  if (!routeFileExtensions.has(extension)) {
+    return
+  }
+
+  const relativePath = slash(path.relative(routesDir, filePath))
+  const segments = withoutExtension(relativePath)
+    .split('/')
+    .filter(segment => segment !== '__root__')
+
+  if (segments[segments.length - 1] === 'index') {
+    segments.pop()
+  }
+
+  if (segments[segments.length - 1] === 'route') {
+    segments.pop()
+  }
+
+  const routeSegments = segments
+    .filter(segment => !isPathlessRouteSegment(segment))
+    .map(decodeRouteSegment)
+
+  if (routeSegments.length === 0 || routeSegments.some(isDynamicRouteSegment)) {
+    return
+  }
+
+  return `/${routeSegments.join('/')}`
+}
+
+function getStaticFilesystemRoutes(projectRoot: string, routeRoot: string) {
+  const routesDir = path.join(projectRoot, 'src/routes')
+
+  return unique(
+    walkFiles(routesDir)
+      .map(filePath => routePathFromFile(routesDir, filePath))
+      .filter(routePath => routePath !== undefined)
+      .filter(
+        routePath =>
+          routePath === routeRoot || routePath.startsWith(`${routeRoot}/`)
+      )
+      .sort((left, right) => left.localeCompare(right))
+  )
+}
+
+function createFilesystemRoutePrerenderPages(
+  projectRoot: string,
+  route: RouteConfig
+) {
+  const routeRoot = routeRootFromGlob(route.path)
+
+  if (!routeRoot || route.source !== 'routes') {
+    return []
+  }
+
+  if (typeof route.prerender === 'object' && route.prerender.outputPath) {
+    throw new Error(
+      `Unsupported prerender outputPath for filesystem route glob "${route.path}". Use exact paths for custom output paths.`
+    )
+  }
+
+  return getStaticFilesystemRoutes(projectRoot, routeRoot).map(pagePath =>
+    createDocsPrerenderPageFromRoute({ ...route, path: pagePath })
+  )
+}
+
 function shouldGenerateDocsRouteOg(route: RouteConfig) {
   const hasDocsMirrorGlob = docsMirrorRouteFromRoute(route) !== undefined
 
@@ -318,12 +404,12 @@ function shouldGenerateDocsRouteOg(route: RouteConfig) {
 function assertSupportedRoute(route: RouteConfig) {
   const routeRoot = routeRootFromGlob(route.path)
 
-  if (!routeRoot || route.source === 'docs') {
+  if (!routeRoot || route.source === 'docs' || route.source === 'routes') {
     return
   }
 
   throw new Error(
-    `Unsupported route source "${route.source ?? 'none'}" for glob route "${route.path}". Use source "docs" or provide an exact path.`
+    `Unsupported route source "${route.source ?? 'none'}" for glob route "${route.path}". Use source "docs", source "routes", or provide an exact path.`
   )
 }
 
@@ -400,6 +486,17 @@ export function getDocsPrerenderPages(
         )
       )
     ),
+    ...i18n.languages.flatMap(lang =>
+      globDocsRoutes.flatMap(route =>
+        docsStaticPathsByLocale[lang]
+          .filter(isDocsShellPath)
+          .map(pagePath =>
+            createDocsPrerenderPage(
+              `/${lang}${replaceDocsRoute(pagePath, resolved.docsRoute, route)}`
+            )
+          )
+      )
+    ),
     ...i18n.languages.flatMap(lang => [
       ...(includeLocalizedDocsRoots
         ? [
@@ -411,6 +508,9 @@ export function getDocsPrerenderPages(
         createDocsPrerenderPage(`/${lang}${pagePath}`)
       )
     ]),
+    ...routeEntries.flatMap(route =>
+      createFilesystemRoutePrerenderPages(projectRoot, route)
+    ),
     ...staticRoutes.map(createDocsPrerenderPageFromRoute),
     ...extraPages.map(normalizeDocsPrerenderPage)
   ])

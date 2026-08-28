@@ -3,8 +3,7 @@ import { createFileRoute } from '@tanstack/react-router'
 export const Route = createFileRoute('/api/pulse')({
   server: {
     handlers: {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      GET: async ({ request }) => {
+      GET: async () => {
         return new Response('API: Hello World')
       }
     }

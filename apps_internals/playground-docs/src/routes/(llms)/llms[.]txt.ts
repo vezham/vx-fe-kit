@@ -2,9 +2,9 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { getDocsLLMSIndex } from '@vx/start/runtime/docs'
 
-import { source } from '@src/lib/source'
+import { source } from '@app/docs'
 
-export const Route = createFileRoute('/llms.txt')({
+export const Route = createFileRoute('/(llms)/llms.txt')({
   server: {
     handlers: {
       GET() {

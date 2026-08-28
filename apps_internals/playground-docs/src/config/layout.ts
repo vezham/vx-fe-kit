@@ -1,24 +1,26 @@
 import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared'
 
-import { type Locale, i18n } from './i18n'
-import { appName } from './shared'
+import { localizedUrl } from '@vx/start/runtime/docs'
+
+import { type Locale, i18n } from '@app/docs'
+import { vxCore } from '@generated/vx'
 
 export function baseOptions(
   locale: Locale = i18n.defaultLanguage
 ): BaseLayoutProps {
   return {
     nav: {
-      title: `${appName} :| ${locale.toUpperCase()}`
+      title: `${vxCore.shortName} :| ${locale.toUpperCase()}`
     },
     links: [
       {
         text: 'UI/docs',
-        url: '/ui-docs/overview',
+        url: localizedUrl(locale, '/ui-docs/overview'),
         active: 'nested-url'
       },
       {
         text: 'UI/notebook',
-        url: '/ui-notebook/overview',
+        url: localizedUrl(locale, '/ui-notebook/overview'),
         active: 'nested-url'
       }
     ]

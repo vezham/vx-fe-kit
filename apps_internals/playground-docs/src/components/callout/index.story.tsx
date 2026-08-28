@@ -1,9 +1,9 @@
-import { defineStory } from '@src/lib/story'
+import { defineStory } from '@vx/start/story'
 
-import { CalloutStory } from './callout'
+import { CalloutPreview } from '@components/callout'
 
 export const story = defineStory({
-  Component: CalloutStory,
+  Component: CalloutPreview,
   displayName: 'Callout',
   args: [
     {

@@ -15,8 +15,12 @@
     "paths": {
       "@/*": ["./*"],
       "@src/*": ["./src/*"],
+      "@app/*": ["./src/app/*"],
+      "@config/*": ["./src/config/*"],
       "@pages/*": ["./src/pages/*"],
+      "@layouts/*": ["./src/layouts/*"],
       "@components/*": ["./src/components/*"],
+      "@routes/*": ["./src/routes/*"],
       "@store/*": ["./src/store/*"],
       "@generated/*": ["./src/generated/*"]
     },
