@@ -8,7 +8,7 @@ const JsVersionActions = jsRelease.default ?? jsRelease
 class VxVersionActions extends JsVersionActions {
   async updateProjectVersion(tree, newVersion) {
     const logMessages = await super.updateProjectVersion(tree, newVersion)
-    const vxConfigPath = join(this.projectGraphNode.data.root, 'vx.config.json')
+    const vxConfigPath = join(this.projectGraphNode.data.root, 'vx.app.json')
 
     if (!tree.exists(vxConfigPath)) {
       return logMessages
@@ -24,7 +24,7 @@ class VxVersionActions extends JsVersionActions {
 
     return [
       ...logMessages,
-      `✍️  New version ${newVersion} written to Vx config: ${vxConfigPath}`
+      `✍️  New version ${newVersion} written to Vx app config: ${vxConfigPath}`
     ]
   }
 }

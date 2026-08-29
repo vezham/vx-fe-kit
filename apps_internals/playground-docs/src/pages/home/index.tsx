@@ -3,9 +3,10 @@ import { HomeLayout } from 'fumadocs-ui/layouts/home'
 
 import { Link, buttonVariants } from '@vezham/react-v3'
 
+import { localizedRouteParam } from '@vx/start/runtime/docs'
 import { Home } from '@vx/template/pages'
 
-import type { Locale } from '@app/docs'
+import { type Locale, i18n } from '@app/docs'
 import { baseOptions } from '@config/layout'
 
 type Props = {
@@ -14,14 +15,14 @@ type Props = {
 
 export default ({ locale }: Props) => {
   const navigate = useNavigate()
-  const lang = locale
+  const lang = localizedRouteParam(i18n, locale)
 
   return (
     <HomeLayout {...baseOptions(locale)}>
       <VLink
         to="/{-$lang}/docs/$"
         params={{
-          lang: locale,
+          lang,
           _splat: ''
         }}
         className={buttonVariants({ variant: 'primary' })}>

@@ -20,6 +20,11 @@
       "import": "./src/lib/metadata/index.ts",
       "default": "./src/lib/metadata/index.ts"
     },
+    "./deploy": {
+      "types": "./src/lib/deploy/index.ts",
+      "import": "./src/lib/deploy/index.ts",
+      "default": "./src/lib/deploy/index.ts"
+    },
     "./docs": {
       "types": "./src/lib/docs/index.ts",
       "import": "./src/lib/docs/index.ts",

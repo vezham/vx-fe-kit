@@ -1,0 +1,10 @@
+{
+  "$schema": "https://vezham.com/schemas/vx.deploy.json",
+  "providers": ["firebase"],
+  "redirectDefaultLanguage": true,
+  "firebase": {
+    "headers": {
+      "docs": true
+    }
+  }
+}

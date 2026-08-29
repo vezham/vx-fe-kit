@@ -201,6 +201,27 @@ export const vxMetadata = {
   }
 } as const
 
+export const vxCore = {
+  "id": "vezham-playground",
+  "name": "Vezham Playground",
+  "shortName": "Playground",
+  "version": "26.0.0-alpha.1",
+  "description": "Single app to manage your Vezham Playground",
+  "publisher": {
+    "name": "Vezham Technologies Private Limited",
+    "url": "https://vezham.com"
+  },
+  "url": "https://playground.vezham.app"
+} as const
+
+export const vxDocs = {
+  "docsDir": "content/docs",
+  "docsRoute": "/docs",
+  "docsImageRoute": "/og/docs",
+  "openapiDir": "openapi",
+  "ogOutputDir": "public/og/docs"
+} as const
+
 export const vxI18n = undefined
 
 export const tanstackHead = {

@@ -77,6 +77,7 @@ export type DocsRouteHeadOptions = {
 
 export type DocsI18nInput<Languages extends readonly string[]> = {
   defaultLanguage: Languages[number]
+  hideLocale?: I18nConfig<Languages[number]>['hideLocale']
   languages: Languages
 }
 
@@ -87,9 +88,11 @@ function slash(value: string) {
 export function encodeMarkdownUrl(
   slugs: string[],
   locale?: string,
-  docsRoute = defaultDocsRoute
+  docsRoute = defaultDocsRoute,
+  defaultLocale?: string
 ) {
   const segments = [...slugs]
+  const localePrefix = locale && locale !== defaultLocale ? locale : undefined
 
   if (segments.length === 0) {
     segments.push('index.md')
@@ -99,7 +102,9 @@ export function encodeMarkdownUrl(
 
   return (
     '/' +
-    [locale, ...docsRoute.split('/'), ...segments].filter(Boolean).join('/')
+    [localePrefix, ...docsRoute.split('/'), ...segments]
+      .filter(Boolean)
+      .join('/')
   )
 }
 
@@ -176,9 +181,12 @@ export function createOpenAPIFromSources({
 export function createDocsI18n<const Languages extends readonly string[]>(
   config: DocsI18nInput<Languages>
 ) {
+  const { hideLocale = 'default-locale', languages, ...i18nConfig } = config
+
   return defineI18n({
-    defaultLanguage: config.defaultLanguage,
-    languages: [...config.languages]
+    ...i18nConfig,
+    hideLocale,
+    languages: [...languages]
   })
 }
 
@@ -194,22 +202,85 @@ export function normalizeLocale<Locale extends string>(
     : i18n.defaultLanguage
 }
 
-export function localizedUrl(locale: string, path: string) {
-  return `/${locale}${path.startsWith('/') ? path : `/${path}`}`
+export function isOptionalLocaleParam<Locale extends string>(
+  i18n: {
+    languages: readonly Locale[]
+  },
+  lang?: string
+): lang is Locale | undefined {
+  return !lang || i18n.languages.includes(lang as Locale)
+}
+
+export function isDefaultLocaleParam<Locale extends string>(
+  i18n: {
+    defaultLanguage: Locale
+  },
+  lang?: string
+): lang is Locale {
+  return lang === i18n.defaultLanguage
+}
+
+function escapeRegExp(value: string) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
+export function getDefaultLocaleRedirectHref<Locale extends string>(
+  i18n: {
+    defaultLanguage: Locale
+  },
+  href: string
+) {
+  const defaultLocalePattern = escapeRegExp(i18n.defaultLanguage)
+  const defaultLocalePrefix = new RegExp(
+    `^/${defaultLocalePattern}(?=/|\\?|#|$)`
+  )
+
+  if (!defaultLocalePrefix.test(href)) {
+    return
+  }
+
+  return href.replace(defaultLocalePrefix, '') || '/'
+}
+
+export function localizedUrl<Locale extends string>(
+  i18n: {
+    defaultLanguage: Locale
+  },
+  locale: Locale,
+  path: string
+) {
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`
+
+  return locale === i18n.defaultLanguage
+    ? normalizedPath
+    : `/${locale}${normalizedPath}`
+}
+
+export function localizedRouteParam<Locale extends string>(
+  i18n: {
+    defaultLanguage: Locale
+  },
+  locale?: Locale
+) {
+  return locale && locale !== i18n.defaultLanguage ? locale : undefined
 }
 
 export function localizeRouteBase<Locale extends string>({
+  defaultLanguage,
   lang,
   languages,
   routeBase
 }: {
+  defaultLanguage?: Locale
   lang?: string
   languages: readonly Locale[]
   routeBase: string
 }) {
   const locale = languages.find(language => language === lang)
 
-  return locale ? `/${locale}${routeBase}` : routeBase
+  return locale && locale !== defaultLanguage
+    ? `/${locale}${routeBase}`
+    : routeBase
 }
 
 export function replaceDocsRouteBase({

@@ -4,6 +4,7 @@ import {
   decodeMarkdownUrl,
   encodeMarkdownUrl,
   getDocsRouteHead as getStartDocsRouteHead,
+  isOptionalLocaleParam,
   localizeRouteBase,
   normalizeLocale,
   replaceDocsRouteBase
@@ -21,6 +22,10 @@ type DocsPageInput = {
 }
 
 export function getDocsPage({ lang, pathFormat, slugs }: DocsPageInput) {
+  if (!isOptionalLocaleParam(i18n, lang)) {
+    throw notFound()
+  }
+
   const resolvedSlugs =
     pathFormat === 'markdown-url' ? decodeMarkdownUrl(slugs) : slugs
   const locale = normalizeLocale(i18n, lang)
@@ -44,6 +49,7 @@ export async function loadDocsPage({
 }) {
   const { locale, page } = getDocsPage({ slugs, lang })
   const resolvedRouteBase = localizeRouteBase({
+    defaultLanguage: i18n.defaultLanguage,
     lang,
     languages: i18n.languages,
     routeBase
@@ -62,7 +68,12 @@ export async function loadDocsPage({
       routeBase: resolvedRouteBase
     }),
     path: page.path,
-    markdownUrl: encodeMarkdownUrl(page.slugs, page.locale),
+    markdownUrl: encodeMarkdownUrl(
+      page.slugs,
+      page.locale,
+      vxDocs.docsRoute,
+      i18n.defaultLanguage
+    ),
     pageTree,
     openapiData: await preloadOpenAPIPage(page)
   }

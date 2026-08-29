@@ -123,7 +123,7 @@
       "executor": "nx:run-commands",
       "cache": true,
       "inputs": [
-        "{projectRoot}/vx.config.json",
+        "{projectRoot}/vx.app.json",
         "{workspaceRoot}/packages/vx/config/src/lib/metadata/**/*"
       ],
       "outputs": [
@@ -142,6 +142,20 @@
         "command": "tsx packages/vx/config/src/lib/metadata/cli.ts generate {projectRoot}"
       }
     },
+    "deploy:generate": {
+      "executor": "nx:run-commands",
+      "cache": true,
+      "inputs": [
+        "{projectRoot}/vx.app.json",
+        "{projectRoot}/vx.deploy.json",
+        "{workspaceRoot}/packages/vx/config/src/lib/deploy/**/*"
+      ],
+      "outputs": ["{workspaceRoot}/vx/deploy/firebase/{projectRoot}.json"],
+      "options": {
+        "cwd": "{workspaceRoot}",
+        "command": "tsx packages/vx/config/src/lib/deploy/cli.ts generate {projectRoot}"
+      }
+    },
     "metadata:watch": {
       "executor": "nx:run-commands",
       "continuous": true,
@@ -150,11 +164,11 @@
         "command": "tsx packages/vx/config/src/lib/metadata/cli.ts watch {projectRoot}"
       }
     },
-    "docs:generate": {
+    "openapi:generate": {
       "executor": "nx:run-commands",
       "cache": false,
       "inputs": [
-        "{projectRoot}/vx.config.json",
+        "{projectRoot}/vx.app.json",
         "{projectRoot}/content/docs/**/*",
         "{projectRoot}/openapi.yaml",
         "{projectRoot}/openapi/**/*",
@@ -168,9 +182,9 @@
     "og:generate": {
       "executor": "nx:run-commands",
       "cache": true,
-      "dependsOn": ["docs:generate"],
+      "dependsOn": ["openapi:generate"],
       "inputs": [
-        "{projectRoot}/vx.config.json",
+        "{projectRoot}/vx.app.json",
         "{projectRoot}/content/**/*",
         "{projectRoot}/openapi.yaml",
         "{projectRoot}/openapi/**/*",

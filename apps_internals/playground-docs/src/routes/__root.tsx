@@ -1,6 +1,9 @@
 import { createRootRoute } from '@tanstack/react-router'
 
-import { createRootComponent } from '@vx/start/tanstack-docs'
+import {
+  createRootComponent,
+  redirectDefaultLocale
+} from '@vx/start/tanstack-docs'
 
 import { i18n } from '@app/docs'
 import { tanstackHead } from '@generated/vx'
@@ -19,6 +22,9 @@ const RootComponent = createRootComponent({
 })
 
 export const Route = createRootRoute({
+  beforeLoad: ({ location }) => {
+    redirectDefaultLocale(i18n, location)
+  },
   head: () => tanstackHead,
   component: RootComponent
 })

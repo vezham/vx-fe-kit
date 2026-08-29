@@ -158,9 +158,14 @@ function openAPISpecIdFromRelativePath(relativePath: string) {
 }
 
 function getLocalizedMdxSuffixes(i18n: I18nConfig) {
-  return i18n.languages
-    .filter(lang => lang !== i18n.defaultLanguage)
-    .map(lang => ({ lang, suffix: `.${lang}.mdx` }))
+  return getNonDefaultLanguages(i18n).map(lang => ({
+    lang,
+    suffix: `.${lang}.mdx`
+  }))
+}
+
+function getNonDefaultLanguages(i18n: I18nConfig) {
+  return i18n.languages.filter(lang => lang !== i18n.defaultLanguage)
 }
 
 function docsPathFromMdx(
@@ -486,7 +491,7 @@ export function getDocsPrerenderPages(
         )
       )
     ),
-    ...i18n.languages.flatMap(lang =>
+    ...getNonDefaultLanguages(i18n).flatMap(lang =>
       globDocsRoutes.flatMap(route =>
         docsStaticPathsByLocale[lang]
           .filter(isDocsShellPath)
@@ -497,7 +502,7 @@ export function getDocsPrerenderPages(
           )
       )
     ),
-    ...i18n.languages.flatMap(lang => [
+    ...getNonDefaultLanguages(i18n).flatMap(lang => [
       ...(includeLocalizedDocsRoots
         ? [
             createDocsPrerenderPage(`/${lang}`),
@@ -860,7 +865,7 @@ export async function generateDocsOgImages(
 }
 
 export function loadVxDocsConfig(projectRoot = process.cwd()) {
-  const configFile = path.join(projectRoot, 'vx.config.json')
+  const configFile = path.join(projectRoot, 'vx.app.json')
   const config = JSON.parse(fs.readFileSync(configFile, 'utf8')) as VxDocsConfig
 
   if (!config.i18n) {

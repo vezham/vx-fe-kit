@@ -882,11 +882,11 @@ export const nextMetadata = ${stringifyTs(getNextMetadata(config, projectRoot))}
 export const nextViewport = ${stringifyTs(getNextViewport(config, projectRoot))}
 `
 
-export const loadVxConfig = (projectRoot = process.cwd()) => {
-  const configFile = path.resolve(projectRoot, 'vx.config.json')
+export const loadVxAppConfig = (projectRoot = process.cwd()) => {
+  const configFile = path.resolve(projectRoot, 'vx.app.json')
 
   if (!existsSync(configFile)) {
-    throw new Error(`Missing vx.config.json at ${configFile}`)
+    throw new Error(`Missing vx.app.json at ${configFile}`)
   }
 
   return readJson<VxConfig>(configFile)
@@ -1156,7 +1156,7 @@ export const getMetadataFiles = (
 
 export const generateMetadata = (options: GenerateMetadataOptions = {}) => {
   const projectRoot = path.resolve(options.projectRoot ?? process.cwd())
-  const files = getMetadataFiles(loadVxConfig(projectRoot), projectRoot)
+  const files = getMetadataFiles(loadVxAppConfig(projectRoot), projectRoot)
 
   for (const file of files) {
     const outputPath = options.publicDir
@@ -1177,7 +1177,7 @@ export const generateMetadata = (options: GenerateMetadataOptions = {}) => {
 
 export const watchMetadata = (options: GenerateMetadataOptions = {}) => {
   const projectRoot = path.resolve(options.projectRoot ?? process.cwd())
-  const configFile = path.join(projectRoot, 'vx.config.json')
+  const configFile = path.join(projectRoot, 'vx.app.json')
   const regenerate = () => {
     const files = generateMetadata(options)
 

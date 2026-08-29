@@ -1,5 +1,5 @@
 {
-  "$schema": "https://vezham.com/schemas/vx.config.json",
+  "$schema": "https://vezham.com/schemas/vx.app.json",
   "core": {
     "id": "vezham-play-start",
     "name": "Vezham Play Start",

@@ -11,6 +11,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as Char123LangChar125RouteRouteImport } from './routes/{-$lang}/route'
 import { Route as llmsLlmsFullDottxtRouteImport } from './routes/(llms)/llms-full[.]txt'
 import { Route as llmsLlmsDottxtRouteImport } from './routes/(llms)/llms[.]txt'
 import { Route as ApiHeartbeatRouteRouteImport } from './routes/api/heartbeat/route'
@@ -24,6 +25,11 @@ import { Route as Char123LangChar125UiNotebookSplatRouteImport } from './routes/
 
 const Char123LangChar125ProLazyRouteImport = createFileRoute('/{-$lang}/pro')()
 
+const Char123LangChar125RouteRoute = Char123LangChar125RouteRouteImport.update({
+  id: '/{-$lang}',
+  path: '/{-$lang}',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const llmsLlmsFullDottxtRoute = llmsLlmsFullDottxtRouteImport.update({
   id: '/(llms)/llms-full.txt',
   path: '/llms-full.txt',
@@ -50,44 +56,45 @@ const ApiSearchRouteRoute = ApiSearchRouteRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const Char123LangChar125IndexRoute = Char123LangChar125IndexRouteImport.update({
-  id: '/{-$lang}/',
-  path: '/{-$lang}/',
-  getParentRoute: () => rootRouteImport,
+  id: '/',
+  path: '/',
+  getParentRoute: () => Char123LangChar125RouteRoute,
 } as any)
 const Char123LangChar125ProLazyRoute =
   Char123LangChar125ProLazyRouteImport.update({
-    id: '/{-$lang}/pro',
-    path: '/{-$lang}/pro',
-    getParentRoute: () => rootRouteImport,
+    id: '/pro',
+    path: '/pro',
+    getParentRoute: () => Char123LangChar125RouteRoute,
   } as any).lazy(() =>
     import('./routes/{-$lang}/pro.lazy').then((d) => d.Route),
   )
 const Char123LangChar125DocsSplatRoute =
   Char123LangChar125DocsSplatRouteImport.update({
-    id: '/{-$lang}/docs/$',
-    path: '/{-$lang}/docs/$',
-    getParentRoute: () => rootRouteImport,
+    id: '/docs/$',
+    path: '/docs/$',
+    getParentRoute: () => Char123LangChar125RouteRoute,
   } as any)
 const Char123LangChar125DocsChar123Char125DotmdRoute =
   Char123LangChar125DocsChar123Char125DotmdRouteImport.update({
-    id: '/{-$lang}/docs/{$}.md',
-    path: '/{-$lang}/docs/{$}.md',
-    getParentRoute: () => rootRouteImport,
+    id: '/docs/{$}.md',
+    path: '/docs/{$}.md',
+    getParentRoute: () => Char123LangChar125RouteRoute,
   } as any)
 const Char123LangChar125UiDocsSplatRoute =
   Char123LangChar125UiDocsSplatRouteImport.update({
-    id: '/{-$lang}/ui-docs/$',
-    path: '/{-$lang}/ui-docs/$',
-    getParentRoute: () => rootRouteImport,
+    id: '/ui-docs/$',
+    path: '/ui-docs/$',
+    getParentRoute: () => Char123LangChar125RouteRoute,
   } as any)
 const Char123LangChar125UiNotebookSplatRoute =
   Char123LangChar125UiNotebookSplatRouteImport.update({
-    id: '/{-$lang}/ui-notebook/$',
-    path: '/{-$lang}/ui-notebook/$',
-    getParentRoute: () => rootRouteImport,
+    id: '/ui-notebook/$',
+    path: '/ui-notebook/$',
+    getParentRoute: () => Char123LangChar125RouteRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
+  '/{-$lang}': typeof Char123LangChar125RouteRouteWithChildren
   '/api/heartbeat': typeof ApiHeartbeatRouteRoute
   '/api/pulse': typeof ApiPulseRouteRoute
   '/api/search': typeof ApiSearchRouteRoute
@@ -115,6 +122,7 @@ export interface FileRoutesByTo {
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/{-$lang}': typeof Char123LangChar125RouteRouteWithChildren
   '/api/heartbeat': typeof ApiHeartbeatRouteRoute
   '/api/pulse': typeof ApiPulseRouteRoute
   '/api/search': typeof ApiSearchRouteRoute
@@ -130,6 +138,7 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/{-$lang}'
     | '/api/heartbeat'
     | '/api/pulse'
     | '/api/search'
@@ -156,6 +165,7 @@ export interface FileRouteTypes {
     | '/{-$lang}/ui-notebook/$'
   id:
     | '__root__'
+    | '/{-$lang}'
     | '/api/heartbeat'
     | '/api/pulse'
     | '/api/search'
@@ -170,21 +180,23 @@ export interface FileRouteTypes {
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  Char123LangChar125RouteRoute: typeof Char123LangChar125RouteRouteWithChildren
   ApiHeartbeatRouteRoute: typeof ApiHeartbeatRouteRoute
   ApiPulseRouteRoute: typeof ApiPulseRouteRoute
   ApiSearchRouteRoute: typeof ApiSearchRouteRoute
   llmsLlmsFullDottxtRoute: typeof llmsLlmsFullDottxtRoute
   llmsLlmsDottxtRoute: typeof llmsLlmsDottxtRoute
-  Char123LangChar125ProLazyRoute: typeof Char123LangChar125ProLazyRoute
-  Char123LangChar125IndexRoute: typeof Char123LangChar125IndexRoute
-  Char123LangChar125DocsSplatRoute: typeof Char123LangChar125DocsSplatRoute
-  Char123LangChar125DocsChar123Char125DotmdRoute: typeof Char123LangChar125DocsChar123Char125DotmdRoute
-  Char123LangChar125UiDocsSplatRoute: typeof Char123LangChar125UiDocsSplatRoute
-  Char123LangChar125UiNotebookSplatRoute: typeof Char123LangChar125UiNotebookSplatRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/{-$lang}': {
+      id: '/{-$lang}'
+      path: '/{-$lang}'
+      fullPath: '/{-$lang}'
+      preLoaderRoute: typeof Char123LangChar125RouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/(llms)/llms-full.txt': {
       id: '/(llms)/llms-full.txt'
       path: '/llms-full.txt'
@@ -222,63 +234,82 @@ declare module '@tanstack/react-router' {
     }
     '/{-$lang}/': {
       id: '/{-$lang}/'
-      path: '/{-$lang}'
+      path: '/'
       fullPath: '/{-$lang}/'
       preLoaderRoute: typeof Char123LangChar125IndexRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof Char123LangChar125RouteRoute
     }
     '/{-$lang}/pro': {
       id: '/{-$lang}/pro'
-      path: '/{-$lang}/pro'
+      path: '/pro'
       fullPath: '/{-$lang}/pro'
       preLoaderRoute: typeof Char123LangChar125ProLazyRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof Char123LangChar125RouteRoute
     }
     '/{-$lang}/docs/$': {
       id: '/{-$lang}/docs/$'
-      path: '/{-$lang}/docs/$'
+      path: '/docs/$'
       fullPath: '/{-$lang}/docs/$'
       preLoaderRoute: typeof Char123LangChar125DocsSplatRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof Char123LangChar125RouteRoute
     }
     '/{-$lang}/docs/{$}.md': {
       id: '/{-$lang}/docs/{$}.md'
-      path: '/{-$lang}/docs/{$}.md'
+      path: '/docs/{$}.md'
       fullPath: '/{-$lang}/docs/{$}.md'
       preLoaderRoute: typeof Char123LangChar125DocsChar123Char125DotmdRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof Char123LangChar125RouteRoute
     }
     '/{-$lang}/ui-docs/$': {
       id: '/{-$lang}/ui-docs/$'
-      path: '/{-$lang}/ui-docs/$'
+      path: '/ui-docs/$'
       fullPath: '/{-$lang}/ui-docs/$'
       preLoaderRoute: typeof Char123LangChar125UiDocsSplatRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof Char123LangChar125RouteRoute
     }
     '/{-$lang}/ui-notebook/$': {
       id: '/{-$lang}/ui-notebook/$'
-      path: '/{-$lang}/ui-notebook/$'
+      path: '/ui-notebook/$'
       fullPath: '/{-$lang}/ui-notebook/$'
       preLoaderRoute: typeof Char123LangChar125UiNotebookSplatRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof Char123LangChar125RouteRoute
     }
   }
 }
 
+interface Char123LangChar125RouteRouteChildren {
+  Char123LangChar125ProLazyRoute: typeof Char123LangChar125ProLazyRoute
+  Char123LangChar125IndexRoute: typeof Char123LangChar125IndexRoute
+  Char123LangChar125DocsSplatRoute: typeof Char123LangChar125DocsSplatRoute
+  Char123LangChar125DocsChar123Char125DotmdRoute: typeof Char123LangChar125DocsChar123Char125DotmdRoute
+  Char123LangChar125UiDocsSplatRoute: typeof Char123LangChar125UiDocsSplatRoute
+  Char123LangChar125UiNotebookSplatRoute: typeof Char123LangChar125UiNotebookSplatRoute
+}
+
+const Char123LangChar125RouteRouteChildren: Char123LangChar125RouteRouteChildren =
+  {
+    Char123LangChar125ProLazyRoute: Char123LangChar125ProLazyRoute,
+    Char123LangChar125IndexRoute: Char123LangChar125IndexRoute,
+    Char123LangChar125DocsSplatRoute: Char123LangChar125DocsSplatRoute,
+    Char123LangChar125DocsChar123Char125DotmdRoute:
+      Char123LangChar125DocsChar123Char125DotmdRoute,
+    Char123LangChar125UiDocsSplatRoute: Char123LangChar125UiDocsSplatRoute,
+    Char123LangChar125UiNotebookSplatRoute:
+      Char123LangChar125UiNotebookSplatRoute,
+  }
+
+const Char123LangChar125RouteRouteWithChildren =
+  Char123LangChar125RouteRoute._addFileChildren(
+    Char123LangChar125RouteRouteChildren,
+  )
+
 const rootRouteChildren: RootRouteChildren = {
+  Char123LangChar125RouteRoute: Char123LangChar125RouteRouteWithChildren,
   ApiHeartbeatRouteRoute: ApiHeartbeatRouteRoute,
   ApiPulseRouteRoute: ApiPulseRouteRoute,
   ApiSearchRouteRoute: ApiSearchRouteRoute,
   llmsLlmsFullDottxtRoute: llmsLlmsFullDottxtRoute,
   llmsLlmsDottxtRoute: llmsLlmsDottxtRoute,
-  Char123LangChar125ProLazyRoute: Char123LangChar125ProLazyRoute,
-  Char123LangChar125IndexRoute: Char123LangChar125IndexRoute,
-  Char123LangChar125DocsSplatRoute: Char123LangChar125DocsSplatRoute,
-  Char123LangChar125DocsChar123Char125DotmdRoute:
-    Char123LangChar125DocsChar123Char125DotmdRoute,
-  Char123LangChar125UiDocsSplatRoute: Char123LangChar125UiDocsSplatRoute,
-  Char123LangChar125UiNotebookSplatRoute:
-    Char123LangChar125UiNotebookSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -15,12 +15,12 @@ export function baseOptions(
     links: [
       {
         text: 'UI/docs',
-        url: localizedUrl(locale, '/ui-docs/overview'),
+        url: localizedUrl(i18n, locale, '/ui-docs/overview'),
         active: 'nested-url'
       },
       {
         text: 'UI/notebook',
-        url: localizedUrl(locale, '/ui-notebook/overview'),
+        url: localizedUrl(i18n, locale, '/ui-notebook/overview'),
         active: 'nested-url'
       }
     ]

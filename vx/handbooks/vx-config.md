@@ -1,10 +1,14 @@
 # Vx Config
 
-`vx.config.json` is the app-level source of truth for Vx metadata, PWA assets,
+`vx.app.json` is the app-level source of truth for Vx metadata, PWA assets,
 route rules, docs generation, prerender paths, and social metadata.
 
+`vx.deploy.json` is the app-level source of truth for generated hosting and
+deployment provider config, such as Firebase Hosting redirects, headers, and
+rewrites.
+
 Keep the app's Vite config thin. App-specific route intent should live in
-`vx.config.json`; shared behavior should live in `@vx/config` or `@vx/start`.
+`vx.app.json`; shared behavior should live in `@vx/config` or `@vx/start`.
 
 > **AI Instructions**
 >
@@ -19,7 +23,7 @@ Keep the app's Vite config thin. App-specific route intent should live in
 Each app owns its config at the project root:
 
 ```text
-apps_internals/playground-docs/vx.config.json
+apps_internals/playground-docs/vx.app.json
 ```
 
 The playground docs Vite config should use the shared docs helper:
@@ -81,12 +85,34 @@ Use `core.url` for absolute social URLs and canonical metadata.
 }
 ```
 
+Use `vx.deploy.json` to emit optional provider-level redirects for
+default-language-prefixed URLs.
+
+```json
+{
+  "providers": ["firebase"],
+  "redirectDefaultLanguage": true,
+  "firebase": {
+    "headers": {
+      "docs": true
+    }
+  }
+}
+```
+
+This is only a provider-level optimization. Runtime canonical behavior should
+still live in the shared router/start layer.
+
+Firebase config is generated under `vx/deploy/firebase/<project-root>.json`.
+Default static headers, SPA rewrites, and route-derived API headers are emitted
+automatically. Docs cache headers are opt-in with `firebase.headers.docs`.
+
 Generated docs prerender paths include:
 
 - `/docs`
 - default-language docs paths such as `/docs/overview`
-- localized roots such as `/en`, `/cn`
-- localized docs paths such as `/en/docs/overview`
+- non-default localized roots such as `/cn`
+- non-default localized docs paths such as `/cn/docs/overview`
 
 OpenAPI-generated docs pages are included for each locale.
 
@@ -443,14 +469,15 @@ App-local Vite configs should only keep app-specific plugins and dedupe entries.
 Run docs generation through Nx targets for apps:
 
 ```bash
-pnpm nx run playground-docs:docs:generate
+pnpm nx run playground-docs:openapi:generate
 pnpm nx run playground-docs:og:generate
 pnpm nx run playground-docs:metadata:generate
+pnpm nx run playground-docs:deploy:generate
 pnpm nx run playground-docs:build
 ```
 
-The build target depends on metadata and OG generation, so a normal app build
-should regenerate required static assets.
+The build target depends on metadata, deploy config, and OG generation, so a
+normal app build should regenerate required static assets and hosting config.
 
 ---
 
@@ -458,7 +485,8 @@ should regenerate required static assets.
 
 When adding a future docs app:
 
-- Add `vx.config.json` at the app root.
+- Add `vx.app.json` at the app root.
+- Add `vx.deploy.json` at the app root when provider config should be generated.
 - Keep docs content in `content/docs`.
 - Keep OpenAPI specs in `openapi/`.
 - Use `openapi/index.yaml` for the default OpenAPI document.

@@ -1,17 +1,33 @@
 {
-  "$schema": "https://vezham.com/schemas/vx.config.json",
+  "$schema": "https://vezham.com/schemas/vx.app.json",
   "core": {
-    "id": "vezham-play-next",
-    "name": "Vezham Play Next",
-    "shortName": "Play Next",
+    "id": "vezham-playground-docs",
+    "name": "Vezham Playground Docs",
+    "shortName": "Playground Docs",
     "version": "26.0.0-alpha.1",
-    "description": "Single app to manage your Vezham Play Next",
+    "description": "Single app to manage your Vezham Playground Docs",
     "publisher": {
       "name": "Vezham Technologies Private Limited",
       "url": "https://vezham.com"
     },
-    "url": "https://play-next.vezham.app"
+    "url": "https://playground-docs.vezham.app"
   },
+  "i18n": {
+    "defaultLanguage": "en",
+    "languages": ["en", "cn"]
+  },
+  "routes": [
+    {
+      "path": "/api/**",
+      "source": "routes"
+    },
+    {
+      "path": "/llms-full.txt"
+    },
+    {
+      "path": "/llms.txt"
+    }
+  ],
   "branding": {
     "themeColor": "#000000",
     "backgroundColor": "#ffffff"
@@ -50,8 +66,8 @@
     ]
   },
   "metadata": {
-    "title": "Home | Vezham Play Next",
-    "keywords": ["Vezham Play Next"],
+    "title": "Home | Vezham Playground Docs",
+    "keywords": ["Vezham Playground Docs"],
     "theme": {
       "lightColor": "white",
       "darkColor": "black",

@@ -1,4 +1,4 @@
-import { Outlet, useParams } from '@tanstack/react-router'
+import { Outlet, notFound, redirect, useParams } from '@tanstack/react-router'
 import type { I18nAPI } from 'fumadocs-core/i18n'
 import { openapiTranslations } from 'fumadocs-openapi/i18n'
 import { i18nProvider, uiTranslations } from 'fumadocs-ui/i18n'
@@ -7,7 +7,11 @@ import {
   type RootProviderProps
 } from 'fumadocs-ui/provider/tanstack'
 
-import { normalizeLocale } from '../../runtime/docs'
+import {
+  getDefaultLocaleRedirectHref,
+  isOptionalLocaleParam,
+  normalizeLocale
+} from '../../runtime/docs'
 import type { Props } from '../shared/types'
 import { RootDocument } from '../tanstack'
 import { DocsSearchDialog } from './search'
@@ -19,6 +23,45 @@ type DocsConfigProps = Props & {
 type DocsRootComponentOptions<Language extends string> = {
   i18n: I18nAPI<Language>
   translations?: Partial<Record<Language, Record<string, string>>>
+}
+
+function parseRouteLocale<
+  Language extends string,
+  Params extends { lang?: string }
+>(i18n: I18nAPI<Language>, params: Params) {
+  return isOptionalLocaleParam(i18n, params.lang) ? params : false
+}
+
+function assertRouteLocale<
+  Language extends string,
+  Params extends { lang?: string }
+>(i18n: I18nAPI<Language>, params: Params, location: { href: string }) {
+  if (!isOptionalLocaleParam(i18n, params.lang)) {
+    throw notFound()
+  }
+
+  const redirectHref = getDefaultLocaleRedirectHref(i18n, location.href)
+
+  if (redirectHref) {
+    throw redirect({
+      href: redirectHref,
+      statusCode: 301
+    })
+  }
+}
+
+function redirectDefaultLocale<Language extends string>(
+  i18n: I18nAPI<Language>,
+  location: { href: string }
+) {
+  const redirectHref = getDefaultLocaleRedirectHref(i18n, location.href)
+
+  if (redirectHref) {
+    throw redirect({
+      href: redirectHref,
+      statusCode: 301
+    })
+  }
 }
 
 const defineConfig = ({ rootProvider, ...props }: DocsConfigProps = {}) => {
@@ -58,4 +101,11 @@ function createRootComponent<Language extends string>({
   }
 }
 
-export { createRootComponent, defineConfig, DocsSearchDialog }
+export {
+  createRootComponent,
+  defineConfig,
+  DocsSearchDialog,
+  assertRouteLocale,
+  parseRouteLocale,
+  redirectDefaultLocale
+}

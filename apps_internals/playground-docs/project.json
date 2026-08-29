@@ -12,7 +12,8 @@
       "dependsOn": ["metadata:watch", "og:generate"]
     },
     "hosts:setup": {},
-    "docs:generate": {},
+    "deploy:generate": {},
+    "openapi:generate": {},
     "metadata:generate": {},
     "metadata:watch": {},
     "og:generate": {},

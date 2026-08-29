@@ -4,7 +4,7 @@
 
 - **Vezham** is the company and product brand.
 - **Vx** is the framework and toolkit identity used inside this workspace.
-- **vx** is used for code, config, package prefixes, and runtime attributes, such as `@vx/*`, `vx.config.json`, and `data-vx-*`.
+- **vx** is used for code, config, package prefixes, and runtime attributes, such as `@vx/*`, `vx.app.json`, and `data-vx-*`.
 - **@vx/** packages are workspace-local and private to this monorepo.
 - **@vezham/** packages are reserved for public npm packages, global tools, and external developer-facing APIs.
 - Uppercase sentinel and environment-style names may stay uppercase, such as `V_APP_*` and `VX_METADATA_START`.
@@ -25,7 +25,7 @@ import { defineConfig } from '@vx/start/tanstack'
 | Brand               | Vezham                                   |
 | Workspace toolkit   | Vx                                       |
 | Package scope       | `@vx/*`                                  |
-| Config files        | `vx.config.json`                         |
+| Config files        | `vx.app.json`                            |
 | Env/data attributes | `V_*`, `data-vx-*`                       |
 | Types/classes       | `VxConfig`, `VxMetadata`, `VxApp`        |
 | Variables           | `vxConfig`, `vxMetadata`                 |

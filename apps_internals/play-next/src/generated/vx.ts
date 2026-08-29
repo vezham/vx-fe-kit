@@ -201,6 +201,27 @@ export const vxMetadata = {
   }
 } as const
 
+export const vxCore = {
+  "id": "vezham-play-next",
+  "name": "Vezham Play Next",
+  "shortName": "Play Next",
+  "version": "26.0.0-alpha.1",
+  "description": "Single app to manage your Vezham Play Next",
+  "publisher": {
+    "name": "Vezham Technologies Private Limited",
+    "url": "https://vezham.com"
+  },
+  "url": "https://play-next.vezham.app"
+} as const
+
+export const vxDocs = {
+  "docsDir": "content/docs",
+  "docsRoute": "/docs",
+  "docsImageRoute": "/og/docs",
+  "openapiDir": "openapi",
+  "ogOutputDir": "public/og/docs"
+} as const
+
 export const vxI18n = undefined
 
 export const tanstackHead = {
