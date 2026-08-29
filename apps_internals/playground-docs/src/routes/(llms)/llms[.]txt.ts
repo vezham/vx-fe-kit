@@ -7,9 +7,7 @@ import { source } from '@app/docs'
 export const Route = createFileRoute('/(llms)/llms.txt')({
   server: {
     handlers: {
-      GET() {
-        return new Response(getDocsLLMSIndex(source))
-      }
+      GET: () => new Response(getDocsLLMSIndex(source))
     }
   }
 })

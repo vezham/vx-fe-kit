@@ -1,7 +1,7 @@
 import { Link as VLink, useNavigate } from '@tanstack/react-router'
 import { HomeLayout } from 'fumadocs-ui/layouts/home'
 
-import { Link } from '@vezham/react-v3'
+import { Link, buttonVariants } from '@vezham/react-v3'
 
 import { Home } from '@vx/template/pages'
 
@@ -18,18 +18,17 @@ export default ({ locale }: Props) => {
 
   return (
     <HomeLayout {...baseOptions(locale)}>
-      <div className="flex flex-1 flex-col items-center justify-center text-center">
-        <h1 className="mb-4 text-xl font-medium">Playground Docs</h1>
-        <VLink
-          to="/{-$lang}/docs/$"
-          params={{
-            lang: locale,
-            _splat: ''
-          }}
-          className="bg-fd-primary text-fd-primary-foreground mx-auto rounded-lg px-3 py-2 text-sm font-medium">
-          Open Docs
-        </VLink>
-      </div>
+      <VLink
+        to="/{-$lang}/docs/$"
+        params={{
+          lang: locale,
+          _splat: ''
+        }}
+        className={buttonVariants({ variant: 'primary' })}>
+        <Link.Icon />
+        Open Docs
+        <Link.Icon />
+      </VLink>
 
       <VLink to="/{-$lang}/pro" params={{ lang }} className="link">
         FROm Page

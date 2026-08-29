@@ -204,11 +204,13 @@ export const defineAppConfig = (overrides: ViteConfigOverrides = {}) =>
       String(resolvedOverrides.root ?? process.cwd())
     )
 
-    return mergeConfig(getAppViteConfig(projectRoot), {
-      ...getAppPreviewOverride(env),
-      ...getAppResolveOverride(env, projectRoot),
-      ...resolvedOverrides
-    }) as ViteConfig
+    return mergeConfig(
+      mergeConfig(
+        mergeConfig(getAppViteConfig(projectRoot), getAppPreviewOverride(env)),
+        getAppResolveOverride(env, projectRoot)
+      ),
+      resolvedOverrides
+    ) as ViteConfig
   })
 
 export const defineLibConfig = (overrides: ViteConfigOverrides = {}) =>

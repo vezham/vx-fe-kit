@@ -198,6 +198,58 @@ export function localizedUrl(locale: string, path: string) {
   return `/${locale}${path.startsWith('/') ? path : `/${path}`}`
 }
 
+export function localizeRouteBase<Locale extends string>({
+  lang,
+  languages,
+  routeBase
+}: {
+  lang?: string
+  languages: readonly Locale[]
+  routeBase: string
+}) {
+  const locale = languages.find(language => language === lang)
+
+  return locale ? `/${locale}${routeBase}` : routeBase
+}
+
+export function replaceDocsRouteBase({
+  docsRoute = defaultDocsRoute,
+  languages,
+  pagePath,
+  routeBase
+}: {
+  docsRoute?: string
+  languages: readonly string[]
+  pagePath: string
+  routeBase: string
+}) {
+  if (routeBase === docsRoute) {
+    return pagePath
+  }
+
+  if (pagePath === docsRoute) {
+    return routeBase
+  }
+
+  if (pagePath.startsWith(`${docsRoute}/`)) {
+    return `${routeBase}${pagePath.slice(docsRoute.length)}`
+  }
+
+  for (const lang of languages) {
+    const localizedDocsRoute = `/${lang}${docsRoute}`
+
+    if (pagePath === localizedDocsRoute) {
+      return routeBase
+    }
+
+    if (pagePath.startsWith(`${localizedDocsRoute}/`)) {
+      return `${routeBase}${pagePath.slice(localizedDocsRoute.length)}`
+    }
+  }
+
+  return pagePath
+}
+
 export function createDocsSource<
   Docs extends StaticSource,
   I18n extends I18nConfig

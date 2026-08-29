@@ -4,7 +4,9 @@ import {
   decodeMarkdownUrl,
   encodeMarkdownUrl,
   getDocsRouteHead as getStartDocsRouteHead,
-  normalizeLocale
+  localizeRouteBase,
+  normalizeLocale,
+  replaceDocsRouteBase
 } from '@vx/start/runtime/docs'
 
 import { docs, i18n, preloadOpenAPIPage, source } from '@app/docs'
@@ -16,40 +18,6 @@ type DocsPageInput = {
   lang?: string
   pathFormat?: 'slug' | 'markdown-url'
   slugs: string[]
-}
-
-function replaceDocsRoute(pagePath: string, routeBase: string) {
-  if (routeBase === vxDocs.docsRoute) {
-    return pagePath
-  }
-
-  if (pagePath === vxDocs.docsRoute) {
-    return routeBase
-  }
-
-  if (pagePath.startsWith(`${vxDocs.docsRoute}/`)) {
-    return `${routeBase}${pagePath.slice(vxDocs.docsRoute.length)}`
-  }
-
-  for (const lang of i18n.languages) {
-    const localizedDocsRoute = `/${lang}${vxDocs.docsRoute}`
-
-    if (pagePath === localizedDocsRoute) {
-      return routeBase
-    }
-
-    if (pagePath.startsWith(`${localizedDocsRoute}/`)) {
-      return `${routeBase}${pagePath.slice(localizedDocsRoute.length)}`
-    }
-  }
-
-  return pagePath
-}
-
-function withLocalePrefix(routeBase: string, lang?: string) {
-  const locale = i18n.languages.find(language => language === lang)
-
-  return locale ? `/${locale}${routeBase}` : routeBase
 }
 
 export function getDocsPage({ lang, pathFormat, slugs }: DocsPageInput) {
@@ -75,7 +43,11 @@ export async function loadDocsPage({
   routeBase?: string
 }) {
   const { locale, page } = getDocsPage({ slugs, lang })
-  const resolvedRouteBase = withLocalePrefix(routeBase, lang)
+  const resolvedRouteBase = localizeRouteBase({
+    lang,
+    languages: i18n.languages,
+    routeBase
+  })
 
   const pageTree = await source.serializePageTree(source.getPageTree(locale))
 
@@ -83,7 +55,12 @@ export async function loadDocsPage({
     locale,
     title: page.data.title,
     description: page.data.description,
-    routePath: replaceDocsRoute(page.url, resolvedRouteBase),
+    routePath: replaceDocsRouteBase({
+      docsRoute: vxDocs.docsRoute,
+      languages: i18n.languages,
+      pagePath: page.url,
+      routeBase: resolvedRouteBase
+    }),
     path: page.path,
     markdownUrl: encodeMarkdownUrl(page.slugs, page.locale),
     pageTree,

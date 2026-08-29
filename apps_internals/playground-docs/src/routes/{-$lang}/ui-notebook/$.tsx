@@ -1,11 +1,27 @@
 import { createFileRoute } from '@tanstack/react-router'
 
-import { getDocsRouteHead, loadDocsPage } from '@app/docs-page'
-import { DocsRoutePage } from '@layouts/docs'
+import { DocsRoutePage } from '@vx/start/pages/docs/route'
+
+import { docs } from '@app/docs'
+import {
+  type LoadedDocsPage,
+  getDocsRouteHead,
+  loadDocsPage
+} from '@app/docs-page'
+import { baseOptions } from '@config/layout'
 
 export const Route = createFileRoute('/{-$lang}/ui-notebook/$')({
-  component: function PageRoute() {
-    return <DocsRoutePage data={Route.useLoaderData()} shell="notebook" />
+  component: function RouteComponent() {
+    const data = Route.useLoaderData() as LoadedDocsPage
+
+    return (
+      <DocsRoutePage
+        data={data}
+        docs={docs}
+        getLayoutOptions={baseOptions}
+        shell="notebook"
+      />
+    )
   },
   head: ({ loaderData }) => getDocsRouteHead(loaderData),
   loader: async ({ params }) => {

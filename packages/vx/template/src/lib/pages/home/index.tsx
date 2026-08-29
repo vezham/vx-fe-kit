@@ -14,7 +14,8 @@ import {
   Link,
   Separator,
   TextField,
-  Tooltip
+  Tooltip,
+  buttonVariants
 } from '@vezham/react-v3'
 import { useLogger } from '@vezham/use-logger'
 
@@ -114,7 +115,10 @@ export default ({ onClick }: Props) => {
         <Link.Icon />
       </Link>
 
-      <Link href="/hello-world">
+      <Link
+        href="/hello-world"
+        className={buttonVariants({ variant: 'danger-soft' })}>
+        <Link.Icon />
         Hello World :|
         <Link.Icon />
       </Link>

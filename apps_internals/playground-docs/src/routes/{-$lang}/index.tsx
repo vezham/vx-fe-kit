@@ -6,7 +6,7 @@ import { i18n } from '@app/docs'
 import Page from '@pages/home'
 
 export const Route = createFileRoute('/{-$lang}/')({
-  component: function PageRoute() {
+  component: function RouteComponent() {
     const { lang } = Route.useParams()
 
     return <Page locale={normalizeLocale(i18n, lang)} />
