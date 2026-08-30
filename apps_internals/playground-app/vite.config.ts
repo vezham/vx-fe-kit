@@ -3,9 +3,9 @@ import { tanstackStart } from '@tanstack/react-start/plugin/vite'
 import react from '@vitejs/plugin-react-swc'
 import { nitro } from 'nitro/vite'
 
-import { defineAppConfig } from '@vx/config/vite'
+import { defineConfig, getPrerenderPages } from '@vx/config/presets/app'
 
-export default defineAppConfig({
+export default defineConfig({
   root: __dirname,
   plugins: [
     nitro({ rollupConfig: { external: [/^@sentry\//] } }),
@@ -18,12 +18,7 @@ export default defineAppConfig({
           crawlLinks: true
         }
       },
-      pages: [
-        { path: '/' },
-        { path: '/pro' },
-        { path: '/api/heartbeat' },
-        { path: '/api/pulse' }
-      ]
+      pages: getPrerenderPages(__dirname)
     }),
     react()
   ]

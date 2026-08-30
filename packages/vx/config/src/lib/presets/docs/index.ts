@@ -5,6 +5,8 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { parse } from 'yaml'
 
+export { defineConfig } from '@vx/config/presets/app'
+
 export type DocsConfig = {
   docsRoute?: string
 }
@@ -521,7 +523,7 @@ export function getDocsPrerenderPages(
   ])
 }
 
-export function getVxDocsPrerenderPages(
+export function getPrerenderPages(
   projectRoot = process.cwd(),
   options: DocsPrerenderPagesOptions = {}
 ) {

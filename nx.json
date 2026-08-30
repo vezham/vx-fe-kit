@@ -172,11 +172,11 @@
         "{projectRoot}/content/docs/**/*",
         "{projectRoot}/openapi.yaml",
         "{projectRoot}/openapi/**/*",
-        "{workspaceRoot}/packages/vx/config/src/lib/docs/**/*"
+        "{workspaceRoot}/packages/vx/config/src/lib/presets/docs/**/*"
       ],
       "options": {
         "cwd": "{workspaceRoot}",
-        "command": "tsx packages/vx/config/src/lib/docs/cli.ts generate {projectRoot}"
+        "command": "tsx packages/vx/config/src/lib/presets/docs/cli.ts generate {projectRoot}"
       }
     },
     "og:generate": {
@@ -188,12 +188,12 @@
         "{projectRoot}/content/**/*",
         "{projectRoot}/openapi.yaml",
         "{projectRoot}/openapi/**/*",
-        "{workspaceRoot}/packages/vx/config/src/lib/docs/**/*"
+        "{workspaceRoot}/packages/vx/config/src/lib/presets/docs/**/*"
       ],
       "outputs": ["{projectRoot}/public/og"],
       "options": {
         "cwd": "{workspaceRoot}",
-        "command": "tsx packages/vx/config/src/lib/docs/cli.ts og {projectRoot}"
+        "command": "tsx packages/vx/config/src/lib/presets/docs/cli.ts og {projectRoot}"
       }
     },
     "serve:next": {

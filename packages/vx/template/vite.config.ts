@@ -1,8 +1,8 @@
 import react from '@vitejs/plugin-react-swc'
 
-import { defineLibConfig } from '@vx/config/vite'
+import { defineConfig } from '@vx/config/vite'
 
-export default defineLibConfig({
+export default defineConfig({
   root: __dirname,
   plugins: [react()]
 })

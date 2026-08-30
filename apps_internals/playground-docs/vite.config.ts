@@ -6,10 +6,9 @@ import { fumadocsMdx } from 'fumadocs-mdx/vite'
 import { nitro } from 'nitro/vite'
 import path from 'node:path'
 
-import { getVxDocsPrerenderPages } from '@vx/config/docs'
-import { defineAppConfig } from '@vx/config/vite'
+import { defineConfig, getPrerenderPages } from '@vx/config/presets/docs'
 
-export default defineAppConfig({
+export default defineConfig({
   root: __dirname,
   resolve: {
     dedupe: ['fumadocs-core', 'fumadocs-ui']
@@ -30,7 +29,7 @@ export default defineAppConfig({
           crawlLinks: true
         }
       },
-      pages: getVxDocsPrerenderPages(__dirname)
+      pages: getPrerenderPages(__dirname)
     }),
     react()
   ]

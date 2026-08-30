@@ -6,14 +6,14 @@
   "exports": {
     "./package.json": "./package.json",
     "./playwright": {
-      "types": "./src/lib/playwright/index.ts",
-      "import": "./src/lib/playwright/index.ts",
-      "default": "./src/lib/playwright/index.ts"
+      "types": "./src/lib/integrations/playwright/index.ts",
+      "import": "./src/lib/integrations/playwright/index.ts",
+      "default": "./src/lib/integrations/playwright/index.ts"
     },
     "./vite": {
-      "types": "./src/lib/vite/index.ts",
-      "import": "./src/lib/vite/index.ts",
-      "default": "./src/lib/vite/index.ts"
+      "types": "./src/lib/integrations/vite/index.ts",
+      "import": "./src/lib/integrations/vite/index.ts",
+      "default": "./src/lib/integrations/vite/index.ts"
     },
     "./metadata": {
       "types": "./src/lib/metadata/index.ts",
@@ -25,10 +25,25 @@
       "import": "./src/lib/deploy/index.ts",
       "default": "./src/lib/deploy/index.ts"
     },
-    "./docs": {
-      "types": "./src/lib/docs/index.ts",
-      "import": "./src/lib/docs/index.ts",
-      "default": "./src/lib/docs/index.ts"
+    "./vitest": {
+      "types": "./src/lib/integrations/vitest/index.ts",
+      "import": "./src/lib/integrations/vitest/index.ts",
+      "default": "./src/lib/integrations/vitest/index.ts"
+    },
+    "./presets/app": {
+      "types": "./src/lib/presets/app/index.ts",
+      "import": "./src/lib/presets/app/index.ts",
+      "default": "./src/lib/presets/app/index.ts"
+    },
+    "./presets/cdn": {
+      "types": "./src/lib/presets/cdn/index.ts",
+      "import": "./src/lib/presets/cdn/index.ts",
+      "default": "./src/lib/presets/cdn/index.ts"
+    },
+    "./presets/docs": {
+      "types": "./src/lib/presets/docs/index.ts",
+      "import": "./src/lib/presets/docs/index.ts",
+      "default": "./src/lib/presets/docs/index.ts"
     }
   }
 }

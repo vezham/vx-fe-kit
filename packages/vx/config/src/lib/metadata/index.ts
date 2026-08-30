@@ -7,7 +7,7 @@ import {
 } from 'node:fs'
 import path from 'node:path'
 
-import { type DocsConfig, resolveDocsConfig } from '../docs'
+import { type DocsConfig, resolveDocsConfig } from '../presets/docs'
 
 type VxConfig = {
   core: VxCoreConfig

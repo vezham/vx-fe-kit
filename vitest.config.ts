@@ -4,11 +4,8 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { loadConfigFromFile, mergeConfig } from 'vite'
 
-import {
-  type ViteConfig,
-  defineVitestConfig,
-  getProjectPackageName
-} from '@vx/config/vite'
+import { type ViteConfig, getProjectPackageName } from '@vx/config/vite'
+import { defineConfig } from '@vx/config/vitest'
 
 const rootDir = path.dirname(fileURLToPath(import.meta.url))
 const configFile = fileURLToPath(import.meta.url)
@@ -36,7 +33,7 @@ const findProjectConfig = () => {
     .find(candidate => candidate !== configFile && existsSync(candidate))
 }
 
-export default defineVitestConfig(async () => {
+export default defineConfig(async () => {
   const baseConfig = {
     plugins: [
       fumadocsMdx({

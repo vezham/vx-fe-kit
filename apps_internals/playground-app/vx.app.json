@@ -12,6 +12,12 @@
     },
     "url": "https://playground-app.vezham.app"
   },
+  "routes": [
+    {
+      "path": "/api/**",
+      "source": "routes"
+    }
+  ],
   "branding": {
     "themeColor": "#000000",
     "backgroundColor": "#ffffff"

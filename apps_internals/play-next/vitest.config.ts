@@ -1,9 +1,9 @@
 /// <reference types='vitest' />
 import react from '@vitejs/plugin-react-swc'
 
-import { defineVitestConfig } from '@vx/config/vite'
+import { defineConfig } from '@vx/config/vitest'
 
-export default defineVitestConfig({
+export default defineConfig({
   root: __dirname,
   plugins: [react()]
 })
