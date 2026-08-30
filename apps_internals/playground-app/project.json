@@ -1,0 +1,20 @@
+{
+  "name": "playground-app",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps_internals/playground-app/src",
+  "targets": {
+    "build": {
+      "dependsOn": ["metadata:generate", "^build"]
+    },
+    "dev": {
+      "dependsOn": ["metadata:watch"]
+    },
+    "hosts:setup": {},
+    "deploy:generate": {},
+    "metadata:generate": {},
+    "metadata:watch": {},
+    "routes:tanstack": {}
+  },
+  "tags": ["category:internal"]
+}

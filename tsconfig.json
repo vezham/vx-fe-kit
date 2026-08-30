@@ -43,6 +43,12 @@
     },
     {
       "path": "./apps_internals/playground-docs"
+    },
+    {
+      "path": "./apps_internals/playground-cdn"
+    },
+    {
+      "path": "./apps_internals/playground-app"
     }
   ],
   "compilerOptions": {
