@@ -132,7 +132,7 @@
         "{projectRoot}/public/robots.txt",
         "{projectRoot}/public/sw.js",
         "{projectRoot}/public/offline.html",
-        "{projectRoot}/public/api/hello.json",
+        "{projectRoot}/public/404.html",
         "{projectRoot}/index.html",
         "{projectRoot}/src/generated/vx.ts",
         "{projectRoot}/.env"

@@ -968,131 +968,428 @@ export const getMetadataFiles = (
       content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=1, shrink-to-fit=no" />
     <meta name="author" content="${core.publisher.name}" />
     <title>Offline | ${core.name}</title>
-  </head>
-
-  <body>
-    <div class="offline-container">
-      <img
-        src="${getStaticAssetUrl('vassets/no-internet.svg', core.version)}"
-        alt="offline"
-        class="offline-image" />
-      <div class="offline-header">Oops! You're offline</div>
-      <div class="offline-text">
-        Please check your connection and try again.
-      </div>
-      <div class="offline-button" onclick="handleHome()">Retry</div>
-    </div>
-  </body>
-
-  <style>
-    body {
-      margin: 0px;
-      font-family: 'Poppins', serif;
+    <style>
+    :root,
+    .light {
+      color-scheme: light;
+      --white: oklch(100% 0 0);
+      --snow: oklch(0.9911 0 0);
+      --eclipse: oklch(0.2103 0.0059 285.89);
+      --background: oklch(0.9702 0 0);
+      --foreground: var(--eclipse);
+      --muted: oklch(0.5517 0.0138 285.94);
+      --default: oklch(94% 0.001 286.375);
+      --default-foreground: var(--eclipse);
+      --accent: oklch(0.6204 0.195 253.83);
+      --accent-soft-foreground: color-mix(
+        in oklab,
+        var(--accent) 70%,
+        var(--foreground) 30%
+      );
+      --default-hover: color-mix(
+        in oklab,
+        var(--default) 96%,
+        var(--default-foreground) 4%
+      );
     }
 
-    .offline-container {
+    .dark,
+    [data-theme="dark"] {
+      color-scheme: dark;
+      --background: oklch(12% 0.005 285.823);
+      --foreground: var(--snow);
+      --muted: oklch(70.5% 0.015 286.067);
+      --default: oklch(27.4% 0.006 286.033);
+      --default-foreground: var(--snow);
+      --accent-soft-foreground: color-mix(
+        in oklab,
+        var(--accent) 80%,
+        var(--foreground) 30%
+      );
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--white);
+      color: var(--foreground);
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      margin: 0;
+    }
+
+    .dark body,
+    [data-theme="dark"] body {
+      background: var(--background);
+    }
+
+    .dark .vx-offline__image,
+    [data-theme="dark"] .vx-offline__image {
+      filter: invert(1) hue-rotate(180deg);
+    }
+
+    .vx-offline {
       align-items: center;
       display: flex;
-      flex-direction: column;
-      gap: 20px;
-      height: 100vh !important;
       justify-content: center;
-      text-align: center;
+      min-height: 100vh;
+      padding: 1.5rem;
+      text-align: left;
+    }
+
+    .empty-state {
+      padding: 0.5rem;
+    }
+
+    .vx-offline__content {
+      align-items: flex-start;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      justify-content: center;
+      max-width: 36rem;
       width: 100%;
     }
 
-    .offline-header {
-      font-size: 3rem;
-      font-weight: 700;
+    .vx-offline__image {
+      height: auto;
+      margin-bottom: 0.75rem;
+      max-height: 16rem;
+      max-width: 100%;
+      object-fit: contain;
+      width: min(20rem, 70vw);
     }
 
-    .offline-text {
-      font-size: 1.5rem;
+    .typography {
+      color: var(--foreground);
+      margin: 0;
     }
 
-    .offline-button {
-      border-radius: 50px;
+    .typography--h2 {
+      font-size: 1.875rem;
+      font-weight: 600;
+      line-height: 2.25rem;
+    }
+
+    .typography--body {
+      font-size: 1rem;
+      line-height: 1.75rem;
+    }
+
+    .typography--color-muted {
+      color: var(--muted);
+    }
+
+    .button {
+      align-items: center;
+      border: 0;
+      border-radius: 1.5rem;
       cursor: pointer;
-      flex: 0 1 !important;
-      padding: 15px 20px;
-      font-size: 2rem;
-      background-color: oklch(50.768% 0.23111 261.795);
+      display: inline-flex;
+      font: inherit;
+      font-size: 0.875rem;
+      font-weight: 500;
+      height: 2.25rem;
+      justify-content: center;
+      padding: 0 1rem;
+      text-decoration: none;
+      --button-bg: transparent;
+      --button-bg-hover: var(--button-bg);
+      --button-fg: currentcolor;
+      background: var(--button-bg);
+      color: var(--button-fg);
     }
 
-    .offline-button:hover {
-      background-color: oklch(54.881% 0.24991 261.799 / 0.25);
+    .button--secondary {
+      --button-bg: var(--default);
+      --button-bg-hover: var(--default-hover);
+      --button-fg: var(--accent-soft-foreground);
     }
 
-    @media (prefers-color-scheme: light) {
-      body {
-        background: oklch(100% 0.00011 271.152);
-      }
+    .button:hover {
+      background: var(--button-bg-hover);
+    }
 
-      .offline-header {
-        color: oklch(0% 0 0);
-      }
-
-      .offline-text {
-        color: oklch(0% 0 0 / 0.5);
-      }
-
-      .offline-button {
-        color: oklch(100% 0.00011 271.152);
-      }
-
-      .offline-button:hover {
-        color: oklch(0% 0 0);
-      }
+    .button:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
     }
 
     @media (prefers-color-scheme: dark) {
-      body {
-        background: oklch(23.929% 0.00003 271.152);
+      :root:not(.light):not(.dark):not([data-theme]) {
+        color-scheme: dark;
+        --background: oklch(12% 0.005 285.823);
+        --foreground: var(--snow);
+        --muted: oklch(70.5% 0.015 286.067);
+        --default: oklch(27.4% 0.006 286.033);
+        --default-foreground: var(--snow);
+        --accent-soft-foreground: color-mix(
+          in oklab,
+          var(--accent) 80%,
+          var(--foreground) 30%
+        );
       }
 
-      .offline-header {
-        color: oklch(100% 0.00011 271.152);
+      :root:not(.light):not(.dark):not([data-theme]) body {
+        background: var(--background);
       }
 
-      .offline-text {
-        color: oklch(100% 0.00011 271.152 / 0.5);
-      }
-
-      .offline-button {
-        color: oklch(100% 0.00011 271.152);
-      }
-
-      .offline-button:hover {
-        color: oklch(100% 0.00011 271.152);
-      }
-    }
-
-    @media (min-width: 0px) and (max-width: 1024px) {
-      .offline-image {
-        width: 70%;
+      :root:not(.light):not(.dark):not([data-theme]) .vx-offline__image {
+        filter: invert(1) hue-rotate(180deg);
       }
     }
 
     @media only screen and (orientation: landscape) {
-      .offline-image {
-        width: 30%;
+      .vx-offline__image {
+        max-height: 11rem;
+        width: min(14rem, 30vw);
+      }
+    }
+    </style>
+  </head>
+  <body>
+    <main class="vx-offline">
+      <div class="empty-state">
+        <div class="vx-offline__content">
+          <img
+            class="vx-offline__image"
+            src="${getStaticAssetUrl('vassets/no-internet.svg', core.version)}"
+            alt="Offline" />
+          <h1 class="typography typography--h2">Oops! You're offline</h1>
+          <p class="typography typography--color-muted typography--body">Please check your connection and try again.</p>
+          <a class="button button--secondary" href="/">Back to Home</a>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
+`
+  const notFoundPage = `<!doctype html>
+<!-- ${generatedNotice} -->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="${core.publisher.name}" />
+    <title>Page Not Found | ${core.name}</title>
+    <style>
+      :root,
+      .light {
+        color-scheme: light;
+        --white: oklch(100% 0 0);
+        --snow: oklch(0.9911 0 0);
+        --eclipse: oklch(0.2103 0.0059 285.89);
+        --background: oklch(0.9702 0 0);
+        --foreground: var(--eclipse);
+        --muted: oklch(0.5517 0.0138 285.94);
+        --default: oklch(94% 0.001 286.375);
+        --default-foreground: var(--eclipse);
+        --accent: oklch(0.6204 0.195 253.83);
+        --accent-soft-foreground: color-mix(
+          in oklab,
+          var(--accent) 70%,
+          var(--foreground) 30%
+        );
+        --default-hover: color-mix(
+          in oklab,
+          var(--default) 96%,
+          var(--default-foreground) 4%
+        );
       }
 
-      .offline-header {
-        font-size: 2rem;
+      .dark,
+      [data-theme="dark"] {
+        color-scheme: dark;
+        --background: oklch(12% 0.005 285.823);
+        --foreground: var(--snow);
+        --muted: oklch(70.5% 0.015 286.067);
+        --default: oklch(27.4% 0.006 286.033);
+        --default-foreground: var(--snow);
+        --accent-soft-foreground: color-mix(
+          in oklab,
+          var(--accent) 80%,
+          var(--foreground) 30%
+        );
       }
 
-      .offline-text,
-      .offline-button {
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        background: var(--white);
+        color: var(--foreground);
+        font-family: ui-sans-serif, system-ui, sans-serif;
+        margin: 0;
+      }
+
+      .dark body,
+      [data-theme="dark"] body {
+        background: var(--background);
+      }
+
+      .dark .vx-not-found__image,
+      [data-theme="dark"] .vx-not-found__image {
+        filter: invert(1) hue-rotate(180deg);
+      }
+
+      .vx-not-found {
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        min-height: 100vh;
+        padding: 1.5rem;
+        text-align: left;
+      }
+
+      .empty-state {
+        padding: 0.5rem;
+      }
+
+      .vx-not-found__content {
+        align-items: flex-start;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        justify-content: center;
+        max-width: 36rem;
+        width: 100%;
+      }
+
+      .vx-not-found__image {
+        height: auto;
+        margin-bottom: 0.75rem;
+        max-height: 16rem;
+        max-width: 100%;
+        object-fit: contain;
+        width: min(20rem, 70vw);
+      }
+
+      .vx-not-found__path {
+        font-weight: 600;
+        overflow-wrap: anywhere;
+      }
+
+      .typography {
+        color: var(--foreground);
+        margin: 0;
+      }
+
+      .typography--h1 {
+        font-size: 2.25rem;
+        font-weight: 600;
+        line-height: 2.5rem;
+      }
+
+      .typography--h2 {
+        font-size: 1.875rem;
+        font-weight: 600;
+        line-height: 2.25rem;
+      }
+
+      .typography--body {
+        color: var(--muted);
         font-size: 1rem;
+        line-height: 1.75rem;
       }
-    }
-  </style>
-  <script>
-    function handleHome() {
-      window.location.href = '/'
-    }
-  </script>
+
+      .typography--color-muted {
+        color: var(--muted);
+      }
+
+      .button {
+        align-items: center;
+        border-radius: 1.5rem;
+        cursor: pointer;
+        display: flex;
+        font-size: 0.875rem;
+        font-weight: 500;
+        gap: 0.5rem;
+        height: 2.25rem;
+        justify-content: center;
+        padding: 0 1rem;
+        text-decoration: none;
+        width: fit-content;
+        --button-bg: transparent;
+        --button-bg-hover: var(--button-bg);
+        --button-bg-pressed: var(--button-bg-hover);
+        --button-fg: currentcolor;
+        background: var(--button-bg);
+        color: var(--button-fg);
+      }
+
+      .button--secondary {
+        --button-bg: var(--default);
+        --button-bg-hover: var(--default-hover);
+        --button-bg-pressed: var(--default-hover);
+        --button-fg: var(--accent-soft-foreground);
+      }
+
+      .button:hover {
+        background: var(--button-bg-hover);
+      }
+
+      .button:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root:not(.light):not(.dark):not([data-theme]) {
+          color-scheme: dark;
+          --background: oklch(12% 0.005 285.823);
+          --foreground: var(--snow);
+          --muted: oklch(70.5% 0.015 286.067);
+          --default: oklch(27.4% 0.006 286.033);
+          --default-foreground: var(--snow);
+          --accent-soft-foreground: color-mix(
+            in oklab,
+            var(--accent) 80%,
+            var(--foreground) 30%
+          );
+        }
+
+        :root:not(.light):not(.dark):not([data-theme]) body {
+          background: var(--background);
+        }
+
+        :root:not(.light):not(.dark):not([data-theme]) .vx-not-found__image {
+          filter: invert(1) hue-rotate(180deg);
+        }
+      }
+
+      @media only screen and (orientation: landscape) {
+        .vx-not-found__image {
+          max-height: 11rem;
+          width: min(14rem, 30vw);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="vx-not-found">
+      <div class="empty-state">
+        <div class="vx-not-found__content">
+          <img
+            class="vx-not-found__image"
+            src="${getStaticAssetUrl('vassets/no-internet.svg', core.version)}"
+            alt="Page not found" />
+          <h1 class="typography typography--color-muted typography--h1">404</h1>
+          <h2 class="typography typography--h2">Page not found</h2>
+          <p class="typography typography--color-muted typography--body">${core.name} could not find the page you requested<span class="vx-not-found__path" data-vx-not-found-path></span>.</p>
+          <a class="button button--secondary" href="/">Back to Home</a>
+        </div>
+      </div>
+    </main>
+    <script>
+      const pathElement = document.querySelector('[data-vx-not-found-path]')
+
+      if (pathElement) {
+        pathElement.textContent = ': ' + (window.location.pathname || '/')
+      }
+    </script>
+  </body>
 </html>
 `
 
@@ -1118,15 +1415,8 @@ export const getMetadataFiles = (
       content: offlinePage
     },
     {
-      path: path.join(publicDir, 'api/hello.json'),
-      content: `${JSON.stringify(
-        {
-          status: true,
-          message: 'Hello from Vezham :)'
-        },
-        null,
-        2
-      )}\n`
+      path: path.join(publicDir, '404.html'),
+      content: notFoundPage
     },
     ...(existsSync(indexFile)
       ? [

@@ -27,7 +27,7 @@
   "files.readonlyInclude": {
     "**/routeTree.gen.ts": true,
     "**/src/generated/**": true,
-    "**/public/{manifest.webmanifest,browserconfig.xml,robots.txt,sw.js,offline.html,api/hello.json}": true
+    "**/public/{manifest.webmanifest,browserconfig.xml,robots.txt,sw.js,offline.html,404.html}": true
   },
   "files.watcherExclude": {
     "// **/routeTree.gen.ts": true
@@ -35,7 +35,7 @@
   "search.exclude": {
     "**/routeTree.gen.ts": true,
     "**/src/generated/**": true,
-    "**/public/{manifest.webmanifest,browserconfig.xml,robots.txt,sw.js,offline.html,api/hello.json}": true,
+    "**/public/{manifest.webmanifest,browserconfig.xml,robots.txt,sw.js,offline.html,404.html}": true,
     "**/node_modules": true,
     "**/dist": true,
     "**-lock.json": true,
