@@ -1,15 +1,15 @@
 # @vx/INFO: @vx/ci - trigger
-name: playground-docs | bnd
+name: playground-app | bnd
 
 on:
   workflow_dispatch:
   push:
     branches: [timeline, next, feat/*]
     paths:
-      - '.github/workflows/playground-docs.yml'
+      - '.github/workflows/playground-app.yml'
       - 'vx/handbooks/ci.md'
       # - 'packages/**'
-      - 'apps_internals/playground-docs/**'
+      - 'apps_internals/playground-app/**'
 
 jobs:
   run_if:
@@ -25,17 +25,17 @@ jobs:
           base: ${{ github.ref }}
           filters: |
             all:
-              - '.github/workflows/playground-docs.yml'
+              - '.github/workflows/playground-app.yml'
               - 'vx/handbooks/ci.md'
             deploy:
-              - 'apps_internals/playground-docs/**'
+              - 'apps_internals/playground-app/**'
               - 'packages/**'
 
   deploy:
     needs: run_if
     if: ${{ needs.run_if.outputs.all == 'true' || needs.run_if.outputs.deploy == 'true' }}
-    name: playground-docs | ${{ github.ref_name }}
-    uses: vezham/vx-deployer/.github/workflows/playground-docs.yml@timeline
+    name: playground-app | ${{ github.ref_name }}
+    uses: vezham/vx-deployer/.github/workflows/playground-app.yml@timeline
     secrets: inherit
     with:
       CALLER: ${{ github.ref_name }}

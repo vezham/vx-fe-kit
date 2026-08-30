@@ -1,5 +1,6 @@
 {
   "$schema": "https://vezham.com/schemas/vx.deploy.json",
+  "preset": "start-spa",
   "providers": ["firebase"],
   "firebase": {
     "headers": {

@@ -3,7 +3,10 @@ import path from 'node:path'
 
 type HostingProvider = 'firebase'
 
+type DeployPreset = 'cdn' | 'spa' | 'start-spa'
+
 type VxDeployConfig = {
+  preset?: DeployPreset
   providers: HostingProvider[]
   redirectDefaultLanguage?: boolean
   firebase?: FirebaseDeployConfig
@@ -71,6 +74,12 @@ type FirebaseConfig = {
   }
 }
 
+type FirebaseDeployPreset = {
+  public: string
+  fallback?: string
+  rewrites?: FirebaseRewrite[]
+}
+
 export type GenerateDeployConfigOptions = {
   projectRoot?: string
 }
@@ -126,9 +135,40 @@ const cacheHeader = (source: string, value: string): FirebaseHeader => ({
 
 const unique = <T>(values: T[]) => [...new Set(values)]
 
+const firebaseDeployPresets: Record<DeployPreset, FirebaseDeployPreset> = {
+  cdn: {
+    public: 'dist',
+    rewrites: [
+      {
+        source: '/api/heartbeat',
+        destination: '/api/heartbeat.json'
+      },
+      {
+        source: '/api/pulse',
+        destination: '/api/pulse.txt'
+      }
+    ]
+  },
+  spa: {
+    public: 'dist',
+    fallback: '/index.html'
+  },
+  'start-spa': {
+    public: '.output/public',
+    fallback: '/_shell.html'
+  }
+}
+
+const defaultFirebaseDeployPreset: FirebaseDeployPreset =
+  firebaseDeployPresets['start-spa']
+
+const getFirebaseDeployPreset = (preset?: DeployPreset) =>
+  preset ? firebaseDeployPresets[preset] : defaultFirebaseDeployPreset
+
 const getDefaultFirebaseHeaders = (
   appConfig: VxAppConfig,
-  options: FirebaseHeaderOptions = {}
+  options: FirebaseHeaderOptions = {},
+  fallback?: string
 ) => {
   const {
     app = true,
@@ -137,10 +177,23 @@ const getDefaultFirebaseHeaders = (
     static: staticAssets = true
   } = options
   const docsRoute = appConfig.docs?.docsRoute ?? '/docs'
+  const localizedDocsRoutes = (appConfig.i18n?.languages ?? [])
+    .filter(language => language !== appConfig.i18n?.defaultLanguage)
+    .flatMap(language => {
+      const localizedDocsRoute = `/${language}${docsRoute}`
+
+      return [localizedDocsRoute, `${localizedDocsRoute.replace(/\/$/, '')}/**`]
+    })
   const routeSources = unique(
     [
       ...(app ? ['/'] : []),
-      ...(docs ? [docsRoute, `${docsRoute.replace(/\/$/, '')}/**`] : []),
+      ...(docs
+        ? [
+            docsRoute,
+            `${docsRoute.replace(/\/$/, '')}/**`,
+            ...localizedDocsRoutes
+          ]
+        : []),
       ...(routes
         ? (appConfig.routes ?? [])
             .map(route => route.path)
@@ -154,7 +207,7 @@ const getDefaultFirebaseHeaders = (
       ? [
           cacheHeader('/sw.js', 'no-cache,no-store,must-revalidate'),
           cacheHeader('/manifest.webmanifest', 'public,max-age=300'),
-          cacheHeader('/_shell.html', 'public,max-age=300'),
+          ...(fallback ? [cacheHeader(fallback, 'public,max-age=300')] : []),
           cacheHeader('/assets/**', 'public,max-age=31536000,immutable'),
           cacheHeader('**/*.@(html|json|txt|md)', 'public,max-age=300')
         ]
@@ -206,12 +259,17 @@ const getFirebaseConfig = (
   deployConfig: VxDeployConfig
 ): FirebaseConfig => {
   const firebase = deployConfig.firebase ?? {}
+  const preset = getFirebaseDeployPreset(deployConfig.preset)
   const headers =
     firebase.headers === false
       ? undefined
       : Array.isArray(firebase.headers)
         ? firebase.headers
-        : getDefaultFirebaseHeaders(appConfig, firebase.headers)
+        : getDefaultFirebaseHeaders(
+            appConfig,
+            firebase.headers,
+            preset.fallback
+          )
   const redirects = [
     ...(firebase.redirects ?? []),
     ...(deployConfig.redirectDefaultLanguage
@@ -221,19 +279,23 @@ const getFirebaseConfig = (
   const rewrites =
     firebase.rewrites === false
       ? undefined
-      : (firebase.rewrites ?? [
-          {
-            source: '**',
-            destination: '/_shell.html'
-          }
-        ])
+      : (firebase.rewrites ??
+        preset.rewrites ??
+        (preset.fallback
+          ? [
+              {
+                source: '**',
+                destination: preset.fallback
+              }
+            ]
+          : undefined))
 
   return {
     hosting: {
       public: resolveFirebasePublicDir(
         workspaceRoot,
         projectRoot,
-        firebase.public
+        firebase.public ?? preset.public
       ),
       ignore: firebase.ignore ?? [
         'firebase.json',

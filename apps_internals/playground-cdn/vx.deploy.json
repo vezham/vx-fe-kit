@@ -1,20 +1,5 @@
 {
   "$schema": "https://vezham.com/schemas/vx.deploy.json",
-  "providers": ["firebase"],
-  "firebase": {
-    "public": "dist",
-    "headers": {
-      "docs": false
-    },
-    "rewrites": [
-      {
-        "source": "/api/health",
-        "destination": "/api/health.json"
-      },
-      {
-        "source": "/api/pulse",
-        "destination": "/api/pulse.json"
-      }
-    ]
-  }
+  "preset": "cdn",
+  "providers": ["firebase"]
 }
