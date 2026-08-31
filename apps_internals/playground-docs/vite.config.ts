@@ -1,20 +1,26 @@
-import story from '@fumadocs/story/vite'
 import tailwindcss from '@tailwindcss/vite'
 import { tanstackStart } from '@tanstack/react-start/plugin/vite'
 import react from '@vitejs/plugin-react'
-import { fumadocsMdx } from 'fumadocs-mdx/vite'
 import { nitro } from 'nitro/vite'
 import path from 'node:path'
+
+import { fumadocsMdx as docsMdx } from '@vezham/docs-mdx/vite'
+import story from '@vezham/docs-story/vite'
 
 import { defineConfig, getPrerenderPages } from '@vx/config/presets/docs'
 
 export default defineConfig({
   root: __dirname,
   resolve: {
-    dedupe: ['fumadocs-core', 'fumadocs-ui']
+    dedupe: [
+      '@vezham/docs-core',
+      '@vezham/docs-react',
+      'fumadocs-core',
+      'fumadocs-ui'
+    ]
   },
   plugins: [
-    fumadocsMdx(),
+    docsMdx(),
     nitro({ rollupConfig: { external: [/^@sentry\//] } }),
     tailwindcss(),
     story({

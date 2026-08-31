@@ -1,10 +1,14 @@
-import { type I18nConfig, defineI18n } from 'fumadocs-core/i18n'
-import { type SearchAPI, createFromSource } from 'fumadocs-core/search/server'
-import { type StaticSource, llms, loader } from 'fumadocs-core/source'
-import { lucideIconsPlugin } from 'fumadocs-core/source/lucide-icons'
-import type { OpenAPIOptions } from 'fumadocs-openapi/server'
-import { createOpenAPI } from 'fumadocs-openapi/server'
 import { parse } from 'yaml'
+
+import { type I18nConfig, defineI18n } from '@vezham/docs-core/i18n'
+import {
+  type SearchAPI,
+  createFromSource
+} from '@vezham/docs-core/search/server'
+import { type StaticSource, llms, loader } from '@vezham/docs-core/source'
+import { lucideIconsPlugin } from '@vezham/docs-core/source/lucide-icons'
+import type { OpenAPIOptions } from '@vezham/docs-openapi/server'
+import { createOpenAPI } from '@vezham/docs-openapi/server'
 
 export const defaultDocsRoute = '/docs'
 
@@ -79,6 +83,60 @@ export type DocsI18nInput<Languages extends readonly string[]> = {
   defaultLanguage: Languages[number]
   hideLocale?: I18nConfig<Languages[number]>['hideLocale']
   languages: Languages
+}
+
+export type DocsCollectionSource<Docs extends StaticSource = StaticSource> = {
+  toFumadocsSource: () => Docs
+}
+
+export function createStaticDocsSource<Docs extends StaticSource>(
+  source: DocsCollectionSource<Docs>
+) {
+  return source.toFumadocsSource()
+}
+
+export type CreateStaticDocsRuntimeOptions<
+  Docs extends StaticSource,
+  Languages extends readonly string[]
+> = {
+  docs: DocsCollectionSource<Docs>
+  docsRoute?: string
+  i18n: DocsI18nInput<Languages>
+  openapiDir?: string
+  openapiFiles?: OpenAPISourceFiles
+  rootDocument?: string
+  rootDocumentId?: string
+}
+
+export function createStaticDocsRuntime<
+  Docs extends StaticSource,
+  const Languages extends readonly string[]
+>({
+  docs,
+  docsRoute,
+  i18n: i18nConfig,
+  openapiDir,
+  openapiFiles,
+  rootDocument,
+  rootDocumentId
+}: CreateStaticDocsRuntimeOptions<Docs, Languages>) {
+  const i18n = createDocsI18n(i18nConfig)
+  const openapi = createOpenAPIFromSources({
+    files: openapiFiles,
+    openapiDir,
+    rootDocument,
+    rootDocumentId
+  })
+
+  return {
+    i18n,
+    ...createDocsRuntime({
+      docs: createStaticDocsSource(docs),
+      docsRoute,
+      i18n,
+      openapi
+    })
+  }
 }
 
 function slash(value: string) {

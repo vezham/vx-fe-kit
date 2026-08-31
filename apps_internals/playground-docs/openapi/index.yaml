@@ -57,7 +57,7 @@ paths:
       operationId: getSearchIndex
       responses:
         '200':
-          description: Static Fumadocs search index.
+          description: Static docs search index.
           content:
             application/json:
               schema:

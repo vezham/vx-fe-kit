@@ -1,10 +1,11 @@
 import { Link } from '@tanstack/react-router'
-import {
-  type SerializedPageTree,
-  useFumadocsLoader
-} from 'fumadocs-core/source/client'
 import type { ComponentProps, ComponentType, ReactNode } from 'react'
 import { Suspense, use } from 'react'
+
+import {
+  type SerializedPageTree,
+  useFumadocsLoader as useDocsLoader
+} from '@vezham/docs-core/source/client'
 
 import {
   DocsLayout,
@@ -120,7 +121,7 @@ export function DocsRoutePage<Locale extends string = string>({
   getLayoutOptions,
   shell = 'docs'
 }: DocsRoutePageProps<Locale>) {
-  const page = useFumadocsLoader(data) as LoadedDocsRoutePageData<Locale>
+  const page = useDocsLoader(data) as LoadedDocsRoutePageData<Locale>
   const content = (
     <>
       <Link to={page.markdownUrl} hidden />

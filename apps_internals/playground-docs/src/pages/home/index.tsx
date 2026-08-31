@@ -1,6 +1,6 @@
 import { Link as VLink, useNavigate } from '@tanstack/react-router'
-import { HomeLayout } from 'fumadocs-ui/layouts/home'
 
+import { HomeLayout } from '@vezham/docs-react/layouts/home'
 import { Link, buttonVariants } from '@vezham/react-v3'
 
 import { localizedRouteParam } from '@vx/start/runtime/docs'

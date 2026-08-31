@@ -1,5 +1,6 @@
-import defaultMdxComponents from 'fumadocs-ui/mdx'
 import type { ElementType } from 'react'
+
+import defaultMdxComponents from '@vezham/docs-react/mdx'
 
 type MDXComponents = Record<string, ElementType>
 

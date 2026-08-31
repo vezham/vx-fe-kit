@@ -1,3 +1,3 @@
-import { defineStoryFactory } from '@fumadocs/story/vite/client'
+import { defineStoryFactory } from '@vezham/docs-story/vite/client'
 
 export const { defineStory } = defineStoryFactory()

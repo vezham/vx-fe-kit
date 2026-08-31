@@ -123,7 +123,7 @@ OpenAPI-generated docs pages are included for each locale.
 `docs` controls the public docs route and its matching generated OG route.
 
 Docs content and OpenAPI inputs use the fixed conventions `content/docs` and
-`openapi`, respectively. Fumadocs and Vite need those source paths to be
+`openapi`, respectively. Vezham Docs and Vite need those source paths to be
 literal at compile time.
 
 Defaults:

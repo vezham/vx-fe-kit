@@ -1,10 +1,6 @@
 import { defineDocs } from 'fumadocs-mdx/macro'
 
-import {
-  createDocsI18n,
-  createDocsRuntime,
-  createOpenAPIFromSources
-} from '@vx/start/runtime/docs'
+import { createStaticDocsRuntime } from '@vx/start/runtime/docs'
 
 import { vxDocs, vxI18n } from '@generated/vx'
 
@@ -18,35 +14,19 @@ export const docs = defineDocs({
   }
 })
 
-export const i18n = createDocsI18n(vxI18n)
+const openapiFiles = import.meta.glob<string>('/openapi/**/*.{json,yaml,yml}', {
+  eager: true,
+  import: 'default',
+  query: '?raw'
+})
+
+export const { getLLMText, i18n, preloadOpenAPIPage, source } =
+  createStaticDocsRuntime({
+    docs,
+    docsRoute: vxDocs.docsRoute,
+    i18n: vxI18n,
+    openapiDir: vxDocs.openapiDir,
+    openapiFiles
+  })
 
 export type Locale = (typeof i18n.languages)[number]
-
-const openapiFiles = {
-  ...import.meta.glob<string>('../../openapi/**/*.json', {
-    eager: true,
-    import: 'default',
-    query: '?raw'
-  }),
-  ...import.meta.glob<string>('../../openapi/**/*.yaml', {
-    eager: true,
-    import: 'default',
-    query: '?raw'
-  }),
-  ...import.meta.glob<string>('../../openapi/**/*.yml', {
-    eager: true,
-    import: 'default',
-    query: '?raw'
-  })
-}
-
-const openapi = createOpenAPIFromSources({
-  files: openapiFiles
-})
-
-export const { getLLMText, preloadOpenAPIPage, source } = createDocsRuntime({
-  docs: docs.toFumadocsSource(),
-  docsRoute: vxDocs.docsRoute,
-  i18n,
-  openapi
-})

@@ -1,7 +1,7 @@
 'use client'
 
-import { useDocsSearch } from 'fumadocs-core/search/client'
-import { staticClient } from 'fumadocs-core/search/client/orama-static'
+import { useDocsSearch } from '@vezham/docs-core/search/client'
+import { staticClient } from '@vezham/docs-core/search/client/orama-static'
 import {
   SearchDialog,
   SearchDialogClose,
@@ -12,8 +12,8 @@ import {
   SearchDialogList,
   SearchDialogOverlay,
   type SharedProps
-} from 'fumadocs-ui/components/dialog/search'
-import { useI18n } from 'fumadocs-ui/contexts/i18n'
+} from '@vezham/docs-react/components/dialog/search'
+import { useI18n } from '@vezham/docs-react/contexts/i18n'
 
 function DocsSearchDialog(props: SharedProps) {
   const { locale } = useI18n()

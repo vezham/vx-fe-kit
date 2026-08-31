@@ -1,11 +1,12 @@
 import { Outlet, notFound, redirect, useParams } from '@tanstack/react-router'
-import type { I18nAPI } from 'fumadocs-core/i18n'
-import { openapiTranslations } from 'fumadocs-openapi/i18n'
-import { i18nProvider, uiTranslations } from 'fumadocs-ui/i18n'
+
+import type { I18nAPI } from '@vezham/docs-core/i18n'
+import { openapiTranslations } from '@vezham/docs-openapi/i18n'
+import { i18nProvider, uiTranslations } from '@vezham/docs-react/i18n'
 import {
   RootProvider,
   type RootProviderProps
-} from 'fumadocs-ui/provider/tanstack'
+} from '@vezham/docs-react/provider/tanstack'
 
 import {
   getDefaultLocaleRedirectHref,

@@ -1,28 +1,29 @@
-import { DocsLayout as FumadocsDocsLayout } from 'fumadocs-ui/layouts/docs'
+import type { ComponentProps, ReactNode } from 'react'
+
+import { DocsLayout as DocsLayoutPrimitive } from '@vezham/docs-react/layouts/docs'
 import {
   DocsBody,
   DocsDescription,
+  DocsPage as DocsPagePrimitive,
   DocsTitle,
-  DocsPage as FumadocsDocsPage,
   MarkdownCopyButton,
   ViewOptionsPopover
-} from 'fumadocs-ui/layouts/docs/page'
-import { DocsLayout as FumadocsNotebookLayout } from 'fumadocs-ui/layouts/notebook'
+} from '@vezham/docs-react/layouts/docs/page'
+import { DocsLayout as NotebookLayoutPrimitive } from '@vezham/docs-react/layouts/notebook'
 import {
   DocsBody as NotebookDocsBody,
   DocsDescription as NotebookDocsDescription,
   DocsPage as NotebookDocsPage,
   DocsTitle as NotebookDocsTitle
-} from 'fumadocs-ui/layouts/notebook/page'
-import type { ComponentProps, ReactNode } from 'react'
+} from '@vezham/docs-react/layouts/notebook/page'
 
 export type DocsShell = 'docs' | 'notebook'
 
 export type DocsLayoutProps = {
   children: ReactNode
   shell?: DocsShell
-} & Omit<ComponentProps<typeof FumadocsDocsLayout>, 'children'> &
-  Omit<ComponentProps<typeof FumadocsNotebookLayout>, 'children'>
+} & Omit<ComponentProps<typeof DocsLayoutPrimitive>, 'children'> &
+  Omit<ComponentProps<typeof NotebookLayoutPrimitive>, 'children'>
 
 export type DocsPageProps = {
   children: ReactNode
@@ -31,7 +32,7 @@ export type DocsPageProps = {
   markdownUrl?: string
   shell?: DocsShell
   title?: ReactNode
-  toc: ComponentProps<typeof FumadocsDocsPage>['toc']
+  toc: ComponentProps<typeof DocsPagePrimitive>['toc']
 }
 
 export function DocsLayout({
@@ -40,7 +41,7 @@ export function DocsLayout({
   ...props
 }: DocsLayoutProps) {
   const Layout =
-    shell === 'notebook' ? FumadocsNotebookLayout : FumadocsDocsLayout
+    shell === 'notebook' ? NotebookLayoutPrimitive : DocsLayoutPrimitive
 
   return <Layout {...props}>{children}</Layout>
 }
@@ -54,7 +55,7 @@ export function DocsPage({
   title,
   toc
 }: DocsPageProps) {
-  const Page = shell === 'notebook' ? NotebookDocsPage : FumadocsDocsPage
+  const Page = shell === 'notebook' ? NotebookDocsPage : DocsPagePrimitive
   const Body = shell === 'notebook' ? NotebookDocsBody : DocsBody
   const Description =
     shell === 'notebook' ? NotebookDocsDescription : DocsDescription

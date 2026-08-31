@@ -1,5 +1,6 @@
-import { Callout } from 'fumadocs-ui/components/callout'
 import type { ComponentProps } from 'react'
+
+import { Callout } from '@vezham/docs-react/components/callout'
 
 export function CalloutPreview(
   props: Pick<ComponentProps<typeof Callout>, 'title' | 'type' | 'children'>
