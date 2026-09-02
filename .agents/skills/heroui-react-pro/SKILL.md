@@ -106,7 +106,7 @@ Resizable
 - Use `onPress` not `onClick` for Button
 - `Divider` does NOT exist — use `Separator`
 - `CardHeader`/`CardContent`/`CardFooter` as direct imports do NOT exist — use `Card.Header` etc.
-- Icons: `import { Icon } from "@iconify/react"` with the gravity-ui icon set
+- Icons: import named React icons from `@vezham/icons-react`; set explicit `size` for compact controls
 
 ### Semantic Variants
 

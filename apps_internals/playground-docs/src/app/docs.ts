@@ -1,6 +1,10 @@
 import { defineDocs } from 'fumadocs-mdx/macro'
 
-import { createStaticDocsRuntime } from '@vx/start/runtime/docs'
+import {
+  createStaticDocsRuntime,
+  docsMetaSchema,
+  docsPageSchema
+} from '@vx/start/runtime/docs'
 
 import { vxDocs, vxI18n } from '@generated/vx'
 
@@ -8,9 +12,13 @@ export const docs = defineDocs({
   dir: 'content/docs',
   docs: {
     async: true,
+    schema: docsPageSchema,
     postprocess: {
       includeProcessedMarkdown: true
     }
+  },
+  meta: {
+    schema: docsMetaSchema
   }
 })
 

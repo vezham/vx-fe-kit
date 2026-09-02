@@ -1,3 +1,4 @@
+import { type CSSProperties, type ReactNode, createElement } from 'react'
 import { parse } from 'yaml'
 
 import { type I18nConfig, defineI18n } from '@vezham/docs-core/i18n'
@@ -5,12 +6,20 @@ import {
   type SearchAPI,
   createFromSource
 } from '@vezham/docs-core/search/server'
-import { type StaticSource, llms, loader } from '@vezham/docs-core/source'
-import { lucideIconsPlugin } from '@vezham/docs-core/source/lucide-icons'
+import {
+  type LoaderPlugin,
+  type StaticSource,
+  llms,
+  loader
+} from '@vezham/docs-core/source'
+import { metaSchema, pageSchema } from '@vezham/docs-core/source/schema'
 import type { OpenAPIOptions } from '@vezham/docs-openapi/server'
 import { createOpenAPI } from '@vezham/docs-openapi/server'
 
 export const defaultDocsRoute = '/docs'
+
+export const defaultDocsIconAssetBaseUrl =
+  'https://cdn.jsdelivr.net/npm/@vezham/icons@1.0.5/dist/cdn/icons'
 
 export function getDocsImageRoute(docsRoute = defaultDocsRoute) {
   return `/og${docsRoute}`
@@ -38,6 +47,195 @@ type DocsOpenAPIPreloader = {
 }
 
 export type OpenAPISourceFiles = Record<string, string>
+
+export type DocsIconName = string
+
+export type DocsIconWeight = 'outline' | 'filled' | 'duotone'
+
+export type DocsIconAlt = string | ((iconName: DocsIconName) => string)
+
+export type DocsIconFrontmatter = {
+  iconAlt?: string
+  iconColor?: CSSProperties['color']
+  iconWeight?: DocsIconWeight
+}
+
+export type DocsIconResolverOptions = {
+  alt?: DocsIconAlt
+  assetBaseUrl?: string
+  color?: CSSProperties['color']
+  defaultIcon?: DocsIconName
+  size?: number | string
+  weight?: DocsIconWeight
+}
+
+export const docsPageSchema = pageSchema.extend({
+  iconAlt: pageSchema.shape.description,
+  iconColor: pageSchema.shape.description,
+  iconWeight: pageSchema.shape.description
+}) as unknown as typeof pageSchema
+
+export const docsMetaSchema = metaSchema.extend({
+  iconAlt: metaSchema.shape.description,
+  iconColor: metaSchema.shape.description,
+  iconWeight: metaSchema.shape.description
+}) as unknown as typeof metaSchema
+
+function toKebabIconName(value: string) {
+  return value
+    .replace(/_/g, '-')
+    .replace(/([a-z0-9])([A-Z])/g, '$1-$2')
+    .replace(/([A-Z]+)([A-Z][a-z])/g, '$1-$2')
+    .toLowerCase()
+}
+
+export function toDocsIconName(value: string) {
+  return toKebabIconName(value)
+}
+
+function isDocsIconWeight(value: unknown): value is DocsIconWeight {
+  return value === 'outline' || value === 'filled' || value === 'duotone'
+}
+
+function getDocsIconAlt(alt: DocsIconAlt | undefined, iconName: DocsIconName) {
+  return typeof alt === 'function' ? alt(iconName) : alt
+}
+
+function getDocsIconAssetUrl(
+  iconName: string,
+  weight: DocsIconWeight | undefined,
+  assetBaseUrl: string
+) {
+  const suffix = weight === 'filled' || weight === 'duotone' ? `-${weight}` : ''
+
+  return `${assetBaseUrl.replace(/\/$/, '')}/${iconName}${suffix}.svg`
+}
+
+export function createDocsIconResolver({
+  alt,
+  assetBaseUrl = defaultDocsIconAssetBaseUrl,
+  color,
+  defaultIcon,
+  size = 16,
+  weight
+}: DocsIconResolverOptions = {}) {
+  return (icon?: string): ReactNode => {
+    const iconName = icon ?? defaultIcon
+
+    if (iconName === undefined) {
+      return
+    }
+
+    const normalizedIconName = toDocsIconName(iconName)
+    const iconSize = typeof size === 'number' ? `${size}px` : size
+    const iconUrl = getDocsIconAssetUrl(
+      normalizedIconName,
+      weight,
+      assetBaseUrl
+    )
+    const altText = getDocsIconAlt(alt, normalizedIconName)
+    const style = {
+      WebkitMask: `url("${iconUrl}") center / contain no-repeat`,
+      backgroundColor: 'currentColor',
+      color,
+      display: 'inline-block',
+      flexShrink: 0,
+      height: iconSize,
+      mask: `url("${iconUrl}") center / contain no-repeat`,
+      verticalAlign: 'middle',
+      width: iconSize
+    } satisfies CSSProperties
+
+    return createElement('span', {
+      ...(altText
+        ? { 'aria-label': altText, role: 'img' }
+        : { 'aria-hidden': true }),
+      'data-vx-icon': normalizedIconName,
+      'data-vx-icon-weight': weight,
+      style
+    })
+  }
+}
+
+function getString(value: unknown) {
+  return typeof value === 'string' ? value : undefined
+}
+
+function getDocsIconFrontmatter(data: unknown): DocsIconFrontmatter {
+  if (!data || typeof data !== 'object') {
+    return {}
+  }
+
+  const frontmatter = data as Record<string, unknown>
+  const iconWeight = frontmatter.iconWeight
+
+  return {
+    iconAlt: getString(frontmatter.iconAlt),
+    iconColor: getString(frontmatter.iconColor),
+    iconWeight: isDocsIconWeight(iconWeight) ? iconWeight : undefined
+  }
+}
+
+function createFrontmatterDocsIconResolver(
+  frontmatter: DocsIconFrontmatter,
+  options: DocsIconResolverOptions
+) {
+  return createDocsIconResolver({
+    ...options,
+    alt: frontmatter.iconAlt ?? options.alt,
+    color: frontmatter.iconColor ?? options.color,
+    weight: frontmatter.iconWeight ?? options.weight
+  })
+}
+
+export function docsIconsPlugin(
+  options: DocsIconResolverOptions = {}
+): LoaderPlugin {
+  return {
+    name: 'vezham:docs-icons',
+    transformPageTree: {
+      file(node, filePath) {
+        const file = filePath ? this.storage.read(filePath) : undefined
+        const frontmatter =
+          file?.format === 'page' ? getDocsIconFrontmatter(file.data) : {}
+        const resolveIcon = createFrontmatterDocsIconResolver(
+          frontmatter,
+          options
+        )
+
+        if (node.icon === undefined || typeof node.icon === 'string') {
+          node.icon = resolveIcon(node.icon)
+        }
+
+        return node
+      },
+      folder(node, _folderPath, metaPath) {
+        const file = metaPath ? this.storage.read(metaPath) : undefined
+        const frontmatter =
+          file?.format === 'meta' ? getDocsIconFrontmatter(file.data) : {}
+        const resolveIcon = createFrontmatterDocsIconResolver(
+          frontmatter,
+          options
+        )
+
+        if (node.icon === undefined || typeof node.icon === 'string') {
+          node.icon = resolveIcon(node.icon)
+        }
+
+        return node
+      },
+      separator(node) {
+        const resolveIcon = createDocsIconResolver(options)
+
+        if (node.icon === undefined || typeof node.icon === 'string') {
+          node.icon = resolveIcon(node.icon)
+        }
+
+        return node
+      }
+    }
+  }
+}
 
 export type CreateOpenAPIFromSourcesOptions = {
   files?: OpenAPISourceFiles
@@ -400,7 +598,7 @@ export function createDocsSource<
     {
       baseUrl: docsRoute,
       i18n,
-      plugins: [lucideIconsPlugin(), openapi.loaderPlugin()]
+      plugins: [docsIconsPlugin(), openapi.loaderPlugin()]
     }
   )
 }
@@ -577,7 +775,6 @@ export function getDocsRouteHead(
     openGraphImageSource,
     routePath: docsPath
   })
-
   return {
     meta: [
       { title },

@@ -1,6 +1,6 @@
-import { FolderOpen } from '@gravity-ui/icons'
 import { ContextMenu, EmptyState } from '@heroui-pro/react'
 
+import { FolderOpen, VezhamLogo } from '@vezham/icons-react'
 import { Button, Kbd, Label, Separator } from '@vezham/react-v3'
 
 export default () => {
@@ -8,9 +8,14 @@ export default () => {
     <div className="w-[420px]">
       <EmptyState>
         <EmptyState.Header>
-          <EmptyState.Media variant="icon">
-            <FolderOpen />
-          </EmptyState.Media>
+          <div className="flex flex-row gap-2">
+            <EmptyState.Media variant="default">
+              <VezhamLogo size={32} />
+            </EmptyState.Media>
+            <EmptyState.Media variant="icon">
+              <FolderOpen size={24} />
+            </EmptyState.Media>
+          </div>
           <EmptyState.Title>No Projects Yet</EmptyState.Title>
           <EmptyState.Description>
             You haven&apos;t created any projects yet. Get started by creating
@@ -22,9 +27,7 @@ export default () => {
           <Button variant="outline">Import Project</Button>
         </EmptyState.Content>
       </EmptyState>
-
       <Separator />
-
       <ContextMenu>
         <ContextMenu.Trigger>
           <div className="border-border text-muted flex h-48 w-80 items-center justify-center rounded-xl border border-dashed text-sm select-none">
