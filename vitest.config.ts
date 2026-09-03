@@ -3,7 +3,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { loadConfigFromFile, mergeConfig } from 'vite'
 
-import { fumadocsMdx as docsMdx } from '@vezham/docs-mdx/vite'
+import { docsMdx } from '@vezham/docs-mdx/vite'
 
 import { type ViteConfig, getProjectPackageName } from '@vx/config/vite'
 import { defineConfig } from '@vx/config/vitest'

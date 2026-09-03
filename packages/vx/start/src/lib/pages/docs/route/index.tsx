@@ -4,7 +4,7 @@ import { Suspense, use } from 'react'
 
 import {
   type SerializedPageTree,
-  useFumadocsLoader as useDocsLoader
+  useDocsLoader
 } from '@vezham/docs-core/source/client'
 
 import {

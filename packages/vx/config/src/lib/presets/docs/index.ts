@@ -1,12 +1,28 @@
 import fs from 'node:fs'
 import path from 'node:path'
+import { mergeConfig } from 'vite'
 import { parse } from 'yaml'
 
 import * as OpenAPI from '@vezham/docs-openapi'
 import { createOpenAPI } from '@vezham/docs-openapi/server'
 import { generateOGImage } from '@vezham/docs-react/og'
 
-export { defineConfig } from '@vx/config/presets/app'
+import { defineConfig as defineAppConfig } from '@vx/config/presets/app'
+import type { ViteConfig, ViteConfigOverrides } from '@vx/config/vite'
+
+const docsViteDefaults: ViteConfig = {
+  resolve: {
+    dedupe: ['@vezham/docs-core', '@vezham/docs-react']
+  }
+}
+
+export const defineConfig = (overrides: ViteConfigOverrides = {}) =>
+  defineAppConfig(async env => {
+    const resolvedOverrides =
+      typeof overrides === 'function' ? await overrides(env) : overrides
+
+    return mergeConfig(docsViteDefaults, resolvedOverrides) as ViteConfig
+  })
 
 export type DocsConfig = {
   docsRoute?: string

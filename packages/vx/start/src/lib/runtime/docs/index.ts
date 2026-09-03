@@ -284,13 +284,13 @@ export type DocsI18nInput<Languages extends readonly string[]> = {
 }
 
 export type DocsCollectionSource<Docs extends StaticSource = StaticSource> = {
-  toFumadocsSource: () => Docs
+  toDocsSource: () => Docs
 }
 
 export function createStaticDocsSource<Docs extends StaticSource>(
   source: DocsCollectionSource<Docs>
 ) {
-  return source.toFumadocsSource()
+  return source.toDocsSource()
 }
 
 export type CreateStaticDocsRuntimeOptions<
