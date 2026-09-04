@@ -20,10 +20,9 @@ export default ({ locale }: Props) => {
   return (
     <HomeLayout {...baseOptions(locale)}>
       <VLink
-        to="/{-$lang}/docs/$"
+        to="/{-$lang}/docs"
         params={{
-          lang,
-          _splat: ''
+          lang
         }}
         className={buttonVariants({ variant: 'primary' })}>
         <Link.Icon />

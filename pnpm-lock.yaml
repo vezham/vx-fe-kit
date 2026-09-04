@@ -54,20 +54,20 @@ importers:
         specifier: ^3.30.1
         version: 3.30.1(@floating-ui/dom@1.8.0)(@tiptap/core@3.30.1(@tiptap/pm@3.30.1))(@tiptap/pm@3.30.1)
       '@vezham/docs-core':
-        specifier: npm:@vx-oss/docs-core@1.0.5
-        version: '@vx-oss/docs-core@1.0.5(@mdx-js/mdx@3.1.1)(@tanstack/react-router@1.170.23(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@types/estree-jsx@1.0.5)(@types/hast@3.0.5)(@types/mdast@4.0.4)(@types/react@19.2.17)(lucide-react@1.38.0(react@19.2.7))(next@16.2.12(@babel/core@7.29.7)(@playwright/test@1.62.1)(babel-plugin-macros@3.1.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.102.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(zod@4.4.3)'
+        specifier: npm:@vx-oss/docs-core@1.0.6
+        version: '@vx-oss/docs-core@1.0.6(@mdx-js/mdx@3.1.1)(@tanstack/react-router@1.170.23(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@types/estree-jsx@1.0.5)(@types/hast@3.0.5)(@types/mdast@4.0.4)(@types/react@19.2.17)(lucide-react@1.38.0(react@19.2.7))(next@16.2.12(@babel/core@7.29.7)(@playwright/test@1.62.1)(babel-plugin-macros@3.1.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.102.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(zod@4.4.3)'
       '@vezham/docs-mdx':
-        specifier: npm:@vx-oss/docs-mdx@1.0.5
-        version: '@vx-oss/docs-mdx@1.0.5(@types/mdast@4.0.4)(@types/mdx@2.0.14)(@types/react@19.2.17)(@vx-oss/docs-core@1.0.5(@mdx-js/mdx@3.1.1)(@tanstack/react-router@1.170.23(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@types/estree-jsx@1.0.5)(@types/hast@3.0.5)(@types/mdast@4.0.4)(@types/react@19.2.17)(lucide-react@1.38.0(react@19.2.7))(next@16.2.12(@babel/core@7.29.7)(@playwright/test@1.62.1)(babel-plugin-macros@3.1.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.102.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(zod@4.4.3))(next@16.2.12(@babel/core@7.29.7)(@playwright/test@1.62.1)(babel-plugin-macros@3.1.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.102.0))(react@19.2.7)(rolldown@1.2.7)(vite@8.0.16(@types/node@25.9.3)(esbuild@0.28.2)(jiti@2.7.0)(less@4.5.1)(sass-embedded@1.102.0)(sass@1.102.0)(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0))'
+        specifier: npm:@vx-oss/docs-mdx@1.0.6
+        version: '@vx-oss/docs-mdx@1.0.6(@types/mdast@4.0.4)(@types/mdx@2.0.14)(@types/react@19.2.17)(@vx-oss/docs-core@1.0.6(@mdx-js/mdx@3.1.1)(@tanstack/react-router@1.170.23(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@types/estree-jsx@1.0.5)(@types/hast@3.0.5)(@types/mdast@4.0.4)(@types/react@19.2.17)(lucide-react@1.38.0(react@19.2.7))(next@16.2.12(@babel/core@7.29.7)(@playwright/test@1.62.1)(babel-plugin-macros@3.1.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.102.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(zod@4.4.3))(next@16.2.12(@babel/core@7.29.7)(@playwright/test@1.62.1)(babel-plugin-macros@3.1.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.102.0))(react@19.2.7)(rolldown@1.2.7)(vite@8.0.16(@types/node@25.9.3)(esbuild@0.28.2)(jiti@2.7.0)(less@4.5.1)(sass-embedded@1.102.0)(sass@1.102.0)(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0))'
       '@vezham/docs-openapi':
-        specifier: npm:@vx-oss/docs-openapi@1.0.5
-        version: '@vx-oss/docs-openapi@1.0.5(@types/react@19.2.17)(@vx-oss/docs-core@1.0.5(@mdx-js/mdx@3.1.1)(@tanstack/react-router@1.170.23(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@types/estree-jsx@1.0.5)(@types/hast@3.0.5)(@types/mdast@4.0.4)(@types/react@19.2.17)(lucide-react@1.38.0(react@19.2.7))(next@16.2.12(@babel/core@7.29.7)(@playwright/test@1.62.1)(babel-plugin-macros@3.1.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.102.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(zod@4.4.3))(@vx-oss/docs-react@1.0.5(8eaa1465cae48cfecb816e03769d2439))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)'
+        specifier: npm:@vx-oss/docs-openapi@1.0.6
+        version: '@vx-oss/docs-openapi@1.0.6(@types/react@19.2.17)(@vx-oss/docs-core@1.0.6(@mdx-js/mdx@3.1.1)(@tanstack/react-router@1.170.23(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@types/estree-jsx@1.0.5)(@types/hast@3.0.5)(@types/mdast@4.0.4)(@types/react@19.2.17)(lucide-react@1.38.0(react@19.2.7))(next@16.2.12(@babel/core@7.29.7)(@playwright/test@1.62.1)(babel-plugin-macros@3.1.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.102.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(zod@4.4.3))(@vx-oss/docs-react@1.0.5(c685fc4ca5f8e47b505b7116634de040))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)'
       '@vezham/docs-react':
-        specifier: npm:@vx-oss/docs-react@1.0.5
-        version: '@vx-oss/docs-react@1.0.5(8eaa1465cae48cfecb816e03769d2439)'
+        specifier: npm:@vx-oss/docs-base-ui@1.0.6
+        version: '@vx-oss/docs-base-ui@1.0.6(@types/mdx@2.0.14)(@types/react@19.2.17)(@vx-oss/docs-core@1.0.6(@mdx-js/mdx@3.1.1)(@tanstack/react-router@1.170.23(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@types/estree-jsx@1.0.5)(@types/hast@3.0.5)(@types/mdast@4.0.4)(@types/react@19.2.17)(lucide-react@1.38.0(react@19.2.7))(next@16.2.12(@babel/core@7.29.7)(@playwright/test@1.62.1)(babel-plugin-macros@3.1.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.102.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(zod@4.4.3))(next@16.2.12(@babel/core@7.29.7)(@playwright/test@1.62.1)(babel-plugin-macros@3.1.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.102.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(tailwindcss@4.3.0)'
       '@vezham/docs-story':
-        specifier: npm:@vx-oss/docs-story@1.0.5
-        version: '@vx-oss/docs-story@1.0.5(@types/react@19.2.17)(@vx-oss/docs-core@1.0.5(@mdx-js/mdx@3.1.1)(@tanstack/react-router@1.170.23(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@types/estree-jsx@1.0.5)(@types/hast@3.0.5)(@types/mdast@4.0.4)(@types/react@19.2.17)(lucide-react@1.38.0(react@19.2.7))(next@16.2.12(@babel/core@7.29.7)(@playwright/test@1.62.1)(babel-plugin-macros@3.1.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.102.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(zod@4.4.3))(@vx-oss/docs-react@1.0.5(8eaa1465cae48cfecb816e03769d2439))(next@16.2.12(@babel/core@7.29.7)(@playwright/test@1.62.1)(babel-plugin-macros@3.1.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.102.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(vite@8.0.16(@types/node@25.9.3)(esbuild@0.28.2)(jiti@2.7.0)(less@4.5.1)(sass-embedded@1.102.0)(sass@1.102.0)(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0))(webpack@5.105.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(esbuild@0.28.2)(postcss@8.5.26))'
+        specifier: npm:@vx-oss/docs-story@1.0.6
+        version: '@vx-oss/docs-story@1.0.6(@types/react@19.2.17)(@vx-oss/docs-core@1.0.6(@mdx-js/mdx@3.1.1)(@tanstack/react-router@1.170.23(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@types/estree-jsx@1.0.5)(@types/hast@3.0.5)(@types/mdast@4.0.4)(@types/react@19.2.17)(lucide-react@1.38.0(react@19.2.7))(next@16.2.12(@babel/core@7.29.7)(@playwright/test@1.62.1)(babel-plugin-macros@3.1.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.102.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(zod@4.4.3))(@vx-oss/docs-react@1.0.5(c685fc4ca5f8e47b505b7116634de040))(next@16.2.12(@babel/core@7.29.7)(@playwright/test@1.62.1)(babel-plugin-macros@3.1.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.102.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(vite@8.0.16(@types/node@25.9.3)(esbuild@0.28.2)(jiti@2.7.0)(less@4.5.1)(sass-embedded@1.102.0)(sass@1.102.0)(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0))(webpack@5.105.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(esbuild@0.28.2)(postcss@8.5.26))'
       '@vezham/react-v3':
         specifier: npm:@heroui/react@3.2.4
         version: '@heroui/react@3.2.4(@react-aria/i18n@3.13.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@react-aria/ssr@3.10.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@react-aria/utils@3.34.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@react-spectrum/provider@3.11.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-aria-components@1.20.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-aria@3.51.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(tailwindcss@4.3.0)'
@@ -262,11 +262,11 @@ importers:
         specifier: ^17.0.35
         version: 17.0.35
       '@vezham/icons':
-        specifier: 1.0.5
-        version: 1.0.5
+        specifier: 1.0.7
+        version: 1.0.7
       '@vezham/icons-react':
-        specifier: 1.0.5
-        version: 1.0.5(react@19.2.7)
+        specifier: 1.0.7
+        version: 1.0.7(react@19.2.7)
       '@vezham/react-v2':
         specifier: npm:@vx-oss/heroui-v2-react@2.9.0-beta.1
         version: '@vx-oss/heroui-v2-react@2.9.0-beta.1(@react-spectrum/provider@3.11.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@types/react@19.2.17)(framer-motion@12.43.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(tailwindcss@4.3.0)'
@@ -5544,13 +5544,13 @@ packages:
     resolution: {integrity: sha512-LTV6/Kcr8pS//iDjDitfYi1bp0AlKBUuvNoHAbI8tMnj0PLOUtRWJxId5FwuE+z3oNBeDLeOWPoXVtqKjl277Q==}
     engines: {node: '>=18'}
 
-  '@vezham/icons-react@1.0.5':
-    resolution: {integrity: sha512-PARbDoE4XPZbkVjbH8uYdRk4SPvgeSTpHdWbbNowemQ+DsPOTsKbFcAA8X81DDfAVj+GNfBy8v+BoBcfXEMGRw==}
+  '@vezham/icons-react@1.0.7':
+    resolution: {integrity: sha512-f9ckgxi4NIP/OBG3RCw4mCAK9rl8EKDdiocVqYYXQ/2IjsKytJ3DQkzHqcBa1RLprF93rIRvvCc+1YYT5QaknQ==}
     peerDependencies:
       react: '>=16.8.0'
 
-  '@vezham/icons@1.0.5':
-    resolution: {integrity: sha512-RKYBilZoU9c3/e9JObG8ixXfM5MDgOCXOvU7vJuG1qvfX/C/zT3BU2Qg3Yzwk21y2ZYbfE66fTmqAmUfPdw3Mg==}
+  '@vezham/icons@1.0.7':
+    resolution: {integrity: sha512-kC9IjjYjDfNI1WosvNDdcO4ROb6x9D7vJlQQYw8bHGalFdYlqQSHoPDzs590s7gUDnIWCtVvT9Pq62JtiF5Bnw==}
 
   '@vezham/use-logger@0.3.3':
     resolution: {integrity: sha512-b0f7GVXDxfUU1FPHb4XWEIT6NNU00TLueuQcAKq46JjiZfFw0NdHX3h/ZO20AR0iKsCkhRyjtqw6+QkGBj2lMg==}
@@ -5626,8 +5626,8 @@ packages:
   '@volar/typescript@2.4.28':
     resolution: {integrity: sha512-Ja6yvWrbis2QtN4ClAKreeUZPVYMARDYZl9LMEv1iQ1QdepB6wn0jTRxA9MftYmYa4DQ4k/DaSZpFPUfxl8giw==}
 
-  '@vx-oss/docs-api@1.0.5':
-    resolution: {integrity: sha512-s909gTGT1HB5jb4bIgxbe3BC/B6iUl0kg0v34ujgiaKIU6eE2lLrWIUYAvai4S4WfoHy745yFwNdiRBf30BNkw==}
+  '@vx-oss/docs-api@1.0.6':
+    resolution: {integrity: sha512-tGOKrCkinHaSEpoDhwlGenbZJUdKbqrg6PHnw8xGrWeuHTt34GJ3RHtUIsBnSMpq4ud8abmbbKJ+2pI1LBzLJg==}
     peerDependencies:
       '@types/react': '*'
       '@vx-oss/docs-core': ^1.0.4
@@ -5641,8 +5641,28 @@ packages:
       json-schema-typed:
         optional: true
 
-  '@vx-oss/docs-core@1.0.5':
-    resolution: {integrity: sha512-vUl8KmW7xmQ1rDt9mvImlI7UwUeETaUCxn5MGZ+Rc1TC41ShO/frQLyrrF439pbP8HRdx3QH2TP0Qd2dNkii6w==}
+  '@vx-oss/docs-base-ui@1.0.6':
+    resolution: {integrity: sha512-l9J5vIOmG6MY5UVia0Ca8gWD3zAq0DCk9bWd2y2D+IhlRWdW6VWhFMvELd0GNEfFfSpa+PldZTxGBpCCqn5QoQ==}
+    peerDependencies:
+      '@types/mdx': '*'
+      '@types/react': '*'
+      '@vx-oss/docs-core': 1.0.6
+      next: 16.x.x
+      react: ^19.2.0
+      react-dom: ^19.2.0
+      takumi-js: '*'
+    peerDependenciesMeta:
+      '@types/mdx':
+        optional: true
+      '@types/react':
+        optional: true
+      next:
+        optional: true
+      takumi-js:
+        optional: true
+
+  '@vx-oss/docs-core@1.0.6':
+    resolution: {integrity: sha512-j2DxQLpDGZ+XW7DhGzMdj8zLf+Oc46wGxYT/5ox0NjAbVFlKXr67kHQHw5BrxOwYlh91tj2Tkz/s0YzD7fXw2A==}
     peerDependencies:
       '@mdx-js/mdx': '*'
       '@mixedbread/sdk': 0.x.x
@@ -5700,11 +5720,11 @@ packages:
       zod:
         optional: true
 
-  '@vx-oss/docs-image-size@1.0.5':
-    resolution: {integrity: sha512-0l1qYmdWNXo+ur2J3VnCz7KSyzAlnn4wy6GLSx899+gjoPqPfXYPyjDgOHkrV/+rn0ptNTp7w+XdP6rCrNVg6g==}
+  '@vx-oss/docs-image-size@1.0.6':
+    resolution: {integrity: sha512-cT6NtPgPbGWKfgdLzd3EX67tjNhBiXUih2Mt3LkCB11XKH+g4bL/mhVKY8MZaiMXxOSpGJrk5eK2YPx3B4YR/w==}
 
-  '@vx-oss/docs-mdx@1.0.5':
-    resolution: {integrity: sha512-amXAGF/SzWWJ2vWqsmHWMokA3aw+spzY3A6y8ySJpZCcq0LQtO1ynj2kIn12xyE2BEgp7Ntclqh/olfdDF9BnA==}
+  '@vx-oss/docs-mdx@1.0.6':
+    resolution: {integrity: sha512-Dmn1Dxfq19zV2Dd0R13ElUGNS37XT2maO1ZsMot7K67Aujxji1h/zLbNwIy/DVlIS5I14NXaqO7tTvWmjPShqQ==}
     hasBin: true
     peerDependencies:
       '@types/mdast': '*'
@@ -5740,8 +5760,8 @@ packages:
       vite:
         optional: true
 
-  '@vx-oss/docs-openapi@1.0.5':
-    resolution: {integrity: sha512-A6jJJR0YIk08Ype11uzQArAnzXqRndIZ4GPRPcRqa64tDzwJKHZGE6uZCQv6jQD1qxwJv29XWTBM/Zgxlmgahw==}
+  '@vx-oss/docs-openapi@1.0.6':
+    resolution: {integrity: sha512-DhbHZOaoQxlJGPbzjvaZKuBHf2mWhvPbkxlwipDIDMJhFTdI44bUgtSOEw8pje5oaMn1IRinyhoubqauNfKA/g==}
     peerDependencies:
       '@scalar/api-client-react': ^2.0.20
       '@types/react': '*'
@@ -5778,8 +5798,8 @@ packages:
       takumi-js:
         optional: true
 
-  '@vx-oss/docs-stf@1.0.5':
-    resolution: {integrity: sha512-fQ+ZMu8ply9YRtQbvCvnbLM8kbxsGuyEFX44Pxl8+WpBmq8RlGQtxoC5F41iXo6mIwwFYpJJCw4GA+GDpJgUgw==}
+  '@vx-oss/docs-stf@1.0.6':
+    resolution: {integrity: sha512-D3DjDYccIXvtZ0Zsj+YHdFkbuPAtsODOwc2AOpjA0/dx/AOpoJlePrOALFY+ZaDyh2cjDLbzHUgwbM4ke2MdiQ==}
     peerDependencies:
       '@types/react': '*'
       react: ^19.2.0
@@ -5788,8 +5808,8 @@ packages:
       '@types/react':
         optional: true
 
-  '@vx-oss/docs-story@1.0.5':
-    resolution: {integrity: sha512-NrOXS7GCIbs+3VrJQMZyOv6EST39/EWsjrpQq3oJGP/Hm36Aur1Q7rX0PU1QSAUN2+qNTn0BWi4MqdKlWJtUsw==}
+  '@vx-oss/docs-story@1.0.6':
+    resolution: {integrity: sha512-a8lowppPgaSpEwwxEHBAd1FbHWmcxY8NdtNjjCbqnXKJpZrOcayjMVBO9rsypJiyL0zDvR5BLs69ECZiZTSCzA==}
     peerDependencies:
       '@types/react': '*'
       '@vx-oss/docs-core': ^1.0.4
@@ -5811,6 +5831,14 @@ packages:
 
   '@vx-oss/docs-tailwind@1.0.5':
     resolution: {integrity: sha512-L2A6hPoVZUp2Lt4YgS/WUWfRXChtOfHpqiwxoyv4PimSeWZArQt06tMNNFW91dYIfPjIcTJzBZhUG8e3bPe4cw==}
+    peerDependencies:
+      tailwindcss: ^4.0.0
+    peerDependenciesMeta:
+      tailwindcss:
+        optional: true
+
+  '@vx-oss/docs-tailwind@1.0.6':
+    resolution: {integrity: sha512-nGK3DnR9V3RRlsD+D7vIDUdLdvyY0JTMT8nZJorSeuHtz0SMsNDA040RiQpWjp0kTHbkWnTTsK+0//Zlc91xYg==}
     peerDependencies:
       tailwindcss: ^4.0.0
     peerDependenciesMeta:
@@ -19332,11 +19360,11 @@ snapshots:
       lodash: 4.18.1
       minimatch: 7.4.9
 
-  '@vezham/icons-react@1.0.5(react@19.2.7)':
+  '@vezham/icons-react@1.0.7(react@19.2.7)':
     dependencies:
       react: 19.2.7
 
-  '@vezham/icons@1.0.5': {}
+  '@vezham/icons@1.0.7': {}
 
   '@vezham/use-logger@0.3.3': {}
 
@@ -19431,14 +19459,14 @@ snapshots:
       path-browserify: 1.0.1
       vscode-uri: 3.1.0
 
-  '@vx-oss/docs-api@1.0.5(@types/react@19.2.17)(@vx-oss/docs-core@1.0.5(@mdx-js/mdx@3.1.1)(@tanstack/react-router@1.170.23(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@types/estree-jsx@1.0.5)(@types/hast@3.0.5)(@types/mdast@4.0.4)(@types/react@19.2.17)(lucide-react@1.38.0(react@19.2.7))(next@16.2.12(@babel/core@7.29.7)(@playwright/test@1.62.1)(babel-plugin-macros@3.1.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.102.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(zod@4.4.3))(@vx-oss/docs-react@1.0.5(8eaa1465cae48cfecb816e03769d2439))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
+  '@vx-oss/docs-api@1.0.6(@types/react@19.2.17)(@vx-oss/docs-core@1.0.6(@mdx-js/mdx@3.1.1)(@tanstack/react-router@1.170.23(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@types/estree-jsx@1.0.5)(@types/hast@3.0.5)(@types/mdast@4.0.4)(@types/react@19.2.17)(lucide-react@1.38.0(react@19.2.7))(next@16.2.12(@babel/core@7.29.7)(@playwright/test@1.62.1)(babel-plugin-macros@3.1.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.102.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(zod@4.4.3))(@vx-oss/docs-react@1.0.5(c685fc4ca5f8e47b505b7116634de040))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
     dependencies:
       '@base-ui/react': 1.7.0(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@fuma-translate/react': 1.0.2(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@scalar/json-magic': 0.13.3
-      '@vx-oss/docs-core': 1.0.5(@mdx-js/mdx@3.1.1)(@tanstack/react-router@1.170.23(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@types/estree-jsx@1.0.5)(@types/hast@3.0.5)(@types/mdast@4.0.4)(@types/react@19.2.17)(lucide-react@1.38.0(react@19.2.7))(next@16.2.12(@babel/core@7.29.7)(@playwright/test@1.62.1)(babel-plugin-macros@3.1.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.102.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(zod@4.4.3)
-      '@vx-oss/docs-react': 1.0.5(8eaa1465cae48cfecb816e03769d2439)
-      '@vx-oss/docs-stf': 1.0.5(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      '@vx-oss/docs-core': 1.0.6(@mdx-js/mdx@3.1.1)(@tanstack/react-router@1.170.23(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@types/estree-jsx@1.0.5)(@types/hast@3.0.5)(@types/mdast@4.0.4)(@types/react@19.2.17)(lucide-react@1.38.0(react@19.2.7))(next@16.2.12(@babel/core@7.29.7)(@playwright/test@1.62.1)(babel-plugin-macros@3.1.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.102.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(zod@4.4.3)
+      '@vx-oss/docs-react': 1.0.5(c685fc4ca5f8e47b505b7116634de040)
+      '@vx-oss/docs-stf': 1.0.6(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       class-variance-authority: 0.7.1
       cnfast: 0.1.0
       github-slugger: 2.0.0
@@ -19451,9 +19479,36 @@ snapshots:
       - '@date-fns/tz'
       - date-fns
 
-  '@vx-oss/docs-core@1.0.5(@mdx-js/mdx@3.1.1)(@tanstack/react-router@1.170.23(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@types/estree-jsx@1.0.5)(@types/hast@3.0.5)(@types/mdast@4.0.4)(@types/react@19.2.17)(lucide-react@1.38.0(react@19.2.7))(next@16.2.12(@babel/core@7.29.7)(@playwright/test@1.62.1)(babel-plugin-macros@3.1.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.102.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(zod@4.4.3)':
+  '@vx-oss/docs-base-ui@1.0.6(@types/mdx@2.0.14)(@types/react@19.2.17)(@vx-oss/docs-core@1.0.6(@mdx-js/mdx@3.1.1)(@tanstack/react-router@1.170.23(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@types/estree-jsx@1.0.5)(@types/hast@3.0.5)(@types/mdast@4.0.4)(@types/react@19.2.17)(lucide-react@1.38.0(react@19.2.7))(next@16.2.12(@babel/core@7.29.7)(@playwright/test@1.62.1)(babel-plugin-macros@3.1.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.102.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(zod@4.4.3))(next@16.2.12(@babel/core@7.29.7)(@playwright/test@1.62.1)(babel-plugin-macros@3.1.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.102.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(tailwindcss@4.3.0)':
     dependencies:
-      '@vx-oss/docs-image-size': 1.0.5
+      '@base-ui/react': 1.7.0(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      '@fuma-translate/react': 1.0.2(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      '@vx-oss/docs-core': 1.0.6(@mdx-js/mdx@3.1.1)(@tanstack/react-router@1.170.23(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@types/estree-jsx@1.0.5)(@types/hast@3.0.5)(@types/mdast@4.0.4)(@types/react@19.2.17)(lucide-react@1.38.0(react@19.2.7))(next@16.2.12(@babel/core@7.29.7)(@playwright/test@1.62.1)(babel-plugin-macros@3.1.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.102.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(zod@4.4.3)
+      '@vx-oss/docs-tailwind': 1.0.6(tailwindcss@4.3.0)
+      class-variance-authority: 0.7.1
+      cnfast: 0.1.0
+      lucide-react: 1.38.0(react@19.2.7)
+      motion: 13.1.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      next-themes: 0.4.6(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      react: 19.2.7
+      react-dom: 19.2.7(react@19.2.7)
+      react-remove-scroll: 2.7.2(@types/react@19.2.17)(react@19.2.7)
+      rehype-raw: 7.0.0
+      scroll-into-view-if-needed: 3.1.0
+      shiki: 4.4.3
+      unist-util-visit: 5.1.0
+    optionalDependencies:
+      '@types/mdx': 2.0.14
+      '@types/react': 19.2.17
+      next: 16.2.12(@babel/core@7.29.7)(@playwright/test@1.62.1)(babel-plugin-macros@3.1.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.102.0)
+    transitivePeerDependencies:
+      - '@date-fns/tz'
+      - date-fns
+      - tailwindcss
+
+  '@vx-oss/docs-core@1.0.6(@mdx-js/mdx@3.1.1)(@tanstack/react-router@1.170.23(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@types/estree-jsx@1.0.5)(@types/hast@3.0.5)(@types/mdast@4.0.4)(@types/react@19.2.17)(lucide-react@1.38.0(react@19.2.7))(next@16.2.12(@babel/core@7.29.7)(@playwright/test@1.62.1)(babel-plugin-macros@3.1.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.102.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(zod@4.4.3)':
+    dependencies:
+      '@vx-oss/docs-image-size': 1.0.6
       estree-util-value-to-estree: 3.5.0
       github-slugger: 2.0.0
       hast-util-to-estree: 3.1.3
@@ -19487,13 +19542,13 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@vx-oss/docs-image-size@1.0.5': {}
+  '@vx-oss/docs-image-size@1.0.6': {}
 
-  '@vx-oss/docs-mdx@1.0.5(@types/mdast@4.0.4)(@types/mdx@2.0.14)(@types/react@19.2.17)(@vx-oss/docs-core@1.0.5(@mdx-js/mdx@3.1.1)(@tanstack/react-router@1.170.23(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@types/estree-jsx@1.0.5)(@types/hast@3.0.5)(@types/mdast@4.0.4)(@types/react@19.2.17)(lucide-react@1.38.0(react@19.2.7))(next@16.2.12(@babel/core@7.29.7)(@playwright/test@1.62.1)(babel-plugin-macros@3.1.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.102.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(zod@4.4.3))(next@16.2.12(@babel/core@7.29.7)(@playwright/test@1.62.1)(babel-plugin-macros@3.1.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.102.0))(react@19.2.7)(rolldown@1.2.7)(vite@8.0.16(@types/node@25.9.3)(esbuild@0.28.2)(jiti@2.7.0)(less@4.5.1)(sass-embedded@1.102.0)(sass@1.102.0)(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0))':
+  '@vx-oss/docs-mdx@1.0.6(@types/mdast@4.0.4)(@types/mdx@2.0.14)(@types/react@19.2.17)(@vx-oss/docs-core@1.0.6(@mdx-js/mdx@3.1.1)(@tanstack/react-router@1.170.23(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@types/estree-jsx@1.0.5)(@types/hast@3.0.5)(@types/mdast@4.0.4)(@types/react@19.2.17)(lucide-react@1.38.0(react@19.2.7))(next@16.2.12(@babel/core@7.29.7)(@playwright/test@1.62.1)(babel-plugin-macros@3.1.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.102.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(zod@4.4.3))(next@16.2.12(@babel/core@7.29.7)(@playwright/test@1.62.1)(babel-plugin-macros@3.1.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.102.0))(react@19.2.7)(rolldown@1.2.7)(vite@8.0.16(@types/node@25.9.3)(esbuild@0.28.2)(jiti@2.7.0)(less@4.5.1)(sass-embedded@1.102.0)(sass@1.102.0)(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0))':
     dependencies:
       '@mdx-js/mdx': 3.1.1
       '@standard-schema/spec': 1.1.0
-      '@vx-oss/docs-core': 1.0.5(@mdx-js/mdx@3.1.1)(@tanstack/react-router@1.170.23(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@types/estree-jsx@1.0.5)(@types/hast@3.0.5)(@types/mdast@4.0.4)(@types/react@19.2.17)(lucide-react@1.38.0(react@19.2.7))(next@16.2.12(@babel/core@7.29.7)(@playwright/test@1.62.1)(babel-plugin-macros@3.1.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.102.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(zod@4.4.3)
+      '@vx-oss/docs-core': 1.0.6(@mdx-js/mdx@3.1.1)(@tanstack/react-router@1.170.23(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@types/estree-jsx@1.0.5)(@types/hast@3.0.5)(@types/mdast@4.0.4)(@types/react@19.2.17)(lucide-react@1.38.0(react@19.2.7))(next@16.2.12(@babel/core@7.29.7)(@playwright/test@1.62.1)(babel-plugin-macros@3.1.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.102.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(zod@4.4.3)
       chokidar: 5.0.0
       esbuild: 0.28.2
       estree-util-value-to-estree: 3.5.0
@@ -19522,15 +19577,15 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@vx-oss/docs-openapi@1.0.5(@types/react@19.2.17)(@vx-oss/docs-core@1.0.5(@mdx-js/mdx@3.1.1)(@tanstack/react-router@1.170.23(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@types/estree-jsx@1.0.5)(@types/hast@3.0.5)(@types/mdast@4.0.4)(@types/react@19.2.17)(lucide-react@1.38.0(react@19.2.7))(next@16.2.12(@babel/core@7.29.7)(@playwright/test@1.62.1)(babel-plugin-macros@3.1.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.102.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(zod@4.4.3))(@vx-oss/docs-react@1.0.5(8eaa1465cae48cfecb816e03769d2439))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
+  '@vx-oss/docs-openapi@1.0.6(@types/react@19.2.17)(@vx-oss/docs-core@1.0.6(@mdx-js/mdx@3.1.1)(@tanstack/react-router@1.170.23(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@types/estree-jsx@1.0.5)(@types/hast@3.0.5)(@types/mdast@4.0.4)(@types/react@19.2.17)(lucide-react@1.38.0(react@19.2.7))(next@16.2.12(@babel/core@7.29.7)(@playwright/test@1.62.1)(babel-plugin-macros@3.1.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.102.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(zod@4.4.3))(@vx-oss/docs-react@1.0.5(c685fc4ca5f8e47b505b7116634de040))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
     dependencies:
       '@fuma-translate/react': 1.0.2(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@fumari/json-schema-ts': 1.0.2
       '@scalar/json-magic': 0.13.3
-      '@vx-oss/docs-api': 1.0.5(@types/react@19.2.17)(@vx-oss/docs-core@1.0.5(@mdx-js/mdx@3.1.1)(@tanstack/react-router@1.170.23(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@types/estree-jsx@1.0.5)(@types/hast@3.0.5)(@types/mdast@4.0.4)(@types/react@19.2.17)(lucide-react@1.38.0(react@19.2.7))(next@16.2.12(@babel/core@7.29.7)(@playwright/test@1.62.1)(babel-plugin-macros@3.1.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.102.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(zod@4.4.3))(@vx-oss/docs-react@1.0.5(8eaa1465cae48cfecb816e03769d2439))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      '@vx-oss/docs-core': 1.0.5(@mdx-js/mdx@3.1.1)(@tanstack/react-router@1.170.23(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@types/estree-jsx@1.0.5)(@types/hast@3.0.5)(@types/mdast@4.0.4)(@types/react@19.2.17)(lucide-react@1.38.0(react@19.2.7))(next@16.2.12(@babel/core@7.29.7)(@playwright/test@1.62.1)(babel-plugin-macros@3.1.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.102.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(zod@4.4.3)
-      '@vx-oss/docs-react': 1.0.5(8eaa1465cae48cfecb816e03769d2439)
-      '@vx-oss/docs-stf': 1.0.5(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      '@vx-oss/docs-api': 1.0.6(@types/react@19.2.17)(@vx-oss/docs-core@1.0.6(@mdx-js/mdx@3.1.1)(@tanstack/react-router@1.170.23(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@types/estree-jsx@1.0.5)(@types/hast@3.0.5)(@types/mdast@4.0.4)(@types/react@19.2.17)(lucide-react@1.38.0(react@19.2.7))(next@16.2.12(@babel/core@7.29.7)(@playwright/test@1.62.1)(babel-plugin-macros@3.1.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.102.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(zod@4.4.3))(@vx-oss/docs-react@1.0.5(c685fc4ca5f8e47b505b7116634de040))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      '@vx-oss/docs-core': 1.0.6(@mdx-js/mdx@3.1.1)(@tanstack/react-router@1.170.23(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@types/estree-jsx@1.0.5)(@types/hast@3.0.5)(@types/mdast@4.0.4)(@types/react@19.2.17)(lucide-react@1.38.0(react@19.2.7))(next@16.2.12(@babel/core@7.29.7)(@playwright/test@1.62.1)(babel-plugin-macros@3.1.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.102.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(zod@4.4.3)
+      '@vx-oss/docs-react': 1.0.5(c685fc4ca5f8e47b505b7116634de040)
+      '@vx-oss/docs-stf': 1.0.6(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       chokidar: 5.0.0
       class-variance-authority: 0.7.1
       cnfast: 0.1.0
@@ -19550,10 +19605,10 @@ snapshots:
       - date-fns
       - supports-color
 
-  '@vx-oss/docs-react@1.0.5(8eaa1465cae48cfecb816e03769d2439)':
+  '@vx-oss/docs-react@1.0.5(c685fc4ca5f8e47b505b7116634de040)':
     dependencies:
-      '@vx-oss/docs-core': 1.0.5(@mdx-js/mdx@3.1.1)(@tanstack/react-router@1.170.23(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@types/estree-jsx@1.0.5)(@types/hast@3.0.5)(@types/mdast@4.0.4)(@types/react@19.2.17)(lucide-react@1.38.0(react@19.2.7))(next@16.2.12(@babel/core@7.29.7)(@playwright/test@1.62.1)(babel-plugin-macros@3.1.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.102.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(zod@4.4.3)
-      '@vx-oss/docs-vezham-ui': 1.0.5(8eaa1465cae48cfecb816e03769d2439)
+      '@vx-oss/docs-core': 1.0.6(@mdx-js/mdx@3.1.1)(@tanstack/react-router@1.170.23(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@types/estree-jsx@1.0.5)(@types/hast@3.0.5)(@types/mdast@4.0.4)(@types/react@19.2.17)(lucide-react@1.38.0(react@19.2.7))(next@16.2.12(@babel/core@7.29.7)(@playwright/test@1.62.1)(babel-plugin-macros@3.1.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.102.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(zod@4.4.3)
+      '@vx-oss/docs-vezham-ui': 1.0.5(c685fc4ca5f8e47b505b7116634de040)
       react: 19.2.7
       react-dom: 19.2.7(react@19.2.7)
     optionalDependencies:
@@ -19571,20 +19626,20 @@ snapshots:
       - tailwind-merge
       - tailwindcss
 
-  '@vx-oss/docs-stf@1.0.5(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
+  '@vx-oss/docs-stf@1.0.6(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
     dependencies:
       react: 19.2.7
       react-dom: 19.2.7(react@19.2.7)
     optionalDependencies:
       '@types/react': 19.2.17
 
-  '@vx-oss/docs-story@1.0.5(@types/react@19.2.17)(@vx-oss/docs-core@1.0.5(@mdx-js/mdx@3.1.1)(@tanstack/react-router@1.170.23(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@types/estree-jsx@1.0.5)(@types/hast@3.0.5)(@types/mdast@4.0.4)(@types/react@19.2.17)(lucide-react@1.38.0(react@19.2.7))(next@16.2.12(@babel/core@7.29.7)(@playwright/test@1.62.1)(babel-plugin-macros@3.1.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.102.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(zod@4.4.3))(@vx-oss/docs-react@1.0.5(8eaa1465cae48cfecb816e03769d2439))(next@16.2.12(@babel/core@7.29.7)(@playwright/test@1.62.1)(babel-plugin-macros@3.1.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.102.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(vite@8.0.16(@types/node@25.9.3)(esbuild@0.28.2)(jiti@2.7.0)(less@4.5.1)(sass-embedded@1.102.0)(sass@1.102.0)(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0))(webpack@5.105.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(esbuild@0.28.2)(postcss@8.5.26))':
+  '@vx-oss/docs-story@1.0.6(@types/react@19.2.17)(@vx-oss/docs-core@1.0.6(@mdx-js/mdx@3.1.1)(@tanstack/react-router@1.170.23(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@types/estree-jsx@1.0.5)(@types/hast@3.0.5)(@types/mdast@4.0.4)(@types/react@19.2.17)(lucide-react@1.38.0(react@19.2.7))(next@16.2.12(@babel/core@7.29.7)(@playwright/test@1.62.1)(babel-plugin-macros@3.1.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.102.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(zod@4.4.3))(@vx-oss/docs-react@1.0.5(c685fc4ca5f8e47b505b7116634de040))(next@16.2.12(@babel/core@7.29.7)(@playwright/test@1.62.1)(babel-plugin-macros@3.1.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.102.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(vite@8.0.16(@types/node@25.9.3)(esbuild@0.28.2)(jiti@2.7.0)(less@4.5.1)(sass-embedded@1.102.0)(sass@1.102.0)(terser@5.50.0)(tsx@4.23.12)(yaml@2.9.0))(webpack@5.105.2(@swc/core@1.15.41(@swc/helpers@0.5.23))(esbuild@0.28.2)(postcss@8.5.26))':
     dependencies:
       '@base-ui/react': 1.7.0(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@fuma-translate/react': 1.0.2(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      '@vx-oss/docs-core': 1.0.5(@mdx-js/mdx@3.1.1)(@tanstack/react-router@1.170.23(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@types/estree-jsx@1.0.5)(@types/hast@3.0.5)(@types/mdast@4.0.4)(@types/react@19.2.17)(lucide-react@1.38.0(react@19.2.7))(next@16.2.12(@babel/core@7.29.7)(@playwright/test@1.62.1)(babel-plugin-macros@3.1.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.102.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(zod@4.4.3)
-      '@vx-oss/docs-react': 1.0.5(8eaa1465cae48cfecb816e03769d2439)
-      '@vx-oss/docs-stf': 1.0.5(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      '@vx-oss/docs-core': 1.0.6(@mdx-js/mdx@3.1.1)(@tanstack/react-router@1.170.23(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@types/estree-jsx@1.0.5)(@types/hast@3.0.5)(@types/mdast@4.0.4)(@types/react@19.2.17)(lucide-react@1.38.0(react@19.2.7))(next@16.2.12(@babel/core@7.29.7)(@playwright/test@1.62.1)(babel-plugin-macros@3.1.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.102.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(zod@4.4.3)
+      '@vx-oss/docs-react': 1.0.5(c685fc4ca5f8e47b505b7116634de040)
+      '@vx-oss/docs-stf': 1.0.6(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       class-variance-authority: 0.7.1
       cnfast: 0.1.0
       lucide-react: 1.38.0(react@19.2.7)
@@ -19604,12 +19659,16 @@ snapshots:
     optionalDependencies:
       tailwindcss: 4.3.0
 
-  '@vx-oss/docs-vezham-ui@1.0.5(8eaa1465cae48cfecb816e03769d2439)':
+  '@vx-oss/docs-tailwind@1.0.6(tailwindcss@4.3.0)':
+    optionalDependencies:
+      tailwindcss: 4.3.0
+
+  '@vx-oss/docs-vezham-ui@1.0.5(c685fc4ca5f8e47b505b7116634de040)':
     dependencies:
       '@fuma-translate/react': 1.0.2(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@vezham/react-v3': '@heroui/react@3.2.4(@react-aria/i18n@3.13.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@react-aria/ssr@3.10.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@react-aria/utils@3.34.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@react-spectrum/provider@3.11.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-aria-components@1.20.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-aria@3.51.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(tailwindcss@4.3.0)'
       '@vezham/styles-v3': '@heroui/styles@3.2.4(tailwind-merge@3.6.0)(tailwindcss@4.3.0)'
-      '@vx-oss/docs-core': 1.0.5(@mdx-js/mdx@3.1.1)(@tanstack/react-router@1.170.23(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@types/estree-jsx@1.0.5)(@types/hast@3.0.5)(@types/mdast@4.0.4)(@types/react@19.2.17)(lucide-react@1.38.0(react@19.2.7))(next@16.2.12(@babel/core@7.29.7)(@playwright/test@1.62.1)(babel-plugin-macros@3.1.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.102.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(zod@4.4.3)
+      '@vx-oss/docs-core': 1.0.6(@mdx-js/mdx@3.1.1)(@tanstack/react-router@1.170.23(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@types/estree-jsx@1.0.5)(@types/hast@3.0.5)(@types/mdast@4.0.4)(@types/react@19.2.17)(lucide-react@1.38.0(react@19.2.7))(next@16.2.12(@babel/core@7.29.7)(@playwright/test@1.62.1)(babel-plugin-macros@3.1.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.102.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(zod@4.4.3)
       '@vx-oss/docs-tailwind': 1.0.5(tailwindcss@4.3.0)
       class-variance-authority: 0.7.1
       cnfast: 0.1.0

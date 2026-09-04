@@ -4,6 +4,12 @@ import { afterEach, beforeEach, expect, vi } from 'vitest'
 
 const noop = () => undefined
 
+class ResizeObserverMock {
+  observe = noop
+  unobserve = noop
+  disconnect = noop
+}
+
 vi.mock('next/navigation', () => ({
   useRouter: () => ({
     back: vi.fn(),
@@ -34,6 +40,13 @@ if (typeof window !== 'undefined' && typeof window.matchMedia !== 'function') {
       removeEventListener: noop,
       dispatchEvent: () => false
     })
+  })
+}
+
+if (typeof globalThis.ResizeObserver !== 'function') {
+  Object.defineProperty(globalThis, 'ResizeObserver', {
+    writable: true,
+    value: ResizeObserverMock
   })
 }
 

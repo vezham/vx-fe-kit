@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 
-import { CheckCircle, CircleInfo } from '@vezham/icons-react'
+import { CheckCircle, QuestionCircle } from '@vezham/icons-react'
 import { Button as ButtonV2 } from '@vezham/react-v2'
 import {
   Avatar,
@@ -61,7 +61,7 @@ export default ({ onClick }: Props) => {
         <Tooltip delay={0}>
           <Tooltip.Trigger aria-label="Status chip">
             <Chip color="success">
-              <CheckCircle size={12} weight="Filled" />
+              <CheckCircle size={12} weight="filled" />
               Active
             </Chip>
           </Tooltip.Trigger>
@@ -76,7 +76,7 @@ export default ({ onClick }: Props) => {
         <Tooltip delay={0}>
           <Tooltip.Trigger aria-label="Info icon">
             <div className="bg-accent-soft rounded-full p-2">
-              <CircleInfo className="text-accent" size={16} />
+              <QuestionCircle className="text-accent" size={16} />
             </div>
           </Tooltip.Trigger>
           <Tooltip.Content showArrow>

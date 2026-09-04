@@ -19,7 +19,7 @@ import { createOpenAPI } from '@vezham/docs-openapi/server'
 export const defaultDocsRoute = '/docs'
 
 export const defaultDocsIconAssetBaseUrl =
-  'https://cdn.jsdelivr.net/npm/@vezham/icons@1.0.5/dist/cdn/icons'
+  'https://cdn.jsdelivr.net/npm/@vezham/icons@1.0.7/dist/cdn/icons'
 
 export function getDocsImageRoute(docsRoute = defaultDocsRoute) {
   return `/og${docsRoute}`

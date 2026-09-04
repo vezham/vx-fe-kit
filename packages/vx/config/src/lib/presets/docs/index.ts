@@ -1,8 +1,9 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { mergeConfig } from 'vite'
+import { type Plugin, type TransformResult, mergeConfig } from 'vite'
 import { parse } from 'yaml'
 
+import { docsMdx as createDocsMdx } from '@vezham/docs-mdx/vite'
 import * as OpenAPI from '@vezham/docs-openapi'
 import { createOpenAPI } from '@vezham/docs-openapi/server'
 import { generateOGImage } from '@vezham/docs-react/og'
@@ -10,8 +11,147 @@ import { generateOGImage } from '@vezham/docs-react/og'
 import { defineConfig as defineAppConfig } from '@vx/config/presets/app'
 import type { ViteConfig, ViteConfigOverrides } from '@vx/config/vite'
 
+const docsMdxMacroImport = '@vezham/docs-mdx/macro'
+const docsMdxRuntimeMacroImport = '@vx-oss/docs-mdx/macro'
+const docsMdxGeneratedRuntimeImport = '@vx-oss/docs-mdx/runtime/macro'
+const docsMdxRuntimeImport = '@vezham/docs-mdx/runtime/macro'
+const docsMdxMacroInclude = [
+  '**/*.js',
+  '**/*.jsx',
+  '**/*.mjs',
+  '**/*.ts',
+  '**/*.tsx',
+  '**/*.mts'
+]
+const moduleFilePattern = /\.[cm]?[jt]sx?($|\?)/
+const nodeModulesPattern = /[\\/]node_modules[\\/]/
+
+export type DocsMdxMacroImportAliasOptions = {
+  rewriteContentBase?: boolean
+}
+
+export type DocsMdxOptions = NonNullable<Parameters<typeof createDocsMdx>[0]>
+
+export function docsMdx(options: DocsMdxOptions = {}) {
+  return createDocsMdx({
+    ...options,
+    macro:
+      options.macro === false
+        ? false
+        : {
+            include: docsMdxMacroInclude,
+            ...options.macro
+          }
+  })
+}
+
+export function docsMdxMacroImportAlias(
+  options: DocsMdxMacroImportAliasOptions = {}
+): Plugin {
+  return {
+    name: '@vx/config:docs-mdx-macro-import-alias',
+    enforce: 'pre',
+    configResolved(config) {
+      const contentDir = options.rewriteContentBase
+        ? slash(path.resolve(config.root, 'content'))
+        : undefined
+
+      for (const plugin of config.plugins) {
+        if (plugin.name !== '@vx-oss/docs-mdx:macro') {
+          continue
+        }
+
+        const transform =
+          typeof plugin.transform === 'object' ? plugin.transform : undefined
+
+        if (!transform?.filter || typeof transform.filter !== 'object') {
+          continue
+        }
+
+        if (typeof transform.handler !== 'function') {
+          continue
+        }
+
+        const macroHandler = transform.handler as (
+          this: unknown,
+          code: string,
+          id: string
+        ) => unknown | Promise<unknown>
+
+        plugin.transform = {
+          order: 'pre',
+          async handler(this: unknown, code, id) {
+            if (
+              !moduleFilePattern.test(id) ||
+              nodeModulesPattern.test(id) ||
+              (!code.includes(docsMdxMacroImport) &&
+                !code.includes(docsMdxRuntimeMacroImport))
+            ) {
+              return null
+            }
+
+            const result = await macroHandler.call(
+              this,
+              code.replaceAll(docsMdxMacroImport, docsMdxRuntimeMacroImport),
+              id
+            )
+
+            return rewriteMacroOutput(result, contentDir)
+          }
+        }
+      }
+    }
+  }
+}
+
+function rewriteMacroOutput(
+  result: unknown,
+  contentDir: string | undefined
+): TransformResult {
+  if (typeof result === 'string') {
+    return rewriteMacroOutputCode(
+      result,
+      contentDir
+    ) as unknown as TransformResult
+  }
+
+  if (
+    typeof result === 'object' &&
+    result !== null &&
+    'code' in result &&
+    typeof result.code === 'string'
+  ) {
+    return {
+      ...result,
+      code: rewriteMacroOutputCode(result.code, contentDir)
+    } as TransformResult
+  }
+
+  return result as TransformResult
+}
+
+function rewriteMacroOutputCode(code: string, contentDir: string | undefined) {
+  const rewrittenCode = code.replaceAll(
+    docsMdxGeneratedRuntimeImport,
+    docsMdxRuntimeImport
+  )
+
+  if (!contentDir) {
+    return rewrittenCode
+  }
+
+  return rewrittenCode.replaceAll(
+    '"base": "./../../content/',
+    `"base": "${contentDir}/`
+  )
+}
+
 const docsViteDefaults: ViteConfig = {
+  plugins: [docsMdxMacroImportAlias()],
   resolve: {
+    alias: {
+      '@vx-oss/docs-mdx/macro': '@vezham/docs-mdx/macro'
+    },
     dedupe: ['@vezham/docs-core', '@vezham/docs-react']
   }
 }

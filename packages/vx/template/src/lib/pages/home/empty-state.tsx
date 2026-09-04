@@ -13,7 +13,7 @@ export default () => {
               <VezhamLogo size={32} />
             </EmptyState.Media>
             <EmptyState.Media variant="icon">
-              <FolderOpen size={24} />
+              <FolderOpen size={24} weight="duotone-filled" />
             </EmptyState.Media>
           </div>
           <EmptyState.Title>No Projects Yet</EmptyState.Title>
