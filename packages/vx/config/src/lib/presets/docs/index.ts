@@ -847,6 +847,7 @@ export async function generateDocs(
           [spec.documentId]: spec.inputPath
         }
       }),
+      groupBy: 'tag',
       meta: true,
       output: spec.outputDir
     })

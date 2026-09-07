@@ -262,7 +262,7 @@ export type DocsRouteHeadData = {
   description?: string
   locale: string
   routePath: string
-  title: string
+  title?: string
 }
 
 export type DocsRouteHeadOptions = {
@@ -758,7 +758,7 @@ export function getDocsRouteHead(
     return {}
   }
 
-  const title = `${data.title} | ${appName}`
+  const title = data.title ? `${data.title} | ${appName}` : appName
   const description = data.description ?? siteDescription
   const docsPath = normalizeDocsRoutePath({
     docsRoute,
