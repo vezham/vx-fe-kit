@@ -12,7 +12,14 @@ export default {
       '/^padding|^gap/': ['rem'],
       '/^animation/': ['ms']
     },
-    'unit-allowed-list': ['rem', 'oklch', 'deg', '%', 'ms'],
+    'selector-class-pattern': [
+      '^[a-z][a-z0-9]*(?:-[a-z0-9]+)*(?:__[a-z][a-z0-9]*(?:-[a-z0-9]+)*)?(?:--[a-z][a-z0-9]*(?:-[a-z0-9]+)*)?$',
+      {
+        message:
+          'Expected class selector to use kebab-case or BEM: block__element--modifier'
+      }
+    ],
+    'unit-allowed-list': ['rem', 'vw', 'oklch', 'deg', '%', 'ms'],
     'color-no-hex': true,
     'color-no-invalid-hex': true,
     'at-rule-no-unknown': [

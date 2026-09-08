@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 @import '@vezham/styles-v3';
+@import './template/not-found.css';
 
 /* wjdlz/NOTE: for pro */
 @import '@heroui-pro/react/css';
