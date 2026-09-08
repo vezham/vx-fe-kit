@@ -3,19 +3,31 @@
   "$schema": "../node_modules/nx/schemas/project-schema.json",
   "targets": {
     "@vx-ws/kill-port": {
-      "command": "ports=\"{args.port}\"; missing=\"{args\"\".port}\"; if [ -z \"$ports\" ] || [ \"$ports\" = \"$missing\" ]; then read -r -p \"Ports to kill: \" ports; fi; ports=$(printf '%s' \"$ports\" | tr ',' ' '); if [ -z \"$ports\" ]; then echo \"No ports provided\" >&2; exit 1; fi; for port in $ports; do case \"$port\" in ''|*[!0-9]*) echo \"Skipping invalid port: $port\" >&2; continue ;; esac; if [ \"$port\" -lt 1 ] || [ \"$port\" -gt 65535 ]; then echo \"Skipping invalid port: $port\" >&2; continue; fi; pids=$(lsof -ti :$port); if [ -z \"$pids\" ]; then echo \"No process found on port $port\"; else kill -9 $pids && echo \"Killed process(es) on port $port\"; fi; done"
+      "command": "{workspaceRoot}/vx/bin/workspace/kill-port.sh {args.port}"
     },
     "@hui-pro/status": {
-      "command": "pnpm dlx heroui-pro@latest status"
+      "command": "pnpm dlx --allow-build=@zowe/secrets-for-zowe-sdk heroui-pro@latest status"
     },
     "@hui-pro/login": {
-      "command": "pnpm dlx heroui-pro@latest login"
+      "command": "pnpm dlx --allow-build=@zowe/secrets-for-zowe-sdk heroui-pro@latest login"
     },
     "@hui-pro/install": {
-      "command": "npm_config_ignore_workspace_root_check=true pnpm dlx heroui-pro@latest install"
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm dlx --allow-build=@zowe/secrets-for-zowe-sdk heroui-pro@latest install",
+        "env": {
+          "PNPM_CONFIG_IGNORE_WORKSPACE_ROOT_CHECK": "true"
+        }
+      }
     },
     "@hui-pro/upgrade": {
-      "command": "npm_config_ignore_workspace_root_check=true pnpm dlx heroui-pro@latest"
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm dlx --allow-build=@zowe/secrets-for-zowe-sdk heroui-pro@latest update react --yes",
+        "env": {
+          "PNPM_CONFIG_IGNORE_WORKSPACE_ROOT_CHECK": "true"
+        }
+      }
     },
     "@vx-ws/clean": {
       "executor": "nx:run-commands",
