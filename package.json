@@ -147,21 +147,9 @@
     "vite-tsconfig-paths": "^6.1.1",
     "vitest": "4.1.8"
   },
-  "packageManager": "pnpm@10.13.1",
+  "packageManager": "pnpm@12.3.4",
   "engines": {
-    "node": ">=22.x",
-    "pnpm": ">=10.x"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "heroui-pro",
-      "@heroui-pro/react",
-      "heroui-native-pro",
-      "lightningcss",
-      "esbuild"
-    ],
-    "overrides": {
-      "react-aria-components": "1.20.0"
-    }
+    "node": ">=24.x",
+    "pnpm": ">=12.x"
   }
 }
