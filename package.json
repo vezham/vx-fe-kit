@@ -10,8 +10,8 @@
   "author": "Vx FE Devs <fe-developers@vezham.com>",
   "scripts": {
     "@vx/ws:format": "pnpm nx run @vx:@vx-ws/format",
-    "postinstall": "husky && pnpm @vx/ws:format",
-    "prepare": "husky"
+    "prepare": "husky",
+    "vx": "pnpm install && pnpm @vx/ws:format"
   },
   "dependencies": {
     "@heroui-pro/react": "1.0.0-beta.8",

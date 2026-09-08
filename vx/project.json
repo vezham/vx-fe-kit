@@ -147,6 +147,26 @@
         "parallel": false
       }
     },
+    "@vx-ci/qa": {
+      "executor": "nx:run-commands",
+      "cache": false,
+      "options": {
+        "commands": [
+          "pnpm nx run-many -t typecheck",
+          "pnpm nx run-many -t lint",
+          "pnpm nx run @vx:@vx-ci/format-check",
+          "pnpm nx run-many -t test --passWithNoTests --exclude=@vx/fe-kit",
+          "pnpm nx run-many -t e2e",
+          "pnpm nx run-many -t build"
+        ],
+        "env": {
+          "CI": "true",
+          "NX_NO_CLOUD": "true"
+        },
+        "forwardAllArgs": false,
+        "parallel": true
+      }
+    },
     "@vx-ci/format-check": {
       "executor": "nx:run-commands",
       "options": {
