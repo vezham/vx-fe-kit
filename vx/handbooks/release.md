@@ -93,6 +93,16 @@ pnpm nx release version prerelease --preid alpha --dry-run
 
 ## Conventional Commits
 
+Use `<type>(<scope>): <subject>` for every commit header. Scope rules:
+
+- Use the normalized Nx project name for a project-specific change, such as
+  `start` for `@vx/start`.
+- For changes affecting two or three projects, use distinct comma-separated
+  scopes without spaces and sort them alphabetically, such as
+  `fix(env,start): use generated app version`.
+- Use no more than three scopes. Use `repo` or `workspace` alone for broader
+  changes; never combine either one with another scope.
+
 The release config maps commit types like this:
 
 - `feat`: minor

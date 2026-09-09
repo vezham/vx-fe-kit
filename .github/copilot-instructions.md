@@ -1,13 +1,23 @@
 # GitHub Copilot Instructions
 
-When generating Git commit messages:
+## Commit Messages
 
-- Follow `commitlint.config.cjs`.
-- Do not generate commit messages that would fail Commitlint.
-- Use the Conventional Commits format.
-- Use this header format: `<type>(<scope>): <subject>`.
+- Every generated Git commit message MUST begin with exactly
+  `<type>(<scope>): <subject>`.
+- The scope is mandatory. Never generate `<type>: <subject>`,
+  `<type>(): <subject>`, or a header without both parentheses.
+- Follow Conventional Commits and select `<type>` and `<scope>` from
+  `commitlint.config.cjs`; do not invent values.
 - Select the most appropriate scope based on the affected Nx project.
-- If multiple projects are modified, prefer `repo` or `workspace` where appropriate.
+- Normalize scoped Nx project names to their project segment, such as
+  `@vx/start` to `start`.
+- For changes affecting two or three Nx projects, use distinct, comma-separated
+  scopes without spaces and sort them alphabetically, such as `env,start`.
+- Use at most three scopes. For broader changes, use `repo` or `workspace` alone;
+  never combine either one with another scope.
+- Before returning the message, verify that the first line has a non-empty type,
+  a non-empty scope inside parentheses, `: `, and a non-empty subject.
+- Do not generate a message that would fail Commitlint.
 
 ## Subject
 
@@ -26,7 +36,7 @@ When generating Git commit messages:
 ### Example
 
 ```text
-refactor(env): rename V_BASE_API_URL to V_BASE_API_MODE
+refactor(env,start): rename V_BASE_API_URL to V_BASE_API_MODE
 
 - update BaseApiMode
 - update createEnv
