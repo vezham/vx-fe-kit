@@ -51,7 +51,7 @@ import { Button, Card, Modal } from '@heroui/react'
 - **Tailwind CSS v4 required** — v3 is NOT supported
 - **No Provider needed** — components work directly without `<HeroUIProvider>`
 - **Compound components** — use dot notation (`Sheet.Trigger`, `Sheet.Content`, `Card.Header`)
-- **`onPress` not `onClick`** — for accessibility
+- **Press events** — use `onPress` for HeroUI and React Aria pressable components
 - **Import order matters** — Tailwind CSS before HeroUI styles in CSS
 
 ```css
@@ -103,7 +103,8 @@ Resizable
 
 - Import from `"@heroui/react"` for base components, `"@heroui-pro/react"` for Pro
 - Subcomponents via **dot notation**: `Card.Header`, `Sheet.Content`, `Sidebar.Header`
-- Use `onPress` not `onClick` for Button
+- Use `onPress`, not `onClick`, for HeroUI and React Aria pressable components;
+  follow the documented event API elsewhere
 - `Divider` does NOT exist — use `Separator`
 - `CardHeader`/`CardContent`/`CardFooter` as direct imports do NOT exist — use `Card.Header` etc.
 - Icons: import named React icons from `@vezham/icons-react`; set explicit `size` for compact controls

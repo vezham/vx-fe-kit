@@ -23,7 +23,7 @@ export default () => {
         <Link.Icon />
       </Link>
 
-      <Home onClick={() => router.push('/pro')} />
+      <Home onPress={() => router.push('/pro')} />
     </>
   )
 }

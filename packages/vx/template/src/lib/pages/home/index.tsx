@@ -25,10 +25,10 @@ import Posts from './posts'
 const NAMESPACE = 'App/Home'
 
 type Props = {
-  onClick: () => void
+  onPress: () => void
 }
 
-export default ({ onClick }: Props) => {
+export default ({ onPress }: Props) => {
   const [value, setValue] = useState('')
   const isInvalid = value.length > 0 && value.length < 3
 
@@ -110,7 +110,7 @@ export default ({ onClick }: Props) => {
         variant="solid"
       />
 
-      <Link onPress={onClick}>
+      <Link onPress={onPress}>
         Pro - Demo
         <Link.Icon />
       </Link>

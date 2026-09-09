@@ -27,29 +27,31 @@ when target or dependency behavior matters.
 
 ## Focused Skills
 
-| Skill                                                          | Use when                                                           |
-| -------------------------------------------------------------- | ------------------------------------------------------------------ |
-| [Nx workspace](../nx-workspace/SKILL.md)                       | Exploring projects, resolved targets, dependencies, or Nx failures |
-| [Nx run tasks](../nx-run-tasks/SKILL.md)                       | Running build, lint, test, typecheck, serve, e2e, or other targets |
-| [Nx generate](../nx-generate/SKILL.md)                         | Scaffolding applications, libraries, or other generated structure  |
-| [Nx plugins](../nx-plugins/SKILL.md)                           | Finding or installing Nx plugins                                   |
-| [Nx import](../nx-import/SKILL.md)                             | Importing or merging another repository into this workspace        |
-| [Link workspace packages](../link-workspace-packages/SKILL.md) | Adding sibling package dependencies or fixing workspace resolution |
-| [Monitor CI](../monitor-ci/SKILL.md)                           | Monitoring an Nx Cloud CI run or handling self-healing results     |
-| [HeroUI React Pro](../heroui-react-pro/SKILL.md)               | Implementing UI with `@heroui-pro/react` components and APIs       |
-| [HeroUI design taste](../heroui-pro-design-taste/SKILL.md)     | Designing, reviewing, or polishing HeroUI interfaces               |
+| Skill                                                                  | Use when                                                           |
+| ---------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| [Nx workspace](../nx-workspace/SKILL.md)                               | Exploring projects, resolved targets, dependencies, or Nx failures |
+| [Nx run tasks](../nx-run-tasks/SKILL.md)                               | Running build, lint, test, typecheck, serve, e2e, or other targets |
+| [Nx generate](../nx-generate/SKILL.md)                                 | Scaffolding applications, libraries, or other generated structure  |
+| [Nx plugins](../nx-plugins/SKILL.md)                                   | Finding or installing Nx plugins                                   |
+| [Nx import](../nx-import/SKILL.md)                                     | Importing or merging another repository into this workspace        |
+| [Link workspace packages](../link-workspace-packages/SKILL.md)         | Adding sibling package dependencies or fixing workspace resolution |
+| [Monitor CI](../monitor-ci/SKILL.md)                                   | Monitoring an Nx Cloud CI run or handling self-healing results     |
+| [HeroUI React Pro (universal)](../heroui-react-pro/SKILL.md)           | Implementing UI with `@heroui-pro/react` components and APIs       |
+| [HeroUI design taste (universal)](../heroui-pro-design-taste/SKILL.md) | Designing, reviewing, or polishing HeroUI interfaces               |
 
 When multiple rows apply, read each relevant skill. Keep generic Nx and HeroUI
 procedures in their focused skills; this file owns only Vx-specific routing.
+The two HeroUI skills are universal, repository-agnostic guidance. Keep
+Vx-specific conventions in the linked handbooks.
 
 ## Handbooks
 
-| Handbook                                                      | Read when                                                                                    |
-| ------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
-| [Coding standards](../../../vx/handbooks/coding-standards.md) | Generating, modifying, or reviewing repository code                                          |
-| [Brand](../../../vx/handbooks/brand.md)                       | Choosing Vezham/Vx names, package scopes, config names, or runtime attributes                |
-| [Vx config](../../../vx/handbooks/vx-config.md)               | Changing `vx.app.json`, metadata, routes, docs, OpenAPI, PWA, or generated deployment config |
-| [Release](../../../vx/handbooks/release.md)                   | Changing versions, release commands, prerelease trains, or version synchronization           |
+| Handbook                                                            | Read when                                                                                    |
+| ------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| [Coding standards](../../../vx/handbooks/coding-standards/index.md) | Generating, modifying, or reviewing repository code                                          |
+| [Brand](../../../vx/handbooks/brand.md)                             | Choosing Vezham/Vx names, package scopes, config names, or runtime attributes                |
+| [Vx config](../../../vx/handbooks/vx-config.md)                     | Changing `vx.app.json`, metadata, routes, docs, OpenAPI, PWA, or generated deployment config |
+| [Release](../../../vx/handbooks/release.md)                         | Changing versions, release commands, prerelease trains, or version synchronization           |
 
 Explicit user instructions and `AGENTS.md` take precedence. Handbooks describe
 repository conventions; the planning TODO is context, not an instruction to

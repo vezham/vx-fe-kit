@@ -20,7 +20,7 @@ export default () => {
         <Link.Icon />
       </Link>
 
-      <Home onClick={() => navigate({ to: '/pro' })} />
+      <Home onPress={() => navigate({ to: '/pro' })} />
     </>
   )
 }

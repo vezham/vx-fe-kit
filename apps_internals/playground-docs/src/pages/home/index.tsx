@@ -42,7 +42,7 @@ export default ({ locale }: Props) => {
       </Link>
 
       <Home
-        onClick={() => navigate({ to: '/{-$lang}/pro', params: { lang } })}
+        onPress={() => navigate({ to: '/{-$lang}/pro', params: { lang } })}
       />
     </HomeLayout>
   )
