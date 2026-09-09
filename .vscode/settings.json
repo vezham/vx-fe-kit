@@ -73,5 +73,11 @@
     }
   },
   "nxConsole.generateAiAgentRules": true,
-  "eslint.validate": ["json"]
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "json"
+  ]
 }

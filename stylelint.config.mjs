@@ -24,7 +24,20 @@ export default {
     'color-no-invalid-hex': true,
     'at-rule-no-unknown': [
       true,
-      { ignoreAtRules: ['/^tailwind/', 'plugin', 'source', 'custom-variant'] }
+      {
+        ignoreAtRules: [
+          '/^tailwind/',
+          'apply',
+          'config',
+          'custom-variant',
+          'plugin',
+          'reference',
+          'source',
+          'theme',
+          'utility',
+          'variant'
+        ]
+      }
     ],
     'hue-degree-notation': 'number',
     'color-function-notation': ['legacy'],
