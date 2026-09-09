@@ -114,23 +114,23 @@
       "command": "rm -rf ./.nx"
     },
     "test-hard": {
-      "command": "vitest"
+      "command": "pnpm nx run-many -t test --exclude=@vx/fe-kit --passWithNoTests"
     },
     "test:clean": {
-      "command": "vitest --clearScreen",
+      "command": "pnpm nx run-many -t test --exclude=@vx/fe-kit --passWithNoTests --clearScreen",
       "//TODO": "&& pnpm clean"
     },
     "test:changedsince": {
-      "command": "vitest --changed --coverage"
+      "command": "pnpm nx run-many -t test --exclude=@vx/fe-kit --skipNxCache --passWithNoTests --changed --coverage"
     },
     "test:coverage": {
-      "command": "vitest --coverage"
+      "command": "pnpm nx run-many -t test --exclude=@vx/fe-kit --passWithNoTests --coverage"
     },
     "test:unit": {
-      "command": "vitest --reporter=json --outputFile=dist/.unit-test-results.json"
+      "command": "pnpm nx run-many -t test --exclude=@vx/fe-kit --skipNxCache --passWithNoTests --reporter=json --outputFile=test-output/vitest/unit-test-results.json"
     },
     "test:unit-nc": {
-      "command": "vitest --reporter=json --outputFile=dist/.unit-test-results.json --no-cache"
+      "command": "pnpm nx run-many -t test --exclude=@vx/fe-kit --skipNxCache --passWithNoTests --reporter=json --outputFile=test-output/vitest/unit-test-results.json --no-cache"
     },
     "@vx-ws/install": {
       "command": "pnpm install --no-frozen-lockfile"

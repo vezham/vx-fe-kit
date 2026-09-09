@@ -27,10 +27,11 @@ for port in $ports; do
         continue
     fi
 
-    pids=$(lsof -ti :"$port")
+    # Only stop TCP listeners; connected clients may belong to other apps.
+    pids=$(lsof -nP -tiTCP:"$port" -sTCP:LISTEN)
 
     if [ -z "$pids" ]; then
-        echo "No process found on port $port"
+        echo "No TCP listener found on port $port"
     else
         kill -9 $pids && echo "Killed process(es) on port $port"
     fi
