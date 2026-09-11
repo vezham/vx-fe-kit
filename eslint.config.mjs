@@ -1,6 +1,7 @@
 import nx from '@nx/eslint-plugin'
 // import { tanstackConfig } from '@tanstack/eslint-config'
 import tanstackQuery from '@tanstack/eslint-plugin-query'
+import unusedImports from 'eslint-plugin-unused-imports'
 import * as jsoncParser from 'jsonc-eslint-parser'
 
 import arrowFunctions from './tools/eslint/arrow-functions.mjs'
@@ -44,6 +45,16 @@ export default [
   },
   {
     files: ['**/*.{js,jsx,mjs,cjs,ts,tsx,mts,cts}'],
+    plugins: { 'unused-imports': unusedImports },
+    rules: {
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
+      'unused-imports/no-unused-imports': 'error',
+      'unused-imports/no-unused-vars': 'error'
+    }
+  },
+  {
+    files: ['**/*.{js,jsx,mjs,cjs,ts,tsx,mts,cts}'],
     ignores: ['**/.agents/**'],
     plugins: {
       '@vx-lint': { rules: { 'arrow-functions': arrowFunctions } }
@@ -58,7 +69,7 @@ export default [
     files: ['**/*-mock/**/*.{ts,tsx,cts,mts}'],
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',
-      '@typescript-eslint/no-unused-vars': 'off',
+      'unused-imports/no-unused-vars': 'off',
       '@typescript-eslint/no-non-null-assertion': 'off'
     }
   },

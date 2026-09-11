@@ -1,4 +1,4 @@
-const config = {
+export default {
   singleAttributePerLine: false,
   tabWidth: 2,
   printWidth: 80,
@@ -8,7 +8,6 @@ const config = {
   bracketSameLine: true,
   arrowParens: 'avoid',
   plugins: [
-    // 'prettier-plugin-organize-imports',
     '@trivago/prettier-plugin-sort-imports',
     'prettier-plugin-tailwindcss'
   ],
@@ -27,5 +26,3 @@ const config = {
   tailwindAttributes: ['className'],
   tailwindFunctions: ['tv', 'cva', 'cn', 'clsx']
 }
-
-export default config

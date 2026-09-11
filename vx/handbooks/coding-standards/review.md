@@ -19,6 +19,10 @@ pnpm nx run @vx:@vx-ws/format
 pnpm nx run @vx:@vx-ws/fix
 ```
 
+`unused-imports/no-unused-imports` reports unused imports and removes them with
+`--fix`. `unused-imports/no-unused-vars` reports unused variables separately;
+update inline suppressions to use this rule name. Prettier handles import order.
+
 The arrow-function rule in `tools/eslint/` runs through the shared
 `eslint.config.mjs`, including editor ESLint diagnostics. The arrow-function
 rules exclude `.agents/**`; other applicable lint rules still apply there.
