@@ -5,35 +5,11 @@
     "@vx-ws/kill-port": {
       "command": "{workspaceRoot}/vx/bin/workspace/kill-port.sh {args.port}"
     },
-    "@hui-pro/status": {
-      "command": "pnpm dlx --allow-build=@zowe/secrets-for-zowe-sdk heroui-pro@latest status"
-    },
-    "@hui-pro/login": {
-      "command": "pnpm dlx --allow-build=@zowe/secrets-for-zowe-sdk heroui-pro@latest login"
-    },
-    "@hui-pro/install": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "pnpm dlx --allow-build=@zowe/secrets-for-zowe-sdk heroui-pro@latest install",
-        "env": {
-          "PNPM_CONFIG_IGNORE_WORKSPACE_ROOT_CHECK": "true"
-        }
-      }
-    },
-    "@hui-pro/upgrade": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "pnpm dlx --allow-build=@zowe/secrets-for-zowe-sdk heroui-pro@latest update react --yes",
-        "env": {
-          "PNPM_CONFIG_IGNORE_WORKSPACE_ROOT_CHECK": "true"
-        }
-      }
-    },
     "@vx-ws/clean": {
       "executor": "nx:run-commands",
       "options": {
         "commands": [
-          "nx run @vx:clean-ca",
+          "nx run @vx:clean-base",
           "pnpm install --no-frozen-lockfile"
         ],
         "parallel": false
@@ -63,6 +39,30 @@
         "parallel": false
       }
     },
+    "@hui-pro/status": {
+      "command": "pnpm dlx --allow-build=@zowe/secrets-for-zowe-sdk heroui-pro@latest status"
+    },
+    "@hui-pro/login": {
+      "command": "pnpm dlx --allow-build=@zowe/secrets-for-zowe-sdk heroui-pro@latest login"
+    },
+    "@hui-pro/install": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm dlx --allow-build=@zowe/secrets-for-zowe-sdk heroui-pro@latest install",
+        "env": {
+          "PNPM_CONFIG_IGNORE_WORKSPACE_ROOT_CHECK": "true"
+        }
+      }
+    },
+    "@hui-pro/upgrade": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm dlx --allow-build=@zowe/secrets-for-zowe-sdk heroui-pro@latest update react",
+        "env": {
+          "PNPM_CONFIG_IGNORE_WORKSPACE_ROOT_CHECK": "true"
+        }
+      }
+    },
     "nx:graph": {
       "command": "nx graph"
     },
@@ -75,7 +75,7 @@
     "tw:migrate": {
       "command": "npx @tailwindcss/upgrade"
     },
-    "clean-ca": {
+    "clean-base": {
       "executor": "nx:run-commands",
       "options": {
         "commands": [
@@ -100,7 +100,7 @@
     "clean-hard": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": ["nx run @vx:clean-ca", "rm ./pnpm-lock.yaml"],
+        "commands": ["nx run @vx:clean-base", "rm ./pnpm-lock.yaml"],
         "parallel": false
       }
     },
@@ -132,9 +132,6 @@
     "test:unit-nc": {
       "command": "pnpm nx run-many -t test --exclude=@vx/fe-kit --skipNxCache --passWithNoTests --reporter=json --outputFile=test-output/vitest/unit-test-results.json --no-cache"
     },
-    "@vx-ws/install": {
-      "command": "pnpm install --no-frozen-lockfile"
-    },
     "@vx-ws/format-hard": {
       "executor": "nx:run-commands",
       "options": {
@@ -143,6 +140,16 @@
           "prettier . --write",
           "eslint",
           "stylelint \"**/*.{css,module.css}\" --allow-empty-input"
+        ],
+        "parallel": false
+      }
+    },
+    "@vx-ci/format-check": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "prettier . --check --cache",
+          "sort-package-json \"package.json\" \"**/package.json\" \"!**/node_modules/**\""
         ],
         "parallel": false
       }
@@ -165,16 +172,6 @@
         },
         "forwardAllArgs": false,
         "parallel": true
-      }
-    },
-    "@vx-ci/format-check": {
-      "executor": "nx:run-commands",
-      "options": {
-        "commands": [
-          "prettier . --check --cache",
-          "sort-package-json \"package.json\" \"**/package.json\" \"!**/node_modules/**\""
-        ],
-        "parallel": false
       }
     },
     "@vx-ci/build": {

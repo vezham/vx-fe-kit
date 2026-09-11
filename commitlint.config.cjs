@@ -31,6 +31,7 @@ module.exports = async () => {
   const scopes = [
     'workspace',
     'repo',
+    'vx',
     'agents',
     ...Array.from(
       new Set(
