@@ -3,6 +3,8 @@ import nx from '@nx/eslint-plugin'
 import tanstackQuery from '@tanstack/eslint-plugin-query'
 import * as jsoncParser from 'jsonc-eslint-parser'
 
+import arrowFunctions from './tools/eslint/arrow-functions.mjs'
+
 // import react from 'eslint-plugin-react'
 // import reactHooks from 'eslint-plugin-react-hooks'
 const ignores = [
@@ -39,6 +41,17 @@ export default [
   // ...tanstackConfig,
   {
     ignores
+  },
+  {
+    files: ['**/*.{js,jsx,mjs,cjs,ts,tsx,mts,cts}'],
+    ignores: ['**/.agents/**'],
+    plugins: {
+      '@vx-lint': { rules: { 'arrow-functions': arrowFunctions } }
+    },
+    rules: {
+      '@vx-lint/arrow-functions': 'error',
+      'prefer-arrow-callback': ['error', { allowNamedFunctions: true }]
+    }
   },
   {
     // wjdlz/NOTE: Keep this rule in sync with @vx-cli project generators.

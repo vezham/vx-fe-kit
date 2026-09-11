@@ -10,14 +10,16 @@ import {
 } from '@app/docs-page'
 import { baseOptions } from '@config/layout'
 
-export const Route = createFileRoute('/{-$lang}/docs/$')({
-  component: function RouteComponent() {
-    const data = Route.useLoaderData() as LoadedDocsPage
+const RouteComponent = () => {
+  const data = Route.useLoaderData() as LoadedDocsPage
 
-    return (
-      <DocsRoutePage data={data} docs={docs} getLayoutOptions={baseOptions} />
-    )
-  },
+  return (
+    <DocsRoutePage data={data} docs={docs} getLayoutOptions={baseOptions} />
+  )
+}
+
+export const Route = createFileRoute('/{-$lang}/docs/$')({
+  component: RouteComponent,
   head: ({ loaderData }) => getDocsRouteHead(loaderData),
   loader: async ({ params }) => {
     const data = await loadDocsPage({

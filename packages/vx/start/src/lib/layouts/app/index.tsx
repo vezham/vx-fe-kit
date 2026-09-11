@@ -1,6 +1,6 @@
 import type { ComponentPropsWithoutRef, ReactNode } from 'react'
 
-function cx(...classNames: Array<false | null | string | undefined>) {
+const cx = (...classNames: Array<false | null | string | undefined>) => {
   return classNames.filter(Boolean).join(' ')
 }
 
@@ -16,7 +16,7 @@ export type AppShellProps = {
   sidebarClassName?: string
 } & Omit<ComponentPropsWithoutRef<'div'>, 'children'>
 
-export function AppShell({
+export const AppShell = ({
   children,
   className,
   contentClassName,
@@ -28,7 +28,7 @@ export function AppShell({
   sidebar,
   sidebarClassName,
   ...props
-}: AppShellProps) {
+}: AppShellProps) => {
   return (
     <div
       data-slot="app-shell"

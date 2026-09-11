@@ -176,19 +176,19 @@ export type PrerenderPagesOptions = {
 
 const routeFileExtensions = new Set(['.js', '.jsx', '.ts', '.tsx'])
 
-function unique<T>(values: T[]) {
+const unique = <T>(values: T[]) => {
   return [...new Set(values)]
 }
 
-function uniquePrerenderPages(pages: PrerenderPage[]) {
+const uniquePrerenderPages = (pages: PrerenderPage[]) => {
   return [...new Map(pages.map(page => [page.path, page])).values()]
 }
 
-function slash(value: string) {
+const slash = (value: string) => {
   return value.split(path.sep).join('/')
 }
 
-function walkFiles(dir: string): string[] {
+const walkFiles = (dir: string): string[] => {
   if (!fs.existsSync(dir)) {
     return []
   }
@@ -200,11 +200,11 @@ function walkFiles(dir: string): string[] {
   })
 }
 
-function withoutExtension(filePath: string) {
+const withoutExtension = (filePath: string) => {
   return filePath.slice(0, -path.extname(filePath).length)
 }
 
-function routeRootFromGlob(pagePath: string) {
+const routeRootFromGlob = (pagePath: string) => {
   const globSuffix = '/**'
 
   return pagePath.endsWith(globSuffix)
@@ -212,23 +212,23 @@ function routeRootFromGlob(pagePath: string) {
     : undefined
 }
 
-function normalizeRoute(route: RouteInput): RouteConfig {
+const normalizeRoute = (route: RouteInput): RouteConfig => {
   return typeof route === 'string' ? { path: route } : route
 }
 
-function decodeRouteSegment(segment: string) {
+const decodeRouteSegment = (segment: string) => {
   return segment.split('[.]').join('.')
 }
 
-function isPathlessRouteSegment(segment: string) {
+const isPathlessRouteSegment = (segment: string) => {
   return segment.startsWith('(') && segment.endsWith(')')
 }
 
-function isDynamicRouteSegment(segment: string) {
+const isDynamicRouteSegment = (segment: string) => {
   return segment === '$' || segment.includes('$') || segment.includes('{')
 }
 
-function routePathFromFile(routesDir: string, filePath: string) {
+const routePathFromFile = (routesDir: string, filePath: string) => {
   const extension = path.extname(filePath)
 
   if (!routeFileExtensions.has(extension)) {
@@ -265,7 +265,7 @@ function routePathFromFile(routesDir: string, filePath: string) {
   return routeSegments.length === 0 ? '/' : `/${routeSegments.join('/')}`
 }
 
-function getStaticPageRoutes(projectRoot: string) {
+const getStaticPageRoutes = (projectRoot: string) => {
   const routesDir = path.join(projectRoot, 'src/routes')
 
   return unique(
@@ -278,7 +278,7 @@ function getStaticPageRoutes(projectRoot: string) {
   )
 }
 
-function getStaticFilesystemRoutes(projectRoot: string, routeRoot: string) {
+const getStaticFilesystemRoutes = (projectRoot: string, routeRoot: string) => {
   const routesDir = path.join(projectRoot, 'src/routes')
 
   return unique(
@@ -293,7 +293,7 @@ function getStaticFilesystemRoutes(projectRoot: string, routeRoot: string) {
   )
 }
 
-function createPrerenderPage(route: RouteConfig): PrerenderPage {
+const createPrerenderPage = (route: RouteConfig): PrerenderPage => {
   if (typeof route.prerender === 'object' && route.prerender.outputPath) {
     return {
       path: route.path,
@@ -318,10 +318,10 @@ function createPrerenderPage(route: RouteConfig): PrerenderPage {
   }
 }
 
-function createFilesystemRoutePrerenderPages(
+const createFilesystemRoutePrerenderPages = (
   projectRoot: string,
   route: RouteConfig
-) {
+) => {
   const routeRoot = routeRootFromGlob(route.path)
 
   if (!routeRoot || route.source !== 'routes') {
@@ -339,7 +339,7 @@ function createFilesystemRoutePrerenderPages(
   )
 }
 
-function assertSupportedRoute(route: RouteConfig) {
+const assertSupportedRoute = (route: RouteConfig) => {
   if (!routeRootFromGlob(route.path) || route.source === 'routes') {
     return
   }
@@ -349,10 +349,10 @@ function assertSupportedRoute(route: RouteConfig) {
   )
 }
 
-export function getPrerenderPages(
+export const getPrerenderPages = (
   projectRoot = process.cwd(),
   { routes: extraRoutes = [] }: PrerenderPagesOptions = {}
-) {
+) => {
   const configFile = path.join(projectRoot, 'vx.app.json')
   const config = JSON.parse(fs.readFileSync(configFile, 'utf8')) as VxAppConfig
   const routes = [...(config.routes ?? []), ...extraRoutes]

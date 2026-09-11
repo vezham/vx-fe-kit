@@ -34,8 +34,6 @@ allowBuilds:
   nx: false
   sharp: false
   unrs-resolver: false
-overrides:
-  react-aria-components: 1.21.0
 
 blockExoticSubdeps: true
 trustPolicy: no-downgrade

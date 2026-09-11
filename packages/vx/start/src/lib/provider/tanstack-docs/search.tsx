@@ -15,7 +15,7 @@ import {
 } from '@vezham/docs-react/components/dialog/search'
 import { useI18n } from '@vezham/docs-react/contexts/i18n'
 
-function DocsSearchDialog(props: SharedProps) {
+const DocsSearchDialog = (props: SharedProps) => {
   const { locale } = useI18n()
   const { search, setSearch, query } = useDocsSearch({
     client: staticClient({

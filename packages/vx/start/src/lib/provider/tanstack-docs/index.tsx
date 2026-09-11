@@ -26,17 +26,24 @@ type DocsRootComponentOptions<Language extends string> = {
   translations?: Partial<Record<Language, Record<string, string>>>
 }
 
-function parseRouteLocale<
+const parseRouteLocale = <
   Language extends string,
   Params extends { lang?: string }
->(i18n: I18nAPI<Language>, params: Params) {
+>(
+  i18n: I18nAPI<Language>,
+  params: Params
+) => {
   return isOptionalLocaleParam(i18n, params.lang) ? params : false
 }
 
-function assertRouteLocale<
+const assertRouteLocale = <
   Language extends string,
   Params extends { lang?: string }
->(i18n: I18nAPI<Language>, params: Params, location: { href: string }) {
+>(
+  i18n: I18nAPI<Language>,
+  params: Params,
+  location: { href: string }
+) => {
   if (!isOptionalLocaleParam(i18n, params.lang)) {
     throw notFound()
   }
@@ -51,10 +58,10 @@ function assertRouteLocale<
   }
 }
 
-function redirectDefaultLocale<Language extends string>(
+const redirectDefaultLocale = <Language extends string>(
   i18n: I18nAPI<Language>,
   location: { href: string }
-) {
+) => {
   const redirectHref = getDefaultLocaleRedirectHref(i18n, location.href)
 
   if (redirectHref) {
@@ -79,17 +86,17 @@ const defineConfig = ({ rootProvider, ...props }: DocsConfigProps = {}) => {
   )
 }
 
-function createRootComponent<Language extends string>({
+const createRootComponent = <Language extends string>({
   i18n,
   translations: overrides
-}: DocsRootComponentOptions<Language>) {
+}: DocsRootComponentOptions<Language>) => {
   const translations = i18n
     .translations()
     .extend(uiTranslations())
     .extend(openapiTranslations())
     .add(overrides ?? {})
 
-  return function DocsRootComponent() {
+  const DocsRootComponent = () => {
     const { lang = i18n.defaultLanguage } = useParams({ strict: false })
     const locale = normalizeLocale(i18n, lang)
 
@@ -100,6 +107,8 @@ function createRootComponent<Language extends string>({
       }
     })
   }
+
+  return DocsRootComponent
 }
 
 export {

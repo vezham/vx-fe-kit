@@ -27,6 +27,10 @@ Workspace automation built on top of **@vx/kit**, providing commands for
 formatting, linting, testing, releasing, dependency management, and other
 workspace operations.
 
+## Code Review
+
+See [Code Review](./handbooks/coding-standards/review.md) for review and fix commands.
+
 ## Handbooks
 
 - [Vx Config](./handbooks/vx-config.md)

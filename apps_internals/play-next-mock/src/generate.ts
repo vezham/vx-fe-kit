@@ -156,7 +156,7 @@ interface Settings {
 }
 
 // Generate users
-function generateUsers(count = 10): User[] {
+const generateUsers = (count = 10): User[] => {
   const users: User[] = []
   for (let i = 1; i <= count; i++) {
     users.push({
@@ -187,7 +187,7 @@ function generateUsers(count = 10): User[] {
 }
 
 // Generate posts
-function generatePosts(count = 25, userIds: number[]): Post[] {
+const generatePosts = (count = 25, userIds: number[]): Post[] => {
   const posts: Post[] = []
   const categories = [
     'Technology',
@@ -245,11 +245,11 @@ function generatePosts(count = 25, userIds: number[]): Post[] {
 }
 
 // Generate comments
-function generateComments(
+const generateComments = (
   count = 50,
   postIds: number[],
   userIds: number[]
-): Comment[] {
+): Comment[] => {
   const comments: Comment[] = []
   for (let i = 1; i <= count; i++) {
     const createdAt = faker.date.past({ years: 1 })
@@ -274,7 +274,7 @@ function generateComments(
 }
 
 // Generate categories
-function generateCategories(): Category[] {
+const generateCategories = (): Category[] => {
   const categoryNames = [
     'Technology',
     'Design',
@@ -313,7 +313,7 @@ function generateCategories(): Category[] {
 }
 
 // Generate products (for e-commerce scenarios)
-function generateProducts(count = 20): Product[] {
+const generateProducts = (count = 20): Product[] => {
   const products: Product[] = []
   for (let i = 1; i <= count; i++) {
     products.push({
@@ -348,11 +348,11 @@ function generateProducts(count = 20): Product[] {
 }
 
 // Generate orders (for e-commerce scenarios)
-function generateOrders(
+const generateOrders = (
   count = 30,
   userIds: number[],
   productIds: number[]
-): Order[] {
+): Order[] => {
   const orders: Order[] = []
   const statuses: Order['status'][] = [
     'pending',
@@ -401,7 +401,7 @@ function generateOrders(
 }
 
 // Generate settings
-function generateSettings(): Settings {
+const generateSettings = (): Settings => {
   return {
     site_name: 'play-next',
     site_description: faker.lorem.sentence({ min: 10, max: 20 }),
@@ -440,7 +440,7 @@ function generateSettings(): Settings {
 }
 
 // Generate all data
-export function generateDatabase() {
+export const generateDatabase = () => {
   useLogger.log(NAMESPACE, '🎭 Generating realistic mock data with Faker.js...')
 
   const users = generateUsers(15)

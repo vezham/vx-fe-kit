@@ -4,7 +4,7 @@ import defaultMdxComponents from '@vezham/docs-react/mdx'
 
 type MDXComponents = Record<string, ElementType>
 
-export function getMDXComponents(components?: MDXComponents) {
+export const getMDXComponents = (components?: MDXComponents) => {
   return {
     ...defaultMdxComponents,
     ...components

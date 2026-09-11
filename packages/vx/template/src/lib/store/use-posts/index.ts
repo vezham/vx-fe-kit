@@ -6,12 +6,12 @@ type Post = {
   body: string
 }
 
-export function usePosts() {
+export const usePosts = () => {
   return useQuery({
     queryKey: ['posts'],
-    queryFn: async (): Promise<Array<Post>> => {
+    queryFn: async (): Promise<Post[]> => {
       const response = await fetch('https://jsonplaceholder.typicode.com/posts')
-      return (await response.json()) as Array<Post>
+      return (await response.json()) as Post[]
     }
   })
 }

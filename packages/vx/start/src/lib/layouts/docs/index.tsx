@@ -35,18 +35,18 @@ export type DocsPageProps = {
   toc: ComponentProps<typeof DocsPagePrimitive>['toc']
 }
 
-export function DocsLayout({
+export const DocsLayout = ({
   children,
   shell = 'docs',
   ...props
-}: DocsLayoutProps) {
+}: DocsLayoutProps) => {
   const Layout =
     shell === 'notebook' ? NotebookLayoutPrimitive : DocsLayoutPrimitive
 
   return <Layout {...props}>{children}</Layout>
 }
 
-export function DocsPage({
+export const DocsPage = ({
   children,
   description,
   full,
@@ -54,7 +54,7 @@ export function DocsPage({
   shell = 'docs',
   title,
   toc
-}: DocsPageProps) {
+}: DocsPageProps) => {
   const Page = shell === 'notebook' ? NotebookDocsPage : DocsPagePrimitive
   const Body = shell === 'notebook' ? NotebookDocsBody : DocsBody
   const Description =

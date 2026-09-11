@@ -12,7 +12,7 @@ developer experience for both humans and AI-assisted development.
 
 ## Rules
 
-- [General](./rules/general.md): principles and file organization.
+- [General](./rules/general.md): principles, functions, and file organization.
 - [Naming](./rules/naming.md): identifiers and callback props.
 - [Comments](./rules/comments.md): structured developer comments and examples.
 - [Quality](./rules/quality.md): formatting, TypeScript, testing, dependencies,
@@ -20,6 +20,10 @@ developer experience for both humans and AI-assisted development.
 
 Read only the rule files relevant to the task. These linked files are normative;
 this entrypoint provides navigation and shared context.
+
+## Code Review
+
+See [Code Review](./review.md) for how to check and fix code against these standards.
 
 ## Philosophy
 

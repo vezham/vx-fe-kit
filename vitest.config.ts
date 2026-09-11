@@ -14,7 +14,7 @@ const sharedSetupFile = path.resolve(rootDir, 'vx/__tests__/setup.ts')
 
 const slash = (value: string) => value.split(path.sep).join('/')
 
-function projectRootImportAlias(): Plugin {
+const projectRootImportAlias = (): Plugin => {
   return {
     name: '@vx/config:vitest-project-root-import-alias',
     enforce: 'pre',

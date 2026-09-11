@@ -57,7 +57,7 @@ export type DocsRoutePageProps<Locale extends string = string> = {
   shell?: DocsLayoutProps['shell']
 }
 
-function Content({
+const Content = ({
   docs,
   markdownUrl,
   openapiData,
@@ -69,7 +69,7 @@ function Content({
   openapiData: unknown
   path: string
   shell: DocsLayoutProps['shell']
-}) {
+}) => {
   const page = docs.getPage(path)
 
   if (!page) {
@@ -115,12 +115,12 @@ function Content({
   )
 }
 
-export function DocsRoutePage<Locale extends string = string>({
+export const DocsRoutePage = <Locale extends string = string>({
   data,
   docs,
   getLayoutOptions,
   shell = 'docs'
-}: DocsRoutePageProps<Locale>) {
+}: DocsRoutePageProps<Locale>) => {
   const page = useDocsLoader(data) as LoadedDocsRoutePageData<Locale>
   const content = (
     <>

@@ -10,19 +10,21 @@ import {
 } from '@app/docs-page'
 import { baseOptions } from '@config/layout'
 
-export const Route = createFileRoute('/{-$lang}/ui-notebook/$')({
-  component: function RouteComponent() {
-    const data = Route.useLoaderData() as LoadedDocsPage
+const RouteComponent = () => {
+  const data = Route.useLoaderData() as LoadedDocsPage
 
-    return (
-      <DocsRoutePage
-        data={data}
-        docs={docs}
-        getLayoutOptions={baseOptions}
-        shell="notebook"
-      />
-    )
-  },
+  return (
+    <DocsRoutePage
+      data={data}
+      docs={docs}
+      getLayoutOptions={baseOptions}
+      shell="notebook"
+    />
+  )
+}
+
+export const Route = createFileRoute('/{-$lang}/ui-notebook/$')({
+  component: RouteComponent,
   head: ({ loaderData }) => getDocsRouteHead(loaderData),
   loader: async ({ params }) => {
     const data = await loadDocsPage({

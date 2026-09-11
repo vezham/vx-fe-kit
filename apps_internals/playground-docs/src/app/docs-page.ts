@@ -21,7 +21,7 @@ type DocsPageInput = {
   slugs: string[]
 }
 
-export function getDocsPage({ lang, pathFormat, slugs }: DocsPageInput) {
+export const getDocsPage = ({ lang, pathFormat, slugs }: DocsPageInput) => {
   if (!isOptionalLocaleParam(i18n, lang)) {
     throw notFound()
   }
@@ -38,7 +38,7 @@ export function getDocsPage({ lang, pathFormat, slugs }: DocsPageInput) {
   return { locale, page }
 }
 
-export async function loadDocsPage({
+export const loadDocsPage = async ({
   slugs,
   lang,
   routeBase = vxDocs.docsRoute
@@ -46,7 +46,7 @@ export async function loadDocsPage({
   slugs: string[]
   lang?: string
   routeBase?: string
-}) {
+}) => {
   const { locale, page } = getDocsPage({ slugs, lang })
   const resolvedRouteBase = localizeRouteBase({
     defaultLanguage: i18n.defaultLanguage,
@@ -83,7 +83,7 @@ export async function loadDocsPage({
   return data
 }
 
-export function getDocsRouteHead(data?: LoadedDocsPage) {
+export const getDocsRouteHead = (data?: LoadedDocsPage) => {
   return getStartDocsRouteHead(data, {
     appName: vxCore.shortName,
     defaultLanguage: i18n.defaultLanguage,

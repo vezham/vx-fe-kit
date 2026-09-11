@@ -87,6 +87,15 @@
     }
   ],
   "targetDefaults": {
+    "lint": {
+      "inputs": [
+        "default",
+        "^default",
+        "{workspaceRoot}/eslint.config.mjs",
+        "{workspaceRoot}/tools/eslint/**/*",
+        { "externalDependencies": ["eslint"] }
+      ]
+    },
     "test": {
       "dependsOn": ["^build"],
       "options": {

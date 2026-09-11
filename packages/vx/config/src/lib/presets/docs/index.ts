@@ -32,7 +32,7 @@ export type DocsMdxMacroImportAliasOptions = {
 
 export type DocsMdxOptions = NonNullable<Parameters<typeof createDocsMdx>[0]>
 
-export function docsMdx(options: DocsMdxOptions = {}) {
+export const docsMdx = (options: DocsMdxOptions = {}) => {
   return createDocsMdx({
     ...options,
     macro:
@@ -45,9 +45,9 @@ export function docsMdx(options: DocsMdxOptions = {}) {
   })
 }
 
-export function docsMdxMacroImportAlias(
+export const docsMdxMacroImportAlias = (
   options: DocsMdxMacroImportAliasOptions = {}
-): Plugin {
+): Plugin => {
   return {
     name: '@vx/config:docs-mdx-macro-import-alias',
     enforce: 'pre',
@@ -104,10 +104,10 @@ export function docsMdxMacroImportAlias(
   }
 }
 
-function rewriteMacroOutput(
+const rewriteMacroOutput = (
   result: unknown,
   contentDir: string | undefined
-): TransformResult {
+): TransformResult => {
   if (typeof result === 'string') {
     return rewriteMacroOutputCode(
       result,
@@ -130,7 +130,10 @@ function rewriteMacroOutput(
   return result as TransformResult
 }
 
-function rewriteMacroOutputCode(code: string, contentDir: string | undefined) {
+const rewriteMacroOutputCode = (
+  code: string,
+  contentDir: string | undefined
+) => {
   const rewrittenCode = code.replaceAll(
     docsMdxGeneratedRuntimeImport,
     docsMdxRuntimeImport
@@ -237,11 +240,11 @@ const defaultOpenApiDir = 'openapi'
 const openapiExtensions = new Set(['.json', '.yaml', '.yml'])
 const routeFileExtensions = new Set(['.js', '.jsx', '.ts', '.tsx'])
 
-function docsImageRoute(docsRoute: string) {
+const docsImageRoute = (docsRoute: string) => {
   return `/og${docsRoute}`
 }
 
-export function resolveDocsConfig(config: DocsConfig = {}) {
+export const resolveDocsConfig = (config: DocsConfig = {}) => {
   const docsRoute = config.docsRoute ?? defaultDocsRoute
 
   return {
@@ -253,11 +256,11 @@ export function resolveDocsConfig(config: DocsConfig = {}) {
   }
 }
 
-function unique<T>(values: T[]) {
+const unique = <T>(values: T[]) => {
   return [...new Set(values)]
 }
 
-function uniqueByRoute(entries: DocsOgMeta[]) {
+const uniqueByRoute = (entries: DocsOgMeta[]) => {
   const mapped = new Map<string, DocsOgMeta>()
 
   for (const entry of entries) {
@@ -267,11 +270,11 @@ function uniqueByRoute(entries: DocsOgMeta[]) {
   return [...mapped.values()]
 }
 
-function slash(value: string) {
+const slash = (value: string) => {
   return value.split(path.sep).join('/')
 }
 
-function walkFiles(dir: string): string[] {
+const walkFiles = (dir: string): string[] => {
   if (!fs.existsSync(dir)) {
     return []
   }
@@ -283,7 +286,7 @@ function walkFiles(dir: string): string[] {
   })
 }
 
-function generatedDirectories(dir: string): string[] {
+const generatedDirectories = (dir: string): string[] => {
   if (!fs.existsSync(dir)) {
     return []
   }
@@ -301,11 +304,11 @@ function generatedDirectories(dir: string): string[] {
   })
 }
 
-function withoutExtension(filePath: string) {
+const withoutExtension = (filePath: string) => {
   return filePath.slice(0, -path.extname(filePath).length)
 }
 
-function openAPISpecIdFromRelativePath(relativePath: string) {
+const openAPISpecIdFromRelativePath = (relativePath: string) => {
   const relativeWithoutExtension = withoutExtension(slash(relativePath))
   const segments = relativeWithoutExtension.split('/')
 
@@ -316,23 +319,23 @@ function openAPISpecIdFromRelativePath(relativePath: string) {
   return segments.length === 0 ? 'openapi' : segments.join('/')
 }
 
-function getLocalizedMdxSuffixes(i18n: I18nConfig) {
+const getLocalizedMdxSuffixes = (i18n: I18nConfig) => {
   return getNonDefaultLanguages(i18n).map(lang => ({
     lang,
     suffix: `.${lang}.mdx`
   }))
 }
 
-function getNonDefaultLanguages(i18n: I18nConfig) {
+const getNonDefaultLanguages = (i18n: I18nConfig) => {
   return i18n.languages.filter(lang => lang !== i18n.defaultLanguage)
 }
 
-function docsPathFromMdx(
+const docsPathFromMdx = (
   docsDir: string,
   docsRoute: string,
   i18n: I18nConfig,
   filePath: string
-) {
+) => {
   const relativePath = slash(path.relative(docsDir, filePath))
 
   if (!relativePath.endsWith('.mdx')) {
@@ -364,12 +367,12 @@ function docsPathFromMdx(
   return { locale, markdownPath, routePath }
 }
 
-function getDocsStaticPathsForLocale(
+const getDocsStaticPathsForLocale = (
   docsDir: string,
   docsRoute: string,
   i18n: I18nConfig,
   locale: string
-) {
+) => {
   return unique(
     walkFiles(docsDir)
       .map(filePath => docsPathFromMdx(docsDir, docsRoute, i18n, filePath))
@@ -378,11 +381,11 @@ function getDocsStaticPathsForLocale(
   )
 }
 
-export function getDocsStaticPaths(
+export const getDocsStaticPaths = (
   projectRoot: string,
   config: DocsConfig = {},
   i18n: I18nConfig
-): DocsStaticPaths {
+): DocsStaticPaths => {
   const resolved = resolveDocsConfig(config)
   const docsDir = path.resolve(projectRoot, resolved.docsDir)
   const defaultDocsStaticPaths = getDocsStaticPathsForLocale(
@@ -415,15 +418,15 @@ export function getDocsStaticPaths(
   }
 }
 
-function shouldWritePrerenderIndex(pagePath: string) {
+const shouldWritePrerenderIndex = (pagePath: string) => {
   return path.extname(pagePath) === '' && !pagePath.startsWith('/api/')
 }
 
-function isDocsShellPath(pagePath: string) {
+const isDocsShellPath = (pagePath: string) => {
   return !pagePath.endsWith('.md')
 }
 
-function createDocsPrerenderPage(pagePath: string): DocsPrerenderPage {
+const createDocsPrerenderPage = (pagePath: string): DocsPrerenderPage => {
   return {
     path: pagePath,
     prerender: shouldWritePrerenderIndex(pagePath)
@@ -434,17 +437,17 @@ function createDocsPrerenderPage(pagePath: string): DocsPrerenderPage {
   }
 }
 
-function normalizeDocsPrerenderPage(
+const normalizeDocsPrerenderPage = (
   page: DocsPrerenderPage | string
-): DocsPrerenderPage {
+): DocsPrerenderPage => {
   return typeof page === 'string' ? createDocsPrerenderPage(page) : page
 }
 
-function replaceDocsRoute(
+const replaceDocsRoute = (
   pagePath: string,
   docsRoute: string,
   nextRoute: string
-) {
+) => {
   if (pagePath === docsRoute) {
     return nextRoute
   }
@@ -454,7 +457,7 @@ function replaceDocsRoute(
     : pagePath
 }
 
-function routeRootFromGlob(pagePath: string) {
+const routeRootFromGlob = (pagePath: string) => {
   const globSuffix = '/**'
 
   return pagePath.endsWith(globSuffix)
@@ -462,33 +465,33 @@ function routeRootFromGlob(pagePath: string) {
     : undefined
 }
 
-function normalizeRoute(route: RouteInput): RouteConfig {
+const normalizeRoute = (route: RouteInput): RouteConfig => {
   return typeof route === 'string' ? { path: route } : route
 }
 
-function shouldPrerenderRoute(route: RouteConfig) {
+const shouldPrerenderRoute = (route: RouteConfig) => {
   return route.prerender !== false
 }
 
-function docsMirrorRouteFromRoute(route: RouteConfig) {
+const docsMirrorRouteFromRoute = (route: RouteConfig) => {
   const routeRoot = routeRootFromGlob(route.path)
 
   return routeRoot && route.source === 'docs' ? routeRoot : undefined
 }
 
-function decodeRouteSegment(segment: string) {
+const decodeRouteSegment = (segment: string) => {
   return segment.split('[.]').join('.')
 }
 
-function isPathlessRouteSegment(segment: string) {
+const isPathlessRouteSegment = (segment: string) => {
   return segment.startsWith('(') && segment.endsWith(')')
 }
 
-function isDynamicRouteSegment(segment: string) {
+const isDynamicRouteSegment = (segment: string) => {
   return segment === '$' || segment.includes('$') || segment.includes('{')
 }
 
-function routePathFromFile(routesDir: string, filePath: string) {
+const routePathFromFile = (routesDir: string, filePath: string) => {
   const extension = path.extname(filePath)
 
   if (!routeFileExtensions.has(extension)) {
@@ -519,7 +522,7 @@ function routePathFromFile(routesDir: string, filePath: string) {
   return `/${routeSegments.join('/')}`
 }
 
-function getStaticFilesystemRoutes(projectRoot: string, routeRoot: string) {
+const getStaticFilesystemRoutes = (projectRoot: string, routeRoot: string) => {
   const routesDir = path.join(projectRoot, 'src/routes')
 
   return unique(
@@ -534,10 +537,10 @@ function getStaticFilesystemRoutes(projectRoot: string, routeRoot: string) {
   )
 }
 
-function createFilesystemRoutePrerenderPages(
+const createFilesystemRoutePrerenderPages = (
   projectRoot: string,
   route: RouteConfig
-) {
+) => {
   const routeRoot = routeRootFromGlob(route.path)
 
   if (!routeRoot || route.source !== 'routes') {
@@ -555,7 +558,7 @@ function createFilesystemRoutePrerenderPages(
   )
 }
 
-function shouldGenerateDocsRouteOg(route: RouteConfig) {
+const shouldGenerateDocsRouteOg = (route: RouteConfig) => {
   const hasDocsMirrorGlob = docsMirrorRouteFromRoute(route) !== undefined
 
   if (typeof route.og === 'object') {
@@ -565,7 +568,7 @@ function shouldGenerateDocsRouteOg(route: RouteConfig) {
   return route.og ?? hasDocsMirrorGlob
 }
 
-function assertSupportedRoute(route: RouteConfig) {
+const assertSupportedRoute = (route: RouteConfig) => {
   const routeRoot = routeRootFromGlob(route.path)
 
   if (!routeRoot || route.source === 'docs' || route.source === 'routes') {
@@ -577,9 +580,9 @@ function assertSupportedRoute(route: RouteConfig) {
   )
 }
 
-function createDocsPrerenderPageFromRoute(
+const createDocsPrerenderPageFromRoute = (
   route: RouteConfig
-): DocsPrerenderPage {
+): DocsPrerenderPage => {
   if (typeof route.prerender === 'object' && route.prerender.outputPath) {
     return {
       path: route.path,
@@ -592,7 +595,7 @@ function createDocsPrerenderPageFromRoute(
   return createDocsPrerenderPage(route.path)
 }
 
-function getDocsMirrorRoutes(routes: RouteInput[]) {
+const getDocsMirrorRoutes = (routes: RouteInput[]) => {
   return unique(
     routes
       .map(normalizeRoute)
@@ -602,11 +605,11 @@ function getDocsMirrorRoutes(routes: RouteInput[]) {
   )
 }
 
-function uniquePrerenderPages(pages: DocsPrerenderPage[]) {
+const uniquePrerenderPages = (pages: DocsPrerenderPage[]) => {
   return [...new Map(pages.map(page => [page.path, page])).values()]
 }
 
-export function getDocsPrerenderPages(
+export const getDocsPrerenderPages = (
   projectRoot: string,
   config: DocsConfig = {},
   i18n: I18nConfig,
@@ -616,7 +619,7 @@ export function getDocsPrerenderPages(
     includeLocalizedDocsRoots = true,
     routes = []
   }: DocsPrerenderPagesOptions = {}
-) {
+) => {
   const resolved = resolveDocsConfig(config)
   const {
     defaultDocsStaticPaths,
@@ -680,10 +683,10 @@ export function getDocsPrerenderPages(
   ])
 }
 
-export function getPrerenderPages(
+export const getPrerenderPages = (
   projectRoot = process.cwd(),
   options: DocsPrerenderPagesOptions = {}
-) {
+) => {
   const { docs, i18n, routes } = loadVxDocsConfig(projectRoot)
 
   return getDocsPrerenderPages(projectRoot, docs, i18n, {
@@ -692,7 +695,7 @@ export function getPrerenderPages(
   })
 }
 
-function assertGeneratedOutput(docsDir: string, outputDir: string) {
+const assertGeneratedOutput = (docsDir: string, outputDir: string) => {
   const relativePath = path.relative(docsDir, outputDir)
 
   if (
@@ -707,11 +710,11 @@ function assertGeneratedOutput(docsDir: string, outputDir: string) {
   }
 }
 
-function discoverOpenAPISpecs(
+const discoverOpenAPISpecs = (
   projectRoot: string,
   docsDir: string,
   openapiDirName: string
-): OpenAPISpec[] {
+): OpenAPISpec[] => {
   const specs: OpenAPISpec[] = []
   const openapiDir = path.join(projectRoot, openapiDirName)
   const folderSpecs = walkFiles(openapiDir)
@@ -743,7 +746,7 @@ function discoverOpenAPISpecs(
   return specs
 }
 
-function pageNameFromMdx(fileName: string, languages: string[]) {
+const pageNameFromMdx = (fileName: string, languages: string[]) => {
   const withoutMdx = fileName.slice(0, -'.mdx'.length)
 
   for (const language of languages) {
@@ -757,7 +760,7 @@ function pageNameFromMdx(fileName: string, languages: string[]) {
   return withoutMdx
 }
 
-function pagesInDirectory(dir: string, languages: string[]) {
+const pagesInDirectory = (dir: string, languages: string[]) => {
   const files = new Set<string>()
   const directories: string[] = []
 
@@ -784,11 +787,11 @@ function pagesInDirectory(dir: string, languages: string[]) {
   ]
 }
 
-function synchronizeMetaFiles(
+const synchronizeMetaFiles = (
   docsDir: string,
   outputDirectories: string[],
   languages: string[]
-) {
+) => {
   const metaFiles = new Set(
     walkFiles(docsDir).filter(
       filePath => path.basename(filePath) === 'meta.json'
@@ -821,11 +824,11 @@ function synchronizeMetaFiles(
   }
 }
 
-export async function generateDocs(
+export const generateDocs = async (
   projectRoot: string,
   config: DocsConfig,
   i18n: I18nConfig
-) {
+) => {
   const resolved = resolveDocsConfig(config)
   const docsDir = path.resolve(projectRoot, resolved.docsDir)
   const specs = discoverOpenAPISpecs(projectRoot, docsDir, resolved.openapiDir)
@@ -862,7 +865,7 @@ export async function generateDocs(
   return specs.length
 }
 
-function titleFromPath(pagePath: string) {
+const titleFromPath = (pagePath: string) => {
   const segments = pagePath.split('/').filter(Boolean)
   const segment = segments[segments.length - 1] ?? 'Docs'
 
@@ -872,7 +875,7 @@ function titleFromPath(pagePath: string) {
     .join(' ')
 }
 
-function getMdxEntries({
+const getMdxEntries = ({
   defaultLanguage,
   docsDir,
   docsRoute,
@@ -880,7 +883,7 @@ function getMdxEntries({
 }: I18nConfig & {
   docsRoute: string
   docsDir: string
-}): DocsOgMeta[] {
+}): DocsOgMeta[] => {
   const localizedMdxSuffixes = languages
     .filter(lang => lang !== defaultLanguage)
     .map(lang => `.${lang}.mdx`)
@@ -928,7 +931,7 @@ function getMdxEntries({
   })
 }
 
-function assertOutputDir(outputDir: string) {
+const assertOutputDir = (outputDir: string) => {
   const parsed = path.parse(outputDir)
 
   if (outputDir === parsed.root || outputDir === process.cwd()) {
@@ -936,7 +939,7 @@ function assertOutputDir(outputDir: string) {
   }
 }
 
-function getDocsOgOutputPaths({
+const getDocsOgOutputPaths = ({
   docsRoute,
   entryRoutePath,
   mirrorRoutes,
@@ -946,7 +949,7 @@ function getDocsOgOutputPaths({
   entryRoutePath: string
   mirrorRoutes: string[]
   outputDir: string
-}) {
+}) => {
   const suffix =
     entryRoutePath === docsRoute ? '' : entryRoutePath.slice(docsRoute.length)
   const outputRoot = path.dirname(outputDir)
@@ -971,7 +974,7 @@ function getDocsOgOutputPaths({
   return outputPaths
 }
 
-export async function generateDocsOgImages(
+export const generateDocsOgImages = async (
   projectRoot: string,
   config: DocsConfig,
   i18n: I18nConfig,
@@ -980,7 +983,7 @@ export async function generateDocsOgImages(
   }: {
     routes?: RouteInput[]
   } = {}
-) {
+) => {
   const resolved = resolveDocsConfig(config)
   const resolvedDocsDir = path.resolve(projectRoot, resolved.docsDir)
   const resolvedOutputDir = path.resolve(projectRoot, resolved.ogOutputDir)
@@ -1024,7 +1027,7 @@ export async function generateDocsOgImages(
   return generatedImageCounts.reduce((total, count) => total + count, 0)
 }
 
-export function loadVxDocsConfig(projectRoot = process.cwd()) {
+export const loadVxDocsConfig = (projectRoot = process.cwd()) => {
   const configFile = path.join(projectRoot, 'vx.app.json')
   const config = JSON.parse(fs.readFileSync(configFile, 'utf8')) as VxDocsConfig
 

@@ -5,9 +5,9 @@ import { localizedUrl } from '@vx/start/runtime/docs'
 import { type Locale, i18n } from '@app/docs'
 import { vxCore } from '@generated/vx'
 
-export function baseOptions(
+export const baseOptions = (
   locale: Locale = i18n.defaultLanguage
-): BaseLayoutProps {
+): BaseLayoutProps => {
   return {
     nav: {
       title: `${vxCore.shortName} :| ${locale.toUpperCase()}`

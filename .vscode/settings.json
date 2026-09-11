@@ -73,6 +73,11 @@
     }
   },
   "nxConsole.generateAiAgentRules": true,
+  "github.copilot.chat.commitMessageGeneration.instructions": [
+    {
+      "file": ".github/copilot-instructions.md"
+    }
+  ],
   "eslint.validate": [
     "javascript",
     "javascriptreact",

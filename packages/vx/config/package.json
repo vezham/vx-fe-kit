@@ -15,6 +15,11 @@
       "import": "./src/lib/integrations/vite/index.ts",
       "default": "./src/lib/integrations/vite/index.ts"
     },
+    "./vitest": {
+      "types": "./src/lib/integrations/vitest/index.ts",
+      "import": "./src/lib/integrations/vitest/index.ts",
+      "default": "./src/lib/integrations/vitest/index.ts"
+    },
     "./metadata": {
       "types": "./src/lib/metadata/index.ts",
       "import": "./src/lib/metadata/index.ts",
@@ -24,11 +29,6 @@
       "types": "./src/lib/deploy/index.ts",
       "import": "./src/lib/deploy/index.ts",
       "default": "./src/lib/deploy/index.ts"
-    },
-    "./vitest": {
-      "types": "./src/lib/integrations/vitest/index.ts",
-      "import": "./src/lib/integrations/vitest/index.ts",
-      "default": "./src/lib/integrations/vitest/index.ts"
     },
     "./presets/app": {
       "types": "./src/lib/presets/app/index.ts",
