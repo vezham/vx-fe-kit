@@ -1,6 +1,9 @@
 import nx from '@nx/eslint-plugin'
 import { ESLint } from 'eslint'
 import assert from 'node:assert/strict'
+import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises'
+import { tmpdir } from 'node:os'
+import path from 'node:path'
 import test from 'node:test'
 
 import button from '../button-on-press.mjs'
@@ -164,29 +167,55 @@ for (const [rule, code, errors, options = {}] of cases) {
   })
 }
 
-test('shared configuration scopes framework exceptions and agent exclusion', async () => {
-  const lint = new ESLint()
+const createWorkspace = async t => {
+  const root = await mkdtemp(path.join(tmpdir(), 'vx-eslint-fixture-'))
+  t.after(() => rm(root, { recursive: true, force: true }))
+  const configUrl = new URL('../../../../eslint.config.mjs', import.meta.url)
+    .href
+  // vx-bot/NOTE: Rebase the real config onto an isolated workspace without sample apps.
+  await writeFile(
+    path.join(root, 'eslint.config.mjs'),
+    `
+import config from ${JSON.stringify(configUrl)}
+export default config.map(entry => entry.basePath ? { ...entry, basePath: ${JSON.stringify(root)} } : entry)
+`
+  )
+  for (const project of [
+    'apps/example',
+    'apps_internal/example',
+    'packages/example'
+  ]) {
+    const directory = path.join(root, project)
+    await mkdir(directory, { recursive: true })
+    await writeFile(
+      path.join(directory, 'eslint.config.mjs'),
+      "export { default } from '../../eslint.config.mjs'\n"
+    )
+  }
+  return root
+}
+
+test('shared configuration scopes framework exceptions and agent exclusion', async t => {
+  const root = await createWorkspace(t)
+  const lint = new ESLint({ cwd: root })
   const severity = async (path, rule) =>
     (await lint.calculateConfigForFile(path)).rules[`@vx-lint/${rule}`]?.[0] ??
     0
   for (const path of [
-    'apps_internals/playground-app/src/pages/home/index.tsx',
-    'apps_internals/play-next/src/vx-pages/pro/index.tsx',
+    'apps_internal/example/src/pages/home/index.tsx',
+    'apps/example/src/vx-pages/pro/index.tsx',
     'apps/example/src/pages/home/index.tsx'
   ]) {
     assert.equal(await severity(path, 'named-exports'), 0)
     assert.equal(await severity(path, 'button-on-press'), 2)
   }
   assert.equal(
-    await severity(
-      'apps_internals/play-next/src/app/page.tsx',
-      'named-exports'
-    ),
+    await severity('apps/example/src/app/page.tsx', 'named-exports'),
     0
   )
   assert.equal(
     await severity(
-      'packages/vx/template/src/lib/pages/home/index.tsx',
+      'packages/example/src/lib/pages/home/index.tsx',
       'named-exports'
     ),
     2
@@ -197,23 +226,24 @@ test('shared configuration scopes framework exceptions and agent exclusion', asy
   )
   assert.equal(
     await severity(
-      'packages/vx/template/src/lib/store/index.ts',
+      'packages/example/src/lib/store/index.ts',
       'wildcard-barrel'
     ),
     2
   )
   assert.equal(
-    await severity('packages/vx/template/src/index.ts', 'wildcard-barrel'),
+    await severity('packages/example/src/index.ts', 'wildcard-barrel'),
     0
   )
 })
 
-test('folder-local props exception stays scoped to internal types modules', async () => {
-  const lint = new ESLint()
+test('folder-local props exception stays scoped to internal types modules', async t => {
+  const root = await createWorkspace(t)
+  const lint = new ESLint({ cwd: root })
   for (const [filePath, expected] of [
-    ['packages/vx/devtools/src/lib/types.ts', 0],
-    ['packages/vx/devtools/src/lib/index.tsx', 1],
-    ['packages/vx/devtools/src/index.ts', 1]
+    ['packages/example/src/lib/types.ts', 0],
+    ['packages/example/src/lib/index.tsx', 1],
+    ['packages/example/src/index.ts', 1]
   ]) {
     const results = await lint.lintText(
       'interface Props { env: boolean }; export type { Props }',
@@ -222,6 +252,24 @@ test('folder-local props exception stays scoped to internal types modules', asyn
     assert.equal(
       results[0].messages.filter(m => m.ruleId === '@vx-lint/props-name')
         .length,
+      expected
+    )
+  }
+})
+
+test('named export exceptions work from Nx project working directories', async t => {
+  const root = await createWorkspace(t)
+  for (const [project, filePath, expected] of [
+    ['apps_internal/example', 'src/pages/home/index.tsx', 0],
+    ['apps/example', 'src/vx-pages/home/index.tsx', 0],
+    ['packages/example', 'src/lib/pages/home/index.tsx', 1]
+  ]) {
+    const lint = new ESLint({ cwd: path.join(root, project) })
+    const [result] = await lint.lintText('export default () => null', {
+      filePath
+    })
+    assert.equal(
+      result.messages.filter(m => m.ruleId === '@vx-lint/named-exports').length,
       expected
     )
   }

@@ -3,6 +3,7 @@ import nx from '@nx/eslint-plugin'
 import tanstackQuery from '@tanstack/eslint-plugin-query'
 import unusedImports from 'eslint-plugin-unused-imports'
 import * as jsoncParser from 'jsonc-eslint-parser'
+import { fileURLToPath } from 'node:url'
 
 import arrowFunctions from './vx/tools/eslint/arrow-functions.mjs'
 import buttonOnPress from './vx/tools/eslint/button-on-press.mjs'
@@ -92,6 +93,8 @@ export default [
     }
   },
   {
+    // vx-bot/NOTE: Resolve app exceptions from the workspace even when Nx changes cwd.
+    basePath: fileURLToPath(new URL('.', import.meta.url)),
     files: ['**/src/**/*.{ts,tsx,js,jsx,mts,cts,mjs,cjs}'],
     ignores: [
       ...vxLintIgnores,
