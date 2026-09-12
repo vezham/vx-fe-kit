@@ -18,7 +18,6 @@ export default {
     '^@vx-pro/(.*)$',
     '^@vx/(.*)$',
     '^(?:@/|@src/|@app/|@config/|@pages/|@layouts/|@components/|@routes/|@store/|@generated/)(.*)$',
-    // '^@/(.*)$',
     '^[./]'
   ],
   importOrderSeparation: true,

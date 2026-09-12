@@ -30,4 +30,10 @@ export const usePosts = () => {
 - Prefer small, focused modules.
 - Avoid deeply nested directory structures.
 - Use barrel exports only when they improve discoverability.
+- Prefer named exports in reusable source files and wildcard re-exports in
+  internal barrels. Check for name collisions before expanding a barrel.
+- Keep intentional aliases and selective public package exports explicit.
+- Preserve default exports required by frameworks and tools.
+- App-local `src/pages/` and `src/vx-pages/` wrappers may use default exports.
+  Reusable package pages use named exports.
 - Prefer explicit configuration over implicit behaviour.

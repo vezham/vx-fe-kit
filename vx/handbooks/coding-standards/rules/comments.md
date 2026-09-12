@@ -71,3 +71,5 @@ Use structured developer comments only when they provide long-term value.
 - Use your personal developer identifier for human-authored comments.
 - Use `vx-bot` as the shared author prefix for agent-generated comments,
   regardless of the agent or model, for example `// vx-bot/NOTE: ...`.
+- Continuation lines may follow a structured comment without repeating its prefix.
+- Tool directives, JSDoc, license notices, and shebangs retain their required formats.

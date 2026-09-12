@@ -4,7 +4,12 @@ import tanstackQuery from '@tanstack/eslint-plugin-query'
 import unusedImports from 'eslint-plugin-unused-imports'
 import * as jsoncParser from 'jsonc-eslint-parser'
 
-import arrowFunctions from './tools/eslint/arrow-functions.mjs'
+import arrowFunctions from './vx/tools/eslint/arrow-functions.mjs'
+import buttonOnPress from './vx/tools/eslint/button-on-press.mjs'
+import commentStyle from './vx/tools/eslint/comment-style.mjs'
+import namedExports from './vx/tools/eslint/named-exports.mjs'
+import propsName from './vx/tools/eslint/props-name.mjs'
+import wildcardBarrel from './vx/tools/eslint/wildcard-barrel.mjs'
 
 // import react from 'eslint-plugin-react'
 // import reactHooks from 'eslint-plugin-react-hooks'
@@ -24,6 +29,17 @@ const ignores = [
   '**/src/generated/**',
   '**/vite.config.*.timestamp*',
   '**/vitest.config.*.timestamp*'
+]
+
+const vxLintIgnores = [
+  '**/.agents/**',
+  '**/bower_components/**',
+  '**/*-lock.{json,yaml}',
+  '**/public/{manifest.webmanifest,browserconfig.xml,robots.txt,sw.js,offline.html,404.html}',
+  '**/generated/**',
+  '**/*.gen.{ts,tsx,js,jsx,mts,cts,mjs,cjs}',
+  '**/*.generated.{ts,tsx,js,jsx,mts,cts,mjs,cjs}',
+  '**/*.d.{ts,mts,cts}'
 ]
 
 export default [
@@ -55,14 +71,64 @@ export default [
   },
   {
     files: ['**/*.{js,jsx,mjs,cjs,ts,tsx,mts,cts}'],
-    ignores: ['**/.agents/**'],
+    ignores: vxLintIgnores,
     plugins: {
-      '@vx-lint': { rules: { 'arrow-functions': arrowFunctions } }
+      '@vx-lint': {
+        rules: {
+          'arrow-functions': arrowFunctions,
+          'button-on-press': buttonOnPress,
+          'comment-style': commentStyle,
+          'named-exports': namedExports,
+          'props-name': propsName,
+          'wildcard-barrel': wildcardBarrel
+        }
+      }
     },
     rules: {
       '@vx-lint/arrow-functions': 'error',
+      '@vx-lint/button-on-press': 'error',
+      '@vx-lint/comment-style': 'warn',
       'prefer-arrow-callback': ['error', { allowNamedFunctions: true }]
     }
+  },
+  {
+    files: ['**/src/**/*.{ts,tsx,js,jsx,mts,cts,mjs,cjs}'],
+    ignores: [
+      ...vxLintIgnores,
+      '**/*.config.*',
+      '**/*.stories.*',
+      '**/routes/**',
+      '{apps,apps_*}/**/src/{pages,vx-pages}/**',
+      '**/app/**/page.{ts,tsx,js,jsx}',
+      '**/app/**/{layout,template,loading,error,global-error,not-found,default,global-not-found}.{ts,tsx,js,jsx}',
+      '**/app/**/{sitemap,robots,manifest,opengraph-image,twitter-image,icon,apple-icon}.{ts,tsx,js,jsx}',
+      '**/middleware.{ts,js}',
+      '**/proxy.{ts,js}'
+    ],
+    rules: { '@vx-lint/named-exports': 'error' }
+  },
+  {
+    files: ['**/src/**/*.{ts,tsx,js,jsx,mts,cts}'],
+    ignores: vxLintIgnores,
+    rules: { '@vx-lint/props-name': 'error' }
+  },
+  {
+    files: [
+      '**/src/lib/**/types.{ts,mts,cts}',
+      '**/src/{components,pages,vx-pages}/**/types.{ts,mts,cts}'
+    ],
+    ignores: vxLintIgnores,
+    rules: {
+      '@vx-lint/props-name': ['error', { allowExportedProps: true }]
+    }
+  },
+  {
+    files: [
+      '**/src/lib/**/index.{ts,js}',
+      '**/src/{components,pages,store,hooks}/**/index.{ts,js}'
+    ],
+    ignores: vxLintIgnores,
+    rules: { '@vx-lint/wildcard-barrel': 'error' }
   },
   {
     // wjdlz/NOTE: Keep this rule in sync with @vx-cli project generators.

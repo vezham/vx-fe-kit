@@ -92,7 +92,7 @@
         "default",
         "^default",
         "{workspaceRoot}/eslint.config.mjs",
-        "{workspaceRoot}/tools/eslint/**/*",
+        "{workspaceRoot}/vx/tools/eslint/**/*",
         { "externalDependencies": ["eslint"] }
       ]
     },

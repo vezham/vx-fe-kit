@@ -8,12 +8,12 @@ const emptySubscribe = () => () => undefined
 const getClientSnapshot = () => true
 const getServerSnapshot = () => false
 
-interface ClientDevtoolsProps {
+interface Props {
   env: boolean
   router?: boolean
 }
 
-const ClientDevtools = ({ env, router }: ClientDevtoolsProps) => {
+const ClientDevtools = ({ env, router }: Props) => {
   const mounted = useSyncExternalStore(
     emptySubscribe,
     getClientSnapshot,
