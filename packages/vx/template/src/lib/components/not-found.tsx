@@ -4,10 +4,11 @@ import { useSyncExternalStore } from 'react'
 
 import { EmptyState, Typography, buttonVariants } from '@vezham/react-v3'
 
-const getPathname = () => window.location.pathname || '/'
-const getServerPathname = () => ''
 const getNotFoundImageSrc = (version: string) =>
   `https://static.cdn.vezham.com/vassets/no-internet.svg?vx=${encodeURIComponent(version)}`
+
+const getPathname = () => window.location.pathname || '/'
+const getServerPathname = () => ''
 const subscribeToPathname = (onPathnameChange: () => void) => {
   window.addEventListener('popstate', onPathnameChange)
 
@@ -22,8 +23,11 @@ type Props = {
 
 export const NotFound = ({ app = 'Vx', homeUrl = '/', version }: Props) => {
   const pathname = useSyncExternalStore(
+    // vx-bot/INFO: Recheck on Back/Forward navigation via popstate.
     subscribeToPathname,
+    // vx-bot/INFO: Read the browser pathname as the client snapshot.
     getPathname,
+    // vx-bot/NOTE: Return '' during SSR and initial hydration to keep them consistent.
     getServerPathname
   )
   const imageSrc = version ? getNotFoundImageSrc(version) : undefined

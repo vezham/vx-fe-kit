@@ -68,4 +68,6 @@ Use structured developer comments only when they provide long-term value.
 - Keep comments concise and actionable.
 - Remove outdated comments.
 - Avoid commented-out code.
-- Use your developer identifier as the author prefix.
+- Use your personal developer identifier for human-authored comments.
+- Use `vx-bot` as the shared author prefix for agent-generated comments,
+  regardless of the agent or model, for example `// vx-bot/NOTE: ...`.

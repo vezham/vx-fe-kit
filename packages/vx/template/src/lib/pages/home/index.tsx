@@ -19,8 +19,8 @@ import {
 } from '@vezham/react-v3'
 import { useLogger } from '@vezham/use-logger'
 
-import EmptyState from './empty-state'
-import Posts from './posts'
+import { PageEmptyState } from './empty-state'
+import { Posts } from './posts'
 
 const NAMESPACE = 'App/Home'
 
@@ -28,7 +28,7 @@ type Props = {
   onPress: () => void
 }
 
-export default ({ onPress }: Props) => {
+export const Home = ({ onPress }: Props) => {
   const [value, setValue] = useState('')
   const isInvalid = value.length > 0 && value.length < 3
 
@@ -125,7 +125,7 @@ export default ({ onPress }: Props) => {
 
       <Separator />
 
-      <EmptyState />
+      <PageEmptyState />
 
       <Separator />
 

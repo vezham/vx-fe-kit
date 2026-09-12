@@ -1,6 +1,6 @@
 import { Alert } from '@vezham/react-v3'
 
-type ErrorPageProps = {
+type Props = {
   error?: unknown
 }
 
@@ -12,7 +12,7 @@ const getMessage = (error: unknown) => {
   return 'Something went wrong.'
 }
 
-export const ErrorPage = ({ error }: ErrorPageProps) => (
+export const ErrorPage = ({ error }: Props) => (
   <main className="vx-error-page mx-auto flex min-h-80 max-w-xl flex-col items-center justify-center gap-3 p-6 text-center">
     <Alert status="danger">
       <Alert.Content>

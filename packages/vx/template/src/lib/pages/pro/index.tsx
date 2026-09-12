@@ -1,3 +1,3 @@
-import EmptyState from '../home/empty-state'
+import { PageEmptyState } from '../home/empty-state'
 
-export default () => <EmptyState />
+export const Pro = () => <PageEmptyState />

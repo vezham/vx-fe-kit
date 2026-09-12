@@ -1,6 +1,6 @@
 import { usePosts } from '../../store/use-posts'
 
-export default () => {
+export const Posts = () => {
   const { data, error, isPending, isError } = usePosts()
 
   if (isPending) return <div>Loading...</div>

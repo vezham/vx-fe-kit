@@ -1,3 +1,3 @@
-export { ErrorPage } from './error-page'
-export { Loading } from './loading'
-export { NotFound } from './not-found'
+export * from './error-page'
+export * from './loading'
+export * from './not-found'

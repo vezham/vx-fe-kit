@@ -3,9 +3,9 @@ import { ContextMenu, EmptyState } from '@heroui-pro/react'
 import { FolderOpen, VezhamLogo } from '@vezham/icons-react'
 import { Button, Kbd, Label, Separator } from '@vezham/react-v3'
 
-export default () => {
+export const PageEmptyState = () => {
   return (
-    <div className="w-[420px]">
+    <div className="w-105">
       <EmptyState>
         <EmptyState.Header>
           <div className="flex flex-row gap-2">
