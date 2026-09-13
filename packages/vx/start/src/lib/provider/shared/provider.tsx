@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import type { FC, ReactNode } from 'react'
-import { StrictMode } from 'react'
+import { StrictMode, useState } from 'react'
 
 import { VezhamProvider, cn } from '@vezham/react-v2'
 import { defineLogger } from '@vezham/use-logger'
@@ -22,12 +22,10 @@ const createQueryClient = () =>
 
 interface CreateProviderProps {
   env: ProviderEnv
-  renderDevtools?: () => ReactNode
+  renderDevtools?: (options: { query: boolean }) => ReactNode
 }
 
 const createProvider = ({ env, renderDevtools }: CreateProviderProps) => {
-  const queryClient = createQueryClient()
-
   defineLogger(env)
 
   const Provider: FC<Props> = ({
@@ -43,18 +41,18 @@ const createProvider = ({ env, renderDevtools }: CreateProviderProps) => {
     version,
     query = true
   }) => {
+    // vx-bot/NOTE: Keep caches isolated between server renders and provider instances.
+    const [queryClient] = useState(createQueryClient)
     const classList = cn('vx-app', className)
     let template = (
       <>
         <VezhamProvider>
-          {/* wjdlz/NOTE: 
-            data-vx-app="mail"
-            data-vx-app-name="Vezham Mail"
-            data-vx-app-version="1.0.0"
-            data-vx-app-env="development"
-            data-vx-app-framework="vite"
-
-            TODO: data-vx-app-name, data-vx-app-env, data-vx-app-framework 
+          {/* wjdlz/INFO:
+            🏷️ Identity     → data-vx-app="mail"
+            📦 Name         → data-vx-app-name="Vezham Mail"
+            📦 Version      → data-vx-app-version="1.0.0"
+            🌍 Environment  → data-vx-app-env="development"
+            ⚙️ Runtime      → data-vx-app-framework="vite"
           */}
           <div data-vx-app-version={version} className={classList}>
             {children}
@@ -66,7 +64,7 @@ const createProvider = ({ env, renderDevtools }: CreateProviderProps) => {
           {/* <div id="portal"></div> */}
           {/* </ThemeProvider> */}
         </VezhamProvider>
-        {renderDevtools?.()}
+        {renderDevtools?.({ query })}
       </>
     )
 

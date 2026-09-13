@@ -11,7 +11,7 @@ const RootDocument = (props: Props) => {
     strict: false
   }
 
-  const lang = 'en'
+  const lang = props.lang ?? 'en'
 
   return (
     <html lang={lang} suppressHydrationWarning>

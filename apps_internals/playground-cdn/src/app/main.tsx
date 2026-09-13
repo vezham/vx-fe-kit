@@ -2,4 +2,4 @@ import { defineConfig } from '@vx/start/vite'
 
 import { Shell } from './shell'
 
-defineConfig({ children: <Shell /> })
+defineConfig({ children: <Shell />, query: false })

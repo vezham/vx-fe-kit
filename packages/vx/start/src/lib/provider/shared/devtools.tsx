@@ -1,4 +1,5 @@
-import { Suspense, lazy, useSyncExternalStore } from 'react'
+import { QueryClientContext } from '@tanstack/react-query'
+import { Suspense, lazy, useContext, useSyncExternalStore } from 'react'
 
 const Devtools = lazy(() =>
   import('@vx/devtools').then(module => ({ default: module.Devtools }))
@@ -11,9 +12,12 @@ const getServerSnapshot = () => false
 interface Props {
   env: boolean
   router?: boolean
+  query?: boolean
 }
 
-const ClientDevtools = ({ env, router }: Props) => {
+const ClientDevtools = ({ env, router, query }: Props) => {
+  // vx-bot/NOTE: Standalone route devtools may run without a query provider.
+  const queryClient = useContext(QueryClientContext)
   const mounted = useSyncExternalStore(
     emptySubscribe,
     getClientSnapshot,
@@ -24,7 +28,11 @@ const ClientDevtools = ({ env, router }: Props) => {
 
   return (
     <Suspense fallback={null}>
-      <Devtools env={env} router={router} />
+      <Devtools
+        env={env}
+        router={router}
+        query={query ?? Boolean(queryClient)}
+      />
     </Suspense>
   )
 }
