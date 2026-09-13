@@ -15,8 +15,9 @@ export default {
     'selector-class-pattern': [
       '^[a-z][a-z0-9]*(?:-[a-z0-9]+)*(?:__[a-z][a-z0-9]*(?:-[a-z0-9]+)*)?(?:--[a-z][a-z0-9]*(?:-[a-z0-9]+)*)?$',
       {
+        severity: 'error',
         message:
-          'Expected class selector to use kebab-case or BEM: block__element--modifier'
+          'Expected a BEM class: block, block__element, block--modifier, or block__element--modifier (kebab-case words)'
       }
     ],
     'unit-allowed-list': ['rem', 'vw', 'oklch', 'deg', '%', 'ms'],

@@ -13,6 +13,15 @@ Workspace standards include:
 - ESLint
 - Stylelint
 
+Use BEM for authored CSS classes: `block`, `block__element`,
+`block--modifier`, or `block__element--modifier`, with kebab-case words.
+This is the default for both new and existing authored classes across apps and
+packages. When migrating a class, update its CSS, markup, selectors, and tests
+together. Preserve third-party classes, theme hooks, and Tailwind utilities.
+Stylelint's `selector-class-pattern` checks class selector names. Write full BEM
+class names; native CSS nesting does not support Sass-style `&__element` suffixes.
+This rule does not check class strings in JSX or Tailwind utilities.
+
 ## TypeScript
 
 - Prefer strict typing.

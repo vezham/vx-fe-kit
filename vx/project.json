@@ -149,6 +149,7 @@
       "options": {
         "commands": [
           "prettier . --check --cache",
+          "stylelint \"**/*.{css,module.css}\" --allow-empty-input --cache --cache-strategy metadata",
           "sort-package-json \"package.json\" \"**/package.json\" \"!**/node_modules/**\""
         ],
         "parallel": false
