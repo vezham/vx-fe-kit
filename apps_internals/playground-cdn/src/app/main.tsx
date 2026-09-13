@@ -1,5 +1,11 @@
 import { defineConfig } from '@vx/start/vite'
 
+import { vxI18n } from '@generated/vx'
+
 import { Shell } from './shell'
 
-defineConfig({ children: <Shell />, query: false })
+defineConfig({
+  lang: vxI18n.defaultLanguage,
+  children: <Shell />,
+  query: false
+})

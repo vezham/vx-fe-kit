@@ -2,6 +2,7 @@ import { render, waitFor } from '@testing-library/react'
 
 import Page from '../src/app/(routes)/(home)/page'
 import RootLayout from '../src/app/layout'
+import { vxI18n } from '../src/generated/vx'
 
 const renderApp = () =>
   render(
@@ -11,6 +12,16 @@ const renderApp = () =>
   )
 
 describe('App', () => {
+  it('uses the configured default language for the document', async () => {
+    renderApp()
+
+    await waitFor(() =>
+      expect(document.documentElement.getAttribute('lang')).toBe(
+        vxI18n?.defaultLanguage ?? 'en'
+      )
+    )
+  })
+
   it('should render successfully', async () => {
     const { baseElement } = renderApp()
 

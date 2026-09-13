@@ -18,6 +18,7 @@ const defineConfig = (props: Props) => {
 
   const el = document.getElementById('root') as HTMLElement
   if (el && !el.getAttribute('data-vx-app')) {
+    document.documentElement.lang = options.lang ?? 'en'
     preConfig(options)
 
     const root = ReactDOM.createRoot(el)

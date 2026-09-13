@@ -74,7 +74,11 @@ Use `core.url` for absolute social URLs and canonical metadata.
 
 ## I18n
 
-`i18n` controls generated localized docs paths.
+`i18n` controls generated localized docs paths and the app document language.
+Generated `vxI18n` and `vxMetadata` include `defaultLanguage` and `languages`,
+with `en` and `["en"]` as defaults when i18n is omitted. Pass
+`vxI18n.defaultLanguage` to the app provider’s `lang` option. Docs apps use
+the active route locale, falling back to this default.
 
 ```json
 {

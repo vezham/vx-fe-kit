@@ -323,6 +323,11 @@ const normalizeIcons = (icons: VxIconSource): VxIcon[] => {
   }))
 }
 
+const resolveI18n = (i18n?: VxI18nConfig): VxI18nConfig => ({
+  defaultLanguage: i18n?.defaultLanguage ?? 'en',
+  languages: i18n?.languages ?? [i18n?.defaultLanguage ?? 'en']
+})
+
 const getRuntimeMetadata = (config: VxConfig, projectRoot = process.cwd()) => {
   const { core, metadata, pwa } = config
   const { apple, microsoft } = metadata.platforms
@@ -353,6 +358,7 @@ const getRuntimeMetadata = (config: VxConfig, projectRoot = process.cwd()) => {
   )
 
   return {
+    ...resolveI18n(config.i18n),
     title,
     description,
     url: core.url,
@@ -871,9 +877,7 @@ export const vxCore = ${stringifyTs(config.core)} as const
 
 export const vxDocs = ${stringifyTs(resolveDocsConfig(config.docs))} as const
 
-export const vxI18n = ${
-  config.i18n ? `${stringifyTs(config.i18n)} as const` : 'undefined'
-}
+export const vxI18n = ${stringifyTs(resolveI18n(config.i18n))} as const
 
 export const tanstackHead = ${stringifyTs(getTanStackHead(config, projectRoot))}
 

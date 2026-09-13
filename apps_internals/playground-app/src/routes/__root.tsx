@@ -2,9 +2,9 @@ import { createRootRoute } from '@tanstack/react-router'
 
 import { defineConfig } from '@vx/start/tanstack'
 
-import { tanstackHead } from '@generated/vx'
+import { tanstackHead, vxI18n } from '@generated/vx'
 
 export const Route = createRootRoute({
   head: () => tanstackHead,
-  component: defineConfig
+  component: () => defineConfig({ lang: vxI18n.defaultLanguage })
 })
