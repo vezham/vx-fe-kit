@@ -323,10 +323,15 @@ const normalizeIcons = (icons: VxIconSource): VxIcon[] => {
   }))
 }
 
-const resolveI18n = (i18n?: VxI18nConfig): VxI18nConfig => ({
-  defaultLanguage: i18n?.defaultLanguage ?? 'en',
-  languages: i18n?.languages ?? [i18n?.defaultLanguage ?? 'en']
-})
+const resolveI18n = (i18n?: VxI18nConfig): VxI18nConfig => {
+  const defaultLanguage = i18n?.defaultLanguage ?? 'en'
+  const configuredLanguages = i18n?.languages ?? []
+  const languages = configuredLanguages.includes(defaultLanguage)
+    ? configuredLanguages
+    : [...configuredLanguages, defaultLanguage]
+
+  return { defaultLanguage, languages }
+}
 
 const getRuntimeMetadata = (config: VxConfig, projectRoot = process.cwd()) => {
   const { core, metadata, pwa } = config

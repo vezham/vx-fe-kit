@@ -78,7 +78,8 @@ Use `core.url` for absolute social URLs and canonical metadata.
 Generated `vxI18n` and `vxMetadata` include `defaultLanguage` and `languages`,
 with `en` and `["en"]` as defaults when i18n is omitted. Pass
 `vxI18n.defaultLanguage` to the app provider’s `lang` option. Docs apps use
-the active route locale, falling back to this default.
+the active route locale, falling back to this default. The generator appends a
+configured `defaultLanguage` to `languages` when it is missing.
 
 ```json
 {

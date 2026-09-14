@@ -74,4 +74,9 @@ describe('generated language metadata', () => {
     expect(source.match(/"defaultLanguage": "ta"/g)).toHaveLength(2)
     expect(source.match(/"languages": \[\s*"en",\s*"ta"\s*\]/g)).toHaveLength(2)
   })
+
+  it('adds a configured default language to the supported languages', () => {
+    const source = generatedModule({ defaultLanguage: 'ta', languages: ['en'] })
+    expect(source.match(/"languages": \[\s*"en",\s*"ta"\s*\]/g)).toHaveLength(2)
+  })
 })

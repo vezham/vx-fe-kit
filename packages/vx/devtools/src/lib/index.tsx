@@ -44,7 +44,7 @@ export const Devtools = ({
 
   return (
     <TanStackDevtools
-      // vx-bot/NOTE: config={{ position: 'top-right' }}
+      // vx-bot/REF: config={{ position: 'top-right' }}
       plugins={plugins}
     />
   )

@@ -14,8 +14,8 @@ const createQueryClient = () =>
     defaultOptions: {
       queries: {
         staleTime: 1 * MINUTE
-        // vx-bot/NOTE: gcTime: 60 * 24* MINUTE, // 24 hours
-        // vx-bot/NOTE: retry: 0,
+        // vx-bot/REF: gcTime: 60 * 24* MINUTE, // 24 hours
+        // vx-bot/REF: retry: 0,
       }
     }
   })
@@ -29,14 +29,14 @@ const createProvider = ({ env, renderDevtools }: CreateProviderProps) => {
   defineLogger(env)
 
   const Provider: FC<Props> = ({
-    // vx-bot/NOTE: id
+    // vx-bot/REF: id
     className = '',
-    // vx-bot/NOTE: classTarget,
+    // vx-bot/REF: classTarget,
     children,
 
     strict = true,
-    // vx-bot/NOTE: disableAnimation
-    // vx-bot/NOTE: vmode,
+    // vx-bot/REF: disableAnimation
+    // vx-bot/REF: vmode,
 
     version,
     query = true
@@ -57,12 +57,13 @@ const createProvider = ({ env, renderDevtools }: CreateProviderProps) => {
           <div data-vx-app-version={version} className={classList}>
             {children}
           </div>
-          {/* vx-bot/NOTE: <ThemeProvider classTarget={classTarget} vmode={vmode}>
-          <Lockscreen />
-          <NoInternetConnection /> */}
-          {/* wjdlz/TODO: Announcement / Search-Spotlight */}
-          {/* vx-bot/NOTE: <div id="portal"></div> */}
-          {/* vx-bot/NOTE: </ThemeProvider> */}
+          {/* vx-bot/TODO: Restore the theme provider with lockscreen, announcement,
+            search spotlight, and portal support.
+            <ThemeProvider classTarget={classTarget} vmode={vmode}>
+              <Lockscreen />
+              <NoInternetConnection />
+              <div id="portal"></div>
+            </ThemeProvider> */}
         </VezhamProvider>
         {renderDevtools?.({ query })}
       </>
