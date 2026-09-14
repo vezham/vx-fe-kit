@@ -36,7 +36,7 @@ const defaultProjects: PlaywrightTestConfig['projects'] = [
     use: { ...devices['Desktop Safari'] }
   },
 
-  // @vx/NOTE: branded browsers
+  // vx-bot/NOTE: branded browsers
   {
     name: 'Microsoft Edge',
     use: { ...devices['Desktop Edge'], channel: 'msedge' }
@@ -46,7 +46,7 @@ const defaultProjects: PlaywrightTestConfig['projects'] = [
     use: { ...devices['Desktop Chrome'], channel: 'chrome' }
   },
 
-  // @vx/NOTE: mobile browsers support
+  // vx-bot/NOTE: mobile browsers support
   {
     name: 'Mobile Chrome',
     use: { ...devices['Pixel 5'] }

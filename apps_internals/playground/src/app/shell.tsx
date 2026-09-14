@@ -6,12 +6,12 @@ import { routeTree } from '@src/routeTree.gen'
 
 import './global.css'
 
-// @vx/NOTE: Create a new router instance
+// vx-bot/NOTE: Create a new router instance
 const router = createRouter({
   routeTree
 })
 
-// @vx/NOTE: Register the router instance for type safety
+// vx-bot/NOTE: Register the router instance for type safety
 declare module '@tanstack/react-router' {
   interface Register {
     router: typeof router

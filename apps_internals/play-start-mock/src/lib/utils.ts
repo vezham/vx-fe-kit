@@ -10,7 +10,7 @@ const NAMESPACE = 'Mock/utils'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-// @vx/NOTE: Validates and parses the port number from environment variable
+// vx-bot/NOTE: Validates and parses the port number from environment variable
 export const parsePort = (
   value: string | undefined,
   default_value: number
@@ -37,7 +37,7 @@ export const parsePort = (
   return port
 }
 
-// @vx/NOTE: Validates hostname
+// vx-bot/NOTE: Validates hostname
 export const validateHost = (
   value: string | undefined,
   default_value: string

@@ -18,7 +18,7 @@ interface Server {
   data_db: string
 }
 
-// @vx/NOTE: Loads and validates server configuration from environment variables
+// vx-bot/NOTE: Loads and validates server configuration from environment variables
 const defineConfig = (): Server => {
   useLogger.log(NAMESPACE, '🔧 Loading server configuration...')
 
@@ -51,7 +51,7 @@ const defineConfig = (): Server => {
   return config
 }
 
-// @vx/NOTE: Validates that the configuration is valid for server startup
+// vx-bot/NOTE: Validates that the configuration is valid for server startup
 const validateConfig = async (config: Server): Promise<void> => {
   if (!config.hostname) {
     throw new Error('Host configuration is required')
@@ -62,7 +62,7 @@ const validateConfig = async (config: Server): Promise<void> => {
   }
 }
 
-// @vx/NOTE: skipping __DEV__ to log based on __DEBUG__ in mock env
+// vx-bot/NOTE: skipping __DEV__ to log based on __DEBUG__ in mock env
 const defineLog = (config: Server) => {
   // const __DEV__ = process.env.MODE === 'development'
   defineLogger({
@@ -89,7 +89,7 @@ const defineLog = (config: Server) => {
   useLogger.log(NAMESPACE, '')
 }
 
-// @vx/NOTE: Load database data
+// vx-bot/NOTE: Load database data
 const defineDB = async (config: Server) => {
   let data_db
   try {
@@ -108,7 +108,7 @@ const defineDB = async (config: Server) => {
   return data_db
 }
 
-// @vx/NOTE: Load routes configuration
+// vx-bot/NOTE: Load routes configuration
 const defineRoutes = async (config: Server) => {
   let data_routes
   try {

@@ -20,25 +20,25 @@ type Props = {
 }
 
 export const createEnv = (__ENV__: Partial<Props>) => {
-  // @vx/NOTE: run env/sandbox By Stages - dev, qa, preview (alpha + beta), live (production)
+  // vx-bot/NOTE: run env/sandbox By Stages - dev, qa, preview (alpha + beta), live (production)
   const __DEV__ = __ENV__.MODE === 'development'
   const __QA__ = __ENV__.V_IS_QA === 'true'
   const __PREVIEW__ = __ENV__.V_IS_PREVIEW === 'true'
   const __PRODUCTION__ = __ENV__.MODE === 'production'
 
-  // @vx/NOTE: app config
+  // vx-bot/NOTE: app config
   const APP_ID = __ENV__.V_APP_ID || 'vx-app'
   const APP_NAME = __ENV__.V_APP_NAME || 'Vx App'
   const APP_VER = __ENV__.V_APP_VER || '1.0.0.alpha'
 
-  // @vx/NOTE: app config By env
+  // vx-bot/NOTE: app config By env
   const __DEBUG__ = __ENV__.V_IS_DEBUG === 'true'
   const IS_BETA = __ENV__.V_IS_BETA === 'true'
 
-  // @vx/NOTE: app - server/api endpoint
+  // vx-bot/NOTE: app - server/api endpoint
   // const BaseApiMode: BaseApiMode = __ENV__.V_BASE_API_MODE || 'api'
 
-  // @vx/NOTE: for ws debugger
+  // vx-bot/NOTE: for ws debugger
   if (__DEV__ && __DEBUG__) console.table(__ENV__)
 
   // wjdlz/NOTE: for start

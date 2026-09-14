@@ -10,6 +10,7 @@
       "vitest"
     ],
     "jsx": "react-jsx",
+    "lib": ["dom", "es2022"],
     "ignoreDeprecations": "6.0",
     "rootDir": "."
   },
