@@ -37,3 +37,9 @@ export const usePosts = () => {
 - App-local `src/pages/` and `src/vx-pages/` wrappers may use default exports.
   Reusable package pages use named exports.
 - Prefer explicit configuration over implicit behaviour.
+
+## UI
+
+- Before creating application UI, check `@vezham/react-v3` and
+  `@heroui-pro/react` for the required primitive. Prefer an available component;
+  use native elements for semantic structure and gaps in both component libraries.

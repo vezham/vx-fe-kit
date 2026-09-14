@@ -2,7 +2,7 @@ import ReactDOM from 'react-dom/client'
 
 import { useLogger } from '@vezham/use-logger'
 
-import { APP_NAME, APP_VER } from '@vx/env/vite'
+import { APP_ID, APP_NAME, APP_VER } from '@vx/env/vite'
 
 import { config, preConfig } from '../shared/config'
 import { ClientDevtools } from '../shared/devtools'
@@ -12,6 +12,7 @@ import { Provider } from './provider'
 const defineConfig = (props: Props) => {
   const options = {
     ...props,
+    id: props.id || APP_ID,
     name: props.name || APP_NAME,
     version: props.version || APP_VER
   }
@@ -22,7 +23,7 @@ const defineConfig = (props: Props) => {
     preConfig(options)
 
     const root = ReactDOM.createRoot(el)
-    root.render(<Provider {...options} />)
+    root.render(<Provider {...options} runtime="vite" />)
     el.setAttribute('data-vx-app', options.name || '')
 
     config(options)

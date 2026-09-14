@@ -11,8 +11,10 @@ import { afterEach, expect, it, vi } from 'vitest'
 import { RouterRoot, createRouter } from './index'
 
 vi.mock('@vx/env/vite', () => ({
+  APP_ID: 'test',
   APP_NAME: 'Test',
   APP_VER: '1',
+  APP_ENV: 'development',
   __DEV__: true
 }))
 vi.mock('@vx/template/components', () => ({

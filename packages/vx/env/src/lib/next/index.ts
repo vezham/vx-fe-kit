@@ -11,6 +11,7 @@ export const {
   __QA__,
   __PREVIEW__,
   __PRODUCTION__,
+  APP_ENV,
 
   APP_ID,
   APP_NAME,

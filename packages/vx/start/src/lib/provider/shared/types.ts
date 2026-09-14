@@ -2,6 +2,8 @@
 import type { AxiosRequestConfig } from 'axios'
 import type { ReactNode } from 'react'
 
+import type { AppRuntime } from '@vx/devtools'
+
 interface AxiosProps {
   onRequest?: (config: AxiosRequestConfig) => {}
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -12,6 +14,7 @@ interface Props extends AxiosProps {
   id?: string
   lang?: string
   className?: string
+  runtime?: AppRuntime
   // vx-bot/REF: classTarget?: string
   children?: ReactNode
 
@@ -30,7 +33,10 @@ interface Props extends AxiosProps {
 }
 
 interface ProviderEnv {
+  APP_ID: string
   APP_NAME: string
+  APP_VER: string
+  APP_ENV: string
   __DEBUG__: boolean
   __DEV__: boolean
 }

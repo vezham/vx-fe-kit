@@ -6,7 +6,11 @@ vi.mock('react-dom/client', () => ({
   default: { createRoot: () => ({ render: vi.fn() }) }
 }))
 vi.mock('@vezham/use-logger', () => ({ useLogger: { log: vi.fn() } }))
-vi.mock('@vx/env/vite', () => ({ APP_NAME: 'Test', APP_VER: '1' }))
+vi.mock('@vx/env/vite', () => ({
+  APP_ID: 'test',
+  APP_NAME: 'Test',
+  APP_VER: '1'
+}))
 vi.mock('./provider', () => ({ Provider: () => null }))
 
 afterEach(() => {

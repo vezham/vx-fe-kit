@@ -5,11 +5,13 @@ import {
 import { ReactQueryDevtoolsPanel } from '@tanstack/react-query-devtools'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 
-import { Button } from '@vezham/react-v3'
+import { DevtoolsPanel } from './devtools-panel'
+import type { Props } from './types'
 
-import { Props } from './types'
+export type { AppRuntime, DevtoolsApp, Props } from './types'
 
 export const Devtools = ({
+  app,
   env = true,
   router = true,
   query = true
@@ -19,12 +21,7 @@ export const Devtools = ({
   const plugins: TanStackDevtoolsReactPlugin[] = [
     {
       name: 'Vezham Devtools',
-      render: (
-        <div>
-          Hello World :)
-          <Button> From @vx/devtools</Button>
-        </div>
-      )
+      render: (_element, { theme }) => <DevtoolsPanel app={app} theme={theme} />
     }
   ]
 

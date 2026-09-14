@@ -5,6 +5,8 @@ import { StrictMode, useState } from 'react'
 import { VezhamProvider, cn } from '@vezham/react-v2'
 import { defineLogger } from '@vezham/use-logger'
 
+import type { DevtoolsApp } from '@vx/devtools'
+
 import type { Props, ProviderEnv } from './types'
 
 const MINUTE = 1000 * 60
@@ -22,14 +24,14 @@ const createQueryClient = () =>
 
 interface CreateProviderProps {
   env: ProviderEnv
-  renderDevtools?: (options: { query: boolean }) => ReactNode
+  renderDevtools?: (options: { app: DevtoolsApp; query: boolean }) => ReactNode
 }
 
 const createProvider = ({ env, renderDevtools }: CreateProviderProps) => {
   defineLogger(env)
 
   const Provider: FC<Props> = ({
-    // vx-bot/REF: id
+    id = env.APP_ID,
     className = '',
     // vx-bot/REF: classTarget,
     children,
@@ -38,22 +40,24 @@ const createProvider = ({ env, renderDevtools }: CreateProviderProps) => {
     // vx-bot/REF: disableAnimation
     // vx-bot/REF: vmode,
 
-    version,
+    name = env.APP_NAME,
+    runtime = 'vite',
+    version = env.APP_VER,
     query = true
   }) => {
     // vx-bot/NOTE: Keep caches isolated between server renders and provider instances.
     const [queryClient] = useState(createQueryClient)
     const classList = cn('vx-app', className)
+    const app = {
+      environment: env.APP_ENV,
+      id,
+      name,
+      runtime,
+      version
+    } satisfies DevtoolsApp
     let template = (
       <>
         <VezhamProvider>
-          {/* wjdlz/INFO:
-            🏷️ Identity     → data-vx-app="mail"
-            📦 Name         → data-vx-app-name="Vezham Mail"
-            📦 Version      → data-vx-app-version="1.0.0"
-            🌍 Environment  → data-vx-app-env="development"
-            ⚙️ Runtime      → data-vx-app-framework="vite"
-          */}
           <div data-vx-app-version={version} className={classList}>
             {children}
           </div>
@@ -65,7 +69,7 @@ const createProvider = ({ env, renderDevtools }: CreateProviderProps) => {
               <div id="portal"></div>
             </ThemeProvider> */}
         </VezhamProvider>
-        {renderDevtools?.({ query })}
+        {renderDevtools?.({ app, query })}
       </>
     )
 

@@ -76,7 +76,7 @@ const defineConfig = ({ rootProvider, ...props }: DocsConfigProps = {}) => {
   const { search, ...rootProviderProps } = rootProvider ?? {}
 
   return (
-    <RootDocument {...props}>
+    <RootDocument {...props} runtime="tanstack-docs">
       <RootProvider
         {...rootProviderProps}
         search={{ SearchDialog: DocsSearchDialog, ...search }}>

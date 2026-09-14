@@ -13,7 +13,11 @@ vi.mock('@vezham/react-v2', () => ({
   cn: (...names: string[]) => names.join(' ')
 }))
 vi.mock('@vezham/use-logger', () => ({ defineLogger: vi.fn() }))
-vi.mock('@vx/env/next', () => ({ APP_NAME: 'Test', APP_VER: '1' }))
+vi.mock('@vx/env/next', () => ({
+  APP_ID: 'test',
+  APP_NAME: 'Test',
+  APP_VER: '1'
+}))
 vi.mock('../next/provider', () => ({
   Provider: ({ children }: { children: ReactNode }) => children
 }))
@@ -24,11 +28,25 @@ vi.mock('@vx/devtools', () => ({
 }))
 
 afterEach(cleanup)
-const env = { APP_NAME: 'Test', __DEV__: true, __DEBUG__: false }
+const app = {
+  id: 'test',
+  name: 'Test',
+  version: '1',
+  environment: 'development',
+  runtime: 'tanstack' as const
+}
+const env = {
+  APP_ID: app.id,
+  APP_NAME: app.name,
+  APP_VER: app.version,
+  APP_ENV: app.environment,
+  __DEV__: true,
+  __DEBUG__: false
+}
 
 describe('provider query isolation', () => {
   it('disables standalone query devtools without a query provider', async () => {
-    render(<ClientDevtools env />)
+    render(<ClientDevtools app={app} env />)
     expect(await screen.findByText('false')).toBeTruthy()
   })
 
@@ -36,7 +54,7 @@ describe('provider query isolation', () => {
     const Provider = createProvider({ env })
     render(
       <Provider>
-        <ClientDevtools env />
+        <ClientDevtools app={app} env />
       </Provider>
     )
     expect(await screen.findByText('true')).toBeTruthy()
@@ -88,10 +106,23 @@ describe('provider query isolation', () => {
   it('passes disabled query state through to client devtools', async () => {
     const Provider = createProvider({
       env,
-      renderDevtools: ({ query }) => <ClientDevtools env query={query} />
+      renderDevtools: ({ app, query }) => (
+        <ClientDevtools app={app} env query={query} />
+      )
     })
     render(<Provider query={false} />)
     expect(await screen.findByText('false')).toBeTruthy()
+  })
+
+  it('passes application metadata to devtools', async () => {
+    const Provider = createProvider({
+      env,
+      renderDevtools: ({ app: metadata }) => (
+        <span>{`${metadata.id}:${metadata.runtime}`}</span>
+      )
+    })
+    render(<Provider runtime="tanstack-docs" />)
+    expect(await screen.findByText('test:tanstack-docs')).toBeTruthy()
   })
 })
 
