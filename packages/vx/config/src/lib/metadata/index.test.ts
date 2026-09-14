@@ -48,10 +48,15 @@ const config: Parameters<typeof getMetadataFiles>[0] = {
   }
 }
 
-const generatedModule = (i18n?: typeof config.i18n) =>
-  getMetadataFiles({ ...config, i18n }).find(file =>
+const generatedModule = (i18n?: typeof config.i18n) => {
+  const generated = getMetadataFiles({ ...config, i18n }).find(file =>
     file.path.endsWith('/src/generated/vx.ts')
-  )!.content
+  )
+
+  if (!generated) throw new Error('Expected the generated Vx metadata module')
+
+  return generated.content
+}
 
 describe('generated language metadata', () => {
   it('defaults both metadata and i18n to English when omitted', () => {

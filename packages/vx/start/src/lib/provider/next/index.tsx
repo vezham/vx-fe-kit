@@ -24,7 +24,7 @@ const RootDocument = (props: Props) => {
   )
 }
 
-// RootComponent
+// vx-bot/NOTE: RootComponent
 const defineConfig = (props: Props) => <RootDocument {...props} />
 
 export { defineConfig, Provider }

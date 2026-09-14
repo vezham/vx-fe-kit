@@ -1,18 +1,18 @@
 import { type Props } from './types'
 
-// export const preConfig = ({ name, version, store = true }: Props) => {
+// vx-bot/NOTE: export const preConfig = ({ name, version, store = true }: Props) => {
 export const preConfig = ({ store = true }: Props) => {
   if (store) {
-    // defineStore({ pretext: name, version })
+    // vx-bot/NOTE: defineStore({ pretext: name, version })
   }
 }
 
-// export const config = ({ worker = true, axios = true, ...props }: Props) => {
+// vx-bot/NOTE: export const config = ({ worker = true, axios = true, ...props }: Props) => {
 export const config = ({ worker = true, axios = true }: Props) => {
   if (worker) {
-    // defineWorker({})
+    // vx-bot/NOTE: defineWorker({})
   }
   if (axios) {
-    // defineAxios(props)
+    // vx-bot/NOTE: defineAxios(props)
   }
 }

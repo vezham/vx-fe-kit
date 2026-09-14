@@ -1,4 +1,4 @@
-// Autofix simple declarations; preserve cases needing runtime or API review.
+// vx-bot/NOTE: Autofix simple declarations; preserve cases needing runtime or API review.
 export default {
   meta: {
     type: 'suggestion',
@@ -42,7 +42,7 @@ export default {
       const variable = source
         .getDeclaredVariables(node)
         .find(item => item.name === node.id?.name)
-      if (variable?.defs.some(def => def.node !== node)) return // Overloads/merged declarations.
+      if (variable?.defs.some(def => def.node !== node)) return // vx-bot/NOTE: Overloads/merged declarations.
       if (
         variable?.references.some(
           ref =>

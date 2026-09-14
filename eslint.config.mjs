@@ -33,6 +33,7 @@ const ignores = [
 ]
 
 const vxLintIgnores = [
+  'eslint.config.mjs',
   '**/.agents/**',
   '**/bower_components/**',
   '**/*-lock.{json,yaml}',
@@ -88,7 +89,7 @@ export default [
     rules: {
       '@vx-lint/arrow-functions': 'error',
       '@vx-lint/button-on-press': 'error',
-      '@vx-lint/comment-style': 'warn',
+      '@vx-lint/comment-style': 'error',
       'prefer-arrow-callback': ['error', { allowNamedFunctions: true }]
     }
   },

@@ -5,7 +5,7 @@ export const Posts = () => {
 
   if (isPending) return <div>Loading...</div>
   if (isError) return <span>Error: {error.message}</span>
-  // if (isFetching) return <div>Background Updating...</div>
+  // vx-bot/NOTE: if (isFetching) return <div>Background Updating...</div>
 
   return (
     <div>

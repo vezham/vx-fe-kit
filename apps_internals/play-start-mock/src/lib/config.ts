@@ -9,10 +9,10 @@ const NAMESPACE = 'Mock/config'
 interface Server {
   hostname: string
   port: number
-  // PRE_PORT
+  // vx-bot/NOTE: PRE_PORT
   app_id: string
   debug: boolean
-  // beta: boolean
+  // vx-bot/NOTE: beta: boolean
   cors_origin: string
   data_routes: string
   data_db: string
@@ -26,16 +26,16 @@ const defineConfig = (): Server => {
     hostname: process.env.CI
       ? 'localhost'
       : validateHost(process.env.HOST_NAME, 'localhost'),
-    port: parsePort(process.env.PORT, 3030), // PRE_PORT
+    port: parsePort(process.env.PORT, 3030), // vx-bot/NOTE: PRE_PORT
     app_id: process.env.V_APP_ID || 'vx-app-mock',
     debug: process.env.V_IS_DEBUG === 'true',
-    // beta: process.env.V_IS_BETA === 'true',
+    // vx-bot/NOTE: beta: process.env.V_IS_BETA === 'true',
     cors_origin: process.env.V_CORS_ORIGIN || '*',
     data_routes: process.env.V_DATA_ROUTES || '../../data/routes.json',
     data_db: process.env.V_DATA_DB || '../../data/db.json'
   }
 
-  // Validate configuration
+  // vx-bot/NOTE: Validate configuration
   try {
     validateConfig(config)
   } catch (error: any) {
@@ -64,20 +64,20 @@ const validateConfig = async (config: Server): Promise<void> => {
 
 // vx-bot/NOTE: skipping __DEV__ to log based on __DEBUG__ in mock env
 const defineLog = (config: Server) => {
-  // const __DEV__ = process.env.MODE === 'development'
+  // vx-bot/NOTE: const __DEV__ = process.env.MODE === 'development'
   defineLogger({
     APP_NAME: config.app_id,
     __DEBUG__: config.debug,
     __DEV__: config.debug
   })
 
-  // useLogger.log(NAMESPACE, '📋 Logging')
-  // useLogger.info(NAMESPACE, '📋 Logging')
-  // useLogger.debug(NAMESPACE, '📋 Logging')
-  // useLogger.warn(NAMESPACE, '📋 Logging')
-  // useLogger.error(NAMESPACE, '📋 Logging')
+  // vx-bot/NOTE: useLogger.log(NAMESPACE, '📋 Logging')
+  // vx-bot/NOTE: useLogger.info(NAMESPACE, '📋 Logging')
+  // vx-bot/NOTE: useLogger.debug(NAMESPACE, '📋 Logging')
+  // vx-bot/NOTE: useLogger.warn(NAMESPACE, '📋 Logging')
+  // vx-bot/NOTE: useLogger.error(NAMESPACE, '📋 Logging')
 
-  // Log configuration (excluding sensitive data)
+  // vx-bot/NOTE: Log configuration (excluding sensitive data)
   useLogger.log(NAMESPACE, '📋 Server Configuration:')
   useLogger.log(NAMESPACE, `   Host: ${config.hostname}`)
   useLogger.log(NAMESPACE, `   Port: ${config.port}`)

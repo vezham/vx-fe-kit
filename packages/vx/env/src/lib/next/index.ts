@@ -19,5 +19,5 @@ export const {
   __DEBUG__,
   IS_BETA
 
-  // BASE_API_MODE
+  // vx-bot/NOTE: BASE_API_MODE
 } = __ENV__

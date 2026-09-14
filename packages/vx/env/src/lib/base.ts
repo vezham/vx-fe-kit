@@ -43,13 +43,13 @@ export const createEnv = (__ENV__: Partial<Props>) => {
 
   // wjdlz/NOTE: for start
   return {
-    // @vx/app-env
+    // vx-bot/NOTE: @vx/app-env
     __DEV__,
     __QA__,
     __PREVIEW__,
     __PRODUCTION__,
 
-    // @vx/app
+    // vx-bot/NOTE: @vx/app
     APP_ID,
     APP_NAME,
     APP_VER,
@@ -57,7 +57,7 @@ export const createEnv = (__ENV__: Partial<Props>) => {
     __DEBUG__,
     IS_BETA
 
-    // BASE_API_MODE
+    // vx-bot/NOTE: BASE_API_MODE
   }
 }
 
@@ -67,18 +67,18 @@ export const createEnv = (__ENV__: Partial<Props>) => {
 //     return __ENV__.V_MOCK_LOCAL_API_URL
 //   }
 
-//  if (BaseApiMode === 'mock') {
-//     return __ENV__.V_MOCK_API_URL
-//   }
+// vx-bot/NOTE: if (BaseApiMode === 'mock') {
+// vx-bot/NOTE: return __ENV__.V_MOCK_API_URL
+// vx-bot/NOTE: }
 
-//   // wjdlz/TODO: NOH - on impl axios
-//   // -@ts-expect-error | wjdlz/NOTE: domain_type - handled in start
-//   // } else if (config.domain_type === IAM.DomainType.SANDBOX) {
-//   //   return __ENV__.V_APP_SANDBOX_API_URL
-//   //   // @ts-expect-error | wjdlz/NOTE: domain_type - handled in start
-//   // } else if (config.domain_type === IAM.DomainType.DC) {
-//   //   return __ENV__.V_APP_DC_API_URL
+// vx-bot/NOTE: // wjdlz/TODO: NOH - on impl axios
+// vx-bot/NOTE: // -@ts-expect-error | wjdlz/NOTE: domain_type - handled in start
+// vx-bot/NOTE: // } else if (config.domain_type === IAM.DomainType.SANDBOX) {
+// vx-bot/NOTE: //   return __ENV__.V_APP_SANDBOX_API_URL
+// vx-bot/NOTE: //   // @ts-expect-error | wjdlz/NOTE: domain_type - handled in start
+// vx-bot/NOTE: // } else if (config.domain_type === IAM.DomainType.DC) {
+// vx-bot/NOTE: //   return __ENV__.V_APP_DC_API_URL
 
-//   // if (BaseApiMode == "api" || config.domain_type === IAM.DomainType.DEFAULT)
-//   return __ENV__.V_APP_API_URL
-// }
+// vx-bot/NOTE: // if (BaseApiMode == "api" || config.domain_type === IAM.DomainType.DEFAULT)
+// vx-bot/NOTE: return __ENV__.V_APP_API_URL
+// vx-bot/NOTE: }

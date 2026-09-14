@@ -76,15 +76,15 @@ export const defineConfig = (configFile: string, config: PlaywrightConfig) => {
     ...nxE2EPreset(configFile, { testDir: './src' }),
     timeout: testTimeout,
     workers: 1,
-    /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
+    /* vx-bot/NOTE: Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
     ...restConfig,
     use: {
       baseURL,
-      /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
+      /* vx-bot/NOTE: Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
       trace: 'on-first-retry',
       ...use
     },
-    /* Run your local dev server before starting the tests */
+    /* vx-bot/NOTE: Run your local dev server before starting the tests */
     webServer: {
       url: baseURL,
       timeout: webServerTimeout,

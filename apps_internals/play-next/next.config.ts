@@ -5,8 +5,8 @@ import { join } from 'node:path'
 import { configEnv } from '@vx/env/next'
 
 const nextConfig: WithNxOptions = {
-  // Use this to set Nx-specific options
-  // See: https://nx.dev/recipes/next/next-config-setup
+  // vx-bot/NOTE: Use this to set Nx-specific options
+  // vx-bot/NOTE: See: https://nx.dev/recipes/next/next-config-setup
   nx: {},
   typescript: {
     tsconfigPath: 'tsconfig.app.json'
@@ -18,7 +18,7 @@ const nextConfig: WithNxOptions = {
 }
 
 const plugins = [
-  // Add more Next.js plugins to this list if needed.
+  // vx-bot/NOTE: Add more Next.js plugins to this list if needed.
   withNx
 ]
 

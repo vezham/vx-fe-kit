@@ -11,11 +11,11 @@ const NAMESPACE = 'Mock/server'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-// Configuration and data initialization
+// vx-bot/NOTE: Configuration and data initialization
 const config = __defineConfig()
 const { db: data_db, routes: data_routes } = await defineData(config)
 
-// Server setup
+// vx-bot/NOTE: Server setup
 const server = jsonServer.create()
 const router = jsonServer.router(data_db)
 const middlewares = jsonServer.defaults({
@@ -23,11 +23,11 @@ const middlewares = jsonServer.defaults({
   logger: config.debug
 })
 
-// Constants for rate limiting
-const RATE_LIMIT_WINDOW = 60 * 1000 // 1 minute
-const RATE_LIMIT_MAX = 100 // 100 requests per minute
+// vx-bot/NOTE: Constants for rate limiting
+const RATE_LIMIT_WINDOW = 60 * 1000 // vx-bot/NOTE: 1 minute
+const RATE_LIMIT_MAX = 100 // vx-bot/NOTE: 100 requests per minute
 
-// URLs that should skip response formatting
+// vx-bot/NOTE: URLs that should skip response formatting
 const SKIP_FORMATTING_URLS = [
   '/heartbeat',
   '/ping',
@@ -37,17 +37,17 @@ const SKIP_FORMATTING_URLS = [
   '/healthz',
   '/metrics',
   '/favicon.ico',
-  // Add patterns with wildcards
+  // vx-bot/NOTE: Add patterns with wildcards
   '/monitoring/*',
   '/system/*',
-  // Add regex patterns (prefix with 'regex:')
+  // vx-bot/NOTE: Add regex patterns (prefix with 'regex:')
   'regex:^/api/v\\d+/(heartbeat|ping|status)$'
 ]
 
-// In-memory rate limiting store
+// vx-bot/NOTE: In-memory rate limiting store
 const rateLimitStore = new Map<string, number[]>()
 
-// Utility functions
+// vx-bot/NOTE: Utility functions
 const generateRequestId = (): string =>
   `req_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
 
@@ -64,47 +64,47 @@ const getClientIp = (req: any): string =>
  * @returns true if formatting should be skipped, false otherwise
  */
 const shouldSkipFormatting = (url: string): boolean => {
-  // Handle null/empty URLs
+  // vx-bot/NOTE: Handle null/empty URLs
   if (!url || typeof url !== 'string') {
     return false
   }
 
-  // Normalize URL - remove query parameters and make lowercase
+  // vx-bot/NOTE: Normalize URL - remove query parameters and make lowercase
   const normalizedUrl = url.split('?')[0].toLowerCase().trim()
 
-  // Remove leading slash for consistent comparison
+  // vx-bot/NOTE: Remove leading slash for consistent comparison
   const cleanUrl = normalizedUrl.startsWith('/')
     ? normalizedUrl.slice(1)
     : normalizedUrl
 
   return SKIP_FORMATTING_URLS.some(pattern => {
     try {
-      // Handle regex patterns
+      // vx-bot/NOTE: Handle regex patterns
       if (pattern.startsWith('regex:')) {
-        const regexPattern = pattern.slice(6) // Remove 'regex:' prefix
-        const regex = new RegExp(regexPattern, 'i') // Case-insensitive
+        const regexPattern = pattern.slice(6) // vx-bot/NOTE: Remove 'regex:' prefix
+        const regex = new RegExp(regexPattern, 'i') // vx-bot/NOTE: Case-insensitive
         return regex.test(normalizedUrl)
       }
 
-      // Normalize pattern
+      // vx-bot/NOTE: Normalize pattern
       const normalizedPattern = pattern.toLowerCase().trim()
       const cleanPattern = normalizedPattern.startsWith('/')
         ? normalizedPattern.slice(1)
         : normalizedPattern
 
-      // Handle wildcard patterns
+      // vx-bot/NOTE: Handle wildcard patterns
       if (cleanPattern.includes('*')) {
         const regexPattern = cleanPattern
-          .replace(/[.*+?^${}()|[\]\\]/g, '\\$&') // Escape special regex chars
-          .replace(/\\\*/g, '.*') // Convert * to .*
+          .replace(/[.*+?^${}()|[\]\\]/g, '\\$&') // vx-bot/NOTE: Escape special regex chars
+          .replace(/\\\*/g, '.*') // vx-bot/NOTE: Convert * to .*
         const wildcardRegex = new RegExp(`^${regexPattern}$`, 'i')
         return wildcardRegex.test(cleanUrl)
       }
 
-      // Exact match
+      // vx-bot/NOTE: Exact match
       return cleanUrl === cleanPattern
     } catch (error) {
-      // Log error and continue with other patterns
+      // vx-bot/NOTE: Log error and continue with other patterns
       useLogger.warn(NAMESPACE, `Invalid URL pattern: ${pattern}`, error)
       return false
     }
@@ -122,7 +122,7 @@ const getResourceType = (url: string, data: any, isError = false): string => {
   return Array.isArray(data) ? `${resource}.list` : resource
 }
 
-// Rate limiting function
+// vx-bot/NOTE: Rate limiting function
 const checkRateLimit = (req: any) => {
   const clientIp = getClientIp(req)
   const now = Date.now()
@@ -134,11 +134,11 @@ const checkRateLimit = (req: any) => {
 
   const requests = rateLimitStore.get(clientIp)!
 
-  // Clean old requests
+  // vx-bot/NOTE: Clean old requests
   const validRequests = requests.filter(timestamp => timestamp > windowStart)
   rateLimitStore.set(clientIp, validRequests)
 
-  // Check limit
+  // vx-bot/NOTE: Check limit
   if (validRequests.length >= RATE_LIMIT_MAX) {
     return {
       exceeded: true,
@@ -147,7 +147,7 @@ const checkRateLimit = (req: any) => {
     }
   }
 
-  // Add current request
+  // vx-bot/NOTE: Add current request
   validRequests.push(now)
   rateLimitStore.set(clientIp, validRequests)
 
@@ -158,7 +158,7 @@ const checkRateLimit = (req: any) => {
   }
 }
 
-// Response formatting function
+// vx-bot/NOTE: Response formatting function
 const formatResponse = (
   data: any,
   req: any,
@@ -171,10 +171,10 @@ const formatResponse = (
   const originalUrl = req.originalUrl || req.url
   const apiUrl = originalUrl.replace(/\?.*$/, '')
 
-  // Rate limiting check
+  // vx-bot/NOTE: Rate limiting check
   const rateLimit = checkRateLimit(req)
 
-  // Handle rate limit exceeded
+  // vx-bot/NOTE: Handle rate limit exceeded
   if (rateLimit.exceeded && !isError) {
     return formatResponse(
       { error: 'Rate limit exceeded', details: 'Too many requests' },
@@ -192,7 +192,7 @@ const formatResponse = (
     i18n_key: string
     message: string
   }
-  // Generate appropriate message
+  // vx-bot/NOTE: Generate appropriate message
   const getMessage = (): msg => {
     if (isError) {
       const errorMessages: Record<number | 'default', msg> = {
@@ -200,7 +200,7 @@ const formatResponse = (
         400: { i18n_key: '', message: 'Invalid request data' },
         401: { i18n_key: '', message: 'Authentication required' },
         403: { i18n_key: '', message: 'Access forbidden' },
-        404: { i18n_key: 'bad_request', message: 'Resource not found' }, // invalid url
+        404: { i18n_key: 'bad_request', message: 'Resource not found' }, // vx-bot/NOTE: invalid url
         429: { i18n_key: '', message: 'Rate limit exceeded' },
         500: { i18n_key: '', message: 'Internal server error' }
       }
@@ -250,7 +250,7 @@ const formatResponse = (
     }
   }
 
-  // Add pagination for collections
+  // vx-bot/NOTE: Add pagination for collections
   if (isCollection && !isError) {
     const page = parseInt(req.query._page) || 1
     const limit = parseInt(req.query._limit) || 10
@@ -263,8 +263,8 @@ const formatResponse = (
       has_more: hasMore,
       total: simulatedTotal,
       total_pages: Math.ceil(simulatedTotal / limit),
-      page, // current_page: page,
-      per_page: limit, // offset,
+      page, // vx-bot/NOTE: current_page: page,
+      per_page: limit, // vx-bot/NOTE: offset,
       sync_time: timestamp,
       cursors: {
         first: page > 1 ? `cursor_page_1` : null,
@@ -278,7 +278,7 @@ const formatResponse = (
   return response
 }
 
-// CORS middleware
+// vx-bot/NOTE: CORS middleware
 server.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', config.cors_origin)
   res.header(
@@ -297,7 +297,7 @@ server.use((req, res, next) => {
   }
 })
 
-// Request logging middleware
+// vx-bot/NOTE: Request logging middleware
 server.use((req, _, next) => {
   if (config.debug)
     useLogger.log(
@@ -307,24 +307,24 @@ server.use((req, _, next) => {
   next()
 })
 
-// Response formatting middleware
+// vx-bot/NOTE: Response formatting middleware
 server.use((req, res, next) => {
-  // Check if this URL should skip formatting
+  // vx-bot/NOTE: Check if this URL should skip formatting
   const skipFormatting = shouldSkipFormatting(req.originalUrl || req.url)
 
   const originalSend = res.send
   const originalJson = res.json
 
-  // Override send method
+  // vx-bot/NOTE: Override send method
   res.send = function (data) {
-    // Skip formatting for specified URLs
+    // vx-bot/NOTE: Skip formatting for specified URLs
     if (skipFormatting) {
       return originalSend.call(this, data)
     }
 
-    // Check if data is already formatted (has data and meta properties)
+    // vx-bot/NOTE: Check if data is already formatted (has data and meta properties)
     if (data && typeof data === 'object' && 'data' in data && 'meta' in data) {
-      // Already formatted, send as-is without further processing
+      // vx-bot/NOTE: Already formatted, send as-is without further processing
       return originalSend.call(this, data)
     }
 
@@ -349,29 +349,29 @@ server.use((req, res, next) => {
     return originalSend.call(this, data)
   }
 
-  // Override json method
+  // vx-bot/NOTE: Override json method
   res.json = function (data) {
-    // Skip formatting for specified URLs
+    // vx-bot/NOTE: Skip formatting for specified URLs
     if (skipFormatting) {
       return originalJson.call(this, data)
     }
 
-    // Skip formatting for heartbeat endpoint
+    // vx-bot/NOTE: Skip formatting for heartbeat endpoint
     if (req.originalUrl === '/heartbeat' || req.url === '/heartbeat') {
       return originalJson.call(this, data)
     }
 
-    // Check if data is already formatted (has data and meta properties)
+    // vx-bot/NOTE: Check if data is already formatted (has data and meta properties)
     if (data && typeof data === 'object' && 'data' in data && 'meta' in data) {
-      // Already formatted, send as-is without triggering send override
+      // vx-bot/NOTE: Already formatted, send as-is without triggering send override
       return originalJson.call(this, data)
     }
 
-    // Format the response and send directly without triggering send override
+    // vx-bot/NOTE: Format the response and send directly without triggering send override
     const isError = res.statusCode >= 400
     const formattedResponse = formatResponse(data, req, res.statusCode, isError)
 
-    // Set content type and send directly using originalSend to avoid recursion
+    // vx-bot/NOTE: Set content type and send directly using originalSend to avoid recursion
     res.setHeader('Content-Type', 'application/json; charset=utf-8')
     return originalSend.call(this, JSON.stringify(formattedResponse, null, 2))
   }
@@ -379,7 +379,7 @@ server.use((req, res, next) => {
   next()
 })
 
-// Health check endpoints
+// vx-bot/NOTE: Health check endpoints
 server.get('/heartbeat', (_, res) => {
   res.json({ status: true })
 })
@@ -418,7 +418,7 @@ server.get('/config', (_, res) => {
   })
 })
 
-// Catch-all for root
+// vx-bot/NOTE: Catch-all for root
 server.use('*', (req, res, next) => {
   if (req.originalUrl === '/') {
     return res.status(200).send('Welcome to Mock Server!...')
@@ -426,7 +426,7 @@ server.use('*', (req, res, next) => {
   next()
 })
 
-// Error handling middleware
+// vx-bot/NOTE: Error handling middleware
 server.use((err: any, _: any, res: any, __: any) => {
   useLogger.error(NAMESPACE, 'Server error:', err)
   res.status(500).json({
@@ -437,11 +437,11 @@ server.use((err: any, _: any, res: any, __: any) => {
   })
 })
 
-// Apply middlewares and router
+// vx-bot/NOTE: Apply middlewares and router
 server.use(middlewares)
 server.use('/api', router)
 
-// Start server with enhanced error handling
+// vx-bot/NOTE: Start server with enhanced error handling
 export const defineConfig = () => {
   const serverUrl = `http://${config.hostname}:${config.port}`
 

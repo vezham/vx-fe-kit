@@ -46,7 +46,7 @@ export const validateHost = (
     return default_value
   }
 
-  // Basic hostname validation
+  // vx-bot/NOTE: Basic hostname validation
   const host = value.trim()
   if (host.length > 250) {
     useLogger.warn(
@@ -60,7 +60,7 @@ export const validateHost = (
 }
 
 export const loadDB = (database: any) => {
-  // Write to data/db.json - updated path to go up one level from src
+  // vx-bot/NOTE: Write to data/db.json - updated path to go up one level from src
   const db_path = path.join(__dirname, '../..', 'data', 'db.json')
   fs.writeFileSync(db_path, JSON.stringify(database, null, 2))
 

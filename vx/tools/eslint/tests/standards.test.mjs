@@ -107,6 +107,11 @@ const cases = [
     '// vx-bot/NOTE: Keep hydration consistent.\n// until ready.\nconst x = 1',
     0
   ],
+  [
+    comments,
+    "// vx-bot/NOTE: Retain the branch suffix for a future canary flow.\n// let version = ''\n// if (branch !== 'main') version = branch",
+    0
+  ],
   [comments, '// wjdlz/NOTE(vx): Keep compatibility.\nconst x = 1', 0],
   [comments, '// plain comment\nconst x = 1', 1],
   [comments, '// codex/NOTE: Keep compatibility.\nconst x = 1', 1],

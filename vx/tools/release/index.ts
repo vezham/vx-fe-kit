@@ -36,8 +36,9 @@ const NS = '[vezham] TOOLS/release'
     .parseAsync()
   console.log(NS, '[data] options: ', JSON.stringify(options))
 
+  // vx-bot/NOTE: Retained release-channel branch logic for a future canary flow.
   // let op_version = ''
-  // // Get current branch
+  // vx-bot/NOTE: Get current branch
   // const currentBranch = execSync('git branch --show-current').toString().trim()
   // if (currentBranch !== 'timeline') {
   //   op_version = `-${currentBranch}`
@@ -45,13 +46,13 @@ const NS = '[vezham] TOOLS/release'
 
   console.log(NS, 'init releaseVersion')
   const { workspaceVersion, projectsVersionData } = await releaseVersion({
-    // specifier: `0.0.0-${op_version}-canary`,
+    // vx-bot/NOTE: specifier: `0.0.0-${op_version}-canary`,
     specifier: options.version,
     dryRun: options.dryRun,
     verbose: options.verbose,
     firstRelease: options.firstRelease
   })
-  // console.log(NS, '[data] projectsVersionData: ', JSON.stringify(projectsVersionData))
+  // vx-bot/NOTE: console.log(NS, '[data] projectsVersionData: ', JSON.stringify(projectsVersionData))
 
   console.log(NS, 'init releaseChangelog')
   await releaseChangelog({
@@ -62,7 +63,7 @@ const NS = '[vezham] TOOLS/release'
     firstRelease: options.firstRelease
   })
 
-  // The returned number value from releasePublish will be zero if all projects are published successfully, non-zero if not
+  // vx-bot/NOTE: The returned number value from releasePublish will be zero if all projects are published successfully, non-zero if not
   console.log(NS, 'init releasePublish')
   const publishResult = await releasePublish({
     access: 'public',
@@ -70,10 +71,10 @@ const NS = '[vezham] TOOLS/release'
     verbose: options.verbose,
     firstRelease: options.firstRelease
   })
-  // console.log(NS, '[data] publishResult: ', JSON.stringify(publishResult))
+  // vx-bot/NOTE: console.log(NS, '[data] publishResult: ', JSON.stringify(publishResult))
 
   process.exit(
     Object.values(publishResult).every(result => result.code === 0) ? 0 : 1
   )
-  // process.exit(0)
+  // vx-bot/NOTE: process.exit(0)
 })()

@@ -14,8 +14,8 @@ const createQueryClient = () =>
     defaultOptions: {
       queries: {
         staleTime: 1 * MINUTE
-        // gcTime: 60 * 24* MINUTE, // 24 hours
-        // retry: 0,
+        // vx-bot/NOTE: gcTime: 60 * 24* MINUTE, // 24 hours
+        // vx-bot/NOTE: retry: 0,
       }
     }
   })
@@ -29,14 +29,14 @@ const createProvider = ({ env, renderDevtools }: CreateProviderProps) => {
   defineLogger(env)
 
   const Provider: FC<Props> = ({
-    // id
+    // vx-bot/NOTE: id
     className = '',
-    // classTarget,
+    // vx-bot/NOTE: classTarget,
     children,
 
     strict = true,
-    // disableAnimation
-    // vmode,
+    // vx-bot/NOTE: disableAnimation
+    // vx-bot/NOTE: vmode,
 
     version,
     query = true
@@ -57,12 +57,12 @@ const createProvider = ({ env, renderDevtools }: CreateProviderProps) => {
           <div data-vx-app-version={version} className={classList}>
             {children}
           </div>
-          {/* <ThemeProvider classTarget={classTarget} vmode={vmode}>
+          {/* vx-bot/NOTE: <ThemeProvider classTarget={classTarget} vmode={vmode}>
           <Lockscreen />
           <NoInternetConnection /> */}
           {/* wjdlz/TODO: Announcement / Search-Spotlight */}
-          {/* <div id="portal"></div> */}
-          {/* </ThemeProvider> */}
+          {/* vx-bot/NOTE: <div id="portal"></div> */}
+          {/* vx-bot/NOTE: </ThemeProvider> */}
         </VezhamProvider>
         {renderDevtools?.({ query })}
       </>
