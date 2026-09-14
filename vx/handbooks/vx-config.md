@@ -29,7 +29,7 @@ apps_internals/playground-docs/vx.app.json
 The playground docs Vite config should use the shared docs helper:
 
 ```ts
-import { getVxDocsPrerenderPages } from '@vx/config/docs'
+import { getPrerenderPages } from '@vx/config/presets/docs'
 
 tanstackStart({
   spa: {
@@ -39,7 +39,7 @@ tanstackStart({
       crawlLinks: true
     }
   },
-  pages: getVxDocsPrerenderPages(__dirname)
+  pages: getPrerenderPages(__dirname)
 })
 ```
 
