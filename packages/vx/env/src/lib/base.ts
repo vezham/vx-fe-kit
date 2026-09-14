@@ -27,15 +27,17 @@ export const createEnv = (__ENV__: Partial<Props>) => {
   const __QA__ = __ENV__.V_IS_QA === 'true'
   const __PREVIEW__ = __ENV__.V_IS_PREVIEW === 'true'
   const __PRODUCTION__ = __ENV__.MODE === 'production'
-  const APP_ENV: Environment = __QA__
-    ? 'qa'
-    : __PREVIEW__
-      ? 'preview'
-      : __DEV__
-        ? 'development'
-        : __PRODUCTION__
-          ? 'production'
-          : 'unknown'
+  let APP_ENV: Environment = 'unknown'
+
+  if (__DEV__) {
+    APP_ENV = 'development'
+  } else if (__QA__) {
+    APP_ENV = 'qa'
+  } else if (__PREVIEW__) {
+    APP_ENV = 'preview'
+  } else if (__PRODUCTION__) {
+    APP_ENV = 'production'
+  }
 
   // vx-bot/NOTE: app config
   const APP_ID = __ENV__.V_APP_ID || 'vx-app'

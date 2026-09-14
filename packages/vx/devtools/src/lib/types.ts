@@ -1,11 +1,11 @@
 type AppRuntime = 'next' | 'tanstack' | 'tanstack-docs' | 'vite'
 
 type DevtoolsApp = {
-  environment: string
   id: string
   name: string
-  runtime: AppRuntime
   version: string
+  environment: string
+  runtime: AppRuntime
 }
 
 interface Props {
