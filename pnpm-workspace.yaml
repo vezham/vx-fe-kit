@@ -13,12 +13,16 @@ publicHoistPattern:
   - '*@vx-oss/*'
   - '*@vx-pro/*'
 
-# minimumReleaseAge: 10080 # wjdlz/NOTE: days in minutes - 7 = 10080, 14 = 20160
-minimumReleaseAge: 7200 # 5 days
+minimumReleaseAge: 10080 # wjdlz/NOTE: days in minutes - 5 = 7200, 7 = 10080, 14 = 20160
 minimumReleaseAgeExclude:
   - '@vx-cli/*'
   - '@vx-oss/*'
   - '@vezham/*'
+  # vx-bot/TODO: Remove after 2026-09-17 22:34 IST (seven-day release age).
+  - '@heroui/react@3.2.5'
+  - '@heroui/styles@3.2.5'
+  # vx-bot/TODO: Remove after 2026-09-18 19:42 IST (seven-day release age).
+  - '@heroui-pro/react@1.0.0-beta.9'
 
 allowBuilds:
   heroui-pro: true

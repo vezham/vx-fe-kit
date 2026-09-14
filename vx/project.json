@@ -57,7 +57,7 @@
     "@hui-pro/upgrade": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "pnpm dlx --allow-build=@zowe/secrets-for-zowe-sdk heroui-pro@latest update react",
+        "command": "pnpm dlx --allow-build=@zowe/secrets-for-zowe-sdk heroui-pro@latest update",
         "env": {
           "PNPM_CONFIG_IGNORE_WORKSPACE_ROOT_CHECK": "true"
         }
