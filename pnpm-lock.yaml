@@ -123,7 +123,7 @@ importers:
         version: 0.6.2(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@react-aria/interactions':
         specifier: ^3.28.1
-        version: 3.28.1
+        version: 3.28.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@react-aria/utils':
         specifier: ^3.34.1
         version: 3.34.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -201,7 +201,7 @@ importers:
         version: 19.2.7
       react-aria:
         specifier: ^3.52.1
-        version: 3.52.1
+        version: 3.52.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       react-aria-components:
         specifier: 1.21.1
         version: 1.21.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -216,7 +216,7 @@ importers:
         version: 4.12.3(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       react-stately:
         specifier: ^3.50.0
-        version: 3.50.0
+        version: 3.50.0(react@19.2.7)
       recharts:
         specifier: ^3.8.1
         version: 3.10.1(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react-is@19.2.8)(react@19.2.7)(redux@5.0.1)

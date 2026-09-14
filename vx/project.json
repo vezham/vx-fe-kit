@@ -132,6 +132,10 @@
     "test:unit-nc": {
       "command": "pnpm nx run-many -t test --exclude=@vx/fe-kit --skipNxCache --passWithNoTests --reporter=json --outputFile=test-output/vitest/unit-test-results.json --no-cache"
     },
+    "@vx-ws/install-update": {
+      "command": "pnpm install --no-frozen-lockfile && pnpm @vx/ws:format",
+      "cache": false
+    },
     "@vx-ws/format-hard": {
       "executor": "nx:run-commands",
       "options": {
