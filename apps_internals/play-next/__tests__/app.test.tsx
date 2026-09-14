@@ -16,9 +16,7 @@ describe('App', () => {
     renderApp()
 
     await waitFor(() =>
-      expect(document.documentElement.getAttribute('lang')).toBe(
-        vxI18n?.defaultLanguage ?? 'en'
-      )
+      expect(document.documentElement.lang).toBe(vxI18n.defaultLanguage)
     )
   })
 

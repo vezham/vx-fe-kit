@@ -3,6 +3,7 @@ import { render, waitFor } from '@testing-library/react'
 
 import { createRouter } from '@vx/start/router/tanstack'
 
+import { vxI18n } from '../src/generated/vx'
 import { routeTree } from '../src/routeTree.gen'
 
 const renderApp = () => {
@@ -17,6 +18,14 @@ const renderApp = () => {
 }
 
 describe('App', () => {
+  it('uses the configured default language for the document', async () => {
+    renderApp()
+
+    await waitFor(() =>
+      expect(document.documentElement.lang).toBe(vxI18n.defaultLanguage)
+    )
+  })
+
   it('should render successfully', async () => {
     const { baseElement } = renderApp()
 
