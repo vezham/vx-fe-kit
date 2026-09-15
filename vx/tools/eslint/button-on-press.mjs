@@ -4,7 +4,7 @@ export default {
     schema: [],
     messages: {
       onPress:
-        'Use onPress for HeroUI Button. Review MouseEvent-specific code before changing the handler.'
+        'Use onPress for Vezham UI Button. Review MouseEvent-specific code before changing the handler.'
     }
   },
   create: context => ({
@@ -24,14 +24,7 @@ export default {
       )
       if (!definition) return
       const source = definition.parent.source.value
-      if (
-        ![
-          '@vezham/react-v3',
-          '@vezham/react-v3/button',
-          '@heroui/react',
-          '@heroui/react/button'
-        ].includes(source)
-      )
+      if (!['@vezham/react-v3', '@vezham/react-v3/button'].includes(source))
         return
       const specifier = definition.node
       const isButton =

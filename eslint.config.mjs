@@ -1,13 +1,16 @@
 import nx from '@nx/eslint-plugin'
 // import { tanstackConfig } from '@tanstack/eslint-config'
 import tanstackQuery from '@tanstack/eslint-plugin-query'
+import jsxA11y from 'eslint-plugin-jsx-a11y'
 import unusedImports from 'eslint-plugin-unused-imports'
 import * as jsoncParser from 'jsonc-eslint-parser'
 import { fileURLToPath } from 'node:url'
 
+import accessibilityLabels from './vx/tools/eslint/accessibility-labels.mjs'
 import arrowFunctions from './vx/tools/eslint/arrow-functions.mjs'
 import buttonOnPress from './vx/tools/eslint/button-on-press.mjs'
 import commentStyle from './vx/tools/eslint/comment-style.mjs'
+import dotNotation from './vx/tools/eslint/dot-notation.mjs'
 import namedExports from './vx/tools/eslint/named-exports.mjs'
 import propsName from './vx/tools/eslint/props-name.mjs'
 import wildcardBarrel from './vx/tools/eslint/wildcard-barrel.mjs'
@@ -72,14 +75,21 @@ export default [
     }
   },
   {
+    files: ['**/*.{jsx,tsx}'],
+    plugins: { 'jsx-a11y': jsxA11y },
+    rules: jsxA11y.configs.recommended.rules
+  },
+  {
     files: ['**/*.{js,jsx,mjs,cjs,ts,tsx,mts,cts}'],
     ignores: vxLintIgnores,
     plugins: {
       '@vx-lint': {
         rules: {
           'arrow-functions': arrowFunctions,
+          'accessibility-labels': accessibilityLabels,
           'button-on-press': buttonOnPress,
           'comment-style': commentStyle,
+          'dot-notation': dotNotation,
           'named-exports': namedExports,
           'props-name': propsName,
           'wildcard-barrel': wildcardBarrel
@@ -88,8 +98,10 @@ export default [
     },
     rules: {
       '@vx-lint/arrow-functions': 'error',
+      '@vx-lint/accessibility-labels': 'error',
       '@vx-lint/button-on-press': 'error',
       '@vx-lint/comment-style': 'error',
+      '@vx-lint/dot-notation': 'error',
       'prefer-arrow-callback': ['error', { allowNamedFunctions: true }]
     }
   },

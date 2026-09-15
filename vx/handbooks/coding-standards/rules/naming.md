@@ -9,7 +9,7 @@
 
 ## Callback Props
 
-- Use `onPress` for callback props that pass through to HeroUI or React Aria
+- Use `onPress` for callback props that pass through to Vezham UI or React Aria
   pressable components.
 - Preserve `onClick` when passing through to native elements or APIs that expose
   that event.

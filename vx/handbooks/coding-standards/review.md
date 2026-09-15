@@ -27,13 +27,43 @@ The custom rules in `vx/tools/eslint/` run through the shared `eslint.config.mjs
 including editor ESLint diagnostics. These rules exclude `.agents/**`; other
 applicable lint rules still apply there.
 
-| Rule                       | Checks                                                                                                  |
-| -------------------------- | ------------------------------------------------------------------------------------------------------- |
-| `@vx-lint/button-on-press` | Explicit `onClick` on imported HeroUI Button, including import aliases and namespace imports.           |
-| `@vx-lint/comment-style`   | Structured developer comment prefixes and non-empty explanations.                                       |
-| `@vx-lint/named-exports`   | Default exports in reusable `src` code, with route, Next.js entry, configuration, and story exceptions. |
-| `@vx-lint/wildcard-barrel` | Selective, unaliased re-exports in internal `index.ts`/`index.js` barrels.                              |
-| `@vx-lint/props-name`      | Private `Props` and descriptive exported props names in component files.                                |
+| Rule                            | Checks                                                                                                  |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| `@vx-lint/button-on-press`      | Explicit `onClick` on imported Vezham UI Button, including import aliases and namespace imports.        |
+| `@vx-lint/accessibility-labels` | Accessible names for Vezham UI icon-only Buttons and `Table.Content`.                                   |
+| `@vx-lint/comment-style`        | Structured developer comment prefixes and non-empty explanations.                                       |
+| `@vx-lint/dot-notation`         | Flat component imports, re-exports, and namespace access when a compound export is available.           |
+| `@vx-lint/named-exports`        | Default exports in reusable `src` code, with route, Next.js entry, configuration, and story exceptions. |
+| `@vx-lint/wildcard-barrel`      | Selective, unaliased re-exports in internal `index.ts`/`index.js` barrels.                              |
+| `@vx-lint/props-name`           | Private `Props` and descriptive exported props names in component files.                                |
+
+`@vx-lint/dot-notation` reads module exports from local source and installed
+packages, including the base and Pro component packages. It recognizes explicit compound APIs
+created with `Object.assign(Root, { Header })` or an object such as `{ Header }`,
+then follows relative imports and named or wildcard re-exports. It reports only
+when the imported module exposes both the flat component and a compound member
+bound to the same value. No component list or per-component configuration is
+needed.
+
+For example, this custom component is detected automatically:
+
+```tsx
+const ProfileRoot = () => <section />
+export const ProfileHeader = () => <header />
+export const Profile = Object.assign(ProfileRoot, { Header: ProfileHeader })
+```
+
+Consumers import `Profile` and use `<Profile.Header />`. Importing
+`ProfileHeader` from that module reports an error. Import aliases and direct
+namespace access are checked too; type-only imports are allowed.
+
+Resolution uses the importing file's nearest `tsconfig.json` and installed
+package exports. Source inspection is bounded and does not execute modules.
+Unresolved modules, declaration-only packages without adjacent JavaScript,
+CommonJS, dynamic factories, property assignments, and ambiguous relationships
+are skipped. The rule checks consumers, not declarations inside the component's
+own module. It reports without autofixing because changing imports and callers
+requires review.
 
 These checks report errors without autofixing: event handlers, exports, type
 names, and comment authors require review. Button checks do not trace prop

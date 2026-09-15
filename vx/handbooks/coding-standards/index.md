@@ -17,6 +17,8 @@ developer experience for both humans and AI-assisted development.
 - [Comments](./rules/comments.md): structured developer comments and examples.
 - [Quality](./rules/quality.md): formatting, TypeScript, testing, dependencies,
   configuration, and pull requests.
+- [UI](./rules/ui.md): Vezham UI component selection, composition, events, styling,
+  and accessibility.
 
 Read only the rule files relevant to the task. These linked files are normative;
 this entrypoint provides navigation and shared context.

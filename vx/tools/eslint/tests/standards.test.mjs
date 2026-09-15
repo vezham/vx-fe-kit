@@ -6,8 +6,10 @@ import { tmpdir } from 'node:os'
 import path from 'node:path'
 import test from 'node:test'
 
+import accessibilityLabels from '../accessibility-labels.mjs'
 import button from '../button-on-press.mjs'
 import comments from '../comment-style.mjs'
+import dot from '../dot-notation.mjs'
 import named from '../named-exports.mjs'
 import props from '../props-name.mjs'
 import barrel from '../wildcard-barrel.mjs'
@@ -16,6 +18,79 @@ const parser = nx.configs['flat/typescript'].find(
   c => c.languageOptions?.parser
 ).languageOptions.parser
 const cases = [
+  [
+    accessibilityLabels,
+    "import { Button } from '@vezham/react-v3'; const X = () => <Button isIconOnly />;",
+    1
+  ],
+  [
+    accessibilityLabels,
+    'import { Button } from \'@vezham/react-v3\'; const X = () => <Button isIconOnly aria-label="Close" />;',
+    0
+  ],
+  [
+    accessibilityLabels,
+    "import { Table } from '@vezham/react-v3'; const X = () => <Table.Content />;",
+    1
+  ],
+  [
+    accessibilityLabels,
+    'import { Table } from \'@vezham/react-v3\'; const X = () => <Table.Content aria-labelledby="orders-heading" />;',
+    0
+  ],
+  [
+    accessibilityLabels,
+    "import * as UI from '@vezham/react-v3'; const X = () => <UI.Button isIconOnly />;",
+    1
+  ],
+  [
+    accessibilityLabels,
+    "import * as UI from '@vezham/react-v3'; const X = () => <UI.Table.Content />;",
+    1
+  ],
+  [
+    accessibilityLabels,
+    "import { Button } from '@vezham/react-v3'; const X = () => <Button isIconOnly={false} />;",
+    0
+  ],
+  [
+    accessibilityLabels,
+    'const Button = () => null; const X = () => <Button isIconOnly />;',
+    0
+  ],
+  [dot, "import { CardHeader as Heading } from '@vezham/react-v3';", 1],
+  [dot, "import { SwitchThumb } from '@vezham/react-v3/switch';", 1],
+  [dot, "import { ContextMenuPopover } from '@heroui-pro/react';", 1],
+  [
+    dot,
+    "import { Button, Card } from '@vezham/react-v3'; const X = () => <Card.Header><Button /></Card.Header>;",
+    0
+  ],
+  [dot, "import { CardHeader } from './custom';", 0],
+  [dot, "import type { CardHeaderProps } from '@vezham/react-v3';", 0],
+  [dot, "import { type CardHeaderProps } from '@vezham/react-v3';", 0],
+  [
+    dot,
+    "import * as UI from '@vezham/react-v3'; const X = () => <UI.CardHeader />;",
+    1
+  ],
+  [
+    dot,
+    "import * as UI from '@vezham/react-v3'; const X = () => <UI.Card.Header />;",
+    0
+  ],
+  [
+    dot,
+    "import * as UI from '@vezham/react-v3'; const X = (UI: any) => <UI.CardHeader />;",
+    0
+  ],
+  [
+    dot,
+    "import * as UI from '@vezham/react-v3'; const Header = UI['CardHeader'];",
+    1
+  ],
+  [dot, "export { CardHeader as Header } from '@vezham/react-v3';", 1],
+  [dot, "export type { CardHeaderProps } from '@vezham/react-v3';", 0],
   [
     button,
     "import {Button as B} from '@vezham/react-v3/button'; const X = () => <B onClick={run}/>;",
@@ -80,16 +155,6 @@ const cases = [
     button,
     "import {Button as B} from '@vezham/react-v3'; const X = () => <B onClick={run}/>;",
     1
-  ],
-  [
-    button,
-    "import * as UI from '@heroui/react'; const X = () => <UI.Button onClick={run}/>;",
-    1
-  ],
-  [
-    button,
-    "import {Button} from '@heroui/react/button'; const X = () => <Button onPress={run}/>;",
-    0
   ],
   [
     button,
@@ -162,7 +227,9 @@ for (const [rule, code, errors, options = {}] of cases) {
           files: ['**/*.tsx'],
           languageOptions: { parser },
           plugins: { vx: { rules: { check: rule } } },
-          rules: { 'vx/check': rule === props ? ['error', options] : 'error' }
+          rules: {
+            'vx/check': rule === props ? ['error', options] : 'error'
+          }
         }
       ]
     })
