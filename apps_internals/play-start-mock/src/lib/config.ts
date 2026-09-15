@@ -71,11 +71,12 @@ const defineLog = (config: Server) => {
     __DEV__: config.debug
   })
 
-  // vx-bot/NOTE: useLogger.log(NAMESPACE, '📋 Logging')
-  // vx-bot/NOTE: useLogger.info(NAMESPACE, '📋 Logging')
-  // vx-bot/NOTE: useLogger.debug(NAMESPACE, '📋 Logging')
-  // vx-bot/NOTE: useLogger.warn(NAMESPACE, '📋 Logging')
-  // vx-bot/NOTE: useLogger.error(NAMESPACE, '📋 Logging')
+  // vx-bot/NOTE: Logging examples:
+  // useLogger.log(NAMESPACE, '📋 Logging')
+  // useLogger.info(NAMESPACE, '📋 Logging')
+  // useLogger.debug(NAMESPACE, '📋 Logging')
+  // useLogger.warn(NAMESPACE, '📋 Logging')
+  // useLogger.error(NAMESPACE, '📋 Logging')
 
   // vx-bot/NOTE: Log configuration (excluding sensitive data)
   useLogger.log(NAMESPACE, '📋 Server Configuration:')

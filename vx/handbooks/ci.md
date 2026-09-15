@@ -2,8 +2,6 @@
 
 ---
 
-<!-- CI -->
-
 - sync: ci
-- version: 2026-09-09
-- @vx/fe-kit: 1.0.5-alpha-001
+- version: 2026-09-15
+- @vx/fe-kit: 26.0.0-alpha.1

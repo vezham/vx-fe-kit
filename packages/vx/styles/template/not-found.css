@@ -7,17 +7,6 @@
   object-fit: contain;
 }
 
-.dark .vx-not-found__image,
-[data-theme='dark'] .vx-not-found__image {
-  filter: invert(1) hue-rotate(180deg);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not(.light, .dark, [data-theme]) .vx-not-found__image {
-    filter: invert(1) hue-rotate(180deg);
-  }
-}
-
 @media only screen and (orientation: landscape) {
   .vx-not-found__image {
     width: min(14rem, 30vw);

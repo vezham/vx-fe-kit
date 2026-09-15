@@ -62,11 +62,6 @@
         background: var(--background);
       }
 
-      .dark .vx-not-found__image,
-      [data-theme='dark'] .vx-not-found__image {
-        filter: invert(1) hue-rotate(180deg);
-      }
-
       .vx-not-found {
         align-items: center;
         display: flex;
@@ -185,10 +180,6 @@
 
         :root:not(.light):not(.dark):not([data-theme]) body {
           background: var(--background);
-        }
-
-        :root:not(.light):not(.dark):not([data-theme]) .vx-not-found__image {
-          filter: invert(1) hue-rotate(180deg);
         }
       }
 
