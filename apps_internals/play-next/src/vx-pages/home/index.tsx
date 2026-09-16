@@ -13,13 +13,13 @@ export default () => {
   return (
     <>
       <VLink href="/pro" className="link">
-        FROm Page
+        Open Pro page
         <Link.Icon />
       </VLink>
 
       <Link onPress={() => router.push('/pro')}>
         <Link.Icon />
-        Using HUI :)
+        Navigate with Vezham UI
         <Link.Icon />
       </Link>
 

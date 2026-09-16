@@ -31,13 +31,13 @@ export default ({ locale }: Props) => {
       </VLink>
 
       <VLink to="/{-$lang}/pro" params={{ lang }} className="link">
-        FROm Page
+        Open Pro page
         <Link.Icon />
       </VLink>
 
       <Link onPress={() => navigate({ to: '/{-$lang}/pro', params: { lang } })}>
         <Link.Icon />
-        Using HUI :)
+        Navigate with Vezham UI
         <Link.Icon />
       </Link>
 

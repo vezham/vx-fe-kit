@@ -615,6 +615,12 @@ importers:
         specifier: workspace:*
         version: link:../../packages/vx/start
 
+  apps_internals/playground-app-e2e:
+    devDependencies:
+      '@vx/config':
+        specifier: workspace:*
+        version: link:../../packages/vx/config
+
   apps_internals/playground-cdn:
     devDependencies:
       '@vx/env':
@@ -623,6 +629,12 @@ importers:
       '@vx/start':
         specifier: workspace:*
         version: link:../../packages/vx/start
+
+  apps_internals/playground-cdn-e2e:
+    devDependencies:
+      '@vx/config':
+        specifier: workspace:*
+        version: link:../../packages/vx/config
 
   apps_internals/playground-docs:
     dependencies:
@@ -636,6 +648,12 @@ importers:
       '@vx/start':
         specifier: workspace:*
         version: link:../../packages/vx/start
+
+  apps_internals/playground-docs-e2e:
+    devDependencies:
+      '@vx/config':
+        specifier: workspace:*
+        version: link:../../packages/vx/config
 
   apps_internals/playground-e2e:
     devDependencies:

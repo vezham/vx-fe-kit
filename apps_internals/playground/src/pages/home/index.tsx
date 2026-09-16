@@ -10,13 +10,13 @@ export default () => {
   return (
     <>
       <VLink to="/pro" className="link">
-        FROm Page
+        Open Pro page
         <Link.Icon />
       </VLink>
 
       <Link onPress={() => navigate({ to: '/pro' })}>
         <Link.Icon />
-        Using HUI :)
+        Navigate with Vezham UI
         <Link.Icon />
       </Link>
 

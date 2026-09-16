@@ -33,6 +33,7 @@ module.exports = async () => {
     'repo',
     'vx',
     'agents',
+    'e2e',
     ...Array.from(
       new Set(
         Object.keys(graph.nodes).map(name => name.replace(/^@[^/]+\//, ''))
