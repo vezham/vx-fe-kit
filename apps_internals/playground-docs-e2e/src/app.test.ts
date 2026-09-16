@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test'
 
-test.describe('play-next', () => {
+test.describe('playground-docs', () => {
   let browserErrors: string[]
 
   test.beforeEach(async ({ page }) => {
