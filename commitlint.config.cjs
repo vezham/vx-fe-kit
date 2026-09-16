@@ -33,6 +33,7 @@ module.exports = async () => {
     'repo',
     'vx',
     'agents',
+    'apps',
     'e2e',
     ...Array.from(
       new Set(
