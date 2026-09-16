@@ -7,6 +7,9 @@ route rules, docs generation, prerender paths, and social metadata.
 deployment provider config, such as Firebase Hosting redirects, headers, and
 rewrites.
 
+See the [Deployment handbook](./deploy.md) for provider setup and deployment
+preset selection.
+
 Keep the app's Vite config thin. App-specific route intent should live in
 `vx.app.json`; shared behavior should live in `@vx/config` or `@vx/start`.
 
@@ -111,6 +114,13 @@ still live in the shared router/start layer.
 Firebase config is generated under `vx/deploy/firebase/<project-root>.json`.
 Default static headers, SPA rewrites, and route-derived API headers are emitted
 automatically. Docs cache headers are opt-in with `firebase.headers.docs`.
+
+Vercel config is generated under `vx/deploy/vercel/<project-root>.json`. Use
+the `next` preset with the `vercel` provider for Next.js applications, then
+configure the Vercel project to use its application directory as the root
+directory. Use `tanstack-start` with `vercel` for TanStack Start applications;
+it emits Vercel's Nitro-backed TanStack Start framework configuration for SSR
+and server routes.
 
 Generated docs prerender paths include:
 

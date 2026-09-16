@@ -1,15 +1,22 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 
-type HostingProvider = 'firebase'
+type HostingProvider = 'firebase' | 'vercel'
 
-type DeployPreset = 'cdn' | 'spa' | 'start-spa'
+/**
+ * Deployment shapes are provider-specific: static Firebase Hosting, or SSR on
+ * Vercel. Choose the preset for the application runtime and routing model.
+ */
+type DeployPreset = 'cdn' | 'spa' | 'start-spa' | 'next' | 'tanstack-start'
+
+type FirebaseDeployPresetName = Exclude<DeployPreset, 'next' | 'tanstack-start'>
 
 type VxDeployConfig = {
   preset?: DeployPreset
   providers: HostingProvider[]
   redirectDefaultLanguage?: boolean
   firebase?: FirebaseDeployConfig
+  vercel?: VercelDeployConfig
 }
 
 type VxAppConfig = {
@@ -74,9 +81,29 @@ type FirebaseConfig = {
   }
 }
 
+type VercelDeployConfig = {
+  buildCommand?: string
+}
+
+type VercelFramework = 'nextjs' | 'tanstack-start' | 'vite' | null
+
+type VercelConfig = {
+  $schema: string
+  buildCommand?: string
+  framework: VercelFramework
+  outputDirectory?: string
+  rewrites?: FirebaseRewrite[]
+}
+
 type FirebaseDeployPreset = {
   public: string
   fallback?: string
+  rewrites?: FirebaseRewrite[]
+}
+
+type VercelDeployPreset = {
+  framework: VercelFramework
+  outputDirectory?: string
   rewrites?: FirebaseRewrite[]
 }
 
@@ -135,7 +162,10 @@ const cacheHeader = (source: string, value: string): FirebaseHeader => ({
 
 const unique = <T>(values: T[]) => [...new Set(values)]
 
-const firebaseDeployPresets: Record<DeployPreset, FirebaseDeployPreset> = {
+const firebaseDeployPresets: Record<
+  FirebaseDeployPresetName,
+  FirebaseDeployPreset
+> = {
   cdn: {
     public: 'dist',
     rewrites: [
@@ -149,6 +179,7 @@ const firebaseDeployPresets: Record<DeployPreset, FirebaseDeployPreset> = {
       }
     ]
   },
+  // vx-bot/NOTE: SPA clients require this fallback so deep links reach the client router.
   spa: {
     public: 'dist',
     fallback: '/index.html'
@@ -162,8 +193,37 @@ const firebaseDeployPresets: Record<DeployPreset, FirebaseDeployPreset> = {
 const defaultFirebaseDeployPreset: FirebaseDeployPreset =
   firebaseDeployPresets['start-spa']
 
-const getFirebaseDeployPreset = (preset?: DeployPreset) =>
-  preset ? firebaseDeployPresets[preset] : defaultFirebaseDeployPreset
+const vercelDeployPresets: Record<DeployPreset, VercelDeployPreset> = {
+  cdn: {
+    framework: 'vite',
+    outputDirectory: 'dist',
+    rewrites: firebaseDeployPresets.cdn.rewrites
+  },
+  spa: {
+    framework: 'vite',
+    outputDirectory: 'dist',
+    rewrites: [{ source: '/(.*)', destination: '/index.html' }]
+  },
+  'start-spa': {
+    framework: null,
+    outputDirectory: '.output/public',
+    rewrites: [{ source: '/(.*)', destination: '/_shell.html' }]
+  },
+  next: { framework: 'nextjs' },
+  'tanstack-start': { framework: 'tanstack-start' }
+}
+
+const getFirebaseDeployPreset = (preset?: DeployPreset) => {
+  if (!preset) {
+    return defaultFirebaseDeployPreset
+  }
+
+  if (preset === 'next' || preset === 'tanstack-start') {
+    throw new Error(`The "${preset}" deploy preset supports Vercel only`)
+  }
+
+  return firebaseDeployPresets[preset]
+}
 
 const getDefaultFirebaseHeaders = (
   appConfig: VxAppConfig,
@@ -331,6 +391,33 @@ const getFirebaseDeployFile = (
   }
 }
 
+const getVercelDeployFile = (
+  workspaceRoot: string,
+  projectRoot: string,
+  deployConfig: VxDeployConfig
+): DeployFile => {
+  const projectPath = resolveProjectPath(workspaceRoot, projectRoot)
+  const vercel = deployConfig.vercel ?? {}
+  const preset = deployConfig.preset
+    ? vercelDeployPresets[deployConfig.preset]
+    : vercelDeployPresets['start-spa']
+
+  const config: VercelConfig = {
+    $schema: 'https://openapi.vercel.sh/vercel.json',
+    framework: preset.framework,
+    ...(preset.outputDirectory
+      ? { outputDirectory: preset.outputDirectory }
+      : {}),
+    ...(preset.rewrites ? { rewrites: preset.rewrites } : {}),
+    ...(vercel.buildCommand ? { buildCommand: vercel.buildCommand } : {})
+  }
+
+  return {
+    path: path.join(workspaceRoot, 'vx/deploy/vercel', `${projectPath}.json`),
+    content: `${JSON.stringify(config, null, 2)}\n`
+  }
+}
+
 const getDeployFiles = (
   appConfig: VxAppConfig,
   deployConfig: VxDeployConfig,
@@ -346,6 +433,10 @@ const getDeployFiles = (
         appConfig,
         deployConfig
       )
+    }
+
+    if (provider === 'vercel') {
+      return getVercelDeployFile(workspaceRoot, projectRoot, deployConfig)
     }
 
     throw new Error(`Unsupported deploy provider "${provider}"`)

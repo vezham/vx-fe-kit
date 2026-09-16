@@ -11,6 +11,7 @@
       "dependsOn": ["metadata:watch"]
     },
     "hosts:setup": {},
+    "deploy:generate": {},
     "metadata:generate": {},
     "metadata:watch": {},
     "routes:tanstack": {}

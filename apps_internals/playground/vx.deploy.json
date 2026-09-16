@@ -1,0 +1,5 @@
+{
+  "$schema": "https://vezham.com/schemas/vx.deploy.json",
+  "preset": "spa",
+  "providers": ["firebase"]
+}

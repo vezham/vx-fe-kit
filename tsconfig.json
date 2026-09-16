@@ -49,6 +49,15 @@
     },
     {
       "path": "./apps_internals/playground-app"
+    },
+    {
+      "path": "./apps_internals/playground-docs-e2e"
+    },
+    {
+      "path": "./apps_internals/playground-app-e2e"
+    },
+    {
+      "path": "./apps_internals/playground-cdn-e2e"
     }
   ],
   "compilerOptions": {

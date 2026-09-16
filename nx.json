@@ -159,7 +159,10 @@
         "{projectRoot}/vx.deploy.json",
         "{workspaceRoot}/packages/vx/config/src/lib/deploy/**/*"
       ],
-      "outputs": ["{workspaceRoot}/vx/deploy/firebase/{projectRoot}.json"],
+      "outputs": [
+        "{workspaceRoot}/vx/deploy/firebase/{projectRoot}.json",
+        "{workspaceRoot}/vx/deploy/vercel/{projectRoot}.json"
+      ],
       "options": {
         "cwd": "{workspaceRoot}",
         "command": "tsx packages/vx/config/src/lib/deploy/cli.ts generate {projectRoot}"

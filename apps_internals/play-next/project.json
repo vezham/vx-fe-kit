@@ -12,6 +12,7 @@
     },
     "metadata:generate": {},
     "metadata:watch": {},
+    "deploy:generate": {},
     "test": {},
     "serve:next": {},
     "preview:next": {},

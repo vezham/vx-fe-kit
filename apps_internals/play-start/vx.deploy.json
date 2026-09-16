@@ -1,0 +1,5 @@
+{
+  "$schema": "https://vezham.com/schemas/vx.deploy.json",
+  "preset": "tanstack-start",
+  "providers": ["vercel"]
+}
