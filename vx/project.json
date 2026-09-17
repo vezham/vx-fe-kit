@@ -87,6 +87,8 @@
           "rm -rf ./.next",
           "rm -rf ./packages/**/**/out-tsc",
           "rm -rf ./**/**/out-tsc",
+          "rm -rf ./**/**/.tanstack",
+          "rm -rf ./**/**/.output",
           "rm -rf ./packages/**/**/test-output",
           "rm -rf ./**/**/test-output",
           "rm -rf ./packages/**/**/node_modules",
