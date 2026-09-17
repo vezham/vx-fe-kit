@@ -23,13 +23,12 @@ test.describe('play-next', () => {
     await expect(page.locator('.vx-app')).toBeVisible()
   })
 
-  test('loads an unmatched route without browser errors', async ({ page }) => {
+  test('loads an unmatched route', async ({ page }) => {
     await page.goto('/hello-world')
 
     await expect(page.locator('[data-vx-not-found-path]')).toHaveText(
       ': /hello-world'
     )
-    expect(browserErrors).toEqual([])
   })
 
   test('reports no browser errors', () => {
