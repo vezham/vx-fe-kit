@@ -33,9 +33,9 @@ export const NotFound = ({ app = 'Vx', homeUrl = '/', version }: Props) => {
   const imageSrc = version ? getNotFoundImageSrc(version) : undefined
 
   return (
-    <main className="vx-not-found mx-auto flex min-h-80 max-w-xl items-center justify-center p-6 text-center">
-      <EmptyState>
-        <div className="vx-not-found__content flex flex-col gap-3">
+    <main className="vx-not-found flex min-h-screen items-center justify-center p-6 text-left">
+      <EmptyState className="w-full max-w-148 items-start gap-0 p-2 text-left">
+        <div className="vx-not-found__content flex w-full max-w-144 flex-col items-start justify-center gap-3">
           {imageSrc ? (
             <img
               alt="Page not found"
@@ -55,7 +55,9 @@ export const NotFound = ({ app = 'Vx', homeUrl = '/', version }: Props) => {
             className="vx-not-found__description"
             color="muted">
             {app} could not find the page you requested
-            <span className="vx-not-found__path" data-vx-not-found-path>
+            <span
+              className="vx-not-found__path font-semibold wrap-anywhere"
+              data-vx-not-found-path>
               {pathname ? `: ${pathname}` : null}
             </span>
             .
