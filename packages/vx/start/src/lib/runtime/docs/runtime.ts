@@ -1,0 +1,796 @@
+import { type CSSProperties, type ReactNode, createElement } from 'react'
+import { parse } from 'yaml'
+
+import { type I18nConfig, defineI18n } from '@vezham/docs-core/i18n'
+import {
+  type SearchAPI,
+  createFromSource
+} from '@vezham/docs-core/search/server'
+import {
+  type LoaderPlugin,
+  type StaticSource,
+  llms,
+  loader
+} from '@vezham/docs-core/source'
+import { metaSchema, pageSchema } from '@vezham/docs-core/source/schema'
+import type { OpenAPIOptions } from '@vezham/docs-openapi/server'
+import { createOpenAPI } from '@vezham/docs-openapi/server'
+
+export const defaultDocsRoute = '/docs'
+
+export const defaultDocsIconAssetBaseUrl =
+  'https://cdn.jsdelivr.net/npm/@vezham/icons@1.0.7/dist/cdn/icons'
+
+export const getDocsImageRoute = (docsRoute = defaultDocsRoute) => {
+  return `/og${docsRoute}`
+}
+
+export const defaultDocsImageRoute = getDocsImageRoute()
+
+type OpenAPIDocument = Exclude<
+  NonNullable<OpenAPIOptions['input']>,
+  string[]
+>[string]
+
+type DocsOpenAPIPlugin = {
+  loaderPlugin: () => ReturnType<
+    ReturnType<typeof createOpenAPI>['loaderPlugin']
+  >
+}
+
+type DocsOpenAPIRuntime = {
+  getSchema: (documentId: string) => Promise<unknown>
+}
+
+type DocsOpenAPIPreloader = {
+  preloadOpenAPIPage: (page: never) => Promise<unknown>
+}
+
+export type OpenAPISourceFiles = Record<string, string>
+
+export type DocsIconName = string
+
+export type DocsIconWeight = 'outline' | 'filled' | 'duotone'
+
+export type DocsIconAlt = string | ((iconName: DocsIconName) => string)
+
+export type DocsIconFrontmatter = {
+  iconAlt?: string
+  iconColor?: CSSProperties['color']
+  iconWeight?: DocsIconWeight
+}
+
+export type DocsIconResolverOptions = {
+  alt?: DocsIconAlt
+  assetBaseUrl?: string
+  color?: CSSProperties['color']
+  defaultIcon?: DocsIconName
+  size?: number | string
+  weight?: DocsIconWeight
+}
+
+export const docsPageSchema = pageSchema.extend({
+  iconAlt: pageSchema.shape.description,
+  iconColor: pageSchema.shape.description,
+  iconWeight: pageSchema.shape.description
+}) as unknown as typeof pageSchema
+
+export const docsMetaSchema = metaSchema.extend({
+  iconAlt: metaSchema.shape.description,
+  iconColor: metaSchema.shape.description,
+  iconWeight: metaSchema.shape.description
+}) as unknown as typeof metaSchema
+
+const toKebabIconName = (value: string) => {
+  return value
+    .replace(/_/g, '-')
+    .replace(/([a-z0-9])([A-Z])/g, '$1-$2')
+    .replace(/([A-Z]+)([A-Z][a-z])/g, '$1-$2')
+    .toLowerCase()
+}
+
+export const toDocsIconName = (value: string) => {
+  return toKebabIconName(value)
+}
+
+const isDocsIconWeight = (value: unknown): value is DocsIconWeight => {
+  return value === 'outline' || value === 'filled' || value === 'duotone'
+}
+
+const getDocsIconAlt = (
+  alt: DocsIconAlt | undefined,
+  iconName: DocsIconName
+) => {
+  return typeof alt === 'function' ? alt(iconName) : alt
+}
+
+const getDocsIconAssetUrl = (
+  iconName: string,
+  weight: DocsIconWeight | undefined,
+  assetBaseUrl: string
+) => {
+  const suffix = weight === 'filled' || weight === 'duotone' ? `-${weight}` : ''
+
+  return `${assetBaseUrl.replace(/\/$/, '')}/${iconName}${suffix}.svg`
+}
+
+export const createDocsIconResolver = ({
+  alt,
+  assetBaseUrl = defaultDocsIconAssetBaseUrl,
+  color,
+  defaultIcon,
+  size = 16,
+  weight
+}: DocsIconResolverOptions = {}) => {
+  return (icon?: string): ReactNode => {
+    const iconName = icon ?? defaultIcon
+
+    if (iconName === undefined) {
+      return
+    }
+
+    const normalizedIconName = toDocsIconName(iconName)
+    const iconSize = typeof size === 'number' ? `${size}px` : size
+    const iconUrl = getDocsIconAssetUrl(
+      normalizedIconName,
+      weight,
+      assetBaseUrl
+    )
+    const altText = getDocsIconAlt(alt, normalizedIconName)
+    const style = {
+      WebkitMask: `url("${iconUrl}") center / contain no-repeat`,
+      backgroundColor: 'currentColor',
+      color,
+      display: 'inline-block',
+      flexShrink: 0,
+      height: iconSize,
+      mask: `url("${iconUrl}") center / contain no-repeat`,
+      verticalAlign: 'middle',
+      width: iconSize
+    } satisfies CSSProperties
+
+    return createElement('span', {
+      ...(altText
+        ? { 'aria-label': altText, role: 'img' }
+        : { 'aria-hidden': true }),
+      'data-vx-icon': normalizedIconName,
+      'data-vx-icon-weight': weight,
+      style
+    })
+  }
+}
+
+const getString = (value: unknown) => {
+  return typeof value === 'string' ? value : undefined
+}
+
+const getDocsIconFrontmatter = (data: unknown): DocsIconFrontmatter => {
+  if (!data || typeof data !== 'object') {
+    return {}
+  }
+
+  const frontmatter = data as Record<string, unknown>
+  const iconWeight = frontmatter.iconWeight
+
+  return {
+    iconAlt: getString(frontmatter.iconAlt),
+    iconColor: getString(frontmatter.iconColor),
+    iconWeight: isDocsIconWeight(iconWeight) ? iconWeight : undefined
+  }
+}
+
+const createFrontmatterDocsIconResolver = (
+  frontmatter: DocsIconFrontmatter,
+  options: DocsIconResolverOptions
+) => {
+  return createDocsIconResolver({
+    ...options,
+    alt: frontmatter.iconAlt ?? options.alt,
+    color: frontmatter.iconColor ?? options.color,
+    weight: frontmatter.iconWeight ?? options.weight
+  })
+}
+
+export const docsIconsPlugin = (
+  options: DocsIconResolverOptions = {}
+): LoaderPlugin => {
+  return {
+    name: 'vezham:docs-icons',
+    transformPageTree: {
+      file(node, filePath) {
+        const file = filePath ? this.storage.read(filePath) : undefined
+        const frontmatter =
+          file?.format === 'page' ? getDocsIconFrontmatter(file.data) : {}
+        const resolveIcon = createFrontmatterDocsIconResolver(
+          frontmatter,
+          options
+        )
+
+        if (node.icon === undefined || typeof node.icon === 'string') {
+          node.icon = resolveIcon(node.icon)
+        }
+
+        return node
+      },
+      folder(node, _folderPath, metaPath) {
+        const file = metaPath ? this.storage.read(metaPath) : undefined
+        const frontmatter =
+          file?.format === 'meta' ? getDocsIconFrontmatter(file.data) : {}
+        const resolveIcon = createFrontmatterDocsIconResolver(
+          frontmatter,
+          options
+        )
+
+        if (node.icon === undefined || typeof node.icon === 'string') {
+          node.icon = resolveIcon(node.icon)
+        }
+
+        return node
+      },
+      separator(node) {
+        const resolveIcon = createDocsIconResolver(options)
+
+        if (node.icon === undefined || typeof node.icon === 'string') {
+          node.icon = resolveIcon(node.icon)
+        }
+
+        return node
+      }
+    }
+  }
+}
+
+export type CreateOpenAPIFromSourcesOptions = {
+  files?: OpenAPISourceFiles
+  openapiDir?: string
+  rootDocument?: string
+  rootDocumentId?: string
+}
+
+export type DocsPageLike = {
+  data: {
+    _openapi?: {
+      preload?: unknown
+    }
+    description?: string
+    getText?: (mode: 'processed' | 'raw') => Promise<string>
+    title?: string
+  }
+  locale?: string
+  slugs?: string[]
+  url: string
+}
+
+export type DocsRouteHeadData = {
+  description?: string
+  locale: string
+  routePath: string
+  title?: string
+}
+
+export type DocsRouteHeadOptions = {
+  appName: string
+  defaultLanguage: string
+  docsImageRoute?: string
+  docsRoute?: string
+  languages: readonly string[]
+  openGraphImage: string
+  openGraphImageSource?: string
+  siteDescription: string
+  siteUrl: string
+}
+
+export type DocsI18nInput<Languages extends readonly string[]> = {
+  defaultLanguage: Languages[number]
+  hideLocale?: I18nConfig<Languages[number]>['hideLocale']
+  languages: Languages
+}
+
+export type DocsCollectionSource<Docs extends StaticSource = StaticSource> = {
+  toDocsSource: () => Docs
+}
+
+export const createStaticDocsSource = <Docs extends StaticSource>(
+  source: DocsCollectionSource<Docs>
+) => {
+  return source.toDocsSource()
+}
+
+export type CreateStaticDocsRuntimeOptions<
+  Docs extends StaticSource,
+  Languages extends readonly string[]
+> = {
+  docs: DocsCollectionSource<Docs>
+  docsRoute?: string
+  i18n: DocsI18nInput<Languages>
+  openapiDir?: string
+  openapiFiles?: OpenAPISourceFiles
+  rootDocument?: string
+  rootDocumentId?: string
+}
+
+export const createStaticDocsRuntimeBase = <
+  Docs extends StaticSource,
+  const Languages extends readonly string[]
+>({
+  docs,
+  docsRoute,
+  i18n: i18nConfig,
+  openapiDir,
+  openapiFiles,
+  rootDocument,
+  rootDocumentId
+}: CreateStaticDocsRuntimeOptions<Docs, Languages>) => {
+  const i18n = createDocsI18n(i18nConfig)
+  const openapi = createOpenAPIFromSources({
+    files: openapiFiles,
+    openapiDir,
+    rootDocument,
+    rootDocumentId
+  })
+
+  return {
+    i18n,
+    ...createDocsRuntime({
+      docs: createStaticDocsSource(docs),
+      docsRoute,
+      i18n,
+      openapi
+    })
+  }
+}
+
+const slash = (value: string) => {
+  return value.split('\\').join('/')
+}
+
+export const encodeMarkdownUrl = (
+  slugs: string[],
+  locale?: string,
+  docsRoute = defaultDocsRoute,
+  defaultLocale?: string
+) => {
+  const segments = [...slugs]
+  const localePrefix = locale && locale !== defaultLocale ? locale : undefined
+
+  if (segments.length === 0) {
+    segments.push('index.md')
+  } else {
+    segments[segments.length - 1] += '.md'
+  }
+
+  return (
+    '/' +
+    [localePrefix, ...docsRoute.split('/'), ...segments]
+      .filter(Boolean)
+      .join('/')
+  )
+}
+
+export const decodeMarkdownUrl = (segments: string[]) => {
+  if (segments.length === 0) {
+    return []
+  }
+
+  const out = [...segments]
+  out[out.length - 1] = out[out.length - 1].replace(/\.md$/, '')
+
+  if (out.length === 1 && out[0] === 'index') {
+    out.pop()
+  }
+
+  return out
+}
+
+export const parseOpenAPIDocument = (
+  filePath: string,
+  source: string
+): OpenAPIDocument => {
+  return (
+    filePath.endsWith('.json') ? JSON.parse(source) : parse(source)
+  ) as OpenAPIDocument
+}
+
+export const openAPIDocumentIdFromPath = (
+  filePath: string,
+  openapiDir = 'openapi'
+) => {
+  const segments = slash(filePath).split('/')
+  const openapiDirIndex = segments.lastIndexOf(openapiDir)
+  const relativePath =
+    openapiDirIndex === -1
+      ? slash(filePath)
+      : segments.slice(openapiDirIndex + 1).join('/')
+
+  const idSegments = relativePath.replace(/\.(?:json|yaml|yml)$/, '').split('/')
+
+  if (idSegments[idSegments.length - 1] === 'index') {
+    idSegments.pop()
+  }
+
+  return idSegments.length === 0 ? 'openapi' : idSegments.join('/')
+}
+
+export const createOpenAPIFromSources = ({
+  files = {},
+  openapiDir,
+  rootDocument,
+  rootDocumentId = 'openapi'
+}: CreateOpenAPIFromSourcesOptions) => {
+  const input = {
+    ...(rootDocument
+      ? {
+          [rootDocumentId]: parseOpenAPIDocument(
+            'openapi/index.yaml',
+            rootDocument
+          )
+        }
+      : {}),
+    ...Object.fromEntries(
+      Object.entries(files).map(([filePath, source]) => [
+        openAPIDocumentIdFromPath(filePath, openapiDir),
+        parseOpenAPIDocument(filePath, source)
+      ])
+    )
+  }
+
+  return createOpenAPI({ input })
+}
+
+export const createDocsI18n = <const Languages extends readonly string[]>(
+  config: DocsI18nInput<Languages>
+) => {
+  const { hideLocale = 'default-locale', languages, ...i18nConfig } = config
+
+  return defineI18n({
+    ...i18nConfig,
+    hideLocale,
+    languages: [...languages]
+  })
+}
+
+export const normalizeLocale = <Locale extends string>(
+  i18n: {
+    defaultLanguage: Locale
+    languages: readonly Locale[]
+  },
+  lang?: string
+): Locale => {
+  return i18n.languages.includes(lang as Locale)
+    ? (lang as Locale)
+    : i18n.defaultLanguage
+}
+
+export const isOptionalLocaleParam = <Locale extends string>(
+  i18n: {
+    languages: readonly Locale[]
+  },
+  lang?: string
+): lang is Locale | undefined => {
+  return !lang || i18n.languages.includes(lang as Locale)
+}
+
+export const isDefaultLocaleParam = <Locale extends string>(
+  i18n: {
+    defaultLanguage: Locale
+  },
+  lang?: string
+): lang is Locale => {
+  return lang === i18n.defaultLanguage
+}
+
+const escapeRegExp = (value: string) => {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
+export const getDefaultLocaleRedirectHref = <Locale extends string>(
+  i18n: {
+    defaultLanguage: Locale
+  },
+  href: string
+) => {
+  const defaultLocalePattern = escapeRegExp(i18n.defaultLanguage)
+  const defaultLocalePrefix = new RegExp(
+    `^/${defaultLocalePattern}(?=/|\\?|#|$)`
+  )
+
+  if (!defaultLocalePrefix.test(href)) {
+    return
+  }
+
+  return href.replace(defaultLocalePrefix, '') || '/'
+}
+
+export const localizedUrl = <Locale extends string>(
+  i18n: {
+    defaultLanguage: Locale
+  },
+  locale: Locale,
+  path: string
+) => {
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`
+
+  return locale === i18n.defaultLanguage
+    ? normalizedPath
+    : `/${locale}${normalizedPath}`
+}
+
+export const localizedRouteParam = <Locale extends string>(
+  i18n: {
+    defaultLanguage: Locale
+  },
+  locale?: Locale
+) => {
+  return locale && locale !== i18n.defaultLanguage ? locale : undefined
+}
+
+export const localizeRouteBase = <Locale extends string>({
+  defaultLanguage,
+  lang,
+  languages,
+  routeBase
+}: {
+  defaultLanguage?: Locale
+  lang?: string
+  languages: readonly Locale[]
+  routeBase: string
+}) => {
+  const locale = languages.find(language => language === lang)
+
+  return locale && locale !== defaultLanguage
+    ? `/${locale}${routeBase}`
+    : routeBase
+}
+
+export const replaceDocsRouteBase = ({
+  docsRoute = defaultDocsRoute,
+  languages,
+  pagePath,
+  routeBase
+}: {
+  docsRoute?: string
+  languages: readonly string[]
+  pagePath: string
+  routeBase: string
+}) => {
+  if (routeBase === docsRoute) {
+    return pagePath
+  }
+
+  if (pagePath === docsRoute) {
+    return routeBase
+  }
+
+  if (pagePath.startsWith(`${docsRoute}/`)) {
+    return `${routeBase}${pagePath.slice(docsRoute.length)}`
+  }
+
+  for (const lang of languages) {
+    const localizedDocsRoute = `/${lang}${docsRoute}`
+
+    if (pagePath === localizedDocsRoute) {
+      return routeBase
+    }
+
+    if (pagePath.startsWith(`${localizedDocsRoute}/`)) {
+      return `${routeBase}${pagePath.slice(localizedDocsRoute.length)}`
+    }
+  }
+
+  return pagePath
+}
+
+export const createDocsSource = <
+  Docs extends StaticSource,
+  I18n extends I18nConfig
+>({
+  docs,
+  docsRoute = defaultDocsRoute,
+  i18n,
+  openapi
+}: {
+  docs: Docs
+  docsRoute?: string
+  i18n: I18n
+  openapi: DocsOpenAPIPlugin
+}) => {
+  return loader(
+    {
+      docs
+    },
+    {
+      baseUrl: docsRoute,
+      i18n,
+      plugins: [docsIconsPlugin(), openapi.loaderPlugin()]
+    }
+  )
+}
+
+export const createDocsRuntime = <
+  Docs extends StaticSource,
+  I18n extends I18nConfig
+>({
+  docs,
+  docsRoute,
+  i18n,
+  openapi
+}: {
+  docs: Docs
+  docsRoute?: string
+  i18n: I18n
+  openapi: DocsOpenAPIPlugin & DocsOpenAPIRuntime & DocsOpenAPIPreloader
+}) => {
+  const source = createDocsSource({ docs, docsRoute, i18n, openapi })
+
+  return {
+    source,
+    preloadOpenAPIPage: (page: (typeof source)['$inferPage']) =>
+      getOpenAPIDocumentId(page)
+        ? openapi.preloadOpenAPIPage(page as never)
+        : undefined,
+    getLLMText: (page: (typeof source)['$inferPage']) =>
+      getDocsLLMText(page, openapi)
+  }
+}
+
+export const getOpenAPIDocumentId = (page: DocsPageLike) => {
+  const preload = page.data._openapi?.preload
+
+  return Array.isArray(preload) && typeof preload[0] === 'string'
+    ? preload[0]
+    : undefined
+}
+
+export const preloadDocsOpenAPIPage = async <Page extends DocsPageLike>(
+  page: Page,
+  openapi: {
+    preloadOpenAPIPage: (page: Page) => Promise<unknown>
+  }
+) => {
+  return getOpenAPIDocumentId(page)
+    ? openapi.preloadOpenAPIPage(page)
+    : undefined
+}
+
+export const getDocsLLMText = async (
+  page: DocsPageLike,
+  openapi?: Pick<DocsOpenAPIRuntime, 'getSchema'>
+) => {
+  const documentId = getOpenAPIDocumentId(page)
+
+  if (documentId && openapi) {
+    return JSON.stringify(await openapi.getSchema(documentId), null, 2)
+  }
+
+  if (!page.data.getText) {
+    throw new Error(`Cannot render LLM text for ${page.url}`)
+  }
+
+  const processed = await page.data.getText('processed')
+
+  return `# ${page.data.title ?? 'Untitled'} (${page.url})
+
+${processed}`
+}
+
+export const getDocsLLMSIndex = (source: unknown) => {
+  return llms(source as Parameters<typeof llms>[0]).index()
+}
+
+export const createSearchServer = (source: unknown): SearchAPI => {
+  return createFromSource(source as Parameters<typeof createFromSource>[0])
+}
+
+export const normalizeDocsRoutePath = ({
+  docsRoute = defaultDocsRoute,
+  languages,
+  routePath
+}: {
+  docsRoute?: string
+  languages: readonly string[]
+  routePath: string
+}) => {
+  for (const lang of languages) {
+    const localizedDocsRoute = `/${lang}${docsRoute}`
+
+    if (routePath === localizedDocsRoute) {
+      return docsRoute
+    }
+
+    if (routePath.startsWith(`${localizedDocsRoute}/`)) {
+      return routePath.slice(`/${lang}`.length)
+    }
+  }
+
+  return routePath
+}
+
+export const getDocsOgImagePath = ({
+  docsImageRoute = defaultDocsImageRoute,
+  docsRoute = defaultDocsRoute,
+  languages,
+  openGraphImage,
+  openGraphImageSource,
+  routePath
+}: {
+  docsImageRoute?: string
+  docsRoute?: string
+  languages: readonly string[]
+  openGraphImage: string
+  openGraphImageSource?: string
+  routePath: string
+}) => {
+  const usesDefaultOgImage =
+    openGraphImageSource === 'default' || openGraphImage === '/og/image.png'
+
+  if (!usesDefaultOgImage) {
+    return openGraphImage
+  }
+
+  const docsPath = normalizeDocsRoutePath({ docsRoute, languages, routePath })
+  const docsImageRouteRoot = docsImageRoute.split('/').slice(0, -1).join('/')
+
+  if (docsPath !== docsRoute && !docsPath.startsWith(`${docsRoute}/`)) {
+    return `${docsImageRouteRoot}${docsPath}/image.png`
+  }
+
+  const suffix = docsPath === docsRoute ? '' : docsPath.slice(docsRoute.length)
+
+  return `${docsImageRoute}${suffix}/image.png`
+}
+
+const absoluteSiteUrl = (pathname: string, siteUrl: string) => {
+  return new URL(pathname, `${siteUrl}/`).toString()
+}
+
+export const getDocsRouteHead = (
+  data: DocsRouteHeadData | undefined,
+  {
+    appName,
+    defaultLanguage,
+    docsImageRoute,
+    docsRoute = defaultDocsRoute,
+    languages,
+    openGraphImage,
+    openGraphImageSource,
+    siteDescription,
+    siteUrl
+  }: DocsRouteHeadOptions
+) => {
+  if (!data) {
+    return {}
+  }
+
+  const title = data.title ? `${data.title} | ${appName}` : appName
+  const description = data.description ?? siteDescription
+  const docsPath = normalizeDocsRoutePath({
+    docsRoute,
+    languages,
+    routePath: data.routePath
+  })
+  const pageUrl =
+    data.locale === defaultLanguage ? docsPath : `/${data.locale}${docsPath}`
+  const imageUrl = getDocsOgImagePath({
+    docsImageRoute,
+    docsRoute,
+    languages,
+    openGraphImage,
+    openGraphImageSource,
+    routePath: docsPath
+  })
+  return {
+    meta: [
+      { title },
+      { name: 'description', content: description },
+      { property: 'og:title', content: title },
+      { property: 'og:description', content: description },
+      { property: 'og:image', content: imageUrl },
+      { property: 'og:url', content: absoluteSiteUrl(pageUrl, siteUrl) },
+      { name: 'twitter:title', content: title },
+      { name: 'twitter:description', content: description },
+      { name: 'twitter:image', content: imageUrl },
+      { name: 'twitter:url', content: absoluteSiteUrl(pageUrl, siteUrl) },
+      { name: 'twitter:card', content: 'summary_large_image' }
+    ]
+  }
+}

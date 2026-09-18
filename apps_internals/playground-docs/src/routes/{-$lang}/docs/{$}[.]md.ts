@@ -1,7 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 
-import { getLLMText } from '@app/docs'
-import { getDocsPage } from '@app/docs-page'
+import { getDocsPage, getLLMText } from '@app/docs'
 
 export const Route = createFileRoute('/{-$lang}/docs/{$}.md')({
   server: {

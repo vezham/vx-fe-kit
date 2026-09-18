@@ -6,8 +6,9 @@ import { Link, buttonVariants } from '@vezham/react-v3'
 import { localizedRouteParam } from '@vx/start/runtime/docs'
 import { Home } from '@vx/template/pages'
 
-import { type Locale, i18n } from '@app/docs'
+import { i18n } from '@app/docs'
 import { baseOptions } from '@config/layout'
+import type { Locale } from '@generated/vx'
 
 type Props = {
   locale?: Locale

@@ -903,6 +903,8 @@ export const vxDocs = ${stringifyTs(resolveDocsConfig(config.docs))} as const
 
 export const vxI18n = ${stringifyTs(resolveI18n(config.i18n))} as const
 
+export type Locale = (typeof vxI18n.languages)[number]
+
 export const tanstackHead = ${stringifyTs(getTanStackHead(config, projectRoot))}
 
 export const nextMetadata = ${stringifyTs(getNextMetadata(config, projectRoot))}

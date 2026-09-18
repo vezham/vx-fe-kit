@@ -2,8 +2,8 @@ import type { BaseLayoutProps } from '@vezham/docs-react/layouts/shared'
 
 import { localizedUrl } from '@vx/start/runtime/docs'
 
-import { type Locale, i18n } from '@app/docs'
-import { vxCore } from '@generated/vx'
+import { i18n } from '@app/docs'
+import { type Locale, vxCore } from '@generated/vx'
 
 export const baseOptions = (
   locale: Locale = i18n.defaultLanguage

@@ -1,26 +1,19 @@
 import { defineDocs } from '@vezham/docs-mdx/macro'
+import type { MacroAsyncDocsCollection } from '@vezham/docs-mdx/runtime/macro'
 
-import {
-  createStaticDocsRuntime,
-  docsMetaSchema,
-  docsPageSchema
-} from '@vx/start/runtime/docs'
+import { createStaticDocsRuntime } from '@vx/start/runtime/docs'
 
-import { vxDocs, vxI18n } from '@generated/vx'
+import { vxCore, vxDocs, vxI18n, vxMetadata } from '@generated/vx'
 
-export const docs = defineDocs({
+const collection = defineDocs({
   dir: 'content/docs',
   docs: {
     async: true,
-    schema: docsPageSchema,
-    postprocess: {
-      includeProcessedMarkdown: true
-    }
-  },
-  meta: {
-    schema: docsMetaSchema
+    postprocess: { includeProcessedMarkdown: true }
   }
 })
+
+export const docs: MacroAsyncDocsCollection = collection
 
 const openapiFiles = import.meta.glob<string>('/openapi/**/*.{json,yaml,yml}', {
   eager: true,
@@ -28,13 +21,25 @@ const openapiFiles = import.meta.glob<string>('/openapi/**/*.{json,yaml,yml}', {
   query: '?raw'
 })
 
-export const { getLLMText, i18n, preloadOpenAPIPage, source } =
-  createStaticDocsRuntime({
-    docs,
-    docsRoute: vxDocs.docsRoute,
-    i18n: vxI18n,
-    openapiDir: vxDocs.openapiDir,
-    openapiFiles
-  })
-
-export type Locale = (typeof i18n.languages)[number]
+export const {
+  i18n,
+  source,
+  getDocsPage,
+  getDocsRouteHead,
+  getLLMText,
+  createDocsLoader
+} = createStaticDocsRuntime({
+  i18n: vxI18n,
+  docs,
+  docsRoute: vxDocs.docsRoute,
+  openapiDir: vxDocs.openapiDir,
+  openapiFiles,
+  head: {
+    appName: vxCore.shortName,
+    docsImageRoute: vxDocs.docsImageRoute,
+    openGraphImage: vxMetadata.openGraph.image,
+    openGraphImageSource: vxMetadata.openGraph.imageSource,
+    siteDescription: vxMetadata.description,
+    siteUrl: vxMetadata.url
+  }
+})

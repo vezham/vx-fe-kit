@@ -72,6 +72,9 @@ describe('generated language metadata', () => {
     expect(source.match(/"defaultLanguage": "en"/g)).toHaveLength(2)
     expect(source.match(/"languages": \[\s*"en"\s*\]/g)).toHaveLength(2)
     expect(source).not.toContain('vxI18n = undefined')
+    expect(source).toContain(
+      'export type Locale = (typeof vxI18n.languages)[number]'
+    )
   })
 
   it('preserves the configured default and supported languages', () => {

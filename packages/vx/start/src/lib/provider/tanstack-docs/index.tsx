@@ -15,6 +15,7 @@ import {
 } from '../../runtime/docs'
 import type { Props } from '../shared/types'
 import { RootDocument } from '../tanstack'
+import { createDocsTranslations } from './i18n'
 import { DocsSearchDialog } from './search'
 
 type DocsConfigProps = Props & {
@@ -94,7 +95,7 @@ const createRootComponent = <Language extends string>({
     .translations()
     .extend(uiTranslations())
     .extend(openapiTranslations())
-    .add(overrides ?? {})
+    .add(createDocsTranslations(i18n, overrides))
 
   const DocsRootComponent = () => {
     const { lang = i18n.defaultLanguage } = useParams({ strict: false })

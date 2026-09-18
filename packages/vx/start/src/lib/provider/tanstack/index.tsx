@@ -37,11 +37,12 @@ const RootDocument = ({
   )
 }
 
-// vx-bot/NOTE: RootComponent
 const defineConfig = (props: Props) => (
   <RootDocument {...props}>
     <Outlet />
   </RootDocument>
 )
 
-export { defineConfig, Provider, RootDocument }
+const createRootComponent = (props: Props) => () => defineConfig(props)
+
+export { createRootComponent, defineConfig, Provider, RootDocument }

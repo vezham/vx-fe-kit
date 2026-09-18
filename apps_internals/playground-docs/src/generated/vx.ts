@@ -235,6 +235,8 @@ export const vxI18n = {
   ]
 } as const
 
+export type Locale = (typeof vxI18n.languages)[number]
+
 export const tanstackHead = {
   "meta": [
     {
