@@ -154,6 +154,26 @@ Defaults:
 The field is optional. When `docsRoute` is `/guides`, generated docs OG images
 are written under `public/og/guides` and the runtime uses `/og/guides`.
 
+Use top-level `og` to customise generated social images without coupling
+application branding to the Vite configuration. The default is a light Vezham
+layout with the Vezham logo and Jura footer text. `docs.og` may override these
+values when documentation needs a distinct treatment.
+
+```json
+{
+  "og": {
+    "theme": "dark",
+    "site": "Acme Docs",
+    "logo": "/icons/logo.svg"
+  }
+}
+```
+
+`logo` accepts a public asset path, an HTTPS URL, or a data URI. Public asset
+paths are embedded during generation so static output has no external logo
+dependency. `theme` selects the built-in light or dark palette. For custom
+layouts, pass a `renderImage` callback to `generateDocsOgImages`.
+
 ---
 
 ## Routes

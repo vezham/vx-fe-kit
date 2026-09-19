@@ -1,15 +1,19 @@
+import { ImageResponse } from '@vercel/og'
 import fs from 'node:fs'
+import { createRequire } from 'node:module'
 import path from 'node:path'
+import type { ReactElement } from 'react'
 import { type Plugin, type TransformResult, mergeConfig } from 'vite'
 import { parse } from 'yaml'
 
 import { docsMdx as createDocsMdx } from '@vezham/docs-mdx/vite'
 import * as OpenAPI from '@vezham/docs-openapi'
 import { createOpenAPI } from '@vezham/docs-openapi/server'
-import { generateOGImage } from '@vezham/docs-react/og'
 
 import { defineConfig as defineAppConfig } from '@vx/config/presets/app'
 import type { ViteConfig, ViteConfigOverrides } from '@vx/config/vite'
+
+import type { OgImageProps } from './og-image'
 
 const docsMdxMacroImport = '@vezham/docs-mdx/macro'
 const docsMdxRuntimeMacroImport = '@vx-oss/docs-mdx/macro'
@@ -167,8 +171,15 @@ export const defineConfig = (overrides: ViteConfigOverrides = {}) =>
     return mergeConfig(docsViteDefaults, resolvedOverrides) as ViteConfig
   })
 
+export type OgConfig = {
+  logo?: string
+  site?: string
+  theme?: 'dark' | 'light'
+}
+
 export type DocsConfig = {
   docsRoute?: string
+  og?: OgConfig
 }
 
 export type I18nConfig = {
@@ -179,6 +190,7 @@ export type I18nConfig = {
 export type VxDocsConfig = {
   docs?: DocsConfig
   i18n?: I18nConfig
+  og?: OgConfig
   routes?: RouteInput[]
 }
 
@@ -979,11 +991,14 @@ export const generateDocsOgImages = async (
   config: DocsConfig,
   i18n: I18nConfig,
   {
-    routes = []
+    routes = [],
+    renderImage
   }: {
     routes?: RouteInput[]
+    renderImage?: (props: OgImageProps) => ReactElement
   } = {}
 ) => {
+  const render = renderImage ?? (await import('./og-image')).OgImage
   const resolved = resolveDocsConfig(config)
   const resolvedDocsDir = path.resolve(projectRoot, resolved.docsDir)
   const resolvedOutputDir = path.resolve(projectRoot, resolved.ogOutputDir)
@@ -997,6 +1012,17 @@ export const generateDocsOgImages = async (
       docsRoute: resolved.docsRoute
     })
   )
+  const require = createRequire(import.meta.url)
+  const juraFont = fs.readFileSync(
+    require.resolve('@fontsource/jura/files/jura-latin-600-normal.woff')
+  )
+  const interRegular = fs.readFileSync(
+    require.resolve('@fontsource/inter/files/inter-latin-400-normal.woff')
+  )
+  const interBold = fs.readFileSync(
+    require.resolve('@fontsource/inter/files/inter-latin-700-normal.woff')
+  )
+  const logo = resolveDocsOgLogo(projectRoot, config.og?.logo)
 
   assertOutputDir(resolvedOutputDir)
   fs.rmSync(resolvedOutputDir, { force: true, recursive: true })
@@ -1009,10 +1035,23 @@ export const generateDocsOgImages = async (
         mirrorRoutes,
         outputDir: resolvedOutputDir
       })
-      const response = generateOGImage({
-        title: entry.title,
-        description: entry.description
-      })
+      const response = new ImageResponse(
+        render({
+          ...config.og,
+          description: entry.description,
+          logo,
+          title: entry.title
+        }),
+        {
+          fonts: [
+            { data: interRegular, name: 'Inter', weight: 400 },
+            { data: interBold, name: 'Inter', weight: 700 },
+            { data: juraFont, name: 'Jura', weight: 600 }
+          ],
+          height: 630,
+          width: 1200
+        }
+      )
       const image = Buffer.from(await response.arrayBuffer())
 
       for (const outputPath of outputPaths) {
@@ -1027,6 +1066,23 @@ export const generateDocsOgImages = async (
   return generatedImageCounts.reduce((total, count) => total + count, 0)
 }
 
+const resolveDocsOgLogo = (projectRoot: string, logo?: string) => {
+  if (!logo || /^(data:|https?:)/.test(logo)) {
+    return logo
+  }
+
+  const filePath = path.resolve(projectRoot, 'public', logo.replace(/^\//, ''))
+
+  if (!fs.existsSync(filePath)) {
+    throw new Error(`Missing docs OG logo: ${filePath}`)
+  }
+
+  const extension = path.extname(filePath).slice(1) || 'svg+xml'
+  const mimeType = extension === 'svg' ? 'image/svg+xml' : `image/${extension}`
+
+  return `data:${mimeType};base64,${fs.readFileSync(filePath).toString('base64')}`
+}
+
 export const loadVxDocsConfig = (projectRoot = process.cwd()) => {
   const configFile = path.join(projectRoot, 'vx.app.json')
   const config = JSON.parse(fs.readFileSync(configFile, 'utf8')) as VxDocsConfig
@@ -1038,7 +1094,13 @@ export const loadVxDocsConfig = (projectRoot = process.cwd()) => {
   return {
     config,
     configFile,
-    docs: config.docs ?? {},
+    docs: {
+      ...config.docs,
+      og: {
+        ...config.og,
+        ...config.docs?.og
+      }
+    },
     i18n: config.i18n,
     routes: config.routes ?? []
   }

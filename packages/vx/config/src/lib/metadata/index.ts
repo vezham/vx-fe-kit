@@ -8,11 +8,16 @@ import {
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-import { type DocsConfig, resolveDocsConfig } from '../presets/docs'
+import {
+  type DocsConfig,
+  type OgConfig,
+  resolveDocsConfig
+} from '../presets/docs'
 
 type VxConfig = {
   core: VxCoreConfig
   docs?: DocsConfig
+  og?: OgConfig
   i18n?: VxI18nConfig
   branding: {
     themeColor: string

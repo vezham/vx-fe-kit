@@ -14,6 +14,8 @@
     "vx": "pnpm install && pnpm @vx/ws:format"
   },
   "dependencies": {
+    "@fontsource/inter": "^5.3.0",
+    "@fontsource/jura": "^5.3.0",
     "@heroui-pro/react": "1.0.0-beta.10",
     "@heroui/react": "3.2.6",
     "@heroui/styles": "3.2.6",
@@ -29,6 +31,7 @@
     "@tiptap/react": "^3.30.1",
     "@tiptap/starter-kit": "^3.30.1",
     "@tiptap/suggestion": "^3.30.1",
+    "@vercel/og": "^0.8.5",
     "@vezham/docs-core": "npm:@vx-oss/docs-core@1.0.14",
     "@vezham/docs-mdx": "npm:@vx-oss/docs-mdx@1.0.14",
     "@vezham/docs-openapi": "npm:@vx-oss/docs-openapi@1.0.14",

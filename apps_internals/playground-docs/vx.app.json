@@ -16,6 +16,10 @@
     "defaultLanguage": "en",
     "languages": ["en", "cn"]
   },
+  "og": {
+    "site": "Vezham Playground Docs",
+    "theme": "light"
+  },
   "routes": [
     {
       "path": "/api/**",
