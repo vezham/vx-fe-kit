@@ -3,8 +3,8 @@
 @import './template/not-found.css';
 
 /* wjdlz/NOTE: for pro */
-@import '@heroui-pro/react/css';
-@import '@heroui-pro/react/themes/glass';
+@import '@vezham/react-pro-v3/css';
+@import '@vezham/react-pro-v3/themes/glass';
 
 @plugin './plugin.mts';
 

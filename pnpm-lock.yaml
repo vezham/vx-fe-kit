@@ -115,9 +115,6 @@ importers:
       '@fontsource/jura':
         specifier: ^5.3.0
         version: 5.3.0
-      '@heroui-pro/react':
-        specifier: 1.0.0-beta.10
-        version: 1.0.0-beta.10
       '@heroui/react':
         specifier: 3.2.6
         version: 3.2.6(@internationalized/date@3.12.4)(@react-aria/ssr@3.10.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@react-aria/utils@3.34.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@react-spectrum/provider@3.11.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-aria-components@1.21.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-aria@3.52.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(tailwind-merge@3.6.0)(tailwindcss@4.3.0)
@@ -127,9 +124,6 @@ importers:
       '@number-flow/react':
         specifier: ^0.6.0
         version: 0.6.2(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      '@react-aria/interactions':
-        specifier: ^3.28.1
-        version: 3.28.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@react-aria/utils':
         specifier: ^3.34.1
         version: 3.34.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -178,6 +172,9 @@ importers:
       '@vezham/docs-story':
         specifier: npm:@vx-oss/docs-story@1.0.14
         version: '@vx-oss/docs-story@1.0.14(8d6218736a3f5547907089ff70e538e4)'
+      '@vezham/react-pro-v3':
+        specifier: npm:@heroui-pro/react@1.0.0-beta.10
+        version: '@heroui-pro/react@1.0.0-beta.10'
       '@vezham/react-v3':
         specifier: npm:@heroui/react@3.2.6
         version: '@heroui/react@3.2.6(@internationalized/date@3.12.4)(@react-aria/ssr@3.10.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@react-aria/utils@3.34.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@react-spectrum/provider@3.11.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-aria-components@1.21.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-aria@3.52.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(tailwind-merge@3.6.0)(tailwindcss@4.3.0)'

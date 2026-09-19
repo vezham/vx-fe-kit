@@ -3,17 +3,16 @@
 ## Vezham UI Context
 
 This workspace uses `@vezham/react-v3` for base components and
-`@heroui-pro/react` for Pro components. The reference below is intentionally
+`@vezham/react-pro-v3` for Pro components. The reference below is intentionally
 kept local so agents can choose the right primitive while offline. Update it
 when either dependency changes.
 
 ```tsx
-import { Command, ContextMenu, Sheet } from '@heroui-pro/react'
-
+import { Command, ContextMenu, Sheet } from '@vezham/react-pro-v3'
 import { Button, Card, Input, TextField } from '@vezham/react-v3'
 ```
 
-Use the Vezham root import for base components.
+Use the Vezham root imports for base and Pro components.
 
 ## Mandatory Rules
 
@@ -51,7 +50,7 @@ Independent components do not require compound wrappers solely for naming.
   or props.
 - Do not copy component APIs from prompts, examples, or older library versions.
   They are reference material and may be stale.
-- Use `@vezham/react-v3` for base components and `@heroui-pro/react` for Pro
+- Use `@vezham/react-v3` for base components and `@vezham/react-pro-v3` for Pro
   components. Do not introduce legacy v2 or upstream base-package imports into
   application code.
 

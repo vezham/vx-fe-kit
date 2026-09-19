@@ -60,7 +60,7 @@ const cases = [
   ],
   [dot, "import { CardHeader as Heading } from '@vezham/react-v3';", 1],
   [dot, "import { SwitchThumb } from '@vezham/react-v3/switch';", 1],
-  [dot, "import { ContextMenuPopover } from '@heroui-pro/react';", 1],
+  [dot, "import { ContextMenuPopover } from '@vezham/react-pro-v3';", 1],
   [
     dot,
     "import { Button, Card } from '@vezham/react-v3'; const X = () => <Card.Header><Button /></Card.Header>;",

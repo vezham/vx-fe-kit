@@ -1,6 +1,5 @@
-import { ContextMenu, EmptyState } from '@heroui-pro/react'
-
 import { FolderOpen, VezhamLogo } from '@vezham/icons-react'
+import { ContextMenu, EmptyState } from '@vezham/react-pro-v3'
 import { Button, Kbd, Label, Separator } from '@vezham/react-v3'
 
 export const PageEmptyState = () => {
