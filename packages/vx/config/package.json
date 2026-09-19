@@ -20,6 +20,11 @@
       "import": "./src/lib/integrations/vitest/index.ts",
       "default": "./src/lib/integrations/vitest/index.ts"
     },
+    "./next": {
+      "types": "./src/lib/integrations/next/index.ts",
+      "import": "./src/lib/integrations/next/index.ts",
+      "default": "./src/lib/integrations/next/index.ts"
+    },
     "./metadata": {
       "types": "./src/lib/metadata/index.ts",
       "import": "./src/lib/metadata/index.ts",

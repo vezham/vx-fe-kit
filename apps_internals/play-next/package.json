@@ -6,6 +6,7 @@
     "@vx/template": "workspace:*"
   },
   "devDependencies": {
+    "@vx/config": "workspace:*",
     "@vx/env": "workspace:*",
     "@vx/start": "workspace:*"
   }

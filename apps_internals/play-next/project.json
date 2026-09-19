@@ -10,13 +10,13 @@
     "dev": {
       "dependsOn": ["metadata:watch"]
     },
+    "hosts:setup": {},
+    "deploy:generate": {},
     "metadata:generate": {},
     "metadata:watch": {},
-    "deploy:generate": {},
     "test": {},
     "serve:next": {},
-    "preview:next": {},
-    "hosts:setup": {}
+    "preview:next": {}
   },
   "tags": ["category:internal"]
 }

@@ -513,6 +513,9 @@ importers:
         specifier: workspace:*
         version: link:../../packages/vx/template
     devDependencies:
+      '@vx/config':
+        specifier: workspace:*
+        version: link:../../packages/vx/config
       '@vx/env':
         specifier: workspace:*
         version: link:../../packages/vx/env
@@ -696,7 +699,7 @@ importers:
         version: link:../template
       yaml:
         specifier: latest
-        version: 2.9.0
+        version: 2.9.1
     devDependencies:
       '@vx/devtools':
         specifier: workspace:*
@@ -12731,6 +12734,11 @@ packages:
 
   yaml@2.9.0:
     resolution: {integrity: sha512-2AvhNX3mb8zd6Zy7INTtSpl1F15HW6Wnqj0srWlkKLcpYl/gMIMJiyuGq2KeI2YFxUPjdlB+3Lc10seMLtL4cA==}
+    engines: {node: '>= 14.6'}
+    hasBin: true
+
+  yaml@2.9.1:
+    resolution: {integrity: sha512-3NxN8+78OdzbT7C/WjGsyfPAtJaN3FNDsWxv7Y7mcDsT/oOmgW8BpyQQFFBnvZE3j9Y2Sdz1ULFLezL7Eb2yFw==}
     engines: {node: '>= 14.6'}
     hasBin: true
 
@@ -27283,6 +27291,8 @@ snapshots:
   yaml@1.10.3: {}
 
   yaml@2.9.0: {}
+
+  yaml@2.9.1: {}
 
   yargs-parser@21.1.1: {}
 
