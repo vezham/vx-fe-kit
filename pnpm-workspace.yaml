@@ -18,6 +18,11 @@ minimumReleaseAgeExclude:
   - '@vx-cli/*'
   - '@vx-oss/*'
   - '@vezham/*'
+  # vx-bot/TODO: Remove after 2026-09-26 22:35 IST (seven-day release age).
+  - '@heroui/react@3.2.6'
+  - '@heroui/styles@3.2.6'
+  # vx-bot/TODO: Remove after 2026-09-26 22:35 IST (seven-day release age).
+  - '@heroui-pro/react@1.0.0-beta.10'
 
 allowBuilds:
   heroui-pro: true
