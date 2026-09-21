@@ -1,19 +1,24 @@
 import { defineDocs } from '@vezham/docs-mdx/macro'
-import type { MacroAsyncDocsCollection } from '@vezham/docs-mdx/runtime/macro'
 
-import { createStaticDocsRuntime } from '@vx/start/runtime/docs'
+import {
+  createStaticDocsRuntime,
+  docsMetaSchema,
+  docsPageSchema
+} from '@vx/start/runtime/docs'
 
 import { vxCore, vxDocs, vxI18n, vxMetadata } from '@generated/vx'
 
-const collection = defineDocs({
+export const docs = defineDocs({
   dir: 'content/docs',
   docs: {
     async: true,
-    postprocess: { includeProcessedMarkdown: true }
+    postprocess: { includeProcessedMarkdown: true },
+    schema: docsPageSchema
+  },
+  meta: {
+    schema: docsMetaSchema
   }
 })
-
-export const docs: MacroAsyncDocsCollection = collection
 
 const openapiFiles = import.meta.glob<string>('/openapi/**/*.{json,yaml,yml}', {
   eager: true,

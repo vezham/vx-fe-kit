@@ -15,7 +15,7 @@ import {
 } from '../../runtime/docs'
 import type { Props } from '../shared/types'
 import { RootDocument } from '../tanstack'
-import { createDocsTranslations } from './i18n'
+import { createDocsTranslations, getLanguageDisplayName } from './i18n'
 import { DocsSearchDialog } from './search'
 
 type DocsConfigProps = Props & {
@@ -118,5 +118,6 @@ export {
   DocsSearchDialog,
   assertRouteLocale,
   parseRouteLocale,
-  redirectDefaultLocale
+  redirectDefaultLocale,
+  getLanguageDisplayName
 }

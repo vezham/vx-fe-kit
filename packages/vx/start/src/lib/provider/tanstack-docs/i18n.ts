@@ -4,7 +4,7 @@ const displayNameLanguageCode = (language: string) => {
   return language === 'cn' ? 'zh' : language
 }
 
-const getLanguageDisplayName = (language: string) => {
+export const getLanguageDisplayName = (language: string) => {
   const languageCode = displayNameLanguageCode(language)
 
   try {

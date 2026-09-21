@@ -1,3 +1,5 @@
+import { deserializePageTree } from '@vezham/docs-core/source/client'
+
 import { createStaticDocsRuntime } from './index'
 
 const setup = () => {
@@ -57,13 +59,23 @@ describe('docs page runtime', () => {
     expect(preload).toHaveBeenCalledOnce()
   })
 
-  it('supports a layout alias without changing the markdown endpoint', async () => {
-    const { createDocsLoader } = setup()
-    const page = await createDocsLoader('/ui-notebook')({ params: {} })
+  it.each(['docs', 'notebook', 'flux', 'glass', 'home'])(
+    'keeps the %s preview tree within its alias without changing the markdown endpoint',
+    async shell => {
+      const { createDocsLoader } = setup()
+      const page = await createDocsLoader(`/ui-${shell}`)({ params: {} })
 
-    expect(page.routePath).toBe('/ui-notebook')
-    expect(page.markdownUrl).toBe('/docs/index.md')
-  })
+      expect(page.routePath).toBe(`/ui-${shell}`)
+      expect(page.markdownUrl).toBe('/docs/index.md')
+      expect(deserializePageTree(page.pageTree).children).toEqual([
+        expect.objectContaining({ type: 'page', url: `/ui-${shell}` })
+      ])
+      const original = await createDocsLoader()({ params: {} })
+      expect(deserializePageTree(original.pageTree).children).toEqual([
+        expect.objectContaining({ type: 'page', url: '/docs' })
+      ])
+    }
+  )
 
   it('rejects unsupported locales and missing pages', () => {
     const { getDocsPage } = setup()

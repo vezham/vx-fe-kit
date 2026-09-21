@@ -1,5 +1,6 @@
 import { notFound } from '@tanstack/react-router'
 
+import type { Item, Node, Root } from '@vezham/docs-core/page-tree'
 import type { StaticSource } from '@vezham/docs-core/source'
 
 import {
@@ -69,6 +70,30 @@ export const createDocsPageRuntime = <
       languages: i18n.languages,
       routeBase
     })
+    const remapPage = (item: Item): Item => ({
+      ...item,
+      url: replaceDocsRouteBase({
+        docsRoute,
+        languages: i18n.languages,
+        pagePath: item.url,
+        routeBase: resolvedRouteBase
+      })
+    })
+    const remapNode = (node: Node): Node => {
+      if (node.type === 'page') return remapPage(node)
+      if (node.type !== 'folder') return node
+      return {
+        ...node,
+        index: node.index ? remapPage(node.index) : undefined,
+        children: node.children.map(remapNode)
+      }
+    }
+    const remapTree = (tree: Root): Root => ({
+      ...tree,
+      $id: `${tree.$id ?? locale}:${resolvedRouteBase}`,
+      children: tree.children.map(remapNode),
+      fallback: tree.fallback ? remapTree(tree.fallback) : undefined
+    })
     const data = {
       locale,
       title: page.data.title,
@@ -86,7 +111,11 @@ export const createDocsPageRuntime = <
         docsRoute,
         i18n.defaultLanguage
       ),
-      pageTree: await source.serializePageTree(source.getPageTree(locale)),
+      pageTree: await source.serializePageTree(
+        routeBase === docsRoute
+          ? source.getPageTree(locale)
+          : remapTree(source.getPageTree(locale))
+      ),
       openapiData: await preloadOpenAPIPage(page)
     }
 
