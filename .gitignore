@@ -4,6 +4,9 @@
 # /.changelog
 
 .vezham
+vx/deploy
+
+**/**/public/og/*
 
 # --- END of @vx/fe-kit-config ---
 
