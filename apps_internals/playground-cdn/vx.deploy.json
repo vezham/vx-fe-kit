@@ -1,5 +1,5 @@
 {
-  "$schema": "https://vezham.com/schemas/vx.deploy.json",
+  "$schema": "../../vx/schemas/vx.deploy.json",
   "preset": "cdn",
   "providers": ["firebase"]
 }
