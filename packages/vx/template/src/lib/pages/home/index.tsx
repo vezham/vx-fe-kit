@@ -45,6 +45,7 @@ export const Home = ({ onPress }: Props) => {
             <Avatar size="sm">
               <Avatar.Image
                 alt="Jane Doe"
+                // wjdlz/TODO: serve from cdn
                 src="https://img.heroui.chat/image/avatar?w=400&h=400&u=4"
               />
               <Avatar.Fallback>JD</Avatar.Fallback>

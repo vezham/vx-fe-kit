@@ -38,7 +38,7 @@ export const VersionSelector = ({
             </div>
             <a
               className={styles.item()}
-              href="https://v2.heroui.com?utm_source=v3.heroui.com"
+              href="https://vezham.com?utm_source=vezham.app"
               rel="noopener noreferrer"
               target="_blank">
               <span>v2</span>

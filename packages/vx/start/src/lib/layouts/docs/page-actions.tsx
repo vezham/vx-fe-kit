@@ -44,14 +44,14 @@ const getPageActions = (markdownUrl: string): PageAction[] => {
       id: 'cursor',
       title: 'Add to Cursor',
       description: 'Install MCP Server on Cursor',
-      href: 'cursor://anysphere.cursor-deeplink/mcp/install?name=heroui-react&config=eyJjb21tYW5kIjoibnB4IC15IEBoZXJvdWkvcmVhY3QtbWNwQGxhdGVzdCJ9',
+      href: 'cursor://anysphere.cursor-deeplink/mcp/install?name=vezham-react&config=eyJjb21tYW5kIjoibnB4IC15IEBoZXJvdWkvcmVhY3QtbWNwQGxhdGVzdCJ9',
       icon: Cursor
     },
     {
       id: 'vscode',
       title: 'Add to VS Code',
       description: 'Install MCP Server on VS Code',
-      href: 'vscode:mcp/install?%7B%22name%22%3A%22heroui-react%22%2C%22type%22%3A%22stdio%22%2C%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22%40heroui%2Freact-mcp%40latest%22%5D%7D',
+      href: 'vscode:mcp/install?%7B%22name%22%3A%22vezham-react%22%2C%22type%22%3A%22stdio%22%2C%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22%40vezham%2Freact-mcp%40latest%22%5D%7D',
       icon: CodeFile
     },
     {
