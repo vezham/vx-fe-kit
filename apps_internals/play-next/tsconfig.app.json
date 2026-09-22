@@ -4,6 +4,7 @@
     "jsx": "preserve",
     "strict": true,
     "noEmit": true,
+    "allowImportingTsExtensions": true,
     "emitDeclarationOnly": false,
     "esModuleInterop": true,
     "module": "esnext",

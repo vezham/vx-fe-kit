@@ -501,6 +501,16 @@ App-local Vite configs should only keep app-specific plugins and dedupe entries.
 
 ## Commands
 
+`metadata:generate` is a single uncached target that writes generated metadata
+and updates metadata-managed sections of app-owned `.env` and `index.html`
+files while preserving their other content. Caching is disabled so those
+app-owned files cannot be overwritten by cached copies. Apps only need to
+declare `"metadata:generate": {}` in their Nx targets.
+
+Docs and metadata generation use the same language defaults: omitted i18n becomes
+`en` with `languages: ["en"]`, and a configured default is added to `languages`
+when absent. OG cache inputs include public source assets, excluding `public/og`.
+
 Run docs generation through Nx targets for apps:
 
 ```bash
@@ -532,3 +542,12 @@ When adding a future docs app:
 - Use `defineAppConfig` in Vite config.
 - Keep app-local Vite config focused on app-only plugins and dedupe.
 - Verify typecheck, lint, and build through Nx.
+
+## Framework
+
+`vx.app.json` requires `framework`: `vite`, `tanstack`, `tanstack-docs`, or `next`.
+Shared metadata and i18n are generated for every app. Only Next apps generate
+`nextMetadata` and `nextViewport`; TanStack apps generate `tanstackHead`.
+`vxDocs` is generated only for `tanstack-docs`.
+The global Vitest config reads this field to select browser setup and framework
+plugins. App-local Vitest files are only needed for additional overrides.

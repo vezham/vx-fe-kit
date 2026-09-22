@@ -1,4 +1,8 @@
-import { generateDocs, generateDocsOgImages, loadVxDocsConfig } from './index'
+import {
+  generateDocs,
+  generateDocsOgImages,
+  loadVxDocsConfig
+} from './index.ts'
 
 const [, , command = 'generate', projectRoot = process.cwd()] = process.argv
 const { docs, i18n, routes } = loadVxDocsConfig(projectRoot)

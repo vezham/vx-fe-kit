@@ -1,8 +1,12 @@
+import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import path from 'node:path'
 import { describe, expect, it } from 'vitest'
 
-import { getMetadataFiles } from './index'
+import { generateMetadata, getMetadataFiles } from './index.ts'
 
 const config: Parameters<typeof getMetadataFiles>[0] = {
+  framework: 'tanstack',
   core: {
     id: 'test',
     name: 'Test',
@@ -105,3 +109,60 @@ describe('generated metadata pages', () => {
     expect(page).not.toContain('{{')
   })
 })
+
+describe('metadata output ownership', () => {
+  it('preserves app-owned edits during generation', () => {
+    const projectRoot = mkdtempSync(path.join(tmpdir(), 'vx-metadata-'))
+    try {
+      writeFileSync(
+        path.join(projectRoot, 'vx.app.json'),
+        JSON.stringify(config)
+      )
+      writeFileSync(path.join(projectRoot, '.env'), 'PORT=4321\n')
+      writeFileSync(
+        path.join(projectRoot, 'index.html'),
+        '<html>\n<head>\n\n</head>\n<body><div id="custom-root"></div></body></html>'
+      )
+      const generated = generateMetadata({ projectRoot })
+      expect(generated).toContain(path.join(projectRoot, '.env'))
+      expect(generated).toContain(path.join(projectRoot, 'index.html'))
+      expect(readFileSync(path.join(projectRoot, '.env'), 'utf8')).toContain(
+        'PORT=4321'
+      )
+      expect(
+        readFileSync(path.join(projectRoot, 'index.html'), 'utf8')
+      ).toContain('<div id="custom-root"></div>')
+      writeFileSync(path.join(projectRoot, '.env'), 'PORT=4567\n')
+      generateMetadata({ projectRoot })
+      expect(readFileSync(path.join(projectRoot, '.env'), 'utf8')).toContain(
+        'PORT=4567'
+      )
+    } finally {
+      rmSync(projectRoot, { recursive: true, force: true })
+    }
+  })
+})
+
+it.each(['vite', 'tanstack', 'tanstack-docs', 'next'] as const)(
+  'limits exports for %s',
+  framework => {
+    const generated = getMetadataFiles({ ...config, framework }).find(file =>
+      file.path.endsWith('/src/generated/vx.ts')
+    )
+    if (!generated) throw new Error('Expected the generated Vx metadata module')
+
+    const source = generated.content
+    expect(source.includes('export const nextMetadata')).toBe(
+      framework === 'next'
+    )
+    expect(source.includes('export const nextViewport')).toBe(
+      framework === 'next'
+    )
+    expect(source.includes('export const tanstackHead')).toBe(
+      framework.startsWith('tanstack')
+    )
+    expect(source.includes('export const vxDocs')).toBe(
+      framework === 'tanstack-docs'
+    )
+  }
+)

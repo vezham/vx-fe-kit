@@ -5,9 +5,9 @@ import {
   defineConfig as definePlaywrightConfig,
   devices
 } from '@playwright/test'
-import { existsSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
-import { loadEnvFile } from 'node:process'
+import { parseEnv } from 'node:util'
 
 type WebServerConfig = Exclude<
   NonNullable<PlaywrightTestConfig['webServer']>,
@@ -63,13 +63,13 @@ const defaultProjects: PlaywrightTestConfig['projects'] = [
 export const defineConfig = (configFile: string, config: PlaywrightConfig) => {
   const envFile = join(dirname(configFile), '.env')
 
-  if (existsSync(envFile)) {
-    loadEnvFile(envFile)
-  }
+  // vx-bot/NOTE: Nx loads multiple configs in one process; keep each app's env isolated.
+  const env = existsSync(envFile) ? parseEnv(readFileSync(envFile, 'utf8')) : {}
 
   // wjdlz/TODO: process.env['BASE_URL'] || `http://localhost:${port}` - For CI, you may want to set BASE_URL to the deployed application.
-  const port = process.env.PRE_PORT || 8080
-  const baseURL = process.env.BASE_URL || `http://localhost:${port}`
+  const port = process.env.PRE_PORT || env.PRE_PORT || 8080
+  const baseURL =
+    process.env.BASE_URL || env.BASE_URL || `http://localhost:${port}`
   const { projects, use, webServer, ...restConfig } = config
 
   return definePlaywrightConfig({

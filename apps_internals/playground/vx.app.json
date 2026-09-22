@@ -1,5 +1,6 @@
 {
   "$schema": "https://vezham.com/schemas/vx.app.json",
+  "framework": "vite",
   "core": {
     "id": "vezham-playground",
     "name": "Vezham Playground",

@@ -38,6 +38,16 @@ This rule does not check class strings in JSX or Tailwind utilities.
 - Prefer readable test names.
 - Reuse shared testing utilities where possible.
 
+The root Vitest config supplies common defaults with a Node environment.
+App test presets are selected from the required `framework` in `vx.app.json`.
+Use an app-local `vitest.config.ts` only for additional overrides. Packages
+without app metadata can select `@vx/config/vitest/vite`, `/next`, or `/docs`
+explicitly; otherwise tests use the Node environment.
+
+App E2E suites import `test` and `expect` from `@vx/config/playwright/test`.
+Its automatic fixture checks console and runtime errors after each scenario,
+allowing only the resource error associated with an actual main-document 404.
+
 ## Dependencies
 
 - Prefer existing workspace utilities before adding dependencies.

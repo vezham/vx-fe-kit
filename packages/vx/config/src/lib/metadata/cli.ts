@@ -1,4 +1,4 @@
-import { generateMetadata, watchMetadata } from './index'
+import { generateMetadata, watchMetadata } from './index.ts'
 
 const [, , command = 'generate', projectRoot = process.cwd()] = process.argv
 

@@ -1,5 +1,6 @@
 {
   "$schema": "https://vezham.com/schemas/vx.app.json",
+  "framework": "next",
   "core": {
     "id": "vezham-play-next",
     "name": "Vezham Play Next",

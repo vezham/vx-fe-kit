@@ -1,5 +1,6 @@
 {
   "$schema": "https://vezham.com/schemas/vx.app.json",
+  "framework": "tanstack-docs",
   "core": {
     "id": "vezham-playground-docs",
     "name": "Vezham Playground Docs",

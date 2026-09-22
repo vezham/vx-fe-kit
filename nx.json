@@ -93,14 +93,46 @@
         "^default",
         "{workspaceRoot}/eslint.config.mjs",
         "{workspaceRoot}/vx/tools/eslint/**/*",
-        { "externalDependencies": ["eslint"] }
+        {
+          "externalDependencies": ["eslint"]
+        }
       ]
     },
     "test": {
       "dependsOn": ["^build"],
       "options": {
         "args": "--config \"$(git rev-parse --show-toplevel)/vitest.config.ts\""
-      }
+      },
+      "inputs": [
+        "default",
+        "^production",
+        "{workspaceRoot}/vitest.config.ts",
+        "{workspaceRoot}/vx/__tests__/**/*",
+        "{workspaceRoot}/packages/vx/config/src/lib/framework.ts",
+        "{workspaceRoot}/packages/vx/config/src/lib/integrations/vitest/**/*",
+        {
+          "externalDependencies": ["vitest"]
+        },
+        {
+          "fileset": "{projectRoot}/tsconfig.spec.json",
+          "dependencies": true
+        },
+        {
+          "fileset": "{projectRoot}/tsconfig.storybook.json",
+          "dependencies": true
+        },
+        {
+          "json": "{workspaceRoot}/tsconfig.json",
+          "fields": ["compilerOptions"]
+        },
+        {
+          "env": "CI"
+        },
+        {
+          "dependentTasksOutputFiles": "**/*.js",
+          "transitive": true
+        }
+      ]
     },
     "@nx/js:tsc": {
       "cache": true,
@@ -130,22 +162,7 @@
     },
     "metadata:generate": {
       "executor": "nx:run-commands",
-      "cache": true,
-      "inputs": [
-        "{projectRoot}/vx.app.json",
-        "{workspaceRoot}/packages/vx/config/src/lib/metadata/**/*"
-      ],
-      "outputs": [
-        "{projectRoot}/public/manifest.webmanifest",
-        "{projectRoot}/public/browserconfig.xml",
-        "{projectRoot}/public/robots.txt",
-        "{projectRoot}/public/sw.js",
-        "{projectRoot}/public/offline.html",
-        "{projectRoot}/public/404.html",
-        "{projectRoot}/index.html",
-        "{projectRoot}/src/generated/vx.ts",
-        "{projectRoot}/.env"
-      ],
+      "cache": false,
       "options": {
         "cwd": "{workspaceRoot}",
         "command": "tsx packages/vx/config/src/lib/metadata/cli.ts generate {projectRoot}"
@@ -200,7 +217,18 @@
         "{projectRoot}/content/**/*",
         "{projectRoot}/openapi.yaml",
         "{projectRoot}/openapi/**/*",
-        "{workspaceRoot}/packages/vx/config/src/lib/presets/docs/**/*"
+        "{workspaceRoot}/packages/vx/config/src/lib/presets/docs/**/*",
+        "{projectRoot}/public/**/*",
+        "!{projectRoot}/public/og/**/*",
+        "{workspaceRoot}/packages/vx/config/src/lib/i18n.ts",
+        {
+          "externalDependencies": [
+            "@vercel/og",
+            "@fontsource/inter",
+            "@fontsource/jura",
+            "@vezham/icons-react"
+          ]
+        }
       ],
       "outputs": ["{projectRoot}/public/og"],
       "options": {

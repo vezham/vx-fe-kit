@@ -3,6 +3,7 @@
   "version": "26.0.0-alpha.1",
   "private": true,
   "exports": {
+    "./package.json": "./package.json",
     "./components": {
       "types": "./src/lib/components/index.ts",
       "import": "./src/lib/components/index.ts",
@@ -17,7 +18,6 @@
       "types": "./src/lib/store/index.ts",
       "import": "./src/lib/store/index.ts",
       "default": "./src/lib/store/index.ts"
-    },
-    "./package.json": "./package.json"
+    }
   }
 }

@@ -1,5 +1,6 @@
 {
   "$schema": "https://vezham.com/schemas/vx.app.json",
+  "framework": "tanstack",
   "core": {
     "id": "vezham-play-start",
     "name": "Vezham Play Start",
