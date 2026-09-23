@@ -1,0 +1,48 @@
+{
+  "$schema": "./node_modules/fallow/schema.json",
+  "ignorePatterns": [
+    "**/node_modules/**",
+    "**/dist/**",
+    "**/.output/**",
+    "**/.next/**",
+    "**/.tanstack/**",
+    "**/.source/**",
+    "**/.nx/**",
+    "**/.git/**",
+    "**/coverage/**",
+    "**/test-output/**",
+    "**/out-tsc/**",
+    "**/*.d.ts",
+    ".agents/**",
+    ".codex/**",
+    ".vezham/**",
+    "**/public/{sw.js,404.html,offline.html}",
+    "**/src/generated/**",
+    "**/routeTree.gen.ts",
+    "apps*/**/*-mock/**"
+  ],
+  "entry": [
+    "**/src/app/**/page.tsx",
+    "**/src/app/**/layout.tsx",
+    "**/src/app/**/route.ts",
+    "**/src/routes/**/*.{ts,tsx}",
+    "**/src/router.tsx",
+    "vx/tools/audit/index.mjs",
+    "vx/tools/release/index.ts",
+    "vx/tools/release/version-actions.cjs",
+    "vx/tools/eslint/tests/*.test.mjs"
+  ],
+  "ignoreExports": [
+    {
+      "file": "**/src/app/**/layout.tsx",
+      "exports": ["metadata", "viewport", "generateMetadata"]
+    }
+  ],
+  "duplicates": {
+    "ignore": [
+      "apps*/**/src/pages/{home,pro}/index.tsx",
+      "apps*/**/__tests__/app.test.tsx",
+      "apps*/**/*-e2e/**"
+    ]
+  }
+}

@@ -39,6 +39,10 @@
         "parallel": false
       }
     },
+    "@vx-ws/audit": {
+      "command": "node vx/tools/audit/index.mjs",
+      "cache": false
+    },
     "@hui-pro/status": {
       "command": "pnpm dlx --allow-build=@zowe/secrets-for-zowe-sdk heroui-pro@latest status"
     },

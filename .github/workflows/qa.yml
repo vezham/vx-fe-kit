@@ -193,6 +193,40 @@ jobs:
         if: always()
         uses: vezham/vx-deployer/.github/actions/nx/post-ops@timeline
 
+  audit:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    timeout-minutes: 30
+
+    steps:
+      - name: 🟠 · 🧰 Checkout • ${{ env.REPO }}@${{ env.BRANCH }}
+        uses: vezham/vx-deployer/.github/actions/common/setup-checkout@timeline
+        with:
+          GIT_REPO: ${{ env.REPO }}
+          GIT_BRANCH: ${{ env.BRANCH }}
+
+      - name: 🟠 · 🧩 Setup Node & pnpm
+        uses: vezham/vx-deployer/.github/actions/common/setup-install@timeline
+        with:
+          HEROUI_AUTH_TOKEN: ${{ secrets.HEROUI_AUTH_TOKEN }}
+
+      - name: 🔵 · 🔍 Audit • Fallow & React Doctor
+        # id: audit
+        # continue-on-error: false
+        shell: bash
+        run: |
+          pnpm nx run @vx:@vx-ws/audit
+
+      - name: 🟠 · ⛭ NX • Post Ops
+        if: always()
+        uses: vezham/vx-deployer/.github/actions/nx/post-ops@timeline
+
+      - name: 🟠 · 🧾 Audit Summary
+        if: always()
+        uses: vezham/vx-deployer/.github/actions/common/summary-audit@timeline
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
   summary:
     if: always()
     needs: [build, types, lint, prettier, tests, e2e]
