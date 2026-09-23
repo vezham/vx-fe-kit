@@ -10,10 +10,9 @@
 
 Run `pnpm nx run @vx:@vx-ws/audit` to run the pinned Fallow and React Doctor versions.
 Reports, logs, and a combined summary are written to `test-output/audit/`.
-QA runs this as a non-blocking job and uploads reports through the shared Nx
-post-ops flow for 30 days, using a job-specific artifact name. Findings
-are advisory; tool execution failures are recorded and return a failing local
-exit code. Both tools run even if one fails.
+QA runs this in parallel with the other checks. Both tools must complete with
+the configured `minimumScore`; lower or unavailable scores fail the audit job.
+Both tools run even if one fails.
 
 The shared `summary-audit` action also publishes counts by category in the job
 summary and separate Fallow and React Doctor commit comments on every QA run.
@@ -30,4 +29,4 @@ false positives are configured separately so authored code remains covered.
 React Doctor supply-chain API calls remain disabled.
 
 Review findings before adding suppressions. Do not add these audits to the
-formatter or make them required CI checks until the baseline has been reviewed.
+formatter; QA enforces the reviewed `minimumScore` baseline.

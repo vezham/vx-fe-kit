@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url'
 
 const root = fileURLToPath(new URL('../../../', import.meta.url))
 const output = path.join(root, 'test-output/audit')
+const minimumScore = 90
 mkdirSync(output, { recursive: true })
 
 const audits = [
@@ -64,11 +65,23 @@ for (const audit of audits) {
     results.push({ tool: audit.name, completed: false, exitCode: run.status })
   }
   console.log(
-    `${audit.name}: ${completed ? 'report ready (advisory)' : 'audit failed'} — ${report}`
+    `${audit.name}: ${completed ? 'report ready' : 'audit failed'} — ${report}`
   )
 }
 writeFileSync(
   path.join(output, 'summary.json'),
   `${JSON.stringify(results, null, 2)}\n`
 )
-if (results.some(result => !result.completed)) process.exitCode = 1
+for (const result of results) {
+  if (!result.completed) {
+    process.exitCode = 1
+    continue
+  }
+
+  if (typeof result.score !== 'number' || result.score < minimumScore) {
+    console.error(
+      `${result.tool}: score ${result.score ?? 'unavailable'} is below the required ${minimumScore}`
+    )
+    process.exitCode = 1
+  }
+}
