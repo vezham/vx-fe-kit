@@ -59,12 +59,12 @@ export const PlatformNotebookHeader = ({
         )}
         <div className="flex flex-1 items-center justify-end md:gap-2">
           <div className="flex items-center gap-6 max-lg:hidden">
-            {navItems.map((item, index) => {
+            {navItems.map(item => {
               if (item.type === 'custom') return item.children
               if (item.type !== 'main' && item.type !== 'button') return null
               return (
                 <a
-                  key={index}
+                  key={item.url}
                   href={item.url}
                   className="text-muted hover:text-foreground text-sm transition-colors">
                   {item.text}

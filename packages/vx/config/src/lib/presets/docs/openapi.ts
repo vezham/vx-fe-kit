@@ -181,20 +181,22 @@ export const generateDocs = async (
     fs.rmSync(outputDir, { force: true, recursive: true })
   }
 
-  for (const spec of specs) {
-    assertGeneratedOutput(docsDir, spec.outputDir)
+  await Promise.all(
+    specs.map(async spec => {
+      assertGeneratedOutput(docsDir, spec.outputDir)
 
-    await OpenAPI.generateFiles({
-      input: createOpenAPI({
-        input: {
-          [spec.documentId]: spec.inputPath
-        }
-      }),
-      groupBy: 'tag',
-      meta: true,
-      output: spec.outputDir
+      await OpenAPI.generateFiles({
+        input: createOpenAPI({
+          input: {
+            [spec.documentId]: spec.inputPath
+          }
+        }),
+        groupBy: 'tag',
+        meta: true,
+        output: spec.outputDir
+      })
     })
-  }
+  )
 
   synchronizeMetaFiles(
     docsDir,

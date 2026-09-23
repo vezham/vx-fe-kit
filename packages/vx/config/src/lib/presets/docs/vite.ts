@@ -16,6 +16,9 @@ const docsMdxGeneratedRuntimeImport = '@vx-oss/docs-mdx/runtime/macro'
 
 const docsMdxRuntimeImport = '@vezham/docs-mdx/runtime/macro'
 
+const docsMdxMacroImportPattern =
+  /@vezham\/docs-mdx\/macro|@vx-oss\/docs-mdx\/macro/
+
 const docsMdxMacroInclude = [
   '**/*.js',
   '**/*.jsx',
@@ -87,8 +90,7 @@ export const docsMdxMacroImportAlias = (
             if (
               !moduleFilePattern.test(id) ||
               nodeModulesPattern.test(id) ||
-              (!code.includes(docsMdxMacroImport) &&
-                !code.includes(docsMdxRuntimeMacroImport))
+              !docsMdxMacroImportPattern.test(code)
             ) {
               return null
             }

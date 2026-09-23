@@ -4,7 +4,7 @@ import { Link } from '@vezham/react-v3'
 
 import { Home } from '@vx/template/pages'
 
-export default () => {
+const Page = () => {
   const navigate = useNavigate()
 
   return (
@@ -24,3 +24,5 @@ export default () => {
     </>
   )
 }
+
+export default Page

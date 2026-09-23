@@ -1,3 +1,5 @@
 import { Pro } from '@vx/template/pages'
 
-export default () => <Pro />
+const Page = () => <Pro />
+
+export default Page
