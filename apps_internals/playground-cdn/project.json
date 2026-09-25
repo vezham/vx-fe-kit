@@ -5,7 +5,7 @@
   "sourceRoot": "apps_internals/playground-cdn/src",
   "targets": {
     "build": {
-      "dependsOn": ["metadata:generate", "^build"]
+      "dependsOn": ["metadata:generate", "deploy:generate", "^build"]
     },
     "dev": {
       "dependsOn": ["metadata:watch"]

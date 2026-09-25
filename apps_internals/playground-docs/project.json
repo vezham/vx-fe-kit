@@ -5,7 +5,12 @@
   "sourceRoot": "apps_internals/playground-docs/src",
   "targets": {
     "build": {
-      "dependsOn": ["metadata:generate", "og:generate", "^build"],
+      "dependsOn": [
+        "metadata:generate",
+        "deploy:generate",
+        "og:generate",
+        "^build"
+      ],
       "outputs": ["{projectRoot}/.output"]
     },
     "dev": {

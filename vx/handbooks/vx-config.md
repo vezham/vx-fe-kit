@@ -527,8 +527,8 @@ pnpm nx run playground-docs:deploy:generate
 pnpm nx run playground-docs:build
 ```
 
-The build target depends on metadata, deploy config, and OG generation, so a
-normal app build should regenerate required static assets and hosting config.
+The app build targets depend on metadata and deployment config generation. The
+docs build also depends on OG generation, so it regenerates required images.
 
 ---
 
