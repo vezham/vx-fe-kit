@@ -82,3 +82,6 @@ and apply repository formatting after lint autofixes.
 
 Typechecks, tests, and handbook rules requiring judgment remain separate from
 linting. Run the relevant Nx targets and review behavior when making changes.
+
+See [Code audits](../audits.md) for Fallow and React Doctor checks, score gates,
+and guidance on reviewing findings and exceptions.

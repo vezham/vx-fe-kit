@@ -1,4 +1,4 @@
-# Docs Control Center
+# Control Center
 
 A Control Center is a compact overlay for frequent preferences. It uses an
 ordered tile registry and a local panel outlet for detail screens. Opening a
