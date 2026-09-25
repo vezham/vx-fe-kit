@@ -35,6 +35,13 @@ const cases = [
   ['export function libraryApi() { return 1 }', false, 1],
   ['function dynamic() { return this.value }', false, 0],
   ['function args() { return arguments[0] }', false, 0],
+  ['function outer() { return () => this.value }', false, 0],
+  ['function outer() { return () => arguments[0] }', false, 0],
+  [
+    'function outer() { function inner() { return this.value } return inner }',
+    true,
+    0
+  ],
   ['called(); function called() {}', false, 0],
   ['function* sequence() { yield 1 }', false, 0],
   ['function Thing() {} new Thing()', false, 0],

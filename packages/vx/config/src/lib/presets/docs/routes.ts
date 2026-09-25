@@ -1,12 +1,18 @@
 import path from 'node:path'
 
+import { unique, walkFiles } from '../files.ts'
+import {
+  expandFilesystemRoute,
+  normalizeRoute,
+  routeRootFromGlob
+} from '../route-files.ts'
 import {
   type DocsConfig,
   type I18nConfig,
   loadVxDocsConfig,
   resolveDocsConfig
 } from './config.ts'
-import { slash, unique, walkFiles, withoutExtension } from './files.ts'
+import { docsPathFromMdx } from './mdx-path.ts'
 import {
   type DocsPrerenderPage,
   type DocsPrerenderPagesOptions,
@@ -15,54 +21,12 @@ import {
   type RouteInput
 } from './types.ts'
 
-const routeFileExtensions = new Set(['.js', '.jsx', '.ts', '.tsx'])
-
-const getLocalizedMdxSuffixes = (i18n: I18nConfig) => {
-  return getNonDefaultLanguages(i18n).map(lang => ({
-    lang,
-    suffix: `.${lang}.mdx`
-  }))
+const docsRouteFileOptions = {
+  rootRouteSegments: new Set(['__root__'])
 }
 
 const getNonDefaultLanguages = (i18n: I18nConfig) => {
   return i18n.languages.filter(lang => lang !== i18n.defaultLanguage)
-}
-
-const docsPathFromMdx = (
-  docsDir: string,
-  docsRoute: string,
-  i18n: I18nConfig,
-  filePath: string
-) => {
-  const relativePath = slash(path.relative(docsDir, filePath))
-
-  if (!relativePath.endsWith('.mdx')) {
-    return
-  }
-
-  const localizedSuffix = getLocalizedMdxSuffixes(i18n).find(({ suffix }) =>
-    relativePath.endsWith(suffix)
-  )
-  const locale = localizedSuffix?.lang ?? i18n.defaultLanguage
-  const withoutMdx = localizedSuffix
-    ? relativePath.slice(0, -localizedSuffix.suffix.length)
-    : relativePath.slice(0, -'.mdx'.length)
-  const segments = withoutMdx
-    .split('/')
-    .filter(segment => !(segment.startsWith('(') && segment.endsWith(')')))
-
-  if (segments[segments.length - 1] === 'index') {
-    segments.pop()
-  }
-
-  const routePath = segments.length
-    ? `${docsRoute}/${segments.join('/')}`
-    : docsRoute
-  const markdownPath = segments.length
-    ? `${docsRoute}/${segments.join('/')}.md`
-    : `${docsRoute}/index.md`
-
-  return { locale, markdownPath, routePath }
 }
 
 const getDocsStaticPathsForLocale = (
@@ -155,18 +119,6 @@ const replaceDocsRoute = (
     : pagePath
 }
 
-const routeRootFromGlob = (pagePath: string) => {
-  const globSuffix = '/**'
-
-  return pagePath.endsWith(globSuffix)
-    ? pagePath.slice(0, -globSuffix.length)
-    : undefined
-}
-
-const normalizeRoute = (route: RouteInput): RouteConfig => {
-  return typeof route === 'string' ? { path: route } : route
-}
-
 const shouldPrerenderRoute = (route: RouteConfig) => {
   return route.prerender !== false
 }
@@ -177,82 +129,12 @@ const docsMirrorRouteFromRoute = (route: RouteConfig) => {
   return routeRoot && route.source === 'docs' ? routeRoot : undefined
 }
 
-const decodeRouteSegment = (segment: string) => {
-  return segment.split('[.]').join('.')
-}
-
-const isPathlessRouteSegment = (segment: string) => {
-  return segment.startsWith('(') && segment.endsWith(')')
-}
-
-const isDynamicRouteSegment = (segment: string) => {
-  return segment === '$' || segment.includes('$') || segment.includes('{')
-}
-
-const routePathFromFile = (routesDir: string, filePath: string) => {
-  const extension = path.extname(filePath)
-
-  if (!routeFileExtensions.has(extension)) {
-    return
-  }
-
-  const relativePath = slash(path.relative(routesDir, filePath))
-  const segments = withoutExtension(relativePath)
-    .split('/')
-    .filter(segment => segment !== '__root__')
-
-  if (segments[segments.length - 1] === 'index') {
-    segments.pop()
-  }
-
-  if (segments[segments.length - 1] === 'route') {
-    segments.pop()
-  }
-
-  const routeSegments = segments
-    .filter(segment => !isPathlessRouteSegment(segment))
-    .map(decodeRouteSegment)
-
-  if (routeSegments.length === 0 || routeSegments.some(isDynamicRouteSegment)) {
-    return
-  }
-
-  return `/${routeSegments.join('/')}`
-}
-
-const getStaticFilesystemRoutes = (projectRoot: string, routeRoot: string) => {
-  const routesDir = path.join(projectRoot, 'src/routes')
-
-  return unique(
-    walkFiles(routesDir)
-      .map(filePath => routePathFromFile(routesDir, filePath))
-      .filter(routePath => routePath !== undefined)
-      .filter(
-        routePath =>
-          routePath === routeRoot || routePath.startsWith(`${routeRoot}/`)
-      )
-      .sort((left, right) => left.localeCompare(right))
-  )
-}
-
 const createFilesystemRoutePrerenderPages = (
   projectRoot: string,
   route: RouteConfig
 ) => {
-  const routeRoot = routeRootFromGlob(route.path)
-
-  if (!routeRoot || route.source !== 'routes') {
-    return []
-  }
-
-  if (typeof route.prerender === 'object' && route.prerender.outputPath) {
-    throw new Error(
-      `Unsupported prerender outputPath for filesystem route glob "${route.path}". Use exact paths for custom output paths.`
-    )
-  }
-
-  return getStaticFilesystemRoutes(projectRoot, routeRoot).map(pagePath =>
-    createDocsPrerenderPageFromRoute({ ...route, path: pagePath })
+  return expandFilesystemRoute(projectRoot, route, docsRouteFileOptions).map(
+    pagePath => createDocsPrerenderPageFromRoute({ ...route, path: pagePath })
   )
 }
 

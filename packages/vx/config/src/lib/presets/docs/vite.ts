@@ -6,7 +6,7 @@ import { docsMdx as createDocsMdx } from '@vezham/docs-mdx/vite'
 import { defineConfig as defineAppConfig } from '@vx/config/presets/app'
 import type { ViteConfig, ViteConfigOverrides } from '@vx/config/vite'
 
-import { slash } from './files.ts'
+import { slash } from '../files.ts'
 
 const docsMdxMacroImport = '@vezham/docs-mdx/macro'
 

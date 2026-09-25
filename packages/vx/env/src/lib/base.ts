@@ -1,6 +1,5 @@
 export type BaseApiMode = 'api' | 'mock' | 'local'
-export type Environment =
-  'development' | 'production' | 'preview' | 'qa' | 'unknown'
+type Environment = 'development' | 'production' | 'preview' | 'qa' | 'unknown'
 
 type Props = {
   MODE?: string

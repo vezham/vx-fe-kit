@@ -8,7 +8,7 @@ import {
 
 import { vxCore, vxDocs, vxI18n, vxMetadata } from '@generated/vx'
 
-export const webPlatformDocs = defineDocs({
+const webPlatformDocs = defineDocs({
   dir: 'content/platform-docs/web',
   docs: {
     async: true,
@@ -20,7 +20,7 @@ export const webPlatformDocs = defineDocs({
   }
 })
 
-export const nativePlatformDocs = defineDocs({
+const nativePlatformDocs = defineDocs({
   dir: 'content/platform-docs/native',
   docs: {
     async: true,

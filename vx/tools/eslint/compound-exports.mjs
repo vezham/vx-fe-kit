@@ -12,37 +12,101 @@ const unwrap = node => {
   return node
 }
 
+const getSlotObject = (initializer, bindings) => {
+  const node = unwrap(initializer)
+  if (!node || !ts.isCallExpression(node)) return node
+  if (
+    bindings.has('Object') ||
+    node.expression.getText() !== 'Object.assign' ||
+    node.arguments.length !== 2 ||
+    !ts.isIdentifier(node.arguments[0])
+  )
+    return undefined
+  return unwrap(node.arguments[1])
+}
+
+const getSlotBinding = property => {
+  if (!property.name || !ts.isIdentifier(property.name)) return undefined
+  if (ts.isShorthandPropertyAssignment(property)) return property.name
+  if (!ts.isPropertyAssignment(property)) return undefined
+  const value = unwrap(property.initializer)
+  return value && ts.isIdentifier(value) ? value : undefined
+}
+
 const getSlots = (initializer, bindings) => {
-  let node = unwrap(initializer)
-  if (node && ts.isCallExpression(node)) {
-    if (
-      bindings.has('Object') ||
-      node.expression.getText() !== 'Object.assign' ||
-      node.arguments.length !== 2 ||
-      !ts.isIdentifier(node.arguments[0])
-    )
-      return []
-    node = unwrap(node.arguments[1])
-  }
+  const node = getSlotObject(initializer, bindings)
   if (!node || !ts.isObjectLiteralExpression(node)) return []
   const slots = []
   const names = new Set()
   for (const property of node.properties) {
-    if (
-      !ts.isPropertyAssignment(property) &&
-      !ts.isShorthandPropertyAssignment(property)
-    )
-      return []
-    if (!ts.isIdentifier(property.name)) return []
+    const value = getSlotBinding(property)
+    if (!value) return []
     if (names.has(property.name.text)) return []
     names.add(property.name.text)
-    const value = ts.isShorthandPropertyAssignment(property)
-      ? property.name
-      : unwrap(property.initializer)
-    if (!value || !ts.isIdentifier(value)) return []
     slots.push([property.name.text, value.text])
   }
   return slots
+}
+
+const collectImports = (statement, imports) => {
+  const clause = statement.importClause
+  if (!clause || clause.isTypeOnly) return
+  const source = statement.moduleSpecifier.text
+  if (clause.name) imports.set(clause.name.text, { source, name: 'default' })
+  const named = clause.namedBindings
+  if (named && ts.isNamedImports(named)) {
+    for (const item of named.elements) {
+      if (item.isTypeOnly) continue
+      imports.set(item.name.text, {
+        source,
+        name: (item.propertyName ?? item.name).text
+      })
+    }
+  } else if (named) imports.set(named.name.text, { source, name: '*' })
+}
+
+const collectDeclarations = (statement, symbol, initializers, exports) => {
+  const exported = statement.modifiers?.some(
+    m => m.kind === ts.SyntaxKind.ExportKeyword
+  )
+  if (ts.isVariableStatement(statement)) {
+    const constant = !!(statement.declarationList.flags & ts.NodeFlags.Const)
+    for (const decl of statement.declarationList.declarations) {
+      if (!ts.isIdentifier(decl.name)) continue
+      const value = symbol(decl.name.text)
+      value.mutable = !constant
+      if (constant) initializers.set(decl.name.text, decl.initializer)
+      if (exported) exports.set(decl.name.text, value)
+    }
+    return
+  }
+  if (!statement.name || !ts.isIdentifier(statement.name)) return
+  const value = symbol(statement.name.text)
+  const defaultExport = statement.modifiers?.some(
+    m => m.kind === ts.SyntaxKind.DefaultKeyword
+  )
+  if (
+    exported &&
+    !defaultExport &&
+    (ts.isFunctionDeclaration(statement) || ts.isClassDeclaration(statement))
+  )
+    exports.set(statement.name.text, value)
+}
+
+const collectNamedExports = (clause, source, imported, symbol, exports) => {
+  for (const item of clause.elements) {
+    if (item.isTypeOnly) continue
+    const local = (item.propertyName ?? item.name).text
+    exports.set(item.name.text, source ? imported.get(local) : symbol(local))
+  }
+}
+
+const collectStarExports = (imported, stars) => {
+  for (const [name, value] of imported) {
+    if (name === 'default') continue
+    const ambiguous = stars.has(name) && stars.get(name)?.id !== value?.id
+    stars.set(name, ambiguous ? undefined : value)
+  }
 }
 
 // vx-bot/NOTE: Inspect source syntax without importing/evaluating application or dependency code.
@@ -108,55 +172,8 @@ export const createCompoundResolver = filename => {
       return bindings.get(name)
     }
     for (const statement of tree.statements) {
-      if (ts.isImportDeclaration(statement)) {
-        const clause = statement.importClause
-        if (!clause || clause.isTypeOnly) continue
-        if (clause.name)
-          imports.set(clause.name.text, {
-            source: statement.moduleSpecifier.text,
-            name: 'default'
-          })
-        const named = clause.namedBindings
-        if (named && ts.isNamedImports(named)) {
-          for (const item of named.elements)
-            if (!item.isTypeOnly)
-              imports.set(item.name.text, {
-                source: statement.moduleSpecifier.text,
-                name: (item.propertyName ?? item.name).text
-              })
-        } else if (named)
-          imports.set(named.name.text, {
-            source: statement.moduleSpecifier.text,
-            name: '*'
-          })
-      }
-      const exported = statement.modifiers?.some(
-        m => m.kind === ts.SyntaxKind.ExportKeyword
-      )
-      const defaultExport = statement.modifiers?.some(
-        m => m.kind === ts.SyntaxKind.DefaultKeyword
-      )
-      if (ts.isVariableStatement(statement)) {
-        for (const decl of statement.declarationList.declarations) {
-          if (!ts.isIdentifier(decl.name)) continue
-          const value = symbol(decl.name.text)
-          value.mutable = !(
-            statement.declarationList.flags & ts.NodeFlags.Const
-          )
-          if (statement.declarationList.flags & ts.NodeFlags.Const)
-            initializers.set(decl.name.text, decl.initializer)
-          if (exported) exports.set(decl.name.text, value)
-        }
-      } else if (statement.name && ts.isIdentifier(statement.name)) {
-        const value = symbol(statement.name.text)
-        if (
-          exported &&
-          !defaultExport &&
-          (ts.isFunctionDeclaration(statement) ||
-            ts.isClassDeclaration(statement))
-        )
-          exports.set(statement.name.text, value)
-      }
+      if (ts.isImportDeclaration(statement)) collectImports(statement, imports)
+      collectDeclarations(statement, symbol, initializers, exports)
     }
     for (const [name, initializer] of initializers) {
       symbol(name).slots = getSlots(
@@ -172,25 +189,14 @@ export const createCompoundResolver = filename => {
         ? inspect(resolve(source, file))
         : new Map()
       if (statement.exportClause && ts.isNamedExports(statement.exportClause)) {
-        for (const item of statement.exportClause.elements) {
-          if (item.isTypeOnly) continue
-          const local = (item.propertyName ?? item.name).text
-          exports.set(
-            item.name.text,
-            source ? imported.get(local) : symbol(local)
-          )
-        }
-      } else if (!statement.exportClause) {
-        for (const [name, value] of imported) {
-          if (name === 'default') continue
-          stars.set(
-            name,
-            stars.has(name) && stars.get(name)?.id !== value?.id
-              ? undefined
-              : value
-          )
-        }
-      }
+        collectNamedExports(
+          statement.exportClause,
+          source,
+          imported,
+          symbol,
+          exports
+        )
+      } else if (!statement.exportClause) collectStarExports(imported, stars)
     }
     const result = new Map([...stars, ...exports])
     active.delete(file)

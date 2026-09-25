@@ -41,6 +41,7 @@
     },
     "@vx-ws/audit": {
       "command": "node vx/tools/audit/index.mjs",
+      "dependsOn": ["test:eslint"],
       "cache": false
     },
     "@hui-pro/status": {
@@ -137,6 +138,10 @@
     },
     "test:unit-nc": {
       "command": "pnpm nx run-many -t test --exclude=@vx/fe-kit --skipNxCache --passWithNoTests --reporter=json --outputFile=test-output/vitest/unit-test-results.json --no-cache"
+    },
+    "test:eslint": {
+      "command": "c8 --all --include='vx/tools/eslint/*.mjs' --reporter=json --reporter=text --reports-dir=test-output/audit/eslint-coverage node --test vx/tools/eslint/tests/*.test.mjs",
+      "cache": false
     },
     "@vx-ws/install-update": {
       "command": "pnpm install --no-frozen-lockfile && pnpm @vx/ws:format",

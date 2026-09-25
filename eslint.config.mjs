@@ -1,5 +1,4 @@
 import nx from '@nx/eslint-plugin'
-// import { tanstackConfig } from '@tanstack/eslint-config'
 import tanstackQuery from '@tanstack/eslint-plugin-query'
 import jsxA11y from 'eslint-plugin-jsx-a11y'
 import unusedImports from 'eslint-plugin-unused-imports'
@@ -60,7 +59,6 @@ export default [
   ...nx.configs['flat/typescript'],
   ...nx.configs['flat/javascript'],
   ...tanstackQuery.configs['flat/recommended'],
-  // ...tanstackConfig,
   {
     ignores
   },

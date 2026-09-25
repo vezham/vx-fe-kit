@@ -1,4 +1,4 @@
-import type { Node } from '@vezham/docs-core/page-tree'
+import type { Item, Node } from '@vezham/docs-core/page-tree'
 
 type Props = {
   docsBase: string
@@ -6,11 +6,18 @@ type Props = {
   prefix: string
 }
 
+const matchesPlatform = (node: Item, docsBase: string, prefix: string) => {
+  const base = `${docsBase}/`
+  if (!node.url.startsWith(base)) return false
+
+  const path = node.url.slice(base.length)
+  return path === prefix || path.startsWith(`${prefix}/`)
+}
+
 const filterNodes = ({ docsBase, nodes, prefix }: Props): Node[] =>
   nodes.flatMap((node): Node[] => {
     if (node.type === 'page') {
-      const path = node.url.slice(docsBase.length + 1)
-      return path === prefix || path.startsWith(`${prefix}/`) ? [node] : []
+      return matchesPlatform(node, docsBase, prefix) ? [node] : []
     }
     if (node.type !== 'folder') return []
 
@@ -19,13 +26,10 @@ const filterNodes = ({ docsBase, nodes, prefix }: Props): Node[] =>
       nodes: node.children,
       prefix
     })
-    const index = node.index
-      ? filterNodes({
-          docsBase,
-          nodes: [node.index],
-          prefix
-        })[0]
-      : undefined
+    const index =
+      node.index && matchesPlatform(node.index, docsBase, prefix)
+        ? node.index
+        : undefined
 
     return children.length || index
       ? [
@@ -34,7 +38,7 @@ const filterNodes = ({ docsBase, nodes, prefix }: Props): Node[] =>
             defaultOpen: true,
             root: false,
             children,
-            index: index?.type === 'page' ? index : undefined
+            index
           }
         ]
       : []

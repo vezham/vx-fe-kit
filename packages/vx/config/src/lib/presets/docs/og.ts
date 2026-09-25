@@ -5,12 +5,13 @@ import path from 'node:path'
 import type { ReactElement } from 'react'
 import { parse } from 'yaml'
 
+import { walkFiles } from '../files.ts'
 import {
   type DocsConfig,
   type I18nConfig,
   resolveDocsConfig
 } from './config.ts'
-import { slash, walkFiles } from './files.ts'
+import { docsPathFromMdx } from './mdx-path.ts'
 import type { OgImageProps } from './og-image'
 import { getDocsMirrorRoutes } from './routes.ts'
 import { type RouteInput } from './types.ts'
@@ -42,40 +43,21 @@ const titleFromPath = (pagePath: string) => {
 }
 
 const getMdxEntries = ({
-  defaultLanguage,
   docsDir,
   docsRoute,
-  languages
+  ...i18n
 }: I18nConfig & {
   docsRoute: string
   docsDir: string
 }): DocsOgMeta[] => {
-  const localizedMdxSuffixes = languages
-    .filter(lang => lang !== defaultLanguage)
-    .map(lang => `.${lang}.mdx`)
-
   return walkFiles(docsDir).flatMap(filePath => {
-    const relativePath = slash(path.relative(docsDir, filePath))
+    const entry = docsPathFromMdx(docsDir, docsRoute, i18n, filePath)
 
-    if (
-      !relativePath.endsWith('.mdx') ||
-      localizedMdxSuffixes.some(suffix => relativePath.endsWith(suffix))
-    ) {
+    if (!entry || entry.locale !== i18n.defaultLanguage) {
       return []
     }
 
-    const withoutMdx = relativePath.slice(0, -'.mdx'.length)
-    const segments = withoutMdx
-      .split('/')
-      .filter(segment => !(segment.startsWith('(') && segment.endsWith(')')))
-
-    if (segments[segments.length - 1] === 'index') {
-      segments.pop()
-    }
-
-    const routePath = segments.length
-      ? `${docsRoute}/${segments.join('/')}`
-      : docsRoute
+    const { routePath } = entry
     const frontmatter = fs
       .readFileSync(filePath, 'utf8')
       .match(/^---\n([\s\S]*?)\n---/)
@@ -152,7 +134,11 @@ export const generateDocsOgImages = async (
     renderImage?: (props: OgImageProps) => ReactElement
   } = {}
 ) => {
-  const render = renderImage ?? (await import('./og-image')).OgImage
+  let render = renderImage
+  if (!render) {
+    const { OgImage } = await import('./og-image')
+    render = OgImage
+  }
   const resolved = resolveDocsConfig(config)
   const resolvedDocsDir = path.resolve(projectRoot, resolved.docsDir)
   const resolvedOutputDir = path.resolve(projectRoot, resolved.ogOutputDir)

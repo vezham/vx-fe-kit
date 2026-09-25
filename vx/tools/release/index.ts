@@ -1,11 +1,10 @@
 import { releaseChangelog, releasePublish, releaseVersion } from 'nx/release'
-import * as yargs from 'yargs'
+import yargs from 'yargs'
 
 const NS = '[vezham] TOOLS/release'
 
 ;(async () => {
   const options = await yargs
-    // @ts-expect-error - don't use the default meaning of version in yargs
     .version(false)
     .option('version', {
       alias: 'v',

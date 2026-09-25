@@ -85,6 +85,18 @@ test('compares binding identity across selective re-exports', async t => {
   await check("import { Header } from './parts';", [])
 })
 
+test('preserves named declarations and ignores type-only exports', async t => {
+  const { check } = await fixture(t, {
+    'parts.tsx':
+      'export function Header() { return null }; export class Root {};',
+    'profile.tsx':
+      "import { Header, Root } from './parts'; export const Profile = Object.assign(Root, { Header }); export { Header } from './parts';",
+    'types.ts': "export type { Header } from './profile';"
+  })
+  await check("import { Header } from './profile';", ['Profile.Header'])
+  await check("import { Header } from './types';", [])
+})
+
 test('skips independent, private, and unknown relationships', async t => {
   for (const source of [
     'export const Header = () => null; export const Profile = () => null;',
@@ -93,6 +105,9 @@ test('skips independent, private, and unknown relationships', async t => {
     'export const Header = () => null; const Root = () => null; export const Profile = makeCompound(Root, { Header });',
     'export const Header = () => null; const Root = () => null; export const Profile = Object.assign(Root, { Header }, extra);',
     'export const Header = () => null; export const Profile = { Header, ...extra };',
+    'export const Header = () => null; export const Profile = { Header() {} };',
+    'export const Header = () => null; export const Profile = { ["Header"]: Header };',
+    'export const Header = () => null; export const Profile = { Header: makeHeader() };',
     'export const Header = () => null; const Other = () => null; export const Profile = { Header, Header: Other };',
     'export let Header = () => null; export const Profile = { Header }; Header = () => null;',
     'export const Header = () => null; const Root = () => null; const Object = factory; export const Profile = Object.assign(Root, { Header });'
@@ -100,6 +115,16 @@ test('skips independent, private, and unknown relationships', async t => {
     const { check } = await fixture(t, { 'profile.tsx': source })
     await check("import { Header } from './profile';", [])
   }
+})
+
+test('ignores malformed modules and accepts wrapped compound initializers', async t => {
+  const { check } = await fixture(t, {
+    'broken.tsx': 'export const Profile = {;',
+    'profile.tsx':
+      'export const Header = () => null; export const Profile = ({ Header: (Header as unknown) } satisfies object);'
+  })
+  await check("import { Header } from './broken';", [])
+  await check("import { Header } from './profile';", ['Profile.Header'])
 })
 
 test('resolves configured import paths and observes source edits', async t => {

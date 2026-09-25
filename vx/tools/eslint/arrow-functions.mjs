@@ -1,3 +1,53 @@
+const needsFunctionBinding = (node, source) => {
+  const visit = current => {
+    if (
+      current !== node &&
+      [
+        'FunctionDeclaration',
+        'FunctionExpression',
+        'ClassDeclaration',
+        'ClassExpression'
+      ].includes(current.type)
+    )
+      return false
+    if (
+      ['ThisExpression', 'Super', 'MetaProperty'].includes(current.type) ||
+      (current.type === 'Identifier' && current.name === 'arguments')
+    )
+      return true
+    return (source.visitorKeys[current.type] ?? []).some(key => {
+      const child = current[key]
+      return Array.isArray(child)
+        ? child.some(item => item && visit(item))
+        : child && visit(child)
+    })
+  }
+  return visit(node)
+}
+
+const convertToArrow = (node, source, fixer) => {
+  const edits = [
+    fixer.replaceTextRange(
+      [node.range[0], node.id.range[1]],
+      `const ${node.id.name} = ${node.async ? 'async ' : ''}`
+    ),
+    fixer.insertTextBefore(node.body, '=> '),
+    fixer.insertTextAfter(node, ';')
+  ]
+  const parameters = node.typeParameters?.params
+  if (
+    parameters?.length === 1 &&
+    !parameters[0].constraint &&
+    !parameters[0].default
+  ) {
+    const closing = source.getLastToken(node.typeParameters)
+    if (source.getTokenBefore(closing).value !== ',') {
+      edits.push(fixer.insertTextBefore(closing, ','))
+    }
+  }
+  return edits
+}
+
 // vx-bot/NOTE: Autofix simple declarations; preserve cases needing runtime or API review.
 export default {
   meta: {
@@ -14,31 +64,7 @@ export default {
     FunctionDeclaration: node => {
       if (!node.body || node.generator || node.declare) return
       const source = context.sourceCode
-      let needsFunction = false
-      const visit = current => {
-        if (
-          current !== node &&
-          [
-            'FunctionDeclaration',
-            'FunctionExpression',
-            'ClassDeclaration',
-            'ClassExpression'
-          ].includes(current.type)
-        )
-          return
-        if (
-          ['ThisExpression', 'Super', 'MetaProperty'].includes(current.type) ||
-          (current.type === 'Identifier' && current.name === 'arguments')
-        )
-          needsFunction = true
-        for (const key of source.visitorKeys[current.type] ?? []) {
-          const child = current[key]
-          if (Array.isArray(child)) child.forEach(item => item && visit(item))
-          else if (child) visit(child)
-        }
-      }
-      visit(node)
-      if (needsFunction) return
+      if (needsFunctionBinding(node, source)) return
       const variable = source
         .getDeclaredVariables(node)
         .find(item => item.name === node.id?.name)
@@ -78,30 +104,7 @@ export default {
       context.report({
         node,
         messageId: canFix ? 'fixableArrow' : 'preferArrow',
-        fix: canFix
-          ? fixer => {
-              const edits = [
-                fixer.replaceTextRange(
-                  [node.range[0], node.id.range[1]],
-                  `const ${node.id.name} = ${node.async ? 'async ' : ''}`
-                ),
-                fixer.insertTextBefore(node.body, '=> '),
-                fixer.insertTextAfter(node, ';')
-              ]
-              const parameters = node.typeParameters?.params
-              if (
-                parameters?.length === 1 &&
-                !parameters[0].constraint &&
-                !parameters[0].default
-              ) {
-                const closing = source.getLastToken(node.typeParameters)
-                if (source.getTokenBefore(closing).value !== ',') {
-                  edits.push(fixer.insertTextBefore(closing, ','))
-                }
-              }
-              return edits
-            }
-          : null
+        fix: canFix ? fixer => convertToArrow(node, source, fixer) : null
       })
     }
   })

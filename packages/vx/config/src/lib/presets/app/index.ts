@@ -1,14 +1,23 @@
 import fs from 'node:fs'
 import { createRequire } from 'node:module'
 import path from 'node:path'
-import { defineConfig as defineViteConfig, mergeConfig } from 'vite'
+import { mergeConfig } from 'vite'
 import type { ConfigEnv } from 'vite'
 
 import {
   type ViteConfig,
   type ViteConfigOverrides,
+  createViteConfig,
   getViteConfig
 } from '@vx/config/vite'
+
+import { unique, walkFiles } from '../files.ts'
+import {
+  expandFilesystemRoute,
+  normalizeRoute,
+  routePathFromFile,
+  routeRootFromGlob
+} from '../route-files.ts'
 
 type TsConfigWithPaths = {
   compilerOptions?: {
@@ -131,21 +140,14 @@ const getResolveOverride = (
 })
 
 export const defineConfig = (overrides: ViteConfigOverrides = {}) =>
-  defineViteConfig(async env => {
-    const resolvedOverrides =
-      typeof overrides === 'function' ? await overrides(env) : overrides
-    const projectRoot = path.resolve(
-      String(resolvedOverrides.root ?? process.cwd())
-    )
-
-    return mergeConfig(
+  createViteConfig(
+    (projectRoot, env) =>
       mergeConfig(
         mergeConfig(getViteDefaults(projectRoot), getPreviewOverride(env)),
         getResolveOverride(env, projectRoot)
-      ),
-      resolvedOverrides
-    ) as ViteConfig
-  })
+      ) as ViteConfig,
+    overrides
+  )
 
 export type PrerenderPage = {
   path: string
@@ -174,95 +176,14 @@ export type PrerenderPagesOptions = {
   routes?: RouteInput[]
 }
 
-const routeFileExtensions = new Set(['.js', '.jsx', '.ts', '.tsx'])
-
-const unique = <T>(values: T[]) => {
-  return [...new Set(values)]
-}
-
 const uniquePrerenderPages = (pages: PrerenderPage[]) => {
   return [...new Map(pages.map(page => [page.path, page])).values()]
 }
 
-const slash = (value: string) => {
-  return value.split(path.sep).join('/')
-}
-
-const walkFiles = (dir: string): string[] => {
-  if (!fs.existsSync(dir)) {
-    return []
-  }
-
-  return fs.readdirSync(dir, { withFileTypes: true }).flatMap(entry => {
-    const entryPath = path.join(dir, entry.name)
-
-    return entry.isDirectory() ? walkFiles(entryPath) : [entryPath]
-  })
-}
-
-const withoutExtension = (filePath: string) => {
-  return filePath.slice(0, -path.extname(filePath).length)
-}
-
-const routeRootFromGlob = (pagePath: string) => {
-  const globSuffix = '/**'
-
-  return pagePath.endsWith(globSuffix)
-    ? pagePath.slice(0, -globSuffix.length)
-    : undefined
-}
-
-const normalizeRoute = (route: RouteInput): RouteConfig => {
-  return typeof route === 'string' ? { path: route } : route
-}
-
-const decodeRouteSegment = (segment: string) => {
-  return segment.split('[.]').join('.')
-}
-
-const isPathlessRouteSegment = (segment: string) => {
-  return segment.startsWith('(') && segment.endsWith(')')
-}
-
-const isDynamicRouteSegment = (segment: string) => {
-  return segment === '$' || segment.includes('$') || segment.includes('{')
-}
-
-const routePathFromFile = (routesDir: string, filePath: string) => {
-  const extension = path.extname(filePath)
-
-  if (!routeFileExtensions.has(extension)) {
-    return
-  }
-
-  const relativePath = slash(path.relative(routesDir, filePath))
-  const segments = withoutExtension(relativePath)
-    .split('/')
-    .filter(segment => segment !== '__root' && segment !== '__root__')
-
-  if (segments[segments.length - 1] === 'index') {
-    segments.pop()
-  }
-
-  if (segments[segments.length - 1]?.endsWith('.lazy')) {
-    const index = segments.length - 1
-
-    segments[index] = segments[index].slice(0, -'.lazy'.length)
-  }
-
-  if (segments[segments.length - 1] === 'route') {
-    segments.pop()
-  }
-
-  const routeSegments = segments
-    .filter(segment => !isPathlessRouteSegment(segment))
-    .map(decodeRouteSegment)
-
-  if (routeSegments.some(isDynamicRouteSegment)) {
-    return
-  }
-
-  return routeSegments.length === 0 ? '/' : `/${routeSegments.join('/')}`
+const appRouteFileOptions = {
+  emptyRoutePath: '/',
+  rootRouteSegments: new Set(['__root', '__root__']),
+  stripLazySuffix: true
 }
 
 const getStaticPageRoutes = (projectRoot: string) => {
@@ -271,24 +192,11 @@ const getStaticPageRoutes = (projectRoot: string) => {
   return unique(
     walkFiles(routesDir)
       .filter(filePath => ['.jsx', '.tsx'].includes(path.extname(filePath)))
-      .map(filePath => routePathFromFile(routesDir, filePath))
+      .map(filePath =>
+        routePathFromFile(routesDir, filePath, appRouteFileOptions)
+      )
       .filter(routePath => routePath !== undefined)
       .filter(routePath => !routePath.startsWith('/api/'))
-      .sort((left, right) => left.localeCompare(right))
-  )
-}
-
-const getStaticFilesystemRoutes = (projectRoot: string, routeRoot: string) => {
-  const routesDir = path.join(projectRoot, 'src/routes')
-
-  return unique(
-    walkFiles(routesDir)
-      .map(filePath => routePathFromFile(routesDir, filePath))
-      .filter(routePath => routePath !== undefined)
-      .filter(
-        routePath =>
-          routePath === routeRoot || routePath.startsWith(`${routeRoot}/`)
-      )
       .sort((left, right) => left.localeCompare(right))
   )
 }
@@ -322,20 +230,8 @@ const createFilesystemRoutePrerenderPages = (
   projectRoot: string,
   route: RouteConfig
 ) => {
-  const routeRoot = routeRootFromGlob(route.path)
-
-  if (!routeRoot || route.source !== 'routes') {
-    return []
-  }
-
-  if (typeof route.prerender === 'object' && route.prerender.outputPath) {
-    throw new Error(
-      `Unsupported prerender outputPath for filesystem route glob "${route.path}". Use exact paths for custom output paths.`
-    )
-  }
-
-  return getStaticFilesystemRoutes(projectRoot, routeRoot).map(pagePath =>
-    createPrerenderPage({ ...route, path: pagePath })
+  return expandFilesystemRoute(projectRoot, route, appRouteFileOptions).map(
+    pagePath => createPrerenderPage({ ...route, path: pagePath })
   )
 }
 
@@ -356,7 +252,7 @@ export const getPrerenderPages = (
   const configFile = path.join(projectRoot, 'vx.app.json')
   const config = JSON.parse(fs.readFileSync(configFile, 'utf8')) as VxAppConfig
   const routes = [...(config.routes ?? []), ...extraRoutes]
-  const routeEntries = routes.map(normalizeRoute)
+  const routeEntries: RouteConfig[] = routes.map(normalizeRoute)
 
   for (const route of routeEntries) {
     assertSupportedRoute(route)

@@ -54,8 +54,8 @@ export const getViteConfig = (projectRoot = process.cwd()): ViteConfig => ({
   test: {}
 })
 
-const createConfig = (
-  getDefaults: (projectRoot?: string) => ViteConfig,
+export const createViteConfig = (
+  getDefaults: (projectRoot: string, env: ConfigEnv) => ViteConfig,
   overrides: ViteConfigOverrides = {}
 ): UserConfigExport =>
   defineViteConfig(async env => {
@@ -66,10 +66,10 @@ const createConfig = (
     )
 
     return mergeConfig(
-      getDefaults(projectRoot),
+      getDefaults(projectRoot, env),
       resolvedOverrides
     ) as ViteConfig
   })
 
 export const defineConfig = (overrides: ViteConfigOverrides = {}) =>
-  createConfig(getViteConfig, overrides)
+  createViteConfig(getViteConfig, overrides)

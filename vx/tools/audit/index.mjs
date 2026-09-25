@@ -12,6 +12,7 @@ const audits = [
   {
     name: 'fallow',
     args: [
+      '--score',
       '--format',
       'json',
       '--output-file',
@@ -55,10 +56,15 @@ for (const audit of audits) {
       tool: audit.name,
       completed,
       exitCode: run.status,
+      scoreMetric:
+        audit.name === 'fallow' ? 'averageMaintainability' : 'reactDoctor',
       score:
         audit.name === 'fallow'
           ? (data.health?.summary?.average_maintainability ?? null)
           : (data.summary?.score ?? null),
+      ...(audit.name === 'fallow'
+        ? { healthScore: data.health?.health_score?.score ?? null }
+        : {}),
       summary: data.summary ?? data.check?.summary
     })
   } catch {
@@ -78,9 +84,16 @@ for (const result of results) {
     continue
   }
 
+  console.log(
+    `${result.tool}: ${result.scoreMetric} ${result.score ?? 'unavailable'}` +
+      (result.tool === 'fallow'
+        ? `; overall health ${result.healthScore ?? 'unavailable'} (informational)`
+        : '')
+  )
+
   if (typeof result.score !== 'number' || result.score < minimumScore) {
     console.error(
-      `${result.tool}: score ${result.score ?? 'unavailable'} is below the required ${minimumScore}`
+      `${result.tool}: ${result.scoreMetric} ${result.score ?? 'unavailable'} is below the required ${minimumScore}`
     )
     process.exitCode = 1
   }

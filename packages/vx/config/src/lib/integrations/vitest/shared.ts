@@ -17,12 +17,14 @@ export const defineTestConfig = (
     const setupFiles = [path.join(workspaceRoot, 'vx/__tests__/react.ts')]
     if (feature === 'next')
       setupFiles.push(path.join(workspaceRoot, 'vx/__tests__/next.ts'))
+    const plugins = []
+    if (feature === 'docs') {
+      const { docsTestPlugins } = await import('./frameworks/docs-plugins.ts')
+      plugins.push(...docsTestPlugins())
+    }
     return mergeConfig(
       {
-        plugins:
-          feature === 'docs'
-            ? (await import('./frameworks/docs-plugins.ts')).docsTestPlugins()
-            : [],
+        plugins,
         test: { environment: 'jsdom', setupFiles }
       },
       config

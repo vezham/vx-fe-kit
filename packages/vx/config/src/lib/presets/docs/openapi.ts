@@ -4,17 +4,13 @@ import path from 'node:path'
 import * as OpenAPI from '@vezham/docs-openapi'
 import { createOpenAPI } from '@vezham/docs-openapi/server'
 
+import { slash, walkFiles, withoutExtension } from '../files.ts'
 import {
   type DocsConfig,
   type I18nConfig,
   resolveDocsConfig
 } from './config.ts'
-import {
-  generatedDirectories,
-  slash,
-  walkFiles,
-  withoutExtension
-} from './files.ts'
+import { generatedDirectories } from './files.ts'
 
 type OpenAPISpec = {
   documentId: string

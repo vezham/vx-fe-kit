@@ -191,54 +191,47 @@ const createFrontmatterDocsIconResolver = (
   })
 }
 
+const resolveDocsNodeIcon = <Node extends { icon?: ReactNode }>(
+  node: Node,
+  options: DocsIconResolverOptions,
+  frontmatter: DocsIconFrontmatter = {}
+): Node => {
+  if (node.icon === undefined || typeof node.icon === 'string') {
+    node.icon = createFrontmatterDocsIconResolver(
+      frontmatter,
+      options
+    )(node.icon)
+  }
+
+  return node
+}
+
 export const docsIconsPlugin = (
   options: DocsIconResolverOptions = {}
-): LoaderPlugin => {
-  return {
-    name: 'vezham:docs-icons',
-    transformPageTree: {
-      file(node, filePath) {
-        const file = filePath ? this.storage.read(filePath) : undefined
-        const frontmatter =
-          file?.format === 'page' ? getDocsIconFrontmatter(file.data) : {}
-        const resolveIcon = createFrontmatterDocsIconResolver(
-          frontmatter,
-          options
-        )
-
-        if (node.icon === undefined || typeof node.icon === 'string') {
-          node.icon = resolveIcon(node.icon)
-        }
-
-        return node
-      },
-      folder(node, _folderPath, metaPath) {
-        const file = metaPath ? this.storage.read(metaPath) : undefined
-        const frontmatter =
-          file?.format === 'meta' ? getDocsIconFrontmatter(file.data) : {}
-        const resolveIcon = createFrontmatterDocsIconResolver(
-          frontmatter,
-          options
-        )
-
-        if (node.icon === undefined || typeof node.icon === 'string') {
-          node.icon = resolveIcon(node.icon)
-        }
-
-        return node
-      },
-      separator(node) {
-        const resolveIcon = createDocsIconResolver(options)
-
-        if (node.icon === undefined || typeof node.icon === 'string') {
-          node.icon = resolveIcon(node.icon)
-        }
-
-        return node
-      }
+): LoaderPlugin => ({
+  name: 'vezham:docs-icons',
+  transformPageTree: {
+    file(node, filePath) {
+      const file = filePath ? this.storage.read(filePath) : undefined
+      return resolveDocsNodeIcon(
+        node,
+        options,
+        file?.format === 'page' ? getDocsIconFrontmatter(file.data) : undefined
+      )
+    },
+    folder(node, _folderPath, metaPath) {
+      const file = metaPath ? this.storage.read(metaPath) : undefined
+      return resolveDocsNodeIcon(
+        node,
+        options,
+        file?.format === 'meta' ? getDocsIconFrontmatter(file.data) : undefined
+      )
+    },
+    separator(node) {
+      return resolveDocsNodeIcon(node, options)
     }
   }
-}
+})
 
 export type CreateOpenAPIFromSourcesOptions = {
   files?: OpenAPISourceFiles
