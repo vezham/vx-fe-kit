@@ -38,8 +38,10 @@ export default function MenuSM() {
 
   const { user } = useUser()
   return (
-    <Surface variant="transparent" className="flex flex-1 flex-col">
-      <div className="sticky top-0 z-10 w-full shadow-md">
+    <Surface
+      variant="transparent"
+      className="bg-background relative z-20 flex min-h-0 shrink-0 flex-col">
+      <div className="bg-background sticky top-0 z-20 w-full shadow-md">
         <div className="flex w-full items-center justify-between px-3 py-2">
           <Header
             className="flex-shrink-0"
@@ -94,7 +96,7 @@ export default function MenuSM() {
         }}
       />
 
-      <div>
+      <div className="shrink-0">
         <BottomNavbar
           items={longMenuItems}
           selectedKey={selectedKey}

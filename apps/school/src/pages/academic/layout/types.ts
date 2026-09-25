@@ -11,6 +11,7 @@ import {
 } from '@vezham/react-utils'
 import { SlotsToClasses, cn } from '@vezham/react-utils'
 
+import { useWorkspaceNavigation } from '../../../components/workspace-navigation'
 import {
   createExcludedPageKeys,
   createLabelsByPageKey,
@@ -101,6 +102,7 @@ const useProps = (originalProps: Props) => {
   const slots = tva(variantProps)
   const location = useLocation()
   const navigate = useNavigate()
+  const { isNavigationCollapsed, toggleNavigation } = useWorkspaceNavigation()
   const layoutConfig = {
     title: 'Academic',
     navigationLabel: 'Academic navigation',
@@ -118,12 +120,11 @@ const useProps = (originalProps: Props) => {
     [layoutSidebarItems, location.pathname]
   )
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
-  const [collapsed, setCollapsed] = useState(
-    layoutConfig.initialSidebarCollapsed
-  )
+  const collapsed = layoutConfig.initialSidebarCollapsed
   const [expandedSidebarKeys, setExpandedSidebarKeys] = useState<Set<string>>(
     () => new Set(activeParentKeys)
   )
+  const isSidebarCollapsed = collapsed || isNavigationCollapsed
   const activeTabs = layoutConfig.renderChildrenInSidebar
     ? []
     : getActiveTabs(location.pathname, layoutSidebarItems)
@@ -177,11 +178,17 @@ const useProps = (originalProps: Props) => {
 
   const onToggleSidebar = useCallback(() => {
     if (window.matchMedia('(min-width: 768px)').matches) {
-      setCollapsed(isCollapsed => !isCollapsed)
+      toggleNavigation()
     } else {
       setIsSidebarOpen(true)
     }
-  }, [])
+  }, [toggleNavigation])
+
+  useEffect(() => {
+    if (isNavigationCollapsed) {
+      setIsSidebarOpen(false)
+    }
+  }, [isNavigationCollapsed])
 
   const backAction = resolvedLeftActions.find(action => action.key === 'back')
   const forwardAction = resolvedLeftActions.find(
@@ -285,7 +292,7 @@ const useProps = (originalProps: Props) => {
     className: slots.sidebar_rail({
       class: cn(
         classNames?.sidebar_rail,
-        collapsed &&
+        isSidebarCollapsed &&
           (layoutConfig.collapsedSidebarMode === 'icons'
             ? slots.sidebar_rail_compact()
             : slots.sidebar_rail_closed())
@@ -496,21 +503,23 @@ const useProps = (originalProps: Props) => {
   })
 
   const sidebarProps: SidebarProps = {
-    collapsed,
+    collapsed: isSidebarCollapsed,
     collapsedMode: layoutConfig.collapsedSidebarMode,
     hideToggle: true,
     items: sidebarViewItems,
     navigationLabel: layoutConfig.navigationLabel,
     renderChildrenInSidebar: layoutConfig.renderChildrenInSidebar,
     selectedKeys: new Set([activeSidebarKey]),
-    toggleIcon: collapsed ? 'lucide:chevron-right' : 'lucide:chevron-left',
+    toggleIcon: isSidebarCollapsed
+      ? 'lucide:chevron-right'
+      : 'lucide:chevron-left',
     toggleButtonProps: {
       variant: 'ghost' as const,
       className: slots.sidebar_toggle({ class: classNames?.sidebar_toggle }),
-      'aria-label': collapsed
+      'aria-label': isSidebarCollapsed
         ? `Expand ${layoutConfig.navigationLabel}`
         : `Collapse ${layoutConfig.navigationLabel}`,
-      onPress: () => setCollapsed(isCollapsed => !isCollapsed)
+      onPress: onToggleSidebar
     },
     onAction: key => onSidebarAction(key)
   }
@@ -528,6 +537,7 @@ const useProps = (originalProps: Props) => {
     slots,
     classNames,
     activeTabs,
+    isNavigationCollapsed,
     layoutTitle: layoutConfig.title,
     headerProps: {
       leftActions: resolvedLeftActions,
@@ -541,8 +551,10 @@ const useProps = (originalProps: Props) => {
       menuActions: visibleRightActions.filter(action => action.kind === 'menu'),
       sidebarToggle: {
         key: 'sidebar-toggle',
-        label: collapsed ? 'Show Sidebar' : 'Hide Sidebar',
-        icon: collapsed ? 'lucide:panel-left-open' : 'lucide:panel-left-close',
+        label: isSidebarCollapsed ? 'Show navigation' : 'Hide navigation',
+        icon: isSidebarCollapsed
+          ? 'lucide:panel-left-open'
+          : 'lucide:panel-left-close',
         onAction: onToggleSidebar
       },
       selectedTabKey,
@@ -557,7 +569,7 @@ const useProps = (originalProps: Props) => {
     sidebarProps,
     drawerProps: {
       root: {
-        isOpen: isSidebarOpen,
+        isOpen: isSidebarOpen && !isNavigationCollapsed,
         onOpenChange: setIsSidebarOpen
       },
       dialog: {

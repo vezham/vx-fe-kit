@@ -1,12 +1,12 @@
 import ReorderableGridList from '../../components/panel/header/bookmarks/favorites'
 
-const app = () => {
+const HomePage = () => {
   return (
-    <div>
+    <div className="mx-auto w-full max-w-[1600px] px-2 py-4 md:px-6 md:pt-20 md:pb-12">
       Welcome to School!...
       <ReorderableGridList />
     </div>
   )
 }
 
-export default app
+export default HomePage

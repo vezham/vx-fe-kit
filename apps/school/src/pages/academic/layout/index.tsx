@@ -24,6 +24,7 @@ const AcademicLayoutPage = forwardRef<'div', Props>((props, ref) => {
   const {
     Component,
     activeTabs,
+    isNavigationCollapsed,
     layoutTitle,
     headerProps,
     sidebarProps,
@@ -73,27 +74,35 @@ const AcademicLayoutPage = forwardRef<'div', Props>((props, ref) => {
 
   return (
     <Component {...getBaseProps()}>
-      <Surface {...getHeaderProps()}>
+      <Surface
+        key={isNavigationCollapsed ? 'navigation-collapsed' : 'navigation-open'}
+        {...getHeaderProps()}>
         <Surface {...getHeaderInnerProps()}>
           <Surface {...getHeaderLeftProps()}>
-            <HeaderIconTooltip
-              label={headerProps.sidebarToggle.label}
-              shortcut="⌘ S">
-              <Button {...getIconButtonProps(headerProps.sidebarToggle)}>
-                <Icon {...getButtonIconProps(headerProps.sidebarToggle.icon)} />
-              </Button>
-            </HeaderIconTooltip>
+            {!isNavigationCollapsed && (
+              <>
+                <HeaderIconTooltip
+                  label={headerProps.sidebarToggle.label}
+                  shortcut="⌘ S">
+                  <Button {...getIconButtonProps(headerProps.sidebarToggle)}>
+                    <Icon
+                      {...getButtonIconProps(headerProps.sidebarToggle.icon)}
+                    />
+                  </Button>
+                </HeaderIconTooltip>
 
-            {headerProps.leftActions.map(action => (
-              <HeaderIconTooltip
-                key={action.key}
-                label={action.label}
-                shortcut={getActionShortcut(action.key)}>
-                <Button {...getIconButtonProps(action)}>
-                  <Icon {...getButtonIconProps(action.icon)} />
-                </Button>
-              </HeaderIconTooltip>
-            ))}
+                {headerProps.leftActions.map(action => (
+                  <HeaderIconTooltip
+                    key={action.key}
+                    label={action.label}
+                    shortcut={getActionShortcut(action.key)}>
+                    <Button {...getIconButtonProps(action)}>
+                      <Icon {...getButtonIconProps(action.icon)} />
+                    </Button>
+                  </HeaderIconTooltip>
+                ))}
+              </>
+            )}
 
             {activeTabs.length ? (
               <Surface {...getHeaderTabsDesktopProps()}>

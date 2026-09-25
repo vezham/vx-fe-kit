@@ -20,6 +20,9 @@ export interface HeaderActionsProps {
   onSearchClick?: () => void
 
   className?: string
+  compact?: boolean
   hideSeparator?: boolean
+  onOpenNavigation?: () => void
+  onCollapseNavigation?: () => void
   extraActions?: ReactNode
 }

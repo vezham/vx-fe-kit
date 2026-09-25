@@ -23,8 +23,11 @@ export default function Header({
   showDisk = false,
   onAvatarClick,
   onSearchClick,
+  onOpenNavigation,
+  onCollapseNavigation,
   extraActions,
   className,
+  compact = false,
   hideSeparator = false
 }: HeaderActionsProps) {
   const [submenu, setSubmenu] = useState<string | null>(null)
@@ -41,6 +44,144 @@ export default function Header({
     handleSearch()
     setOpen(false)
   }, [handleSearch])
+
+  if (compact) {
+    return (
+      <Surface
+        variant="transparent"
+        className={`flex items-center ${className ?? ''}`}
+        data-vx="header">
+        <div
+          role="group"
+          aria-label="Application controls"
+          data-hovered={open || undefined}
+          className="button button--ghost flex h-12 items-center gap-2 px-2 transition-transform duration-300">
+          <button
+            type="button"
+            aria-label="Application"
+            className="flex h-full items-center bg-transparent p-0"
+            onClick={() => onAvatarClick?.(users)}>
+            <Avatar className="h-6 w-6">
+              {users.avatar && (
+                <Avatar.Image src={users.avatar} alt={users.name} />
+              )}
+              <Avatar.Fallback>
+                {users.name?.[0]?.toUpperCase()}
+              </Avatar.Fallback>
+            </Avatar>
+          </button>
+
+          <Popover isOpen={open} onOpenChange={setOpen}>
+            <Popover.Trigger>
+              <button
+                type="button"
+                aria-label="Open application menu"
+                className="flex h-full items-center justify-center bg-transparent p-0">
+                <Icon
+                  icon="solar:alt-arrow-down-linear"
+                  width={12}
+                  className="text-muted-foreground"
+                />
+              </button>
+            </Popover.Trigger>
+
+            <Popover.Content className="rounded-xl p-2" placement="bottom">
+              <Button
+                variant="ghost"
+                className="hover:bg-background w-full rounded-md px-3 py-2 text-left text-sm"
+                onClick={() => setOpen(false)}>
+                {' '}
+                Back to home
+              </Button>
+              <Separator className="my-2" />
+              <MenuItem
+                ariaLabel="Open command palette"
+                icon="solar:magnifer-linear"
+                shortcut="⌘ K"
+                onClick={handlePopoverSearch}
+              />
+              <Separator className="my-2" />
+              <Popover isOpen={submenu === 'file'}>
+                <Popover.Trigger
+                  className="w-full"
+                  onMouseOver={() => setSubmenu('file')}
+                  onMouseLeave={() => setSubmenu(null)}>
+                  <div>
+                    <MenuItem label="File" hasSub />
+                  </div>
+                </Popover.Trigger>
+                <Popover.Content
+                  placement="right top"
+                  className="ml-2 p-2"
+                  onMouseOver={() => setSubmenu('file')}
+                  onMouseLeave={() => setSubmenu(null)}>
+                  <MenuItem label="New" hasSub />
+                  <Separator className="my-2" />
+                  <MenuItem
+                    icon="solar:gallery-linear"
+                    label="Place image..."
+                    shortcut="⇧ ⌘ K"
+                  />
+                  <Separator className="my-2" />
+                  <MenuItem label="Save local copy..." />
+                  <MenuItem
+                    label="Save to version history..."
+                    shortcut="⌥ ⌘ S"
+                  />
+                  <MenuItem label="Show version history" />
+                  <Separator className="my-2" />
+                  <MenuItem label="Export..." shortcut="⇧ ⌘ E" />
+                  <MenuItem label="Export frames to PDF..." />
+                  <Separator className="my-2" />
+                  <MenuItem label="Create branch..." />
+                </Popover.Content>
+              </Popover>
+              <MenuItem label="Edit" hasSub />
+              <MenuItem label="View" hasSub />
+            </Popover.Content>
+          </Popover>
+        </div>
+
+        <Tooltip delay={0}>
+          <Tooltip.Trigger>
+            <Button
+              aria-label="Expand workspace navigation"
+              isIconOnly
+              size="sm"
+              variant="ghost"
+              className="text-muted hover:text-foreground"
+              onPress={onOpenNavigation}>
+              <Icon
+                icon="lucide:panel-left-open"
+                width={16}
+                className="size-4"
+              />
+            </Button>
+          </Tooltip.Trigger>
+          <Tooltip.Content placement="right">Expand navigation</Tooltip.Content>
+        </Tooltip>
+
+        <Tooltip delay={0}>
+          <Tooltip.Trigger>
+            <Button
+              aria-label="Open command palette"
+              isIconOnly
+              size="sm"
+              variant="ghost"
+              className="text-muted hover:text-foreground"
+              onPress={handleSearch}>
+              <Icon
+                icon="solar:magnifer-linear"
+                width={16}
+                className="size-4"
+              />
+            </Button>
+          </Tooltip.Trigger>
+          <Tooltip.Content placement="right">Search (Ctrl/⌘ K)</Tooltip.Content>
+        </Tooltip>
+      </Surface>
+    )
+  }
 
   return (
     <>
@@ -74,13 +215,27 @@ export default function Header({
           </Popover.Trigger>
 
           <Popover.Content className="rounded-xl p-2" placement="bottom">
-            <Button
-              variant="ghost"
-              className="hover:bg-background w-full rounded-md px-3 py-2 text-left text-sm"
-              onClick={() => setOpen(false)}>
-              {' '}
-              Back to home
-            </Button>
+            <div className="flex items-center">
+              <Button
+                variant="ghost"
+                className="hover:bg-background w-full rounded-md px-3 py-2 text-left text-sm"
+                onClick={() => setOpen(false)}>
+                Back to home
+              </Button>
+              {onCollapseNavigation && (
+                <Button
+                  aria-label="Collapse Home navigation"
+                  isIconOnly
+                  variant="ghost"
+                  className="shrink-0"
+                  onPress={() => {
+                    setOpen(false)
+                    onCollapseNavigation()
+                  }}>
+                  <Icon icon="lucide:panel-left-close" width={20} />
+                </Button>
+              )}
+            </div>
             <Separator className="my-2" />
             <MenuItem
               ariaLabel="Open command palette"
