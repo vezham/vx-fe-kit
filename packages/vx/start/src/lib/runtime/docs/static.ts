@@ -1,9 +1,9 @@
 import type { StaticSource } from '@vezham/docs-core/source'
 
+import { type DocsRouteHeadOptions } from './head'
 import { createDocsPageRuntime } from './pages'
 import {
   type CreateStaticDocsRuntimeOptions,
-  type DocsRouteHeadOptions,
   createStaticDocsRuntimeBase
 } from './runtime'
 

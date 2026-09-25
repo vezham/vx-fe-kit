@@ -13,6 +13,7 @@ import {
 } from './config.ts'
 import { docsPathFromMdx } from './mdx-path.ts'
 import type { OgImageProps } from './og-image'
+import { createOgOutput } from './og-output.ts'
 import { getDocsMirrorRoutes } from './routes.ts'
 import { type RouteInput } from './types.ts'
 
@@ -77,14 +78,6 @@ const getMdxEntries = ({
       }
     ]
   })
-}
-
-const assertOutputDir = (outputDir: string) => {
-  const parsed = path.parse(outputDir)
-
-  if (outputDir === parsed.root || outputDir === process.cwd()) {
-    throw new Error(`Refusing to clear unexpected OG output dir: ${outputDir}`)
-  }
 }
 
 const getDocsOgOutputPaths = ({
@@ -164,8 +157,7 @@ export const generateDocsOgImages = async (
   )
   const logo = resolveDocsOgLogo(projectRoot, config.og?.logo)
 
-  assertOutputDir(resolvedOutputDir)
-  fs.rmSync(resolvedOutputDir, { force: true, recursive: true })
+  const output = createOgOutput(projectRoot)
 
   const generatedImageCounts = await Promise.all(
     entries.map(async entry => {
@@ -194,14 +186,13 @@ export const generateDocsOgImages = async (
       )
       const image = Buffer.from(await response.arrayBuffer())
 
-      for (const outputPath of outputPaths) {
-        fs.mkdirSync(path.dirname(outputPath), { recursive: true })
-        fs.writeFileSync(outputPath, image)
-      }
+      output.add(outputPaths, image)
 
       return outputPaths.length
     })
   )
+
+  output.finish()
 
   return generatedImageCounts.reduce((total, count) => total + count, 0)
 }

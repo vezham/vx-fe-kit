@@ -9,8 +9,9 @@ import path from 'node:path'
 
 import { validateFramework } from '../framework.ts'
 import { getVxEnv, syncEnvContent } from './env.ts'
+import { syncIndexHtmlContent } from './html.ts'
 import { getPublicMetadataFiles } from './public.ts'
-import { getGeneratedMetadataModule, syncIndexHtmlContent } from './render.ts'
+import { getGeneratedMetadataModule } from './render.ts'
 import {
   type GenerateMetadataOptions,
   type MetadataFile,

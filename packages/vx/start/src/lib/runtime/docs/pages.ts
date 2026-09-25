@@ -3,18 +3,19 @@ import { notFound } from '@tanstack/react-router'
 import type { Item, Node, Root } from '@vezham/docs-core/page-tree'
 import type { StaticSource } from '@vezham/docs-core/source'
 
+import { type DocsRouteHeadOptions, getDocsRouteHead } from './head'
 import {
-  type DocsRouteHeadOptions,
-  type createStaticDocsRuntimeBase,
+  isOptionalLocaleParam,
+  localizeRouteBase,
+  normalizeLocale
+} from './i18n'
+import {
   decodeMarkdownUrl,
   defaultDocsRoute,
   encodeMarkdownUrl,
-  getDocsRouteHead,
-  isOptionalLocaleParam,
-  localizeRouteBase,
-  normalizeLocale,
   replaceDocsRouteBase
-} from './runtime'
+} from './routes'
+import { type createStaticDocsRuntimeBase } from './runtime'
 
 export type DocsPageInput = {
   lang?: string

@@ -511,6 +511,12 @@ Docs and metadata generation use the same language defaults: omitted i18n become
 `en` with `languages: ["en"]`, and a configured default is added to `languages`
 when absent. OG cache inputs include public source assets, excluding `public/og`.
 
+OG generation records owned images in `public/og/.vx-generated.json`. After a
+successful run, it removes previously recorded images that are no longer needed,
+including root and mirror images. Keep this manifest with cached OG outputs.
+Unrecorded images are preserved; the first run starts tracking current outputs
+without removing older, untracked files.
+
 Run docs generation through Nx targets for apps:
 
 ```bash

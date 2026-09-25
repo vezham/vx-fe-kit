@@ -218,6 +218,8 @@
         "{projectRoot}/openapi.yaml",
         "{projectRoot}/openapi/**/*",
         "{workspaceRoot}/packages/vx/config/src/lib/presets/docs/**/*",
+        "{workspaceRoot}/packages/vx/config/src/lib/presets/files.ts",
+        "{workspaceRoot}/packages/vx/config/src/lib/presets/route-files.ts",
         "{projectRoot}/public/**/*",
         "!{projectRoot}/public/og/**/*",
         "{workspaceRoot}/packages/vx/config/src/lib/i18n.ts",
@@ -283,7 +285,7 @@
   "release": {
     "projects": ["*", "!@vx/fe-kit"],
     "version": {
-      "preVersionCommand": "pnpm dlx nx run-many -t build",
+      "preVersionCommand": "pnpm nx run-many -t build",
       "conventionalCommits": true,
       "versionActions": "./vx/tools/release/version-actions.cjs"
     },

@@ -3,7 +3,7 @@ import { renderToStaticMarkup } from 'react-dom/server'
 
 import { loader } from '@vezham/docs-core/source'
 
-import { docsIconsPlugin } from './runtime'
+import { docsIconsPlugin } from './icons'
 
 describe('docs icon plugin', () => {
   it('applies page and folder frontmatter while preserving existing elements', () => {

@@ -16,7 +16,7 @@ const NS = '[vezham] TOOLS/release'
     .option('dryRun', {
       alias: 'd',
       description:
-        'Whether or not to perform a dry-run of the release process, defaults to true',
+        'Whether or not to perform a dry-run of the release process, defaults to false',
       type: 'boolean',
       default: false
     })
@@ -75,5 +75,4 @@ const NS = '[vezham] TOOLS/release'
   process.exit(
     Object.values(publishResult).every(result => result.code === 0) ? 0 : 1
   )
-  // vx-bot/NOTE: process.exit(0)
 })()
