@@ -41,6 +41,7 @@
       "enablers": ["nx"],
       "toolingDependencies": [
         "@eslint/js",
+        "@nx/plugin",
         "@swc-node/register",
         "@swc/helpers",
         "eslint-config-prettier",

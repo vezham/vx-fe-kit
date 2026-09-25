@@ -6,8 +6,8 @@
 .vezham
 vx/deploy
 
-**/**/public/og/*
-!**/**/public/og/.vx-generated.json
+# **/**/public/og/*
+# !**/**/public/og/.vx-generated.json
 
 # --- END of @vx/fe-kit-config ---
 
