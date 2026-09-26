@@ -4,6 +4,7 @@ import jsxA11y from 'eslint-plugin-jsx-a11y'
 import unusedImports from 'eslint-plugin-unused-imports'
 import * as jsoncParser from 'jsonc-eslint-parser'
 import { fileURLToPath } from 'node:url'
+import * as yamlParser from 'yaml-eslint-parser'
 
 import accessibilityLabels from './vx/tools/eslint/accessibility-labels.mjs'
 import arrowFunctions from './vx/tools/eslint/arrow-functions.mjs'
@@ -47,6 +48,13 @@ const vxLintIgnores = [
 ]
 
 export default [
+  {
+    files: ['**/*.{yaml,yml}'],
+    ignores: ['**/*-lock.yaml', '**/.verdaccio/**', '**/.github/workflows/**'],
+    languageOptions: { parser: yamlParser },
+    plugins: { '@vx-lint': { rules: { 'comment-style': commentStyle } } },
+    rules: { '@vx-lint/comment-style': 'error' }
+  },
   {
     files: ['**/*.json'],
     // Override or add rules here

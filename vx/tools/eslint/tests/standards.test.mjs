@@ -309,6 +309,21 @@ test('shared configuration scopes framework exceptions and agent exclusion', asy
   )
 })
 
+test('shared comment rule checks YAML comments and permits continuations', async t => {
+  const root = await createWorkspace(t)
+  const lint = new ESLint({ cwd: root })
+  const [result] = await lint.lintText(
+    '# vx-bot/TODO: Update the package name\n# when the fork is published.\n\n# Unstructured note\npackages: []\n',
+    { filePath: 'pnpm-workspace.yaml' }
+  )
+  assert.deepEqual(
+    result.messages
+      .filter(message => message.ruleId === '@vx-lint/comment-style')
+      .map(message => message.line),
+    [4]
+  )
+})
+
 test('folder-local props exception stays scoped to internal types modules', async t => {
   const root = await createWorkspace(t)
   const lint = new ESLint({ cwd: root })

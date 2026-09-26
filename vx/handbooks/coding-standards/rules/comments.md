@@ -6,6 +6,9 @@ Use structured developer comments only when they provide long-term value.
 
 ## Format
 
+Use the same prefix in YAML comments; only the comment marker changes to `#`.
+Workflow and Verdaccio YAML are excluded from this rule.
+
 ```ts
 // <author>/INFO: ...
 // <author>/NOTE: ...
@@ -72,4 +75,6 @@ Use structured developer comments only when they provide long-term value.
 - Use `vx-bot` as the shared author prefix for agent-generated comments,
   regardless of the agent or model, for example `// vx-bot/NOTE: ...`.
 - Continuation lines may follow a structured comment without repeating its prefix.
+- YAML lines containing disabled configuration are exempt so existing examples
+  and temporarily disabled settings remain readable.
 - Tool directives, JSDoc, license notices, and shebangs retain their required formats.

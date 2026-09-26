@@ -1,5 +1,5 @@
 const structured =
-  /^[\w-]+\/(INFO|NOTE|TODO|FIXME|HACK|REF)(?:\([^\n)]+\))?:\s+\S/
+  /^@?[\w-]+\/(INFO|NOTE|TODO|FIXME|HACK|REF)(?:\([^\n)]+\))?:\s+\S/
 const directive =
   /^(?:eslint(?:-disable|-enable|\s)|global[s]?\s|exported\s|prettier-ignore\b|@ts-(?:check|nocheck|ignore|expect-error)\b|(?:istanbul|c8|v8)\s+ignore\b|[#@]__PURE__|[#@]\s*source(?:Mapping)?URL=|\/\s*<reference\b)/
 
@@ -17,15 +17,20 @@ export default {
       let previous
       for (const comment of context.sourceCode.getAllComments()) {
         const value = comment.value.trim()
+        const yamlComment = context.sourceCode.text[comment.range[0]] === '#'
+        const lineComment = comment.type === 'Line' || yamlComment
         const continuation =
           previous?.valid &&
-          comment.type === 'Line' &&
-          previous.comment.type === 'Line' &&
+          lineComment &&
+          previous.lineComment &&
           comment.loc.start.line === previous.comment.loc.end.line + 1 &&
           comment.loc.start.column === previous.comment.loc.start.column
         const exempt =
           comment.type === 'Shebang' ||
-          (comment.type === 'Block' && /^\*/.test(comment.value)) ||
+          (comment.type === 'Block' &&
+            !yamlComment &&
+            /^\*/.test(comment.value)) ||
+          (yamlComment && /^(?:-\s+|[\w-]+:\s*(?:\S|$))/.test(value)) ||
           /@license|@preserve|SPDX-License-Identifier:|^Copyright\b/i.test(
             value
           ) ||
@@ -38,7 +43,7 @@ export default {
           (continuation && !agentPrefix)
         if (value && !exempt && !valid)
           context.report({ node: comment, messageId: 'style' })
-        previous = { comment, valid }
+        previous = { comment, lineComment, valid }
       }
     }
   })

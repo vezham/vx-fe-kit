@@ -3,10 +3,17 @@ packages:
   - 'apps/**'
   - 'apps_*/*'
 
-# Enable package lifecycle scripts.
+# vx-bot/NOTE: Resolve docs packages' upstream peer names to the workspace's Vezham forks.
+# vx-bot/TODO: Remove these overrides when the published @vx-oss docs packages use
+# @vx-oss package names in their imports and peer dependencies.
+overrides:
+  fumadocs-core: npm:@vx-oss/docs-core@1.0.15
+  fumadocs-ui: npm:@vx-oss/docs-base-ui@1.0.15
+
+# vx-bot/NOTE: Package lifecycle scripts are required by workspace dependencies.
 enablePrePostScripts: true
 
-# Hoist internal packages so tools relying on Node.js resolution
+# vx-bot/NOTE: Hoist internal packages so tools relying on Node.js resolution
 # (e.g. Storybook, Vite plugins, ESLint, etc.) can resolve them consistently.
 publicHoistPattern:
   - '*@vezham/*'
