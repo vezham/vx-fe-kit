@@ -58,6 +58,18 @@
     },
     {
       "path": "./apps_internals/playground-cdn-e2e"
+    },
+    {
+      "path": "./apps/school-os"
+    },
+    {
+      "path": "./apps/mail"
+    },
+    {
+      "path": "./apps/crm"
+    },
+    {
+      "path": "./apps/demo"
     }
   ],
   "compilerOptions": {
